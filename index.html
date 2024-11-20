@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Pinterest</title>
+     <link rel="stylesheet" href="estilos-copia.css">
+     <link rel="stylesheet" href="fontawesome/css/all.min.css">
+     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+     <!-- Agregamos la librería XLSX -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+
+<body>
+     <!-- Menu principal -->
+     <nav>
+          <div class="img-logo">
+               <img class="logo" src="img/logo.png" alt="Logo" class="logo">
+          </div>
+          <a href="#" class="btn">Inicio</a>
+
+          <div class="input-container">
+               <input type="text" placeholder="Buscar">
+               <i class="fas fa-search"></i>
+          </div>
+
+          <div class="iconos">
+               <span class="fas fa-bell"></span>
+               <span class="fas fa-comment"></span>
+               <div class="perfil-container">
+                    <img class="img-perfil" src="img/perfil.jpg" alt="">
+               </div>
+               <span class="fas fa-angle-down"></span>
+          </div>
+     </nav>
+
+
+
+     <!-- Seccion de imagenes -->
+     <section class="gallery-container">
+
+
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <!--<img src="img/image1.jpg" alt="">-->
+                    <img alt="Destornillador phillips">
+
+
+                    <div class="top-row">
+                         <a href="">Destornillador phillips</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol5530</a>
+                         <!-- Seccion de imagenes 
+                              <a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                             -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!-- <img src="img/logo-f.png" alt="">
+                              -->
+                         <a href="">OFERTA: MEDIDA (5x100)</a>
+                    </div>
+
+                    <div class="reactions">
+                         <img src="icons/emoji-alerta.svg" alt="">
+                         <!--<img src="icons/emoji2.svg" alt="">
+                              -->
+                         <span>$ 1783</span>
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+
+                    <!-- lo cambio para cargar desde google driver
+                    <img src="img/image2.jpg" alt=""> -->
+                    <img alt="Disco diamantado continuo"> <!-- Solo quitamos el src, mantenemos la etiqueta img -->
+
+                    <div class="top-row">
+                         <a href="">Disco diamantado continuo</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span>evo115co</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>720</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image3.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">anteojo policarbonato</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol3210</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image4.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Lapiz carpintero</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol1361</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image5.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Soporte para pantalla</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol3089</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image6.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Disco flap</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol2205</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image7.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Mecha para farol a gas</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span>evol0174</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image8.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Cepillo acero con cabo</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0330</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image9.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Tijera corta caño</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol1000</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image10.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Vidrio para mascara soldar</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0177</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji2.svg" alt="">
+                              <img src="icons/emoji4.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>800</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image11.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Tacha bronceada</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol3970</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji4.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>2850</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image12.webp" alt="">
+
+                    <div class="top-row">
+                         <a href="">Cepillo de bronce</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span>evol0088</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image13.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Arco acero puño pvc</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0111</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji2.svg" alt="">
+                              <span>1000</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image14.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Disco sierra circular</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0435</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image15.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">cierre vaiven a rodillo</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0107</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji2.svg" alt="">
+                              <img src="icons/emoji4.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>321</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image16.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Candado dorado</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol2530</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>128</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image17.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Grampa para engrampadora</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span>evol0070</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image18.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Acople rapido</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evorieg153</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image19.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Trampa para laucha</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol3510</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image20.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Martillo galponero</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0028</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>367</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image21.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Disco diamantado Turbo</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evo115tu</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image22.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Fondo de pantalla</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol115la</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji3.svg" alt="">
+                              <img src="icons/emoji2.svg" alt="">
+                              <span>752</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image23.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Llave mandril 13mm</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol1970</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji3.svg" alt="">
+                              <img src="icons/emoji1.svg" alt="">
+                              <span>120</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image24.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">anteojo regulable</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol3245</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                    </div>
+
+                    <div class="reactions">
+                    </div>
+               </div>
+          </div>
+
+          <div class="gallery-item">
+               <div class="container-img">
+                    <img src="img/image25.jpg" alt="">
+
+                    <div class="top-row">
+                         <a href="">Arco sierra junior</a>
+                         <!--<span class="fas fa-chevron-down"></span>
+                              <a href="" class="btn">Guardar</a>
+                              -->
+                    </div>
+
+                    <div class="bottom-row">
+                         <a href=""><span class="icon fas fa-arrow-up"></span> evol0025</a>
+                         <!--<a href=""><span class="fas fa-upload"></span></a>
+                              <a href=""><span class="fas fa-ellipsis-h"></span></a>
+                              -->
+                    </div>
+               </div>
+               <div class="info-img">
+                    <div class="info">
+                         <!--<img src="img/perfil.jpg" alt="">
+                              <a href="">Jorge Durand</a>
+                              -->
+                    </div>
+
+                    <div class="reactions">
+                         <!--<img src="icons/emoji1.svg" alt="">
+                              <img src="icons/emoji2.svg" alt="">
+                              <img src="icons/emoji4.svg" alt="">
+                              <img src="icons/emoji5.svg" alt="">
+                              <span>321</span>
+                              -->
+                    </div>
+               </div>
+          </div>
+
+
+
+     </section>
+
+
+
+
+     <!-- Botones inferioes -->
+     <div class="btn-inferiores">
+          <a href=""><span class="fas fa-plus"></span></a>
+          <a href=""><span class="fas fa-question"></span></a>
+     </div>
+
+     <!-- Agregar el nuevo script al final -->
+     <script>
+
+          async function cargarImagenes() {
+               try {
+                    console.log('Iniciando carga de imágenes...');
+
+                    const sheetId = '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d';
+                    const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+                    const response = await fetch(sheetUrl);
+                    const text = await response.text();
+                    const json = JSON.parse(text.substr(47).slice(0, -2));
+
+                    // Creación del mapa
+                    const imageMap = {};
+                    json.table.rows.forEach(row => {
+                         if (row.c[0]?.v && row.c[1]?.v) {
+                              const nombreArchivo = row.c[0].v;
+                              const codigo = nombreArchivo.replace('.jpg', '');
+                              const id = row.c[1].v;
+                              imageMap[codigo] = id;
+                              console.log(`Mapeado: ${codigo} -> ${id}`);
+                         }
+                    });
+
+                    console.log('Mapa final:', imageMap);
+
+                    // Procesamiento de imágenes
+                    document.querySelectorAll('.gallery-item').forEach(item => {
+                         const bottomRow = item.querySelector('.bottom-row a');
+                         if (bottomRow) {
+                              // Extraer el código exactamente como aparece en el HTML
+                              const codigo = bottomRow.textContent.trim();
+                              console.log('Texto extraído del HTML:', codigo);
+
+                              // Eliminar cualquier espacio en blanco y saltos de línea
+                              const codigoLimpio = codigo.replace(/\s+/g, '');
+                              console.log('Código limpio:', codigoLimpio);
+
+                              if (imageMap[codigoLimpio]) {
+                                   const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
+                                   const img = item.querySelector('img');
+                                   if (img) {
+                                        img.src = imgUrl;
+                                        console.log(`Imagen actualizada: ${codigoLimpio} -> ${imgUrl}`);
+                                   }
+                              } else {
+                                   console.log(`No se encontró ID para el código: ${codigoLimpio}`);
+                              }
+                         }
+                    });
+               } catch (error) {
+                    console.error('Error:', error);
+               }
+          }
+
+          document.addEventListener('DOMContentLoaded', cargarImagenes);
+
+     </script>
+
+
+
+</body>
+
+</html>

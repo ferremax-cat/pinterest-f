@@ -1,0 +1,592 @@
+/** GENERALES  */
+:root{
+     --rojo100: #E60023;
+     --rojoHover: #AD081B;
+     --gris100: #F4F4F4;
+     --gris200: #efefef;
+     --gris300: #767676;
+     --gris400: #111;
+     --border: #7FC1FF;
+}
+
+*{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+     padding-top: 80px; /* Espacio para el menú fijo */
+}
+
+
+
+a{
+     text-decoration: none;
+}
+
+.btn{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: var(--gris400);
+     height: 48px;
+     min-width: 73px;
+     border-radius: 40px;
+     color: #FFF;
+     text-decoration: none;
+     font-size: 16px;
+     font-weight: 700;
+}
+
+/** MENU PRINCIPAL */
+nav{
+     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: #FFF;
+    display: flex;
+    align-items: center;
+    padding: 4px 16px;
+    z-index: 1000; /* Aumentado */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Añadido */
+}
+
+nav .img-logo{
+     min-width: 48px;
+     height: 48px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+     border-radius: 50%;
+}
+
+nav .img-logo img{
+     width: 24px;
+     height: 24px;
+     border-radius: 50%;
+}
+
+nav .img-logo img:hover{
+     box-shadow: 0 0 0 12px rgba(0, 0, 0, 0.07);
+}
+
+/*? Input del menu */
+.input-container{
+     flex: 1 1 auto;
+     min-width: 407px;
+     height: 48px;
+     padding: 0 8px;
+     position: relative;
+}
+
+nav input{
+     width: 100%;
+     height: 100%;
+     border-radius: 40px;
+     border: 3px solid transparent;
+     background: var(--gris200);
+     padding: 0 0 0 38px;
+     outline: none;
+}
+
+nav input::placeholder{
+     font-size: 16px;
+}
+
+nav input:focus{
+     border: 3px solid var(--border);
+     padding: 0 0 0 16px;
+}
+
+nav .input-container i{
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 48px;
+     height: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 0 0 0 16px;
+     color: var(--gris300);
+}
+
+nav input:focus ~ i{
+     width: 0;
+     opacity: 0;
+}
+
+/*? Menu iconos */
+.iconos{
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+     width: 168px;
+     font-size: 24px;
+     color: var(--gris300);
+}
+
+nav .iconos span,
+nav .iconos div{
+     width: 48px;
+     height: 48px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     cursor: pointer;
+     border-radius: 50%;
+}
+
+nav .iconos span:hover,
+nav .iconos div:hover{
+     background: rgba(0, 0, 0, 0.07);
+}
+
+nav .iconos span:last-child{
+     width: 24px;
+     height: 24px;
+     font-size: 18px;
+}
+
+nav .iconos img{
+     width: 24px;
+     height: 24px;
+     border-radius: 50%;
+     object-fit: cover;
+}
+
+/** NUEVA SECCIÓN - GALERÍA CON GRID */
+/* Reemplaza la antigua estructura .row y .column */
+.gallery-container {
+     width: 100%;
+     max-width: 1260px;
+     margin: 0 auto;
+     padding: 80px 15px;
+     /* Configuración del Grid */
+     display: grid;
+     grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+     gap: 20px; /* Espacio entre items */
+     position: relative;
+     z-index: 1;
+ }
+ 
+ /* Cada item de la galería */
+ .gallery-item {
+     width: 100%;
+     margin-bottom: 0; /* El gap del grid maneja el espaciado */
+ }
+
+.container-img{
+     position: relative;
+     cursor: pointer;
+     transition: all .3s;
+}
+
+.container-img::before{
+     content: '';
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: rgba(0, 0, 0, 0.1);
+     border-radius: 16px;
+     transition: all .3s;
+}
+
+.container-img img{
+     width: 100%;
+     border-radius: 16px;
+     display: block; /* Elimina espacio extra debajo de la imagen */
+}
+
+/*? Estilos de post modificados */
+.container-img div{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    padding: 15px;
+    z-index: 2; /* Añadido */
+}
+
+.container-img .top-row{
+     top: 0;
+     left: 0;
+     justify-content: space-between;
+     align-items: flex-start;
+}
+
+.container-img .top-row a:not(.btn){
+     color: #FFF;
+     font-weight: 700;
+     width: 60%;
+     height: 100%;
+     display: -webkit-box;
+     -webkit-box-orient: vertical;
+     -webkit-line-clamp: 2;
+     overflow: hidden;
+}
+
+.container-img .top-row span{
+     color: #FFF;
+     align-self: center;
+     padding-right: 5px;
+     font-size: 14px;
+}
+
+.container-img .top-row .btn{
+     background: var(--rojo100);
+     height: 45px;
+     min-width: 93px;
+}
+
+.container-img .top-row .btn:hover{
+     background: var(--rojoHover);
+}
+
+.container-img .bottom-row{
+
+     position: absolute;
+     bottom: 10px; /* Eleva la franja 10px desde la parte inferior */
+     left: 0%;
+     height: 40px;
+     width: 45%; /* Ajusta esto según necesites */
+     margin-left: 5%; /* Centra la franja si no ocupa todo el ancho */
+     justify-content: space-between;
+     background-color: rgba(244, 244, 244, 0.9);
+     border-radius: 16px 16px 16px 16px; /* Opcional: para esquinas redondeadas en la parte inferior */
+}
+
+.container-img .bottom-row a{
+     background: transparent;
+     border-radius: 20px;
+     display: flex;
+     justify-content: flex-start;
+     align-items: center;
+     color: #111;
+     font-weight: 700;
+     font-size: 0.9em;
+}
+
+.container-img .bottom-row a:nth-child(1){
+    /* width: 62%;
+     height: 100%;
+     overflow: hidden;
+     */
+     /**/
+     flex: 1; /* Permite que este elemento ocupe el espacio disponible */
+    margin-right: 10px; /* Espacio entre el texto principal y los iconos */
+}
+
+.container-img .bottom-row a:nth-child(1) span{
+     padding: 0 8px;
+     transform: rotate(45deg);
+     font-size: 12px;
+}
+
+.container-img .bottom-row a:nth-child(2),
+.container-img .bottom-row a:nth-child(3){
+     width: 32px;
+     justify-content: center;
+}
+
+/*? Informacion de post  */
+.info-img{
+     display: flex;
+     flex-direction: column;
+     padding: 5px 10px;
+}
+
+.info-img .info{
+     display: flex;
+     align-items: center;
+}
+
+.info-img .info img{
+     width: 30px;
+     height: 30px;
+     object-fit: cover;
+     border-radius: 50%;
+}
+
+.info-img .info a{
+     font-size: 14px;
+     color: var(--gris400);
+     padding: 0 5px;
+}
+
+.info-img .info a:hover{
+     text-decoration: underline;
+}
+
+.reactions{
+     display: flex;
+     align-items: center;
+     margin: 5px 0;
+     cursor: pointer;
+}
+
+.reactions img{
+     width: 16px;
+     height: 16px;
+     margin-right: 1px;
+}
+
+.reactions span{
+     font-size: 14px;
+     margin-left: 5px;
+     color: var(--gris400);
+}
+
+/** BOTONES INFERIORES  */
+.btn-inferiores{
+     position: fixed;
+     right: 25px;
+     bottom: 20px;
+     display: flex;
+     flex-direction: column;
+     z-index: 999; /* Añadido */
+}
+
+.btn-inferiores a{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: #FFF;
+     color: var(--gris400);
+     font-size: 20px;
+     width: 56px;
+     height: 56px;
+     border-radius: 50%;
+     margin: 5px 0;
+     box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-inferiores a:hover{
+     background: var(--gris100);
+}
+
+
+
+
+/** se agrega @media */
+
+/** GALERIA */
+.row{
+     width: 100%; /* Cambiado de 1260px fijo a 100% */
+     max-width: 1260px; /* Añadido max-width para pantallas grandes */
+     margin: 0 auto;
+     padding: 80px 15px; /* Añadido padding horizontal */
+     display: flex;
+     flex-wrap: wrap; /* Permite que las columnas se envuelvan en pantallas pequeñas */
+     position: relative; /* Añadido */
+     z-index: 1; /* Añadido */
+}
+
+.column{
+     width: 23%;
+     margin: 0 1%;
+     transition: all 0.3s ease; /* Suaviza los cambios de tamaño */
+}
+
+/* ... (mantener el resto del código CSS existente) ... */
+
+/* Media Queries para Responsive Design */
+@media screen and (max-width: 1200px) {
+     .gallery-container {
+          padding: 60px 10px;
+          gap: 15px;
+          /* Mantenemos 4 columnas */
+          grid-template-columns: repeat(4, 1fr);
+      }
+}
+
+/* Tablets */
+@media screen and (max-width: 992px) {
+    nav {
+        padding: 4px 10px;
+    }
+    
+    .input-container {
+        min-width: 200px; /* Reduce el ancho mínimo del input */
+    }
+    
+    .gallery-container {
+     /* Cambiamos a 3 columnas */
+     grid-template-columns: repeat(3, 1fr);
+     gap: 15px;
+     }
+
+     /* Ajustamos el ancho de la franja inferior */
+     .container-img .bottom-row {
+     width: 50%;
+     }
+}
+
+
+/* Tablets pequeñas y móviles grandes */
+@media screen and (max-width: 768px) {
+     body {
+         padding-top: 140px; /* Aumentado */
+     }
+ 
+     nav {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: auto;
+         min-height: 80px;
+         flex-wrap: wrap;
+         padding: 8px;
+         background: #FFF;
+         z-index: 1000;
+     }
+     
+     .input-container {
+         order: 4;
+         min-width: 100%;
+         margin: 8px 0;
+         position: relative;
+     }
+     
+     .img-logo, .btn {
+         margin-bottom: 8px;
+     }
+     
+     .iconos {
+         width: auto;
+         margin-left: auto;
+     }
+     
+     .row {
+         margin-top: 0;
+         padding-top: 20px;
+     }
+ 
+     .column {
+          width: 48%; /* Cambiado a 48% para 2 columnas */
+         margin: 0 1%;
+     }
+     
+     .container-img {
+         margin-top: 10px;
+     }
+ 
+     .container-img .bottom-row {
+          width: 40%; /* Ajustado para mejor proporción con 2 columnas */
+     }
+ 
+     .item {
+         margin: 0 0 25px 0;
+     }
+
+     /* Ajustes de la galería */
+    .gallery-container {
+     grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+     gap: 10px;
+     padding-top: 20px;
+     }
+
+ }
+
+@media screen and (max-width: 576px) {
+    nav .btn {
+        min-width: 60px;
+        font-size: 14px;
+    }
+    
+    .iconos span, 
+    .iconos div {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .container-img .bottom-row {
+        width: 45%; /* Aumenta aún más el ancho en móviles pequeños */
+        margin-left: 5%;
+        height: 35px; /* Reduce la altura */
+        padding-left: 5px; /* Añade menos padding al contenedor */
+    }
+    
+    /* Ocultar el ícono de flecha */
+    .container-img .bottom-row a:nth-child(1) span {
+     display: none;
+    }
+
+
+    .btn-inferiores {
+          position: fixed;
+          right: 25px;
+          bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          z-index: 999; /* Añadido */
+    }
+    
+    .btn-inferiores a {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+
+    
+
+     /* Ajustes adicionales para móviles pequeños */
+     .container-img {
+     margin-top: 15px;
+     }
+
+     .item:first-child {
+     margin-top: 0; /* Elimina el margen superior del primer item */
+     }
+
+
+     /* Asegurarse de que el contenido no se superponga con el menú fijo */
+     body {
+          padding-top: 120px; /* Modificado */
+     }    
+
+     .container-img .bottom-row a {
+          padding-left: 5px; /* Menos padding al enlace */
+      }
+
+}
+
+/* Ajustes para evitar desbordamiento de texto */
+/* Móviles */
+@media screen and (max-width: 480px) {
+
+     .gallery-container {
+          /* Mantenemos 2 columnas */
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+          padding: 15px 10px;
+      }
+
+     
+    /* Ajustes de texto y elementos para pantallas pequeñas */
+    .container-img .top-row a:not(.btn) {
+        width: 50%;
+        font-size: 14px;
+    }
+    
+    .container-img .bottom-row a {
+        font-size: 0.8em;
+    }
+    
+    .info-img .info a {
+        font-size: 12px;
+    }
+
+     /* Asegurarse de que el contenido no se superponga con el menú fijo */
+     body {
+          padding-top: 170px; /* Modificado */
+     } 
+}
