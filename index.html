@@ -853,10 +853,10 @@
                     json.table.rows.forEach(row => {
                          if (row.c[0]?.v && row.c[1]?.v) {
                               const nombreArchivo = row.c[0].v;
-                              const codigo = nombreArchivo.replace('.jpg', '');
+                              const codigo = nombreArchivo.replace(/\.(jpg|webp)$/, '');
                               const id = row.c[1].v;
                               imageMap[codigo] = id;
-                              console.log(`Mapeado: ${codigo} -> ${id}`);
+                              console.log(`Mapeado: ${nombreArchivo} -> ${id}, código limpio: ${codigo}`);
                          }
                     });
 
