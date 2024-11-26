@@ -1,0 +1,16 @@
+# Archivos temporales de Excel
+~$*
+
+# Archivos de backup/txt
+*-copia.txt
+*.txt
+index.txt
+estilos-copia.txt
+!requirements.txt
+
+# Archivos Excel específicos
+LISTA SABANA.xls
+
+# Otros backups y temporales
+*.bak
+*.tmp
