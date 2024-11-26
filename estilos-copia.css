@@ -255,12 +255,25 @@ nav .iconos img{
      bottom: 10px; /* Eleva la franja 10px desde la parte inferior */
      left: 0%;
      height: 40px;
-     width: 45%; /* Ajusta esto según necesites */
+     width: 55%; /* Aumentado de 45% a 55% para acomodar el precio */
      margin-left: 5%; /* Centra la franja si no ocupa todo el ancho */
      justify-content: space-between;
      background-color: rgba(244, 244, 244, 0.9);
      border-radius: 16px 16px 16px 16px; /* Opcional: para esquinas redondeadas en la parte inferior */
+     display: flex; /* Aseguramos flexbox */
+     align-items: center; /* Centramos verticalmente */
+     padding: 0 10px; /* Agregamos padding horizontal */
 }
+
+/* Agregar nuevo estilo para el precio */
+.container-img .bottom-row .price-tag {
+     color: var(--gris400); /* Usando la variable de color existente */
+     font-weight: 700;
+     font-size: 0.9em;
+     margin-left: auto; /* Empuja el precio hacia la derecha */
+     white-space: nowrap;
+}
+
 
 .container-img .bottom-row a{
      background: transparent;
@@ -496,6 +509,20 @@ nav .iconos img{
  }
 
 @media screen and (max-width: 576px) {
+
+     .container-img .bottom-row {
+          width: 65%; /* Aumentado para acomodar el precio en móviles */
+          height: 35px;
+          padding-left: 5px;
+          padding-right: 5px;
+      }
+  
+      .container-img .bottom-row .price-tag {
+          font-size: 0.8em;
+      }
+
+
+
     nav .btn {
         min-width: 60px;
         font-size: 14px;
@@ -562,6 +589,11 @@ nav .iconos img{
 /* Ajustes para evitar desbordamiento de texto */
 /* Móviles */
 @media screen and (max-width: 480px) {
+
+     .container-img .bottom-row {
+          width: 70%; /* Aumentado para móviles pequeños */
+      }
+
 
      .gallery-container {
           /* Mantenemos 2 columnas */

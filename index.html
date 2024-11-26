@@ -848,21 +848,27 @@
                     const text = await response.text();
                     const json = JSON.parse(text.substr(47).slice(0, -2));
 
-                    // Creación del mapa
+                    // Creación del mapa de imágenes y precios
                     const imageMap = {};
+                    const priceMap = {};
                     json.table.rows.forEach(row => {
                          if (row.c[0]?.v && row.c[1]?.v) {
                               const nombreArchivo = row.c[0].v;
                               const codigo = nombreArchivo.replace(/\.(jpg|webp)$/, '');
                               const id = row.c[1].v;
+                              const precio = row.c[5]?.v; // Cambiado a índice 5 para columna F
                               imageMap[codigo] = id;
-                              console.log(`Mapeado: ${nombreArchivo} -> ${id}, código limpio: ${codigo}`);
+                              if (precio) {
+                              priceMap[codigo] = precio;
+                              }
+                              console.log(`Mapeado: ${nombreArchivo} -> ${id}, código limpio: ${codigo}, precio: ${precio}`);
                          }
                     });
 
                     console.log('Mapa final:', imageMap);
+                    console.log('Mapa de precios:', priceMap);
 
-                    // Procesamiento de imágenes
+                    // Procesamiento de imágenes y precios
                     document.querySelectorAll('.gallery-item').forEach(item => {
                          const bottomRow = item.querySelector('.bottom-row a');
                          if (bottomRow) {
@@ -874,6 +880,7 @@
                               const codigoLimpio = codigo.replace(/\s+/g, '');
                               console.log('Código limpio:', codigoLimpio);
 
+                              // Actualizar imagen
                               if (imageMap[codigoLimpio]) {
                                    const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
                                    const img = item.querySelector('img');
@@ -884,7 +891,21 @@
                               } else {
                                    console.log(`No se encontró ID para el código: ${codigoLimpio}`);
                               }
-                         }
+                              // Agregar precio
+                               if (priceMap[codigoLimpio]) {
+                                   const precio = priceMap[codigoLimpio];
+                                   const bottomRowDiv = item.querySelector('.bottom-row');
+                                   // Verificar si ya existe un elemento de precio
+                                   let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                   if (!precioElement) {
+                                        precioElement = document.createElement('span');
+                                        precioElement.className = 'price-tag';
+                                        bottomRowDiv.appendChild(precioElement);
+                                   }
+                                   precioElement.textContent = `$${precio.toLocaleString()}`;
+                                   console.log(`Precio agregado: ${codigoLimpio} -> $${precio}`);
+                              }
+                         }     
                     });
                } catch (error) {
                     console.error('Error:', error);
