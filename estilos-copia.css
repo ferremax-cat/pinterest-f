@@ -654,6 +654,30 @@ nav .iconos img{
 }
 
 /* Móviles */
+
+@media screen and (max-width: 460px) {
+     .gallery-container {
+         grid-template-columns: 1fr;  /* Una columna */
+         gap: 15px;
+         padding: 10px;
+         max-width: 320px;     /* Limita ancho máximo */
+         margin: 0 auto;       /* Centra el contenedor */
+     }
+ 
+     .gallery-item {
+         width: 100%;         /* Ocupa todo el ancho */
+         margin-bottom: 15px;
+     }
+ 
+     .container-img img {
+         width: 100%;
+         height: auto;
+     }
+ }
+
+
+
+
 @media screen and (max-width: 375px) {
      .container-img .bottom-row {
           max-width: 70%;
