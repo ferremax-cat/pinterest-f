@@ -251,39 +251,40 @@ nav .iconos img{
 
 .container-img .bottom-row{
 
-     position: absolute;
-     bottom: 10px; /* Eleva la franja 10px desde la parte inferior */
-     left: 0%;
-     height: 40px;
-     width: 55%; /* Aumentado de 45% a 55% para acomodar el precio */
-     margin-left: 5%; /* Centra la franja si no ocupa todo el ancho */
-     justify-content: space-between;
-     background-color: rgba(244, 244, 244, 0.9);
-     border-radius: 16px 16px 16px 16px; /* Opcional: para esquinas redondeadas en la parte inferior */
-     display: flex; /* Aseguramos flexbox */
-     align-items: center; /* Centramos verticalmente */
-     padding: 0 10px; /* Agregamos padding horizontal */
+     position: absolute;          /* Posicionamiento absoluto respecto al contenedor padre */
+     bottom: 10px;               /* Distancia desde el borde inferior */
+     left: 0%;                   /* Alineación desde el borde izquierdo */
+     height: 35px;               /* Altura reducida */
+     display: flex;              /* Habilita flexbox para ordenar los elementos internos */
+     align-items: center;        /* Centra verticalmente los elementos */
+     justify-content: space-between;  /* Distribuye el espacio */
+     width: fit-content;         /* El ancho se ajusta al contenido */
+     min-width: 200px;          /* Ancho mínimo para el contenedor */
+     max-width: 85%;  
+     margin-left: 5%;           /* Margen izquierdo para centrado */
+     padding: 0 8px;            /* Padding horizontal uniforme */
+     background-color: rgba(255, 255, 255, 0.9);  /* Fondo blanco semi-transparente */
+     border-radius: 20px;       /* Bordes más redondeados */
+     gap: 2px;                  /* Espacio reducido entre elementos */
 }
 
 /* Agregar nuevo estilo para el precio */
 .container-img .bottom-row .price-tag {
+     flex: 0 0 auto;
      color: var(--gris400); /* Usando la variable de color existente */
      font-weight: 700;
      font-size: 0.9em;
-     margin-left: auto; /* Empuja el precio hacia la derecha */
+     margin-left: 8px; /* Empuja el precio hacia la derecha */
      white-space: nowrap;
 }
 
 
 .container-img .bottom-row a{
-     background: transparent;
-     border-radius: 20px;
-     display: flex;
-     justify-content: flex-start;
-     align-items: center;
-     color: #111;
-     font-weight: 700;
-     font-size: 0.9em;
+     background: transparent;    /* Fondo transparente para el enlace */
+     color: #111;               /* Color del texto */
+     font-weight: 700;          /* Grosor de la fuente */
+     font-size: 0.9em;          /* Tamaño de la fuente */
+     flex-shrink: 0;            /* Evita que el texto se encoja */
 }
 
 .container-img .bottom-row a:nth-child(1){
@@ -419,6 +420,22 @@ nav .iconos img{
       }
 }
 
+/* iPads */
+@media screen and (max-width: 1024px) {
+     .container-img .bottom-row {
+         max-width: 75%;
+         padding: 0 6px;
+         gap: 2px;
+     }
+
+     .container-img .bottom-row a {
+          font-size: 0.85em;
+          max-width: 65%;        /* Limita el ancho del código */
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+
 /* Tablets */
 @media screen and (max-width: 992px) {
     nav {
@@ -427,6 +444,7 @@ nav .iconos img{
     
     .input-container {
         min-width: 200px; /* Reduce el ancho mínimo del input */
+        width: 70%;
     }
     
     .gallery-container {
@@ -446,6 +464,7 @@ nav .iconos img{
 @media screen and (max-width: 768px) {
      body {
          padding-top: 140px; /* Aumentado */
+         width: 75%;
      }
  
      nav {
@@ -511,14 +530,15 @@ nav .iconos img{
 @media screen and (max-width: 576px) {
 
      .container-img .bottom-row {
-          width: 65%; /* Aumentado para acomodar el precio en móviles */
-          height: 35px;
-          padding-left: 5px;
-          padding-right: 5px;
+          padding: 0 6px;         /* Reduce el padding en móviles */
+          gap: 4px;              /* Reduce el espacio entre elementos en móviles */
+          height: 35px;          /* Reduce la altura en móviles */
+
       }
   
+      .container-img .bottom-row a,
       .container-img .bottom-row .price-tag {
-          font-size: 0.8em;
+          font-size: 0.8em;      /* Reduce el tamaño de fuente */
       }
 
 
@@ -591,7 +611,7 @@ nav .iconos img{
 @media screen and (max-width: 480px) {
 
      .container-img .bottom-row {
-          width: 70%; /* Aumentado para móviles pequeños */
+          width: 85%; /* Aumentado para móviles pequeños */
       }
 
 
@@ -622,3 +642,28 @@ nav .iconos img{
           padding-top: 170px; /* Modificado */
      } 
 }
+
+/* Media query para pantallas menores a 638px */
+@media screen and (max-width: 638px) {
+     .container-img .bottom-row {
+         min-width: 150px;       /* Reduce el ancho mínimo */
+         width: 80%;             /* Limita el ancho al 80% del contenedor */
+         padding: 0 8px;         /* Reduce el padding */
+         gap: 4px;              /* Reduce el espacio entre elementos */
+     }
+}
+
+/* Móviles */
+@media screen and (max-width: 375px) {
+     .container-img .bottom-row {
+          max-width: 70%;
+          min-width: 110px;
+          padding: 0 5px;
+          height: 28px;
+     }
+     
+     .container-img .bottom-row a,
+     .container-img .bottom-row .price-tag {
+         font-size: 0.75em;
+     }
+ }
