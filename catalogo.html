@@ -854,7 +854,7 @@
                     json.table.rows.forEach(row => {
                          if (row.c[0]?.v && row.c[1]?.v) {
                               const nombreArchivo = row.c[0].v;
-                              const codigo = nombreArchivo.replace(/\.(jpg|webp)$/, '');
+                              const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
                               const id = row.c[1].v;
                               const precio = row.c[5]?.v; // Cambiado a índice 5 para columna F
                               imageMap[codigo] = id;
