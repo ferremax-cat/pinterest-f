@@ -247,3 +247,9 @@
   * Push a GitHub
   * Verificar GitHub Pages
   * Comprobar imágenes
+
+  ## 29. SISTEMA DE LOGIN
+- login.html (renombrado como index.html): Página de acceso
+- login.css: Estilos del login
+- catalogo.html (antes index.html): Galería de productos
+- Flujo: index.html (login) -> catalogo.html
