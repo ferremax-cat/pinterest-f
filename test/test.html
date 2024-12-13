@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests Login System</title>
+    <!-- Incluir scripts necesarios -->
+    <script src="../js/config.js"></script>
+    <script src="../js/loginManager.js"></script>
+</head>
+<body>
+    <h1>Tests Login System</h1>
+    <button onclick="runTest1()">Test 1: Config</button>
+    <button onclick="runTest2()">Test 2: Load Excel</button>
+    <button onclick="runTest3()">Test 3: Validate Client</button>
+    <button onclick="runTest4()">Test 4: Load Promotions</button>
+    
+    <div id="results" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
+
+    <script>
+        // Función para mostrar resultados
+        function showResult(message) {
+            const results = document.getElementById('results');
+            results.innerHTML += `<p>${new Date().toLocaleTimeString()}: ${message}</p>`;
+        }
+
+        // Test 1: Verificar configuración
+        async function runTest1() {
+            showResult('Test 1 - Verificando config...');
+            try {
+                showResult(`SheetId: ${config.sheetId}`);
+                showResult(`Sheets URL: ${config.apiEndpoints.sheets}`);
+                showResult('Test 1 - OK');
+            } catch (error) {
+                showResult(`Test 1 - Error: ${error.message}`);
+            }
+        }
+
+        // Test 2: Probar carga de Excel
+        async function runTest2() {
+            showResult('Test 2 - Probando carga de Excel...');
+            try {
+                const login = new LoginManager();
+                // Log para ver la URL que se está intentando acceder
+                const url = `${config.apiEndpoints.sheets}/${config.clientesPermisosId}/gviz/tq?tqx=out:json`;
+                showResult(`Intentando acceder a: ${url}`);
+
+                const data = await login.loadSheet('CLIENTES_PERMISOS');
+                showResult(`Datos cargados: ${JSON.stringify(data).slice(0, 100)}...`);
+                showResult('Test 2 - OK');
+            } catch (error) {
+                showResult(`Test 2 - Error: ${error.message}`);
+            }
+        }
+
+        // Test 3: Validar cliente
+        async function runTest3() {
+            showResult('Test 3 - Validando cliente...');
+            try {
+                const login = new LoginManager();
+
+                // Agregar logs para seguimiento
+                showResult('Iniciando validación...');
+
+                // Primero cargar los datos de CLIENTES_PERMISOS
+                showResult('Cargando datos de clientes...');
+                const sheetData = await login.loadSheet('CLIENTES_PERMISOS');
+                showResult(`Datos cargados: ${JSON.stringify(sheetData).slice(0, 100)}...`);
+        
+                // Luego intentar validar
+                showResult('Intentando validar cliente 20246...');
+                const result1 = await login.validateClient(20246);
+        
+                // Mostrar resultado
+                showResult(`Resultado de validación: ${JSON.stringify(result1)}`);
+                showResult('Test 3 - OK');
+
+
+
+
+
+
+                // Usar una cuenta que exista en tu Excel
+                //const result = await login.validateClient('20246');
+                //showResult('Datos de validación:');
+                //showResult(`Input: ${20246}, tipo: ${typeof 20246}`);
+
+                //showResult(`Resultado validación: ${JSON.stringify(result)}`);
+                //showResult('Test 3 - OK');
+
+
+
+            } catch (error) {
+                showResult(`Test 3 - Error: ${error.message}`);
+            }
+        }
+
+        // Test 4: Cargar promociones
+        async function runTest4() {
+            showResult('Test 4 - Cargando promociones...');
+            try {
+                const login = new LoginManager();
+                // Usar una cuenta que exista en tu Excel
+                const promos = await login.loadPromotions('20264');
+                showResult(`Promociones: ${JSON.stringify(promos)}`);
+                showResult('Test 4 - OK');
+            } catch (error) {
+                showResult(`Test 4 - Error: ${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>
