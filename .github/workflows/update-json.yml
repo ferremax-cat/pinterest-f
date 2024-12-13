@@ -1,0 +1,33 @@
+# .github/workflows/update-json.yml
+
+name: Update JSONs
+on:
+  push:
+    paths:
+      - 'excel/*.xlsx'    # Se activa cuando se modifican archivos Excel
+
+jobs:
+  convert-excel-to-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          
+      - name: Install dependencies
+        run: |
+          pip install pandas openpyxl
+          
+      - name: Convert Excel to JSON
+        run: python scripts/excel_to_json.py
+        
+      - name: Commit JSON files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add json/*.json
+          git commit -m "Update JSONs from Excel"
+          git push
