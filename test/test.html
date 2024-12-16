@@ -14,6 +14,7 @@
     <button onclick="runTest2()">Test 2: Load Excel</button>
     <button onclick="runTest3()">Test 3: Validate Client</button>
     <button onclick="runTest4()">Test 4: Load Promotions</button>
+    <button onclick="testLocalStorage()">Test 5: LocalStorage</button>
     
     <div id="results" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
 
@@ -77,19 +78,6 @@
 
 
 
-
-
-
-                // Usar una cuenta que exista en tu Excel
-                //const result = await login.validateClient('20246');
-                //showResult('Datos de validación:');
-                //showResult(`Input: ${20246}, tipo: ${typeof 20246}`);
-
-                //showResult(`Resultado validación: ${JSON.stringify(result)}`);
-                //showResult('Test 3 - OK');
-
-
-
             } catch (error) {
                 showResult(`Test 3 - Error: ${error.message}`);
             }
@@ -101,13 +89,43 @@
             try {
                 const login = new LoginManager();
                 // Usar una cuenta que exista en tu Excel
-                const promos = await login.loadPromotions('20264');
+                const promos = await login.loadPromotions('20246');
                 showResult(`Promociones: ${JSON.stringify(promos)}`);
                 showResult('Test 4 - OK');
             } catch (error) {
                 showResult(`Test 4 - Error: ${error.message}`);
             }
         }
+
+        async function testLocalStorage() {
+            showResult('Test 5 - Probando localStorage...');
+            try {
+                const login = new LoginManager();
+                
+                // Paso 1: Login exitoso con cliente 20246
+                const result = await login.validateClient('20246');
+                showResult(`Paso 1 - Datos del cliente: ${JSON.stringify(result)}`);
+                
+                // Paso 2: Verificar datos en localStorage
+                const storedData = localStorage.getItem('clientData');
+                showResult(`Paso 2 - Datos en localStorage: ${storedData}`);
+                
+                // Paso 3: Verificar estructura de datos
+                const parsedData = JSON.parse(storedData);
+                showResult('Paso 3 - Estructura de datos:');
+                showResult(`- Account: ${parsedData.account}`);
+                showResult(`- Categories: ${parsedData.categories}`);
+                showResult(`- PriceList: ${parsedData.priceList}`);
+                showResult(`- Groups: ${JSON.stringify(parsedData.groups)}`);
+                showResult(`- Promotions: ${JSON.stringify(parsedData.promotions)}`);
+                
+            } catch (error) {
+                showResult(`Test 5 - Error: ${error.message}`);
+            }
+        }
+
+
+
     </script>
 </body>
 </html>

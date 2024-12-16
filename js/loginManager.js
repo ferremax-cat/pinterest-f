@@ -86,6 +86,32 @@ class LoginManager {
     
             // Log del resultado final
             console.log('6. Resultado final:', clientData);
+
+
+            // Cargar grupos y promociones
+            const promotions = await this.loadPromotions(clientData.account);
+        
+            // Extraer grupos únicos de las promociones
+            const groups = [...new Set(promotions.map(promo => promo.grupos))];
+            
+            // Si encontramos el cliente, guardar en localStorage
+            if (clientData) {
+                const dataToStore = {
+                    account: clientData.account,
+                    name: clientData.name,
+                    categories: clientData.categories,
+                    priceList: clientData.priceList,
+                    groups: groups,           // Agregamos los grupos
+                    promotions: promotions,
+                    lastLogin: new Date().toISOString()
+                };
+                
+                // Guardar en localStorage
+                localStorage.setItem('clientData', JSON.stringify(dataToStore));
+                console.log('Datos guardados en localStorage:', dataToStore);
+            }
+
+
             return clientData;
     
         } catch (error) {
@@ -108,34 +134,131 @@ class LoginManager {
     // Carga las promociones aplicables al cliente
     async loadPromotions(clientAccount) {
         try {
-            // 1. Cargar grupos del cliente desde GRUPOS_CLIENTES
-            const grupos = await this.loadSheet('GRUPOS_CLIENTES');
+                    // SECCIÓN 1: PROCESAMIENTO DE GRUPOS
+                    console.log('Procesando grupos para cliente:', clientAccount);
+                    
+                    //  Cargar grupos del cliente desde GRUPOS_CLIENTES
+                    const gruposUrl = `${this.sheetsUrl}/${config.gruposId}/gviz/tq?tqx=out:json`;
+                    console.log('URL grupos:', gruposUrl);
+                    
+                    const gruposResponse = await fetch(gruposUrl);
+                    const gruposData = await gruposResponse.text();
+                    const gruposJson = JSON.parse(gruposData.substr(47).slice(0, -2));
             
-            // Encontrar grupos a los que pertenece el cliente
-            const clientGroups = grupos
-                .filter(grupo => grupo.CLIENTES.includes(clientAccount))
-                .map(grupo => grupo.NOMBRE_GRUPO);
- 
-            if (clientGroups.length === 0) {
-                console.log('Cliente sin grupos asignados');
-                return [];
-            }
- 
-            // 2. Cargar promociones desde PROMOCIONES
-            const promociones = await this.loadSheet('PROMOCIONES');
+                    console.log('Datos de grupos recibidos:', gruposJson);
+                    console.log('Estructura de tabla:', gruposJson.table);
+                    console.log('Primera fila:', gruposJson.table.rows[0]);
             
-            // Filtrar promociones aplicables según grupos del cliente
+                    // Encontrar grupos del cliente    
+                    const clientGroups = [];
+                    gruposJson.table.rows.forEach((row, index) => {
+
+                        // Logs detallados de la estructura de cada fila
+                    console.log('----------------------');
+                    console.log(`Procesando fila ${index}:`);
+                    console.log('Fila completa:', row);
+                    console.log('Columnas (row.c):', row.c);
+                    console.log('Primera columna (row.c[0]):', row.c[0]);
+                    console.log('Segunda columna (row.c[1]):', row.c[1]);
+                    console.log('Valor primera columna:', row.c[0]?.v);
+                    console.log('Valor segunda columna:', row.c[1]?.v);
+                    console.log('Tipo de dato segunda columna:', typeof row.c[1]?.v);
+
+                        
+                        if (row.c[1]?.v) {
+                            // Primero reemplazar puntos por comas
+                            const clientesString = row.c[1].v.toString().replace(/\./g, ',');
+                            console.log('String convertido:', clientesString);
+
+                            // Separar clientes y convertir a números
+                            const clientesGrupo = row.c[1].v.toString().replace(/\./g, ',')
+                                .split(',')          // Separar por coma
+                                .map(c => c.trim())  // Quitar espacios
+                                .map(Number);        // Convertir a números
+                                
+                            console.log('Array de cuentas:', clientesGrupo); // ej: [20246, 958, 12345]    
+                            const clienteNumero = Number(clientAccount);
+                            
+                            console.log('Lista de clientes procesada:', clientesGrupo);
+                            console.log('Buscando cliente:', clienteNumero);
+
+                            // Agregar logs para ver la comparación
+                            clientesGrupo.forEach(cliente => {
+                                console.log(`Comparando ${cliente} (${typeof cliente}) con ${clienteNumero} (${typeof clienteNumero})`);
+                                console.log('Son iguales?:', cliente === clienteNumero);
+                            });
+                            
+                            // Buscar coincidencia exacta
+                            if (clientesGrupo.includes(clienteNumero)) {
+                                clientGroups.push(row.c[0]?.v);
+                                console.log('Cliente encontrado en grupo:', row.c[0]?.v);
+                            }
+                        }    
+                    });
+            
+                    
+    
+            console.log('Grupos del cliente:', clientGroups);
+
+            // SECCIÓN 2: PROCESAMIENTO DE PROMOCIONES
+            console.log('Procesando promociones...');        
+            //  Cargar promociones desde PROMOCIONES
+            const promoUrl = `${this.sheetsUrl}/${config.promocionesId}/gviz/tq?tqx=out:json`;
+            const promoResponse = await fetch(promoUrl);
+            const promoData = await promoResponse.text();
+            const promoJson = JSON.parse(promoData.substr(47).slice(0, -2));
+
+            console.log('Datos promociones:', promoJson);
+    
+
+            // SECCIÓN 3: FILTRADO Y MAPEO FINAL
+            console.log('Aplicando filtros y formato...');       
+            // Filtrar promociones aplicables y mapear a formato amigable
             const today = new Date();
-            return promociones.filter(promo => {
-                // Verificar vigencia de la promoción
-                const vigenciaHasta = new Date(promo.VIGENCIA_HASTA);
-                if (today > vigenciaHasta) return false;
- 
-                // Verificar si algún grupo del cliente está en la promoción
-                const gruposPromo = promo.GRUPOS.split(',').map(g => g.trim());
-                return gruposPromo.some(grupo => clientGroups.includes(grupo));
-            });
- 
+            
+            const promocionesFiltered = promoJson.table.rows
+
+            .filter(row => {
+                const vigenciaStr = row.c[3]?.v; // Viene como "31/12/2024"
+                console.log('Fecha original:', vigenciaStr);
+               
+                //convertir fecha
+                console.log('---------');
+                const fechaStr = vigenciaStr; 
+                const dateParams = fechaStr.match(/Date\((\d+),(\d+),(\d+)\)/);
+                 if (dateParams) { const [_, year, month, day] = dateParams; 
+                const fecha = new Date(year, month, day); 
+                const dia2 = String(fecha.getDate()).padStart(2, '0'); // Día con dos dígitos 
+                const mes2 = String(fecha.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos (agregamos 1 porque los meses en Date empiezan desde 0) 
+                const anio2 = fecha.getFullYear(); 
+                const fechaFormateada = `${dia2}/${mes2}/${anio2}`;
+                console.log(fechaFormateada); // Debería imprimir "31/12/2024"
+                if (today > fechaFormateada) {
+                    console.log('Promoción vencida');
+                    return false;
+                    }
+                 }
+                console.log('---------');
+
+               const grupoPromo = row.c[4]?.v;
+               console.log('Grupo de promoción:', grupoPromo);
+               console.log('Grupos del cliente:', clientGroups);
+               
+               return clientGroups.includes(grupoPromo);
+           })
+
+
+                .map(row => ({
+                    codigo: row.c[0]?.v,
+                    tipoLista: row.c[1]?.v,
+                    precio: row.c[2]?.v,
+                    vigencia: row.c[3]?.v,
+                    grupos: row.c[4]?.v
+                }));
+    
+            console.log('Promociones encontradas:', promocionesFiltered);
+            return promocionesFiltered;
+    
         } catch (error) {
             console.error('Error cargando promociones:', error);
             return [];
