@@ -15,6 +15,8 @@
     <button onclick="runTest3()">Test 3: Validate Client</button>
     <button onclick="runTest4()">Test 4: Load Promotions</button>
     <button onclick="testLocalStorage()">Test 5: LocalStorage</button>
+    <button onclick="testExcelToJson()">Test 6: Excel to JSON</button>
+    <button onclick="testJsonFiles()">Test 7: Verificar JSONs</button>
     
     <div id="results" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
 
@@ -124,7 +126,106 @@
             }
         }
 
+        async function testExcelToJson() {
+            showResult('Test 6 - Probando conversión Excel a JSON...');
+            try {
+                // 1. Verificar que los Excel existen
+                showResult('1. Verificando archivos Excel:');
+                showResult('- CLIENTES_PERMISOS.xlsx');
+                showResult('- PROMOCIONES.xlsx');
+                showResult('- GRUPOS_CLIENTES.xlsx');
 
+                // 2. Verificar que los JSON se generan
+                showResult('2. Verificando generación de JSONs:');
+                const response = await fetch('../json/clients.json');
+                const contentType = response.headers.get('content-type');
+
+                if (contentType && contentType.includes('application/json')) {
+                    const clientsData = await response.json();
+                    showResult(`- clients.json: ${JSON.stringify(clientsData).slice(0, 100)}...`);
+                    // Verificar estructura 
+                    showResult('3. Verificando estructura:');
+                    showResult(`- Clientes encontrados: ${Object.keys(clientsData).length}`);
+                    showResult(`- Ejemplo cliente: ${JSON.stringify(clientsData['20246'])}`);
+                 } else { 
+                    showResult('El servidor no devolvió JSON.');
+                    console.error('El servidor no devolvió JSON.');
+                 }
+                
+            } catch (error) {
+                showResult(`Test 6 - Error: ${error.message}`);
+            }
+        }
+
+        async function testJsonFiles() {    
+            showResult('Test 7 - Probando archivos JSON generados...');
+
+            try {
+                // 1. Probar groups.json
+                showResult('1. Verificando groups.json:');
+
+                showResult('2. Verificando generación de JSONs:');
+                try { 
+                    const response = await fetch('../json/groups.json');
+                    const contentType = response.headers.get('content-type');
+                    
+                    if (contentType && contentType.includes('application/json')) { 
+                        const responseText = await response.text(); 
+                        console.log('Response Text:', responseText); // Verificar el contenido de la respuesta 
+                        
+                        try { const clientsData = JSON.parse(responseText); 
+                            showResult(`- clients.json: ${JSON.stringify(clientsData).slice(0, 100)}...`); // Verificar estructura 
+                            showResult('3. Verificando estructura:'); 
+                            showResult(`- Clientes encontrados: ${Object.keys(clientsData).length}`); 
+                            showResult(`- Ejemplo cliente: ${JSON.stringify(clientsData['20246'])}`); 
+                        } catch (jsonError) { 
+                            showResult('Error al analizar el JSON.');
+                            console.error('Error al analizar el JSON:', jsonError);
+                        }
+                    } else { 
+                        showResult('El servidor no devolvió JSON.');
+                        console.error('El servidor no devolvió JSON.'); 
+                    } 
+                } catch (error) { 
+                    showResult('Error al obtener el JSON.'); 
+                    console.error('Error al obtener el JSON:', error); 
+            }
+
+
+
+
+
+
+
+
+
+
+                const groupsResponse = await fetch('../json/groups.json');
+                const groupsData = await groupsResponse.json();
+                showResult(`- Estructura groups: ${JSON.stringify(groupsData).slice(0, 100)}...`);
+                showResult(`- Grupos encontrados: ${Object.keys(groupsData.groups).length}`);
+                
+                // 2. Probar promotions.json
+                showResult('2. Verificando promotions.json:');
+                const promoResponse = await fetch('../json/promotions.json');
+                const promoData = await promoResponse.json();
+                showResult(`- Estructura promotions: ${JSON.stringify(promoData).slice(0, 100)}...`);
+                showResult(`- Promociones encontradas: ${Object.keys(promoData.promotions).length}`);
+
+                // 3. Verificar datos específicos
+                showResult('3. Verificando datos específicos:');
+                // Verificar GRUPO_SINPAR
+                const sinparClients = groupsData.groups['GRUPO_SINPAR'];
+                showResult(`- Clientes en GRUPO_SINPAR: ${sinparClients}`);
+                
+                // Verificar una promoción específica
+                const firstPromo = Object.values(promoData.promotions)[0];
+                showResult(`- Primera promoción: ${JSON.stringify(firstPromo)}`);
+                
+            } catch (error) {
+                showResult(`Test 7 - Error: ${error.message}`);
+            }
+        }
 
     </script>
 </body>
