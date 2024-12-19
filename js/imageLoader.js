@@ -5,6 +5,8 @@ class ImageLoader {
     constructor() {
         // Usar sheetId desde config
         this.sheetId = config.sheetId;
+        // Usar productosId desde config
+        this.productosId = config.productosId;
         // URL base de Sheets desde config
         this.sheetsUrl = config.apiEndpoints.sheets;
         
@@ -62,33 +64,59 @@ class ImageLoader {
  
     // Cargar datos de Drive y precios
     async loadDriveData() {
-        const sheetUrl = `${this.sheetsUrl}/${this.sheetId}/gviz/tq?tqx=out:json`;
-        const response = await fetch(sheetUrl);
-        const text = await response.text();
-        const json = JSON.parse(text.substr(47).slice(0, -2));
- 
-        // Procesar cada fila del Excel
-        json.table.rows.forEach(row => {
-            if (row.c[0]?.v && row.c[1]?.v) {
-                const nombreArchivo = row.c[0].v;
-                const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
-                const id = row.c[1].v;
-                
-                // Guardar ID de imagen
-                this.imageMap[codigo] = id;
-                
-                // Guardar datos del producto
-                this.productsMap[codigo] = {
-                    id: id,
-                    prices: {
-                        D: row.c[2]?.v,  // Precio lista D
-                        E: row.c[3]?.v,  // Precio lista E
-                        F: row.c[4]?.v   // Precio lista F
-                    }
-                };
-            }
-        });
+        try {
+            // Cargar datos de imágenes
+            console.log('Cargando datos de imágenes...');
+            const imageUrl = `${this.sheetsUrl}/${this.sheetId}/gviz/tq?tqx=out:json`;
+            const imageResponse = await fetch(imageUrl);
+            const imageText = await imageResponse.text();
+            const imageJson = JSON.parse(imageText.substr(47).slice(0, -2));
+            
+            // Procesar datos de imágenes
+            imageJson.table.rows.forEach(row => {
+                if (row.c[0]?.v && row.c[1]?.v) {
+                    const nombreArchivo = row.c[0].v;
+                    const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
+                    const id = row.c[1].v;
+                    this.imageMap[codigo] = id;
+                }
+            });
+            console.log(`Imágenes cargadas: ${Object.keys(this.imageMap).length}`);
+
+            // Cargar datos de productos
+            console.log('Cargando datos de productos...');
+            const productsUrl = `${this.sheetsUrl}/${this.productosId}/gviz/tq?tqx=out:json`;
+            const productsResponse = await fetch(productsUrl);
+            const productsText = await productsResponse.text();
+            const productsJson = JSON.parse(productsText.substr(47).slice(0, -2));
+            
+            // Procesar datos de productos
+            productsJson.table.rows.forEach(row => {
+                if (row.c[0]?.v) {
+                    const codigo = row.c[0].v.toString();
+                    this.productsMap[codigo] = {
+                        nombre: row.c[1]?.v,
+                        rubro: row.c[2]?.v,
+                        bulto: row.c[3]?.v,
+                        precios: {
+                            D: row.c[4]?.v,
+                            E: row.c[5]?.v,
+                            F: row.c[6]?.v
+                        }
+                    };
+                }
+            });
+            console.log(`Productos cargados: ${Object.keys(this.productsMap).length}`);
+
+        } catch (error) {
+            console.error('Error cargando datos:', error);
+            throw new Error('Error al cargar datos de Drive');
+        }
     }
+
+   
+
+
  
     // Cargar promociones vigentes
     async loadPromotions() {
@@ -112,16 +140,27 @@ class ImageLoader {
     // Obtener precio final (considerando lista y promociones)
     getPrice(codigo) {
         const product = this.productsMap[codigo];
-        if (!product) return null;
- 
-        // Obtener precio base según lista asignada
-        const basePrice = product.prices[this.currentClient.priceList];
+        if (!product) {
+            console.log(`Producto no encontrado: ${codigo}`);
+            return null;
+        }
+
+        // Obtener el precio base según la lista del cliente
+        const basePrice = product.precios[this.currentClient.priceList];
+        if (!basePrice) {
+            console.log(`Precio no encontrado para lista ${this.currentClient.priceList}`);
+            return null;
+        }
+
+        
         
         // Verificar si hay promoción vigente
         const promotion = this.getPromotion(codigo);
         
         // Retornar precio promocional o base
-        return promotion ? promotion.price : basePrice;
+        const finalPrice = promotion ? promotion.price : basePrice;
+        console.log(`Precio final para ${codigo}: ${finalPrice} (Lista ${this.currentClient.priceList})`);
+        return finalPrice;
     }
  
     // Verificar si hay promoción vigente

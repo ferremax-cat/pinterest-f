@@ -7,6 +7,8 @@
     <!-- Incluir scripts necesarios -->
     <script src="../js/config.js"></script>
     <script src="../js/loginManager.js"></script>
+    <!-- Agregar el script de ImageLoader -->
+    <script src="../js/imageLoader.js"></script>
 </head>
 <body>
     <h1>Tests Login System</h1>
@@ -17,6 +19,7 @@
     <button onclick="testLocalStorage()">Test 5: LocalStorage</button>
     <button onclick="testExcelToJson()">Test 6: Excel to JSON</button>
     <button onclick="testJsonFiles()">Test 7: Verificar JSONs</button>
+    <button onclick="testImageLoader()">Test 8: Image Loader</button>
     
     <div id="results" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></div>
 
@@ -192,14 +195,6 @@
             }
 
 
-
-
-
-
-
-
-
-
                 const groupsResponse = await fetch('../json/groups.json');
                 const groupsData = await groupsResponse.json();
                 showResult(`- Estructura groups: ${JSON.stringify(groupsData).slice(0, 100)}...`);
@@ -224,6 +219,47 @@
                 
             } catch (error) {
                 showResult(`Test 7 - Error: ${error.message}`);
+            }
+        }
+
+        async function testImageLoader() {
+            showResult('Test 8 - Probando ImageLoader...');
+            try {
+                // 1. Crear datos de cliente mock para inicialización
+                const mockClientData = {
+                    account: '20246',
+                    name: 'Cliente Test',
+                    priceList: 'D',
+                    groups: ['GRUPO_TEST']
+                };
+                localStorage.setItem('clientData', JSON.stringify(mockClientData));
+
+                // 2. Crear instancia de ImageLoader
+                const loader = new ImageLoader();
+                showResult('1. Instancia creada correctamente');
+
+                // 3. Inicializar loader
+                await loader.initialize();
+                showResult('2. Loader inicializado');
+
+                // 4. Probar con un código específico
+                const codigo = 'EVOL0088';
+                const imageUrl = loader.getImageUrl(codigo);
+                showResult(`3. URL generada: ${imageUrl}`);
+
+                // 5. Probar obtención de precio
+                const precio = loader.getPrice(codigo);
+                showResult(`4. Precio obtenido: ${precio}`);
+
+                // 6. Verificar datos cargados
+                showResult('5. Verificando datos cargados:');
+                showResult(`- Cantidad de imágenes: ${Object.keys(loader.imageMap).length}`);
+                showResult(`- Cantidad de productos: ${Object.keys(loader.productsMap).length}`);
+                showResult(`- Cliente actual: ${loader.currentClient.account}`);
+
+            } catch (error) {
+                showResult(`Test 8 - Error: ${error.message}`);
+                console.error('Error completo:', error);
             }
         }
 
