@@ -1,184 +1,230 @@
-// js/imageLoader.js
+/**
+ * Gestor de carga y optimización de imágenes
+ * @module ImageLoader
+ */
 
-// Clase que maneja la carga de imágenes y precios desde Google Sheets
+import CacheManager from '../CacheManager.js';
+
 class ImageLoader {
-    constructor() {
-        // Usar sheetId desde config
-        this.sheetId = config.sheetId;
-        // Usar productosId desde config
-        this.productosId = config.productosId;
-        // URL base de Sheets desde config
-        this.sheetsUrl = config.apiEndpoints.sheets;
+  /**
+   * @param {Object} config - Configuración del loader
+   * @param {CacheManager} config.cacheManager - Instancia de CacheManager
+   * @param {string} config.sheetId - ID de Google Sheet
+   * @param {Object} config.resolutions - Configuración de resoluciones
+   */
+  constructor(config = {}) {
+    this.config = {
+      cacheManager: config.cacheManager || new CacheManager(),
+      sheetId: config.sheetId || null,
+      sheetsUrl: config.apiEndpoints?.sheets || 'https://docs.google.com/spreadsheets/d',
+      resolutions: {
+        mobile: { width: 320, height: 320 },
+        tablet: { width: 640, height: 640 },
+        desktop: { width: 1024, height: 1024 },
+        ...config.resolutions
+      }
+    };
+
+    // Mapas de datos
+    this.imageMap = new Map();
+    this.loadingPromises = new Map();
+
+    // Métricas
+    this.metrics = {
+      totalImages: 0,
+      loadedImages: 0,
+      cacheHits: 0,
+      errors: 0,
+      totalLoadTime: 0
+    };
+  }
+
+  /**
+   * Inicializa el loader con datos
+   */
+  async initialize() {
+    try {
+      // Intentar cargar datos desde cache
+      const cachedData = await this.config.cacheManager.get('image_data');
+      if (cachedData) {
+        this.imageMap = new Map(Object.entries(cachedData));
+        this.metrics.totalImages = this.imageMap.size;
+        console.log('Datos de imágenes cargados desde cache');
+        return true;
+      }
+
+      // Si no hay cache, cargar datos frescos
+      await this.loadImageData();
+      return true;
+    } catch (error) {
+      console.error('Error initializing ImageLoader:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Carga datos de imágenes desde Google Sheets
+   * @private
+   */
+  async loadImageData() {
+    try {
+      if (!this.config.sheetId) {
+        throw new Error('SheetId no configurado');
+      }
+
+      const sheetUrl = `${this.config.sheetsUrl}/${this.config.sheetId}/gviz/tq?tqx=out:json`;
+      const response = await fetch(sheetUrl);
+      const text = await response.text();
+      const json = JSON.parse(text.substr(47).slice(0, -2));
+
+      // Procesar datos
+      json.table.rows.forEach(row => {
+        if (row.c[0]?.v && row.c[1]?.v) {
+          const nombreArchivo = row.c[0].v;
+          const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
+          const id = row.c[1].v;
+
+          this.imageMap.set(codigo, {
+            id,
+            formats: ['webp', 'jpg'],
+            lastUpdate: Date.now()
+          });
+        }
+      });
+
+      // Guardar en cache
+      await this.config.cacheManager.set('image_data', Object.fromEntries(this.imageMap));
+      this.metrics.totalImages = this.imageMap.size;
+
+      console.log(`Datos de imágenes cargados: ${this.imageMap.size} imágenes`);
+    } catch (error) {
+      console.error('Error cargando datos de imágenes:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Obtiene la URL de una imagen
+   * @param {string} codigo - Código del producto
+   * @param {string} [resolution='desktop'] - Resolución deseada
+   * @returns {string} URL de la imagen
+   */
+  getImageUrl(codigo, resolution = 'desktop') {
+    const imageData = this.imageMap.get(codigo);
+    if (!imageData) return '';
+
+    const { width, height } = this.config.resolutions[resolution] || 
+                            this.config.resolutions.desktop;
+
+    return `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
+  }
+
+  /**
+   * Precarga una imagen
+   * @param {string} codigo - Código del producto
+   * @param {string} [resolution='desktop'] - Resolución deseada
+   * @returns {Promise<boolean>} True si la carga fue exitosa
+   */
+  async preloadImage(codigo, resolution = 'desktop') {
+    try {
+      const url = this.getImageUrl(codigo, resolution);
+      if (!url) return false;
+
+      const cacheKey = `img_${codigo}_${resolution}`;
+      
+      // Verificar si ya está en cache
+      const cached = await this.config.cacheManager.get(cacheKey);
+      if (cached) {
+        this.metrics.cacheHits++;
+        return true;
+      }
+
+      // Evitar cargas duplicadas
+      if (this.loadingPromises.has(cacheKey)) {
+        return this.loadingPromises.get(cacheKey);
+      }
+
+      // Cargar imagen
+      const loadPromise = new Promise((resolve) => {
+        const startTime = performance.now();
+        const img = new Image();
         
-        // Mapas de datos
-        this.imageMap = {};      // Mapeo código -> ID de Drive
-        this.productsMap = {};   // Datos completos de productos
-        this.clientGroups = {};  // Grupos del cliente actual
-        this.promotions = {};    // Promociones vigentes
-        
-        // Cliente actual (se obtiene en initialize)
-        this.currentClient = {
-            account: '',
-            priceList: '',      
-            groups: []          
+        img.onload = async () => {
+          this.metrics.loadedImages++;
+          this.metrics.totalLoadTime += performance.now() - startTime;
+          await this.config.cacheManager.set(cacheKey, true);
+          resolve(true);
         };
-        
-        this.initialized = false;
-    }
- 
-    // Inicializar con datos del cliente actual
-    async initialize() {
-        if (this.initialized) return;
-        
-        try {
-            // Obtener cliente de localStorage (guardado en login)
-            const clientData = JSON.parse(localStorage.getItem('clientData'));
-            if (!clientData?.account) {
-                throw new Error('No hay cliente autenticado');
-            }
-            
-            // Cargar datos del cliente
-            await this.loadClientData(clientData);
-            // Cargar datos de Drive y precios
-            await this.loadDriveData();
-            // Cargar promociones
-            await this.loadPromotions();
-            
-            this.initialized = true;
-        } catch (error) {
-            console.error('Error initializing ImageLoader:', error);
-            // Redireccionar a login si no hay datos válidos
-            window.location.href = 'login.html';
-        }
-    }
- 
-    // Cargar datos del cliente
-    async loadClientData(clientData) {
-        // Guardar datos del cliente actual
-        this.currentClient = {
-            account: clientData.account,
-            priceList: clientData.priceList,
-            groups: clientData.groups
+
+        img.onerror = () => {
+          this.metrics.errors++;
+          resolve(false);
         };
+
+        img.src = url;
+      });
+
+      this.loadingPromises.set(cacheKey, loadPromise);
+      const result = await loadPromise;
+      this.loadingPromises.delete(cacheKey);
+      
+      return result;
+    } catch (error) {
+      console.error('Error preloading image:', error);
+      this.metrics.errors++;
+      return false;
     }
- 
-    // Cargar datos de Drive y precios
-    async loadDriveData() {
-        try {
-            // Cargar datos de imágenes
-            console.log('Cargando datos de imágenes...');
-            const imageUrl = `${this.sheetsUrl}/${this.sheetId}/gviz/tq?tqx=out:json`;
-            const imageResponse = await fetch(imageUrl);
-            const imageText = await imageResponse.text();
-            const imageJson = JSON.parse(imageText.substr(47).slice(0, -2));
-            
-            // Procesar datos de imágenes
-            imageJson.table.rows.forEach(row => {
-                if (row.c[0]?.v && row.c[1]?.v) {
-                    const nombreArchivo = row.c[0].v;
-                    const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
-                    const id = row.c[1].v;
-                    this.imageMap[codigo] = id;
-                }
-            });
-            console.log(`Imágenes cargadas: ${Object.keys(this.imageMap).length}`);
+  }
 
-            // Cargar datos de productos
-            console.log('Cargando datos de productos...');
-            const productsUrl = `${this.sheetsUrl}/${this.productosId}/gviz/tq?tqx=out:json`;
-            const productsResponse = await fetch(productsUrl);
-            const productsText = await productsResponse.text();
-            const productsJson = JSON.parse(productsText.substr(47).slice(0, -2));
-            
-            // Procesar datos de productos
-            productsJson.table.rows.forEach(row => {
-                if (row.c[0]?.v) {
-                    const codigo = row.c[0].v.toString();
-                    this.productsMap[codigo] = {
-                        nombre: row.c[1]?.v,
-                        rubro: row.c[2]?.v,
-                        bulto: row.c[3]?.v,
-                        precios: {
-                            D: row.c[4]?.v,
-                            E: row.c[5]?.v,
-                            F: row.c[6]?.v
-                        }
-                    };
-                }
-            });
-            console.log(`Productos cargados: ${Object.keys(this.productsMap).length}`);
+  /**
+   * Precarga un conjunto de imágenes
+   * @param {Array<string>} codigos - Lista de códigos
+   * @param {string} [resolution='desktop'] - Resolución deseada
+   * @returns {Promise<Object>} Resultado de la carga
+   */
+  async preloadImages(codigos, resolution = 'desktop') {
+    const results = await Promise.allSettled(
+      codigos.map(codigo => this.preloadImage(codigo, resolution))
+    );
 
-        } catch (error) {
-            console.error('Error cargando datos:', error);
-            throw new Error('Error al cargar datos de Drive');
-        }
-    }
+    return {
+      total: codigos.length,
+      success: results.filter(r => r.status === 'fulfilled' && r.value).length,
+      failed: results.filter(r => r.status === 'rejected' || !r.value).length
+    };
+  }
 
-   
+  /**
+   * Obtiene las dimensiones óptimas para una resolución
+   * @param {string} resolution - Nombre de la resolución
+   * @returns {Object} Dimensiones en píxeles
+   */
+  getOptimalDimensions(resolution) {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const dimensions = this.config.resolutions[resolution] || 
+                      this.config.resolutions.desktop;
 
+    return {
+      width: Math.round(dimensions.width * devicePixelRatio),
+      height: Math.round(dimensions.height * devicePixelRatio)
+    };
+  }
 
- 
-    // Cargar promociones vigentes
-    async loadPromotions() {
-        try {
-            // Verificar si el cliente tiene grupos asignados
-            if (!this.currentClient.groups?.length) return;
- 
-            // TODO: Implementar lógica de carga de promociones
-            // Verificar grupos del cliente y fechas de vigencia
-        } catch (error) {
-            console.error('Error loading promotions:', error);
-        }
-    }
- 
-    // Obtener URL de imagen
-    getImageUrl(codigo) {
-        const id = this.imageMap[codigo];
-        return id ? `https://lh3.googleusercontent.com/d/${id}` : '';
-    }
- 
-    // Obtener precio final (considerando lista y promociones)
-    getPrice(codigo) {
-        const product = this.productsMap[codigo];
-        if (!product) {
-            console.log(`Producto no encontrado: ${codigo}`);
-            return null;
-        }
+  /**
+   * Obtiene métricas del loader
+   * @returns {Object} Métricas actuales
+   */
+  getMetrics() {
+    return {
+      ...this.metrics,
+      averageLoadTime: this.metrics.loadedImages ? 
+        (this.metrics.totalLoadTime / this.metrics.loadedImages).toFixed(2) : 0,
+      cacheHitRate: (this.metrics.cacheHits / 
+        (this.metrics.loadedImages + this.metrics.cacheHits)).toFixed(2),
+      successRate: (this.metrics.loadedImages / 
+        (this.metrics.loadedImages + this.metrics.errors)).toFixed(2)
+    };
+  }
+}
 
-        // Obtener el precio base según la lista del cliente
-        const basePrice = product.precios[this.currentClient.priceList];
-        if (!basePrice) {
-            console.log(`Precio no encontrado para lista ${this.currentClient.priceList}`);
-            return null;
-        }
-
-        
-        
-        // Verificar si hay promoción vigente
-        const promotion = this.getPromotion(codigo);
-        
-        // Retornar precio promocional o base
-        const finalPrice = promotion ? promotion.price : basePrice;
-        console.log(`Precio final para ${codigo}: ${finalPrice} (Lista ${this.currentClient.priceList})`);
-        return finalPrice;
-    }
- 
-    // Verificar si hay promoción vigente
-    getPromotion(codigo) {
-        // Verificar si el producto tiene promociones
-        const promotion = this.promotions[codigo];
-        if (!promotion) return null;
- 
-        // Verificar si la promoción aplica a algún grupo del cliente
-        const clientGroups = this.currentClient.groups;
-        const hasValidGroup = promotion.groups.some(group => clientGroups.includes(group));
-        
-        if (!hasValidGroup) return null;
- 
-        // Verificar vigencia
-        const now = new Date();
-        const validUntil = new Date(promotion.validUntil);
-        
-        return now <= validUntil ? promotion : null;
-    }
- }
+export default ImageLoader;

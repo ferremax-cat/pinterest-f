@@ -912,7 +912,210 @@
                }
           }
 
-          document.addEventListener('DOMContentLoaded', cargarImagenes);
+          // En catalogo.html
+
+          document.addEventListener('DOMContentLoaded', async function() {
+          try {
+               // 1. Verificar autenticación
+               const clientData = localStorage.getItem('clientData');
+               if (!clientData) {
+                    console.log('No hay datos de cliente, usando modo básico');
+               }
+
+               // 2. Verificar instancias activas
+               const productManager = window.productManager;
+               const imageLoader = window.imageLoader;
+
+               // 3. Implementar búsqueda
+               const searchInput = document.querySelector('input[type="text"]');
+               if (searchInput) {
+                    searchInput.addEventListener('input', debounce(async function(e) {
+                         const searchTerm = e.target.value.toLowerCase();
+                         const items = document.querySelectorAll('.gallery-item');
+
+                         items.forEach(async item => {
+                              const bottomRow = item.querySelector('.bottom-row a');
+                              if (!bottomRow) return;
+
+                              const codigo = bottomRow.textContent.trim().replace(/\s+/g, '');
+                              
+                              if (productManager) {
+                              // Si existe ProductManager, usar su búsqueda
+                              const producto = productManager.getProduct(codigo);
+                              if (producto) {
+                                   const matchesBusqueda = 
+                                        producto.codigo.toLowerCase().includes(searchTerm) ||
+                                        producto.nombre.toLowerCase().includes(searchTerm) ||
+                                        producto.categoria.toLowerCase().includes(searchTerm);
+
+                                   item.style.display = matchesBusqueda ? '' : 'none';
+                              }
+                              } else {
+                              // Búsqueda básica por código
+                              const matchesBusqueda = codigo.toLowerCase().includes(searchTerm);
+                              item.style.display = matchesBusqueda ? '' : 'none';
+                              }
+                         });
+                    }, 300));
+               }
+
+               // 4. Función original de carga de imágenes
+               async function cargarImagenes() {
+                    try {
+                         const sheetId = '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d';
+                         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+                         const response = await fetch(sheetUrl);
+                         const text = await response.text();
+                         const json = JSON.parse(text.substr(47).slice(0, -2));
+
+                         const imageMap = {};
+                         const priceMap = {};
+                         json.table.rows.forEach(row => {
+                              if (row.c[0]?.v && row.c[1]?.v) {
+                              const nombreArchivo = row.c[0].v;
+                              const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
+                              const id = row.c[1].v;
+                              const precio = row.c[5]?.v;
+                              imageMap[codigo] = id;
+                              if (precio) {
+                                   priceMap[codigo] = precio;
+                              }
+                              }
+                         });
+
+                         document.querySelectorAll('.gallery-item').forEach(item => {
+                              const bottomRow = item.querySelector('.bottom-row a');
+                              if (bottomRow) {
+                              const codigo = bottomRow.textContent.trim();
+                              const codigoLimpio = codigo.replace(/\s+/g, '');
+
+                              if (imageMap[codigoLimpio]) {
+                                   const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
+                                   const img = item.querySelector('img');
+                                   if (img) {
+                                        img.src = imgUrl;
+                                   }
+                              }
+
+                              if (priceMap[codigoLimpio]) {
+                                   const precio = priceMap[codigoLimpio];
+                                   const bottomRowDiv = item.querySelector('.bottom-row');
+                                   let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                   if (!precioElement) {
+                                        precioElement = document.createElement('span');
+                                        precioElement.className = 'price-tag';
+                                        bottomRowDiv.appendChild(precioElement);
+                                   }
+                                   precioElement.textContent = `$${precio.toLocaleString()}`;
+                              }
+                              }
+                         });
+                    } catch (error) {
+                         console.error('Error en carga básica:', error);
+                    }
+               }
+
+               // 5. Nueva implementación usando managers
+               async function cargarGaleria() {
+                    try {
+                         const galleryItems = document.querySelectorAll('.gallery-item');
+                         const clientConfig = JSON.parse(clientData);
+
+                         for (const item of galleryItems) {
+                              const bottomRow = item.querySelector('.bottom-row a');
+                              if (!bottomRow) continue;
+
+                              const codigoLimpio = bottomRow.textContent.trim().replace(/\s+/g, '');
+                              
+                              const imgUrl = imageLoader.getImageUrl(codigoLimpio, 'desktop');
+                              if (imgUrl) {
+                              const img = item.querySelector('img');
+                              if (img) {
+                                   img.src = imgUrl;
+                              }
+                              }
+
+                              const precio = await productManager.getPrice(codigoLimpio);
+                              if (precio !== null) {
+                              const bottomRowDiv = item.querySelector('.bottom-row');
+                              let precioElement = bottomRowDiv.querySelector('.price-tag');
+                              if (!precioElement) {
+                                   precioElement = document.createElement('span');
+                                   precioElement.className = 'price-tag';
+                                   bottomRowDiv.appendChild(precioElement);
+                              }
+                              precioElement.textContent = `$${precio.toLocaleString()}`;
+                              }
+                         }
+                    } catch (error) {
+                         console.error('Error en cargarGaleria:', error);
+                         // Si falla la nueva implementación, usar la original
+                         await cargarImagenes();
+                    }
+               }
+
+               // 6. Función de precarga de imágenes
+               async function precargarSiguientesPaginas() {
+                    if (!imageLoader) return;
+                    
+                    const items = Array.from(document.querySelectorAll('.gallery-item'));
+                    const visibleItems = items.filter(item => 
+                         item.getBoundingClientRect().top < window.innerHeight * 2
+                    );
+
+                    const codigos = visibleItems.map(item => {
+                         const bottomRow = item.querySelector('.bottom-row a');
+                         return bottomRow ? bottomRow.textContent.trim().replace(/\s+/g, '') : null;
+                    }).filter(Boolean);
+
+                    await imageLoader.preloadImages(codigos);
+               }
+
+               // 7. Scroll infinito
+               let isLoading = false;
+               window.addEventListener('scroll', debounce(async function() {
+                    if (isLoading) return;
+
+                    const lastItem = document.querySelector('.gallery-item:last-child');
+                    if (!lastItem) return;
+
+                    const lastItemRect = lastItem.getBoundingClientRect();
+                    if (lastItemRect.bottom < window.innerHeight * 1.5) {
+                         isLoading = true;
+                         await precargarSiguientesPaginas();
+                         isLoading = false;
+                    }
+               }, 200));
+
+               // 8. INICIAR CARGA
+               if (productManager && imageLoader) {
+                    console.log('Usando sistema optimizado');
+                    await cargarGaleria();
+               } else {
+                    console.log('Usando sistema básico');
+                    await cargarImagenes();
+               }
+
+          } catch (error) {
+               console.error('Error en inicialización:', error);
+               // Si todo falla, intentar carga básica
+               await cargarImagenes();
+          }
+          });
+
+          // Utilidad debounce
+          function debounce(func, wait) {
+          let timeout;
+          return function executedFunction(...args) {
+               const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+               };
+               clearTimeout(timeout);
+               timeout = setTimeout(later, wait);
+          };
+          }
 
      </script>
 
