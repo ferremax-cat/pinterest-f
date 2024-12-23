@@ -916,10 +916,17 @@
 
           document.addEventListener('DOMContentLoaded', async function() {
           try {
+
+                    const monitoringSystem = new MonitoringSystem();
+                    const fallbackManager = new FallbackManager();
+                    const startTime = performance.now();
+
                // 1. Verificar autenticación
                const clientData = localStorage.getItem('clientData');
                if (!clientData) {
                     console.log('No hay datos de cliente, usando modo básico');
+                    window.location.href = 'login.html';
+                    return;
                }
 
                // 2. Verificar instancias activas
@@ -931,6 +938,7 @@
                if (searchInput) {
                     searchInput.addEventListener('input', debounce(async function(e) {
                          const searchTerm = e.target.value.toLowerCase();
+                         monitoringSystem.trackUsage('search', { term: searchTerm });
                          const items = document.querySelectorAll('.gallery-item');
 
                          items.forEach(async item => {
@@ -1088,14 +1096,47 @@
                     }
                }, 200));
 
-               // 8. INICIAR CARGA
-               if (productManager && imageLoader) {
-                    console.log('Usando sistema optimizado');
-                    await cargarGaleria();
-               } else {
-                    console.log('Usando sistema básico');
-                    await cargarImagenes();
-               }
+              // 6. Sistemas principal y fallback
+    const primarySystem = async () => {
+        try {
+            monitoringSystem.trackPerformance('loadTime', performance.now() - startTime);
+
+            if (!productManager || !imageLoader) {
+                throw new Error('Componentes no inicializados');
+            }
+
+            await cargarGaleria();
+            monitoringSystem.trackUsage('pageView', { page: 'catalogo' });
+
+        } catch (error) {
+            monitoringSystem.trackError(error, 'primarySystem');
+            throw error;
+        }
+    };
+
+    const fallbackSystem = async () => {
+        try {
+            await cargarImagenes();
+            monitoringSystem.trackUsage('pageView', { page: 'catalogo-fallback' });
+        } catch (error) {
+            monitoringSystem.trackError(error, 'fallbackSystem');
+            throw error;
+        }
+    };
+
+    // 7. Iniciar carga
+    await fallbackManager.manageSystems(primarySystem, fallbackSystem);
+               // 8. Limpieza al cerrar
+               window.addEventListener('beforeunload', () => {
+                    if (window.imageLoader) {
+                         window.imageLoader.cleanup();
+                    }
+                    monitoringSystem.trackUsage('pageClose', {
+                         duration: performance.now() - startTime
+               });
+          });
+          
+
 
           } catch (error) {
                console.error('Error en inicialización:', error);

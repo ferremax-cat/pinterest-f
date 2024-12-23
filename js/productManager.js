@@ -15,6 +15,8 @@ class ProductManager {
    * @param {Object} config.clientData - Datos del cliente actual
    */
   constructor(config = {}) {
+    
+    this.monitoringSystem = config.monitoringSystem || new MonitoringSystem();
     this.cacheManager = config.cacheManager || new CacheManager();
     this.clientData = config.clientData || null;
 
@@ -231,12 +233,28 @@ class ProductManager {
       .filter(product => product !== null);
   }
 
+    async getPrice(codigo) {
+      const startTime = performance.now();
+      try {
+          const price = await this._calculatePrice(codigo);
+          this.monitoringSystem.trackPerformance('priceCalculation', 
+              performance.now() - startTime);
+          return price;
+      } catch (error) {
+          this.monitoringSystem.trackError(error, 'getPrice');
+          return null;
+      }
+  }
+
+
   /**
    * Busca productos por criterios
    * @param {Object} criteria - Criterios de búsqueda
    * @returns {Array} Productos encontrados
    */
   searchProducts(criteria = {}) {
+    this.monitoringSystem.trackUsage('search', { criteria });
+
     try {
       let results = Array.from(this.products.values());
 
