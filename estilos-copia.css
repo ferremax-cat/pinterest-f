@@ -408,6 +408,24 @@ nav .iconos img{
      transition: all 0.3s ease; /* Suaviza los cambios de tamaño */
 }
 
+.lazy-image {
+     opacity: 0;
+     transition: opacity 0.3s ease-in-out;
+     background-color: #f0f0f0;
+ }
+ 
+ .lazy-image.loaded {
+     opacity: 1;
+ }
+ 
+ .lazy-image.error {
+     opacity: 0.5;
+     background-color: #ffebee;
+ }
+
+
+
+
 /* ... (mantener el resto del código CSS existente) ... */
 
 /* Media Queries para Responsive Design */

@@ -22,6 +22,11 @@ class MonitoringSystem {
     }
 
     trackPerformance(type, value) {
+        // Verificar si el tipo existe, si no, crearlo
+        if (!this.metrics.performance[type]) {
+            this.metrics.performance[type] = [];
+        }
+    
         this.metrics.performance[type].push({
             timestamp: Date.now(),
             value: value

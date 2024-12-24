@@ -3,7 +3,8 @@
  * @module ProductManager
  */
 
-import CacheManager from '../CacheManager.js';
+import CacheManager from '../js/cacheManager.js';
+import MonitoringSystem from '../js/MonitoringSystem.js';
 
 /**
  * Gestor principal de productos y sus relaciones
@@ -165,6 +166,7 @@ class ProductManager {
    */
   async getPrice(codigo) {
     try {
+      
       // Verificar cache de precios
       const cacheKey = `price_${codigo}_${this.clientData.priceList}`;
       const cachedPrice = await this.cacheManager.get(cacheKey);
@@ -172,15 +174,24 @@ class ProductManager {
 
       // Obtener producto
       const product = this.getProduct(codigo);
-      if (!product) return null;
+      if (!product) 
+        console.log('Producto no encontrado:', codigo);
+        return null;
 
       // Verificar permisos de categoría
       if (!this.hasPermission(product.categoria)) {
         return null;
       }
 
+
+      console.log('Product found:', product);
+      console.log('Client price list:', this.clientData.priceList);
+
       // Obtener precio base
       const basePrice = product.precios[this.clientData.priceList];
+      console.log('Precio encontrado:', precio);
+      return precio;
+
       if (!basePrice) return null;
 
       // Verificar promociones
@@ -234,16 +245,19 @@ class ProductManager {
   }
 
     async getPrice(codigo) {
-      const startTime = performance.now();
-      try {
-          const price = await this._calculatePrice(codigo);
-          this.monitoringSystem.trackPerformance('priceCalculation', 
-              performance.now() - startTime);
-          return price;
-      } catch (error) {
-          this.monitoringSystem.trackError(error, 'getPrice');
-          return null;
-      }
+      const product = this.getProduct(codigo);
+      if (!product) return null;
+
+      // Verificar permisos de categoría
+      if (!this.clientData?.categories?.includes(product.categoria)) return null;
+
+      // Obtener precio base
+      const basePrice = product.precios?.[this.clientData.priceList];
+      if (!basePrice) return null;
+
+      // Verificar promociones
+      const promotion = await this.checkPromotions(codigo);
+      return promotion ? promotion.price : basePrice;
   }
 
 
