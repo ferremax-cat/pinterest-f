@@ -26,6 +26,7 @@ describe('ImageLoader', () => {
   });
 
   test('lazy loading setup works', () => {
+    imageLoader._initializeLazyLoading(); // Agregar esta línea
     const img = document.createElement('img');
     imageLoader.setupLazyImage(img, 'TEST123', 'desktop');
     expect(img.classList.contains('lazy-image')).toBe(true);
