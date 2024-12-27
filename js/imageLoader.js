@@ -3,8 +3,8 @@
  * @module ImageLoader
  */
 
-import CacheManager from '../js/cacheManager.js';
-import MonitoringSystem from '../js/MonitoringSystem';
+import CacheManager from './cacheManager.js';
+import MonitoringSystem from './MonitoringSystem.js';
 
 
 class ImageLoader {

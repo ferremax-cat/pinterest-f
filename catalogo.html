@@ -29,7 +29,7 @@
                <span class="fas fa-bell"></span>
                <span class="fas fa-comment"></span>
                <div class="perfil-container">
-                    <img class="img-perfil" src="img/perfil.jpg" alt="">
+                    <!--<img class="img-perfil" src="img/perfil.jpg" alt="">-->
                </div>
                <span class="fas fa-angle-down"></span>
           </div>
@@ -71,7 +71,7 @@
                     </div>
 
                     <div class="reactions">
-                         <img src="icons/emoji-alerta.svg" alt="">
+                         <!--<img src="icons/emoji-alerta.svg" alt="">
                          <!--<img src="icons/emoji2.svg" alt="">
                               -->
                          <span>$ 1783</span>
@@ -545,7 +545,8 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image17.jpg" alt="">
+                    <img  alt="Grampa para engrampadora">
+                    <!--<img src="img/image17.jpg" alt="">-->
 
                     <div class="top-row">
                          <a href="">Grampa para engrampadora</a>
@@ -665,7 +666,8 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image21.jpg" alt="">
+                    <img  alt="Disco diamantado Turbo">
+                    
 
                     <div class="top-row">
                          <a href="">Disco diamantado Turbo</a>
@@ -692,7 +694,8 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image22.jpg" alt="">
+                    <img  alt="fondo de pantalla">
+                    
 
                     <div class="top-row">
                          <a href="">Fondo de pantalla</a>
@@ -726,7 +729,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image23.jpg" alt="">
+                    
 
                     <div class="top-row">
                          <a href="">Llave mandril 13mm</a>
@@ -760,7 +763,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image24.jpg" alt="">
+                    
 
                     <div class="top-row">
                          <a href="">anteojo regulable</a>
@@ -787,7 +790,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    <img src="img/image25.jpg" alt="">
+                    
 
                     <div class="top-row">
                          <a href="">Arco sierra junior</a>
@@ -835,7 +838,14 @@
      </div>
 
      <!-- Agregar el nuevo script al final -->
-     <script>
+     <script type="module">
+
+          import MonitoringSystem from '../js/MonitoringSystem.js';
+          import FallbackManager from '../js/FallbackManager.js';
+          import CacheManager from '../js/cacheManager.js';
+          import ProductManager from '../js/productManager.js';
+          import {config} from '../js/config.js';
+          import ImageLoader from '../js/imageLoader.js';
 
           async function cargarImagenes() {
                try {
@@ -929,7 +939,24 @@
                     return;
                }
 
+               const clientConfig = JSON.parse(clientData);
+               const cacheManager = new CacheManager();
+                     window.productManager = new ProductManager({ 
+                            cacheManager: cacheManager,
+                            clientData: clientConfig 
+                            });
+                     window.imageLoader = new ImageLoader({ 
+                            cacheManager: cacheManager,
+                            sheetId: config.sheetId
+                            });
+
+
+
+
                // 2. Verificar instancias activas
+
+               await window.productManager.initialize(clientConfig);
+               await window.imageLoader.initialize();
                const productManager = window.productManager;
                const imageLoader = window.imageLoader;
 
@@ -1030,6 +1057,12 @@
                          const galleryItems = document.querySelectorAll('.gallery-item');
                          const clientConfig = JSON.parse(clientData);
 
+                         
+                        
+                        
+                        
+                        
+                        
                          for (const item of galleryItems) {
                               const bottomRow = item.querySelector('.bottom-row a');
                               if (!bottomRow) continue;
@@ -1097,45 +1130,45 @@
                }, 200));
 
               // 6. Sistemas principal y fallback
-    const primarySystem = async () => {
-        try {
-            monitoringSystem.trackPerformance('loadTime', performance.now() - startTime);
+               const primarySystem = async () => {
+                    try {
+                         monitoringSystem.trackPerformance('loadTime', performance.now() - startTime);
 
-            if (!productManager || !imageLoader) {
-                throw new Error('Componentes no inicializados');
-            }
-
-            await cargarGaleria();
-            monitoringSystem.trackUsage('pageView', { page: 'catalogo' });
-
-        } catch (error) {
-            monitoringSystem.trackError(error, 'primarySystem');
-            throw error;
-        }
-    };
-
-    const fallbackSystem = async () => {
-        try {
-            await cargarImagenes();
-            monitoringSystem.trackUsage('pageView', { page: 'catalogo-fallback' });
-        } catch (error) {
-            monitoringSystem.trackError(error, 'fallbackSystem');
-            throw error;
-        }
-    };
-
-    // 7. Iniciar carga
-    await fallbackManager.manageSystems(primarySystem, fallbackSystem);
-               // 8. Limpieza al cerrar
-               window.addEventListener('beforeunload', () => {
-                    if (window.imageLoader) {
-                         window.imageLoader.cleanup();
+                    if (!window.productManager || !window.imageLoader) {
+                    throw new Error('Componentes no inicializados');
                     }
-                    monitoringSystem.trackUsage('pageClose', {
-                         duration: performance.now() - startTime
-               });
-          });
-          
+
+               await cargarGaleria();
+               monitoringSystem.trackUsage('pageView', { page: 'catalogo' });
+
+               } catch (error) {
+               monitoringSystem.trackError(error, 'primarySystem');
+               throw error;
+               }
+               };
+
+               const fallbackSystem = async () => {
+                    try {
+                         await cargarImagenes();
+                         monitoringSystem.trackUsage('pageView', { page: 'catalogo-fallback' });
+                    } catch (error) {
+                         monitoringSystem.trackError(error, 'fallbackSystem');
+                         throw error;
+                    }
+               };
+
+               // 7. Iniciar carga
+               await fallbackManager.manageSystems(primarySystem, fallbackSystem);
+                              // 8. Limpieza al cerrar
+                              window.addEventListener('beforeunload', () => {
+                                   if (window.imageLoader) {
+                                        window.imageLoader.cleanup();
+                                   }
+                                   monitoringSystem.trackUsage('pageClose', {
+                                        duration: performance.now() - startTime
+                              });
+                         });
+                         
 
 
           } catch (error) {

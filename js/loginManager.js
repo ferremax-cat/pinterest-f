@@ -1,5 +1,11 @@
 // LoginManager.js
 
+import { config } from './config.js';
+import CacheManager from './cacheManager.js';
+import ProductManager from './productManager.js';
+import ImageLoader from './imageLoader.js';
+
+
 class LoginManager {
     constructor() {
         this.cacheManager = new CacheManager();
@@ -8,6 +14,7 @@ class LoginManager {
             cacheManager: this.cacheManager,
             sheetId: config.sheetId
         });
+        this.sheetsUrl = config.apiEndpoints.sheets;
     }
 
     async processLogin(inputClave) {

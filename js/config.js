@@ -1,6 +1,5 @@
-
-// Configuración global de la aplicación
 const config = {
+    // Configuración global de la aplicación
     // ID de la hoja de Google Sheets
     sheetId: '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d',
 
@@ -22,3 +21,4 @@ const config = {
         sheets: 'https://docs.google.com/spreadsheets/d'
     }
 };
+export { config };

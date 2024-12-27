@@ -3,8 +3,9 @@
  * @module ProductManager
  */
 
-import CacheManager from '../js/cacheManager.js';
-import MonitoringSystem from '../js/MonitoringSystem.js';
+import CacheManager from './cacheManager.js';
+import MonitoringSystem from './MonitoringSystem.js';
+import { config } from './config.js';
 
 /**
  * Gestor principal de productos y sus relaciones
