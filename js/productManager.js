@@ -6,6 +6,7 @@
 import CacheManager from './cacheManager.js';
 import MonitoringSystem from './MonitoringSystem.js';
 import { config } from './config.js';
+import AdvancedCacheManager from './AdvancedCacheManager.js';
 
 /**
  * Gestor principal de productos y sus relaciones
@@ -16,8 +17,10 @@ class ProductManager {
    * @param {CacheManager} config.cacheManager - Instancia de CacheManager
    * @param {Object} config.clientData - Datos del cliente actual
    */
-  constructor(config = {}) {
+  constructor({ monitoringSystem, ...config }) {
     
+    this.cache = new AdvancedCacheManager();
+    this.monitor = monitoringSystem;
     this.monitoringSystem = config.monitoringSystem || new MonitoringSystem();
     this.cacheManager = config.cacheManager || new CacheManager();
     this.clientData = config.clientData || null;
@@ -166,47 +169,69 @@ class ProductManager {
    * @returns {number|null} Precio calculado o null
    */
   async getPrice(codigo) {
-    try {
-      
-      // Verificar cache de precios
-      const cacheKey = `price_${codigo}_${this.clientData.priceList}`;
-      const cachedPrice = await this.cacheManager.get(cacheKey);
-      if (cachedPrice !== null) return cachedPrice;
-
-      // Obtener producto
-      const product = this.getProduct(codigo);
-      if (!product) 
-        console.log('Producto no encontrado:', codigo);
-        return null;
-
-      // Verificar permisos de categoría
-      if (!this.hasPermission(product.categoria)) {
-        return null;
-      }
+        try {
+          
+          //seguimiento del rendimiento!
+          const startTime = performance.now();
 
 
-      console.log('Product found:', product);
-      console.log('Client price list:', this.clientData.priceList);
+          try {
+              const price = await this._calculatePrice(codigo);
+              this.monitor?.trackPerformance('priceCalculation', performance.now() - startTime);
 
-      // Obtener precio base
-      const basePrice = product.precios[this.clientData.priceList];
-      console.log('Precio encontrado:', precio);
-      return precio;
+              const cacheKey = `price_${codigo}_${this.clientData.priceList}`;
+              const cachedPrice = await this.cache.get(cacheKey);
 
-      if (!basePrice) return null;
+              if (cachedPrice) return cachedPrice;
+              await this.cache.set(cacheKey, price);
+              
 
-      // Verificar promociones
-      const finalPrice = await this.checkPromotions(codigo, basePrice);
+              return price;
+          } catch (error) {
+              this.monitor?.trackError(error, 'getPrice', { codigo });
+              return null;
+          }
 
-      // Cachear resultado
-      await this.cacheManager.set(cacheKey, finalPrice, 3600000); // 1 hora
+          
+          // Verificar cache de precios
+          const cacheKey = `price_${codigo}_${this.clientData.priceList}`;
+          const cachedPrice = await this.cacheManager.get(cacheKey);
+          if (cachedPrice !== null) return cachedPrice;
 
-      this.metrics.priceCalculations++;
-      return finalPrice;
-    } catch (error) {
-      console.error('Error calculating price:', error);
-      return null;
-    }
+          // Obtener producto
+          const product = this.getProduct(codigo);
+          if (!product) 
+            console.log('Producto no encontrado:', codigo);
+            return null;
+
+          // Verificar permisos de categoría
+          if (!this.hasPermission(product.categoria)) {
+            return null;
+          }
+
+
+          console.log('Product found:', product);
+          console.log('Client price list:', this.clientData.priceList);
+
+          // Obtener precio base
+          const basePrice = product.precios[this.clientData.priceList];
+          console.log('Precio encontrado:', precio);
+          return precio;
+
+          if (!basePrice) return null;
+
+          // Verificar promociones
+          const finalPrice = await this.checkPromotions(codigo, basePrice);
+
+          // Cachear resultado
+          await this.cacheManager.set(cacheKey, finalPrice, 3600000); // 1 hora
+
+          this.metrics.priceCalculations++;
+          return finalPrice;
+        } catch (error) {
+          console.error('Error calculating price:', error);
+          return null;
+        }
   }
 
   /**
@@ -245,7 +270,7 @@ class ProductManager {
       .filter(product => product !== null);
   }
 
-    async getPrice(codigo) {
+    async getPrice_old(codigo) {
       const product = this.getProduct(codigo);
       if (!product) return null;
 
@@ -260,6 +285,26 @@ class ProductManager {
       const promotion = await this.checkPromotions(codigo);
       return promotion ? promotion.price : basePrice;
   }
+
+  // En ProductManager.js
+    async getPrice(codigo) {
+      const startTime = performance.now();
+      try {
+          const product = this.getProduct(codigo);
+          if (!product) {
+              const error = new Error(`Product not found: ${codigo}`);
+              this.monitor?.trackError(error, 'getPrice', { codigo });
+              return null;
+          }
+
+          const price = product.precios?.[this.clientData?.priceList];
+          this.monitor?.trackPerformance('priceCalculation', performance.now() - startTime);
+          return price;
+      } catch (error) {
+          this.monitor?.trackError(error, 'getPrice', { codigo });
+          return null;
+      }
+    }
 
 
   /**

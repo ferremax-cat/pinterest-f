@@ -5,6 +5,7 @@
 
 import CacheManager from './cacheManager.js';
 import MonitoringSystem from './MonitoringSystem.js';
+import AdvancedCacheManager from './AdvancedCacheManager.js';
 
 
 class ImageLoader {
@@ -14,7 +15,10 @@ class ImageLoader {
    * @param {string} config.sheetId - ID de Google Sheet
    * @param {Object} config.resolutions - Configuración de resoluciones
    */
-  constructor(config = {}) {
+  constructor({ monitoringSystem, ...config }) {
+      
+      this.cache = new AdvancedCacheManager();
+      this.monitor = monitoringSystem;
 
        this.config = {
       monitoringSystem : config.monitoringSystem || new MonitoringSystem(),
@@ -22,16 +26,21 @@ class ImageLoader {
       sheetId: config.sheetId || null,
       sheetsUrl: config.apiEndpoints?.sheets || 'https://docs.google.com/spreadsheets/d',
       resolutions: {
-        mobile: { width: 320, height: 320 },
-        tablet: { width: 640, height: 640 },
-        desktop: { width: 1024, height: 1024 },
-        ...config.resolutions 
+            mobile: { width: 320, height: 320, quality: 60 },
+            tablet: { width: 640, height: 640, quality: 80 },
+            desktop: { width: 1024, height: 1024, quality: 100 },
+            // Agregar nuevas calidades progresivas
+            thumbnail: { width: 20, height: 20, quality: 10 },
+            preview: { width: 100, height: 100, quality: 50 },
+            full: { width: 800, height: 800, quality: 100 },
+            ...config.resolutions 
       },
         lazyLoading: {
             enabled: true,
             rootMargin: '50px 0px',
             threshold: 0.1,
             placeholderImage: '/img/placeholder.jpg',
+            useProgressiveLoad: true, // Nueva opción
             ...config.lazyLoading
       }
     };
@@ -153,22 +162,55 @@ class ImageLoader {
         }
     );
 }
-  getImageUrl(codigo, resolution = 'desktop', imgElement = null) {
+
+  _getUrl(codigo) {
     const imageData = this.imageMap.get(codigo);
     if (!imageData) return '';
 
-    const { width, height } = this.config.resolutions[resolution] || 
-                            this.config.resolutions.desktop;
-
-    const imageUrl = `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
- 
-    if (imgElement && this.config.lazyLoading.enabled) {
-      this.setupLazyImage(imgElement, codigo, resolution);
-      return this.config.lazyLoading.placeholderImage;
+    const { width, height } = this.config.resolutions['desktop'];
+    return `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
   }
 
-  return imageUrl;
-  }
+
+  async getImageUrl(codigo, resolution = 'desktop', imgElement = null) {
+    const startTime = performance.now();
+    
+    try {
+        // Intentar obtener de caché primero
+        const cachedUrl = await this.cache.get(`img_${codigo}_${resolution}`);
+        if (cachedUrl) {
+            this.monitor?.trackPerformance('cacheHit', performance.now() - startTime);
+            return cachedUrl;
+        }
+
+        // Si no está en caché, generar URL
+        const imageData = this.imageMap.get(codigo);
+        if (!imageData) return '';
+
+        // Obtener dimensiones y calidad según resolución
+        const { width, height, quality } = this.config.resolutions[resolution] || 
+                                         this.config.resolutions.desktop;
+
+        // Construir URL con dimensiones y calidad
+        const url = `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}${quality ? `-q${quality}` : ''}`;
+
+        // Guardar en caché
+        await this.cache.set(`img_${codigo}_${resolution}`, url);
+        
+        this.monitor?.trackPerformance('imageLoad', performance.now() - startTime);
+
+        // Manejar lazy loading si es necesario
+        if (imgElement && this.config.lazyLoading.enabled) {
+            this.setupLazyImage(imgElement, codigo, resolution);
+            return this.config.lazyLoading.placeholderImage;
+        }
+
+        return url;
+    } catch (error) {
+        this.monitor?.trackError(error, 'getImageUrl', { codigo });
+        return '';
+    }
+}
 
   /**
    * Precarga una imagen
@@ -337,6 +379,69 @@ async _loadImageWithPromise(img, url) {
           this.observedImages.clear();
       }
   }
+
+    async loadProgressively(codigo) {
+      const startTime = performance.now();
+      try {
+
+           // Verificar si existe la imagen
+            const imageData = this.imageMap.get(codigo);
+            if (!imageData) {
+                this.monitor?.trackError(
+                    new Error(`Image not found: ${codigo}`),
+                    'loadProgressively'
+                );
+                return null;
+            }
+
+          // Intentar obtener de caché primero
+          const cachedUrls = await this.cache.get(`progressive_${codigo}`);
+          if (cachedUrls) {
+              this.monitor?.trackPerformance('cacheHit', performance.now() - startTime);
+              return cachedUrls;
+          }
+
+          // Generar URLs para diferentes calidades
+          const urls = {
+              thumbnail: await this.getImageUrl(codigo, 'thumbnail'),
+              preview: await this.getImageUrl(codigo, 'preview'),
+              full: await this.getImageUrl(codigo, 'full')
+          };
+
+          // Verificar que al menos una URL se generó correctamente
+            if (!urls.thumbnail && !urls.preview && !urls.full) {
+              return null;
+            }
+
+          // Guardar en caché
+          await this.cache.set(`progressive_${codigo}`, urls);
+          this.monitor?.trackPerformance('progressiveLoad', performance.now() - startTime);
+
+          // Registrar métrica al final
+          const duration = performance.now() - startTime;
+          this.monitor?.trackPerformance('progressiveLoad', duration, {
+            codigo,
+            success: true
+          });
+
+
+
+          return urls;
+      } catch (error) {
+        const duration = performance.now() - startTime;
+        this.monitor?.trackPerformance('progressiveLoad', duration, {
+            codigo,
+            success: false,
+            error: error.message
+        });
+        this.monitor?.trackError(error, 'loadProgressively', { codigo });
+        return null;
+      }
+  }
+
+
+
+
 }
 
 export default ImageLoader;

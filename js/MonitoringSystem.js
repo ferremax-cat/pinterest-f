@@ -6,7 +6,8 @@ class MonitoringSystem {
             performance: {
                 loadTimes: [],
                 responseLatency: [],
-                memoryUsage: []
+                memoryUsage: [],
+                last1Min: []
             },
             errors: {
                 count: 0,
