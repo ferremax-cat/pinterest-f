@@ -31,7 +31,7 @@ class AdvancedCacheManager {
             misses: { memory: 0, localStorage: 0 },
             size: { memory: 0, localStorage: 0 }
         };
-        console.log('Constructor - Initial metrics:', JSON.stringify(this.metrics));
+       // console.log('Constructor - Initial metrics:', JSON.stringify(this.metrics));
     }
 
     // Método auxiliar para merge profundo de configuración

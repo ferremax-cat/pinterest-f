@@ -15,16 +15,23 @@ class ImageLoader {
    * @param {string} config.sheetId - ID de Google Sheet
    * @param {Object} config.resolutions - Configuración de resoluciones
    */
+
+
+  // Usa la desestructuración para extraer monitoringSystem y cualquier otra configuración adicional (...config)
   constructor({ monitoringSystem, ...config }) {
       
+    //Inicializa una instancia de AdvancedCacheManager y la asigna a this.cache.
       this.cache = new AdvancedCacheManager();
+      // Asigna el parámetro monitoringSystem al atributo monitor.
       this.monitor = monitoringSystem;
 
        this.config = {
+      // Incluye configuraciones para monitoringSystem, cacheManager, sheetId, sheetsUrl, resolutions, lazyLoading, formats, y fallback.  
       monitoringSystem : config.monitoringSystem || new MonitoringSystem(),
       cacheManager: config.cacheManager || new CacheManager(),
       sheetId: config.sheetId || null,
       sheetsUrl: config.apiEndpoints?.sheets || 'https://docs.google.com/spreadsheets/d',
+
       resolutions: {
             mobile: { width: 320, height: 320, quality: 60 },
             tablet: { width: 640, height: 640, quality: 80 },
@@ -42,18 +49,34 @@ class ImageLoader {
             placeholderImage: '/img/placeholder.jpg',
             useProgressiveLoad: true, // Nueva opción
             ...config.lazyLoading
+      },
+        formats: {
+          webp: {quality: 80 },
+          fallback: {format: 'jpeg', quality: 85},
+          enabled: true,
+          quality: 80,
+          ...config.formats?.webp
+      },
+        fallback: {
+            format: 'jpeg',
+            quality: 85,
+            ...config.formats?.fallback
       }
     };
 
     // Mapas de datos
+    // Inicializa imageMap como una nueva instancia de Map para almacenar los datos de las imágenes.
     this.imageMap = new Map();
+    // Inicializa loadingPromises como una nueva instancia de Map para rastrear las promesas de carga.
     this.loadingPromises = new Map();
     
         // Lazy loading
+        // Inicializa imageObserver como null y observedImages como un nuevo Set.
         this.imageObserver = null;
         this.observedImages = new Set();
 
     // Métricas
+    // Define el objeto metrics para rastrear varias métricas relacionadas con la carga de imágenes.
     this.metrics = {
       totalImages: 0,
       loadedImages: 0,
@@ -63,6 +86,58 @@ class ImageLoader {
       totalLoadTime: 0,
       preloadedImages: 0
     };
+
+      // Detectar soporte de WebP
+      // Llama al método checkWebPSupport para detectar si el navegador soporta WebP y asigna el resultado a supportsWebP.
+      this.supportsWebP = this.checkWebPSupport();
+
+      // Lazy loading
+    this.observedImages = new Set();
+    
+    // Inicializar IntersectionObserver si está disponible en el navegador
+    if (typeof IntersectionObserver !== 'undefined') {
+        this.imageObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        const realSrc = img.dataset.src;
+                        if (realSrc) {
+                            img.src = realSrc;
+                            img.classList.remove('lazy-image');
+                            this.imageObserver.unobserve(img);
+                            this.observedImages.delete(img);
+                            this.metrics.lazyLoaded++;
+                        }
+                    }
+                });
+            },
+            {
+                rootMargin: this.config.lazyLoading.rootMargin,
+                threshold: this.config.lazyLoading.threshold
+            }
+        );
+      }
+  
+
+
+  }
+
+    // Método para detectar soporte de WebP
+    checkWebPSupport() {
+      // En un entorno de pruebas, usar valor por defecto
+      if (process.env.NODE_ENV === 'test') {
+          return true;
+      }
+      
+      // En entorno real, hacer la detección
+      try {
+          const elem = document.createElement('canvas');
+          return !!(elem.getContext && elem.getContext('2d')) &&
+              elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+      } catch (e) {
+          return false;
+      }
   }
 
   /**
@@ -164,6 +239,7 @@ class ImageLoader {
 }
 
   _getUrl(codigo) {
+
     const imageData = this.imageMap.get(codigo);
     if (!imageData) return '';
 
@@ -173,44 +249,152 @@ class ImageLoader {
 
 
   async getImageUrl(codigo, resolution = 'desktop', imgElement = null) {
+    //startTime guarda el tiempo actual para medir cuánto tiempo toma la función.
     const startTime = performance.now();
+
+    
     
     try {
-        // Intentar obtener de caché primero
-        const cachedUrl = await this.cache.get(`img_${codigo}_${resolution}`);
-        if (cachedUrl) {
-            this.monitor?.trackPerformance('cacheHit', performance.now() - startTime);
-            return cachedUrl;
-        }
+        // Construir clave de caché incluyendo formato.
+        //Si supportsWebP es verdadero, el formato será webp; si no, se usará el formato de fallback (jpeg).
+        //? que es fullback
+        const format = this.supportsWebP ? 'webp' : this.config.formats?.fallback?.format || 'jpeg';
 
-        // Si no está en caché, generar URL
-        const imageData = this.imageMap.get(codigo);
-        if (!imageData) return '';
+        // Obtener configuración de formato
+        const formatConfig = this.supportsWebP ? 
+                           this.config.formats?.webp : 
+                           this.config.formats?.fallback;
+
 
         // Obtener dimensiones y calidad según resolución
         const { width, height, quality } = this.config.resolutions[resolution] || 
                                          this.config.resolutions.desktop;
 
-        // Construir URL con dimensiones y calidad
-        const url = `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}${quality ? `-q${quality}` : ''}`;
+        const finalQuality = formatConfig?.quality || quality;                                         
 
-        // Guardar en caché
-        await this.cache.set(`img_${codigo}_${resolution}`, url);
-        
-        this.monitor?.trackPerformance('imageLoad', performance.now() - startTime);
+        //cacheKey es una cadena única que identifica la imagen en caché usando el código, la resolución y el formato.
+        const cacheKey = `img_${codigo}_${resolution}_${format}_q${finalQuality}`;
+        console.log('Cache key:', cacheKey); // Debug
 
-        // Manejar lazy loading si es necesario
-        if (imgElement && this.config.lazyLoading.enabled) {
-            this.setupLazyImage(imgElement, codigo, resolution);
-            return this.config.lazyLoading.placeholderImage;
+        // Se intenta obtener la URL desde el caché usando cacheKey.
+         const cachedUrl = await this.cache.get(cacheKey); // Corregido: usar cacheKey en lugar de string construida
+        console.log('cachedUrl:', cachedUrl);
+
+        //Si cachedUrl está definida (es decir, la URL está en el caché), se retorna inmediatamente.
+        if (cachedUrl) {
+            const endTime = performance.now() - startTime;
+            this.monitor?.trackPerformance('cacheHit', performance.now() - startTime);
+            return cachedUrl;
         }
 
-        return url;
+        // Si no está en caché, generar URL
+        //Se obtienen los datos de la imagen desde imageMap usando codigo.
+        //? que es iamgeMap:
+        //imageMap es una estructura de datos de tipo Map que se utiliza para almacenar y acceder a los datos de las imágenes. Un Map es una colección de pares clave-valor donde cada clave es única y se asocia con un valor específico.
+        const imageData = this.imageMap.get(codigo);
+        console.log('imageData:', imageData);
+
+        //Si imageData no está definida, se retorna una cadena vacía y se imprime un error.
+        if (!imageData) {
+
+            // Crear un error que indique que no se encontró la imagen
+            const error = new Error(`Image data not found for codigo: ${codigo}`);
+            
+            // Registrar el error con el sistema de monitoreo
+            this.monitor?.trackError(error, 'getImageUrl', { 
+                codigo,
+                format: this.supportsWebP ? 'webp' : 'jpeg'
+            });
+
+            console.error('Image data not found for codigo:', codigo);
+            return '';
+        }
+
+        // Construir URL base
+        let generatedUrl = `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
+
+        // Agregar formato y calidad
+        // Se construye la URL de la imagen con las dimensiones y calidad especificadas.
+        if (format === 'webp') {
+            generatedUrl += '-fwebp';
+        } else if (format !== 'jpeg') {
+            generatedUrl += `-f${format}`;
+        }
+
+        generatedUrl += `-q${finalQuality}`;
+        await this.cache.set(cacheKey, generatedUrl);
+
+
+
+        console.log('Generated URL:', generatedUrl);
+
+        // Guardar en caché
+        //Se guarda la URL generada en el caché usando cacheKey.
+        await this.cache.set(cacheKey, generatedUrl);
+
+        // Manejar lazy loading si es necesario
+        // Si imgElement está definido y lazy loading está habilitado, 
+        // se configura la imagen para lazy loading y se retorna una imagen placeholder.
+        if (imgElement && this.config.lazyLoading.enabled) {
+
+
+          console.log('Entrando en condición de lazy loading:', {
+            imgElementExists: !!imgElement,
+            lazyLoadingEnabled: this.config.lazyLoading.enabled,
+            placeholderImage: this.config.lazyLoading.placeholderImage
+          });
+
+          console.log('Lazy loading config:', this.config.lazyLoading);
+          console.log('Image element before:', imgElement.className);
+          console.log('imgElement existe:', !!imgElement);
+          console.log('lazyLoading enabled:', this.config.lazyLoading.enabled);
+
+          imgElement.classList.add('lazy-image');
+          console.log('Clase agregada, classList actual:', Array.from(imgElement.classList));
+          console.log('Image element after:', imgElement.className);
+
+          // También podrías querer establecer el atributo data-src
+          imgElement.setAttribute('data-src', generatedUrl);
+
+          this.setupLazyImage(imgElement, codigo, resolution);
+          console.log('Placeholder image:', this.config.lazyLoading.placeholderImage);
+
+          return this.config.lazyLoading.placeholderImage;
+        }
+        
+        // Guardar en caché antes de retornar
+        await this.cache.set(cacheKey, generatedUrl);
+        console.log('URL guardada en caché:', generatedUrl);
+        
+        const endTime = performance.now() - startTime;
+        // Se registra el tiempo tomado para cargar la imagen con información adicional (formato, resolución, etc.).
+            this.monitor?.trackPerformance('imageLoad', performance.now() - startTime, {
+            format,
+            resolution,
+            width,
+            height,
+            quality: finalQuality
+            });
+
+        
+
+       // Retornar la URL Generada:
+       return generatedUrl;
     } catch (error) {
-        this.monitor?.trackError(error, 'getImageUrl', { codigo });
+
+        const currentFormat = this.supportsWebP ? 'webp' : 
+                            (this.config.formats?.fallback?.format || 'jpeg');
+        
+        this.monitor?.trackError(error, 'getImageUrl', { 
+            codigo, 
+            format: currentFormat 
+        });
+
+        console.error('Error in getImageUrl:', error);
         return '';
     }
 }
+  
 
   /**
    * Precarga una imagen
@@ -308,12 +492,31 @@ class ImageLoader {
    * @returns {Object} Métricas actuales
    */
   setupLazyImage(img, codigo, resolution) {
-    if (!this.config.lazyLoading.enabled || !this.imageObserver) return;
 
+    // Asegurarnos de que img es válido
+    if (!img || !(img instanceof HTMLImageElement)) {
+      console.error('setupLazyImage: Invalid image element');
+      return;
+    }
+
+    // Guardar la URL real en data-src
+    this.getImageUrl(codigo, resolution)
+        .then(url => {
+            img.setAttribute('data-src', url);
+        })
+        .catch(error => {
+            console.error('Error getting image URL:', error);
+        });
+
+    if (!this.config.lazyLoading.enabled || !this.imageObserver)
+      console.log('Lazy loading no habilitado o observer no disponible');
+      return;
+
+     // Configurar la imagen para lazy loading
     img.src = this.config.lazyLoading.placeholderImage;
     img.dataset.codigo = codigo;
     img.dataset.resolution = resolution;
-    img.classList.add('lazy-image');
+    img.classList.add('lazy-image'); // Asegurarnos que esta línea se ejecuta
 
     if (!this.observedImages.has(img)) {
         this.imageObserver.observe(img);
@@ -322,23 +525,41 @@ class ImageLoader {
 }
 
 async _loadLazyImage(img) {
+
+    //El método es asincrónico (async) y usa un bloque try-catch para manejar posibles errores.
     try {
         
+        //Obtiene el codigo y la resolution de los atributos dataset del elemento img.
         const codigo = img.dataset.codigo;
+        // Si codigo no está definido, el método retorna inmediatamente y no hace nada más.
         const resolution = img.dataset.resolution;
         if (!codigo) return;
 
+        // Guarda el tiempo actual para medir cuánto tiempo toma cargar la imagen.
         const startTime = performance.now();
+        // Llama al método getImageUrl para obtener la URL de la imagen basada en el codigo y resolution.
         const imageUrl = this.getImageUrl(codigo, resolution);
 
+        // Llama al método _loadLazyImage de la clase padre (superclase) para realizar cualquier carga necesaria definida en la superclase.
         await super._loadLazyImage(img);
+        // Registra el tiempo tomado para cargar la imagen utilizando performance.now() y la diferencia con startTime.
         this.monitoringSystem.trackPerformance('imageLoad', 
         performance.now() - startTime);
+        // Llama al método _loadImageWithPromise para cargar la imagen utilizando la URL obtenida y espera a que la carga finalice.
         await this._loadImageWithPromise(img, imageUrl);
-
+        // Incrementa el contador de lazyLoaded en metrics.  
         this.metrics.lazyLoaded++;
+        // Agrega el tiempo total de carga al contador totalLoadTime.
         this.metrics.totalLoadTime += performance.now() - startTime;
     } catch (error) {
+
+        // Si ocurre un error durante el proceso de carga:
+        // Imprime un mensaje de error en la consola.
+        // Registra el error en monitoringSystem.
+        // Incrementa el contador de errors en metrics.
+        // Añade la clase 'error' al elemento img.
+        // Establece la imagen placeholder como el src del elemento img.
+
         console.error('Error en lazy loading:', error);
         this.monitoringSystem.trackError(error, 'lazyLoad');
         this.metrics.errors++;
