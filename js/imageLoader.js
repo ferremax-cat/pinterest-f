@@ -126,9 +126,9 @@ class ImageLoader {
     // Método para detectar soporte de WebP
     checkWebPSupport() {
       // En un entorno de pruebas, usar valor por defecto
-      if (process.env.NODE_ENV === 'test') {
+      /* if (process.env.NODE_ENV === 'test') {
           return true;
-      }
+      } */
       
       // En entorno real, hacer la detección
       try {
