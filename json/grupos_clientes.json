@@ -1,10 +1,7 @@
-[
-  {
-    "NOMBRE_GRUPO": "GRUPO_FERRET",
-    "CLIENTES": "C100"
-  },
-  {
-    "NOMBRE_GRUPO": "GRUPO_CORRAL",
-    "CLIENTES": "C200"
+{
+  "groups": {
+    "GRUPO_SINPAR": [
+      "20246.00958"
+    ]
   }
-]
+}

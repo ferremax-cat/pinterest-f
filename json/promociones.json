@@ -1,16 +1,12 @@
-[
-  {
-    "CODIGO_PRODUCTO": "P100",
-    "TIPO_LISTA": "LISTA_D",
-    "PRECIO_ESPECIAL": 1200,
-    "VIGENCIA_HASTA": "2025-12-31",
-    "GRUPOS": "GRUPO_FERRET"
-  },
-  {
-    "CODIGO_PRODUCTO": "P200",
-    "TIPO_LISTA": "LISTA_E",
-    "PRECIO_ESPECIAL": 7500,
-    "VIGENCIA_HASTA": "2025-12-31",
-    "GRUPOS": "GRUPO_CORRAL"
+{
+  "promotions": {
+    "SPDARC115160222": {
+      "tipoLista": "F",
+      "precio": 432,
+      "vigencia": "2024-12-31",
+      "grupos": [
+        "GRUPO_SINPAR"
+      ]
+    }
   }
-]
+}
