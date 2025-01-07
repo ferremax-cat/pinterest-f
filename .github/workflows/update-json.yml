@@ -1,5 +1,3 @@
-# .github/workflows/update-json.yml
-
 name: Update JSONs
 on:
   push:
@@ -11,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
       
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -26,8 +26,13 @@ jobs:
         
       - name: Commit JSON files
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add json/*.json
           git commit -m "Update JSONs from Excel"
-          git push
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          branch: ${{ github.ref }}
