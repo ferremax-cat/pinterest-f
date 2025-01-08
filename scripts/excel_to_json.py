@@ -1,8 +1,141 @@
 # scripts/excel_to_json.py
-
 import pandas as pd
 import json
 import os
+import requests
+import re
+
+def get_sheet_ids():
+    """Lee los IDs desde config.js"""
+    try:
+        config_path = 'js/config.js'  # Ruta específica para tu proyecto
+        
+        if os.path.exists(config_path):
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = f.read()
+            print(f'Configuración encontrada en: {config_path}')
+            return {
+                'clientes_permisos': re.search(r'clientesPermisosId: [\'"](.+?)[\'"]', config).group(1),
+                'grupos_clientes': re.search(r'gruposId: [\'"](.+?)[\'"]', config).group(1),
+                'productos': re.search(r'productosId: [\'"](.+?)[\'"]', config).group(1),
+                'promociones': re.search(r'promocionesId: [\'"](.+?)[\'"]', config).group(1)
+            }
+        
+        print(f'No se encontró el archivo en: {config_path}')
+        raise FileNotFoundError(f'config.js no encontrado en {config_path}')
+    except Exception as e:
+        print(f'Error leyendo config.js: {e}')
+        raise
+
+    
+def get_sheet_data(sheet_id):
+    """Obtiene datos de Google Sheets"""
+    try:
+        url = f'https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:json'
+        response = requests.get(url)
+        return json.loads(response.text[47:-2])
+    except Exception as e:
+        print(f'Error obteniendo datos de Google Sheets: {e}')
+        return None
+
+def update_from_sheets():
+    """Actualiza JSONs desde Google Sheets"""
+    try:
+        sheets = get_sheet_ids()
+        for name, sheet_id in sheets.items():
+            try:
+                print(f'Procesando {name} desde Google Sheets')
+                data = get_sheet_data(sheet_id)
+                if data:
+                    process_sheet_data(name, data)
+                    print(f'Actualizado {name}.json desde Google Sheets')
+            except Exception as e:
+                print(f'Error procesando {name}: {e}')
+                # Si falla Google Sheets, intentar con Excel local
+                print(f'Intentando actualizar {name} desde Excel local')
+                update_from_local()
+    except Exception as e:
+        print(f'Error en actualización desde Sheets: {e}')
+        update_from_local()
+
+def update_from_local():
+    """Actualiza JSONs desde archivos Excel locales"""
+    try:
+        print('Actualizando desde archivos Excel locales')
+        excel_to_json()
+        process_clients()
+        process_groups()
+        process_promotions()
+        print('Actualización local completada')
+    except Exception as e:
+        print(f'Error en actualización local: {e}')
+
+def process_sheet_data(name, data):
+    """Procesa los datos obtenidos de Google Sheets y los guarda como JSON"""
+    try:
+        result = {}
+        for row in data['table']['rows']:
+            if row['c'][0] and row['c'][0].get('v'):
+                if name == 'productos':
+                    process_product_row(result, row)
+                elif name == 'clientes_permisos':
+                    process_client_row(result, row)
+                elif name == 'grupos_clientes':
+                    process_group_row(result, row)
+                elif name == 'promociones':
+                    process_promotion_row(result, row)
+
+        with open(f'json/{name}.json', 'w', encoding='utf-8') as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f'Error procesando datos de {name}: {e}')
+        raise
+
+def process_product_row(result, row):
+    """Procesa una fila de productos desde Google Sheets"""
+    codigo = str(row['c'][0]['v'])
+    result[codigo] = {
+        'name': row['c'][1]['v'] if row['c'][1] else '',
+        'category': row['c'][2]['v'] if row['c'][2] else '',
+        'bulk': row['c'][3]['v'] if row['c'][3] else '',
+        'prices': {
+            'D': row['c'][4]['v'] if row['c'][4] else 0,
+            'E': row['c'][5]['v'] if row['c'][5] else 0,
+            'F': row['c'][6]['v'] if row['c'][6] else 0
+        }
+    }
+
+def process_client_row(result, row):
+    """Procesa una fila de clientes desde Google Sheets"""
+    cuenta = str(row['c'][0]['v'])
+    result[cuenta] = {
+        'name': row['c'][1]['v'] if row['c'][1] else '',
+        'categories': row['c'][2]['v'] if row['c'][2] else '',
+        'priceList': row['c'][3]['v'] if row['c'][3] else ''
+    }
+
+def process_group_row(result, row):
+    """Procesa una fila de grupos desde Google Sheets"""
+    nombre_grupo = row['c'][0]['v']
+    clientes = str(row['c'][1]['v']).split(',') if row['c'][1] else []
+    if 'groups' not in result:
+        result['groups'] = {}
+    result['groups'][nombre_grupo] = clientes
+
+def process_promotion_row(result, row):
+    """Procesa una fila de promociones desde Google Sheets"""
+    codigo = str(row['c'][0]['v'])
+    if 'promotions' not in result:
+        result['promotions'] = {}
+    result['promotions'][codigo] = {
+        'tipoLista': row['c'][1]['v'] if row['c'][1] else '',
+        'precio': row['c'][2]['v'] if row['c'][2] else 0,
+        'vigencia': row['c'][3]['v'] if row['c'][3] else '',
+        'grupos': str(row['c'][4]['v']).split(',') if row['c'][4] else []
+    }
+
+# Mantener todas las funciones existentes de procesamiento local
+# [Aquí van todas tus funciones existentes sin cambios]
 
 
 
@@ -198,8 +331,15 @@ def convert_all_excel_files(excel_dir, json_dir,silent=False):
             results.append((json_file, False))
     return all(success for _, success in results)        
 
+def main():
+    """Función principal que intenta primero Google Sheets y luego local"""
+    try:
+        print('Iniciando actualización de JSONs')
+        update_from_sheets()
+    except Exception as e:
+        print(f'Error en actualización desde Sheets: {e}')
+        print('Intentando actualización local')
+        update_from_local()
+
 if __name__ == "__main__":
-    excel_to_json()
-    process_clients()
-    process_groups()
-    process_promotions()
+    main()
