@@ -27,7 +27,7 @@ def get_sheet_ids():
         print(f'Error leyendo config.js: {e}')
         raise
 
-    
+
 def get_sheet_data(sheet_id):
     """Obtiene datos de Google Sheets"""
     try:
@@ -107,12 +107,18 @@ def process_product_row(result, row):
 
 def process_client_row(result, row):
     """Procesa una fila de clientes desde Google Sheets"""
-    cuenta = str(row['c'][0]['v'])
-    result[cuenta] = {
-        'name': row['c'][1]['v'] if row['c'][1] else '',
-        'categories': row['c'][2]['v'] if row['c'][2] else '',
-        'priceList': row['c'][3]['v'] if row['c'][3] else ''
-    }
+    try:
+        # Convertir el valor a entero antes de usarlo como key
+        cuenta_valor = row['c'][0]['v']
+        cuenta = str(int(float(cuenta_valor)))  # Convierte a entero y luego a string
+        
+        result[cuenta] = {
+            'name': row['c'][1]['v'] if row['c'][1] else '',
+            'categories': row['c'][2]['v'] if row['c'][2] else '',
+            'priceList': row['c'][3]['v'] if row['c'][3] else ''
+        }
+    except Exception as e:
+        print(f'Error procesando cuenta {cuenta_valor}: {e}')
 
 def process_group_row(result, row):
     """Procesa una fila de grupos desde Google Sheets"""
