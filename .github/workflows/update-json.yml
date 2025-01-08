@@ -22,7 +22,7 @@ jobs:
           
       - name: Install dependencies
         run: |
-          pip install pandas openpyxl
+          pip install pandas openpyxl requests   # Agregado requests aquí
           
       - name: Convert Excel to JSON
         run: python scripts/excel_to_json.py
