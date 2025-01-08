@@ -111,9 +111,9 @@ class LoginManager {
                 console.log('Comparando:', {
                 valorSheet: cuentaValue,
                 tipoSheet: typeof cuentaValue,
-                valorInput: inputClave,
-                tipoInput: typeof inputClave,
-                sonIguales: String(cuentaValue) === String(inputClave)
+                valorInput: clave,
+                tipoInput: typeof clave,
+                sonIguales: String(cuentaValue) === String(clave)
                 });
 
                  // Convertir ambos a string para comparación
