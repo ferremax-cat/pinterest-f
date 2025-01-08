@@ -32,7 +32,8 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add json/*.json
-          git commit -m "Update JSONs from Excel"
+          # Solo intenta hacer commit si hay cambios
+          git diff --staged --quiet || (git commit -m "Update JSONs from Excel" && git push)
           
       - name: Push changes
         uses: ad-m/github-push-action@master
