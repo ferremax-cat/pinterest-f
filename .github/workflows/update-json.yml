@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'excel/*.xlsx'    # Se activa cuando se modifican archivos Excel
+  schedule:
+    - cron: '* * * * *'   # Se ejecuta cada minuto    
 
 jobs:
   convert-excel-to-json:

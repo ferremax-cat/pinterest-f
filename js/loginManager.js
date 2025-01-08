@@ -66,15 +66,58 @@ class LoginManager {
 
     async validateClient(clave) {
         try {
+            console.log('Clave ingresada:', clave, 'tipo:', typeof clave);
+
+            // 1. Primero intentar obtener del localStorage
+            const cachedData = localStorage.getItem('clientData');
+            if (cachedData) {
+                console.log('Datos encontrados en localStorage');
+                const clientesData = JSON.parse(cachedData);
+                
+                // Si la clave existe en el cache
+                if (clientesData[clave]) {
+                    console.log('Cliente encontrado en cache:', clientesData[clave]);
+                    return {
+                        account: clave,
+                        ...clientesData[clave]
+                    };
+                }
+            }
+
+            // 2. Si no está en cache, entonces buscar en Google Sheets
+            console.log('Cliente no encontrado en cache, buscando en Sheets...');
             const sheetUrl = `${this.sheetsUrl}/${config.clientesPermisosId}/gviz/tq?tqx=out:json`;
             const response = await fetch(sheetUrl);
             const text = await response.text();
+
+            // Log de la respuesta cruda
+            console.log('Respuesta del Sheet:', text);
+
             const json = JSON.parse(text.substr(47).slice(0, -2));
+
+            // Log de la respuesta cruda
+            console.log('Respuesta del Sheet:', text);
+
+            // Ver todas las filas
+            console.log('Todas las filas:', json.table.rows.map(row => ({
+                cuenta: row.c[0]?.v,
+                nombre: row.c[1]?.v
+            })));
 
             let clientData = null;
             json.table.rows.forEach(row => {
                 const cuentaValue = row.c[0]?.v;
-                if (Number(cuentaValue) === Number(clave)) {
+                // Log para cada comparación
+                console.log('Comparando:', {
+                valorSheet: cuentaValue,
+                tipoSheet: typeof cuentaValue,
+                valorInput: inputClave,
+                tipoInput: typeof inputClave,
+                sonIguales: String(cuentaValue) === String(inputClave)
+                });
+
+                 // Convertir ambos a string para comparación
+                if (String(cuentaValue).trim() === String(clave).trim()) {
                     clientData = {
                         account: cuentaValue,
                         name: row.c[1]?.v,
@@ -84,7 +127,10 @@ class LoginManager {
                 }
             });
 
+
+            console.log('Datos del cliente encontrados:', clientData);
             return clientData;
+
         } catch (error) {
             console.error('Error validando cliente:', error);
             return null;

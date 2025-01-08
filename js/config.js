@@ -4,7 +4,7 @@ const config = {
     sheetId: '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d',
 
     // ID del archivo CLIENTES_PERMISOS
-    clientesPermisosId: '1SVBdhmAl9C7s7M-qlfTcTpMyf7RQW_jsRsjQ-KfnhLk',
+    clientesPermisosId: '11uE41Ea7Z8PXnFIcG4XwfUc-Vi3UcDyhDf6-QerX938',
 
     // ID del archivo PROMOCIONES
     promocionesId: '17aA3BdADRIPhLU9OIepNBgANH5Tx_fEFBXHKTf1C1Wo',
