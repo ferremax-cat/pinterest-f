@@ -70,26 +70,52 @@ def update_from_local():
     except Exception as e:
         print(f'Error en actualización local: {e}')
 
+
 def process_sheet_data(name, data):
     """Procesa los datos obtenidos de Google Sheets y los guarda como JSON"""
     try:
         result = {}
-        for row in data['table']['rows']:
-            if row['c'][0] and row['c'][0].get('v'):
-                if name == 'productos':
-                    process_product_row(result, row)
-                elif name == 'clientes_permisos':
-                    process_client_row(result, row)
-                elif name == 'grupos_clientes':
-                    process_group_row(result, row)
-                elif name == 'promociones':
-                    process_promotion_row(result, row)
+        
+        # Solo mostrar logs detallados para clientes_permisos
+        if name == 'clientes_permisos':
+            print(f'\nProcesando sheet: {name}')
+            print(f'Total de filas encontradas: {len(data["table"]["rows"])}')
+            
+            for index, row in enumerate(data['table']['rows']):
+                print(f'\nRevisando fila {index + 1}:')
+                print(f'Contenido de la fila: {row}')
+                
+                if not row['c'][0]:
+                    print(f'Fila {index + 1} saltada: No tiene datos en la primera columna')
+                    continue
+                    
+                if not row['c'][0].get('v'):
+                    print(f'Fila {index + 1} saltada: No tiene valor en la primera columna')
+                    continue
+
+                process_client_row(result, row)
+                
+            print(f'\nTotal de clientes procesados: {len(result)}')
+            print(f'Clientes procesados: {list(result.keys())}')
+        else:
+            # Para otros sheets, procesar sin logs detallados
+            for row in data['table']['rows']:
+                if row['c'][0] and row['c'][0].get('v'):
+                    if name == 'grupos_clientes':
+                        process_group_row(result, row)
+                    elif name == 'productos':
+                        process_product_row(result, row)
+                    elif name == 'promociones':
+                        process_promotion_row(result, row)
 
         with open(f'json/{name}.json', 'w', encoding='utf-8') as f:
             json.dump(result, f, indent=2, ensure_ascii=False)
+            
     except Exception as e:
         print(f'Error procesando datos de {name}: {e}')
         raise
+
+
 
 def process_product_row(result, row):
     """Procesa una fila de productos desde Google Sheets"""
@@ -108,17 +134,24 @@ def process_product_row(result, row):
 def process_client_row(result, row):
     """Procesa una fila de clientes desde Google Sheets"""
     try:
+        # Log de datos crudos
+        print(f'Procesando fila cruda: {row}')
+
         # Convertir el valor a entero antes de usarlo como key
         cuenta_valor = row['c'][0]['v']
         cuenta = str(int(float(cuenta_valor)))  # Convierte a entero y luego a string
+        print(f'Cuenta procesada: {cuenta}')
         
         result[cuenta] = {
             'name': row['c'][1]['v'] if row['c'][1] else '',
             'categories': row['c'][2]['v'] if row['c'][2] else '',
             'priceList': row['c'][3]['v'] if row['c'][3] else ''
         }
+        print(f'Datos del cliente: {cuenta}')
+        print(f'Cliente {cuenta} agregado exitosamente')
+
     except Exception as e:
-        print(f'Error procesando cuenta {cuenta_valor}: {e}')
+        print(f'Error procesando cuenta {cuenta_valor if "cuenta_valor" in locals() else "desconocida"}: {e}')
 
 def process_group_row(result, row):
     """Procesa una fila de grupos desde Google Sheets"""
@@ -333,7 +366,7 @@ def convert_all_excel_files(excel_dir, json_dir,silent=False):
             success = convert_excel_to_json(excel_path, json_path, silent)
             results.append((json_file, success))
         elif not silent:
-            print(f"Archivo Excel no encontrado: {excel_name}")
+            print(f"Archivo Excel no encontrado: {excel_file}")
             results.append((json_file, False))
     return all(success for _, success in results)        
 
