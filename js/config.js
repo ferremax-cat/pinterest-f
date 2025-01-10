@@ -15,6 +15,9 @@ const config = {
     // ID del archivo PRODUCTOS
     productosId: '1gwqHkBUJd0MJJwn3lki1n4v3n9-zFRKmFKmlyFAkfo8',
 
+    // ID del archivo CATALOGO_GRUPOS
+    catalogoGruposId: '1SsfGW92WSWgu7V-jed70aM5eWzS048Tdq-55EHjZ5Aw',
+
     
     // Endpoints de APIs
     apiEndpoints: {

@@ -244,156 +244,52 @@ class ImageLoader {
     if (!imageData) return '';
 
     const { width, height } = this.config.resolutions['desktop'];
-    return `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
+    //return `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
+    return `https://drive.google.com/uc?export=view&id=${imageData.id}`;
   }
 
-
   async getImageUrl(codigo, resolution = 'desktop', imgElement = null) {
-    //startTime guarda el tiempo actual para medir cuánto tiempo toma la función.
     const startTime = performance.now();
-
-    
     
     try {
-        // Construir clave de caché incluyendo formato.
-        //Si supportsWebP es verdadero, el formato será webp; si no, se usará el formato de fallback (jpeg).
-        //? que es fullback
-        const format = this.supportsWebP ? 'webp' : this.config.formats?.fallback?.format || 'jpeg';
-
-        // Obtener configuración de formato
-        const formatConfig = this.supportsWebP ? 
-                           this.config.formats?.webp : 
-                           this.config.formats?.fallback;
-
-
-        // Obtener dimensiones y calidad según resolución
-        const { width, height, quality } = this.config.resolutions[resolution] || 
-                                         this.config.resolutions.desktop;
-
-        const finalQuality = formatConfig?.quality || quality;                                         
-
-        //cacheKey es una cadena única que identifica la imagen en caché usando el código, la resolución y el formato.
-        const cacheKey = `img_${codigo}_${resolution}_${format}_q${finalQuality}`;
-        console.log('Cache key:', cacheKey); // Debug
-
-        // Se intenta obtener la URL desde el caché usando cacheKey.
-         const cachedUrl = await this.cache.get(cacheKey); // Corregido: usar cacheKey en lugar de string construida
-        console.log('cachedUrl:', cachedUrl);
-
-        //Si cachedUrl está definida (es decir, la URL está en el caché), se retorna inmediatamente.
+        // 1. Sistema de caché simple
+        const cacheKey = `img_${codigo}`;
+        const cachedUrl = await this.cache.get(cacheKey);
+        
         if (cachedUrl) {
-            const endTime = performance.now() - startTime;
             this.monitor?.trackPerformance('cacheHit', performance.now() - startTime);
             return cachedUrl;
         }
 
-        // Si no está en caché, generar URL
-        //Se obtienen los datos de la imagen desde imageMap usando codigo.
-        //? que es iamgeMap:
-        //imageMap es una estructura de datos de tipo Map que se utiliza para almacenar y acceder a los datos de las imágenes. Un Map es una colección de pares clave-valor donde cada clave es única y se asocia con un valor específico.
+        // 2. Obtener datos de la imagen
         const imageData = this.imageMap.get(codigo);
-        console.log('imageData:', imageData);
-
-        //Si imageData no está definida, se retorna una cadena vacía y se imprime un error.
         if (!imageData) {
-
-            // Crear un error que indique que no se encontró la imagen
-            const error = new Error(`Image data not found for codigo: ${codigo}`);
-            
-            // Registrar el error con el sistema de monitoreo
-            this.monitor?.trackError(error, 'getImageUrl', { 
-                codigo,
-                format: this.supportsWebP ? 'webp' : 'jpeg'
-            });
-
-            console.error('Image data not found for codigo:', codigo);
+            this.monitor?.trackError(new Error(`Image data not found for codigo: ${codigo}`), 
+                'getImageUrl', { codigo });
             return '';
         }
 
-        // Construir URL base
-        let generatedUrl = `https://lh3.googleusercontent.com/d/${imageData.id}=w${width}-h${height}`;
+        // 3. Generar URL exactamente en el formato que funciona
+        const generatedUrl = `https://lh3.googleusercontent.com/d/${imageData.id}`;
+        console.log('URL generada:', generatedUrl); // Debug log
 
-        // Agregar formato y calidad
-        // Se construye la URL de la imagen con las dimensiones y calidad especificadas.
-        if (format === 'webp') {
-            generatedUrl += '-fwebp';
-        } else if (format !== 'jpeg') {
-            generatedUrl += `-f${format}`;
-        }
-
-        generatedUrl += `-q${finalQuality}`;
-        await this.cache.set(cacheKey, generatedUrl);
-
-
-
-        console.log('Generated URL:', generatedUrl);
-
-        // Guardar en caché
-        //Se guarda la URL generada en el caché usando cacheKey.
-        await this.cache.set(cacheKey, generatedUrl);
-
-        // Manejar lazy loading si es necesario
-        // Si imgElement está definido y lazy loading está habilitado, 
-        // se configura la imagen para lazy loading y se retorna una imagen placeholder.
+        // 4. Lazy loading
         if (imgElement && this.config.lazyLoading.enabled) {
-
-
-          console.log('Entrando en condición de lazy loading:', {
-            imgElementExists: !!imgElement,
-            lazyLoadingEnabled: this.config.lazyLoading.enabled,
-            placeholderImage: this.config.lazyLoading.placeholderImage
-          });
-
-          console.log('Lazy loading config:', this.config.lazyLoading);
-          console.log('Image element before:', imgElement.className);
-          console.log('imgElement existe:', !!imgElement);
-          console.log('lazyLoading enabled:', this.config.lazyLoading.enabled);
-
-          imgElement.classList.add('lazy-image');
-          console.log('Clase agregada, classList actual:', Array.from(imgElement.classList));
-          console.log('Image element after:', imgElement.className);
-
-          // También podrías querer establecer el atributo data-src
-          imgElement.setAttribute('data-src', generatedUrl);
-
-          this.setupLazyImage(imgElement, codigo, resolution);
-          console.log('Placeholder image:', this.config.lazyLoading.placeholderImage);
-
-          return this.config.lazyLoading.placeholderImage;
+            imgElement.classList.add('lazy-image');
+            imgElement.setAttribute('data-src', generatedUrl);
+            this.setupLazyImage(imgElement, codigo, resolution);
+            return this.config.lazyLoading.placeholderImage;
         }
         
-        // Guardar en caché antes de retornar
+        // 5. Caché
         await this.cache.set(cacheKey, generatedUrl);
-        console.log('URL guardada en caché:', generatedUrl);
-        
-        const endTime = performance.now() - startTime;
-        // Se registra el tiempo tomado para cargar la imagen con información adicional (formato, resolución, etc.).
-            this.monitor?.trackPerformance('imageLoad', performance.now() - startTime, {
-            format,
-            resolution,
-            width,
-            height,
-            quality: finalQuality
-            });
 
-        
-
-       // Retornar la URL Generada:
-       return generatedUrl;
+        return generatedUrl;
     } catch (error) {
-
-        const currentFormat = this.supportsWebP ? 'webp' : 
-                            (this.config.formats?.fallback?.format || 'jpeg');
-        
-        this.monitor?.trackError(error, 'getImageUrl', { 
-            codigo, 
-            format: currentFormat 
-        });
-
-        console.error('Error in getImageUrl:', error);
+        console.error('Error en getImageUrl:', error);
         return '';
     }
-}
+  }
   
 
   /**

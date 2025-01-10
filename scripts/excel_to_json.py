@@ -5,6 +5,7 @@ import os
 import requests
 import re
 
+
 def get_sheet_ids():
     """Lee los IDs desde config.js"""
     try:
@@ -18,7 +19,8 @@ def get_sheet_ids():
                 'clientes_permisos': re.search(r'clientesPermisosId: [\'"](.+?)[\'"]', config).group(1),
                 'grupos_clientes': re.search(r'gruposId: [\'"](.+?)[\'"]', config).group(1),
                 'productos': re.search(r'productosId: [\'"](.+?)[\'"]', config).group(1),
-                'promociones': re.search(r'promocionesId: [\'"](.+?)[\'"]', config).group(1)
+                'promociones': re.search(r'promocionesId: [\'"](.+?)[\'"]', config).group(1),
+                'catalogo_grupos': re.search(r'catalogoGruposId: [\'"](.+?)[\'"]', config).group(1)
             }
         
         print(f'No se encontró el archivo en: {config_path}')
@@ -47,8 +49,13 @@ def update_from_sheets():
                 print(f'Procesando {name} desde Google Sheets')
                 data = get_sheet_data(sheet_id)
                 if data:
-                    process_sheet_data(name, data)
+                    # Si es el catálogo de grupos, usar el nuevo proceso
+                    if name == 'catalogo_grupos':
+                        process_catalogo_grupos(data)
+                    else:    
+                        process_sheet_data(name, data)
                     print(f'Actualizado {name}.json desde Google Sheets')
+
             except Exception as e:
                 print(f'Error procesando {name}: {e}')
                 # Si falla Google Sheets, intentar con Excel local
@@ -66,6 +73,7 @@ def update_from_local():
         process_clients()
         process_groups()
         process_promotions()
+        process_catalogo_grupos_local()  # Agregamos el proceso del catálogo
         print('Actualización local completada')
     except Exception as e:
         print(f'Error en actualización local: {e}')
@@ -369,6 +377,118 @@ def convert_all_excel_files(excel_dir, json_dir,silent=False):
             print(f"Archivo Excel no encontrado: {excel_file}")
             results.append((json_file, False))
     return all(success for _, success in results)        
+
+# AGREGUE ESTO- MANEJO CATALOGO GRUPOS, CONVIERTE EXCEL LOCAL A JSON
+def process_catalogo_grupos(data):
+    """
+    Procesa los datos del catálogo de grupos desde Google Sheets.
+    Los nombres de grupos se obtienen dinámicamente.
+    """
+    try:
+        json_path = 'json/catalogo_grupos.json'
+        catalogo_json = {}
+
+        if 'table' in data and 'rows' in data['table']:
+            print('Procesando datos de Google Sheets...')
+            
+            # Obtener metadata y nombre de la hoja actual
+            sheet_name = data.get('table', {}).get('name', '')
+            if sheet_name and sheet_name not in catalogo_json:
+                catalogo_json[sheet_name] = []
+            
+            # Procesar filas
+            total_rows = len(data['table']['rows'])
+            print(f'Total de filas encontradas para {sheet_name}: {total_rows}')
+            
+            for row in data['table']['rows']:
+                if 'c' in row and len(row['c']) > 0 and row['c'][0]:
+                    codigo = row['c'][0].get('v', '')
+                    if codigo and isinstance(codigo, str):
+                        codigo = codigo.strip()
+                        if codigo != "Codigo_Producto":  # Ignorar encabezado
+                            catalogo_json[sheet_name].append(codigo)
+
+        # Guardar JSON
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        print('Guardando resultados...')
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(catalogo_json, f, indent=2, ensure_ascii=False)
+            
+        # Reporte final
+        for grupo, productos in catalogo_json.items():
+            print(f'Grupo {grupo}: {len(productos)} productos procesados')
+        
+        total_productos = sum(len(productos) for productos in catalogo_json.values())
+        print(f'''
+Proceso completado exitosamente:
+- Total de grupos procesados: {len(catalogo_json)}
+- Total de productos: {total_productos}
+- Archivo guardado en: {json_path}
+''')
+        
+    except Exception as e:
+        print(f'Error procesando catálogo de grupos: {str(e)}')
+        raise
+
+def process_catalogo_grupos_local():
+    """
+    Procesa el catálogo de grupos desde Excel local.
+    Los nombres de grupos se obtienen de las hojas del Excel.
+    """
+    try:
+        excel_path = 'excel/catalogo_grupos.xlsx'
+        json_path = 'json/catalogo_grupos.json'
+        
+        print('Iniciando procesamiento del catálogo de grupos...')
+        excel = pd.ExcelFile(excel_path)
+        
+        # Obtener nombres de grupos de las hojas
+        grupos = excel.sheet_names
+        print(f'Se encontraron {len(grupos)} grupos para procesar')
+        
+        catalogo_json = {}
+        
+        # Procesar cada grupo (hoja)
+        for nombre_grupo in grupos:
+            print(f'Procesando grupo: {nombre_grupo}')
+            
+            # Leer solo la columna necesaria
+            df = pd.read_excel(
+                excel,
+                sheet_name=nombre_grupo,
+                usecols=['Codigo_Producto'],
+                dtype={'Codigo_Producto': str}
+            )
+            
+            # Procesar y limpiar datos
+            productos = (df['Codigo_Producto']
+                        .dropna()
+                        .str.strip()
+                        .unique()
+                        .tolist())
+            
+            catalogo_json[nombre_grupo] = productos
+            print(f'  → {len(productos)} productos procesados')
+
+        # Guardar JSON
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        print('Guardando catálogo en JSON...')
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(catalogo_json, f, indent=2, ensure_ascii=False)
+            
+        # Reporte final
+        total_productos = sum(len(productos) for productos in catalogo_json.values())
+        print(f'''
+Proceso completado exitosamente:
+- Total de grupos procesados: {len(grupos)}
+- Total de productos: {total_productos}
+- Archivo guardado en: {json_path}
+''')
+        
+    except Exception as e:
+        print(f'Error procesando catálogo de grupos local: {str(e)}')
+        raise
+
 
 def main():
     """Función principal que intenta primero Google Sheets y luego local"""

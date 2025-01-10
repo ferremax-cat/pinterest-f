@@ -1052,50 +1052,63 @@
                }
 
                // 5. Nueva implementación usando managers
+
+               // Función para cargar la galería
                async function cargarGaleria() {
                     try {
+                         console.log('Iniciando cargarGaleria');
                          const galleryItems = document.querySelectorAll('.gallery-item');
-                         const clientConfig = JSON.parse(clientData);
 
-                         
-                        
-                        
-                        
-                        
-                        
+                         // Procesar cada item de la galería
                          for (const item of galleryItems) {
                               const bottomRow = item.querySelector('.bottom-row a');
                               if (!bottomRow) continue;
 
-                              const codigoLimpio = bottomRow.textContent.trim().replace(/\s+/g, '');
-                              
-                              const imgUrl = imageLoader.getImageUrl(codigoLimpio, 'desktop');
-                              if (imgUrl) {
-                              const img = item.querySelector('img');
-                              if (img) {
-                                   img.src = imgUrl;
-                              }
-                              }
+                              const codigo = bottomRow.textContent.trim().replace(/\s+/g, '');
+                              console.log('Procesando item:', codigo);
 
-                              const precio = await productManager.getPrice(codigoLimpio);
-                              if (precio !== null) {
-                              const bottomRowDiv = item.querySelector('.bottom-row');
-                              let precioElement = bottomRowDiv.querySelector('.price-tag');
-                              if (!precioElement) {
-                                   precioElement = document.createElement('span');
-                                   precioElement.className = 'price-tag';
-                                   bottomRowDiv.appendChild(precioElement);
-                              }
-                              precioElement.textContent = `$${precio.toLocaleString()}`;
+                              try {
+                                   // Cargar imagen y precio en paralelo
+                                   const [url, precio] = await Promise.all([
+                                        imageLoader.getImageUrl(codigo, 'desktop'),
+                                        productManager.getPrice(codigo)
+                                   ]);
+
+                                   // Manejar la imagen
+                                   if (url) {
+                                        const img = item.querySelector('img');
+                                        if (img) {
+                                        img.onerror = () => console.error('Error cargando imagen:', codigo);
+                                        img.src = url;
+                                        }
+                                   }
+
+                                   // Manejar el precio
+                                   if (precio !== null && precio !== undefined) {
+                                        const bottomRowDiv = item.querySelector('.bottom-row');
+                                        if (bottomRowDiv) {
+                                        let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                        if (!precioElement) {
+                                             precioElement = document.createElement('span');
+                                             precioElement.className = 'price-tag';
+                                             bottomRowDiv.appendChild(precioElement);
+                                        }
+                                        // Usar el precio tal cual viene del ProductManager
+                                        precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
+                                        }
+                                   }
+                              } catch (itemError) {
+                                   console.error('Error procesando item:', codigo, itemError);
+                                   continue;
                               }
                          }
+
                     } catch (error) {
-                         console.error('Error en cargarGaleria:', error);
-                         // Si falla la nueva implementación, usar la original
-                         await cargarImagenes();
+                         console.error('Error general en cargarGaleria:', error);
                     }
                }
-
+               
+               
                // 6. Función de precarga de imágenes
                async function precargarSiguientesPaginas() {
                     if (!imageLoader) return;

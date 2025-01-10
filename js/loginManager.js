@@ -25,7 +25,7 @@ class LoginManager {
                 console.log('Cliente no encontrado');
                 return false;
             }
-            console.log('Cliente validado:', clientData);
+            //console.log('Cliente validado:', clientData);
 
             // 2. Obtener configuración completa del cliente
             const clientConfig = await this.loadClientConfig(clientData);
@@ -33,7 +33,7 @@ class LoginManager {
                 console.log('Error obteniendo configuración del cliente');
                 return false;
             }
-            console.log('Configuración del cliente cargada:', clientConfig);
+            //console.log('Configuración del cliente cargada:', clientConfig);
 
             // 3. Buscar promociones aplicables al cliente
             const promotions = await this.loadPromotions(clientData.account);
@@ -91,12 +91,12 @@ class LoginManager {
             const text = await response.text();
 
             // Log de la respuesta cruda
-            console.log('Respuesta del Sheet:', text);
+            //console.log('Respuesta del Sheet:', text);
 
             const json = JSON.parse(text.substr(47).slice(0, -2));
 
             // Log de la respuesta cruda
-            console.log('Respuesta del Sheet:', text);
+            //console.log('Respuesta del Sheet:', text);
 
             // Ver todas las filas
             console.log('Todas las filas:', json.table.rows.map(row => ({
@@ -108,13 +108,14 @@ class LoginManager {
             json.table.rows.forEach(row => {
                 const cuentaValue = row.c[0]?.v;
                 // Log para cada comparación
-                console.log('Comparando:', {
+
+                /* console.log('Comparando:', {
                 valorSheet: cuentaValue,
                 tipoSheet: typeof cuentaValue,
                 valorInput: clave,
                 tipoInput: typeof clave,
                 sonIguales: String(cuentaValue) === String(clave)
-                });
+                }); */
 
                  // Convertir ambos a string para comparación
                 if (String(cuentaValue).trim() === String(clave).trim()) {
@@ -128,7 +129,7 @@ class LoginManager {
             });
 
 
-            console.log('Datos del cliente encontrados:', clientData);
+            //console.log('Datos del cliente encontrados:', clientData);
             return clientData;
 
         } catch (error) {
