@@ -3,7 +3,8 @@
  * @module ImageLoader
  */
 
-import CacheManager from './cacheManager.js';
+// ELIMINAR esta importación ya que no la usaremos más
+// import CacheManager from './cacheManager.js';
 import MonitoringSystem from './MonitoringSystem.js';
 import AdvancedCacheManager from './AdvancedCacheManager.js';
 
@@ -21,14 +22,41 @@ class ImageLoader {
   constructor({ monitoringSystem, ...config }) {
       
     //Inicializa una instancia de AdvancedCacheManager y la asigna a this.cache.
-      this.cache = new AdvancedCacheManager();
+      // Verificar la instanciación del cache
+      console.log('[ImageLoader] Inicializando AdvancedCacheManager');
+      this.cache = new AdvancedCacheManager({
+          maxSize: 100 * 1024 * 1024, // 100MB para imágenes
+          levels: {
+              memory: {
+                  enabled: true,
+                  maxSize: 20 * 1024 * 1024 // 20MB para memoria
+              },
+              localStorage: {
+                  enabled: true,
+                  maxSize: 80 * 1024 * 1024 // 80MB para localStorage
+              }
+          }
+      });
+
+      // Verificar que el cache se creó correctamente
+      console.log('[ImageLoader] Cache inicializado:', {
+          hasGet: typeof this.cache.get === 'function',
+          hasSet: typeof this.cache.set === 'function',
+          methods: Object.getOwnPropertyNames(Object.getPrototypeOf(this.cache))
+      });
+
+
+
+
+
       // Asigna el parámetro monitoringSystem al atributo monitor.
       this.monitor = monitoringSystem;
 
        this.config = {
       // Incluye configuraciones para monitoringSystem, cacheManager, sheetId, sheetsUrl, resolutions, lazyLoading, formats, y fallback.  
       monitoringSystem : config.monitoringSystem || new MonitoringSystem(),
-      cacheManager: config.cacheManager || new CacheManager(),
+      // Ya no necesitamos cacheManager aquí
+      // cacheManager: config.cacheManager || new CacheManager(),
       sheetId: config.sheetId || null,
       sheetsUrl: config.apiEndpoints?.sheets || 'https://docs.google.com/spreadsheets/d',
 
@@ -145,22 +173,29 @@ class ImageLoader {
    */
   async initialize() {
     try {
-      // Intentar cargar datos desde cache
+      console.log('[ImageLoader] 🚀 Iniciando inicialización...');
+      // 1. Configurar lazy loading si está habilitado
       if (this.config.lazyLoading.enabled) {
+        console.log('[ImageLoader] 🔄 Configurando lazy loading...');
         this._initializeLazyLoading();
     }
+      // 2. Intentar cargar datos desde caché
+      const cachedData = await this.config.cache.get('image_data');
+      console.log('[ImageLoader] Cache check:', cachedData ? 'Hit' : 'Miss');
 
-      const cachedData = await this.config.cacheManager.get('image_data');
+
       if (cachedData) {
+        console.log('[ImageLoader] 📦 Cargando imágenes desde caché...');
         this.imageMap = new Map(Object.entries(cachedData));
+        console.log(`[ImageLoader] ✅ ${this.imageMap.size} imágenes cargadas desde caché`);
         this.metrics.totalImages = this.imageMap.size;
-        console.log('Datos de imágenes cargados desde cache');
+      } else {
+        // Si no hay cache, cargar datos frescos
+        console.log('[ImageLoader] 🔄 No hay caché, cargando datos frescos...');
+        await this.loadImageData();
         return true;
       }
 
-      // Si no hay cache, cargar datos frescos
-      await this.loadImageData();
-      return true;
     } catch (error) {
       console.error('Error initializing ImageLoader:', error);
       return false;
@@ -198,7 +233,7 @@ class ImageLoader {
       });
 
       // Guardar en cache
-      await this.config.cacheManager.set('image_data', Object.fromEntries(this.imageMap));
+      await this.config.cache.set('image_data', Object.fromEntries(this.imageMap));
       this.metrics.totalImages = this.imageMap.size;
 
       console.log(`Datos de imágenes cargados: ${this.imageMap.size} imágenes`);

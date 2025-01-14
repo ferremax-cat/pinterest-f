@@ -67,14 +67,13 @@ class LoginManager {
     async validateClient(clave) {
         try {
             console.log('Clave ingresada:', clave, 'tipo:', typeof clave);
-
+            
             // 1. Primero intentar obtener del localStorage
             const cachedData = localStorage.getItem('clientData');
             if (cachedData) {
                 console.log('Datos encontrados en localStorage');
                 const clientesData = JSON.parse(cachedData);
                 
-                // Si la clave existe en el cache
                 if (clientesData[clave]) {
                     console.log('Cliente encontrado en cache:', clientesData[clave]);
                     return {
@@ -83,61 +82,59 @@ class LoginManager {
                     };
                 }
             }
-
-            // 2. Si no está en cache, entonces buscar en Google Sheets
-            console.log('Cliente no encontrado en cache, buscando en Sheets...');
-            const sheetUrl = `${this.sheetsUrl}/${config.clientesPermisosId}/gviz/tq?tqx=out:json`;
-            const response = await fetch(sheetUrl);
-            const text = await response.text();
-
-            // Log de la respuesta cruda
-            //console.log('Respuesta del Sheet:', text);
-
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-
-            // Log de la respuesta cruda
-            //console.log('Respuesta del Sheet:', text);
-
-            // Ver todas las filas
-            console.log('Todas las filas:', json.table.rows.map(row => ({
-                cuenta: row.c[0]?.v,
-                nombre: row.c[1]?.v
-            })));
-
-            let clientData = null;
-            json.table.rows.forEach(row => {
-                const cuentaValue = row.c[0]?.v;
-                // Log para cada comparación
-
-                /* console.log('Comparando:', {
-                valorSheet: cuentaValue,
-                tipoSheet: typeof cuentaValue,
-                valorInput: clave,
-                tipoInput: typeof clave,
-                sonIguales: String(cuentaValue) === String(clave)
-                }); */
-
-                 // Convertir ambos a string para comparación
-                if (String(cuentaValue).trim() === String(clave).trim()) {
-                    clientData = {
-                        account: cuentaValue,
-                        name: row.c[1]?.v,
-                        categories: row.c[2]?.v,
-                        priceList: row.c[3]?.v
+            
+            // 2. Si no está en cache, buscar en el archivo JSON generado por Python
+            console.log('Cliente no encontrado en cache, buscando en JSON...');
+            try {
+                const response = await fetch('/json/clientes_permisos.json');
+                const clientesData = await response.json();
+                
+                // Convertir la clave a string para la comparación
+                const claveStr = String(clave).trim();
+                
+                // Buscar el cliente
+                if (clientesData[claveStr]) {
+                    const clientData = {
+                        account: claveStr,
+                        name: clientesData[claveStr].name,
+                        categories: clientesData[claveStr].categories,
+                        priceList: clientesData[claveStr].priceList
                     };
+                    
+                    // Guardar en localStorage para futuras consultas
+                    const dataToCache = {
+                        [claveStr]: {
+                            name: clientData.name,
+                            categories: clientData.categories,
+                            priceList: clientData.priceList
+                        }
+                    };
+                    
+                    // Actualizar o agregar al localStorage
+                    const existingCache = localStorage.getItem('clientData');
+                    const updatedCache = existingCache 
+                        ? { ...JSON.parse(existingCache), ...dataToCache }
+                        : dataToCache;
+                        
+                    localStorage.setItem('clientData', JSON.stringify(updatedCache));
+                    
+                    return clientData;
                 }
-            });
-
-
-            //console.log('Datos del cliente encontrados:', clientData);
-            return clientData;
-
+                
+                return null; // Cliente no encontrado
+                
+            } catch (error) {
+                console.error('Error leyendo archivo JSON:', error);
+                return null;
+            }
+            
         } catch (error) {
             console.error('Error validando cliente:', error);
             return null;
         }
     }
 
+    
     async loadClientConfig(clientData) {
         try {
             const gruposUrl = `${this.sheetsUrl}/${config.gruposId}/gviz/tq?tqx=out:json`;

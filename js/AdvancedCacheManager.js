@@ -57,6 +57,7 @@ class AdvancedCacheManager {
      */
     async get(key) {
         // 1. Intentar memoria primero
+        console.log('[AdvancedCache] 🔍 Buscando en caché:', key);
         const memoryResult = this.memoryCache.get(key);
         if (memoryResult) {
             if (this.isValid(memoryResult)) {
@@ -102,6 +103,7 @@ class AdvancedCacheManager {
      * Almacena un valor en todos los niveles de caché disponibles
      */
         async set(key, value, ttl = this.config.maxAge) {
+            console.log('[AdvancedCache] 💾 Guardando en caché:', key);
             const item = {
             value,
             timestamp: Date.now(),

@@ -18,6 +18,9 @@ const config = {
     // ID del archivo CATALOGO_GRUPOS
     catalogoGruposId: '1SsfGW92WSWgu7V-jed70aM5eWzS048Tdq-55EHjZ5Aw',
 
+    // ID del archivo IMAGENES_DRIVE
+    catalogoImagenesId: '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d',
+
     
     // Endpoints de APIs
     apiEndpoints: {

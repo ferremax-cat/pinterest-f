@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import re
+from datetime import datetime  # Agregamos esta importación
 
 
 def get_sheet_ids():
@@ -20,7 +21,8 @@ def get_sheet_ids():
                 'grupos_clientes': re.search(r'gruposId: [\'"](.+?)[\'"]', config).group(1),
                 'productos': re.search(r'productosId: [\'"](.+?)[\'"]', config).group(1),
                 'promociones': re.search(r'promocionesId: [\'"](.+?)[\'"]', config).group(1),
-                'catalogo_grupos': re.search(r'catalogoGruposId: [\'"](.+?)[\'"]', config).group(1)
+                'catalogo_grupos': re.search(r'catalogoGruposId: [\'"](.+?)[\'"]', config).group(1),
+                'catalogo_imagenes': re.search(r'catalogoImagenesId: [\'"](.+?)[\'"]', config).group(1),
             }
         
         print(f'No se encontró el archivo en: {config_path}')
@@ -49,22 +51,29 @@ def update_from_sheets():
                 print(f'Procesando {name} desde Google Sheets')
                 data = get_sheet_data(sheet_id)
                 if data:
-                    # Si es el catálogo de grupos, usar el nuevo proceso
-                    if name == 'catalogo_grupos':
+                    if name == 'catalogo_imagenes':
+                        # Procesar catálogo de imágenes
+                        process_image_catalog(data)
+                    elif name == 'catalogo_grupos':
+                        # Procesar catálogo de grupos
                         process_catalogo_grupos(data)
                     else:    
+                        # Procesar otros sheets
                         process_sheet_data(name, data)
                     print(f'Actualizado {name}.json desde Google Sheets')
 
             except Exception as e:
                 print(f'Error procesando {name}: {e}')
-                # Si falla Google Sheets, intentar con Excel local
-                print(f'Intentando actualizar {name} desde Excel local')
-                update_from_local()
+                # Solo actualizar desde local si NO es el catálogo de imágenes
+                if name != 'catalogo_imagenes':
+                    print(f'Intentando actualizar {name} desde Excel local')
+                    update_from_local()
+                  
     except Exception as e:
         print(f'Error en actualización desde Sheets: {e}')
+        # Solo actualizar desde local si hubo un error general
+        print('Intentando actualización local para archivos no críticos')
         update_from_local()
-
 def update_from_local():
     """Actualiza JSONs desde archivos Excel locales"""
     try:
@@ -489,16 +498,86 @@ Proceso completado exitosamente:
         print(f'Error procesando catálogo de grupos local: {str(e)}')
         raise
 
+def process_image_catalog(data):
+    try:
+        json_path = 'json/catalogo_imagenes.json'
+        image_map = {}
+
+        if 'table' in data and 'rows' in data['table']:
+            for row in data['table']['rows']:
+                if 'c' in row and len(row['c']) > 4:
+                    codigo = row['c'][4].get('v', '').strip()
+                    image_id = row['c'][1].get('v', '').strip()
+                    
+                    if codigo and image_id:
+                        image_map[codigo] = image_id
+
+        output = {
+            "version": "1.0",
+            "lastUpdate": datetime.now().isoformat(),
+            "totalImages": len(image_map),
+            "images": image_map
+        }
+
+        # Debug: Imprimir el contenido exacto que vamos a guardar
+        print("\nContenido que se va a guardar:")
+        print(json.dumps(output, indent=2))
+
+        # Guardar el archivo
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+            f.flush()
+
+        # Debug: Verificar el contenido guardado
+        print("\nVerificando contenido guardado:")
+        with open(json_path, 'r', encoding='utf-8') as f:
+            saved_content = json.load(f)
+            print(json.dumps(saved_content, indent=2))
+
+        # Debug: Verificar permisos del archivo
+        file_stats = os.stat(json_path)
+        print(f"\nPermisos del archivo: {oct(file_stats.st_mode)}")
+        print(f"Tamaño del archivo: {file_stats.st_size} bytes")
+        print(f"Ruta absoluta: {os.path.abspath(json_path)}")
+
+    except Exception as e:
+        print(f"Error detallado: {str(e)}")
+        import traceback
+        print(traceback.format_exc())
+        raise
+
+# Agregar esta función de verificación
+def verify_json_file(file_path):
+    try:
+        print(f"\nVerificando archivo: {file_path}")
+        if not os.path.exists(file_path):
+            print(f"¡Error! El archivo no existe en: {file_path}")
+            return False
+
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = json.load(f)
+            print(f"Contenido actual del archivo:")
+            print(json.dumps(content, indent=2))
+            return True
+    except Exception as e:
+        print(f"Error verificando archivo: {str(e)}")
+        return False
 
 def main():
     """Función principal que intenta primero Google Sheets y luego local"""
     try:
+        print('Iniciando actualización de JSONs')
+        if not verify_json_file('json/catalogo_imagenes.json'):  # Pasamos la ruta del archivo
+            print("Error: No se puede escribir en el directorio json")
+            return
         print('Iniciando actualización de JSONs')
         update_from_sheets()
     except Exception as e:
         print(f'Error en actualización desde Sheets: {e}')
         print('Intentando actualización local')
         update_from_local()
+
 
 if __name__ == "__main__":
     main()

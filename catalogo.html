@@ -848,80 +848,62 @@
           import ImageLoader from '../js/imageLoader.js';
 
           async function cargarImagenes() {
-               try {
-                    console.log('Iniciando carga de imágenes...');
+    try {
+        console.log('Iniciando carga de imágenes...');
+        let imageMap;
 
-                    const sheetId = '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d';
-                    const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+        // 1. Intentar cargar desde localStorage primero
+        const cachedData = localStorage.getItem('imageCatalog');
+        if (cachedData) {
+            try {
+                const parsedCache = JSON.parse(cachedData);
+                imageMap = parsedCache.images;
+                console.log('Imágenes cargadas desde localStorage:', Object.keys(imageMap).length);
+            } catch (e) {
+                console.warn('Error al parsear datos del localStorage:', e);
+            }
+        }
 
-                    const response = await fetch(sheetUrl);
-                    const text = await response.text();
-                    const json = JSON.parse(text.substr(47).slice(0, -2));
+        // 2. Si no hay datos en localStorage, cargar desde JSON
+        if (!imageMap) {
+            console.log('No hay datos en localStorage, cargando desde JSON...');
+            const response = await fetch('json/catalogo_imagenes.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const catalogoImagenes = await response.json();
+            imageMap = catalogoImagenes.images;
+            
+            // Guardar en localStorage para próxima carga
+            localStorage.setItem('imageCatalog', JSON.stringify(catalogoImagenes));
+            console.log('Datos guardados en localStorage para futuro uso');
+        }
 
-                    // Creación del mapa de imágenes y precios
-                    const imageMap = {};
-                    const priceMap = {};
-                    json.table.rows.forEach(row => {
-                         if (row.c[0]?.v && row.c[1]?.v) {
-                              const nombreArchivo = row.c[0].v;
-                              const codigo = nombreArchivo.replace(/\.(jpg|webp|png)$/, '');
-                              const id = row.c[1].v;
-                              const precio = row.c[5]?.v; // Cambiado a índice 5 para columna F
-                              imageMap[codigo] = id;
-                              if (precio) {
-                              priceMap[codigo] = precio;
-                              }
-                              console.log(`Mapeado: ${nombreArchivo} -> ${id}, código limpio: ${codigo}, precio: ${precio}`);
-                         }
-                    });
+        // 3. Actualizar las imágenes en la interfaz
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            const bottomRow = item.querySelector('.bottom-row a');
+            if (bottomRow) {
+                const codigo = bottomRow.textContent.trim();
+                const codigoLimpio = codigo.replace(/\s+/g, '');
 
-                    console.log('Mapa final:', imageMap);
-                    console.log('Mapa de precios:', priceMap);
+                if (imageMap[codigoLimpio]) {
+                    const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
+                    const img = item.querySelector('img');
+                    if (img) {
+                        img.src = imgUrl;
+                        console.log(`Imagen actualizada: ${codigoLimpio}`);
+                    }
+                } else {
+                    console.log(`No se encontró ID para el código: ${codigoLimpio}`);
+                }
+            }
+        });
 
-                    // Procesamiento de imágenes y precios
-                    document.querySelectorAll('.gallery-item').forEach(item => {
-                         const bottomRow = item.querySelector('.bottom-row a');
-                         if (bottomRow) {
-                              // Extraer el código exactamente como aparece en el HTML
-                              const codigo = bottomRow.textContent.trim();
-                              console.log('Texto extraído del HTML:', codigo);
-
-                              // Eliminar cualquier espacio en blanco y saltos de línea
-                              const codigoLimpio = codigo.replace(/\s+/g, '');
-                              console.log('Código limpio:', codigoLimpio);
-
-                              // Actualizar imagen
-                              if (imageMap[codigoLimpio]) {
-                                   const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
-                                   const img = item.querySelector('img');
-                                   if (img) {
-                                        img.src = imgUrl;
-                                        console.log(`Imagen actualizada: ${codigoLimpio} -> ${imgUrl}`);
-                                   }
-                              } else {
-                                   console.log(`No se encontró ID para el código: ${codigoLimpio}`);
-                              }
-                              // Agregar precio
-                               if (priceMap[codigoLimpio]) {
-                                   const precio = priceMap[codigoLimpio];
-                                   const bottomRowDiv = item.querySelector('.bottom-row');
-                                   // Verificar si ya existe un elemento de precio
-                                   let precioElement = bottomRowDiv.querySelector('.price-tag');
-                                   if (!precioElement) {
-                                        precioElement = document.createElement('span');
-                                        precioElement.className = 'price-tag';
-                                        bottomRowDiv.appendChild(precioElement);
-                                   }
-                                   precioElement.textContent = `$${precio.toLocaleString()}`;
-                                   console.log(`Precio agregado: ${codigoLimpio} -> $${precio}`);
-                              }
-                         }     
-                    });
-               } catch (error) {
-                    console.error('Error:', error);
-               }
-          }
-
+    } catch (error) {
+        console.error('Error cargando imágenes:', error);
+        // Si hay error total, podríamos implementar otro fallback aquí
+    }
+}
           // En catalogo.html
 
           document.addEventListener('DOMContentLoaded', async function() {

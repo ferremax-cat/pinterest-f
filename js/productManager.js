@@ -3,7 +3,8 @@
  * @module ProductManager
  */
 
-import CacheManager from './cacheManager.js';
+// ELIMINAR esta importación ya que no la usaremos más
+// import CacheManager from './cacheManager.js';
 import MonitoringSystem from './MonitoringSystem.js';
 import { config } from './config.js';
 import AdvancedCacheManager from './AdvancedCacheManager.js';
@@ -19,10 +20,12 @@ class ProductManager {
    */
   constructor({ monitoringSystem, ...config }) {
     
+    // ELIMINAR esta línea
+    // this.cacheManager = config.cacheManager || new CacheManager();
+
     this.cache = new AdvancedCacheManager();
     this.monitor = monitoringSystem;
     this.monitoringSystem = config.monitoringSystem || new MonitoringSystem();
-    this.cacheManager = config.cacheManager || new CacheManager();
     this.clientData = config.clientData || null;
 
     // Estructuras de datos principales
@@ -43,23 +46,29 @@ class ProductManager {
    * Inicializa el gestor con datos
    * @param {Object} clientData - Datos del cliente
    */
+
+  // En el método initialize, cambiar el uso de cacheManager por cache
   async initialize(clientData) {
-    console.log('Iniciando ProductManager...');
+    console.log('[ProductManager] 🚀 Iniciando inicialización...');
     this.clientData = clientData;
 
     try {
       // Intentar cargar desde cache
-      const cachedData = await this.cacheManager.get('products_data');
+       // Cambiar esta línea
+      const cachedData = await this.cache.get('products_data');
       if (cachedData) {
+        console.log('[ProductManager] 📦 Intentando cargar desde caché...');
         await this.loadFromCache(cachedData);
         return true;
+      }else {
+        console.log('[ProductManager] 🔄 No hay caché, cargando datos frescos...');
       }
 
       // Si no hay cache, cargar datos frescos
       await this.loadFreshData();
       return true;
     } catch (error) {
-      console.error('Error initializing ProductManager:', error);
+      console.error('[ProductManager] ❌ Error en inicialización:', error);
       return false;
     }
   }
@@ -86,11 +95,12 @@ class ProductManager {
             });
 
             // Verificar algunos productos específicos
-            console.log('Verificando productos específicos:');
+            /* console.log('Verificando productos específicos:');
             ['evol5530', 'evol15co', 'evol3210'].forEach(codigo => {
                 const producto = this.products.get(codigo);
                 console.log(`Producto ${codigo}:`, producto);
             });
+            */
 
             await this.buildIndices();
             this.updateMetrics();
@@ -137,7 +147,8 @@ class ProductManager {
       });
 
       await this.buildIndices();
-      await this.cacheManager.set('products_data', {
+      // Usar this.cache en lugar de this.cacheManager
+      await this.cache.set('products_data', {
         products: Object.fromEntries(this.products),
         timestamp: Date.now()
       });
@@ -182,7 +193,31 @@ class ProductManager {
    */
       getProduct(codigo) {
         console.log('=== getProduct ===');
-        console.log('Buscando código:', codigo);
+        console.log('[ProductManager] 🔍 Detalles de búsqueda:', {
+          codigoBuscado: codigo,
+          // Mostrar algunos códigos similares
+          codigosSimilares: Array.from(this.products.keys())
+              .filter(k => k.includes(codigo) || codigo.includes(k))
+              .slice(0, 5),
+          // Mostrar diferentes formatos de códigos
+          ejemplosFormatos: Array.from(this.products.keys())
+              .slice(0, 10)
+              .map(k => ({codigo: k, longitud: k.length}))
+        });
+
+        // Agregar inspección de datos
+        console.log('Muestra de claves en this.products:', {
+          primeras5Claves: Array.from(this.products.keys()).slice(0, 5),
+          formatoCodigoBuscado: typeof codigo,
+          ejemploClaveMap: Array.from(this.products.keys())[0]
+        });
+
+        console.log('[ProductManager] 📂 Primeros 10 productos:', {
+          keys: Array.from(this.products.keys()).slice(0, 10),
+          source: 'Desde caché/Excel'
+        });
+
+
         console.log('Estado de this.products:', {
             exists: !!this.products,
             isMap: this.products instanceof Map,
