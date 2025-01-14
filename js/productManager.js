@@ -23,7 +23,7 @@ class ProductManager {
     // ELIMINAR esta línea
     // this.cacheManager = config.cacheManager || new CacheManager();
 
-    this.cache = new AdvancedCacheManager();
+    this.cache = AdvancedCacheManager.getInstance();
     this.monitor = monitoringSystem;
     this.monitoringSystem = config.monitoringSystem || new MonitoringSystem();
     this.clientData = config.clientData || null;

@@ -4,12 +4,42 @@
  * Sistema de caché multinivel con estrategias avanzadas de gestión
  */
 class AdvancedCacheManager {
+
+    static instance = null;
+
+    static getInstance() {
+        if (!AdvancedCacheManager.instance) {
+            const defaultConfig = {
+                maxSize: 100 * 1024 * 1024,
+                maxAge: 24 * 60 * 60 * 1000,
+                levels: {
+                    memory: {
+                        enabled: true,
+                        maxSize: 20 * 1024 * 1024
+                    },
+                    localStorage: {
+                        enabled: true,
+                        maxSize: 80 * 1024 * 1024
+                    }
+                }
+            };
+            console.log('[AdvancedCache] Constructor - Inicio');
+            AdvancedCacheManager.instance = new AdvancedCacheManager(defaultConfig);
+        }
+        return AdvancedCacheManager.instance;
+    }
+
+
+
     constructor(config = {}) {
+        
+        if (AdvancedCacheManager.instance) {
+            console.log('[AdvancedCache] Retornando instancia existente');
+            return AdvancedCacheManager.instance;
+        }
+        
+
         // Configuración simplificada
-        console.log('[AdvancedCache] Constructor - Inicio', {
-            hasConfig: !!config,
-            configKeys: Object.keys(config)
-        });
         this.config = {
             maxSize: config.maxSize || 50 * 1024 * 1024,
             maxAge: config.maxAge || 24 * 60 * 60 * 1000,

@@ -31,19 +31,7 @@ class ImageLoader {
       //Inicializa una instancia de AdvancedCacheManager y la asigna a this.cache.
       // Verificar la instanciación del cache
       console.log('[ImageLoader] Inicializando AdvancedCacheManager');
-      this.cache = new AdvancedCacheManager({
-          maxSize: 100 * 1024 * 1024, // 100MB para imágenes
-          levels: {
-              memory: {
-                  enabled: true,
-                  maxSize: 20 * 1024 * 1024 // 20MB para memoria
-              },
-              localStorage: {
-                  enabled: true,
-                  maxSize: 80 * 1024 * 1024 // 80MB para localStorage
-              }
-          }
-      });
+      this.cache = AdvancedCacheManager.getInstance();
 
       // Verificar que el cache se creó correctamente
       console.log('[ImageLoader] Cache inicializado:', {
@@ -355,7 +343,7 @@ class ImageLoader {
       const cacheKey = `img_${codigo}_${resolution}`;
       
       // Verificar si ya está en cache
-      const cached = await this.config.cacheManager.get(cacheKey);
+      const cached = await this.config.cache.get(cacheKey);
       if (cached) {
         this.metrics.cacheHits++;
         return true;
@@ -374,7 +362,7 @@ class ImageLoader {
         img.onload = async () => {
           this.metrics.preloadedImages++;
           this.metrics.totalLoadTime += performance.now() - startTime;
-          await this.config.cacheManager.set(cacheKey, true);
+          await this.config.cache.set(cacheKey, true);
           resolve(true);
         };
 
