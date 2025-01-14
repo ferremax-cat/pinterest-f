@@ -6,6 +6,10 @@
 class AdvancedCacheManager {
     constructor(config = {}) {
         // Configuración simplificada
+        console.log('[AdvancedCache] Constructor - Inicio', {
+            hasConfig: !!config,
+            configKeys: Object.keys(config)
+        });
         this.config = {
             maxSize: config.maxSize || 50 * 1024 * 1024,
             maxAge: config.maxAge || 24 * 60 * 60 * 1000,
@@ -32,6 +36,7 @@ class AdvancedCacheManager {
             size: { memory: 0, localStorage: 0 }
         };
        // console.log('Constructor - Initial metrics:', JSON.stringify(this.metrics));
+       console.log('[AdvancedCache] Constructor - Fin');
     }
 
     // Método auxiliar para merge profundo de configuración

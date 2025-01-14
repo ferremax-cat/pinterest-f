@@ -21,7 +21,14 @@ class ImageLoader {
   // Usa la desestructuración para extraer monitoringSystem y cualquier otra configuración adicional (...config)
   constructor({ monitoringSystem, ...config }) {
       
-    //Inicializa una instancia de AdvancedCacheManager y la asigna a this.cache.
+      // Asegurarnos de que AdvancedCacheManager está disponible
+      if (typeof AdvancedCacheManager !== 'function') {
+        console.error('AdvancedCacheManager no está disponible:', AdvancedCacheManager);
+        throw new Error('AdvancedCacheManager no está disponible');
+      }
+
+
+      //Inicializa una instancia de AdvancedCacheManager y la asigna a this.cache.
       // Verificar la instanciación del cache
       console.log('[ImageLoader] Inicializando AdvancedCacheManager');
       this.cache = new AdvancedCacheManager({
@@ -147,7 +154,7 @@ class ImageLoader {
         );
       }
   
-
+    console.log('[ImageLoader] Constructor - Fin');
 
   }
 
@@ -179,8 +186,14 @@ class ImageLoader {
         console.log('[ImageLoader] 🔄 Configurando lazy loading...');
         this._initializeLazyLoading();
     }
+
+      // Verificar el cache antes de usarlo
+      if (!this.cache || typeof this.cache.get !== 'function') {
+        throw new Error('Cache no inicializado correctamente');
+    }
+
       // 2. Intentar cargar datos desde caché
-      const cachedData = await this.config.cache.get('image_data');
+      const cachedData = await this.cache.get('image_data');
       console.log('[ImageLoader] Cache check:', cachedData ? 'Hit' : 'Miss');
 
 
@@ -189,6 +202,7 @@ class ImageLoader {
         this.imageMap = new Map(Object.entries(cachedData));
         console.log(`[ImageLoader] ✅ ${this.imageMap.size} imágenes cargadas desde caché`);
         this.metrics.totalImages = this.imageMap.size;
+        return true;
       } else {
         // Si no hay cache, cargar datos frescos
         console.log('[ImageLoader] 🔄 No hay caché, cargando datos frescos...');
@@ -233,7 +247,7 @@ class ImageLoader {
       });
 
       // Guardar en cache
-      await this.config.cache.set('image_data', Object.fromEntries(this.imageMap));
+      await this.cache.set('image_data', Object.fromEntries(this.imageMap));
       this.metrics.totalImages = this.imageMap.size;
 
       console.log(`Datos de imágenes cargados: ${this.imageMap.size} imágenes`);

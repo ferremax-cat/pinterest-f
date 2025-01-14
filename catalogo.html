@@ -842,7 +842,7 @@
 
           import MonitoringSystem from '../js/MonitoringSystem.js';
           import FallbackManager from '../js/FallbackManager.js';
-          import CacheManager from '../js/cacheManager.js';
+          //import CacheManager from '../js/cacheManager.js';
           import ProductManager from '../js/productManager.js';
           import {config} from '../js/config.js';
           import ImageLoader from '../js/imageLoader.js';
@@ -922,13 +922,16 @@
                }
 
                const clientConfig = JSON.parse(clientData);
-               const cacheManager = new CacheManager();
+
+               //const cacheManager = new CacheManager();
+
+
                      window.productManager = new ProductManager({ 
-                            cacheManager: cacheManager,
+                            //cacheManager: cacheManager,  // Esto hay que quitarlo
                             clientData: clientConfig 
                             });
                      window.imageLoader = new ImageLoader({ 
-                            cacheManager: cacheManager,
+                            //cacheManager: cacheManager,  // Esto hay que quitarlo
                             sheetId: config.sheetId
                             });
 
