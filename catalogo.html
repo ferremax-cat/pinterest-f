@@ -907,6 +907,55 @@
           // En catalogo.html
 
           document.addEventListener('DOMContentLoaded', async function() {
+
+               // 1. AGREGAR al inicio la creación del MonitoringSystem
+               const monitoringSystem = new MonitoringSystem();
+               const fallbackManager = new FallbackManager();
+               const startTime = performance.now();
+
+               // 2. LUEGO verificar y obtener clientData
+               const clientData = localStorage.getItem('clientData');
+               if (!clientData) {
+               console.log('No hay datos de cliente, usando modo básico');
+               window.location.href = 'login.html';
+               return;
+               }
+
+               // 3. DESPUÉS parsear clientConfig
+               const clientConfig = JSON.parse(clientData);
+
+               // 1. AGREGAR primero la obtención de instancias
+               window.productManager = ProductManager.getInstance({ 
+               monitoringSystem,
+               clientData: clientConfig 
+               });
+
+               window.imageLoader = ImageLoader.getInstance({ 
+               monitoringSystem,
+               sheetId: config.sheetId
+               });
+               
+               // Agregar al inicio del DOMContentLoaded
+               const managersInitialized = sessionStorage.getItem('managersInitialized') === 'true';
+
+               // Agregar el control de inicialización
+               if (!managersInitialized) {
+               console.log('Primera inicialización de managers');
+               try {
+                    await Promise.all([
+                         window.productManager.initialize(clientConfig),
+                         window.imageLoader.initialize()
+                    ]);
+                    sessionStorage.setItem('managersInitialized', 'true');
+               } catch (error) {
+                    console.error('Error en inicialización de managers:', error);
+                    throw error;
+               }
+               } else {
+               console.log('Managers ya inicializados, procediendo con la carga de galería');
+               }     
+
+
           try {
 
                     const monitoringSystem = new MonitoringSystem();
@@ -923,29 +972,28 @@
 
                const clientConfig = JSON.parse(clientData);
 
-               //const cacheManager = new CacheManager();
+               // 2. Obtener instancias únicas de los managers
+               /* window.productManager = ProductManager.getInstance({ 
+                    monitoringSystem,
+                    clientData: clientConfig 
+               });
+        
+               window.imageLoader = ImageLoader.getInstance({ 
+               monitoringSystem,
+               sheetId: config.sheetId
+               }); */
 
 
-                     window.productManager = new ProductManager({ 
-                            //cacheManager: cacheManager,  // Esto hay que quitarlo
-                            clientData: clientConfig 
-                            });
-                     window.imageLoader = new ImageLoader({ 
-                            //cacheManager: cacheManager,  // Esto hay que quitarlo
-                            sheetId: config.sheetId
-                            });
 
 
+               // 3. Inicializar en orden correcto
 
-
-               // 2. Verificar instancias activas
-
-               await window.productManager.initialize(clientConfig);
+               /* await window.productManager.initialize(clientConfig);
                await window.imageLoader.initialize();
                const productManager = window.productManager;
-               const imageLoader = window.imageLoader;
+               const imageLoader = window.imageLoader; */
 
-               // 3. Implementar búsqueda
+               // 4. Implementar búsqueda
                const searchInput = document.querySelector('input[type="text"]');
                if (searchInput) {
                     searchInput.addEventListener('input', debounce(async function(e) {
@@ -979,7 +1027,7 @@
                     }, 300));
                }
 
-               // 4. Función original de carga de imágenes
+               // 5. Función original de carga de imágenes
                async function cargarImagenes() {
                     try {
                          const sheetId = '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d';

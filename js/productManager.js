@@ -13,19 +13,47 @@ import AdvancedCacheManager from './AdvancedCacheManager.js';
  * Gestor principal de productos y sus relaciones
  */
 class ProductManager {
+
+  // Propiedad estática privada para la instancia única
+  static #instance = null;
+    
+  // Propiedad privada para control de inicialización
+  #initialized = false;
+
+  /**
+     * Obtiene la instancia única de ProductManager
+     * @param {Object} config Configuración opcional
+     * @returns {ProductManager}
+     */
+  static getInstance(config = {}) {
+    if (!ProductManager.#instance) {
+        ProductManager.#instance = new ProductManager(config);
+    }
+    return ProductManager.#instance;
+  }
+
   /**
    * @param {Object} config - Configuración del gestor
    * @param {CacheManager} config.cacheManager - Instancia de CacheManager
    * @param {Object} config.clientData - Datos del cliente actual
    */
-  constructor({ monitoringSystem, ...config }) {
-    
-    // ELIMINAR esta línea
-    // this.cacheManager = config.cacheManager || new CacheManager();
 
+
+
+  constructor({ monitoringSystem, ...config }= {}) {
+    
+    // Si ya existe una instancia, devolver la existente
+    if (ProductManager.#instance) {
+      console.log('[ProductManager] Retornando instancia existente');
+      return ProductManager.#instance;
+    }
+
+
+   
+    // Inicializar dependencias core
     this.cache = AdvancedCacheManager.getInstance();
-    this.monitor = monitoringSystem;
-    this.monitoringSystem = config.monitoringSystem || new MonitoringSystem();
+    //this.monitor = monitoringSystem;
+    this.monitor= monitoringSystem || new MonitoringSystem();
     this.clientData = config.clientData || null;
 
     // Estructuras de datos principales
@@ -40,38 +68,104 @@ class ProductManager {
       priceCalculations: 0,
       searchOperations: 0
     };
-  }
+    // Verificar estado previo en sessionStorage
+    const savedState = sessionStorage.getItem('productManager_state');
+    if (savedState) {
+        try {
+            const state = JSON.parse(savedState);
+            this.#initialized = state.initialized;
+            this.metrics = state.metrics;
+            // Restaurar productos si existen
+            if (state.products) {
+                this.products = new Map(state.products);
+            }
+        } catch (error) {
+            console.error('[ProductManager] Error restaurando estado:', error);
+            this.#initialized = false;
+        }
+    }
+
+    ProductManager.#instance = this;
+  } 
 
   /**
    * Inicializa el gestor con datos
    * @param {Object} clientData - Datos del cliente
+   * @returns {Promise<boolean>}
    */
 
   // En el método initialize, cambiar el uso de cacheManager por cache
   async initialize(clientData) {
+
+    // Verificación de inicialización previa
+    if (this.#initialized) {
+      console.log('[ProductManager] Ya inicializado, omitiendo...');
+      return true;
+    }
+
+
     console.log('[ProductManager] 🚀 Iniciando inicialización...');
-    this.clientData = clientData;
+   // this.clientData = clientData;
 
     try {
-      // Intentar cargar desde cache
-       // Cambiar esta línea
-      const cachedData = await this.cache.get('products_data');
-      if (cachedData) {
-        console.log('[ProductManager] 📦 Intentando cargar desde caché...');
-        await this.loadFromCache(cachedData);
-        return true;
-      }else {
-        console.log('[ProductManager] 🔄 No hay caché, cargando datos frescos...');
-      }
+          const startTime = performance.now();
+          this.clientData = clientData;
 
-      // Si no hay cache, cargar datos frescos
-      await this.loadFreshData();
-      return true;
-    } catch (error) {
-      console.error('[ProductManager] ❌ Error en inicialización:', error);
-      return false;
-    }
+          // Verificar el cache antes de usarlo
+          if (!this.cache || typeof this.cache.get !== 'function') {
+          throw new Error('Cache no inicializado correctamente');
+          }
+      
+          // Intentar cargar desde cache
+          const cachedData = await this.cache.get('products_data');
+          
+          if (cachedData) {
+            console.log('[ProductManager] 📦 Intentando cargar desde caché...');
+            await this.loadFromCache(cachedData);
+            } else {
+                console.log('[ProductManager] 🔄 No hay caché, cargando datos frescos...');
+                await this.loadFreshData();
+            }
+        
+
+          // Guardar estado en sessionStorage
+            this.#saveState();
+            
+            // Registrar métricas
+            const loadTime = performance.now() - startTime;
+            this.monitor.trackPerformance('productManagerInit', loadTime);
+            
+            this.#initialized = true;
+            return true;
+
+
+        } catch (error) {
+
+          console.error('[ProductManager] ❌ Error en inicialización:', error);
+          // Registrar el error en el sistema de monitoreo si está disponible
+          this.monitor?.trackError(error, 'initialize');
+          return false;
+
+        }
   }
+
+   /**
+     * Guarda el estado actual en sessionStorage
+     * @private
+     */
+   #saveState() {
+    try {
+        const state = {
+            initialized: this.#initialized,
+            metrics: this.metrics,
+            products: Array.from(this.products.entries())
+          };
+          sessionStorage.setItem('productManager_state', JSON.stringify(state));
+        } catch (error) {
+          console.error('[ProductManager] Error guardando estado:', error);
+          this.monitor.trackError(error, 'saveState');
+        }
+    }
 
   /**
    * Carga datos desde el cache
@@ -105,6 +199,9 @@ class ProductManager {
             await this.buildIndices();
             this.updateMetrics();
             console.log('Métricas actualizadas:', this.metrics);
+            
+            // Guardar estado actualizado
+            this.#saveState();
             
             return true;
         } catch (error) {

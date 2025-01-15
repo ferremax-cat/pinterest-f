@@ -1,20 +1,36 @@
 // LoginManager.js
 
 import { config } from './config.js';
-import CacheManager from './cacheManager.js';
+//import CacheManager from './cacheManager.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
 
 
 class LoginManager {
+
+    static #instance = null;
+
+    static getInstance() {
+        if (!LoginManager.#instance) {
+            LoginManager.#instance = new LoginManager();
+        }
+        return LoginManager.#instance;
+    }
+
+
     constructor() {
-        this.cacheManager = new CacheManager();
-        this.productManager = new ProductManager({ cacheManager: this.cacheManager });
-        this.imageLoader = new ImageLoader({ 
-            cacheManager: this.cacheManager,
+
+        if (LoginManager.#instance) {
+            return LoginManager.#instance;
+        }
+
+        // Ya no necesitamos CacheManager aquí
+        this.productManager = ProductManager.getInstance();
+        this.imageLoader = ImageLoader.getInstance({ 
             sheetId: config.sheetId
         });
         this.sheetsUrl = config.apiEndpoints.sheets;
+        LoginManager.#instance = this;
     }
 
     async processLogin(inputClave) {
@@ -48,12 +64,18 @@ class LoginManager {
             localStorage.setItem('clientData', JSON.stringify(completeClientData));
 
             // 5. Inicializar gestores con los datos completos
-            await this.productManager.initialize(completeClientData);
-            await this.imageLoader.initialize();
-
-            // 6. Guardar instancias para acceso global
-            window.productManager = this.productManager;
-            window.imageLoader = this.imageLoader;
+            try {
+                await Promise.all([
+                    this.productManager.initialize(completeClientData),
+                    this.imageLoader.initialize()
+                ]);
+                
+                // Marcar que los managers están inicializados
+                sessionStorage.setItem('managersInitialized', 'true');
+            } catch (error) {
+                console.error('Error inicializando managers:', error);
+                return false;
+            }
 
             console.log('Login exitoso:', clientConfig.account);
             return true;

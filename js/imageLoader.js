@@ -17,10 +17,49 @@ class ImageLoader {
    * @param {Object} config.resolutions - Configuración de resoluciones
    */
 
+  // Propiedad estática privada para la instancia única
+  static #instance = null;
+    
+  // Propiedad privada para control de inicialización
+  #initialized = false;
+
+  /**
+   * Obtiene la instancia única de ImageLoader
+   * @param {Object} config Configuración opcional
+   * @returns {ImageLoader}
+   */
+  static getInstance(config = {}) {
+      if (!ImageLoader.#instance) {
+          ImageLoader.#instance = new ImageLoader(config);
+      }
+      return ImageLoader.#instance;
+  }
+
+  /**
+   * Constructor privado
+   * @param {Object} param0 Configuración del loader
+   */
 
   // Usa la desestructuración para extraer monitoringSystem y cualquier otra configuración adicional (...config)
-  constructor({ monitoringSystem, ...config }) {
-      
+  constructor({ monitoringSystem, ...config }= {}) {
+
+      // Si ya existe una instancia, devolver la existente
+      if (ImageLoader.#instance) {
+        console.log('[ImageLoader] Retornando instancia existente');
+        return ImageLoader.#instance;
+    }    
+
+      // 1. Inicialización por defecto de métricas (siempre asegura que exista)
+      this.metrics = {
+          totalImages: 0,
+          loadedImages: 0,
+          cacheHits: 0,
+          lazyLoaded: 0,
+          errors: 0,
+          totalLoadTime: 0,
+          preloadedImages: 0
+      };
+
       // Asegurarnos de que AdvancedCacheManager está disponible
       if (typeof AdvancedCacheManager !== 'function') {
         console.error('AdvancedCacheManager no está disponible:', AdvancedCacheManager);
@@ -32,6 +71,9 @@ class ImageLoader {
       // Verificar la instanciación del cache
       console.log('[ImageLoader] Inicializando AdvancedCacheManager');
       this.cache = AdvancedCacheManager.getInstance();
+      // Asigna el parámetro monitoringSystem al atributo monitor.
+      this.monitor = monitoringSystem;
+
 
       // Verificar que el cache se creó correctamente
       console.log('[ImageLoader] Cache inicializado:', {
@@ -40,13 +82,14 @@ class ImageLoader {
           methods: Object.getOwnPropertyNames(Object.getPrototypeOf(this.cache))
       });
 
+      // Verificar dependencias
+      if (!this.cache) {
+        throw new Error('AdvancedCacheManager no está disponible');
+      }
 
 
 
-
-      // Asigna el parámetro monitoringSystem al atributo monitor.
-      this.monitor = monitoringSystem;
-
+      
        this.config = {
       // Incluye configuraciones para monitoringSystem, cacheManager, sheetId, sheetsUrl, resolutions, lazyLoading, formats, y fallback.  
       monitoringSystem : config.monitoringSystem || new MonitoringSystem(),
@@ -87,35 +130,54 @@ class ImageLoader {
       }
     };
 
-    // Mapas de datos
-    // Inicializa imageMap como una nueva instancia de Map para almacenar los datos de las imágenes.
-    this.imageMap = new Map();
-    // Inicializa loadingPromises como una nueva instancia de Map para rastrear las promesas de carga.
-    this.loadingPromises = new Map();
-    
-        // Lazy loading
-        // Inicializa imageObserver como null y observedImages como un nuevo Set.
-        this.imageObserver = null;
-        this.observedImages = new Set();
+      // Mapas de datos
+      // Inicializa imageMap como una nueva instancia de Map para almacenar los datos de las imágenes.
+      this.imageMap = new Map();
+      // Inicializa loadingPromises como una nueva instancia de Map para rastrear las promesas de carga.
+      this.loadingPromises = new Map();
+      // Lazy loading
+      // Inicializa imageObserver como null y observedImages como un nuevo Set.
+      this.imageObserver = null;
+      this.observedImages = new Set();
 
-    // Métricas
-    // Define el objeto metrics para rastrear varias métricas relacionadas con la carga de imágenes.
-    this.metrics = {
-      totalImages: 0,
-      loadedImages: 0,
-      cacheHits: 0,
-      lazyLoaded: 0,
-      errors: 0,
-      totalLoadTime: 0,
-      preloadedImages: 0
-    };
+
+        // Restaurar estado de sessionStorage si existe
+        const savedState = sessionStorage.getItem('imageLoader_state');
+        if (savedState) {
+            try {
+                const state = JSON.parse(savedState);
+                this.#initialized = state.initialized;
+                if (state.imageMap) {
+                    this.imageMap = new Map(state.imageMap);
+                }
+                // Métricas
+                // Define el objeto metrics para rastrear varias métricas relacionadas con la carga de imágenes.
+                this.metrics = state.metrics || {
+                  totalImages: 0,
+                  loadedImages: 0,
+                  cacheHits: 0,
+                  lazyLoaded: 0,
+                  errors: 0,
+                  totalLoadTime: 0,
+                  preloadedImages: 0
+                };
+              } catch (error) {
+                console.error('[ImageLoader] Error restaurando estado:', error);
+                this.#initialized = false;
+              }
+      ImageLoader.#instance = this;
+      console.log('[ImageLoader] Constructor - Fin');
+  }
 
       // Detectar soporte de WebP
       // Llama al método checkWebPSupport para detectar si el navegador soporta WebP y asigna el resultado a supportsWebP.
       this.supportsWebP = this.checkWebPSupport();
 
+      // Asignar la instancia
+      ImageLoader.#instance = this;
+
       // Lazy loading
-    this.observedImages = new Set();
+      this.observedImages = new Set();
     
     // Inicializar IntersectionObserver si está disponible en el navegador
     if (typeof IntersectionObserver !== 'undefined') {
@@ -167,20 +229,29 @@ class ImageLoader {
    * Inicializa el loader con datos
    */
   async initialize() {
+   
+     // Verificar si ya está inicializado (nuevo)
+     if (this.#initialized) {
+      console.log('[ImageLoader] Ya inicializado, omitiendo...');
+      return true;
+    }
+    
     try {
       console.log('[ImageLoader] 🚀 Iniciando inicialización...');
+      const startTime = performance.now();
+
       // 1. Configurar lazy loading si está habilitado
       if (this.config.lazyLoading.enabled) {
         console.log('[ImageLoader] 🔄 Configurando lazy loading...');
         this._initializeLazyLoading();
     }
 
-      // Verificar el cache antes de usarlo
+      //2. Verificar el cache antes de usarlo
       if (!this.cache || typeof this.cache.get !== 'function') {
         throw new Error('Cache no inicializado correctamente');
     }
 
-      // 2. Intentar cargar datos desde caché
+      // 3. Intentar cargar datos desde caché
       const cachedData = await this.cache.get('image_data');
       console.log('[ImageLoader] Cache check:', cachedData ? 'Hit' : 'Miss');
 
@@ -190,19 +261,53 @@ class ImageLoader {
         this.imageMap = new Map(Object.entries(cachedData));
         console.log(`[ImageLoader] ✅ ${this.imageMap.size} imágenes cargadas desde caché`);
         this.metrics.totalImages = this.imageMap.size;
+
+        // Marcar como inicializado antes de retornar (nuevo)
+        this.#initialized = true;
         return true;
+
       } else {
         // Si no hay cache, cargar datos frescos
         console.log('[ImageLoader] 🔄 No hay caché, cargando datos frescos...');
         await this.loadImageData();
+        
+        }
+
+        // Guardar estado
+        this.#saveState();
+            
+        // Registrar métricas
+        const loadTime = performance.now() - startTime;
+        this.monitor.trackPerformance('imageLoaderInit', loadTime);
+
+        this.#initialized = true;
         return true;
-      }
 
     } catch (error) {
-      console.error('Error initializing ImageLoader:', error);
-      return false;
+        // Log más detallado del error (mejorado)
+        console.error('[ImageLoader] ❌ Error en inicialización:', error);
+        this.monitor?.trackError(error, 'initialize');
+        return false;
     }
   }
+
+   /**
+     * Guarda el estado actual en sessionStorage
+     * @private
+     */
+   #saveState() {
+    try {
+        const state = {
+            initialized: this.#initialized,
+            imageMap: Array.from(this.imageMap.entries()),
+            metrics: this.metrics
+        };
+        sessionStorage.setItem('imageLoader_state', JSON.stringify(state));
+    } catch (error) {
+        console.error('[ImageLoader] Error guardando estado:', error);
+        this.monitor.trackError(error, 'saveState');
+      }
+    }
 
   /**
    * Carga datos de imágenes desde Google Sheets
