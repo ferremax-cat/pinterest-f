@@ -107,6 +107,12 @@ class ProductManager {
     console.log('[ProductManager] 🚀 Iniciando inicialización...');
    // this.clientData = clientData;
 
+    console.log('[ProductManager] Inicio initialize:', {
+      yaInicializado: this.#initialized,
+      tieneClientData: !!clientData,
+      tieneCache: !!this.cache
+      }); 
+
     try {
           const startTime = performance.now();
           this.clientData = clientData;
@@ -179,6 +185,17 @@ class ProductManager {
                 tieneProducts: !!cachedData.products,
                 tipo: typeof cachedData.products,
                 esObjeto: typeof cachedData.products === 'object'
+            });
+
+            console.log('[ProductManager] Iniciando carga de datos frescos...');
+            const response = await fetch(`${config.apiEndpoints.sheets}/${config.productosId}/gviz/tq?tqx=out:json`);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+
+            console.log('[ProductManager] Datos recibidos:', {
+                tieneTabla: !!json.table,
+                cantidadFilas: json.table?.rows?.length,
+                primerasFila: json.table?.rows?.[0]
             });
 
             // Convertir a Map y verificar
@@ -289,6 +306,14 @@ class ProductManager {
    * @returns {Object|null} Producto encontrado o null
    */
       getProduct(codigo) {
+
+        const codigoMayusculas = codigo.toUpperCase();
+        console.log('[ProductManager] Búsqueda:', {
+            original: codigo,
+            convertido: codigoMayusculas
+        });  
+
+
         console.log('=== getProduct ===');
         console.log('[ProductManager] 🔍 Detalles de búsqueda:', {
           codigoBuscado: codigo,
@@ -321,6 +346,30 @@ class ProductManager {
             size: this.products?.size,
             has: this.products?.has(codigo)
         });
+
+
+        console.log('[ProductManager] Estado de productos:', {
+          size: this.products.size,
+          initialized: this.#initialized,
+          tieneProductos: this.products.size > 0,
+          buscandoCodigo: codigo
+        });
+
+         /* console.log('[ProductManager] Comparación de códigos:', {
+          buscado: {
+              codigo,
+              tipo: typeof codigo,
+              longitud: codigo.length,
+              espacios: codigo.includes(' '),
+              caracteresEspeciales: codigo.match(/[^a-zA-Z0-9]/g)
+          },
+          ejemplo: {
+              codigo: Array.from(this.products.keys())[0],
+              tipo: typeof Array.from(this.products.keys())[0],
+              longitud: Array.from(this.products.keys())[0]?.length,
+              espacios: Array.from(this.products.keys())[0]?.includes(' ')
+          }
+          });  */
 
         this.metrics.searchOperations++;
         const product = this.products.get(codigo);

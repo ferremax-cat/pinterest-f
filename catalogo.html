@@ -729,7 +729,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    
+                    <img  alt="Llave mandril 13mm">
 
                     <div class="top-row">
                          <a href="">Llave mandril 13mm</a>
@@ -763,7 +763,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    
+                    <img alt="anteojo regulable">
 
                     <div class="top-row">
                          <a href="">anteojo regulable</a>
@@ -790,7 +790,7 @@
 
           <div class="gallery-item">
                <div class="container-img">
-                    
+                    <img alt="Arco sierra junior">
 
                     <div class="top-row">
                          <a href="">Arco sierra junior</a>
@@ -1090,6 +1090,37 @@
                async function cargarGaleria() {
                     try {
                          console.log('Iniciando cargarGaleria');
+
+                         console.log('URL base para imágenes:', 'https://lh3.googleusercontent.com/d/');
+                         console.log('Cache actual:', localStorage.getItem('imageCatalog'));
+
+                         // 1. Obtener los códigos permitidos del clientData
+                         const clientData = JSON.parse(localStorage.getItem('clientData'));
+                         console.log('=== Datos del Cliente ===', {
+                         tieneProductCodes: !!clientData?.productCodes,
+                         listaPrecio: clientData?.priceList,
+                         cantidadProductos: clientData?.productCodes?.length
+                         });
+                         
+
+                         // 2. Cargar catálogo de imágenes
+                         const response = await fetch('/json/catalogo_imagenes.json');
+                         const catalogoImagenes = await response.json();
+                         console.log('Catálogo de imágenes cargado:', catalogoImagenes);
+
+                         console.log('ClientData en cargarGaleria:', clientData);
+                         console.log('Productos permitidos:', clientData?.productCodes);
+
+                         if (!clientData || !clientData.productCodes) {
+                         console.error('No hay datos de productos permitidos para el cliente');
+                         return;
+                         }
+
+                         // Solo continuar con los productos permitidos
+                         const productosPermitidos = new Set(clientData?.productCodes || []);
+                         console.log('Set de productos permitidos:', Array.from(productosPermitidos));
+
+
                          const galleryItems = document.querySelectorAll('.gallery-item');
 
                          // Procesar cada item de la galería
@@ -1097,10 +1128,113 @@
                               const bottomRow = item.querySelector('.bottom-row a');
                               if (!bottomRow) continue;
 
+                              const img = item.querySelector('img');
+                              if (img && img.dataset.processed) continue; // Saltar si ya fue procesada
+
                               const codigo = bottomRow.textContent.trim().replace(/\s+/g, '');
                               console.log('Procesando item:', codigo);
 
-                              try {
+                              // Verificar si el producto está permitido
+                              if (!productosPermitidos.has(codigo)) {
+                              console.log('Producto no permitido, ocultando:', codigo);
+                              item.style.display = 'none';
+                              continue;
+                              }
+
+                              // Obtener ID de imagen del catálogo
+                              const imageId = catalogoImagenes.images[codigo];
+                              console.log('ID de imagen encontrado:', codigo, imageId);
+
+                              /* if (imageId) {
+                              const img = item.querySelector('img');
+                              if (img) {
+                                   //const url = `https://drive.google.com/uc?export=view&id=${imageId}`;
+
+                                   // Probar primero el formato lh3
+                                   let url = `https://lh3.googleusercontent.com/d/${imageId}`;
+
+                                   img.onerror = () => {
+                                   console.log('Intentando URL alternativa para:', codigo);
+                                   // Si falla, intentar con formato drive
+                                   url = `https://drive.google.com/file/d/${imageId}/preview`;
+                                   img.src = url;
+                                   };
+
+
+                                   console.log('URL completa generada:', url);
+                                   //img.src = url;
+                                   img.dataset.processed = 'true'; // Marcar como procesada
+                                   console.log('URL asignada:', url);
+
+                                   img.onerror = () => console.error('Error cargando imagen:', codigo, url);
+                              }
+                              }
+
+                               */
+
+                                   if (imageId) {
+                                        const img = item.querySelector('img');
+                                        if (img) {
+
+                                             console.log(`[catalogo.html][DEBUG ${codigo}] Iniciando carga:`, {
+                                                  imageId,
+                                                  tieneImg: !!img
+                                             });
+
+                                             // Usar una única función para obtener la URL
+                                             const url = await imageLoader.getImageUrl(codigo, 'desktop');
+
+                                             console.log(`[catalogo.html][DEBUG ${codigo}] URL obtenida:`, {
+                                                  url,
+                                                  imageId
+                                             });
+
+
+                                             if (url) {
+                                                  img.src = url;
+                                                  img.dataset.processed = 'true';
+                                                  console.log(`[catalogo.html][DEBUG ${codigo}] URL asignada:`, url);
+                                             
+                                                  img.onerror = () => {
+                                                  console.log('[ImageLoader] Error de carga:', {
+                                                  codigo: codigo,
+                                                  url: img.src,
+                                                  imageId: imageId
+                                                  });
+                                             
+                                                  // Usar formato alternativo que usa lh3.googleusercontent
+                                                  const fallbackUrl = `https://lh3.googleusercontent.com/d/${imageId}`;
+                                                  console.log('[ImageLoader] Intentando URL alternativa:', fallbackUrl);
+                                                  img.src = fallbackUrl;
+                                                  
+                                                  // Agregar un segundo manejador de error por si también falla
+                                                  img.onerror = () => {
+                                                       console.log('[ImageLoader] Error en URL alternativa, intentando última opción');
+                                                       const lastResortUrl = `https://drive.google.com/file/d/${imageId}/preview`;
+                                                       img.src = lastResortUrl;
+                                                  };
+                                             };
+                                   }
+                                        
+                                        // Cargar precio
+                                        const precio = await productManager.getPrice(codigo);
+                                        if (precio !== null && precio !== undefined) {
+                                             const bottomRowDiv = item.querySelector('.bottom-row');
+                                             if (bottomRowDiv) {
+                                                  let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                                  if (!precioElement) {
+                                                       precioElement = document.createElement('span');
+                                                       precioElement.className = 'price-tag';
+                                                       bottomRowDiv.appendChild(precioElement);
+                                                  }
+                                                  precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
+                                             }
+                                        }
+                                   }
+                                   }
+
+
+                              /* try {
                                    // Cargar imagen y precio en paralelo
                                    const [url, precio] = await Promise.all([
                                         imageLoader.getImageUrl(codigo, 'desktop'),
@@ -1133,7 +1267,7 @@
                               } catch (itemError) {
                                    console.error('Error procesando item:', codigo, itemError);
                                    continue;
-                              }
+                              } */
                          }
 
                     } catch (error) {

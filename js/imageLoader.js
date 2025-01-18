@@ -73,7 +73,11 @@ class ImageLoader {
       this.cache = AdvancedCacheManager.getInstance();
       // Asigna el parámetro monitoringSystem al atributo monitor.
       this.monitor = monitoringSystem;
-
+      // Verificar que el monitor se creó correctamente
+      console.log('[ImageLoader] Monitor inicializado:', {
+        hasTrackPerformance: typeof this.monitor?.trackPerformance === 'function',
+        hasTrackError: typeof this.monitor?.trackError === 'function'
+      });
 
       // Verificar que el cache se creó correctamente
       console.log('[ImageLoader] Cache inicializado:', {
@@ -232,8 +236,8 @@ class ImageLoader {
    
      // Verificar si ya está inicializado (nuevo)
      if (this.#initialized) {
-      console.log('[ImageLoader] Ya inicializado, omitiendo...');
-      return true;
+        console.log('[ImageLoader] Ya inicializado, omitiendo...');
+        return true;
     }
     
     try {
@@ -270,7 +274,7 @@ class ImageLoader {
         // Si no hay cache, cargar datos frescos
         console.log('[ImageLoader] 🔄 No hay caché, cargando datos frescos...');
         await this.loadImageData();
-        
+
         }
 
         // Guardar estado
@@ -278,7 +282,7 @@ class ImageLoader {
             
         // Registrar métricas
         const loadTime = performance.now() - startTime;
-        this.monitor.trackPerformance('imageLoaderInit', loadTime);
+        this.monitor?.trackPerformance('imageLoaderInit', loadTime);
 
         this.#initialized = true;
         return true;
@@ -394,6 +398,12 @@ class ImageLoader {
     const startTime = performance.now();
     
     try {
+
+        const imageData = this.imageMap.get(codigo);
+
+        console.log('Generando URL para código:', codigo);
+        console.log('Datos de imagen encontrados:', imageData);
+
         // 1. Sistema de caché simple
         const cacheKey = `img_${codigo}`;
         const cachedUrl = await this.cache.get(cacheKey);
@@ -404,7 +414,7 @@ class ImageLoader {
         }
 
         // 2. Obtener datos de la imagen
-        const imageData = this.imageMap.get(codigo);
+        //const imageData = this.imageMap.get(codigo);
         if (!imageData) {
             this.monitor?.trackError(new Error(`Image data not found for codigo: ${codigo}`), 
                 'getImageUrl', { codigo });
@@ -412,7 +422,8 @@ class ImageLoader {
         }
 
         // 3. Generar URL exactamente en el formato que funciona
-        const generatedUrl = `https://lh3.googleusercontent.com/d/${imageData.id}`;
+        //const generatedUrl = `https://lh3.googleusercontent.com/d/${imageData.id}`;
+        const generatedUrl = `https://drive.google.com/uc?export=view&id=${imageData.id}`;
         console.log('URL generada:', generatedUrl); // Debug log
 
         // 4. Lazy loading
@@ -448,7 +459,7 @@ class ImageLoader {
       const cacheKey = `img_${codigo}_${resolution}`;
       
       // Verificar si ya está en cache
-      const cached = await this.config.cache.get(cacheKey);
+      const cached = await this.cache.get(cacheKey);
       if (cached) {
         this.metrics.cacheHits++;
         return true;

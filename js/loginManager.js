@@ -35,13 +35,14 @@ class LoginManager {
 
     async processLogin(inputClave) {
         try {
+
             // 1. Verificar si la clave existe en CLIENTES_PERMISOS
             const clientData = await this.validateClient(inputClave);
             if (!clientData) {
                 console.log('Cliente no encontrado');
                 return false;
             }
-            //console.log('Cliente validado:', clientData);
+            
 
             // 2. Obtener configuración completa del cliente
             const clientConfig = await this.loadClientConfig(clientData);
@@ -49,23 +50,51 @@ class LoginManager {
                 console.log('Error obteniendo configuración del cliente');
                 return false;
             }
-            //console.log('Configuración del cliente cargada:', clientConfig);
 
-            // 3. Buscar promociones aplicables al cliente
-            const promotions = await this.loadPromotions(clientData.account);
-            console.log('Promociones cargadas:', promotions);
 
-            // 4. Guardar datos completos en localStorage
-            const completeClientData = {
+              // 3. Buscar promociones aplicables al cliente
+              const promotions = await this.loadPromotions(clientData.account);
+              console.log('Promociones cargadas:', promotions);
+
+
+                // 4. Guardar datos completos en localStorage
+
+                const response = await fetch('/json/catalogo_grupos.json');
+                const catalogoGrupos = await response.json();
+
+                console.log('3. Catálogo de grupos cargado:', catalogoGrupos);
+                console.log('4. Grupos del cliente:', clientConfig.groups);
+
+                console.log('Grupo del cliente:', clientConfig.groups[0]); // Debería mostrar "GRUPO_SINPAR"
+                console.log('Códigos permitidos:', catalogoGrupos["GRUPO_SINPAR"]); // Debería mostrar el array de códigos
+
+                console.log('Datos guardados en localStorage:', JSON.parse(localStorage.getItem('clientData')));
+            
+                // Obtener productos para los grupos del cliente
+                const productCodes = [];
+                if (clientConfig.groups) {
+                    clientConfig.groups.forEach(group => {
+                        if (catalogoGrupos[group]) {
+                            console.log('5. Códigos encontrados para grupo:', catalogoGrupos[group]);
+                            productCodes.push(...catalogoGrupos[group]);
+                        }
+                    });
+                }
+            
+                 // 5. Crear objeto con datos completos    
+                const completeClientData = {
                 ...clientConfig,
                 promotions: promotions,
-                lastLogin: new Date().toISOString()
-            };
+                lastLogin: new Date().toISOString(),
+                productCodes: catalogoGrupos[clientConfig.groups[0]] || []// Agregar esta línea
+                };
+
+
             localStorage.setItem('clientData', JSON.stringify(completeClientData));
 
-            // 5. Inicializar gestores con los datos completos
-            try {
-                await Promise.all([
+                // 6. Inicializar gestores con los datos completos
+                try {
+                    await Promise.all([
                     this.productManager.initialize(completeClientData),
                     this.imageLoader.initialize()
                 ]);
@@ -159,13 +188,15 @@ class LoginManager {
     
     async loadClientConfig(clientData) {
         try {
-            const gruposUrl = `${this.sheetsUrl}/${config.gruposId}/gviz/tq?tqx=out:json`;
+            /* const gruposUrl = `${this.sheetsUrl}/${config.gruposId}/gviz/tq?tqx=out:json`;
             const gruposResponse = await fetch(gruposUrl);
             const gruposData = await gruposResponse.text();
-            const gruposJson = JSON.parse(gruposData.substr(47).slice(0, -2));
+            const gruposJson = JSON.parse(gruposData.substr(47).slice(0, -2)); */
 
             // Encontrar grupos del cliente
-            const clientGroups = [];
+
+
+            /* const clientGroups = [];
             gruposJson.table.rows.forEach(row => {
                 if (row.c[1]?.v) {
                     const clientesString = row.c[1].v.toString().replace(/\./g, ',');
@@ -178,15 +209,67 @@ class LoginManager {
                         clientGroups.push(row.c[0]?.v);
                     }
                 }
+            }); */
+
+        // 1. Cargar grupos_clientes.json local
+        const response = await fetch('/json/grupos_clientes.json');
+        const gruposData = await response.json();
+        console.log('1. Datos de grupos cargados:', gruposData);
+
+        // Encontrar grupos del cliente
+        const clientGroups = [];
+        const clienteNumero = Number(clientData.account);
+        console.log('2. Buscando cliente número:', clienteNumero);
+        
+        // Buscar cliente en los grupos
+        for (const [group, accounts] of Object.entries(gruposData.groups)) {
+            console.log('3. Revisando grupo:', group, 'cuentas:', accounts);
+
+            //const clienteCompleto = accounts.find(acc => acc.startsWith(clienteNumero.toString()));
+
+            // Modificar esta parte para buscar el número en cualquier parte después del punto
+            const clienteCompleto = accounts.some(acc => {
+                const partes = acc.split('.');
+                return partes.includes(clienteNumero.toString());
             });
 
-            return {
-                account: clientData.account,
-                name: clientData.name,
-                categories: clientData.categories.split(',').map(cat => cat.trim()),
-                priceList: clientData.priceList,
-                groups: clientGroups
-            };
+            if (clienteCompleto) {
+                console.log('4. Cliente encontrado en grupo:', group);
+                clientGroups.push(group);
+            }
+        }
+        console.log('5. Grupos del cliente:', clientGroups);
+
+        // 2. Cargar catálogo_grupos.json para obtener productos
+        const catalogoGruposResponse = await fetch('/json/catalogo_grupos.json');
+        const catalogoGrupos = await catalogoGruposResponse.json();
+        console.log('6. Catálogo de grupos cargado:', catalogoGrupos);
+
+        // Obtener los códigos de productos para los grupos del cliente
+        const productCodes = [];
+        clientGroups.forEach(group => {
+            console.log('7. Buscando productos para grupo:', group);
+            if (catalogoGrupos[group]) {
+                console.log('8. Productos encontrados:', catalogoGrupos[group]);
+                productCodes.push(...catalogoGrupos[group]);
+            }
+        });
+
+        console.log('9. Total productos permitidos:', productCodes);
+
+
+        const resultado = {
+            account: clientData.account,
+            name: clientData.name,
+            categories: clientData.categories.split(',').map(cat => cat.trim()),
+            priceList: clientData.priceList,
+            groups: clientGroups,
+            productCodes: productCodes
+        };
+        console.log('10. Datos finales:', resultado);
+
+        return resultado;
+
         } catch (error) {
             console.error('Error cargando configuración del cliente:', error);
             return null;
