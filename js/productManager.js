@@ -49,6 +49,11 @@ class ProductManager {
     }
 
 
+    // Verificar estado guardado
+    const savedInitialized = sessionStorage.getItem('productManager_initialized');
+    if (savedInitialized === 'true') {
+        this.#initialized = true;
+    }
    
     // Inicializar dependencias core
     this.cache = AdvancedCacheManager.getInstance();
@@ -99,6 +104,12 @@ class ProductManager {
 
     // Verificación de inicialización previa
     if (this.#initialized) {
+
+      console.log('[ProductManager] Estado al iniciar initialize:', {
+        initialized: this.#initialized,
+        hasSessionStorage: !!sessionStorage.getItem('productManager_initialized')
+      });
+
       console.log('[ProductManager] Ya inicializado, omitiendo...');
       return true;
     }
@@ -113,15 +124,24 @@ class ProductManager {
       tieneCache: !!this.cache
       }); 
 
+      if (this.#initialized) {
+        console.log('[ProductManager] Ya inicializado, omitiendo...');
+        return true;
+    }
+
+
     try {
+          console.log('[ProductManager] 🚀 Paso 1: Verificando clientData...');
           const startTime = performance.now();
           this.clientData = clientData;
 
           // Verificar el cache antes de usarlo
           if (!this.cache || typeof this.cache.get !== 'function') {
+          console.log('[ProductManager] ❌ Error: Cache no inicializado correctamente');
           throw new Error('Cache no inicializado correctamente');
           }
       
+          console.log('[ProductManager] ✅ Cache verificado correctamente');
           // Intentar cargar desde cache
           const cachedData = await this.cache.get('products_data');
           
@@ -214,12 +234,26 @@ class ProductManager {
             */
 
             await this.buildIndices();
+            await this.cache.set('products_data', {
+              products: Object.fromEntries(this.products),
+              timestamp: Date.now()
+              });
+
             this.updateMetrics();
+            console.log('[ProductManager] Datos frescos cargados y cacheados');
+
             console.log('Métricas actualizadas:', this.metrics);
             
             // Guardar estado actualizado
             this.#saveState();
-            
+             // Agregar esta línea:
+            this.#initialized = true;
+            // Guardar en sessionStorage
+            sessionStorage.setItem('productManager_initialized', 'true');
+            console.log('[ProductManager] Estado después de cargar:', {
+              initialized: this.#initialized,
+              hasProducts: this.products.size > 0
+            });
             return true;
         } catch (error) {
             console.error('Error loading from cache:', error);
@@ -233,9 +267,30 @@ class ProductManager {
    */
   async loadFreshData() {
     try {
+
+      console.log('[ProductManager] Estado antes de cargar:', {
+        initialized: this.#initialized,
+        hasProducts: this.products.size > 0
+      });
+      
+      
+      console.log('[ProductManager] Iniciando carga de datos...');
       const response = await fetch(`${config.apiEndpoints.sheets}/${config.productosId}/gviz/tq?tqx=out:json`);
       const text = await response.text();
+
+      console.log('[ProductManager] Respuesta recibida:', {
+        tieneTexto: !!text,
+        longitudTexto: text.length
+      });
+
       const json = JSON.parse(text.substr(47).slice(0, -2));
+      console.log('[ProductManager] Datos parseados:', {
+        tieneTabla: !!json.table,
+        filas: json.table?.rows?.length
+      });
+
+      
+
 
       // Procesar datos
       json.table.rows.forEach(row => {
@@ -270,7 +325,7 @@ class ProductManager {
       this.updateMetrics();
       console.log('Datos frescos cargados y cacheados');
     } catch (error) {
-      console.error('Error loading fresh data:', error);
+      console.error('[ProductManager] Error cargando datos:', error);
       throw error;
     }
   }
@@ -313,13 +368,18 @@ class ProductManager {
             convertido: codigoMayusculas
         });  
 
+        console.log('[ProductManager] Intentando encontrar producto:', {
+          codigoBuscado: codigoMayusculas,
+          primerosProductos: Array.from(this.products.keys()).slice(0, 3),
+          existeEnMap: this.products.has(codigoMayusculas)
+        });
 
         console.log('=== getProduct ===');
         console.log('[ProductManager] 🔍 Detalles de búsqueda:', {
-          codigoBuscado: codigo,
+          codigoBuscado: codigoMayusculas,  // Cambiado a codigoMayusculas
           // Mostrar algunos códigos similares
           codigosSimilares: Array.from(this.products.keys())
-              .filter(k => k.includes(codigo) || codigo.includes(k))
+              .filter(k => k.includes(codigoMayusculas) || codigoMayusculas.includes(k))
               .slice(0, 5),
           // Mostrar diferentes formatos de códigos
           ejemplosFormatos: Array.from(this.products.keys())
@@ -330,7 +390,7 @@ class ProductManager {
         // Agregar inspección de datos
         console.log('Muestra de claves en this.products:', {
           primeras5Claves: Array.from(this.products.keys()).slice(0, 5),
-          formatoCodigoBuscado: typeof codigo,
+          formatoCodigoBuscado: typeof codigoMayusculas,  // Cambiado a codigoMayusculas
           ejemploClaveMap: Array.from(this.products.keys())[0]
         });
 
@@ -344,7 +404,7 @@ class ProductManager {
             exists: !!this.products,
             isMap: this.products instanceof Map,
             size: this.products?.size,
-            has: this.products?.has(codigo)
+            has: this.products?.has(codigoMayusculas)  // Cambiado a codigoMayusculas
         });
 
 
@@ -352,7 +412,7 @@ class ProductManager {
           size: this.products.size,
           initialized: this.#initialized,
           tieneProductos: this.products.size > 0,
-          buscandoCodigo: codigo
+          buscandoCodigo: codigoMayusculas  // Cambiado a codigoMayusculas
         });
 
          /* console.log('[ProductManager] Comparación de códigos:', {
@@ -372,7 +432,7 @@ class ProductManager {
           });  */
 
         this.metrics.searchOperations++;
-        const product = this.products.get(codigo);
+        const product = this.products.get(codigoMayusculas);  // Cambiado a codigoMayusculas
 
         console.log('Producto encontrado:', product);
         return product || null;
