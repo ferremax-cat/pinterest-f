@@ -115,27 +115,44 @@ class LoginManager {
         }
     }
 
+
+
+
     async validateClient(clave) {
         try {
             console.log('Clave ingresada:', clave, 'tipo:', typeof clave);
             
             // 1. Primero intentar obtener del localStorage
             const cachedData = localStorage.getItem('clientData');
+
             if (cachedData) {
                 console.log('Datos encontrados en localStorage');
                 const clientesData = JSON.parse(cachedData);
-                
-                if (clientesData[clave]) {
+               
+                 // Buscar cliente con formato "numero.numero"
+                    for (const [key, clientData] of Object.entries(clientesData)) {
+                        if (key.includes('.') && key.split('.').includes(clave.toString())) {
+                            console.log('Cliente encontrado en cache:', clientData);
+                            return {
+                                account: key,
+                                ...clientData
+                            };
+                        }
+                    }   
+
+                /* if (clientesData[clave]) {
                     console.log('Cliente encontrado en cache:', clientesData[clave]);
                     return {
                         account: clave,
                         ...clientesData[clave]
                     };
-                }
+                } */
+
             }
             
             // 2. Si no está en cache, buscar en el archivo JSON generado por Python
             console.log('Cliente no encontrado en cache, buscando en JSON...');
+            
             try {
                 const response = await fetch('/json/clientes_permisos.json');
                 const clientesData = await response.json();

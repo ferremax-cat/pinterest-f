@@ -75,11 +75,13 @@ class ProductManager {
     };
     // Verificar estado previo en sessionStorage
     const savedState = sessionStorage.getItem('productManager_state');
+
     if (savedState) {
         try {
             const state = JSON.parse(savedState);
             this.#initialized = state.initialized;
             this.metrics = state.metrics;
+
             // Restaurar productos si existen
             if (state.products) {
                 this.products = new Map(state.products);
@@ -101,6 +103,15 @@ class ProductManager {
 
   // En el método initialize, cambiar el uso de cacheManager por cache
   async initialize(clientData) {
+
+    console.log('[ProductManager] initialize llamado con:', {
+      clientData,
+      tieneProductos: this.products?.size,
+      initialized: this.#initialized,
+      sessionStorageInitialized: sessionStorage.getItem('productManager_initialized'),
+      sessionStorageState: sessionStorage.getItem('productManager_state')
+      });
+
 
     // Verificación de inicialización previa
     if (this.#initialized) {
@@ -124,10 +135,7 @@ class ProductManager {
       tieneCache: !!this.cache
       }); 
 
-      if (this.#initialized) {
-        console.log('[ProductManager] Ya inicializado, omitiendo...');
-        return true;
-    }
+     
 
 
     try {
@@ -144,10 +152,27 @@ class ProductManager {
           console.log('[ProductManager] ✅ Cache verificado correctamente');
           // Intentar cargar desde cache
           const cachedData = await this.cache.get('products_data');
+          console.log('[ProductManager] Datos de caché:', {
+            tieneDatos: !!cachedData,
+            contenido: cachedData
+          });
           
           if (cachedData) {
             console.log('[ProductManager] 📦 Intentando cargar desde caché...');
-            await this.loadFromCache(cachedData);
+            const resultado = await this.loadFromCache(cachedData);
+            console.log('[ProductManager] Resultado loadFromCache:', {
+              resultado,
+              productosEnMap: this.products?.size || 0,
+              tieneProductos: this.products && this.products.size > 0
+            });
+
+            // Si loadFromCache falla o no carga productos, cargar datos frescos
+            if (!resultado || this.products.size === 0) {
+              console.log('[ProductManager] Caché inválido o sin productos, cargando datos frescos...');
+              await this.loadFreshData();
+            }
+
+
             } else {
                 console.log('[ProductManager] 🔄 No hay caché, cargando datos frescos...');
                 await this.loadFreshData();
@@ -200,6 +225,20 @@ class ProductManager {
    */
       async loadFromCache(cachedData) {
         try {
+
+          // Al inicio de loadFromCache
+          if (!cachedData.version || cachedData.version !== '1.0') {
+            console.log('[ProductManager] Caché obsoleto o sin versión, recargando datos');
+            return false;  // Esto forzará la carga de datos frescos
+          }
+
+
+          console.log('[ProductManager] Inicio loadFreshData:', {
+            tieneProductos: this.products.size,
+            initialized: this.#initialized
+          });
+
+
             console.log('=== Cargando desde caché ===');
             console.log('Datos recibidos:', {
                 tieneProducts: !!cachedData.products,
@@ -207,10 +246,10 @@ class ProductManager {
                 esObjeto: typeof cachedData.products === 'object'
             });
 
-            console.log('[ProductManager] Iniciando carga de datos frescos...');
+            /*  console.log('[ProductManager] Iniciando carga de datos frescos...');
             const response = await fetch(`${config.apiEndpoints.sheets}/${config.productosId}/gviz/tq?tqx=out:json`);
             const text = await response.text();
-            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const json = JSON.parse(text.substr(47).slice(0, -2));  */
 
             console.log('[ProductManager] Datos recibidos:', {
                 tieneTabla: !!json.table,
@@ -218,11 +257,23 @@ class ProductManager {
                 primerasFila: json.table?.rows?.[0]
             });
 
-            // Convertir a Map y verificar
-            this.products = new Map(Object.entries(cachedData.products));
+            // 1. Obtener lista de productos permitidos
+            const productosPermitidos = new Set(this.clientData?.productCodes?.map(code => code.toUpperCase()) || []);
+            console.log('Productos permitidos:', Array.from(productosPermitidos));
+
+            // 2. Crear Map solo con los productos permitidos
+            const productosFiltrados = {};
+            for (const codigo of productosPermitidos) {
+                if (cachedData.products[codigo]) {
+                    productosFiltrados[codigo] = cachedData.products[codigo];
+                }
+            }
+
+            // 3. Convertir a Map
+            this.products = new Map(Object.entries(productosFiltrados));
             console.log('Map creado:', {
                 size: this.products.size,
-                primerasCincoClaves: Array.from(this.products.keys()).slice(0, 5)
+                productosFinales: Array.from(this.products.keys())
             });
 
             // Verificar algunos productos específicos
@@ -248,6 +299,15 @@ class ProductManager {
             this.#saveState();
              // Agregar esta línea:
             this.#initialized = true;
+
+
+              // En loadFromCache, justo antes de guardar en caché
+              await this.cache.set('products_data', {
+                version: '1.0',  // Agregamos versión
+                products: Object.fromEntries(this.products),
+                timestamp: Date.now()
+              });
+
             // Guardar en sessionStorage
             sessionStorage.setItem('productManager_initialized', 'true');
             console.log('[ProductManager] Estado después de cargar:', {
@@ -361,6 +421,21 @@ class ProductManager {
    * @returns {Object|null} Producto encontrado o null
    */
       getProduct(codigo) {
+
+        console.log('[ProductManager] Búsqueda de producto:', {
+          codigoBuscado: codigo,
+          estadoProductos: {
+              size: this.products.size,
+              tieneProductos: this.products.size > 0,
+              initialized: this.#initialized
+          }
+        });
+
+
+        console.log('[ProductManager] getProduct llamado desde:', {
+          codigo,
+          stack: new Error().stack
+        });
 
         const codigoMayusculas = codigo.toUpperCase();
         console.log('[ProductManager] Búsqueda:', {
