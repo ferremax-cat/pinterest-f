@@ -995,6 +995,7 @@
 
                // 4. Implementar búsqueda
                const searchInput = document.querySelector('input[type="text"]');
+
                if (searchInput) {
                     searchInput.addEventListener('input', debounce(async function(e) {
                          const searchTerm = e.target.value.toLowerCase();
@@ -1006,7 +1007,15 @@
                               if (!bottomRow) return;
 
                               const codigo = bottomRow.textContent.trim().replace(/\s+/g, '');
+
+                              const codigoMayus = codigo.toUpperCase();
+                              console.log('[catalogo-html DEBUG-Precio 1]', {
+                              codigoOriginal: codigo,
+                              codigoMayus,
+                              precio: await productManager.getPrice(codigoMayus)
+                              });
                               
+
                               if (productManager) {
                               // Si existe ProductManager, usar su búsqueda
                               const producto = productManager.getProduct(codigo);
@@ -1030,6 +1039,9 @@
                // 5. Función original de carga de imágenes
                async function cargarImagenes() {
                     try {
+
+                         console.log('[catalogo.html- cargargarImagenes Precios 1]...metodo cargarImagenes');
+
                          const sheetId = '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d';
                          const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
 
@@ -1052,10 +1064,24 @@
                               }
                          });
 
+                         console.log('Items encontrados:', document.querySelectorAll('.gallery-item').length);
+
                          document.querySelectorAll('.gallery-item').forEach(item => {
                               const bottomRow = item.querySelector('.bottom-row a');
+
+                              console.log('[catalogo.html- cargargarImagenes Precios 1a] [Debug-bottomRow]', {
+                              bottomRow,
+                              item,
+                              tieneBottomRow: !!bottomRow
+                              });
+
+
+
                               if (bottomRow) {
                               const codigo = bottomRow.textContent.trim();
+
+                              
+
                               const codigoLimpio = codigo.replace(/\s+/g, '');
 
                               if (imageMap[codigoLimpio]) {
@@ -1066,8 +1092,11 @@
                                    }
                               }
 
+                              //const precio = priceMap[codigoLimpio]; // VIEJO
+                              console.log('[catalogo.html- cargargarImagenes Precios 2] Debug precio:', codigoLimpio, productManager.getPrice(codigoLimpio));
+                              
                               if (priceMap[codigoLimpio]) {
-                                   const precio = priceMap[codigoLimpio];
+                                   const precio = productManager.getPrice(codigoLimpio); // NUEVO
                                    const bottomRowDiv = item.querySelector('.bottom-row');
                                    let precioElement = bottomRowDiv.querySelector('.price-tag');
                                    if (!precioElement) {
@@ -1075,7 +1104,15 @@
                                         precioElement.className = 'price-tag';
                                         bottomRowDiv.appendChild(precioElement);
                                    }
-                                   precioElement.textContent = `$${precio.toLocaleString()}`;
+                                   precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
+
+                                   console.log('[catalogo.html- cargargarImagenes Precios 3]', {
+                                   precio,
+                                   elementoCreado: precioElement.textContent,
+                                   padreVisible: bottomRowDiv.offsetParent !== null,
+                                   elementoVisible: precioElement.offsetParent !== null
+                                   });
+
                               }
                               }
                          });
@@ -1087,6 +1124,12 @@
                // 5. Nueva implementación usando managers
 
                // Función para cargar la galería
+               const galleryItems = document.querySelectorAll('.gallery-item');
+                    console.log('[Debug-Gallery]', {
+                    itemsEncontrados: galleryItems.length,
+                    primerItem: galleryItems[0]
+                    });
+               
                async function cargarGaleria() {
                     try {
                          console.log('Iniciando cargarGaleria');
@@ -1216,9 +1259,24 @@
                                              };
                                    }
                                         
+                                        // Antes de obtener el precio
+                                        console.log(`[catalogo-html DEBUG-Precio 1] Obteniendo precio para ${codigo}`);
+
                                         // Cargar precio
-                                        const precio = await productManager.getPrice(codigo);
+                                        const precio = await productManager.getPrice(codigo.toUpperCase());
+
+                                        
+                                        console.log('[catalogo-html DEBUG-Precio 2]', {
+                                             precio,
+                                             esNull: precio === null,
+                                             esUndefined: precio === undefined,
+                                             tipo: typeof precio,
+                                             condicion: precio !== null && precio !== undefined
+                                             });
+
                                         if (precio !== null && precio !== undefined) {
+
+                                             console.log(`[catalogo-html DEBUG-Precio 3] Mostrando precio:`, {codigo, precio});
                                              const bottomRowDiv = item.querySelector('.bottom-row');
                                              if (bottomRowDiv) {
                                                   let precioElement = bottomRowDiv.querySelector('.price-tag');
@@ -1226,6 +1284,7 @@
                                                        precioElement = document.createElement('span');
                                                        precioElement.className = 'price-tag';
                                                        bottomRowDiv.appendChild(precioElement);
+                                                       console.log('[catalogo-html DEBUG-precio 4]', {precioElement});
                                                   }
                                                   precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
                                              }

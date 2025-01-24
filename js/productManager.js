@@ -150,6 +150,7 @@ class ProductManager {
           }
       
           console.log('[ProductManager] ✅ Cache verificado correctamente');
+
           // Intentar cargar desde cache
           const cachedData = await this.cache.get('products_data');
           console.log('[ProductManager] Datos de caché:', {
@@ -176,6 +177,7 @@ class ProductManager {
             } else {
                 console.log('[ProductManager] 🔄 No hay caché, cargando datos frescos...');
                 await this.loadFreshData();
+                
             }
         
 
@@ -325,7 +327,7 @@ class ProductManager {
    * Carga datos frescos desde la fuente
    * @private
    */
-  async loadFreshData() {
+  async loadFreshData_Old() {
     try {
 
       console.log('[ProductManager] Estado antes de cargar:', {
@@ -335,6 +337,8 @@ class ProductManager {
       
       
       console.log('[ProductManager] Iniciando carga de datos...');
+      console.log('[ProductManager] ClientData:', this.clientData);//23-1
+
       const response = await fetch(`${config.apiEndpoints.sheets}/${config.productosId}/gviz/tq?tqx=out:json`);
       const text = await response.text();
 
@@ -344,6 +348,9 @@ class ProductManager {
       });
 
       const json = JSON.parse(text.substr(47).slice(0, -2));
+
+
+      
       console.log('[ProductManager] Datos parseados:', {
         tieneTabla: !!json.table,
         filas: json.table?.rows?.length
@@ -390,6 +397,130 @@ class ProductManager {
     }
   }
 
+  async loadFreshData() {
+    try {
+
+      this.products = new Map(); // Inicializamos el Map
+
+      const groupResponse = await fetch('/json/catalogo_grupos.json');
+      const groupData = await groupResponse.json();
+      const allowedProducts = new Set(groupData[this.clientData.groups[0]].map(code => code.toUpperCase()));
+      console.log('[ProductManager-loadFreshData 1] Productos permitidos:', allowedProducts);
+
+       // Log para confirmar carga
+      console.log('[ProductManager-loadFreshData 2] Iniciando carga de:', allowedProducts.size, 'productos');
+
+      console.log('[ProductManager-loadFreshData 3] ClientData:', this.clientData);
+      console.log('[ProductManager-loadFreshData 4] Ruta productos:', '/json/productos.json');
+
+      const productsResponse = await fetch('/json/productos.json');
+      console.log('[ProductManager-loadFreshData 5] Response status:', productsResponse.status);
+      //console.log('[ProductManager-loadFreshData 6] Respuesta:', await productsResponse.text());
+
+      const productsData = await productsResponse.json();
+      console.log('[ProductManager-loadFreshData 7] Productos encontrados:', {
+      total: Object.keys(productsData).length,
+      ejemplo: productsData['evol0088']
+      });
+
+      console.log('[ProductManager-loadFreshData 8] Muestra de códigos:', {
+        primerCodigo: Object.keys(productsData)[0],
+        existeEvol: productsData['EVOL0088']
+      });
+
+      console.log('[ProductManager-loadFreshData 9] Debug:', {
+        allowedProducts: [...allowedProducts],
+        primerProducto: productsData['EVOL0088'],
+        busquedaDirecta: allowedProducts.has('EVOL0088')
+      });
+
+      console.log('[ProductManager-loadFreshData 10] Recorriendo productos:', {
+        productos: [...allowedProducts].map(code => ({
+          codigo: code,
+          datos: productsData[code]
+        }))
+      });
+
+      [...allowedProducts].forEach(code => {
+        console.log(`[ProductManager-loadFreshData 11] ${code}:`, productsData[code]);
+      });
+
+      let productosAgregados = 0;
+
+
+      allowedProducts.forEach(code => {
+        console.log('[ProductManager-Loop-Start]', code);
+        const productData = productsData[code];
+        //console.log(`Procesando ${code}:`, productData);
+
+        console.log('[ProductManager-loadFreshData 11a -Save-Product]', {
+          inputData: productData,
+          listaPrecio: this.clientData.priceList,
+          precioEncontrado: productData.prices[this.clientData.priceList]
+          });
+
+        if (productData) {
+          this.products.set(code, {
+            codigo: code,
+            nombre: productData.name,
+            categoria: productData.category,
+            bulto: productData.bulk,
+            precio: productData.prices[this.clientData.priceList],
+            metadata: {
+              lastUpdate: Date.now(),
+              estado: 'activo'
+            }
+          });
+          productosAgregados++;
+
+          console.log('[ProductManager-loadFreshData 11b-Debug]', {
+            priceList: this.clientData.priceList,
+            productPrices: productData.prices,
+            finalPrice: productData.prices[this.clientData.priceList]
+            });
+          console.log('[ProductManager-Loop-End]', code);
+        }
+      });
+
+      console.log('[ProductManager-After-Loop]');
+      console.log('[ProductManager-loadFreshData 12] Productos guardados:', this.products.size);
+      console.log('[ProductManager-Final]', {
+        totalProductos: this.products.size,
+        listaProductos: [...this.products.keys()]
+      });
+     
+
+
+      //console.log(`Productos agregados: ${productosAgregados}`);
+
+      await this.buildIndices();
+      await this.cache.set('products_data', {
+      products: Object.fromEntries(this.products),
+      timestamp: Date.now()
+      });
+
+      console.log('[ProductManager-Test]', {
+        producto: this.products.get('EVOL0088'),
+        existe: this.products.has('EVOL0088')
+      });
+
+      const producto = this.products.get('EVOL0088');
+      console.log('[ProductManager-Precios]', {
+        datosProducto: producto,
+        precioAsignado: producto.precio,
+        listaPrecio: this.clientData.priceList
+      });
+
+      console.log('[ProductManager-Cache]', await this.cache.get('products_data'));
+
+
+    } catch (error) {
+      console.error('[ProductManager] Error cargando datos:', error);
+      throw error;
+    }
+  }
+
+
   /**
    * Construye índices para búsqueda eficiente
    * @private
@@ -422,7 +553,7 @@ class ProductManager {
    */
       getProduct(codigo) {
 
-        console.log('[ProductManager] Búsqueda de producto:', {
+        console.log('[ProductManager- getProduct 1] Búsqueda de producto:', {
           codigoBuscado: codigo,
           estadoProductos: {
               size: this.products.size,
@@ -432,25 +563,33 @@ class ProductManager {
         });
 
 
-        console.log('[ProductManager] getProduct llamado desde:', {
+        console.log('[ProductManager- getProduct 2] llamado desde:', {
           codigo,
           stack: new Error().stack
         });
 
         const codigoMayusculas = codigo.toUpperCase();
-        console.log('[ProductManager] Búsqueda:', {
+        console.log('[ProductManager- getProduct 3] Búsqueda:', {
             original: codigo,
             convertido: codigoMayusculas
         });  
 
-        console.log('[ProductManager] Intentando encontrar producto:', {
+        console.log('[ProductManager- getProduct 4] Intentando encontrar producto:', {
           codigoBuscado: codigoMayusculas,
           primerosProductos: Array.from(this.products.keys()).slice(0, 3),
           existeEnMap: this.products.has(codigoMayusculas)
         });
 
         console.log('=== getProduct ===');
-        console.log('[ProductManager] 🔍 Detalles de búsqueda:', {
+
+        console.log('[ProductManager- getProduct 4a]', {
+          codigoMayusculas,
+          productoEncontrado: this.products.get(codigoMayusculas),
+          productos: Object.fromEntries(this.products),
+          tieneProducto: this.products.has(codigoMayusculas)
+      });
+
+        console.log('[ProductManager- getProduct 5] 🔍 Detalles de búsqueda:', {
           codigoBuscado: codigoMayusculas,  // Cambiado a codigoMayusculas
           // Mostrar algunos códigos similares
           codigosSimilares: Array.from(this.products.keys())
@@ -463,19 +602,19 @@ class ProductManager {
         });
 
         // Agregar inspección de datos
-        console.log('Muestra de claves en this.products:', {
+        console.log(' [ProductManager- getProduct 6] Muestra de claves en this.products:', {
           primeras5Claves: Array.from(this.products.keys()).slice(0, 5),
           formatoCodigoBuscado: typeof codigoMayusculas,  // Cambiado a codigoMayusculas
           ejemploClaveMap: Array.from(this.products.keys())[0]
         });
 
-        console.log('[ProductManager] 📂 Primeros 10 productos:', {
+        console.log('[ProductManager- getProduct 7] 📂 Primeros 10 productos:', {
           keys: Array.from(this.products.keys()).slice(0, 10),
           source: 'Desde caché/Excel'
         });
 
 
-        console.log('Estado de this.products:', {
+        console.log('[ProductManager- getProduct 8]Estado de this.products:', {
             exists: !!this.products,
             isMap: this.products instanceof Map,
             size: this.products?.size,
@@ -483,7 +622,7 @@ class ProductManager {
         });
 
 
-        console.log('[ProductManager] Estado de productos:', {
+        console.log('[ProductManager- getProduct 9] Estado de productos:', {
           size: this.products.size,
           initialized: this.#initialized,
           tieneProductos: this.products.size > 0,
@@ -519,7 +658,9 @@ class ProductManager {
    * @returns {number|null} Precio calculado o null
    */
       async getPrice(codigo) {
+
         const startTime = performance.now();
+
         try {
             // Log inicial
             console.log('=== Inicio getPrice ===');
@@ -530,12 +671,38 @@ class ProductManager {
                 categories: this.clientData?.categories
             });
 
+            // Después de console.log('Estado de clientData:...')
+            console.log('[ProductManager DEBUG-getPrice 0 -getPrice-debug-completo]', {
+              codigoRecibido: codigo,
+              codigoMayus: codigo.toUpperCase(),
+              existeEnMap: this.products.has(codigo.toUpperCase()),
+              productoEncontrado: this.products.get(codigo.toUpperCase()),
+              productoDesdeGetProduct: this.getProduct(codigo)
+            });
+
             // Obtener producto
-            const product = this.getProduct(codigo);
-            console.log('Producto encontrado:', product);
+            console.log('[ProductManager DEBUG-getPrice 1]', {products: [...this.products.entries()]});
+
+            console.log('[ProductManager DEBUG-getPrice 1a]', {
+              codigoRecibido: codigo,
+              codigoMayus: codigo.toUpperCase(),
+              existeEnMap: this.products.has(codigo.toUpperCase())
+             });
+
+            const product = this.products.get(codigo.toUpperCase());
+
+            console.log('[ProductManager DEBUG-getPrice 2]', {product});
 
             if (!product) {
                 console.log('❌ Producto no encontrado');
+
+                console.log('[ProductManager]-GetPrice-Debug]', {
+                  codigoInput: codigo,
+                  codigoMayus: codigo.toUpperCase(),
+                  productoEncontrado: this.products.get(codigo.toUpperCase()),
+                  precio: this.products.get(codigo.toUpperCase())?.precio
+              });
+
                 return null;
             }
 
@@ -546,11 +713,13 @@ class ProductManager {
             }
 
             // Obtener precio
-            const price = product.precios?.[this.clientData.priceList];
-            console.log('Precio encontrado:', {
+            //const price = product.precio?.[this.clientData.priceList]; 24-1-25
+
+            const price = product.precio;
+            console.log('[productManager-Precio encontrado]:', {
                 listaPrecio: this.clientData.priceList,
                 precio: price,
-                preciosDisponibles: product.precios ? Object.keys(product.precios) : []
+                preciosDisponibles: product.precio ? Object.keys(product.precio) : []
             });
 
             if (price === undefined || price === null) {

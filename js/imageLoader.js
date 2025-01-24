@@ -272,6 +272,7 @@ class ImageLoader {
 
       } else {
         // Si no hay cache, cargar datos frescos
+        
         console.log('[ImageLoader] 🔄 No hay caché, cargando datos frescos...');
         await this.loadImageData();
 
