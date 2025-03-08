@@ -183,7 +183,7 @@
                     </div>
 
                     <div class="bottom-row">
-                         <a href=""><span class="icon fas fa-arrow-up"></span>evol3089</a>
+                         <a href=""><span class="icon fas fa-arrow-up"></span>PERFA0261</a>
                          <!--<a href=""><span class="fas fa-upload"></span></a>
                               <a href=""><span class="fas fa-ellipsis-h"></span></a>
                               -->
@@ -1215,9 +1215,9 @@
 
                                */
 
-                                   if (imageId) {
+                              if (imageId) {
                                         const img = item.querySelector('img');
-                                        if (img) {
+                                   if (img) {
 
                                              console.log(`[catalogo.html][DEBUG ${codigo}] Iniciando carga:`, {
                                                   imageId,
@@ -1237,7 +1237,19 @@
                                                   img.src = url;
                                                   img.dataset.processed = 'true';
                                                   console.log(`[catalogo.html][DEBUG ${codigo}] URL asignada:`, url);
+                                                  
                                              
+                                                  
+                                             } else {
+                                                       // Si la URL está vacía, usar directamente el imageId que ya tenemos
+                                                       console.log(`[catalogo.html][DEBUG ${codigo}] URL vacía, usando fallback directo`);
+                                                       const fallbackUrl = `https://lh3.googleusercontent.com/d/${imageId}`;
+                                                       img.src = fallbackUrl;
+                                                       img.dataset.processed = 'true';
+                                                       }
+
+
+
                                                   img.onerror = () => {
                                                   console.log('[ImageLoader] Error de carga:', {
                                                   codigo: codigo,
@@ -1256,8 +1268,10 @@
                                                        const lastResortUrl = `https://drive.google.com/file/d/${imageId}/preview`;
                                                        img.src = lastResortUrl;
                                                   };
-                                             };
-                                   }
+                                                  };          
+
+
+
                                         
                                         // Antes de obtener el precio
                                         console.log(`[catalogo-html DEBUG-Precio 1] Obteniendo precio para ${codigo}`);
@@ -1290,7 +1304,7 @@
                                              }
                                         }
                                    }
-                                   }
+                              }
 
 
                               /* try {
