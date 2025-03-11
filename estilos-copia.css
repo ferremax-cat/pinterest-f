@@ -207,21 +207,36 @@ nav .iconos img{
 
 /*? Estilos de post modificados */
 .container-img div{
-    position: absolute;
+    /*position: absolute; saco 11-3-25*/
     width: 100%;
     display: flex;
     padding: 15px;
     z-index: 2; /* Añadido */
 }
 
+
 .container-img .top-row{
+     /* saco 11-3-25
      top: 0;
      left: 0;
      justify-content: space-between;
-     align-items: flex-start;
+     align-items: flex-start; */
+
+     /*pongo 11-3-25*/
+     position: relative;
+     display: flex;
+     justify-content: center; /* Centrar el contenido */
+     align-items: center;
+     padding: 10px 15px;
+     margin-top: 5px; /* Espacio entre la imagen y el título */
+     border-radius: 0 0 16px 16px; /* Redondeado en la parte inferior */
+     background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+
+          
 }
 
 .container-img .top-row a:not(.btn){
+     /* saco 1-3-25
      color: #FFF;
      font-weight: 700;
      width: 60%;
@@ -229,7 +244,17 @@ nav .iconos img{
      display: -webkit-box;
      -webkit-box-orient: vertical;
      -webkit-line-clamp: 2;
-     overflow: hidden;
+     overflow: hidden; */
+
+     color: #333; /* Color oscuro para mejor legibilidad */
+    font-weight: 500;
+    width: 100%; /* Ocupar todo el ancho disponible */
+    text-align: center; /* Centrar el texto */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+
 }
 
 .container-img .top-row span{
@@ -252,7 +277,7 @@ nav .iconos img{
 .container-img .bottom-row{
 
      position: absolute;          /* Posicionamiento absoluto respecto al contenedor padre */
-     bottom: 10px;               /* Distancia desde el borde inferior */
+     bottom: 80px;               /* Distancia desde el borde inferior */
      left: 0%;                   /* Alineación desde el borde izquierdo */
      height: 35px;               /* Altura reducida */
      display: flex;              /* Habilita flexbox para ordenar los elementos internos */
@@ -265,7 +290,9 @@ nav .iconos img{
      padding: 0 8px;            /* Padding horizontal uniforme */
      background-color: rgba(255, 255, 255, 0.9);  /* Fondo blanco semi-transparente */
      border-radius: 20px;       /* Bordes más redondeados */
-     gap: 2px;                  /* Espacio reducido entre elementos */
+     gap: 2px;                  /* Espacio reducido entre elementos */      
+    
+
 }
 
 /* Agregar nuevo estilo para el precio */
