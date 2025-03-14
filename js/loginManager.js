@@ -154,7 +154,7 @@ class LoginManager {
             console.log('Cliente no encontrado en cache, buscando en JSON...');
             
             try {
-                const response = await fetch('/json/clientes_permisos.json');
+                const response = await fetch('./json/clientes_permisos.json');
                 const clientesData = await response.json();
                 
                 // Convertir la clave a string para la comparación
