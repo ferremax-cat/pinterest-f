@@ -564,6 +564,13 @@ def verify_json_file(file_path):
         print(f"Error verificando archivo: {str(e)}")
         return False
 
+
+
+     
+
+
+
+
 def main():
     """Función principal que intenta primero Google Sheets y luego local"""
     try:
