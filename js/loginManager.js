@@ -59,7 +59,7 @@ class LoginManager {
 
                 // 4. Guardar datos completos en localStorage
 
-                const response = await fetch('/json/catalogo_grupos.json');
+                const response = await fetch('./json/catalogo_grupos.json');
                 const catalogoGrupos = await response.json();
 
                 console.log('3. Catálogo de grupos cargado:', catalogoGrupos);
@@ -258,7 +258,7 @@ class LoginManager {
         console.log('5. Grupos del cliente:', clientGroups);
 
         // 2. Cargar catálogo_grupos.json para obtener productos
-        const catalogoGruposResponse = await fetch('/json/catalogo_grupos.json');
+        const catalogoGruposResponse = await fetch('./json/catalogo_grupos.json');
         const catalogoGrupos = await catalogoGruposResponse.json();
         console.log('6. Catálogo de grupos cargado:', catalogoGrupos);
 
