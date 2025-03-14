@@ -13,4 +13,12 @@ LISTA SABANA.xls
 
 # Otros backups y temporales
 *.bak
-*.tmp
+*.tmp.vscode/
+.vscode/
+doc
+
+node_modules/
+package-lock.json
+js/modificaciones-temp.js
+.DS_Store
+*.log

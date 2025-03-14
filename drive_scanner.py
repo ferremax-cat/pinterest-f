@@ -8,27 +8,61 @@ import pickle
 
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
+# def obtener_credenciales():
+#     credenciales = None
+#     # Verificar si ya existen tokens guardados
+#     if os.path.exists('token.pickle'):
+#         with open('token.pickle', 'rb') as token:
+#             credenciales = pickle.load(token)
+    
+#     # Si no hay credenciales válidas, hacer login
+#     if not credenciales or not credenciales.valid:
+#         if credenciales and credenciales.expired and credenciales.refresh_token:
+#             credenciales.refresh(Request())
+#         else:
+#             flow = InstalledAppFlow.from_client_secrets_file(
+#                 'credentials.json', SCOPES)
+#             credenciales = flow.run_local_server(port=0)
+        
+#         # Guardar credenciales para la próxima vez
+#         with open('token.pickle', 'wb') as token:
+#             pickle.dump(credenciales, token)
+    
+#     return credenciales
+
 def obtener_credenciales():
     credenciales = None
     # Verificar si ya existen tokens guardados
     if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            credenciales = pickle.load(token)
+        try:
+            with open('token.pickle', 'rb') as token:
+                credenciales = pickle.load(token)
+            
+            # Intentar refrescar si han expirado
+            if credenciales and credenciales.expired and credenciales.refresh_token:
+                try:
+                    credenciales.refresh(Request())
+                except:
+                    # Si falla el refresco, eliminar el token y forzar nueva autenticación
+                    credenciales = None
+                    os.remove('token.pickle')
+                    print("Token inválido eliminado, se solicitará nueva autenticación")
+        except:
+            # En caso de problemas con el archivo token.pickle
+            credenciales = None
     
     # Si no hay credenciales válidas, hacer login
-    if not credenciales or not credenciales.valid:
-        if credenciales and credenciales.expired and credenciales.refresh_token:
-            credenciales.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            credenciales = flow.run_local_server(port=0)
+    if not credenciales:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            'credentials.json', SCOPES)
+        credenciales = flow.run_local_server(port=0)
         
         # Guardar credenciales para la próxima vez
         with open('token.pickle', 'wb') as token:
             pickle.dump(credenciales, token)
     
     return credenciales
+
 
 def escanear_carpeta(carpeta_id):
     credenciales = obtener_credenciales()
