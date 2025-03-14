@@ -229,7 +229,7 @@ class LoginManager {
             }); */
 
         // 1. Cargar grupos_clientes.json local
-        const response = await fetch('/json/grupos_clientes.json');
+        const response = await fetch('./json/grupos_clientes.json');
         const gruposData = await response.json();
         console.log('1. Datos de grupos cargados:', gruposData);
 
