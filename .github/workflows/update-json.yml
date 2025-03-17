@@ -4,7 +4,9 @@ on:
     paths:
       - 'excel/*.xlsx'    # Se activa cuando se modifican archivos Excel
   schedule:
-    - cron: '* * * * *'   # Se ejecuta cada minuto    
+    #- cron: '* * * * *'   # Se ejecuta cada minuto    
+    
+    - cron: '0 * * * *' # Para ejecutarse cada hora
   workflow_dispatch:      # Esto habilita la ejecución manual  
 
 jobs:
