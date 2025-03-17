@@ -840,12 +840,12 @@
      <!-- Agregar el nuevo script al final -->
      <script type="module">
 
-          import MonitoringSystem from '../js/MonitoringSystem.js';
-          import FallbackManager from '../js/FallbackManager.js';
+          import MonitoringSystem from './js/MonitoringSystem.js';
+          import FallbackManager from './js/FallbackManager.js';
           //import CacheManager from '../js/cacheManager.js';
-          import ProductManager from '../js/productManager.js';
-          import {config} from '../js/config.js';
-          import ImageLoader from '../js/imageLoader.js';
+          import ProductManager from './js/productManager.js';
+          import {config} from './js/config.js';
+          import ImageLoader from './js/imageLoader.js';
 
           async function cargarImagenes() {
     try {
@@ -867,7 +867,7 @@
         // 2. Si no hay datos en localStorage, cargar desde JSON
         if (!imageMap) {
             console.log('No hay datos en localStorage, cargando desde JSON...');
-            const response = await fetch('json/catalogo_imagenes.json');
+            const response = await fetch('./json/catalogo_imagenes.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -1198,7 +1198,7 @@
                          
 
                          // 2. Cargar catálogo de imágenes
-                         const response = await fetch('/json/catalogo_imagenes.json');
+                         const response = await fetch('./json/catalogo_imagenes.json');
                          const catalogoImagenes = await response.json();
                          console.log('Catálogo de imágenes cargado:', catalogoImagenes);
 
@@ -1419,7 +1419,7 @@
                                    
                                    try {
                                         // 1. Intentar cargar el catálogo de imágenes desde JSON
-                                        const response = await fetch('/json/catalogo_imagenes.json');
+                                        const response = await fetch('./json/catalogo_imagenes.json');
                                         if (!response.ok) {
                                              throw new Error(`Error al cargar catálogo de imágenes: ${response.status}`);
                                         }

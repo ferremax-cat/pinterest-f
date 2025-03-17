@@ -59,7 +59,7 @@ class LoginManager {
 
                 // 4. Guardar datos completos en localStorage
 
-                const response = await fetch('/json/catalogo_grupos.json');
+                const response = await fetch('./json/catalogo_grupos.json');
                 const catalogoGrupos = await response.json();
 
                 console.log('3. Catálogo de grupos cargado:', catalogoGrupos);
@@ -154,7 +154,7 @@ class LoginManager {
             console.log('Cliente no encontrado en cache, buscando en JSON...');
             
             try {
-                const response = await fetch('/json/clientes_permisos.json');
+                const response = await fetch('./json/clientes_permisos.json');
                 const clientesData = await response.json();
                 
                 // Convertir la clave a string para la comparación
@@ -229,7 +229,7 @@ class LoginManager {
             }); */
 
         // 1. Cargar grupos_clientes.json local
-        const response = await fetch('/json/grupos_clientes.json');
+        const response = await fetch('./json/grupos_clientes.json');
         const gruposData = await response.json();
         console.log('1. Datos de grupos cargados:', gruposData);
 
@@ -258,7 +258,7 @@ class LoginManager {
         console.log('5. Grupos del cliente:', clientGroups);
 
         // 2. Cargar catálogo_grupos.json para obtener productos
-        const catalogoGruposResponse = await fetch('/json/catalogo_grupos.json');
+        const catalogoGruposResponse = await fetch('./json/catalogo_grupos.json');
         const catalogoGrupos = await catalogoGruposResponse.json();
         console.log('6. Catálogo de grupos cargado:', catalogoGrupos);
 

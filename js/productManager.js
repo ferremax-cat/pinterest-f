@@ -402,7 +402,7 @@ class ProductManager {
 
       this.products = new Map(); // Inicializamos el Map
 
-      const groupResponse = await fetch('/json/catalogo_grupos.json');
+      const groupResponse = await fetch('./json/catalogo_grupos.json');
       const groupData = await groupResponse.json();
       const allowedProducts = new Set(groupData[this.clientData.groups[0]].map(code => code.toUpperCase()));
       console.log('[ProductManager-loadFreshData 1] Productos permitidos:', allowedProducts);
@@ -411,9 +411,9 @@ class ProductManager {
       console.log('[ProductManager-loadFreshData 2] Iniciando carga de:', allowedProducts.size, 'productos');
 
       console.log('[ProductManager-loadFreshData 3] ClientData:', this.clientData);
-      console.log('[ProductManager-loadFreshData 4] Ruta productos:', '/json/productos.json');
+      console.log('[ProductManager-loadFreshData 4] Ruta productos:', './json/productos.json');
 
-      const productsResponse = await fetch('/json/productos.json');
+      const productsResponse = await fetch('./json/productos.json');
       console.log('[ProductManager-loadFreshData 5] Response status:', productsResponse.status);
       //console.log('[ProductManager-loadFreshData 6] Respuesta:', await productsResponse.text());
 
