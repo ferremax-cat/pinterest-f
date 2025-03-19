@@ -908,6 +908,9 @@
 
           document.addEventListener('DOMContentLoaded', async function() {
 
+               
+
+
                // 1. AGREGAR al inicio la creación del MonitoringSystem
                const monitoringSystem = new MonitoringSystem();
                const fallbackManager = new FallbackManager();
@@ -920,6 +923,30 @@
                window.location.href = 'login.html';
                return;
                }
+
+
+               //-- agregue 19-3-25
+
+               // Verificar coherencia entre usuario y caché de productos
+               //const clientData = localStorage.getItem('clientData');
+               const cacheProductsData = localStorage.getItem('cache_products_data');
+               
+               if (clientData && cacheProductsData) {
+                    const clientInfo = JSON.parse(clientData);
+                    const cacheInfo = JSON.parse(cacheProductsData);
+                    
+                    // Verificar si la caché corresponde al usuario actual (por ejemplo, usando ID de cliente)
+                    if (clientInfo.id !== cacheInfo.clientId) {
+                         console.log('Se detectó caché de productos de otro usuario, limpiando...');
+                         localStorage.removeItem('cache_products_data');
+                         sessionStorage.removeItem('managersInitialized');
+                    }
+               }
+               //--fin agregue 19-3-25
+
+
+
+
 
                // 3. DESPUÉS parsear clientConfig
                const clientConfig = JSON.parse(clientData);
@@ -936,7 +963,37 @@
                });
                
                // Agregar al inicio del DOMContentLoaded
+
+               
+
+               //--agregue 19-3-25
+
                const managersInitialized = sessionStorage.getItem('managersInitialized') === 'true';
+               
+
+               // Agregar el control de inicialización - CAMBIAR ESTA LÓGICA
+                    if (!managersInitialized || sessionStorage.getItem('needsReinitialization') === 'true') {
+                    console.log('Necesaria inicialización de managers (primera vez o cambio de usuario)');
+                    
+                    // Limpiar la bandera de reinicialización si existe
+                    sessionStorage.removeItem('needsReinitialization');
+                    
+                    try {
+                         await Promise.all([
+                              window.productManager.initialize(clientConfig),
+                              window.imageLoader.initialize()
+                         ]);
+                         sessionStorage.setItem('managersInitialized', 'true');
+                         console.log('Managers inicializados correctamente');
+                    } catch (error) {
+                         console.error('Error en inicialización de managers:', error);
+                         throw error;
+                    }
+                    } else {
+                    console.log('Managers ya inicializados, procediendo con la carga de galería');
+                    }
+
+               //--fin agregue 19-3-25
 
                // Agregar el control de inicialización
                if (!managersInitialized) {
@@ -1519,22 +1576,263 @@
                
                
                // 6. Función de precarga de imágenes
+               //--- agrego 19-3-25
+
+                              // Modificación de la función precargarSiguientesPaginas para implementar scroll infinito completo
                async function precargarSiguientesPaginas() {
-                    if (!imageLoader) return;
+               if (!imageLoader) return;
+               
+               console.log('Ejecutando precargarSiguientesPaginas para scroll infinito');
+               
+               try {
+                    // 1. Obtener lista completa de productos disponibles (si aún no la tenemos)
+                    if (!window.allProducts || window.allProducts.length === 0) {
+                         console.log('Cargando lista completa de productos...');
+                         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+                         
+                         if (clientData?.productCodes && Array.isArray(clientData.productCodes)) {
+                              window.allProducts = clientData.productCodes;
+                              console.log(`Se cargaron ${window.allProducts.length} productos del clientData`);
+                         } 
+                         // Si tenemos productManager, intentar obtener productos de allí
+                         else if (window.productManager && window.productManager.products instanceof Map) {
+                              window.allProducts = Array.from(window.productManager.products.keys());
+                              console.log(`Se cargaron ${window.allProducts.length} productos del productManager`);
+                         } else {
+                              console.log('No se pudo obtener lista de productos');
+                              return;
+                         }
+                    }
+
+                    // 2. Determinar cuántos elementos ya tenemos cargados
+                    const container = document.querySelector('.gallery-container');
+                    const existingItems = container.querySelectorAll('.gallery-item');
+                    const loadedCount = existingItems.length;
                     
-                    const items = Array.from(document.querySelectorAll('.gallery-item'));
-                    const visibleItems = items.filter(item => 
-                         item.getBoundingClientRect().top < window.innerHeight * 2
-                    );
-
-                    const codigos = visibleItems.map(item => {
-                         const bottomRow = item.querySelector('.bottom-row a');
-                         return bottomRow ? bottomRow.textContent.trim().replace(/\s+/g, '') : null;
-                    }).filter(Boolean);
-
-                    await imageLoader.preloadImages(codigos);
+                    console.log(`Elementos actuales: ${loadedCount}`);
+                    
+                    // 3. Determinar cuántos y cuáles cargar ahora
+                    const batchSize = 10; // Número de elementos a cargar cada vez
+                    const maxItems = 200; // Límite máximo de elementos
+                    
+                    // Verificar si ya alcanzamos el límite o no hay más productos disponibles
+                    if (loadedCount >= maxItems || loadedCount >= window.allProducts.length) {
+                         console.log('Se alcanzó el límite de elementos o no hay más productos disponibles');
+                         return;
+                    }
+                    
+                    // Calcular cuántos nuevos elementos cargar
+                    const startIndex = loadedCount;
+                    const endIndex = Math.min(startIndex + batchSize, window.allProducts.length, maxItems);
+                    
+                    if (startIndex >= endIndex) {
+                         console.log('No hay más elementos para cargar');
+                         return;
+                    }
+                    
+                    // 4. Obtener los próximos productos a cargar
+                    const nextBatch = window.allProducts.slice(startIndex, endIndex);
+                    console.log(`Cargando lote de ${nextBatch.length} productos (${startIndex} a ${endIndex-1})`);
+                    
+                    // 5. Mostrar indicador de carga
+                    showLoadingIndicator();
+                    
+                    // 6. Crear y añadir los nuevos elementos
+                    for (const codigo of nextBatch) {
+                         if (!codigo) continue;
+                         
+                         const codigoMayus = codigo.toUpperCase();
+                         
+                         // Crear nuevo elemento clonando uno existente
+                         const template = existingItems[0].cloneNode(true);
+                         
+                         // Establecer el código del producto como atributo
+                         template.setAttribute('data-product-code', codigoMayus);
+                         
+                         // Actualizar código en bottom-row
+                         const bottomRow = template.querySelector('.bottom-row a');
+                         if (bottomRow) {
+                              bottomRow.innerHTML = `<span class="icon fas fa-arrow-up"></span>${codigoMayus}`;
+                         }
+                         
+                         // Actualizar nombre si está disponible
+                         if (window.productManager) {
+                              try {
+                                   const producto = window.productManager.getProduct(codigoMayus);
+                                   
+                                   if (producto && producto.nombre) {
+                                   const topRowLink = template.querySelector('.top-row a');
+                                   if (topRowLink) {
+                                        topRowLink.textContent = producto.nombre;
+                                   }
+                                   }
+                                   
+                                   // Agregar precio si está disponible
+                                   if (producto && producto.precio) {
+                                   const bottomRowDiv = template.querySelector('.bottom-row');
+                                   if (bottomRowDiv) {
+                                        let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                        
+                                        if (!precioElement) {
+                                             precioElement = document.createElement('span');
+                                             precioElement.className = 'price-tag';
+                                             bottomRowDiv.appendChild(precioElement);
+                                        }
+                                        
+                                        precioElement.textContent = `$${producto.precio.toLocaleString('es-AR')}`;
+                                   }
+                                   }
+                              } catch (error) {
+                                   console.log(`Error al obtener datos para ${codigoMayus}:`, error);
+                              }
+                         }
+                         
+                         // Limpiar la imagen para que no herede la del template
+                         const imgElement = template.querySelector('img');
+                         if (imgElement) {
+                              imgElement.src = '';
+                              imgElement.alt = codigoMayus;
+                         }
+                         
+                         // Añadir el nuevo elemento al contenedor
+                         container.appendChild(template);
+                         
+                         // Cargar la imagen del producto
+                         loadProductImage(template, codigoMayus);
+                    }
+                    
+                    // 7. Ocultar indicador de carga después de un breve retraso
+                    setTimeout(() => {
+                         hideLoadingIndicator();
+                    }, 500);
+                    
+                    console.log(`Se agregaron ${nextBatch.length} nuevos elementos.`);
+                    
+               } catch (error) {
+                    console.error('Error en precargarSiguientesPaginas:', error);
+                    hideLoadingIndicator();
+               }
                }
 
+               // Función auxiliar para cargar la imagen de un producto
+               async function loadProductImage(element, codigo) {
+               try {
+                    const imgElement = element.querySelector('img');
+                    if (!imgElement) return;
+                    
+                    // Intentar cargar desde catalogoImagenes
+                    try {
+                         const response = await fetch('./json/catalogo_imagenes.json');
+                         
+                         if (response.ok) {
+                              const catalogoImagenes = await response.json();
+                              
+                              // Intentar con diferentes variantes del código
+                              const variantes = [codigo, codigo.toLowerCase(), codigo.toUpperCase()];
+                              let imageId = null;
+                              
+                              for (const variante of variantes) {
+                                   if (catalogoImagenes.images && catalogoImagenes.images[variante]) {
+                                   imageId = catalogoImagenes.images[variante];
+                                   break;
+                                   }
+                              }
+                              
+                              if (imageId) {
+                                   imgElement.src = `https://lh3.googleusercontent.com/d/${imageId}`;
+                                   return;
+                              }
+                         }
+                    } catch (error) {
+                         console.log(`Error al cargar imagen de catálogo para ${codigo}:`, error);
+                    }
+                    
+                    // Alternativa: usar imageLoader si está disponible
+                    if (window.imageLoader) {
+                         try {
+                              const url = await window.imageLoader.getImageUrl(codigo, 'desktop');
+                              if (url) {
+                                   imgElement.src = url;
+                              }
+                         } catch (error) {
+                              console.log(`Error al cargar imagen con imageLoader para ${codigo}:`, error);
+                         }
+                    }
+               } catch (error) {
+                    console.error(`Error general al cargar imagen para ${codigo}:`, error);
+               }
+               }
+
+               // Funciones auxiliares para el indicador de carga
+               function showLoadingIndicator() {
+               let loadingIndicator = document.querySelector('.infinite-scroll-loading');
+               
+               if (!loadingIndicator) {
+                    loadingIndicator = document.createElement('div');
+                    loadingIndicator.className = 'infinite-scroll-loading';
+                    loadingIndicator.innerHTML = `
+                         <div class="loading-spinner">
+                              <i class="fas fa-spinner fa-spin"></i>
+                              <span>Cargando más productos...</span>
+                         </div>
+                    `;
+                    loadingIndicator.style.textAlign = 'center';
+                    loadingIndicator.style.padding = '20px';
+                    loadingIndicator.style.color = '#666';
+                    
+                    const container = document.querySelector('.gallery-container');
+                    container.parentNode.insertBefore(loadingIndicator, container.nextSibling);
+               } else {
+                    loadingIndicator.style.display = 'block';
+               }
+               }
+
+               function hideLoadingIndicator() {
+               const loadingIndicator = document.querySelector('.infinite-scroll-loading');
+               if (loadingIndicator) {
+                    loadingIndicator.style.display = 'none';
+               }
+               }
+
+               // Agregar estilos para el indicador de carga y el precio
+               function addInfiniteScrollStyles() {
+               if (document.querySelector('#infinite-scroll-styles')) return;
+               
+               const style = document.createElement('style');
+               style.id = 'infinite-scroll-styles';
+               style.textContent = `
+                    .loading-spinner {
+                         display: flex;
+                         align-items: center;
+                         justify-content: center;
+                         gap: 10px;
+                         padding: 15px;
+                    }
+                    
+                    .price-tag {
+                         background-color: rgba(0, 0, 0, 0.7);
+                         color: white;
+                         padding: 3px 8px;
+                         border-radius: 4px;
+                         margin-left: 10px;
+                         font-weight: bold;
+                    }
+               `;
+               document.head.appendChild(style);
+               }
+
+               // Inicializar estilos cuando se carga la página
+               document.addEventListener('DOMContentLoaded', function() {
+               addInfiniteScrollStyles();
+               });
+
+               //--- fin agrego 19-3-25
+
+
+
+
+
+               
                // 7. Scroll infinito
                let isLoading = false;
                window.addEventListener('scroll', debounce(async function() {

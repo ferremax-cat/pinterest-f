@@ -36,7 +36,18 @@ class LoginManager {
     async processLogin(inputClave) {
         try {
 
-            // 1. Verificar si la clave existe en CLIENTES_PERMISOS
+            //--agregue 19-3-25
+
+
+            // 1. PRIMERO: Limpiar las cachés antes de procesar el nuevo login
+            this.limpiarCachesAlCambiarUsuario();
+
+                   
+        
+            //- fin agregue 19-3-25
+
+
+            // 2. Verificar si la clave existe en CLIENTES_PERMISOS
             const clientData = await this.validateClient(inputClave);
             if (!clientData) {
                 console.log('Cliente no encontrado');
@@ -113,7 +124,27 @@ class LoginManager {
             console.error('Error en proceso de login:', error);
             return false;
         }
+
     }
+
+    //- agregue 19-3-25
+    // Añade este método a la clase LoginManager
+    limpiarCachesAlCambiarUsuario(){
+        console.log('Iniciando limpieza de cachés...');
+    
+        // Limpiar caché de productos específicamente
+        localStorage.removeItem('cache_products_data');
+        
+        // Limpiar otras cachés relacionadas
+        localStorage.removeItem('imageCatalog');
+        
+        // En lugar de cambiar managersInitialized, usar una bandera específica
+        // para indicar que se necesita reinicialización
+        sessionStorage.setItem('needsReinitialization', 'true');
+        
+        console.log('Cachés limpiadas y marcada necesidad de reinicialización');
+    }
+    //-- fin agregue 19-3-25
 
 
 
