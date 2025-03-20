@@ -74,6 +74,9 @@ def update_from_sheets():
         # Solo actualizar desde local si hubo un error general
         print('Intentando actualización local para archivos no críticos')
         update_from_local()
+
+
+        
 def update_from_local():
     """Actualiza JSONs desde archivos Excel locales"""
     try:
