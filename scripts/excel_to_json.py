@@ -53,7 +53,11 @@ def update_from_sheets():
                 if data:
                     if name == 'catalogo_imagenes':
                         # Procesar catálogo de imágenes
-                        process_image_catalog(data)
+                        #process_image_catalog(data) EN ESTA LINEA SE VA A LEER EL SHEET DEL DRIVE, PERO TIENE 
+                        #PROBLEMA A VECES, MAS SEGURO ES DEL EXCEL EN LOCAL
+                        print(f'Omitiendo {name} (se procesará desde Excel local)')
+                        continue
+
                     elif name == 'catalogo_grupos':
                         # Procesar catálogo de grupos
                         process_catalogo_grupos(data)
@@ -76,7 +80,7 @@ def update_from_sheets():
         update_from_local()
 
 
-        
+
 def update_from_local():
     """Actualiza JSONs desde archivos Excel locales"""
     try:
@@ -86,6 +90,7 @@ def update_from_local():
         process_groups()
         process_promotions()
         process_catalogo_grupos_local()  # Agregamos el proceso del catálogo
+        process_image_catalog_local()  # Añade esta línea 20-3-25
         print('Actualización local completada')
     except Exception as e:
         print(f'Error en actualización local: {e}')
@@ -501,11 +506,13 @@ Proceso completado exitosamente:
         print(f'Error procesando catálogo de grupos local: {str(e)}')
         raise
 
+#-agregue 20-3-25
 def process_image_catalog(data):
     try:
         json_path = 'json/catalogo_imagenes.json'
-        image_map = {}
-
+        
+        # Procesar datos nuevos de Google Sheets
+        new_images = {}
         if 'table' in data and 'rows' in data['table']:
             for row in data['table']['rows']:
                 if 'c' in row and len(row['c']) > 4:
@@ -513,42 +520,36 @@ def process_image_catalog(data):
                     image_id = row['c'][1].get('v', '').strip()
                     
                     if codigo and image_id:
-                        image_map[codigo] = image_id
-
+                        new_images[codigo] = image_id
+        
+        # Crear nuevo objeto JSON (sin combinar con existente)
         output = {
             "version": "1.0",
             "lastUpdate": datetime.now().isoformat(),
-            "totalImages": len(image_map),
-            "images": image_map
+            "totalImages": len(new_images),
+            "images": new_images
         }
 
-        # Debug: Imprimir el contenido exacto que vamos a guardar
-        print("\nContenido que se va a guardar:")
-        print(json.dumps(output, indent=2))
+        print(f"\nActualizando catálogo de imágenes:")
+        print(f"- Total de imágenes de Google Sheets: {len(new_images)}")
 
         # Guardar el archivo
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(output, f, indent=2, ensure_ascii=False)
             f.flush()
-
-        # Debug: Verificar el contenido guardado
-        print("\nVerificando contenido guardado:")
-        with open(json_path, 'r', encoding='utf-8') as f:
-            saved_content = json.load(f)
-            print(json.dumps(saved_content, indent=2))
-
-        # Debug: Verificar permisos del archivo
-        file_stats = os.stat(json_path)
-        print(f"\nPermisos del archivo: {oct(file_stats.st_mode)}")
-        print(f"Tamaño del archivo: {file_stats.st_size} bytes")
-        print(f"Ruta absoluta: {os.path.abspath(json_path)}")
+        
+        print(f"Catálogo de imágenes actualizado exitosamente")
 
     except Exception as e:
         print(f"Error detallado: {str(e)}")
         import traceback
         print(traceback.format_exc())
         raise
+
+#fin 20-3-25
+
+
 
 # Agregar esta función de verificación
 def verify_json_file(file_path):
@@ -567,9 +568,80 @@ def verify_json_file(file_path):
         print(f"Error verificando archivo: {str(e)}")
         return False
 
+#-agregue 20-3-25
 
+def process_image_catalog_local():
+    """Procesa el catálogo de imágenes desde Excel local."""
+    try:
+        excel_path = 'imagenes_drive.xlsx'  # Ajusta el nombre según tu archivo
+        json_path = 'json/catalogo_imagenes.json'
+        
+        if not os.path.exists(excel_path):
+            print(f"Archivo no encontrado: {excel_path}")
+            return
+            
+        # Leer Excel
+        df = pd.read_excel(excel_path)
+        
+        # Crear mapa de imágenes
+        new_images = {}
+        for _, row in df.iterrows():
+            # Usar la columna 'articulo' como código y la columna 'id' como ID de imagen
+            codigo = str(row.get('articulo', '')).strip()
+            image_id = str(row.get('id', '')).strip()
+            
+            if codigo and image_id:
+                new_images[codigo] = image_id
+                
+        # Crear el objeto de salida directamente con las nuevas imágenes
+        output = {
+            "version": "1.0",
+            "lastUpdate": datetime.now().isoformat(),
+            "totalImages": len(new_images),
+            "images": new_images
+        }
+        
+        print(f"\nActualizando catálogo de imágenes (local):")
+        print(f"- Total de imágenes desde Excel: {len(new_images)}")
+        
+        # Guardar JSON
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+            
+        print(f'catalogo_imagenes.json generado exitosamente desde Excel local')
+            
+    except Exception as e:
+        print(f'Error procesando catálogo de imágenes local: {str(e)}')
 
-     
+def handle_git_conflicts(file_path):
+    """Maneja conflictos de Git en archivos JSON"""
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                
+            # Detectar marcadores de conflicto
+            if "<<<<<<< HEAD" in content:
+                print(f"Detectados conflictos de Git en {file_path}, intentando resolver...")
+                
+                # Simplemente tomar la versión más reciente (HEAD)
+                resolved_content = re.sub(
+                    r'<<<<<<< HEAD.*?=======.*?>>>>>>>[^\n]*\n',
+                    '',
+                    content,
+                    flags=re.DOTALL
+                )
+                
+                # Guardar archivo resuelto
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(resolved_content)
+                    
+                print(f"Conflictos resueltos en {file_path}")
+                
+    except Exception as e:
+        print(f"Error al manejar conflictos: {str(e)}")
+#-fin agregue 20-3-25     
 
 
 

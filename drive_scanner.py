@@ -82,11 +82,19 @@ def escanear_carpeta(carpeta_id):
             ).execute()
             
             for archivo in response.get('files', []):
+                #agregue 20-3-25
+                # Extraer el nombre del archivo sin la extensión
+                nombre_archivo = archivo['name']
+                articulo = nombre_archivo.split('.')[0] if '.' in nombre_archivo else nombre_archivo
+    
+                #fin 20-3-25
+
                 resultados.append({
                     'nombre': archivo['name'],
                     'id': archivo['id'],
                     'link_original': archivo['webViewLink'],
-                    'link_vista': f"https://drive.google.com/uc?export=view&id={archivo['id']}"
+                    'link_vista': f"https://drive.google.com/uc?export=view&id={archivo['id']}",
+                    'articulo': articulo # Nueva columna con el nombre sin extensión
                 })
                 
             page_token = response.get('nextPageToken', None)
