@@ -1659,34 +1659,67 @@
                               if (window.productManager) {
                                    try {
                                         const producto = window.productManager.getProduct(codigoMayus);
+
+                                        // Limpiar el elemento del nombre antes de establecer un nuevo valor
+                                        const topRowLink = template.querySelector('.top-row a');
                                         
                                         if (producto && producto.nombre) {
-                                        const topRowLink = template.querySelector('.top-row a');
+                                        //const topRowLink = template.querySelector('.top-row a');
                                         if (topRowLink) {
+                                             topRowLink.textContent = ''; // Limpiar primero
                                              topRowLink.textContent = producto.nombre;
                                         }
+                                        }else {
+                                             // Si el producto no existe, mostrar "producto fuera de lista"
+                                             topRowLink.textContent = "producto fuera de lista";
+                                             console.log(`Producto no encontrado: ${codigoMayus}, usando texto genérico`);
                                         }
+
+                                        
+
+
+
                                         
                                         // Agregar precio si está disponible
                                         if (producto && producto.precio) {
-                                        const bottomRowDiv = template.querySelector('.bottom-row');
-                                        if (bottomRowDiv) {
-                                             let precioElement = bottomRowDiv.querySelector('.price-tag');
-                                             
-                                             if (!precioElement) {
-                                                  precioElement = document.createElement('span');
-                                                  precioElement.className = 'price-tag';
-                                                  bottomRowDiv.appendChild(precioElement);
+                                             const bottomRowDiv = template.querySelector('.bottom-row');
+                                        
+                                             if (bottomRowDiv) {
+                                                  let precioElement = bottomRowDiv.querySelector('.price-tag');
+
+                                                  if (precioElement) {
+                                                       precioElement.textContent = ''; // Limpiar primero
+                                                  }
+                                                  
+                                                  if (!precioElement) {
+                                                       precioElement = document.createElement('span');
+                                                       precioElement.className = 'price-tag';
+                                                       bottomRowDiv.appendChild(precioElement);
+                                                  }
+                                                  
+                                                  precioElement.textContent = `$${producto.precio.toLocaleString('es-AR')}`;
                                              }
-                                             
-                                             precioElement.textContent = `$${producto.precio.toLocaleString('es-AR')}`;
+
+                                        }else {
+                                             // Si el producto no existe, mostrar "$0.00"
+                                             const bottomRowDiv = template.querySelector('.bottom-row');
+                                             let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                             precioElement.textContent = "$0.00";
+                                             console.log(`Precio no encontrado para ${codigoMayus}, usando $0.00`);
                                         }
-                                        }
+
+
+
+
                                    } catch (error) {
+                                        
                                         console.log(`Error al obtener datos para ${codigoMayus}:`, error);
                                    }
                               }
                               
+
+
+
                               // Limpiar la imagen para que no herede la del template
                               const imgElement = template.querySelector('img');
                               if (imgElement) {
@@ -1715,7 +1748,7 @@
                }
 
 
-               
+
 
                // Función auxiliar para cargar la imagen de un producto
                async function loadProductImage(element, codigo) {
