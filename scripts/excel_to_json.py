@@ -145,15 +145,28 @@ def process_sheet_data(name, data):
 def process_product_row(result, row):
     """Procesa una fila de productos desde Google Sheets"""
     codigo = str(row['c'][0]['v'])
+
+    #24-3
+    # Truncar los precios para eliminar los decimales
+    precio_d = int(row['c'][4]['v']) if row['c'][4] and isinstance(row['c'][4]['v'], (int, float)) else 0
+    precio_e = int(row['c'][5]['v']) if row['c'][5] and isinstance(row['c'][5]['v'], (int, float)) else 0
+    precio_f = int(row['c'][6]['v']) if row['c'][6] and isinstance(row['c'][6]['v'], (int, float)) else 0
+    #24-3
+
     result[codigo] = {
         'name': row['c'][1]['v'] if row['c'][1] else '',
         'category': row['c'][2]['v'] if row['c'][2] else '',
         'bulk': row['c'][3]['v'] if row['c'][3] else '',
         'prices': {
-            'D': row['c'][4]['v'] if row['c'][4] else 0,
-            'E': row['c'][5]['v'] if row['c'][5] else 0,
-            'F': row['c'][6]['v'] if row['c'][6] else 0
+            'D': precio_d,
+            'E': precio_e,
+            'F': precio_f
         }
+        #'prices': {
+           # 'D': row['c'][4]['v'] if row['c'][4] else 0,
+            #'E': row['c'][5]['v'] if row['c'][5] else 0,
+           # 'F': row['c'][6]['v'] if row['c'][6] else 0
+        #}
     }
 
 def process_client_row(result, row):
@@ -189,11 +202,21 @@ def process_group_row(result, row):
 def process_promotion_row(result, row):
     """Procesa una fila de promociones desde Google Sheets"""
     codigo = str(row['c'][0]['v'])
+
+    #24-3
+    # Truncar el precio para eliminar los decimales
+    precio = 0
+    if row['c'][2] and isinstance(row['c'][2]['v'], (int, float)):
+        precio = int(row['c'][2]['v'])
+    #24-3
+
+
     if 'promotions' not in result:
         result['promotions'] = {}
     result['promotions'][codigo] = {
         'tipoLista': row['c'][1]['v'] if row['c'][1] else '',
-        'precio': row['c'][2]['v'] if row['c'][2] else 0,
+        'precio': precio,
+        #24-3 'precio': row['c'][2]['v'] if row['c'][2] else 0,
         'vigencia': row['c'][3]['v'] if row['c'][3] else '',
         'grupos': str(row['c'][4]['v']).split(',') if row['c'][4] else []
     }
@@ -206,15 +229,31 @@ def process_promotion_row(result, row):
 def process_products(df):
     products = {}
     for _, row in df.iterrows():
+
+        #24-3
+        # Truncar los precios para eliminar los decimales
+        precio_d = int(row['P_LISTA_D']) if isinstance(row['P_LISTA_D'], (int, float)) else 0
+        precio_e = int(row['P_LISTA_E']) if isinstance(row['P_LISTA_E'], (int, float)) else 0
+        precio_f = int(row['P_LISTA_F']) if isinstance(row['P_LISTA_F'], (int, float)) else 0
+        #24-3
+
         products[row['CODIGO']] = {
             'name': row['ARTICULO'],
             'category': row['RUBRO'],
             'bulk': row['BULTO'],
+            #24-3
             'prices': {
-                'D': row['P_LISTA_D'],
-                'E': row['P_LISTA_E'],
-                'F': row['P_LISTA_F']
+                'D': precio_d,
+                'E': precio_e,
+                'F': precio_f
             }
+            #24-3
+
+            #'prices': {
+             #   'D': row['P_LISTA_D'],
+              #  'E': row['P_LISTA_E'],
+               # 'F': row['P_LISTA_F']
+           # }
         }
     print('productos.json generado exitosamente')    
     return products 
@@ -292,9 +331,18 @@ def process_promotions():
         promotions_data = {"promotions": {}}
         for _, row in df.iterrows():
             code = row['CODIGO_PRODUCTO']
+
+             #24-3   
+             # Truncar el precio para eliminar los decimales
+            precio = 0
+            if isinstance(row['PRECIO_ESPECIAL'], (int, float)):
+                precio = int(row['PRECIO_ESPECIAL'])
+            #24-3
+
             promotions_data["promotions"][code] = {
                 "tipoLista": row['TIPO_LISTA'],
-                "precio": row['PRECIO_ESPECIAL'],
+                "precio": precio,
+                #24-3 "precio": row['PRECIO_ESPECIAL'],
                 "vigencia": row['VIGENCIA_HASTA'],
                 "grupos": row['GRUPOS'].split(',')
             }
