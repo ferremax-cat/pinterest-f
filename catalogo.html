@@ -1667,7 +1667,10 @@
                                         //const topRowLink = template.querySelector('.top-row a');
                                         if (topRowLink) {
                                              topRowLink.textContent = ''; // Limpiar primero
-                                             topRowLink.textContent = producto.nombre;
+
+                                             // Convertir a minúsculas aquí, cuando se está cargando inicialmente
+                                             topRowLink.textContent = producto.nombre.toLowerCase();
+                                             console.log(`[DEBUG] Actualizado nombre para ${codigoMayus}: ${producto.nombre.toLowerCase()}`);
                                         }
                                         }else {
                                              // Si el producto no existe, mostrar "producto fuera de lista"
