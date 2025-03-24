@@ -167,10 +167,17 @@ nav .iconos img{
      max-width: 1260px;
      margin: 0 auto;
      padding: 80px 15px;
+
      /* Configuración del Grid */
-     display: grid;
-     grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
-     gap: 20px; /* Espacio entre items */
+     /*display: grid;*/
+     /*grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+     /* gap: 20px; /* Espacio entre items */
+
+     /* cambie 24-3-25*/
+     columns: 5; /* Cambiado de 4 a 5 columnas */
+     column-gap: 15px; /* Reducido de 20px a 15px */
+     /*fin cambie*/
+
      position: relative;
      z-index: 1;
  }
@@ -178,7 +185,13 @@ nav .iconos img{
  /* Cada item de la galería */
  .gallery-item {
      width: 100%;
-     margin-bottom: 0; /* El gap del grid maneja el espaciado */
+     /*margin-bottom: 0; /* El gap del grid maneja el espaciado */
+
+     /*agregue 24-3-25*/
+     display: inline-block;
+     break-inside: avoid;
+     margin-bottom: -10px; /* Valor negativo para reducir espacio vertical */
+     /*fin agregue 24-3-25*/
  }
 
 .container-img{
@@ -247,13 +260,13 @@ nav .iconos img{
      overflow: hidden; */
 
      color: #333; /* Color oscuro para mejor legibilidad */
-    font-weight: 500;
-    width: 100%; /* Ocupar todo el ancho disponible */
-    text-align: center; /* Centrar el texto */
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+    /*font-weight: 500;
+    /*width: 100%; /* Ocupar todo el ancho disponible */
+    /*text-align: center; /* Centrar el texto */
+    /*display: -webkit-box;
+    /*-webkit-box-orient: vertical;
+    /*-webkit-line-clamp: 2;
+    /*overflow: hidden;*/
 
 }
 
@@ -459,9 +472,12 @@ nav .iconos img{
 @media screen and (max-width: 1200px) {
      .gallery-container {
           padding: 60px 10px;
-          gap: 15px;
+          /*gap: 15px;*/
           /* Mantenemos 4 columnas */
-          grid-template-columns: repeat(4, 1fr);
+         /* grid-template-columns: repeat(4, 1fr);*/
+         /*agregue 24-3-25*/
+          columns: 4; /* Reducir a 4 columnas */
+          column-gap: 15px;
       }
 }
 
@@ -501,6 +517,11 @@ nav .iconos img{
      /* Ajustamos el ancho de la franja inferior */
      .container-img .bottom-row {
      width: 50%;
+     }
+
+     /*agregue 24-3-25*/
+     .gallery-container {
+          columns: 4; /* Reducir a 4 columnas */
      }
 }
 
@@ -568,6 +589,11 @@ nav .iconos img{
      grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
      gap: 10px;
      padding-top: 20px;
+     }
+
+     /*agregue 24-3-25*/
+     .gallery-container {
+          columns: 2; /* Reducir a 2 columnas */
      }
 
  }
@@ -649,6 +675,11 @@ nav .iconos img{
           padding-left: 5px; /* Menos padding al enlace */
       }
 
+      /*agregue 24-3-25*/
+     .gallery-container {
+          columns: 2; /* Reducir a 2 columnas */
+     }
+
 }
 
 /* Ajustes para evitar desbordamiento de texto */
@@ -670,8 +701,21 @@ nav .iconos img{
      
     /* Ajustes de texto y elementos para pantallas pequeñas */
     .container-img .top-row a:not(.btn) {
-        width: 50%;
+        /*width: 50%;*/
+        /*font-size: 14px;*/
+
+        /*agregue 24-3-25*/
+        color: #222; /* Color más oscuro */
+        font-family: Georgia, 'Times New Roman', serif;
+        font-weight: 400;
         font-size: 14px;
+        line-height: 1.3;
+        text-align: left;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        /*fin agregue 24-3-25*/
     }
     
     .container-img .bottom-row a {
@@ -686,6 +730,11 @@ nav .iconos img{
      body {
           padding-top: 170px; /* Modificado */
      } 
+
+     /*agregue 24-3-25*/
+     .gallery-container {
+          columns: 2; /* Reducir a 2 columnas */
+     }
 }
 
 /* Media query para pantallas menores a 638px */
