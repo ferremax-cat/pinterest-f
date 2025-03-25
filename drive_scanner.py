@@ -85,8 +85,17 @@ def escanear_carpeta(carpeta_id):
                 #agregue 20-3-25
                 # Extraer el nombre del archivo sin la extensión
                 nombre_archivo = archivo['name']
-                articulo = nombre_archivo.split('.')[0] if '.' in nombre_archivo else nombre_archivo
+                #articulo = nombre_archivo.split('.')[0] if '.' in nombre_archivo else nombre_archivo
     
+                # Manejar archivos con múltiples puntos (como TF.414.png)
+                # Esto elimina solo la extensión del archivo, no todos los puntos
+                if '.' in nombre_archivo:
+                    # Encontrar la última ocurrencia del punto
+                    ultimo_punto = nombre_archivo.rfind('.')
+                    articulo = nombre_archivo[:ultimo_punto]
+                else:
+                    articulo = nombre_archivo
+
                 #fin 20-3-25
 
                 resultados.append({
