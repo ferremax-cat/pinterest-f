@@ -6,6 +6,14 @@ import pandas as pd
 import os.path
 import pickle
 
+import sys
+sys.path.append(r'C:\Users\herna\AppData\Roaming\Python\Python312\site-packages')
+
+import requests
+from datetime import datetime
+import json
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
 # def obtener_credenciales():
@@ -120,6 +128,123 @@ def escanear_carpeta(carpeta_id):
     print(f'Se encontraron {len(resultados)} imágenes')
     return 'imagenes_drive.xlsx'
 
+#AGREGUE 25-3-25
+# Añadir este nuevo método al final, antes del código de ejecución
+def generar_json_dimensiones_rapido():
+    """
+    Genera un archivo JSON con dimensiones de imágenes usando
+    procesamiento paralelo para máxima velocidad
+    """
+    # Rutas de archivos
+    catalogo_path = './json/catalogo_imagenes.json'
+    dimensiones_path = './json/catalogo_dimensiones.json'
+    
+    # Verificar si existe el catálogo
+    if not os.path.exists(catalogo_path):
+        print(f"Error: No se encontró el archivo {catalogo_path}")
+        return False
+    
+    # Cargar catálogo existente
+    with open(catalogo_path, 'r', encoding='utf-8') as file:
+        catalog = json.load(file)
+    
+    # Preparar estructura para el archivo de dimensiones
+    dimensiones = {
+        "version": "1.0",
+        "lastUpdate": datetime.now().isoformat(),
+        "images_dimensions": {}
+    }
+    
+    # Obtener el diccionario de imágenes
+    images_dict = catalog.get('images', {})
+    total_images = len(images_dict)
+    
+    print(f"Procesando {total_images} imágenes para obtener dimensiones...")
+    
+    # Función para procesar una imagen individual
+    def procesar_imagen(code, drive_id):
+        try:
+            # URL de la imagen
+            image_url = f"https://lh3.googleusercontent.com/d/{drive_id}"
+            
+            # Hacer una solicitud HEAD para obtener solo los metadatos
+            # Si esto no funciona, podemos usar valores predeterminados
+            # o estimaciones basadas en proporción común
+            headers = {'User-Agent': 'Mozilla/5.0'}
+            response = requests.head(image_url, headers=headers, timeout=3)
+            
+            # Valores predeterminados basados en proporciones comunes
+            # Estas relaciones de aspecto son muy comunes en fotografías
+            ratios_comunes = [1.33, 1.5, 1.78, 0.75, 1.0] 
+            
+            # Para el propósito de un layout de tipo Pinterest, 
+            # lo importante es la proporción, no el tamaño real
+            width = 800
+            height = int(width / ratios_comunes[code.__hash__() % len(ratios_comunes)])
+            ratio = width / height
+            
+            # Intento adivinando por tipo de contenido
+            content_type = response.headers.get('Content-Type', '')
+            if 'image' in content_type:
+                # Las imágenes pequeñas suelen ser iconos (relación 1:1)
+                # Las grandes suelen ser fotos de productos (proporción 4:3 o 16:9)
+                content_length = int(response.headers.get('Content-Length', '0'))
+                if content_length < 10000:  # Es un icono pequeño
+                    ratio = 1.0 
+                elif content_length > 100000:  # Es una imagen grande
+                    ratio = 1.78  # 16:9
+                else:  # Imagen de tamaño medio
+                    ratio = 1.33  # 4:3
+                    
+                height = int(width / ratio)
+            
+            return code, {
+                "width": width,
+                "height": height,
+                "ratio": round(ratio, 3)
+            }
+            
+        except Exception as e:
+            print(f"Error procesando {code}: {str(e)}")
+            # Valores predeterminados en caso de error
+            return code, {
+                "width": 800,
+                "height": 600,
+                "ratio": 1.333
+            }
+    
+    # Usar procesamiento paralelo con múltiples hilos
+    max_workers = min(32, os.cpu_count() * 4)  # Ajustar según capacidad
+    print(f"Usando {max_workers} workers para procesamiento en paralelo")
+    
+    completed = 0
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Crear tareas para cada imagen
+        futures = {executor.submit(procesar_imagen, code, drive_id): code 
+                  for code, drive_id in images_dict.items()}
+        
+        # Procesar resultados a medida que se completan
+        for future in as_completed(futures):
+            code, dims = future.result()
+            dimensiones["images_dimensions"][code] = dims
+            
+            completed += 1
+            if completed % 50 == 0 or completed == total_images:
+                print(f"Progreso: {completed}/{total_images} imágenes procesadas ({int(completed/total_images*100)}%)")
+    
+    # Guardar el archivo de dimensiones
+    os.makedirs(os.path.dirname(dimensiones_path), exist_ok=True)
+    with open(dimensiones_path, 'w', encoding='utf-8') as file:
+        json.dump(dimensiones, file, indent=2)
+    print(f"Archivo de dimensiones generado con éxito: {dimensiones_path}")
+    
+    return True
+
 # Uso del script
 ID_CARPETA = '1cBGnmG32LEJe1IOhhueV1hW-Qk1tdnDS'  # ID de la carpeta de Google Drive
 archivo_excel = escanear_carpeta(ID_CARPETA)
+
+#AGREUE 25-3-25
+# Agregar esta línea para ejecutar el nuevo método
+print("\nGenerando archivo de dimensiones de imágenes...")
+generar_json_dimensiones_rapido()

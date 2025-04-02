@@ -1954,8 +1954,393 @@
           }
 
      </script>
+     
+    <script>
 
-
+          // Función para aplicar posicionamiento estilo Pinterest
+(function() {
+  console.log('Aplicando posicionamiento estilo Pinterest a la galería existente...');
+  
+  // 1. Crear estilos necesarios
+  function addPinterestStyles() {
+    if (document.querySelector('#pinterest-layout-styles')) return;
+    
+    const styleEl = document.createElement('style');
+    styleEl.id = 'pinterest-layout-styles';
+    styleEl.textContent = `
+    /* Ocultar inicialmente todos los elementos de la galería hasta que se posicionen */
+    .gallery-container.loading .gallery-item {
+      opacity: 0;
+      visibility: hidden;
+    }
+    
+    /* Indicador de carga mientras se posicionan las imágenes */
+    .gallery-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 100;
+    }
+    
+    .gallery-loader i {
+      font-size: 2rem;
+      color: #666;
+    }
+    .gallery-container {
+      position: relative;
+      width: 100%;
+      padding: 10px;
+      background: white;
+    }
+    
+    .gallery-item {
+      position: absolute;
+      width: calc(20% - 20px);
+      box-sizing: border-box;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      z-index: 1; /* Base z-index */
+      transition: opacity 0.3s ease;
+    }
+    
+    .gallery-item.active {
+      z-index: 10; /* Mayor z-index para el activo */
+    }
+    
+    .gallery-item .container-img {
+      width: 100%;
+      overflow: hidden;
+      background: white;
+    }
+    
+    /* Corrección del pseudo-elemento ::before */
+    .gallery-item .container-img::before,
+    .container-img::before,
+    div.container-img::before,
+    [class*="container-img"]::before {
+      background: white !important;
+      background-color: white !important;
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      opacity: 0 !important; /* Hacer invisible el elemento */
+      border-radius: 15px !important;
+      transition: all .3s !important;
+    }
+    
+    .gallery-item .container-img img {
+      width: 100%;
+      display: block;
+      background: white;
+    }
+    
+    .gallery-item .top-row {
+      background-color: white;
+      padding: 8px;
+      padding-left: 5px; /* Nuevo padding-left */
+      padding-bottom: 0px; /* Nuevo padding-bottom */
+      margin: 5px 0;
+      position: relative;
+    }
+    
+    .gallery-item .bottom-row {
+      background-color: white;
+      padding: 8px;
+      margin: 5px 0;
+      position: relative;
+    }
+    
+    /* Permitir que el texto ocupe múltiples líneas */
+    .gallery-item .top-row a,
+    .gallery-item .bottom-row a {
+      display: block;
+      word-wrap: break-word; /* Permitir romper palabras largas */
+      overflow: visible; /* Mostrar todo el texto */
+      white-space: normal; /* Permitir saltos de línea */
+      line-height: 1.4; /* Espaciado adecuado entre líneas */
+      font-size: 14px;
+    }
+    
+    /* Eliminar fondos grises */
+    .gallery-item > div,
+    .gallery-item > div > div {
+      background: white !important;
+    }
+    
+    /* Eliminar fondos grises en áreas específicas */
+    .info-img {
+      background: white !important;
+    }
+    
+    /* Ajustar posición de bottom-row con margin-left */
+    .gallery-item .container-img .bottom-row,
+    .gallery-item .bottom-row,
+    .container-img .bottom-row {
+      bottom: 80px !important;
+      position: absolute !important;
+      margin-left: 5% !important;
+    }
+    `;
+    
+    document.head.appendChild(styleEl);
+    console.log('Estilos de Pinterest agregados');
+  }
+  
+  // 2. Función para posicionar elementos
+  function positionPinterestLayout() {
+    console.log('Aplicando posicionamiento estilo Pinterest...');
+    
+    const container = document.querySelector('.gallery-container');
+    if (!container) {
+      console.log('No se encontró el contenedor de la galería');
+      return;
+    }
+    
+    // Configuración de columnas
+    const columnCount = 5;
+    const gap = 20;
+    
+    // Obtener todos los elementos visibles
+    const items = Array.from(document.querySelectorAll('.gallery-item'))
+      .filter(item => item.style.display !== 'none');
+    
+    console.log(`Posicionando ${items.length} elementos en layout Pinterest...`);
+    
+    // Inicializar alturas de columnas
+    const columnHeights = Array(columnCount).fill(0);
+    
+    // Posicionar cada elemento
+    items.forEach((item, index) => {
+      // Encontrar la columna más corta
+      const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+      
+      // Calcular posición
+      const leftPos = `calc(${shortestColumnIndex * (100 / columnCount)}% + ${gap/2}px)`;
+      const topPos = `${columnHeights[shortestColumnIndex]}px`;
+      
+      // Aplicar posición
+      item.style.position = 'absolute';
+      item.style.left = leftPos;
+      item.style.top = topPos;
+      item.style.width = `calc(${100 / columnCount}% - ${gap}px)`;
+      
+      // Hacer visible
+      item.style.opacity = '1';
+      
+      // Asegurarse de que los textos se muestren correctamente
+      const textElements = item.querySelectorAll('a');
+      textElements.forEach(el => {
+        el.style.whiteSpace = 'normal';
+        el.style.overflow = 'visible';
+        el.style.textOverflow = 'clip';
+      });
+      
+      // Obtener altura real o estimada
+      let itemHeight = item.offsetHeight;
+      if (!itemHeight || itemHeight < 100) {
+        const img = item.querySelector('img');
+        itemHeight = img && img.complete ? img.offsetHeight + 180 : 380; // Altura extra para textos
+      }
+      
+      // Actualizar altura de columna
+      columnHeights[shortestColumnIndex] += itemHeight + gap;
+      
+      // Guardar posición para referencia
+      item.dataset.column = shortestColumnIndex.toString();
+      item.dataset.topPosition = columnHeights[shortestColumnIndex].toString();
+    });
+    
+    // Actualizar altura del contenedor
+    const maxHeight = Math.max(...columnHeights);
+    container.style.height = `${maxHeight + 50}px`;
+    
+    console.log('Posicionamiento estilo Pinterest completado');
+  }
+  
+  // 3. Función para observar cambios en el DOM
+  function setupMutationObserver() {
+    console.log('Configurando observador de mutaciones...');
+    
+    const targetNode = document.querySelector('.gallery-container');
+    if (!targetNode) {
+      console.log('No se encontró el contenedor para observar');
+      return;
+    }
+    
+    // Opciones para el observador
+    const config = { childList: true, subtree: true };
+    
+    // Callback para cuando ocurren cambios
+    const callback = function(mutationsList, observer) {
+      let needsRepositioning = false;
+      
+      for (let mutation of mutationsList) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          needsRepositioning = true;
+          break;
+        }
+      }
+      
+      if (needsRepositioning) {
+        console.log('Detectados nuevos elementos, reposicionando...');
+        // Pequeño retraso para asegurar que los elementos estén completamente cargados
+        setTimeout(positionPinterestLayout, 200);
+      }
+    };
+    
+    // Crear y iniciar el observador
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+    
+    console.log('Observador de mutaciones configurado');
+  }
+  
+  // 4. Función para interceptar la carga en scroll
+  function setupScrollInterception() {
+    console.log('Configurando intercepción de scroll...');
+    
+    if (typeof window.precargarSiguientesPaginas === 'function') {
+      const originalFn = window.precargarSiguientesPaginas;
+      
+      window.precargarSiguientesPaginas = async function() {
+        console.log('Interceptando carga por scroll...');
+        
+        // Ejecutar función original
+        await originalFn.apply(this, arguments);
+        
+        // Reposicionar después de un retraso
+        setTimeout(positionPinterestLayout, 500);
+      };
+      
+      console.log('Intercepción de scroll configurada');
+    } else {
+      console.log('Función precargarSiguientesPaginas no encontrada');
+    }
+  }
+  
+  // 5. Inicializar cuando el DOM esté listo
+  function init() {
+    // Evitar múltiples inicializaciones
+    if (window.pinterestLayoutInitialized) {
+      console.log('Layout Pinterest ya inicializado, omitiendo');
+      return;
+    }
+    
+    window.pinterestLayoutInitialized = true;
+    console.log('Inicializando layout Pinterest...');
+    
+    // Agregar estilos
+    addPinterestStyles();
+    
+    // Marcar el contenedor como "cargando"
+    const container = document.querySelector('.gallery-container');
+    if (container) {
+      container.classList.add('loading');
+      
+      // Añadir loader mientras se posicionan las imágenes
+      const loader = document.createElement('div');
+      loader.className = 'gallery-loader';
+      loader.innerHTML = `<i class="fas fa-spinner fa-spin"></i><p>Organizando productos...</p>`;
+      container.appendChild(loader);
+    }
+    
+    // Ejecutar posicionamiento lo antes posible, sin esperar a que todas las imágenes carguen
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    if (galleryItems.length > 0) {
+      console.log(`Galería encontrada con ${galleryItems.length} elementos, posicionando inmediatamente...`);
+      
+      // Breve retraso para permitir que los estilos se apliquen
+      setTimeout(() => {
+        // Posicionar elementos
+        positionPinterestLayout();
+        
+        // Configurar observador
+        setupMutationObserver();
+        
+        // Interceptar scroll
+        setupScrollInterception();
+        
+        // Ejecutar periódicamente para asegurar el layout
+        setInterval(positionPinterestLayout, 5000);
+        
+        // Eliminar clase de carga y mostrar los elementos
+        if (container) {
+          container.classList.remove('loading');
+          const loader = container.querySelector('.gallery-loader');
+          if (loader) loader.remove();
+        }
+      }, 50);
+    } else {
+      // Si aún no hay elementos, esperar a que se carguen
+      const waitForGallery = setInterval(() => {
+        const items = document.querySelectorAll('.gallery-item');
+        
+        if (items.length > 0) {
+          clearInterval(waitForGallery);
+          console.log(`Galería encontrada con ${items.length} elementos`);
+          
+          // Posicionar elementos
+          positionPinterestLayout();
+          
+          // Configurar observador
+          setupMutationObserver();
+          
+          // Interceptar scroll
+          setupScrollInterception();
+          
+          // Ejecutar periódicamente para asegurar el layout
+          setInterval(positionPinterestLayout, 5000);
+          
+          // Eliminar clase de carga y mostrar los elementos
+          if (container) {
+            container.classList.remove('loading');
+            const loader = container.querySelector('.gallery-loader');
+            if (loader) loader.remove();
+          }
+        }
+      }, 100);
+    }
+  }
+  
+  // Ejecutar lo más pronto posible
+  // Intentar inicializar inmediatamente si el DOM ya está disponible
+  if (document.readyState === 'loading') {
+    // Si el DOM aún está cargando, configurar event listeners para diferentes estados
+    document.addEventListener('readystatechange', function() {
+      if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        init();
+      }
+    });
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    // Si el DOM ya está disponible, inicializar inmediatamente
+    init();
+  }
+  
+  // Backup: inicializar también cuando la ventana esté completamente cargada
+  window.addEventListener('load', function() {
+    if (!window.pinterestLayoutInitialized) {
+      console.log('Inicializando layout desde evento load');
+      init();
+    }
+  });
+  
+  // Exponer función para uso manual
+  window.applyPinterestLayout = positionPinterestLayout;
+  
+  // Variable para evitar múltiples inicializaciones
+  window.pinterestLayoutInitialized = false;
+  
+  console.log('Módulo de layout Pinterest configurado');
+})();
+    </script>
 
 </body>
 
