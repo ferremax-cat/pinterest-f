@@ -192,75 +192,108 @@ async function executeSearch(query) {
 function displayEnhancedSearchResults(searchResults) {
   const { results, query, timing } = searchResults;
   
-  // Ocultar todos los elementos y mostrar solo los que coinciden
-  const items = document.querySelectorAll('.gallery-item');
-  const matchedCodes = new Set(results.map(r => r.code));
+  // Limpiar el contenedor de resultados
+  while (resultsContainer.firstChild) {
+    resultsContainer.removeChild(resultsContainer.firstChild);
+  }
   
-  let matchCount = 0;
-  
-  items.forEach(item => {
-    const bottomRow = item.querySelector('.bottom-row a');
-    if (!bottomRow) {
-      item.style.display = 'none';
-      return;
+  // Crear los elementos para cada resultado
+  results.forEach((result, index) => {
+    // Crear un nuevo elemento de galería
+    const galleryItem = document.createElement('div');
+    galleryItem.className = 'gallery-item';
+    
+    // Estructura básica del elemento
+    galleryItem.innerHTML = `
+      <div class="container-img">
+        <img alt="">
+        <div class="top-row">
+          <a href="">${result.product.nombre || 'Producto'}</a>
+        </div>
+        <div class="bottom-row">
+          <a href=""><span class="icon fas fa-arrow-up"></span>${result.code}</a>
+          ${result.product.precio ? `<span class="price-tag">$${result.product.precio.toLocaleString('es-AR')}</span>` : ''}
+        </div>
+      </div>
+      <div class="info-img">
+        <div class="info"></div>
+        <div class="reactions"></div>
+      </div>
+    `;
+    
+    // Resaltar coincidencias en el nombre
+    const topRowLink = galleryItem.querySelector('.top-row a');
+    if (topRowLink && result.matches) {
+      topRowLink.innerHTML = highlightMatchesEnhanced(
+        result.product.nombre || '', 
+        result.matches
+      );
     }
     
-    const codigo = bottomRow.textContent.trim().replace(/\s+/g, '');
-    
-    // Si el código está en los resultados, mostrar el elemento
-    if (matchedCodes.has(codigo)) {
-      item.style.display = '';
-      matchCount++;
+    // Añadir indicador de relevancia si corresponde
+    if (result.score > 0) {
+      const relevanceIndicator = document.createElement('span');
+      relevanceIndicator.className = 'relevance-indicator';
       
-      // Buscar el resultado correspondiente para obtener el score
-      const resultData = results.find(r => r.code === codigo);
+      // Calcular nivel de relevancia (1-5)
+      const maxScore = results[0].score;
+      const relativeScore = result.score / maxScore;
+      const relevanceLevel = Math.ceil(relativeScore * 5);
       
-      // Resaltar coincidencias en el nombre si está disponible
-      const topRowLink = item.querySelector('.top-row a');
-      if (topRowLink && resultData) {
-        topRowLink.innerHTML = highlightMatchesEnhanced(
-          topRowLink.textContent, 
-          resultData.matches
-        );
-        
-        // Opcional: Añadir indicador de relevancia
-        if (resultData.score > 0) {
-          // Remover indicador anterior si existe
-          const oldIndicator = item.querySelector('.relevance-indicator');
-          if (oldIndicator) oldIndicator.remove();
-          
-          // Crear indicador de relevancia
-          const relevanceIndicator = document.createElement('span');
-          relevanceIndicator.className = 'relevance-indicator';
-          
-          // Calcular nivel de relevancia (1-5)
-          const maxScore = results[0].score;
-          const relativeScore = resultData.score / maxScore;
-          const relevanceLevel = Math.ceil(relativeScore * 5);
-          
-          relevanceIndicator.dataset.level = relevanceLevel;
-          relevanceIndicator.title = `Relevancia: ${relevanceLevel}/5`;
-          
-          // Añadir el indicador al elemento
-          const infoContainer = item.querySelector('.top-row') || item.querySelector('.info-img');
-          if (infoContainer) {
-            infoContainer.appendChild(relevanceIndicator);
-          }
-        }
+      relevanceIndicator.dataset.level = relevanceLevel;
+      relevanceIndicator.title = `Relevancia: ${relevanceLevel}/5`;
+      
+      // Añadir el indicador al elemento
+      const infoContainer = galleryItem.querySelector('.top-row');
+      if (infoContainer) {
+        infoContainer.appendChild(relevanceIndicator);
       }
-      
-      // Opcional: ordenar visualmente los elementos según relevancia
-      if (resultData) {
-        // Guardar el score para ordenamiento visual
-        item.dataset.relevanceScore = resultData.score;
-      }
-    } else {
-      item.style.display = 'none';
     }
+    
+    // Cargar la imagen del producto
+    const imgElement = galleryItem.querySelector('img');
+    if (imgElement) {
+      // Intentar cargar la imagen usando el código del producto
+      loadProductImage(imgElement, result.code);
+    }
+    
+    // Añadir el elemento al contenedor
+    resultsContainer.appendChild(galleryItem);
   });
   
+  // Función para cargar la imagen del producto
+  function loadProductImage(imgElement, code) {
+    // 1. Intentar usar imageLoader si está disponible
+    if (window.imageLoader) {
+      window.imageLoader.getImageUrl(code, 'desktop')
+        .then(url => {
+          if (url) imgElement.src = url;
+        })
+        .catch(() => {
+          // Intentar con la segunda opción si falla
+          tryLoadFromCatalog();
+        });
+    } else {
+      tryLoadFromCatalog();
+    }
+    
+    // 2. Intentar cargar desde catálogo de imágenes
+    function tryLoadFromCatalog() {
+      fetch('./json/catalogo_imagenes.json')
+        .then(response => response.json())
+        .then(catalogoImagenes => {
+          if (catalogoImagenes.images && catalogoImagenes.images[code]) {
+            imgElement.src = `https://lh3.googleusercontent.com/d/${catalogoImagenes.images[code]}`;
+          }
+        })
+        .catch(error => {
+          console.warn(`No se pudo cargar imagen para ${code}:`, error);
+        });
+    }
+  }
+  
   // Mostrar resumen de resultados
-  showResultsSummary(matchCount, query, timing);
+  showResultsSummary(results.length, query, timing);
   
   // Reorganizar la galería si tenemos un layout Pinterest
   if (typeof window.applyPinterestLayout === 'function') {

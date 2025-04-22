@@ -669,8 +669,19 @@ class EnhancedSearchClient {
     
     return Promise.all(results.map(async result => {
       try {
-        // Obtener información del producto desde productManager
-        const product = this.productManager.getProduct(result.code);
+              // NUEVO: Obtener el código original del codeMap
+            let codeToSearch = result.code;
+            
+            // Verificar si existe un mapeo para este código
+            for (const fragment of this.fragments.values()) {
+              if (fragment.codeMap && fragment.codeMap[result.code]) {
+                codeToSearch = fragment.codeMap[result.code];
+                break;
+              }
+            }
+      
+      // Buscar con el código original
+      const product = this.productManager.getProduct(codeToSearch);
         
         return {
           ...result,

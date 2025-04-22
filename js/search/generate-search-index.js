@@ -299,7 +299,8 @@ async function generateSearchIndex() {
         size: {},     // Dimensiones extraídas
         ngrams: {},   // Para búsqueda parcial y tolerancia a errores
         variants: {}  // Variantes de códigos y medidas
-      }
+      },
+      codeMap: {}  // NUEVO: Mapa de código normalizado a código original
     };
     
     // 3. Procesar cada producto e indexar
@@ -332,6 +333,12 @@ async function generateSearchIndex() {
         product, searchIndex
       );
       
+          // NUEVO: Agregar al codeMap
+      if (normalizedCode !== originalCode) {
+        searchIndex.codeMap[normalizedCode] = originalCode;
+      }
+
+
       // Mostrar progreso cada 1000 productos
       processedCount++;
       if (processedCount % 1000 === 0) {
@@ -386,6 +393,11 @@ async function generateSearchIndex() {
     if (searchIndex.indexes.variants) console.log('- variants ejemplo:', Object.keys(searchIndex.indexes.variants).slice(0, 3));
     
     console.timeEnd('Tiempo total');
+
+    // En generate-search-index.js, al final del proceso, añade:
+    console.log('CodeMap generado:');
+    console.log(` - Total de mapeos: ${Object.keys(searchIndex.codeMap).length}`);
+    console.log(` - Ejemplo de mapeo:`, Object.entries(searchIndex.codeMap).slice(0, 3));
     
     return {
       success: true,
@@ -599,3 +611,4 @@ module.exports = {
   generateCodeVariants,
   generateMeasurementVariants
 };
+

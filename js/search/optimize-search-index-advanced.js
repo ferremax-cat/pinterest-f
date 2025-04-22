@@ -227,7 +227,9 @@ function compressIndexAdvanced(index) {
     // Esta propiedad contendrá los mapeos de índices a valores
     maps: {},
     // Esta propiedad contendrá los índices comprimidos
-    indexes: {}
+    indexes: {},
+    // NUEVO: Incluir el codeMap
+    codeMap: index.codeMap || {}
   };
   
   // Función que toma un objeto indexado y lo convierte a estructura comprimida
@@ -347,6 +349,26 @@ function fragmentByAlphabet(index) {
       productIndices: new Set()
     };
   });
+
+
+  // Distribuir codeMap entre fragmentos
+  if (index.codeMap) {
+    fragmentBases.forEach(fragment => {
+      fragment.data.codeMap = {};
+    });
+    
+    // Distribuir entradas de codeMap según el fragmento correspondiente
+    Object.entries(index.codeMap).forEach(([normalizedCode, originalCode]) => {
+      const fragment = getFragmentForProduct(normalizedCode);
+      if (fragment) {
+        fragment.data.codeMap[normalizedCode] = originalCode;
+      }
+    });
+  }
+
+
+
+
   
   // Función para determinar a qué fragmento pertenece un producto
   function getFragmentForProduct(productCode) {
@@ -451,7 +473,8 @@ function fragmentByAlphabet(index) {
       ...index.metadata,
       fragmented: true,
       fragmentationType: 'alphabet',
-      compressionType: 'arrayMapping'
+      compressionType: 'arrayMapping',
+      hasCodeMap: !!index.codeMap // NUEVO: Indicador de codeMap
     },
     fragments: fragmentBases.map(fragment => ({
       name: fragment.name,
