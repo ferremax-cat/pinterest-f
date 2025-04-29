@@ -55,7 +55,20 @@ const SCORING_CONFIG = {
       'martillo', 'sierra', 'pinza', 'llave', 'destornillador', 'broca',
       'alicate', 'clavija', 'arandela', 'codo', 'conector', 'manguera',
       'grifo', 'válvula', 'bisagra', 'cerradura', 'manija', 'tubo',
-      'cable', 'cinta', 'silicona', 'pegamento', 'sellador'
+      'cable', 'cinta', 'silicona', 'pegamento', 'sellador','dsico',
+      'lija', 'pintura', 'brocha', 'rodillo', 'esmalte', 'barniz',
+      'disolvente', 'aguarrás', 'desengrasante', 'cepillo', 'rasqueta',
+      'cortadora', 'esmeril', 'pulidora', 'compresor', 'aspiradora',
+      'generador', 'soldadora', 'multímetro', 'destornillador eléctrico',
+      'taladro percutor', 'amoladora', 'sierra circular', 'sierra de calar',
+      'sierra ingletadora', 'sierra de cinta', 'cortadora de plasma',
+      'cortadora de cerámica', 'cortadora de mármol', 'cortadora de vidrio',
+      'cortadora de metales', 'cortadora de ladrillos', 'cortadora de azulejos',
+      'cortadora de césped', 'cortadora de arbustos', 'cortadora de setos',
+      'cortadora de ramas', 'cortadora de troncos', 'cortadora de leña',
+      'cortadora de hielo', 'cortadora de papel', 'cortadora de cartón',
+      'cortadora de tela', 'cortadora de cuero', 'cortadora de plástico',
+      'cortadora de metal', 'cortadora de madera', 'cortadora de vidrio'
     ],
     
     // Patrones de medidas comunes en ferretería
@@ -86,12 +99,28 @@ const SCORING_CONFIG = {
       
       // Número máximo de tokens a considerar
       MAX_TOKENS: 6,
+
+      // 4 caracteres tamaño mínimo de n-gramas:
+      MIN_NGRAM_SIZE: 4, 
       
       // Stopwords específicas del dominio de ferretería a ignorar
       STOPWORDS: [
         'de', 'la', 'el', 'los', 'las', 'con', 'para', 'por', 'en', 'y',
         'a', 'al', 'del', 'un', 'una', 'unos', 'unas'
       ]
+    },
+  
+    // Agregar esta nueva sección
+    NGRAM_STOPWORDS: [
+      'con', 'por', 'los', 'del', 'una', 'para', 'dis'
+    ],
+
+    PENALTY_FACTORS: {
+      // Penalización para resultados basados solo en coincidencias fuzzy
+      FUZZY_ONLY: 0.3,
+      
+      // Penalización para coincidencias en una sola palabra
+      SINGLE_TERM_ONLY: 0.8
     }
   };
   

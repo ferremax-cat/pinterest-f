@@ -220,14 +220,38 @@ function tokenize(text, minLength = 3) {
 /**
  * Genera n-gramas a partir de un texto
  */
-function generateNgrams(text, size = 3) {
+function generateNgrams(text, size = 4) { // Aumentar tamaño por defecto
   if (!text || typeof text !== 'string' || text.length < size) return [];
   
   const normalized = normalizeText(text);
   const ngrams = [];
   
+  // Obtener la lista de stopwords si existe
+  const stopwords = CONFIG.QUERY_PROCESSING && CONFIG.QUERY_PROCESSING.STOPWORDS ? 
+                    CONFIG.QUERY_PROCESSING.STOPWORDS : [];
+  
   for (let i = 0; i <= normalized.length - size; i++) {
-    ngrams.push(normalized.substring(i, i + size));
+    const ngram = normalized.substring(i, i + size);
+    
+    // Filtrar n-gramas derivados de stopwords
+    let skipNgram = false;
+    
+    // Verificar con NGRAM_STOPWORDS primero si existe
+    if (CONFIG.NGRAM_STOPWORDS && CONFIG.NGRAM_STOPWORDS.includes(ngram)) {
+      skipNgram = true;
+    } else {
+      // Verificar si el n-grama está contenido en alguna stopword
+      for (const stopword of stopwords) {
+        if (stopword.includes(ngram)) {
+          skipNgram = true;
+          break;
+        }
+      }
+    }
+    
+    if (!skipNgram) {
+      ngrams.push(ngram);
+    }
   }
   
   return ngrams;
@@ -338,6 +362,23 @@ async function generateSearchIndex() {
         searchIndex.codeMap[normalizedCode] = originalCode;
       }
 
+        // En generate-search-index.js, reemplaza el bloque de diagnóstico con esto:
+          if (code === 'CON206') {
+            console.log('[generate-search-index]==== DIAGNÓSTICO DE TOKENIZACIÓN ====');
+            console.log('[generate-search-index] Producto:', code, product.name);
+            console.log('[generate-search-index] Tokens normalizados:', tokenize(normalizedName));
+            console.log('[generate-search-index] Tokens expandidos:', tokenize(expandedName));
+            console.log('[generate-search-index] Tokens de categoría:', tokenize(originalCategory));
+            
+            // Generar n-gramas manualmente para diagnóstico
+            const diagNgrams = new Set([
+              ...generateNgrams(normalizedName, 3),
+              ...generateNgrams(expandedName, 3)
+            ]);
+            console.log('[generate-search-index] N-gramas generados:', Array.from(diagNgrams));
+          }
+
+
 
       // Mostrar progreso cada 1000 productos
       processedCount++;
@@ -398,6 +439,13 @@ async function generateSearchIndex() {
     console.log('CodeMap generado:');
     console.log(` - Total de mapeos: ${Object.keys(searchIndex.codeMap).length}`);
     console.log(` - Ejemplo de mapeo:`, Object.entries(searchIndex.codeMap).slice(0, 3));
+
+    // Al final de la generación, antes de guardar
+      console.log('===== DIAGNÓSTICO DE TOKEN "disco" =====');
+      if (searchIndex.indexes.tokens.disco) {
+        console.log(`Número de productos asociados: ${searchIndex.indexes.tokens.disco.length}`);
+        console.log(`Primeros 10 productos: ${searchIndex.indexes.tokens.disco.slice(0, 10)}`);
+      }
     
     return {
       success: true,
@@ -479,6 +527,54 @@ function indexEnhancedProduct(
     ...tokenize(expandedName)
   ]);
   
+  // PEGAR EL CÓDIGO DE DIAGNÓSTICO AQUÍ, JUSTO DESPUÉS DE LA CREACIÓN DE allNameTokens
+  // Diagnóstico de tokens
+  allNameTokens.forEach(token => {
+    // Si el token es "disco" o parece sospechoso
+    if (token === "disco" || 
+        (token !== "adhesivo" && token !== "cont" && token !== "congo" && 
+         normalizedName.indexOf(token) === -1 && expandedName.indexOf(token) === -1)) {
+      
+      console.log(`[DIAGNÓSTICO TOKEN] Producto: ${originalCode} (${originalName})`);
+      console.log(`[DIAGNÓSTICO TOKEN] Token sospechoso: "${token}"`);
+      console.log(`[DIAGNÓSTICO TOKEN] Nombre normalizado: "${normalizedName}"`);
+      console.log(`[DIAGNÓSTICO TOKEN] Nombre expandido: "${expandedName}"`);
+      console.log(`[DIAGNÓSTICO TOKEN] ¿Incluye token en normalizado?: ${normalizedName.includes(token)}`);
+      console.log(`[DIAGNÓSTICO TOKEN] ¿Incluye token en expandido?: ${expandedName.includes(token)}`);
+      
+      // Explorar más a fondo
+      if (token === "disco") {
+        console.log(`[DIAGNÓSTICO TOKEN] Procesamiento detallado para 'disco':`);
+        console.log(`Original: "${originalName}"`);
+        
+        // Mostrar cada paso del procesamiento
+        const step1 = originalName.toLowerCase();
+        console.log(`1. toLowerCase: "${step1}"`);
+        
+        const step2 = step1.normalize('NFD');
+        console.log(`2. normalize: "${step2}"`);
+        
+        const step3 = step2.replace(/[\u0300-\u036f]/g, '');
+        console.log(`3. remove accents: "${step3}"`);
+        
+        const step4 = step3.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ');
+        console.log(`4. replace punctuation: "${step4}"`);
+        
+        const step5 = step4.replace(/\s+/g, ' ');
+        console.log(`5. normalize spaces: "${step5}"`);
+        
+        const step6 = step5.trim();
+        console.log(`6. trim: "${step6}"`);
+        
+        const tokens = step6.split(/\s+/);
+        console.log(`7. tokens: ${JSON.stringify(tokens)}`);
+      }
+    }
+  });
+
+
+
+
   allNameTokens.forEach(token => {
     if (!searchIndex.indexes.tokens[token]) {
       searchIndex.indexes.tokens[token] = [];
