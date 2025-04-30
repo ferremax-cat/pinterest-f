@@ -358,9 +358,16 @@ async function generateSearchIndex() {
       );
       
           // NUEVO: Agregar al codeMap
-      if (normalizedCode !== originalCode) {
-        searchIndex.codeMap[normalizedCode] = originalCode;
-      }
+          // Agregar mapeo bidireccional para códigos
+          if (normalizedCode !== originalCode) {
+            // Mapeo de normalizado a original (ya existente en tu código)
+            if (!searchIndex.codeMap) searchIndex.codeMap = {};
+            searchIndex.codeMap[normalizedCode] = originalCode;
+            
+            // NUEVO: Mapeo de original a normalizado
+            if (!searchIndex.reverseCodeMap) searchIndex.reverseCodeMap = {};
+            searchIndex.reverseCodeMap[originalCode] = normalizedCode;
+          }
 
         // En generate-search-index.js, reemplaza el bloque de diagnóstico con esto:
           if (code === 'CON206') {
@@ -446,6 +453,29 @@ async function generateSearchIndex() {
         console.log(`Número de productos asociados: ${searchIndex.indexes.tokens.disco.length}`);
         console.log(`Primeros 10 productos: ${searchIndex.indexes.tokens.disco.slice(0, 10)}`);
       }
+
+
+              // Código de diagnóstico para el mapeo
+        console.log('===== DIAGNÓSTICO DE MAPEO =====');
+        // Buscar específicamente TIUNI-5001
+        if (searchIndex.codeMap) {
+          // Buscar el código normalizado correspondiente
+          const normalizedVersion = Object.keys(searchIndex.codeMap).find(
+            key => searchIndex.codeMap[key] === 'TIUNI-5001'
+          );
+          if (normalizedVersion) {
+            console.log(`El código "TIUNI-5001" se normaliza como "${normalizedVersion}"`);
+            console.log(`Mapeo: ${normalizedVersion} -> TIUNI-5001`);
+          } else {
+            console.log('No se encontró mapeo para TIUNI-5001');
+          }
+
+          // Mostrar algunos ejemplos de mapeo
+          console.log('Ejemplos de mapeo:');
+          Object.entries(searchIndex.codeMap).slice(0, 5).forEach(([normalized, original]) => {
+            console.log(`${normalized} -> ${original}`);
+          });
+        }
     
     return {
       success: true,

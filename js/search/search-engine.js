@@ -27,6 +27,19 @@ async function initSearch() {
     
     console.log('[search-engine] Índice de búsqueda cargado correctamente');
     console.log('[search-engine] Estructura del índice:', Object.keys(searchIndex).join(', '));
+
+
+        // Verificar si existen los mapeos de códigos
+        if (searchIndex.codeMap) {
+          console.log('[search-engine] Mapeo de códigos disponible:', 
+                      Object.keys(searchIndex.codeMap).length, 'entradas');
+        }
+        
+        if (searchIndex.reverseCodeMap) {
+          console.log('[search-engine] Mapeo inverso de códigos disponible:',
+                      Object.keys(searchIndex.reverseCodeMap).length, 'entradas');
+        }
+
     
     if (searchIndex.indexes) {
       console.log('[search-engine] Tipos de índices:', Object.keys(searchIndex.indexes).join(', '));
@@ -95,6 +108,10 @@ async function initSearch() {
 // Realizar búsqueda mejorada con coincidencias parciales
 // Realizar búsqueda con coincidencias parciales más precisas
 async function performSearch(query) {
+
+  
+
+
   if (!searchIndex || !searchIndex.indexes) {
     console.warn('[search-engine] Índice de búsqueda no disponible o formato incorrecto');
     return;
@@ -110,6 +127,42 @@ async function performSearch(query) {
   // Normalizar la consulta
   const normalizedQuery = query.toLowerCase().trim();
   
+      // Verificar si la consulta es un código de producto (con o sin caracteres especiales)
+    let originalCode = null;
+    let normalizedCode = null;
+
+    // Comprobar si es un código original (con puntos, espacios, etc.)
+    if (searchIndex.reverseCodeMap && searchIndex.reverseCodeMap[query]) {
+      normalizedCode = searchIndex.reverseCodeMap[query];
+      originalCode = query;
+      console.log(`[search-engine] Consulta coincide con código original: ${originalCode} → ${normalizedCode}`);
+    }
+    // Comprobar si es un código normalizado (sin caracteres especiales)
+    else if (searchIndex.codeMap && searchIndex.codeMap[query]) {
+      normalizedCode = query;
+      originalCode = searchIndex.codeMap[query];
+      console.log(`[search-engine] Consulta coincide con código normalizado: ${normalizedCode} → ${originalCode}`);
+    }
+
+    // Si encontramos una coincidencia directa con un código, usar eso primero
+    if (normalizedCode) {
+      const exactMatch = searchIndex.indexes.exact[normalizedCode];
+      if (exactMatch) {
+        const matchingCodes = [exactMatch];
+        const matchingItems = matchingCodes.map(code => getProductDetails(code));
+        
+        console.log(`[search-engine] Encontrado por coincidencia exacta de código: ${originalCode}`);
+        console.log('[search-engine] Primeros 20 códigos encontrados:', matchingCodes.join(', '));
+        
+        displayResults(matchingItems, normalizedQuery);
+        return;
+      }
+    }
+
+
+
+
+
   // Buscar productos que coincidan con la consulta
   let matchingCodes = [];
   let searchSource = '';
@@ -225,11 +278,20 @@ async function performSearch(query) {
   
   console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados (fuente: ${searchSource})`);
   
-  // Mostrar los códigos encontrados en la consola (limitados a 20 para no saturar)
-  if (matchingCodes.length > 0) {
-    console.log(`[search-engine] Primeros 20 códigos encontrados:`, 
-                matchingCodes.slice(0, 20).join(', '));
-  }
+  // Convertir los códigos a su formato original antes de mostrarlos
+    const originalCodes = matchingCodes.map(code => 
+      searchIndex.codeMap && searchIndex.codeMap[code] ? searchIndex.codeMap[code] : code
+    );
+
+    console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
+                originalCodes.slice(0, 20).join(', '));
+
+
+     // Mostrar los códigos mormalizados encontrados en la consola (limitados a 20 para no saturar)
+     // if (matchingCodes.length > 0) {
+          //console.log(`[search-engine] Primeros 20 códigos encontrados:`, 
+         //       matchingCodes.slice(0, 20).join(', '));
+       // } 
   
   if (matchingCodes.length === 0) {
     clearResults();
@@ -426,6 +488,29 @@ function displayNoResults(query) {
       document.head.appendChild(styles);
     }
     
+
+    // 2. Modifica la función getProductDetails para usar el mapeo
+      function getProductDetails(code) {
+        // Si el código es un código normalizado, convertirlo al original
+        const originalCode = searchIndex.codeMap && searchIndex.codeMap[code] ? 
+                            searchIndex.codeMap[code] : code;
+        
+        // Buscar el producto usando el código original
+        // Esta parte depende de cómo está estructurado tu catálogo de productos
+        const productData = window.productCatalog[originalCode] || {};
+        
+        return {
+          id: originalCode,         // Usar código original como ID
+          code: originalCode,       // Mostrar código original en la interfaz
+          name: productData.name || '',
+          category: productData.category || '',
+          price: productData.prices ? productData.prices.D : 0,
+          // Otros campos según tu estructura
+        };
+      }
+
+
+
     // Inicializar
     addStyles();
     initSearch();
