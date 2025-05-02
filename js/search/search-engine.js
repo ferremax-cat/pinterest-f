@@ -1,3 +1,23 @@
+
+
+import ProductManager from '../../js/productManager.js';
+
+// Obtener la instancia de ProductManager
+let productManagerInstance = null;
+try {
+  productManagerInstance = ProductManager.getInstance({
+    // Pasar los mismos parámetros que usas en catalogo.html
+    // Si necesitas acceder a variables como monitoringSystem que no están
+    // disponibles en search-engine.js, podrías obtenerlas de window
+    clientData: window.clientConfig || {}
+  });
+  console.log('[search-engine] ProductManager inicializado correctamente');
+} catch (error) {
+  console.error('[search-engine] Error al inicializar ProductManager:', error);
+}
+
+
+
 // Implementación básica de búsqueda usando archivos JSON fragmentados
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Inicializando sistema de búsqueda...');
@@ -107,11 +127,12 @@ async function initSearch() {
   // Realizar búsqueda adaptada a la estructura completa
 // Realizar búsqueda mejorada con coincidencias parciales
 // Realizar búsqueda con coincidencias parciales más precisas
-async function performSearch(query) {
+// Modificación mínima a tu función performSearch existente
+// Solo se añaden los parámetros de paginación y la lógica necesaria
 
-  
-
-
+// Añadir parámetros de paginación con valores por defecto
+// Función performSearch actualizada con soporte para paginación y carga de productos específicos
+async function performSearch(query, offset = 0, limit = 30) {
   if (!searchIndex || !searchIndex.indexes) {
     console.warn('[search-engine] Índice de búsqueda no disponible o formato incorrecto');
     return;
@@ -127,42 +148,38 @@ async function performSearch(query) {
   // Normalizar la consulta
   const normalizedQuery = query.toLowerCase().trim();
   
-      // Verificar si la consulta es un código de producto (con o sin caracteres especiales)
-    let originalCode = null;
-    let normalizedCode = null;
-
-    // Comprobar si es un código original (con puntos, espacios, etc.)
-    if (searchIndex.reverseCodeMap && searchIndex.reverseCodeMap[query]) {
-      normalizedCode = searchIndex.reverseCodeMap[query];
-      originalCode = query;
-      console.log(`[search-engine] Consulta coincide con código original: ${originalCode} → ${normalizedCode}`);
+  // VERIFICACIÓN DE CÓDIGO EXACTO - Tu código existente
+  let originalCode = null;
+  let normalizedCode = null;
+  
+  // Si la consulta tiene formato de código, comprobar el mapeo inverso
+  if (searchIndex.reverseCodeMap && searchIndex.reverseCodeMap[query]) {
+    normalizedCode = searchIndex.reverseCodeMap[query];
+    originalCode = query;
+    console.log(`[search-engine] Consulta coincide con código original: ${originalCode} → ${normalizedCode}`);
+  }
+  // También comprobar si es un código normalizado
+  else if (searchIndex.codeMap && searchIndex.codeMap[query]) {
+    normalizedCode = query;
+    originalCode = searchIndex.codeMap[query];
+    console.log(`[search-engine] Consulta coincide con código normalizado: ${normalizedCode} → ${originalCode}`);
+  }
+  
+  // Si encontramos una coincidencia directa con un código, usar eso primero
+  if (normalizedCode) {
+    const exactMatch = searchIndex.indexes.exact[normalizedCode];
+    if (exactMatch) {
+      const matchingCodes = [exactMatch];
+      const matchingItems = matchingCodes.map(code => getProductDetails(code));
+      
+      console.log(`[search-engine] Encontrado por coincidencia exacta de código: ${originalCode}`);
+      console.log('[search-engine] Primeros 20 códigos encontrados:', matchingCodes.join(', '));
+      
+      displayResults(matchingItems, normalizedQuery);
+      return;
     }
-    // Comprobar si es un código normalizado (sin caracteres especiales)
-    else if (searchIndex.codeMap && searchIndex.codeMap[query]) {
-      normalizedCode = query;
-      originalCode = searchIndex.codeMap[query];
-      console.log(`[search-engine] Consulta coincide con código normalizado: ${normalizedCode} → ${originalCode}`);
-    }
-
-    // Si encontramos una coincidencia directa con un código, usar eso primero
-    if (normalizedCode) {
-      const exactMatch = searchIndex.indexes.exact[normalizedCode];
-      if (exactMatch) {
-        const matchingCodes = [exactMatch];
-        const matchingItems = matchingCodes.map(code => getProductDetails(code));
-        
-        console.log(`[search-engine] Encontrado por coincidencia exacta de código: ${originalCode}`);
-        console.log('[search-engine] Primeros 20 códigos encontrados:', matchingCodes.join(', '));
-        
-        displayResults(matchingItems, normalizedQuery);
-        return;
-      }
-    }
-
-
-
-
-
+  }
+  
   // Buscar productos que coincidan con la consulta
   let matchingCodes = [];
   let searchSource = '';
@@ -225,13 +242,13 @@ async function performSearch(query) {
     } else if (normalizedQuery.length >= 4) {
       // Buscar coincidencias parciales en códigos, solo prefijos
       const partialCodeMatches = new Set();
-      const matchingCodes = [];
+      const matchingCodeList = [];
       
       Object.keys(searchIndex.indexes.exact).forEach(code => {
         if (code.startsWith(normalizedQuery) || 
             (normalizedQuery.startsWith(code) && code.length >= 4)) {
           partialCodeMatches.add(searchIndex.indexes.exact[code]);
-          matchingCodes.push(code);
+          matchingCodeList.push(code);
         }
       });
       
@@ -279,19 +296,12 @@ async function performSearch(query) {
   console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados (fuente: ${searchSource})`);
   
   // Convertir los códigos a su formato original antes de mostrarlos
-    const originalCodes = matchingCodes.map(code => 
-      searchIndex.codeMap && searchIndex.codeMap[code] ? searchIndex.codeMap[code] : code
-    );
-
-    console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
-                originalCodes.slice(0, 20).join(', '));
-
-
-     // Mostrar los códigos mormalizados encontrados en la consola (limitados a 20 para no saturar)
-     // if (matchingCodes.length > 0) {
-          //console.log(`[search-engine] Primeros 20 códigos encontrados:`, 
-         //       matchingCodes.slice(0, 20).join(', '));
-       // } 
+  const originalCodes = matchingCodes.map(code => 
+    searchIndex.codeMap && searchIndex.codeMap[code] ? searchIndex.codeMap[code] : code
+  );
+  
+  console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
+              originalCodes.slice(0, 20).join(', '));
   
   if (matchingCodes.length === 0) {
     clearResults();
@@ -299,11 +309,82 @@ async function performSearch(query) {
     return;
   }
   
-  // Obtener detalles de los productos encontrados
-  const matchingItems = matchingCodes.map(code => getProductDetails(code));
+  // NUEVO: Aplicar paginación a los resultados
+  const totalResults = matchingCodes.length;
+  const paginatedCodes = matchingCodes.slice(offset, offset + limit);
   
-  // Mostrar resultados
-  displayResults(matchingItems, normalizedQuery);
+  console.log(`[search-engine] Aplicando paginación: mostrando ${paginatedCodes.length} productos (${offset+1}-${offset+paginatedCodes.length} de ${totalResults})`);
+  
+  // Obtener productos en lote
+  let matchingItems = [];
+  
+  // Verificar si podemos acceder a productManagerInstance
+  if (window.productManagerInstance && typeof window.productManagerInstance.loadSpecificProducts === 'function') {
+    try {
+      // Obtener códigos originales
+      const originalCodes = paginatedCodes.map(code => 
+        searchIndex.codeMap && searchIndex.codeMap[code] ? 
+        searchIndex.codeMap[code] : code
+      );
+      
+      // Obtener todos los datos en una sola llamada
+      const productData = await window.productManagerInstance.loadSpecificProducts(originalCodes);
+      
+      // Procesar los resultados
+      matchingItems = originalCodes.map(code => {
+        if (productData && productData[code]) {
+          return {
+            id: code,
+            code: code,
+            name: productData[code].name || `Producto ${code}`,
+            category: productData[code].category || '',
+            price: productData[code].selectedPrice || 0
+          };
+        } else {
+          return {
+            id: code,
+            code: code,
+            name: `Producto ${code}`,
+            category: '',
+            price: 0
+          };
+        }
+      });
+    } catch (error) {
+      console.error('[search-engine] Error al obtener productos:', error);
+      // Fallback a datos mínimos
+      matchingItems = paginatedCodes.map(code => ({
+        code: code,
+        name: `Producto ${code}`,
+        price: 0
+      }));
+    }
+  } else {
+    console.warn('[search-engine] Método loadSpecificProducts no disponible, usando datos mínimos');
+    // Usar datos mínimos
+    matchingItems = paginatedCodes.map(code => ({
+      code: code,
+      name: `Producto ${code}`,
+      price: 0
+    }));
+  }
+  
+  // Mostrar resultados con información de paginación
+  displayResults(matchingItems, normalizedQuery, {
+    offset: offset,
+    limit: limit,
+    total: totalResults,
+    hasMore: offset + limit < totalResults
+  });
+  
+  // Devolver información para uso externo
+  return {
+    items: matchingItems,
+    total: totalResults,
+    offset: offset,
+    limit: limit,
+    hasMore: offset + limit < totalResults
+  };
 }
 
 // Función para generar n-gramas (necesaria para búsqueda en n-gramas)
@@ -372,58 +453,178 @@ function displayNoResults(query) {
     }
     
     // Mostrar resultados de búsqueda
-    function displayResults(items, query) {
-      if (!resultsContainer) {
-        console.warn('Contenedor de resultados no encontrado');
-        return;
-      }
-      
-      // Limitar a 50 resultados para rendimiento en móviles
-      const limitedItems = items.slice(0, 50);
-      
-      resultsContainer.innerHTML = '';
-      
-      if (limitedItems.length === 0) {
-        resultsContainer.innerHTML = '<div class="no-results">No se encontraron resultados</div>';
-        return;
-      }
-      
-      // Crear elemento para cantidad de resultados
-      const countElement = document.createElement('div');
-      countElement.className = 'results-count';
-      countElement.textContent = `${items.length} resultados encontrados${items.length > limitedItems.length ? ' (mostrando los primeros 50)' : ''}`;
-      resultsContainer.appendChild(countElement);
-      
-      // Crear lista de resultados
-      const listElement = document.createElement('div');
-      listElement.className = 'results-list';
-      
-      limitedItems.forEach(item => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-item';
-        
-        // Destacar el término de búsqueda en el nombre
-        let displayName = item.name || item.code || '';
-        if (query) {
-          const regex = new RegExp(`(${query})`, 'gi');
-          displayName = displayName.replace(regex, '<span class="highlight">$1</span>');
+    // Función displayResults adaptada para colocar elementos exactamente donde el código existente los espera
+      function displayResults(matchingItems, normalizedQuery, pagination = {}) {
+        const galleryContainer = document.querySelector('.gallery-container');
+        if (!galleryContainer) {
+          console.warn('[search-engine] Contenedor de galería no encontrado');
+          return;
         }
         
-        resultItem.innerHTML = `
-          <div class="item-name">${displayName}</div>
-          ${item.code ? `<div class="item-code">Código: ${item.code}</div>` : ''}
-        `;
+        // Extraer información de paginación
+        const { offset = 0, total = matchingItems.length, hasMore = false } = pagination;
+        const isInitialLoad = offset === 0;
         
-        // Añadir evento para cargar detalles completos al hacer clic
-        resultItem.addEventListener('click', () => {
-          loadItemDetails(item.id);
+        // Si es carga inicial (offset 0), limpiar el contenedor de galería
+        if (isInitialLoad) {
+          // Limpiar galería para mostrar nuevos resultados
+          galleryContainer.innerHTML = '';
+          
+          // Mostrar información sobre resultados usando mensaje-busqueda
+          // o crearlo si no existe
+          let mensajeBusqueda = document.getElementById('mensaje-busqueda');
+          if (!mensajeBusqueda) {
+            mensajeBusqueda = document.createElement('div');
+            mensajeBusqueda.id = 'mensaje-busqueda';
+            mensajeBusqueda.className = 'mensaje-busqueda';
+            document.body.appendChild(mensajeBusqueda);
+          }
+          
+          mensajeBusqueda.innerHTML = `
+            <div class="mensaje-contenido">
+              <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
+              ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
+            </div>
+            ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
+          `;
+          
+          // Añadir funcionalidad para limpiar búsqueda
+          const botonLimpiar = document.getElementById('boton-limpiar-busqueda');
+          if (botonLimpiar) {
+            botonLimpiar.addEventListener('click', () => {
+              const searchInput = document.querySelector('input[type="text"]');
+              if (searchInput) {
+                searchInput.value = '';
+                // Buscar sin término equivale a mostrar todo
+                performSearch('');
+              }
+            });
+          }
+        }
+        
+        // Añadir los nuevos items a la galería
+        matchingItems.forEach(item => {
+          // Crear elemento de galería siguiendo exactamente tu estructura HTML
+          const galleryItem = document.createElement('div');
+          galleryItem.className = 'gallery-item';
+          
+          // Agregar el atributo data-product-code según tus ejemplos
+          if (item.code) {
+            galleryItem.setAttribute('data-product-code', item.code);
+          }
+          
+          // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
+          galleryItem.innerHTML = `
+            <div class="container-img">
+              <img alt="${item.name || ''}" src="img/loading-product.gif">
+
+              <div class="top-row">
+              <a href="#">${item.name || ''}</a>
+              </div>
+
+              <div class="bottom-row">
+              <a href="#">${item.code || ''}</a>
+              ${item.price ? `<span class="price-tag">$${formatPrice(item.price)}</span>` : ''}
+              </div>
+            </div>
+
+
+            <div class="info-img">
+              <div class="info">
+              </div>
+
+              <div class="reactions">
+              </div>
+            </div>
+          `;
+          
+          // Añadir el item a la galería
+          galleryContainer.appendChild(galleryItem);
         });
         
-        listElement.appendChild(resultItem);
-      });
-      
-      resultsContainer.appendChild(listElement);
-    }
+        // IMPORTANTE: Actualizar la variable global galleryItems si existe
+        try {
+          window.galleryItems = document.querySelectorAll('.gallery-item');
+          console.log('[search-engine] Variable global galleryItems actualizada con', window.galleryItems.length, 'elementos');
+        } catch (e) {
+          console.warn('[search-engine] No se pudo actualizar variable global galleryItems:', e);
+        }
+        
+        // Si hay más resultados disponibles, mostrar botón "Cargar más"
+        // Primero eliminar el botón existente si lo hay
+        const existingLoadMoreButton = document.getElementById('load-more-button');
+        if (existingLoadMoreButton) {
+          existingLoadMoreButton.remove();
+        }
+        
+        if (hasMore) {
+          // Crear botón "Cargar más"
+          const loadMoreButton = document.createElement('button');
+          loadMoreButton.id = 'load-more-button';
+          loadMoreButton.className = 'load-more-button';
+          loadMoreButton.textContent = 'Cargar más productos';
+          
+          // Añadir estilos inline para el botón si no tienes una clase CSS para él
+          loadMoreButton.style.display = 'block';
+          loadMoreButton.style.width = '100%';
+          loadMoreButton.style.maxWidth = '400px';
+          loadMoreButton.style.margin = '20px auto';
+          loadMoreButton.style.padding = '10px 15px';
+          loadMoreButton.style.backgroundColor = '#4a90e2';
+          loadMoreButton.style.color = 'white';
+          loadMoreButton.style.border = 'none';
+          loadMoreButton.style.borderRadius = '4px';
+          loadMoreButton.style.cursor = 'pointer';
+          
+          // Añadir evento al botón
+          loadMoreButton.addEventListener('click', function() {
+            // Deshabilitar botón mientras carga
+            this.disabled = true;
+            this.textContent = 'Cargando...';
+            this.style.backgroundColor = '#7a7a7a';
+            
+            // Calcular próximo offset
+            const nextOffset = offset + matchingItems.length;
+            const limit = pagination.limit || 30; // Usar el mismo limit o valor por defecto
+            
+            // Llamar a performSearch con el nuevo offset
+            try {
+              performSearch(normalizedQuery, nextOffset, limit);
+            } catch (error) {
+              console.error('[search-engine] Error al cargar más resultados:', error);
+              // Restaurar botón en caso de error
+              this.disabled = false;
+              this.textContent = 'Cargar más productos';
+              this.style.backgroundColor = '#4a90e2';
+            }
+          });
+          
+          // Añadir el botón después de la galería
+          galleryContainer.parentNode.insertBefore(loadMoreButton, galleryContainer.nextSibling);
+        }
+        
+        // Actualizar contador si es carga incremental
+        if (!isInitialLoad) {
+          const mensajePagina = document.querySelector('.mensaje-pagina');
+          if (mensajePagina) {
+            const currentCount = offset + matchingItems.length;
+            mensajePagina.textContent = `(Mostrando 1-${currentCount})`;
+          }
+          
+          // Si usas layout de Pinterest o similar, aplícalo después de añadir nuevos items
+          if (typeof window.applyPinterestLayout === 'function') {
+            setTimeout(() => {
+              window.applyPinterestLayout();
+            }, 100);
+          }
+        }
+      }
+
+      // Función auxiliar para formatear precios
+      function formatPrice(price) {
+        if (typeof price !== 'number') return price;
+        return price.toLocaleString('es-AR');
+      }
     
     // Cargar detalles completos de un ítem
     async function loadItemDetails(itemId) {
@@ -490,23 +691,84 @@ function displayNoResults(query) {
     
 
     // 2. Modifica la función getProductDetails para usar el mapeo
+      // Función getProductDetails con diagnóstico completo para encontrar el error
       function getProductDetails(code) {
-        // Si el código es un código normalizado, convertirlo al original
-        const originalCode = searchIndex.codeMap && searchIndex.codeMap[code] ? 
-                            searchIndex.codeMap[code] : code;
+        console.log(`[DIAGNÓSTICO] getProductDetails recibió código: "${code}"`);
         
-        // Buscar el producto usando el código original
-        // Esta parte depende de cómo está estructurado tu catálogo de productos
-        const productData = window.productCatalog[originalCode] || {};
+        // Diagnosticar searchIndex
+        console.log('[DIAGNÓSTICO] ¿searchIndex existe?', !!window.searchIndex);
+        console.log('[DIAGNÓSTICO] ¿searchIndex.codeMap existe?', !!(window.searchIndex && window.searchIndex.codeMap));
         
-        return {
-          id: originalCode,         // Usar código original como ID
-          code: originalCode,       // Mostrar código original en la interfaz
-          name: productData.name || '',
-          category: productData.category || '',
-          price: productData.prices ? productData.prices.D : 0,
-          // Otros campos según tu estructura
-        };
+        // Diagnosticar productManager
+        console.log('[DIAGNÓSTICO] ¿productManager existe?', !!window.productManager);
+        console.log('[DIAGNÓSTICO] ¿productManager.getProduct existe?', !!(window.productManager && typeof window.productManager.getProduct === 'function'));
+        console.log('[DIAGNÓSTICO] ¿productManager.getPrecio existe?', !!(window.productManager && typeof window.productManager.getPrecio === 'function'));
+        
+        let originalCode = code;
+        
+        try {
+          // Intentar obtener código original solo si searchIndex.codeMap existe
+          if (window.searchIndex && window.searchIndex.codeMap) {
+            const mappedCode = window.searchIndex.codeMap[code];
+            if (mappedCode) {
+              originalCode = mappedCode;
+              console.log(`[DIAGNÓSTICO] Código mapeado: "${code}" -> "${originalCode}"`);
+            }
+          }
+          
+          // Variables para almacenar datos
+          let productData = null;
+          let priceData = null;
+          
+          // Intentar obtener datos del producto si productManager existe
+          if (window.productManager && typeof window.productManager.getProduct === 'function') {
+            try {
+              console.log(`[DIAGNÓSTICO] Llamando a productManager.getProduct("${originalCode}")`);
+              productData = window.productManager.getProduct(originalCode);
+              console.log('[DIAGNÓSTICO] Resultado de getProduct:', productData);
+            } catch (error) {
+              console.error(`[DIAGNÓSTICO] Error en getProduct:`, error);
+              productData = null;
+            }
+          }
+          
+          // Intentar obtener precio si productManager existe
+          if (window.productManager && typeof window.productManager.getPrecio === 'function') {
+            try {
+              console.log(`[DIAGNÓSTICO] Llamando a productManager.getPrecio("${originalCode}")`);
+              priceData = window.productManager.getPrecio(originalCode);
+              console.log('[DIAGNÓSTICO] Resultado de getPrecio:', priceData);
+            } catch (error) {
+              console.error(`[DIAGNÓSTICO] Error en getPrecio:`, error);
+              priceData = null;
+            }
+          }
+          
+          // Construir objeto de resultado con valores por defecto seguros
+          const result = {
+            id: originalCode,         // Usar código original como ID
+            code: originalCode,       // Mostrar código original en la interfaz
+            name: productData && productData.name ? productData.name : `Producto ${originalCode}`,
+            category: productData && productData.category ? productData.category : '',
+            price: priceData && priceData.D ? priceData.D : 0
+          };
+          
+          console.log('[DIAGNÓSTICO] Objeto final devuelto:', result);
+          return result;
+          
+        } catch (error) {
+          console.error(`[DIAGNÓSTICO] Error general:`, error);
+          
+          // Devolver objeto seguro en caso de error
+          return {
+            id: code,
+            code: code,
+            name: `Producto ${code}`,
+            category: '',
+            price: 0,
+            error: true
+          };
+        }
       }
 
 

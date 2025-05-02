@@ -967,6 +967,9 @@
                clientData: clientConfig 
                });
 
+               // AÑADIR ESTA LÍNEA para exponer la instancia globalmente
+               window.productManagerInstance = productManager;
+
                window.imageLoader = ImageLoader.getInstance({ 
                monitoringSystem,
                sheetId: config.sheetId
@@ -2465,7 +2468,7 @@
 
      <!-- Implementación de búsqueda mejorada -->
      <!--<script src="./js/search/busqueda-override.js"></script>-->
-     <script src="./js/search/search-engine.js"></script>
+     <script type="module" src="./js/search/search-engine.js"></script>
      
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
 

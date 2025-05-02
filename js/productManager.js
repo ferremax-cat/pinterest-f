@@ -53,6 +53,8 @@ class ProductManager {
     const savedInitialized = sessionStorage.getItem('productManager_initialized');
     if (savedInitialized === 'true') {
         this.#initialized = true;
+        // Asignar la instancia a window para acceso global
+          window.productManagerInstance = this;
     }
    
     // Inicializar dependencias core
@@ -521,6 +523,82 @@ class ProductManager {
   }
 
 
+      /**
+     * Carga datos específicos para los códigos de productos solicitados
+     * @param {string[]} codigos - Array de códigos a buscar
+     * @returns {Object} - Resultado con productos encontrados
+     */
+        async loadSpecificProducts(codigos, clientData = null) {
+          console.log(`[ProductManager] Cargando datos específicos para ${codigos.length} productos`);
+
+          
+          try {
+
+            console.log('[ProductManager] Estado antes de cargar:', {
+              initialized: this.#initialized,
+              hasProducts: this.products.size > 0,
+              clientData: this.clientData // Añadir log del clientData actual
+            });
+            
+            // Usar datos del cliente proporcionados o el global con fallback a un objeto vacío
+            const currentClientData = clientData || this.clientData || {};
+
+            // Cargar el archivo JSON completo, pero solo procesaremos los códigos necesarios
+            const productsResponse = await fetch('./json/productos.json');
+            const productsData = await productsResponse.json();
+
+                    
+            console.log("[ProductManager] clientData usado:", currentClientData);
+            
+            // Verificar lista de precios del cliente
+            const clientePriceList = currentClientData.priceList || 'D';
+            
+            console.log("[ProductManager] Lista de precios seleccionada:", clientePriceList);
+             
+            
+            // Objeto para resultados
+            const resultados = {};
+            
+            // Procesar solo los códigos solicitados
+            codigos.forEach(codigo => {
+              try {
+                const codigoMayusculas = codigo.toUpperCase();
+                
+                // Buscar directamente el código en el JSON
+                const productData = productsData[codigoMayusculas] || productsData[codigo];
+                
+                if (productData) {
+
+                  console.log("[ProductManager] Código producto:", codigo);
+                  console.log("[ProductManager] Lista de precios del cliente:", clientePriceList);
+                  console.log("[ProductManager] Precios disponibles:", productData.prices);
+                  console.log("[ProductManager] Precio seleccionado:", productData.prices[clientePriceList]);
+
+
+                  // Añadir a resultados con el formato esperado
+                  resultados[codigo] = {
+                    name: productData.name,
+                    category: productData.category,
+                    bulk: productData.bulk,
+                    selectedPrice: productData.prices[clientePriceList] || productData.prices.D || 0,
+                    priceList: clientePriceList
+                  };
+                }
+              } catch (error) {
+                console.warn(`[ProductManager] Error al procesar ${codigo}:`, error);
+              }
+            });
+            
+            console.log(`[ProductManager] Datos cargados: ${Object.keys(resultados).length}/${codigos.length} productos encontrados`);
+            return resultados;
+            
+          } catch (error) {
+            console.error('[ProductManager] Error al cargar datos específicos:', error);
+            return {};
+          }
+        }
+
+
   /**
    * Construye índices para búsqueda eficiente
    * @private
@@ -735,6 +813,104 @@ class ProductManager {
             return null;
         }
     }  
+
+
+    /**
+ * Obtiene información de múltiples productos por sus códigos, con precios específicos del cliente
+ * @param {string[]} codigos - Array de códigos de productos
+ * @returns {Object} Objeto con productos encontrados y sus precios
+ */
+    getBulkProducts(codigos) {
+      console.log(`[ProductManager] Búsqueda masiva de ${codigos.length} productos`);
+
+
+            // Añadir diagnóstico sobre la fuente de datos
+        console.log('[ProductManager] Información sobre fuente de datos:', {
+          fuenteDatos: this.dataSource || 'Desconocida',
+          rutaJSON: this.jsonPath || 'No especificada',
+          totalProductos: this.products.size,
+          muestraDeClaves: Array.from(this.products.keys()).slice(0, 5)
+        });
+        
+        // También verificar explícitamente si el código existe
+        if (codigos.length > 0) {
+          const primerCodigo = codigos[0];
+          console.log(`[ProductManager] Verificación explícita para ${primerCodigo}:`, {
+            existeExacto: this.products.has(primerCodigo),
+            existeMayusculas: this.products.has(primerCodigo.toUpperCase()),
+            intentoGet: this.products.get(primerCodigo) || 'No encontrado'
+          });
+        }
+
+      // AÑADIR DIAGNÓSTICO: Verificar map de productos
+      console.log('[ProductManager] Estado de this.products:', {
+        exists: !!this.products,
+        isMap: this.products instanceof Map,
+        size: this.products?.size || 0,
+        initialized: this.#initialized || false,
+        primeros5: Array.from(this.products?.keys() || []).slice(0, 5)
+      });
+      
+      // Verificar si tenemos datos de cliente
+      const clientePriceList = this.clientData?.priceList || 'D'; // 'D' como lista por defecto
+      console.log(`[ProductManager] Usando lista de precios: ${clientePriceList}`);
+      
+      // Objeto para almacenar resultados
+      const resultados = {};
+      
+      // Procesar cada código
+      codigos.forEach(codigo => {
+        try {
+          // Normalizar código (a mayúsculas como hace getProduct)
+          const codigoMayusculas = codigo.toUpperCase();
+          
+          // Buscar producto
+          const producto = this.products.get(codigoMayusculas);
+          
+          // Si existe, incluirlo en los resultados
+          if (producto) {
+            // Obtener precio desde la propiedad prices usando la lista del cliente
+            const precio = producto.precio || 0;
+            
+            // Guardar en resultados con el precio específico
+            resultados[codigo] = {
+              name: producto.nombre,           // Mapear de "nombre" a "name"
+              category: producto.categoria,    // Mapear de "categoria" a "category"
+              bulk: producto.bulto,            // Mapear de "bulto" a "bulk"
+              selectedPrice: precio,           // Usar el precio ya seleccionado
+              priceList: clientePriceList
+            };
+          } else {
+            console.log(`[ProductManager] Producto no encontrado: ${codigo}`);
+          }
+        } catch (error) {
+          console.warn(`[ProductManager] Error al procesar ${codigo}:`, error);
+        }
+      });
+      
+      console.log(`[ProductManager] Búsqueda completada: ${Object.keys(resultados).length}/${codigos.length} productos encontrados`);
+      
+        // AÑADIR DIAGNÓSTICO: Examinemos algunos códigos específicamente
+        const codigosTest = codigos.slice(0, 3); // Tomar los primeros 3 códigos
+        codigosTest.forEach(codigo => {
+          const codigoMayus = codigo.toUpperCase();
+          console.log(`[ProductManager] Prueba específica para ${codigo}:`, {
+            codigoOriginal: codigo,
+            codigoMayusculas: codigoMayus,
+            existeEnMap: this.products.has(codigoMayus),
+            // Mostrar algunas claves similares si existen
+            clavesSimilares: Array.from(this.products.keys())
+              .filter(k => k.includes(codigo.substring(0, 3)) || codigo.includes(k.substring(0, 3)))
+              .slice(0, 5)
+          });
+        });
+
+
+
+      return resultados;
+    }
+
+
   /**
    * Verifica si hay promociones aplicables
    * @private
