@@ -513,17 +513,33 @@ function displayNoResults(query) {
             galleryItem.setAttribute('data-product-code', item.code);
           }
           
+          // AÑADIR ESTAS LÍNEAS: Preparar texto con resaltado
+          let itemName = item.name || '';
+          let itemCode = item.code || '';
+
+           // NUEVO: Convertir el nombre a minúsculas
+          itemName = itemName.toLowerCase();
+
+          if (normalizedQuery && normalizedQuery.trim()) {
+            const searchTerm = normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            itemName = itemName.replace(regex, '<span class="search-highlight">$1</span>');
+            itemCode = itemCode.replace(regex, '<span class="search-highlight">$1</span>');
+          }  
+
+
+
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
               <img alt="${item.name || ''}" src="img/loading-product.gif">
 
               <div class="top-row">
-              <a href="#">${item.name || ''}</a>
+              <a href="#">${itemName}</a>
               </div>
 
               <div class="bottom-row">
-              <a href="#">${item.code || ''}</a>
+              <a href="#">${itemCode}</a>
               ${item.price ? `<span class="price-tag">$${formatPrice(item.price)}</span>` : ''}
               </div>
             </div>
@@ -645,47 +661,69 @@ function displayNoResults(query) {
     }
     
     // Agregar estilos CSS
-    function addStyles() {
+    function addStyles() {if (document.getElementById('search-override-styles')) return;
+    
       const styles = document.createElement('style');
+      styles.id = 'search-override-styles';
       styles.textContent = `
-        .results-count {
-          margin: 10px 0;
-          font-weight: bold;
-        }
+        /* Estilo para resaltado de coincidencias - versión más específica */
+          .gallery-item .top-row a .search-highlight,
+          .gallery-item .bottom-row a .search-highlight,
+          .search-highlight {
+          font-weight: bold !important;
+          color: #ff4500 !important; /* Naranja más intenso para mayor visibilidad */
+          text-decoration: underline !important;
+          }
         
-        .results-list {
+        /* Estilo para el mensaje de búsqueda */
+        .mensaje-busqueda {
+          position: fixed;
+          top: 70px;
+          right: 20px;
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          border-radius: 4px;
+          padding: 10px 15px;
           display: flex;
-          flex-direction: column;
-          gap: 10px;
+          align-items: center;
+          justify-content: space-between;
+          width: 300px;
+          z-index: 9999;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
-        .result-item {
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
+        .mensaje-contenido {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+        
+        .mensaje-contador {
+          font-weight: bold;
+          margin-right: 5px;
+        }
+        
+        .mensaje-termino {
+          font-style: italic;
+          font-weight: bold;
+        }
+        
+        .boton-limpiar {
+          background-color: #4a90e2;
+          color: white;
+          border: none;
+          border-radius: 3px;
+          padding: 5px 10px;
           cursor: pointer;
+          font-size: 12px;
+          margin-left: 10px;
         }
         
-        .result-item:hover {
-          background-color: #f5f5f5;
-        }
-        
-        .item-name {
-          font-weight: bold;
-          margin-bottom: 5px;
-        }
-        
-        .highlight {
-          background-color: #ffeb3b;
-          font-weight: bold;
-        }
-        
-        .no-results {
-          padding: 20px;
-          text-align: center;
-          color: #666;
+        .boton-limpiar:hover {
+          background-color: #3a7cca;
         }
       `;
+      
       document.head.appendChild(styles);
     }
     
