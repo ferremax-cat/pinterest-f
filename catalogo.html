@@ -918,7 +918,31 @@
 
           document.addEventListener('DOMContentLoaded', async function() {
 
+               console.log('Verificando bandera de focus en localStorage:', localStorage.getItem('setFocusOnLoad'));
+  
+               // Verificar si necesitamos establecer el foco en el campo de búsqueda
+               if (localStorage.getItem('setFocusOnLoad') === 'true') {
+               console.log('Bandera de foco detectada, estableciendo foco...');
+               // Limpiar la bandera
+               localStorage.removeItem('setFocusOnLoad');
                
+               // Establecer el foco inmediatamente Y también con un retraso para mayor seguridad
+               const searchInput = document.querySelector('input[type="text"]');
+               if (searchInput) {
+                    searchInput.focus();
+                    console.log('Primer intento de foco establecido');
+                    
+                    // También intentarlo después de un retraso (mayor probabilidad de éxito)
+                    setTimeout(() => {
+                    searchInput.focus();
+                    console.log('Segundo intento de foco establecido después de 500ms');
+                    }, 500);
+               } else {
+                    console.log('No se encontró el campo de búsqueda');
+               }
+               } else {
+               console.log('No se encontró la bandera de foco');
+               }
 
 
                // 1. AGREGAR al inicio la creación del MonitoringSystem
@@ -1591,7 +1615,7 @@
                // 6. Función de precarga de imágenes
                //--- agrego 19-3-25
 
-                              // Modificación de la función precargarSiguientesPaginas para implementar scroll infinito completo
+     // Modificación de la función precargarSiguientesPaginas para implementar scroll infinito completo
                async function precargarSiguientesPaginas() {
                     if (!imageLoader) return;
                     
@@ -1763,6 +1787,52 @@
                     }
                }
 
+               // Añadir esto después de la función precargarSiguientesPaginas
+               window.addEventListener('resetCatalogo', function(event) {
+                    console.log('Evento resetCatalogo recibido, recargando catálogo inicial');
+                    
+                    try {
+                    // Verificar si hay elementos de galería para usar como plantilla
+                    const existingItems = document.querySelectorAll('.gallery-item');
+                    
+                    if (existingItems.length === 0) {
+                         console.log("No hay elementos de galería existentes. Recargando la página...");
+                         window.location.reload(); // Solución nuclear: recargar la página
+                         return;
+                    }
+                    
+                    // Restablecer variables de seguimiento
+                    if (window.allProducts) {
+                         window.currentProductIndex = 0;
+                    }
+                    
+                    // IMPORTANTE: Resetear la variable isLoading para el scroll
+                    window.isLoading = false;
+                    
+                    // Cargar los productos iniciales con un pequeño retraso
+                    setTimeout(() => {
+                         try {
+                         precargarSiguientesPaginas(0);
+                         console.log("Catálogo recargado exitosamente");
+                         
+                         // IMPORTANTE: Asegurarse de que el scroll infinite esté funcionando
+                         // Simular un pequeño scroll para activar el evento
+                         setTimeout(() => {
+                              window.scrollBy(0, 10);
+                              console.log("Scroll infinito reactivado");
+                         }, 1000);
+                         
+                         } catch (error) {
+                         console.error("Error al recargar el catálogo:", error);
+                         window.location.reload(); // Si hay error, recargar la página
+                         }
+                    }, 100);
+                    
+                    } catch (error) {
+                    console.error("Error en el manejador de resetCatalogo:", error);
+                    window.location.reload(); // Si hay error, recargar la página
+                    }
+                    });
 
 
 
@@ -1899,10 +1969,28 @@
                     // Esto inicia la carga cuando el usuario está más lejos del final
                     if (lastItemRect.bottom < window.innerHeight * 3) {
                          isLoading = true;
-                         await precargarSiguientesPaginas();
+                         // CAMBIO CLAVE: Verificar si hay una búsqueda activa
+                         const searchInput = document.querySelector('input[type="text"]');
+                         if (searchInput && searchInput.value.trim() !== '') {
+                              console.log("[search-engine] Cargando más resultados de búsqueda por scroll");
+                              await cargarMasResultadosBusqueda();
+                         } else {
+                              console.log("[catalogo] Cargando siguiente página del catálogo por scroll");
+                              await precargarSiguientesPaginas();
+                         }
+                         
                          isLoading = false;
-                    }
+                         }
                }, 200));
+
+
+               // Añadir esta función después de performSearch
+                    async function cargarMasResultadosBusqueda() {
+                    const loadMoreButton = document.getElementById('load-more-button');
+                    if (loadMoreButton) {
+                    loadMoreButton.click(); // Reutiliza la lógica existente del botón
+                    }
+                    }
 
               // 6. Sistemas principal y fallback
                const primarySystem = async () => {

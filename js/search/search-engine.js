@@ -387,6 +387,9 @@ async function performSearch(query, offset = 0, limit = 30) {
   };
 }
 
+
+
+
 // Función para generar n-gramas (necesaria para búsqueda en n-gramas)
 function generateNgrams(text, size = 3) {
   if (!text || typeof text !== 'string' || text.length < size) return [];
@@ -492,12 +495,49 @@ function displayNoResults(query) {
           const botonLimpiar = document.getElementById('boton-limpiar-busqueda');
           if (botonLimpiar) {
             botonLimpiar.addEventListener('click', () => {
+
+              // Establecer una bandera en localStorage para que sea más fácil de inspeccionar
+              localStorage.setItem('setFocusOnLoad', 'true');
+              console.log('Bandera setFocusOnLoad establecida en localStorage', localStorage.getItem('setFocusOnLoad'));
+              
+              // Pequeña pausa para asegurar que se guarde antes de recargar
+              setTimeout(() => {
+                // Recargar la página
+                window.location.reload();
+              }, 50);
+
+
+              // 1. Limpiar el campo de búsqueda
               const searchInput = document.querySelector('input[type="text"]');
               if (searchInput) {
                 searchInput.value = '';
-                // Buscar sin término equivale a mostrar todo
-                performSearch('');
+                // NUEVO: Mover el cursor al campo de búsqueda
+                searchInput.focus();
               }
+              
+              // 2. Eliminar el mensaje de resultados de búsqueda
+              const mensajeBusqueda = document.getElementById('mensaje-busqueda');
+              if (mensajeBusqueda) {
+                mensajeBusqueda.remove();
+              }
+              
+              // 3. Limpiar los productos de búsqueda actuales
+              const galleryContainer = document.querySelector('.gallery-container');
+              if (galleryContainer) {
+                galleryContainer.innerHTML = '';
+              }
+              
+              // 4. Cargar el catálogo inicial
+              // Enviar un evento personalizado para que catalogo.html lo capture
+              const resetEvent = new CustomEvent('resetCatalogo', {
+                detail: { triggered: 'searchClear' }
+              });
+              window.dispatchEvent(resetEvent);
+              
+              console.log('Búsqueda limpiada, enviado evento resetCatalogo');
+              
+              console.log('Búsqueda limpiada, cargando catálogo inicial');
+              
             });
           }
         }
@@ -574,30 +614,23 @@ function displayNoResults(query) {
         }
         
         if (hasMore) {
-          // Crear botón "Cargar más"
-          const loadMoreButton = document.createElement('button');
+          // Crear un elemento oculto en lugar de un botón visible
+          const loadMoreButton = document.createElement('div'); // Cambiar a div
           loadMoreButton.id = 'load-more-button';
           loadMoreButton.className = 'load-more-button';
-          loadMoreButton.textContent = 'Cargar más productos';
           
-          // Añadir estilos inline para el botón si no tienes una clase CSS para él
-          loadMoreButton.style.display = 'block';
-          loadMoreButton.style.width = '100%';
-          loadMoreButton.style.maxWidth = '400px';
-          loadMoreButton.style.margin = '20px auto';
-          loadMoreButton.style.padding = '10px 15px';
-          loadMoreButton.style.backgroundColor = '#4a90e2';
-          loadMoreButton.style.color = 'white';
-          loadMoreButton.style.border = 'none';
-          loadMoreButton.style.borderRadius = '4px';
-          loadMoreButton.style.cursor = 'pointer';
           
-          // Añadir evento al botón
+           // Ocultar el elemento (esto es lo único que realmente necesitas cambiar)
+          loadMoreButton.style.display = 'none';
+          
+          // Mantener el resto de las propiedades (no afectan si está oculto)
+          loadMoreButton.dataset.nextOffset = offset + matchingItems.length;
+          loadMoreButton.dataset.limit = pagination.limit || 30;
+          loadMoreButton.dataset.query = normalizedQuery;
+          
+          // Mantener el evento de clic para que cargarMasResultadosBusqueda() funcione
           loadMoreButton.addEventListener('click', function() {
-            // Deshabilitar botón mientras carga
-            this.disabled = true;
-            this.textContent = 'Cargando...';
-            this.style.backgroundColor = '#7a7a7a';
+            
             
             // Calcular próximo offset
             const nextOffset = offset + matchingItems.length;
@@ -608,10 +641,7 @@ function displayNoResults(query) {
               performSearch(normalizedQuery, nextOffset, limit);
             } catch (error) {
               console.error('[search-engine] Error al cargar más resultados:', error);
-              // Restaurar botón en caso de error
-              this.disabled = false;
-              this.textContent = 'Cargar más productos';
-              this.style.backgroundColor = '#4a90e2';
+              
             }
           });
           
