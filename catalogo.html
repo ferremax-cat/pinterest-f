@@ -1098,7 +1098,7 @@
 
 
 
-          try {
+               try {
 
                     const monitoringSystem = new MonitoringSystem();
                     const fallbackManager = new FallbackManager();
@@ -1615,7 +1615,7 @@
                // 6. Función de precarga de imágenes
                //--- agrego 19-3-25
 
-     // Modificación de la función precargarSiguientesPaginas para implementar scroll infinito completo
+                    // Modificación de la función precargarSiguientesPaginas para implementar scroll infinito completo
                async function precargarSiguientesPaginas() {
                     if (!imageLoader) return;
                     
@@ -2034,36 +2034,36 @@
                          
 
 
-          } catch (error) {
+               } catch (error) {
                console.error('Error en inicialización:', error);
                // Si todo falla, intentar carga básica
                await cargarImagenes();
-          }
-          });
+                }
+               });
 
           // Utilidad debounce
-          function debounce(func, wait) {
-          let timeout;
-          return function executedFunction(...args) {
+               function debounce(func, wait) {
+               let timeout;
+               return function executedFunction(...args) {
                const later = () => {
                     clearTimeout(timeout);
                     func(...args);
                };
                clearTimeout(timeout);
                timeout = setTimeout(later, wait);
-          };
-          }
+               };
+               }
 
-     </script>
+               </script>
      
-    <script>
+               <script>
 
-     // Función para aplicar posicionamiento estilo Pinterest con diseño responsive
+          // Función para aplicar posicionamiento estilo Pinterest con diseño responsive
           (function() {
-  console.log('Aplicando posicionamiento estilo Pinterest responsive a la galería existente...');
+          console.log('Aplicando posicionamiento estilo Pinterest responsive a la galería existente...');
   
-  // Función para crear la utilidad debounce si no existe
-  if (typeof window.debounce !== 'function') {
+           // Función para crear la utilidad debounce si no existe
+           if (typeof window.debounce !== 'function') {
     window.debounce = function(func, wait) {
       let timeout;
       return function executedFunction(...args) {
@@ -2077,8 +2077,8 @@
     };
   }
   
-  // 1. Crear estilos necesarios
-  function addPinterestStyles() {
+           // 1. Crear estilos necesarios
+           function addPinterestStyles() {
   if (document.querySelector('#pinterest-layout-styles')) return;
   
   const styleEl = document.createElement('style');
@@ -2268,8 +2268,8 @@
   document.head.appendChild(styleEl);
   console.log('Estilos de Pinterest responsive agregados');
 }
-  // 2. Función para posicionar elementos
-  function positionPinterestLayout() {
+           // 2. Función para posicionar elementos
+           function positionPinterestLayout() {
     console.log('Aplicando posicionamiento estilo Pinterest...');
     
     const container = document.querySelector('.gallery-container');
@@ -2362,7 +2362,7 @@
     console.log('Posicionamiento estilo Pinterest completado');
   }
   
-  // El resto del código continúa igual...
+          // El resto del código continúa igual...
           
 
 
@@ -2552,7 +2552,88 @@
           
           console.log('Módulo de layout Pinterest configurado');
           })();
-    </script>
+
+                // Agregar la funcionalidad de limpieza con ESC
+               const searchInput = document.querySelector('input[type="text"]');
+
+               if (searchInput) {
+               searchInput.addEventListener('keydown', function(e) {
+                    // El código de la tecla ESC es 27
+                    if (e.keyCode === 27 || e.key === 'Escape') {
+                         // Limpiar el campo de búsqueda
+                         this.value = '';
+                         
+                         // Ocultar todos los elementos de la galería
+                         const galleryItems = document.querySelectorAll('.gallery-item');
+                         galleryItems.forEach(item => {
+                              item.style.display = 'none';
+                         });
+                         
+                         // Reajustar la altura del contenedor de la galería
+                         const container = document.querySelector('.gallery-container');
+                         if (container) {
+                              container.style.height = '100px'; // Altura mínima para que se vea vacío
+                         }
+                         
+                         console.log('Campo de búsqueda limpiado y pantalla de imágenes vaciada');
+                    }
+               });
+              
+                    // Añadir el botón X
+                    const searchContainer = document.querySelector('.input-container');
+                    
+                    if (searchContainer) {
+                         // Crear el botón X
+                         const clearButton = document.createElement('span');
+                         clearButton.className = 'fas fa-times search-clear-btn';
+                         clearButton.style.display = 'none'; // Oculto por defecto
+                         clearButton.style.position = 'absolute';
+                         clearButton.style.right = '40px'; // Posicionar a la derecha del ícono de búsqueda
+                         clearButton.style.top = '50%';
+                         clearButton.style.transform = 'translateY(-50%)';
+                         clearButton.style.cursor = 'pointer';
+                         clearButton.style.color = '#666';
+                         
+                         // Añadirlo al contenedor
+                         searchContainer.appendChild(clearButton);
+                         
+                         // Mostrar/ocultar el botón según haya texto
+                         searchInput.addEventListener('input', function() {
+                              clearButton.style.display = this.value ? 'block' : 'none';
+                         });
+                         
+                         // Verificar el estado inicial (por si ya hay texto en el campo)
+                         if (searchInput.value) {
+                              clearButton.style.display = 'block';
+                         }
+                         
+                         // Funcionalidad para limpiar cuando se hace clic en X
+                         clearButton.addEventListener('click', function() {
+                              searchInput.value = '';
+                              this.style.display = 'none';
+                              
+                              // Ocultar los resultados de búsqueda
+                              const galleryItems = document.querySelectorAll('.gallery-item');
+                              galleryItems.forEach(item => {
+                                   item.style.display = 'none';
+                              });
+                              
+                              // Reajustar la altura del contenedor de la galería
+                              const container = document.querySelector('.gallery-container');
+                              if (container) {
+                                   container.style.height = '100px'; // Altura mínima para que se vea vacío
+                              }
+                              
+                              // Dar foco de nuevo al campo de búsqueda
+                              searchInput.focus();
+                              
+                              console.log('Campo de búsqueda limpiado y pantalla de imágenes vaciada (botón X)');
+                         });
+                    }
+                    }     
+
+
+          </script>
 
      <!-- Implementación de búsqueda mejorada -->
      <!--<script src="./js/search/busqueda-override.js"></script>-->
