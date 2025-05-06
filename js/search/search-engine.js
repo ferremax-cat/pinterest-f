@@ -771,6 +771,12 @@ function displayNoResults(query) {
           margin-left: 10px;
         }
         
+         /* Regla @media para pantallas pequeñas */
+          @media (max-width: 768px) {
+            .mensaje-busqueda {
+              top: 120px !important;
+            }
+          }
         .boton-limpiar:hover {
           background-color: #3a7cca;
         }
