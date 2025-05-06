@@ -547,7 +547,19 @@ class ProductManager {
             const productsResponse = await fetch('./json/productos.json');
             const productsData = await productsResponse.json();
 
-                    
+            // Cargar catálogo de imágenes
+            let catalogoImagenes = null;
+            try {
+              const response = await fetch('./json/catalogo_imagenes.json');
+              if (response.ok) {
+                catalogoImagenes = await response.json();
+              }
+            } catch (error) {
+              console.warn('[ProductManager] Error al cargar catálogo de imágenes:', error);
+            }        
+
+                        // Añade estos logs de diagnóstico
+            console.log("[ProductManager] Catálogo de imágenes cargado:", !!catalogoImagenes, catalogoImagenes?.images ? Object.keys(catalogoImagenes.images).length : 0);
             console.log("[ProductManager] clientData usado:", currentClientData);
             
             // Verificar lista de precios del cliente
@@ -574,6 +586,21 @@ class ProductManager {
                   console.log("[ProductManager] Precios disponibles:", productData.prices);
                   console.log("[ProductManager] Precio seleccionado:", productData.prices[clientePriceList]);
 
+                  // Buscar ID de imagen si el catálogo está disponible
+                  let imageId = null;
+                  if (catalogoImagenes && catalogoImagenes.images) {
+                    // Intentar con diferentes variantes del código
+                    const variantes = [codigo, codigo.toLowerCase(), codigoMayusculas];
+                    
+                    for (const variante of variantes) {
+                      if (catalogoImagenes.images[variante]) {
+                        imageId = catalogoImagenes.images[variante];
+                        console.log(`[ProductManager] ImageId encontrado para ${codigo}:`, imageId);
+                        break;
+                      }
+                    }
+                  }
+
 
                   // Añadir a resultados con el formato esperado
                   resultados[codigo] = {
@@ -581,7 +608,13 @@ class ProductManager {
                     category: productData.category,
                     bulk: productData.bulk,
                     selectedPrice: productData.prices[clientePriceList] || productData.prices.D || 0,
-                    priceList: clientePriceList
+                    priceList: clientePriceList,
+                    // Incluir ID de imagen si está disponible
+                    imageId: imageId,
+                    code: codigo // Mantener el código original
+
+                    
+
                   };
                 }
               } catch (error) {
@@ -590,6 +623,14 @@ class ProductManager {
             });
             
             console.log(`[ProductManager] Datos cargados: ${Object.keys(resultados).length}/${codigos.length} productos encontrados`);
+            // Al final de loadSpecificProducts, justo antes del return resultados
+            console.log('[ProductManager] DIAGNÓSTICO FINAL - Resultados a devolver:', {
+              cantidadResultados: Object.keys(resultados).length,
+              primerResultado: Object.values(resultados)[0],
+              tieneImageId: Object.values(resultados).some(item => item.imageId),
+              muestraImageIds: Object.entries(resultados).slice(0, 3).map(([code, item]) => ({
+              code,
+              imageId: item.imageId }))});
             return resultados;
             
           } catch (error) {

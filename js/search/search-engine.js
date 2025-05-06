@@ -329,6 +329,17 @@ async function performSearch(query, offset = 0, limit = 30) {
       
       // Obtener todos los datos en una sola llamada
       const productData = await window.productManagerInstance.loadSpecificProducts(originalCodes);
+
+      // En performSearch, justo después de recibir matchingItems de loadSpecificProducts
+        console.log('[search-engine] DIAGNÓSTICO - Datos recibidos de ProductManager:', {
+          totalItems: matchingItems.length,
+          primerosTresItems: matchingItems.slice(0, 3),
+          itemsConImageId: matchingItems.filter(item => item.imageId).length,
+          muestraImageIds: matchingItems.slice(0, 3).map(item => ({
+            code: item.code,
+            imageId: item.imageId
+          }))
+        });
       
       // Procesar los resultados
       matchingItems = originalCodes.map(code => {
@@ -338,7 +349,9 @@ async function performSearch(query, offset = 0, limit = 30) {
             code: code,
             name: productData[code].name || `Producto ${code}`,
             category: productData[code].category || '',
-            price: productData[code].selectedPrice || 0
+            price: productData[code].selectedPrice || 0,
+            // Añadir la propiedad imageId
+            imageId: productData[code].imageId || null
           };
         } else {
           return {
@@ -346,7 +359,8 @@ async function performSearch(query, offset = 0, limit = 30) {
             code: code,
             name: `Producto ${code}`,
             category: '',
-            price: 0
+            price: 0,
+            imageId: null // Añadir también aquí para mantener consistencia
           };
         }
       });
@@ -568,11 +582,19 @@ function displayNoResults(query) {
           }  
 
 
+          // Añade este log antes de asignar galleryItem.innerHTML
+            console.log("[search-engine] Item con imagen:", {
+              code: item.code,
+              imageId: item.imageId,
+              urlGenerada: item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/loading-product.gif'
+            });  
 
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
-              <img alt="${item.name || ''}" src="img/loading-product.gif">
+              <img alt="${item.name || ''}" 
+              src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/loading-product.gif'}"
+              onerror="this.onerror=null; this.src='img/no-image-available.png';">
 
               <div class="top-row">
               <a href="#">${itemName}</a>
