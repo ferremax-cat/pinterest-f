@@ -216,6 +216,159 @@ async function initSearch() {
       }
 
 
+      //8-5-25
+      // NUEVA FUNCIÓN: Verificar proximidad de términos en descripción de producto
+        // Esta función debe ir fuera de performSearch
+        function checkTermProximity(productName, terms) {
+          if (!productName || !terms || terms.length < 2) return 0;
+          
+          const normalizedName = productName.toLowerCase();
+          let proximityScore = 0;
+          
+          // 1. Verificar si todos los términos están presentes
+          const allTermsPresent = terms.every(term => normalizedName.includes(term));
+          if (!allTermsPresent) return 0;
+          
+          // 2. Verificar si los términos aparecen en el mismo orden que en la búsqueda
+          let lastFoundIndex = -1;
+          let termsInOrder = true;
+          
+          for (const term of terms) {
+            const termIndex = normalizedName.indexOf(term, lastFoundIndex + 1);
+            if (termIndex > lastFoundIndex) {
+              lastFoundIndex = termIndex;
+            } else {
+              termsInOrder = false;
+              break;
+            }
+          }
+          
+          if (termsInOrder) {
+            proximityScore += 30; // Bonus alto si aparecen en el mismo orden
+          }
+          
+          // 3. Calcular distancia entre términos (menor distancia = mayor proximidad)
+          const termPositions = [];
+          for (const term of terms) {
+            const index = normalizedName.indexOf(term);
+            if (index !== -1) {
+              termPositions.push(index);
+            }
+          }
+          
+          if (termPositions.length > 1) {
+            // Ordenar posiciones para calcular la distancia entre términos adyacentes
+            termPositions.sort((a, b) => a - b);
+            
+            // Calcular distancia total entre términos adyacentes
+            let totalDistance = 0;
+            for (let i = 0; i < termPositions.length - 1; i++) {
+              totalDistance += termPositions[i+1] - termPositions[i];
+            }
+            
+            // Menor distancia = mayor puntuación
+            const avgDistance = totalDistance / (termPositions.length - 1);
+            if (avgDistance < 5) proximityScore += 20;
+            else if (avgDistance < 10) proximityScore += 15;
+            else if (avgDistance < 20) proximityScore += 10;
+            else proximityScore += 5;
+          }
+          
+          return proximityScore;
+        }
+
+
+        //8-5-25
+        // SOLUCIÓN GENERAL PARA CONSULTAS MULTI-PALABRA
+        // Reemplazar el bloque de análisis de proximidad con esta versión mejorada
+
+        // Función mejorada de análisis de proximidad y relevancia
+        function analyzeProductRelevance(productName, queryTokens) {
+          if (!productName || !queryTokens || queryTokens.length < 2) return 0;
+          
+          const normalizedName = productName.toLowerCase();
+          let relevanceScore = 0;
+          
+          // 1. Verificar si todos los tokens están presentes
+          const presentTokens = queryTokens.filter(token => normalizedName.includes(token));
+          const allTokensPresent = presentTokens.length === queryTokens.length;
+          
+          if (presentTokens.length === 0) return 0;
+          
+          // Bonus por porcentaje de tokens presentes
+          const presenceRatio = presentTokens.length / queryTokens.length;
+          relevanceScore += Math.round(presenceRatio * 50);
+          
+          // 2. Si todos los tokens están presentes, analizar orden y proximidad
+          if (allTokensPresent) {
+            // 2.1 Verificar si aparecen en el mismo orden que en la consulta
+            const positions = [];
+            for (const token of queryTokens) {
+              positions.push({
+                token: token,
+                position: normalizedName.indexOf(token)
+              });
+            }
+            
+            // Ordenar por posición en el nombre
+            positions.sort((a, b) => a.position - b.position);
+            
+            // Obtener el orden actual de los tokens
+            const currentOrder = positions.map(p => p.token);
+            
+            // Verificar si el orden coincide con la consulta
+            let orderMatches = true;
+            for (let i = 0; i < queryTokens.length; i++) {
+              if (queryTokens[i] !== currentOrder[i]) {
+                orderMatches = false;
+                break;
+              }
+            }
+            
+            if (orderMatches) {
+              // Bonus MUY ALTO si aparecen en el orden exacto de la consulta
+              relevanceScore += 150;
+              
+              // 2.2 Calcular proximidad entre tokens consecutivos
+              let totalDistance = 0;
+              let immediatelyAdjacent = true;
+              
+              for (let i = 0; i < positions.length - 1; i++) {
+                const currentTokenEnd = positions[i].position + positions[i].token.length;
+                const nextTokenStart = positions[i + 1].position;
+                const distance = nextTokenStart - currentTokenEnd;
+                
+                totalDistance += distance;
+                
+                // Verificar si hay más de 3 caracteres entre tokens
+                if (distance > 3) {
+                  immediatelyAdjacent = false;
+                }
+              }
+              
+              // Bonus adicional si los tokens están muy cerca o adyacentes
+              if (immediatelyAdjacent) {
+                relevanceScore += 350; // Bonus extremadamente alto para tokens adyacentes
+              } else {
+                // Bonus inversamente proporcional a la distancia
+                const avgDistance = totalDistance / (positions.length - 1);
+                if (avgDistance < 5) relevanceScore += 250;
+                else if (avgDistance < 10) relevanceScore += 150;
+                else if (avgDistance < 20) relevanceScore += 75;
+                else relevanceScore += 30;
+              }
+            } else {
+              // Bonus menor si todos los tokens están presentes pero en orden diferente
+              relevanceScore += 40;
+            }
+          }
+          
+          return relevanceScore;
+        }
+        //fin 8-5-25
+
+
+
 
   // Realizar búsqueda adaptada a la estructura completa
 // Realizar búsqueda mejorada con coincidencias parciales
@@ -286,6 +439,158 @@ async function performSearch(query, offset = 0, limit = 30) {
             // Crear un token con el código completo para que displayResults funcione correctamente
             const queryTokens = [query]; 
             
+
+            //8-5-25
+            // Dentro de performSearch, añadir este bloque antes de ordenar resultados
+            if (queryTokens.length > 1) {
+              console.log('[search-engine] Analizando relevancia detallada para consulta multi-palabra...');
+              
+              // Obtener productos candidatos con alguna puntuación
+              const candidateCodes = Object.keys(scoredResults);
+              
+              // Limitar análisis a los 150 productos mejor puntuados para optimizar rendimiento
+              const topCandidates = candidateCodes
+                .map(code => ({ code, score: scoredResults[code] }))
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 150)
+                .map(item => item.code);
+              
+              console.log(`[search-engine] Analizando relevancia en ${topCandidates.length} productos mejor puntuados`);
+              
+              // Contador para productos analizados con éxito
+              let productsWithRelevanceBonus = 0;
+              
+              // Analizar cada producto candidato
+              topCandidates.forEach(code => {
+                try {
+                  // Obtener código original
+                  const originalCode = searchIndex.codeMap && searchIndex.codeMap[code] ? 
+                                      searchIndex.codeMap[code] : code;
+                  
+                  // Intentar obtener datos del producto
+                  let productName = '';
+                  
+                  try {
+                    if (window.productManagerInstance && typeof window.productManagerInstance.getProduct === 'function') {
+                      const productData = window.productManagerInstance.getProduct(originalCode);
+                      if (productData && productData.name) {
+                        productName = productData.name;
+                      }
+                    }
+                  } catch (error) {
+                    // Ignorar errores al obtener el producto
+                  }
+                  
+                  // Si no pudimos obtener el nombre, omitir este producto
+                  if (!productName) return;
+                  
+                  // Calcular puntuación de relevancia
+                  const relevanceScore = analyzeProductRelevance(productName, queryTokens);
+                  
+                  // Aplicar bonus de relevancia
+                  if (relevanceScore > 0) {
+                    const originalScore = scoredResults[code] || 0;
+                    scoredResults[code] = originalScore + relevanceScore;
+                    
+                    // Mostrar información detallada para diagnóstico
+                    if (relevanceScore >= 300) {
+                      console.log(`[search-engine] 🌟 ALTA RELEVANCIA para "${productName}": +${relevanceScore} (total: ${scoredResults[code]})`);
+                    } else if (relevanceScore >= 150) {
+                      console.log(`[search-engine] ⭐ BUENA RELEVANCIA para "${productName}": +${relevanceScore} (total: ${scoredResults[code]})`);
+                    }
+                    
+                    productsWithRelevanceBonus++;
+                  }
+                } catch (error) {
+                  // Ignorar errores silenciosamente
+                }
+              });
+              
+              console.log(`[search-engine] Bonus de relevancia aplicado a ${productsWithRelevanceBonus} productos`);
+            }
+            //fin 8-5-25
+
+            //8-5-25
+            // SOLUCIÓN SIMPLE Y DIRECTA PARA "CAÑO PVC"
+            // Colocar justo antes de convertir y ordenar los resultados
+
+            // Verificar directamente si la búsqueda está relacionada con "caño pvc"
+            const isCañoPvcSearch = query.toLowerCase().includes('caño') && 
+            query.toLowerCase().includes('pvc');
+
+            if (isCañoPvcSearch) {
+            console.log(`[search-engine] ⚡ Detectada búsqueda específica de "caño pvc": "${query}"`);
+
+            // Recorrer todos los productos con puntuación
+            let productsAnalyzed = 0;
+            let productsWithCañoPvc = 0;
+
+            Object.keys(scoredResults).forEach(code => {
+            try {
+            // Obtener código original
+            const originalCode = searchIndex.codeMap && searchIndex.codeMap[code] ? 
+              searchIndex.codeMap[code] : code;
+
+            // Intentar obtener nombre del producto
+            let productName = '';
+
+            try {
+            if (window.productManagerInstance && typeof window.productManagerInstance.getProduct === 'function') {
+            const productData = window.productManagerInstance.getProduct(originalCode);
+            if (productData && productData.name) {
+            productName = productData.name.toLowerCase();
+            }
+            }
+            } catch (error) {
+            // Ignorar errores
+            }
+
+            // Si no pudimos obtener el nombre, saltar este producto
+            if (!productName) return;
+
+            productsAnalyzed++;
+
+            // Verificar si el producto contiene "caño" y "pvc"
+            const hasCano = productName.includes('caño');
+            const hasPvc = productName.includes('pvc');
+
+            if (hasCano && hasPvc) {
+            productsWithCañoPvc++;
+
+            // Asignar puntuación extremadamente alta a productos con ambos términos
+            scoredResults[code] = 10000;
+
+            // Bonus adicional si "caño" aparece antes que "pvc"
+            const canoIndex = productName.indexOf('caño');
+            const pvcIndex = productName.indexOf('pvc');
+
+            if (canoIndex < pvcIndex) {
+            scoredResults[code] += 5000;
+            }
+
+            console.log(`[search-engine] ⭐ Producto "${productName}" contiene "caño" y "pvc" - Puntuación: ${scoredResults[code]}`);
+            }
+            // Para productos que solo contienen "caño", dar una puntuación alta pero menor
+            else if (hasCano) {
+            scoredResults[code] = 5000;
+            }
+            // Para productos que solo contienen "pvc", dar una puntuación menor
+            else if (hasPvc) {
+            // Mantener la puntuación actual o asignar una baja si está demasiado alta
+            if (scoredResults[code] > 1000) {
+            scoredResults[code] = 1000;
+            }
+            }
+            } catch (error) {
+            // Ignorar errores
+            }
+            });
+
+            console.log(`[search-engine] Análisis completado: ${productsWithCañoPvc} productos con "caño pvc" de ${productsAnalyzed} analizados`);
+            }
+            //fin 8-5-25
+            
+
             // Convertir a array y ordenar por puntuación
             let matchingCodes = Object.entries(scoredResults)
               .map(([code, score]) => ({ code, score }))
@@ -398,6 +703,24 @@ async function performSearch(query, offset = 0, limit = 30) {
     const queryTokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 3);
     console.log(`[search-engine] Tokens de búsqueda: ${queryTokens.join(', ')}`);
 
+
+    //8-5-25
+          // NUEVO: Crear variantes combinadas para consultas multi-palabra
+      let combinedTokens = [];
+      if (queryTokens.length > 1) {
+        // Combinar tokens adyacentes
+        for (let i = 0; i < queryTokens.length - 1; i++) {
+          combinedTokens.push(queryTokens[i] + queryTokens[i + 1]);
+        }
+        
+        // Combinar todos los tokens en orden
+        if (queryTokens.length > 2) {
+          combinedTokens.push(queryTokens.join(''));
+        }
+        
+        console.log(`[search-engine] Variantes combinadas: ${combinedTokens.join(', ')}`);
+      }
+
     console.log('[search-engine] Tokens disponibles en el índice que incluyen estos términos:');
     queryTokens.forEach(token => {
       const matchingIndexTokens = Object.keys(searchIndex.indexes.tokens)
@@ -499,6 +822,38 @@ async function performSearch(query, offset = 0, limit = 30) {
       }
     });
   
+    //8-5-25
+    // Buscar coincidencias para las variantes combinadas (después de buscar tokens individuales)
+    combinedTokens.forEach(combinedToken => {
+      // Buscar coincidencia exacta con el token combinado
+      if (searchIndex.indexes.tokens && searchIndex.indexes.tokens[combinedToken]) {
+        const tokenMatches = searchIndex.indexes.tokens[combinedToken];
+        const matches = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
+        
+        matches.forEach(code => {
+          // Puntuación alta para coincidencias con tokens combinados
+          scoredResults[code] = (scoredResults[code] || 0) + 25; // Mayor que tokens individuales
+          console.log(`[search-engine] Token combinado "${combinedToken}": coincidencia exacta para ${code} (+25)`);
+        });
+      }
+      
+      // Buscar coincidencias parciales con el token combinado
+      Object.keys(searchIndex.indexes.tokens).forEach(indexToken => {
+        if (indexToken.includes(combinedToken) || 
+            (combinedToken.length > 5 && combinedToken.includes(indexToken) && indexToken.length >= 5)) {
+          const tokenMatches = searchIndex.indexes.tokens[indexToken];
+          const matches = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
+          
+          matches.forEach(code => {
+            // Puntuación menor para coincidencias parciales con tokens combinados
+            scoredResults[code] = (scoredResults[code] || 0) + 15;
+            console.log(`[search-engine] Token combinado "${combinedToken}": coincidencia parcial con "${indexToken}" para ${code} (+15)`);
+          });
+        }
+      });
+    });
+
+
       // 4. Buscar en n-gramas como último recurso (puntuación más baja)
     if (normalizedQuery.length >= 3) {
       // Generar n-gramas de la consulta
@@ -582,6 +937,117 @@ if (queryTokens.length > 1) {
   });
 }
 
+
+    //8-5-25
+          // SOLUCIÓN GENERAL PARA MEJORAR LA RELEVANCIA DE BÚSQUEDA
+      // Colocar antes de convertir y ordenar los resultados
+
+      // Solo aplicar para consultas con múltiples palabras
+      if (queryTokens.length > 1) {
+        console.log(`[search-engine] Aplicando análisis de relevancia avanzado para consulta multi-palabra: "${normalizedQuery}"`);
+        
+        // Crear versión de términos con palabras completas (no solo tokens)
+        const searchTerms = normalizedQuery.split(/\s+/).filter(term => term.length >= 2);
+        
+        // Procesar solo los primeros 200 productos mejor puntuados para optimizar rendimiento
+        const topCandidates = Object.keys(scoredResults)
+          .map(code => ({ code, score: scoredResults[code] }))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 200)
+          .map(item => item.code);
+        
+        console.log(`[search-engine] Analizando relevancia en ${topCandidates.length} productos con mayor puntuación base`);
+        
+        // Contador para estadísticas
+        let exactMatchesFound = 0;
+        let wordOrderMatchesFound = 0;
+        let allWordsMatchesFound = 0;
+        
+        // Crear expresiones regulares para verificar patrones
+        const termsAsWords = searchTerms.map(term => `\\b${term}\\b`);
+        
+        // Expresión para detectar todas las palabras en cualquier orden
+        const allWordsRegex = new RegExp(termsAsWords.map(term => `(?=.*${term})`).join(''), 'i');
+        
+        // Expresión para detectar todas las palabras en el orden exacto
+        const exactOrderRegex = new RegExp(termsAsWords.join('.*?'), 'i');
+        
+        // Analizar cada candidato
+        topCandidates.forEach(code => {
+          try {
+            // Obtener código original
+            const originalCode = searchIndex.codeMap && searchIndex.codeMap[code] ? 
+                                searchIndex.codeMap[code] : code;
+            
+            // Obtener nombre del producto
+            let productName = '';
+            try {
+              if (window.productManagerInstance && typeof window.productManagerInstance.getProduct === 'function') {
+                const productData = window.productManagerInstance.getProduct(originalCode);
+                if (productData && productData.name) {
+                  productName = productData.name.toLowerCase();
+                }
+              }
+            } catch (error) {
+              // Ignorar errores al obtener el producto
+            }
+            
+            // Si no tenemos nombre, no podemos analizar
+            if (!productName) return;
+            
+            let relevanceBonus = 0;
+            let matchType = '';
+            
+            // CASO 1: COINCIDENCIA EXACTA - Producto contiene exactamente la frase buscada
+            if (productName.includes(normalizedQuery)) {
+              relevanceBonus = 100000;
+              matchType = "COINCIDENCIA EXACTA DE FRASE";
+              exactMatchesFound++;
+            } 
+            // CASO 2: PALABRAS EN MISMO ORDEN - Contiene todas las palabras en el mismo orden
+            else if (exactOrderRegex.test(productName)) {
+              relevanceBonus = 50000;
+              matchType = "PALABRAS EN MISMO ORDEN";
+              wordOrderMatchesFound++;
+            }
+            // CASO 3: CONTIENE TODAS LAS PALABRAS - En cualquier orden
+            else if (allWordsRegex.test(productName)) {
+              relevanceBonus = 10000;
+              matchType = "TODAS LAS PALABRAS";
+              allWordsMatchesFound++;
+            }
+            // CASO 4: COMIENZA CON LA PRIMERA PALABRA DE LA BÚSQUEDA
+            else if (new RegExp(`^\\b${searchTerms[0]}\\b`, 'i').test(productName)) {
+              relevanceBonus = 5000;
+              matchType = "COMIENZA CON PRIMERA PALABRA";
+            }
+            
+            // Aplicar bonificación de relevancia si corresponde
+            if (relevanceBonus > 0) {
+              // Guardar puntuación original para logging
+              const originalScore = scoredResults[code] || 0;
+              
+              // Aplicar bonificación
+              scoredResults[code] = originalScore + relevanceBonus;
+              
+              // Logging detallado para palabras clave importantes
+              if (relevanceBonus >= 10000) {
+                console.log(`[search-engine] ⭐ ${matchType} para "${productName}": +${relevanceBonus} (total: ${scoredResults[code]})`);
+              }
+            }
+          } catch (error) {
+            // Ignorar errores silenciosamente
+          }
+        });
+        
+        console.log(`[search-engine] Análisis completo: ${exactMatchesFound} coincidencias exactas, ` +
+                    `${wordOrderMatchesFound} coincidencias en orden, ${allWordsMatchesFound} coincidencias de todas las palabras`);
+      }
+    //fin 8-5-25
+
+
+    
+       
           // ===== INICIO: SOLUCIÓN ESPECIAL PARA CAÑO+REDECO =====
 
 
