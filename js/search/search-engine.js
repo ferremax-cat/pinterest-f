@@ -123,7 +123,100 @@ async function initSearch() {
       console.log('[search-engine] Campo de búsqueda configurado');
     }
     
-    
+
+
+    // 2. Modifica la función getProductDetails para usar el mapeo
+      // Función getProductDetails con diagnóstico completo para encontrar el error
+      function getProductDetails(code) {
+        console.log(`[DIAGNÓSTICO] getProductDetails recibió código: "${code}"`);
+        
+        // Diagnosticar searchIndex
+        console.log('[DIAGNÓSTICO] ¿searchIndex existe?', !!window.searchIndex);
+        console.log('[DIAGNÓSTICO] ¿searchIndex.codeMap existe?', !!(window.searchIndex && window.searchIndex.codeMap));
+        
+        // Diagnosticar productManager
+        console.log('[DIAGNÓSTICO] ¿productManager existe?', !!window.productManager);
+        console.log('[DIAGNÓSTICO] ¿productManager.getProduct existe?', !!(window.productManager && typeof window.productManager.getProduct === 'function'));
+        console.log('[DIAGNÓSTICO] ¿productManager.getPrecio existe?', !!(window.productManager && typeof window.productManager.getPrecio === 'function'));
+        
+        let originalCode = code;
+        
+        try {
+          // Intentar obtener código original solo si searchIndex.codeMap existe
+          if (window.searchIndex && window.searchIndex.codeMap) {
+            const mappedCode = window.searchIndex.codeMap[code];
+            if (mappedCode) {
+              originalCode = mappedCode;
+              console.log(`[DIAGNÓSTICO] Código mapeado: "${code}" -> "${originalCode}"`);
+            }
+          }
+          
+          // Variables para almacenar datos
+          let productData = null;
+          let priceData = null;
+          
+          // Intentar obtener datos del producto si productManager existe
+          if (window.productManager && typeof window.productManager.getProduct === 'function') {
+            try {
+              console.log(`[DIAGNÓSTICO] Llamando a productManager.getProduct("${originalCode}")`);
+              productData = window.productManager.getProduct(originalCode);
+              console.log('[DIAGNÓSTICO] Resultado de getProduct:', productData);
+            } catch (error) {
+              console.error(`[DIAGNÓSTICO] Error en getProduct:`, error);
+              productData = null;
+            }
+          }
+          
+          // Intentar obtener precio si productManager existe
+          if (window.productManager && typeof window.productManager.getPrecio === 'function') {
+            try {
+              console.log(`[DIAGNÓSTICO] Llamando a productManager.getPrecio("${originalCode}")`);
+              priceData = window.productManager.getPrecio(originalCode);
+              console.log('[DIAGNÓSTICO] Resultado de getPrecio:', priceData);
+            } catch (error) {
+              console.error(`[DIAGNÓSTICO] Error en getPrecio:`, error);
+              priceData = null;
+            }
+          }
+          
+          // Construir objeto de resultado con valores por defecto seguros
+          const result = {
+            id: originalCode,         // Usar código original como ID
+            code: originalCode,       // Mostrar código original en la interfaz
+            name: productData && productData.name ? productData.name : `Producto ${originalCode}`,
+            category: productData && productData.category ? productData.category : '',
+            price: priceData && priceData.D ? priceData.D : 0
+          };
+          
+          console.log('[DIAGNÓSTICO] Objeto final devuelto:', result);
+          return result;
+          
+        } catch (error) {
+          console.error(`[DIAGNÓSTICO] Error general:`, error);
+          
+          // Devolver objeto seguro en caso de error
+          return {
+            id: code,
+            code: code,
+            name: `Producto ${code}`,
+            category: '',
+            price: 0,
+            error: true
+          };
+        }
+      }
+
+      // NUEVA FUNCIÓN: Verificar si una consulta parece ser un código de producto
+      function looksLikeProductCode(query) {
+        // Patrones comunes para códigos de productos (ajustar según tus códigos)
+        // Por ejemplo, si tus códigos suelen ser letras seguidas de números
+        // Aceptar patrones como "RDTF" (letras) o "RDTF1" (letras+números)
+        const codePattern = /^[A-Za-z]{2,}[0-9]*$/;
+        return codePattern.test(query.trim());
+      }
+
+
+
   // Realizar búsqueda adaptada a la estructura completa
 // Realizar búsqueda mejorada con coincidencias parciales
 // Realizar búsqueda con coincidencias parciales más precisas
@@ -145,8 +238,179 @@ async function performSearch(query, offset = 0, limit = 30) {
     return;
   }
   
+  //busqueda por codigo
+          // Verificar si la consulta parece ser un código de producto
+        if (looksLikeProductCode(query)) {
+          // Convertir a mayúsculas para comparar con la base de datos
+          const upperCaseQuery = query.toUpperCase();
+          console.log(`[search-engine] La consulta "${query}" parece ser un código de producto`);
+          
+          // 1. Buscar coincidencia exacta de código
+          let exactProductFound = false;
+          
+          // Inicializar scoredResults para almacenar las puntuaciones
+          let scoredResults = {};
+          
+          // Comprobar si hay una coincidencia directa en el índice de códigos
+          if (searchIndex.indexes.exact && searchIndex.indexes.exact[upperCaseQuery]) {
+            const exactProduct = searchIndex.indexes.exact[upperCaseQuery];
+            scoredResults[exactProduct] = 1000; // Puntuación muy alta para coincidencia exacta
+            exactProductFound = true;
+            console.log(`[search-engine] Coincidencia exacta de código: ${query} -> ${exactProduct}`);
+          }
+          
+          // 2. Buscar productos cuyo código comienza con la consulta
+          const prefixMatches = [];
+          
+          // Recorrer todos los códigos en el índice exact
+          if (searchIndex.indexes.exact) {
+            Object.keys(searchIndex.indexes.exact).forEach(code => {
+              // Verificar si este código comienza con la consulta
+              if (code.startsWith(upperCaseQuery) && code !== upperCaseQuery) { // Excluir coincidencia exacta
+                const productCode = searchIndex.indexes.exact[code];
+                //scoredResults[productCode] = 500; // Puntuación alta para coincidencia de prefijo
+                 // Dar puntuación basada en la longitud del prefijo (más largo = mayor puntuación)
+                const prefixScore = 400 + (upperCaseQuery.length * 20); // Base 400 + bonus por longitud
+                scoredResults[productCode] = prefixScore;
+                prefixMatches.push(code);
+              }
+            });
+          }
+          
+          console.log(`[search-engine] Coincidencias de prefijo para "${upperCaseQuery}": ${prefixMatches.length} productos`);
+          
+          // Si encontramos coincidencias exactas o por prefijo, no necesitamos buscar por texto
+          if (exactProductFound || prefixMatches.length > 0) {
+            console.log(`[search-engine] Usando resultados de búsqueda por código de producto`);
+            
+            // Crear un token con el código completo para que displayResults funcione correctamente
+            const queryTokens = [query]; 
+            
+            // Convertir a array y ordenar por puntuación
+            let matchingCodes = Object.entries(scoredResults)
+              .map(([code, score]) => ({ code, score }))
+              .sort((a, b) => b.score - a.score) // Ordenar de mayor a menor puntuación
+              .map(item => item.code);
+            
+            console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados`);
+            
+            // Convertir los códigos a su formato original antes de mostrarlos
+            const originalCodes = matchingCodes.map(code => 
+              searchIndex.codeMap && searchIndex.codeMap[code] ? searchIndex.codeMap[code] : code
+            );
+            
+            console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
+                        originalCodes.slice(0, 20).join(', '));
+            
+            if (matchingCodes.length === 0) {
+              clearResults();
+              displayNoResults(query);
+              return;
+            }
+            
+            // NUEVO: Aplicar paginación a los resultados
+            const totalResults = matchingCodes.length;
+            const paginatedCodes = matchingCodes.slice(offset, offset + limit);
+            
+            console.log(`[search-engine] Aplicando paginación: mostrando ${paginatedCodes.length} productos (${offset+1}-${offset+paginatedCodes.length} de ${totalResults})`);
+            
+            // Obtener productos en lote
+            let matchingItems = [];
+            
+            // Verificar si podemos acceder a productManagerInstance
+            if (window.productManagerInstance && typeof window.productManagerInstance.loadSpecificProducts === 'function') {
+              try {
+                // Obtener códigos originales para esta página
+                const pageOriginalCodes = paginatedCodes.map(code => 
+                  searchIndex.codeMap && searchIndex.codeMap[code] ? 
+                  searchIndex.codeMap[code] : code
+                );
+                
+                // Obtener todos los datos en una sola llamada
+                const productData = await window.productManagerInstance.loadSpecificProducts(pageOriginalCodes);
+                
+                // Procesar los resultados
+                matchingItems = pageOriginalCodes.map(code => {
+                  if (productData && productData[code]) {
+                    return {
+                      id: code,
+                      code: code,
+                      name: productData[code].name || `Producto ${code}`,
+                      category: productData[code].category || '',
+                      price: productData[code].selectedPrice || 0,
+                      imageId: productData[code].imageId || null
+                    };
+                  } else {
+                    return {
+                      id: code,
+                      code: code,
+                      name: `Producto ${code}`,
+                      category: '',
+                      price: 0,
+                      imageId: null
+                    };
+                  }
+                });
+              } catch (error) {
+                console.error('[search-engine] Error al obtener productos:', error);
+                // Fallback a datos mínimos
+                matchingItems = paginatedCodes.map(code => ({
+                  code: code,
+                  name: `Producto ${code}`,
+                  price: 0
+                }));
+              }
+            } else {
+              console.warn('[search-engine] Método loadSpecificProducts no disponible, usando datos mínimos');
+              // Usar datos mínimos
+              matchingItems = paginatedCodes.map(code => ({
+                code: code,
+                name: `Producto ${code}`,
+                price: 0
+              }));
+            }
+            
+            // Mostrar resultados con información de paginación
+            displayResults(matchingItems, query, queryTokens, {
+              offset: offset,
+              limit: limit,
+              total: totalResults,
+              hasMore: offset + limit < totalResults
+            });
+            
+            // Devolver información para uso externo
+            return {
+              items: matchingItems,
+              total: totalResults,
+              offset: offset,
+              limit: limit,
+              hasMore: offset + limit < totalResults
+            };
+          }
+        }
+  //fin busqueda por codigo
+    
+
   // Normalizar la consulta
   const normalizedQuery = query.toLowerCase().trim();
+
+      // Dividir la consulta en tokens individuales
+    const queryTokens = normalizedQuery.split(/\s+/).filter(token => token.length >= 3);
+    console.log(`[search-engine] Tokens de búsqueda: ${queryTokens.join(', ')}`);
+
+    console.log('[search-engine] Tokens disponibles en el índice que incluyen estos términos:');
+    queryTokens.forEach(token => {
+      const matchingIndexTokens = Object.keys(searchIndex.indexes.tokens)
+        .filter(indexToken => 
+          indexToken.includes(token) || 
+          token.includes(indexToken)
+        );
+      
+      console.log(`[search-engine] Para "${token}": ${matchingIndexTokens.join(', ')}`);
+    });
+
+    // Objeto para almacenar todos los resultados con su puntuación
+    let scoredResults = {};
   
   // VERIFICACIÓN DE CÓDIGO EXACTO - Tu código existente
   let originalCode = null;
@@ -165,149 +429,197 @@ async function performSearch(query, offset = 0, limit = 30) {
     console.log(`[search-engine] Consulta coincide con código normalizado: ${normalizedCode} → ${originalCode}`);
   }
   
-  // Si encontramos una coincidencia directa con un código, usar eso primero
-  if (normalizedCode) {
-    const exactMatch = searchIndex.indexes.exact[normalizedCode];
-    if (exactMatch) {
-      const matchingCodes = [exactMatch];
-      const matchingItems = matchingCodes.map(code => getProductDetails(code));
-      
-      console.log(`[search-engine] Encontrado por coincidencia exacta de código: ${originalCode}`);
-      console.log('[search-engine] Primeros 20 códigos encontrados:', matchingCodes.join(', '));
-      
-      displayResults(matchingItems, normalizedQuery);
-      return;
+      // Si encontramos una coincidencia directa con un código, asignar puntuación alta
+    if (normalizedCode) {
+      const exactMatch = searchIndex.indexes.exact[normalizedCode];
+      if (exactMatch) {
+        scoredResults[exactMatch] = 100; // Puntuación máxima para coincidencia exacta de código
+        console.log(`[search-engine] Encontrado por coincidencia exacta de código: ${originalCode}`);
+      }
     }
-  }
   
   // Buscar productos que coincidan con la consulta
-  let matchingCodes = [];
-  let searchSource = '';
+  //let matchingCodes = [];
+  //let searchSource = '';
   
-  // 1. Buscar coincidencia exacta en tokens
-  if (searchIndex.indexes.tokens && searchIndex.indexes.tokens[normalizedQuery]) {
-    const tokenMatches = searchIndex.indexes.tokens[normalizedQuery];
-    matchingCodes = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
-    searchSource = 'tokens (coincidencia exacta)';
-    console.log(`[search-engine] Coincidencia exacta en tokens para "${normalizedQuery}": ${matchingCodes.length} productos`);
-  }
-  
-  // 2. Si no hay coincidencia exacta y el término tiene al menos 4 caracteres, 
-  // buscar coincidencias de prefijo (términos que comienzan igual)
-  if (matchingCodes.length === 0 && searchIndex.indexes.tokens && normalizedQuery.length >= 4) {
-    const partialMatches = new Set();
-    const matchingTerms = [];
-    
-    // Buscar solo tokens que COMIENZAN con la consulta, o donde la consulta es un prefijo
-    Object.keys(searchIndex.indexes.tokens).forEach(token => {
-      // Opción 1: El token comienza con la consulta (ej: 'diamant' encontrará 'diamantado')
-      if (token.startsWith(normalizedQuery)) {
-        const tokenProducts = searchIndex.indexes.tokens[token];
-        const productsArray = Array.isArray(tokenProducts) ? tokenProducts : [tokenProducts];
+      // 1. Buscar coincidencias para cada token individual
+    queryTokens.forEach(token => {
+      if (searchIndex.indexes.tokens && searchIndex.indexes.tokens[token]) {
+        const tokenMatches = searchIndex.indexes.tokens[token];
+        const matches = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
         
-        productsArray.forEach(code => partialMatches.add(code));
-        matchingTerms.push(token);
-      }
-      // Opción 2: La consulta comienza con el token, pero solo si el token tiene al menos 4 caracteres
-      // y representa al menos el 70% de la consulta (para evitar coincidencias débiles)
-      else if (normalizedQuery.startsWith(token) && 
-               token.length >= 4 && 
-               token.length >= normalizedQuery.length * 0.7) {
-        const tokenProducts = searchIndex.indexes.tokens[token];
-        const productsArray = Array.isArray(tokenProducts) ? tokenProducts : [tokenProducts];
+        matches.forEach(code => {
+          // Si ya existe, aumentar la puntuación; si no, inicializar
+          scoredResults[code] = (scoredResults[code] || 0) + 10;
+        });
         
-        productsArray.forEach(code => partialMatches.add(code));
-        matchingTerms.push(token);
+        console.log(`[search-engine] Token "${token}": ${matches.length} productos (score: 10 c/u)`);
       }
     });
-    
-    if (partialMatches.size > 0) {
-      matchingCodes = Array.from(partialMatches);
-      searchSource = `tokens (coincidencia parcial: ${matchingTerms.length} términos)`;
-      console.log(`[search-engine] Coincidencias parciales en tokens para "${normalizedQuery}": ${matchingCodes.length} productos`);
+
+    // 2. También buscar la frase completa si tiene más de una palabra
+    if (queryTokens.length > 1 && searchIndex.indexes.tokens && searchIndex.indexes.tokens[normalizedQuery]) {
+      const phraseMatches = searchIndex.indexes.tokens[normalizedQuery];
+      const matches = Array.isArray(phraseMatches) ? phraseMatches : [phraseMatches];
       
-      // Listar los primeros términos que coincidieron
-      console.log(`[search-engine] Primeros términos coincidentes:`, 
-                  matchingTerms.slice(0, 10).join(', '));
-    }
-  }
-  
-  // 3. Si aún no hay coincidencias, buscar en códigos exactos
-  if (matchingCodes.length === 0 && searchIndex.indexes.exact) {
-    if (searchIndex.indexes.exact[normalizedQuery]) {
-      const exactMatch = searchIndex.indexes.exact[normalizedQuery];
-      matchingCodes = [exactMatch];
-      searchSource = 'exact';
-      console.log(`[search-engine] Coincidencia exacta para "${normalizedQuery}"`);
-    } else if (normalizedQuery.length >= 4) {
-      // Buscar coincidencias parciales en códigos, solo prefijos
-      const partialCodeMatches = new Set();
-      const matchingCodeList = [];
-      
-      Object.keys(searchIndex.indexes.exact).forEach(code => {
-        if (code.startsWith(normalizedQuery) || 
-            (normalizedQuery.startsWith(code) && code.length >= 4)) {
-          partialCodeMatches.add(searchIndex.indexes.exact[code]);
-          matchingCodeList.push(code);
-        }
+      matches.forEach(code => {
+        // Puntuación adicional para coincidencia de frase completa
+        scoredResults[code] = (scoredResults[code] || 0) + 15;
       });
       
-      if (partialCodeMatches.size > 0) {
-        matchingCodes = Array.from(partialCodeMatches);
-        searchSource = 'exact (coincidencia parcial)';
-        console.log(`[search-engine] Coincidencias parciales en códigos para "${normalizedQuery}": ${matchingCodes.length} productos`);
-      }
+      console.log(`[search-engine] Frase completa "${normalizedQuery}": ${matches.length} productos (score: +15)`);
     }
-  }
-  
-  // 4. Si aún no hay coincidencias, intentar con los n-gramas como último recurso
-  if (matchingCodes.length === 0 && searchIndex.indexes.ngrams && normalizedQuery.length >= 3) {
-    // Generar n-gramas de la consulta (solo si no se encontraron coincidencias antes)
-    const queryNgrams = [];
-    const ngramSize = 3; // Usar trigramas
-    
-    for (let i = 0; i <= normalizedQuery.length - ngramSize; i++) {
-      queryNgrams.push(normalizedQuery.substring(i, i + ngramSize));
-    }
-    
-    if (queryNgrams.length > 0) {
-      const ngramMatches = new Set();
-      const matchedNgrams = [];
+
+    // 3. Buscar coincidencias parciales (prefijos/sufijos)
+    queryTokens.forEach(token => {
+      if (token.length < 3) return; // Ignorar tokens muy cortos
       
-      queryNgrams.forEach(ngram => {
-        if (searchIndex.indexes.ngrams[ngram]) {
-          const matches = searchIndex.indexes.ngrams[ngram];
-          const matchArray = Array.isArray(matches) ? matches : [matches];
+      // Contar cuántos productos coinciden parcialmente con cada token
+      let partialMatches = 0;
+      
+      Object.keys(searchIndex.indexes.tokens).forEach(indexToken => {
+        // Verificar si el token de búsqueda es prefijo del token indexado
+        // o si el token indexado es prefijo del token de búsqueda
+        if (indexToken.startsWith(token) || 
+            (token.startsWith(indexToken) && indexToken.length >= 4)) {
           
-          matchArray.forEach(code => ngramMatches.add(code));
-          matchedNgrams.push(ngram);
+          const tokenMatches = searchIndex.indexes.tokens[indexToken];
+          const matches = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
+          
+          matches.forEach(code => {
+            // Puntuación reducida para coincidencias parciales
+            scoredResults[code] = (scoredResults[code] || 0) + 5;
+            partialMatches++;
+          });
         }
       });
       
-      if (ngramMatches.size > 0) {
-        matchingCodes = Array.from(ngramMatches);
-        searchSource = `ngrams (${matchedNgrams.length} n-gramas)`;
-        console.log(`[search-engine] Coincidencia en n-gramas para "${normalizedQuery}": ${matchingCodes.length} productos`);
-        console.log(`[search-engine] N-gramas coincidentes:`, matchedNgrams.join(', '));
+      if (partialMatches > 0) {
+        console.log(`[search-engine] Coincidencias parciales para "${token}": ${partialMatches} productos (score: 5 c/u)`);
+      }
+    });
+  
+      // 4. Buscar en n-gramas como último recurso (puntuación más baja)
+    if (normalizedQuery.length >= 3) {
+      // Generar n-gramas de la consulta
+      const queryNgrams = [];
+      const ngramSize = 3; // Usar trigramas
+      
+      for (let i = 0; i <= normalizedQuery.length - ngramSize; i++) {
+        queryNgrams.push(normalizedQuery.substring(i, i + ngramSize));
+      }
+      
+      if (queryNgrams.length > 0) {
+        const matchedNgrams = [];
+        
+        queryNgrams.forEach(ngram => {
+          if (searchIndex.indexes.ngrams && searchIndex.indexes.ngrams[ngram]) {
+            const ngramMatches = searchIndex.indexes.ngrams[ngram];
+            const matches = Array.isArray(ngramMatches) ? ngramMatches : [ngramMatches];
+            
+            matches.forEach(code => {
+              // Puntuación baja para coincidencias de n-gramas
+              scoredResults[code] = (scoredResults[code] || 0) + 2;
+            });
+            
+            matchedNgrams.push(ngram);
+          }
+        });
+        
+        if (matchedNgrams.length > 0) {
+          console.log(`[search-engine] Coincidencias por n-gramas: ${matchedNgrams.length} n-gramas utilizados`);
+        }
       }
     }
-  }
   
-  console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados (fuente: ${searchSource})`);
+ // console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados (fuente: ${searchSource})`);
+
+    // Bonus por coincidencia múltiple - Versión mejorada
+if (queryTokens.length > 1) {
+  // Para cada código en scoredResults, verificar cuántos tokens diferentes contribuyeron
+  const tokenContributions = {}; // Objeto para registrar qué tokens contribuyeron a cada código
   
-  // Convertir los códigos a su formato original antes de mostrarlos
-  const originalCodes = matchingCodes.map(code => 
+  // Para cada token, registrar a qué códigos contribuyó
+  queryTokens.forEach(token => {
+    if (searchIndex.indexes.tokens && searchIndex.indexes.tokens[token]) {
+      const tokenMatches = searchIndex.indexes.tokens[token];
+      const matches = Array.isArray(tokenMatches) ? tokenMatches : [tokenMatches];
+      
+      matches.forEach(code => {
+        // Inicializar array de tokens si no existe para este código
+        if (!tokenContributions[code]) {
+          tokenContributions[code] = [];
+        }
+        // Añadir este token a la lista de contribuciones si no está ya
+        if (!tokenContributions[code].includes(token)) {
+          tokenContributions[code].push(token);
+        }
+      });
+    }
+  });
+  
+  // Ahora, para cada código, aplicar un bonus basado en cuántos tokens diferentes contribuyeron
+  Object.entries(tokenContributions).forEach(([code, tokens]) => {
+    // Si el producto tiene TODOS los tokens de la búsqueda, darle un bonus muy alto
+    if (tokens.length === queryTokens.length) {
+      const bonus = 50; // Bonus muy alto para coincidencia completa
+      
+      if (scoredResults[code]) {
+        scoredResults[code] += bonus;
+        console.log(`[search-engine] BONUS COMPLETO para ${code}: contiene TODOS los ${tokens.length} tokens (+${bonus})`);
+      }
+    }
+    // Para productos que tienen algunos pero no todos los tokens
+    else if (tokens.length > 1) {
+      // Bonus moderado para coincidencias parciales
+      const bonus = tokens.length * 5; // 5 puntos por cada token
+      
+      if (scoredResults[code]) {
+        scoredResults[code] += bonus;
+        console.log(`[search-engine] Bonus parcial para ${code}: ${tokens.length} tokens diferentes (+${bonus})`);
+      }
+    }
+  });
+}
+
+          // ===== INICIO: SOLUCIÓN ESPECIAL PARA CAÑO+REDECO =====
+
+
+      // ===== FIN: SOLUCIÓN ESPECIAL PARA CAÑO+REDECO =====
+
+      // Convertir a array y ordenar por puntuación
+    let matchingCodes = Object.entries(scoredResults)
+    .map(([code, score]) => ({ code, score }))
+    .sort((a, b) => b.score - a.score) // Ordenar de mayor a menor puntuación
+    .map(item => item.code);
+
+    console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados`);
+
+    // Para diagnóstico: Mostrar top 5 resultados con puntuación
+    console.log('[search-engine] Top 5 resultados con puntuación:');
+    Object.entries(scoredResults)
+    .map(([code, score]) => ({ code, score }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .forEach((item, index) => {
+      console.log(`   ${index+1}. Código: ${item.code}, Puntuación: ${item.score}`);
+    });
+
+    // Convertir los códigos a su formato original antes de mostrarlos
+    const originalCodes = matchingCodes.map(code => 
     searchIndex.codeMap && searchIndex.codeMap[code] ? searchIndex.codeMap[code] : code
-  );
-  
-  console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
+    );
+
+    console.log(`[search-engine] Primeros 20 códigos encontrados (formato original):`, 
               originalCodes.slice(0, 20).join(', '));
-  
-  if (matchingCodes.length === 0) {
+
+    if (matchingCodes.length === 0) {
     clearResults();
     displayNoResults(query);
     return;
-  }
+    }
+  
+ 
   
   // NUEVO: Aplicar paginación a los resultados
   const totalResults = matchingCodes.length;
@@ -384,13 +696,13 @@ async function performSearch(query, offset = 0, limit = 30) {
   }
   
   // Mostrar resultados con información de paginación
-  displayResults(matchingItems, normalizedQuery, {
+  displayResults(matchingItems, normalizedQuery, queryTokens, {
     offset: offset,
     limit: limit,
     total: totalResults,
     hasMore: offset + limit < totalResults
   });
-  
+
   // Devolver información para uso externo
   return {
     items: matchingItems,
@@ -471,7 +783,7 @@ function displayNoResults(query) {
     
     // Mostrar resultados de búsqueda
     // Función displayResults adaptada para colocar elementos exactamente donde el código existente los espera
-      function displayResults(matchingItems, normalizedQuery, pagination = {}) {
+      function displayResults(matchingItems, normalizedQuery, queryTokens, pagination = {}) {
         const galleryContainer = document.querySelector('.gallery-container');
         if (!galleryContainer) {
           console.warn('[search-engine] Contenedor de galería no encontrado');
@@ -567,19 +879,34 @@ function displayNoResults(query) {
             galleryItem.setAttribute('data-product-code', item.code);
           }
           
-          // AÑADIR ESTAS LÍNEAS: Preparar texto con resaltado
+          // Preparar texto con resaltado mejorado para múltiples tokens
           let itemName = item.name || '';
           let itemCode = item.code || '';
 
-           // NUEVO: Convertir el nombre a minúsculas
-          itemName = itemName.toLowerCase();
+          // Resaltar cada token individual en lugar de solo la consulta completa
+          if (queryTokens && queryTokens.length > 0) {
+            // Crear copia para no modificar el original durante resaltado
+            let highlightedName = itemName;
+            let highlightedCode = itemCode;
+            
+            // Ordenar tokens por longitud (descendente) para evitar problemas de superposición
+            const sortedTokens = [...queryTokens].sort((a, b) => b.length - a.length);
+            
+            // Resaltar cada token individualmente
+            sortedTokens.forEach(token => {
+              if (token.length >= 3) { // Ignorar tokens muy cortos
+                const regex = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                highlightedName = highlightedName.replace(regex, '<span class="search-highlight">$1</span>');
+                highlightedCode = highlightedCode.replace(regex, '<span class="search-highlight">$1</span>');
+              }
+            });
+            
+            itemName = highlightedName;
+            itemCode = highlightedCode;
 
-          if (normalizedQuery && normalizedQuery.trim()) {
-            const searchTerm = normalizedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            itemName = itemName.replace(regex, '<span class="search-highlight">$1</span>');
-            itemCode = itemCode.replace(regex, '<span class="search-highlight">$1</span>');
-          }  
+            // Al final del bloque de resaltado
+            itemName = itemName.toLowerCase(); // Asegurar que esté en minúsculas
+          }
 
 
           // Añade este log antes de asignar galleryItem.innerHTML
@@ -786,86 +1113,7 @@ function displayNoResults(query) {
     }
     
 
-    // 2. Modifica la función getProductDetails para usar el mapeo
-      // Función getProductDetails con diagnóstico completo para encontrar el error
-      function getProductDetails(code) {
-        console.log(`[DIAGNÓSTICO] getProductDetails recibió código: "${code}"`);
-        
-        // Diagnosticar searchIndex
-        console.log('[DIAGNÓSTICO] ¿searchIndex existe?', !!window.searchIndex);
-        console.log('[DIAGNÓSTICO] ¿searchIndex.codeMap existe?', !!(window.searchIndex && window.searchIndex.codeMap));
-        
-        // Diagnosticar productManager
-        console.log('[DIAGNÓSTICO] ¿productManager existe?', !!window.productManager);
-        console.log('[DIAGNÓSTICO] ¿productManager.getProduct existe?', !!(window.productManager && typeof window.productManager.getProduct === 'function'));
-        console.log('[DIAGNÓSTICO] ¿productManager.getPrecio existe?', !!(window.productManager && typeof window.productManager.getPrecio === 'function'));
-        
-        let originalCode = code;
-        
-        try {
-          // Intentar obtener código original solo si searchIndex.codeMap existe
-          if (window.searchIndex && window.searchIndex.codeMap) {
-            const mappedCode = window.searchIndex.codeMap[code];
-            if (mappedCode) {
-              originalCode = mappedCode;
-              console.log(`[DIAGNÓSTICO] Código mapeado: "${code}" -> "${originalCode}"`);
-            }
-          }
-          
-          // Variables para almacenar datos
-          let productData = null;
-          let priceData = null;
-          
-          // Intentar obtener datos del producto si productManager existe
-          if (window.productManager && typeof window.productManager.getProduct === 'function') {
-            try {
-              console.log(`[DIAGNÓSTICO] Llamando a productManager.getProduct("${originalCode}")`);
-              productData = window.productManager.getProduct(originalCode);
-              console.log('[DIAGNÓSTICO] Resultado de getProduct:', productData);
-            } catch (error) {
-              console.error(`[DIAGNÓSTICO] Error en getProduct:`, error);
-              productData = null;
-            }
-          }
-          
-          // Intentar obtener precio si productManager existe
-          if (window.productManager && typeof window.productManager.getPrecio === 'function') {
-            try {
-              console.log(`[DIAGNÓSTICO] Llamando a productManager.getPrecio("${originalCode}")`);
-              priceData = window.productManager.getPrecio(originalCode);
-              console.log('[DIAGNÓSTICO] Resultado de getPrecio:', priceData);
-            } catch (error) {
-              console.error(`[DIAGNÓSTICO] Error en getPrecio:`, error);
-              priceData = null;
-            }
-          }
-          
-          // Construir objeto de resultado con valores por defecto seguros
-          const result = {
-            id: originalCode,         // Usar código original como ID
-            code: originalCode,       // Mostrar código original en la interfaz
-            name: productData && productData.name ? productData.name : `Producto ${originalCode}`,
-            category: productData && productData.category ? productData.category : '',
-            price: priceData && priceData.D ? priceData.D : 0
-          };
-          
-          console.log('[DIAGNÓSTICO] Objeto final devuelto:', result);
-          return result;
-          
-        } catch (error) {
-          console.error(`[DIAGNÓSTICO] Error general:`, error);
-          
-          // Devolver objeto seguro en caso de error
-          return {
-            id: code,
-            code: code,
-            name: `Producto ${code}`,
-            category: '',
-            price: 0,
-            error: true
-          };
-        }
-      }
+    
 
 
 
