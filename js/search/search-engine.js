@@ -1380,14 +1380,15 @@ function displayNoResults(query) {
               code: item.code,
               imageId: item.imageId,
               urlGenerada: item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/loading-product.gif'
+              
             });  
 
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
               <img alt="${item.name || ''}" 
-              src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/loading-product.gif'}"
-              onerror="this.onerror=null; this.src='img/no-image-available.png';">
+              src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/no-img.png'}"
+              onerror="this.onerror=null; this.src='img/no-imag.png';">
 
               <div class="top-row">
               <a href="#">${itemName}</a>

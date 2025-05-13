@@ -1,13 +1,643 @@
 {
   "version": "1.0",
-  "lastUpdate": "2025-05-06T14:51:58.931552",
+  "lastUpdate": "2025-05-13T12:41:39.693711",
   "images_dimensions": {
-    "EVOL6210": {
+    "BM5352": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0008": {
+    "BM2760": {
+      "width": 800,
+      "height": 800,
+      "ratio": 1.0
+    },
+    "BM6212": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6214": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2823": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6213": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5608": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2824": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6216": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2822": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5948": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5947": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2825": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6761": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6208": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4255": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6215": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6209": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2821": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2818": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2820": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5161": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7394": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6230": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7173": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "BM7170": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6422": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5397": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6763": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2819": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6118": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5009": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5008": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4125": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4124": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4040": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6764": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4558": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4202": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4197": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6229": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM41201": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6220": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4198": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6225": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5537": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4200": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6223": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6222": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6217": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6224": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6221": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6227": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6218": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2741": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6226": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6738": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6228": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2737": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4203": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4199": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2735": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6211": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6210": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6219": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7294": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4529": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3048": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7284": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6921": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7598": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4671": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM4664": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6739": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6920": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7236": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7235": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7280": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2732": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2717": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM258": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2497": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2493": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2485": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2484": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2363": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2371": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2372": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM0344": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2329": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5518": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3542": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2328": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2330": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3543": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3541": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6350": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6784": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6136": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6187": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7039": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2566": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5478": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7712": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2914": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7030": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7031": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3767": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM7029": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3766": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3770": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3765": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3768": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5833": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5830": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM3769": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5406": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5832": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM5831": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6797": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "PERFA0192": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM2508": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "BM6796": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3087": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3088": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3089": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3086": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0011": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -22,22 +652,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0011": {
+    "EVOL6760": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL6205": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL6221": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL6222": {
+    "EVOL6210": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -47,7 +667,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL6760": {
+    "EVOL6221": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -57,17 +677,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3087": {
+    "EVOL6222": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3089": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3088": {
+    "EVOL3953": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -77,17 +692,27 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3086": {
+    "EVOL6205": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0094": {
+    "EVOL3959": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0470": {
+    "EVOL0008": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3955": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3961": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -102,17 +727,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3961": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3953": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3959": {
+    "EVOL0094": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -127,7 +742,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3955": {
+    "EVOL0470": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -137,12 +752,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0400": {
+    "EVOL0410": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0410": {
+    "EVOL0400": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -152,32 +767,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3650": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVOL3630": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3800": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3810": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3720": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3820": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -187,17 +777,22 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3730": {
+    "EVOL3650": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0004": {
+    "EVOL3820": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0003": {
+    "EVOL3810": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3800": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -207,7 +802,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1774": {
+    "EVOL3730": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3700": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -222,7 +822,32 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL3700": {
+    "EVOL0003": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1774": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3720": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0004": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0097": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1768": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -237,22 +862,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1768": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0002": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0234": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVOL1770": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0006": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -262,12 +877,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1772": {
+    "EVOL1096": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1096": {
+    "EVOL1772": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -282,12 +897,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1776": {
+    "EVOL4930": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL4930": {
+    "EVOL0002": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -297,7 +912,22 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0006": {
+    "EVOL0234": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1776": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL4910": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0216": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -307,7 +937,17 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL4910": {
+    "EVOL0215": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0217": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0214": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -322,62 +962,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0216": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0217": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0215": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0214": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0097": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR5808": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1470": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR5807": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0211": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0022": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVOL0208": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0248": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -387,37 +972,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL1960": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR1927": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0249": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR1931": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR1929": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0023": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1430": {
+    "EVOL0022": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -427,32 +982,17 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOMYR1928": {
+    "EVOL0086": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0145": {
+    "EVOL1430": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0229": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1351": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1331": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1429": {
+    "EVOL0023": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -462,7 +1002,112 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0089": {
+    "EVOL1429": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR5810": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR5808": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1960": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR5807": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1470": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0211": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0248": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0249": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR1929": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR1931": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR1927": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0148": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOMYR1928": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0045": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0044": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0147": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0229": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1331": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0146": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0145": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1351": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -472,17 +1117,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0086": {
+    "EVOL0089": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
     "EVOL0033": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0320": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -497,7 +1137,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0071": {
+    "EVOL0320": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -512,17 +1152,17 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL4050": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOMYR5810": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVOL1154": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0071": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1160": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -537,7 +1177,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0044": {
+    "EVOL4050": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -547,22 +1187,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL2213": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1160": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVOL2215": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0146": {
+    "EVOL2213": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -572,12 +1202,7 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0148": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVO180TU": {
+    "EVOL2205": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -587,172 +1212,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL2205": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
     "EVO230TU": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "EVOL0045": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVO230CO": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0147": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVO115TF": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVO180LA": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVO180CO": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1208": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL2135": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0224": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0135": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1200": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0340": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0108": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL5100": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0144": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL4753": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL1631": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3420": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "SAHANAF2H": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL5530": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL0043": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "SAHANAF1H": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "CON205": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL3975": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "TF.414": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "ISAALAMF16": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "GAG1685AR": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EA5310MT": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "EVOL4755": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol1000": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "PROBOT41": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "GAG12103AR": {
+    "EVO180TU": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -762,17 +1227,127 @@
       "height": 449,
       "ratio": 1.78
     },
-    "PERFA0261": {
+    "EVO230CO": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "evorieg0153": {
+    "EVO180LA": {
       "width": 800,
-      "height": 601,
-      "ratio": 1.33
+      "height": 449,
+      "ratio": 1.78
     },
-    "TOR01522": {
+    "EVOL0224": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVO180CO": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL2135": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVO115TF": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1208": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0135": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1631": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0108": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0340": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL1200": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0144": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL5530": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL5100": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL4755": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3420": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL4753": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "SAHANAF1H": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL3975": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "ISAALAMF16": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0043": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "SAHANAF2H": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EA5310MT": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "CON205": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -782,62 +1357,12 @@
       "height": 449,
       "ratio": 1.78
     },
-    "ALI70": {
+    "TF.414": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "logo-ferremax": {
-      "width": 800,
-      "height": 601,
-      "ratio": 1.33
-    },
-    "evol0330": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol0025": {
-      "width": 800,
-      "height": 601,
-      "ratio": 1.33
-    },
-    "evol1970": {
-      "width": 800,
-      "height": 601,
-      "ratio": 1.33
-    },
-    "EVOL0174": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol0028": {
-      "width": 800,
-      "height": 601,
-      "ratio": 1.33
-    },
-    "EGWX 01": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol3245": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "PX120314": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "KIMERAC1": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol2530": {
+    "GAG1685AR": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -847,47 +1372,17 @@
       "height": 449,
       "ratio": 1.78
     },
-    "evo115tu": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol3510": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "SIM18310": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol0111": {
+    "evorieg0153": {
       "width": 800,
       "height": 601,
       "ratio": 1.33
     },
-    "evol0107": {
-      "width": 800,
-      "height": 601,
-      "ratio": 1.33
-    },
-    "evol0435": {
+    "ALI70": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "evol0177": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol2205": {
-      "width": 800,
-      "height": 449,
-      "ratio": 1.78
-    },
-    "evol3210": {
+    "PX120314": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -897,7 +1392,77 @@
       "height": 449,
       "ratio": 1.78
     },
-    "evo115co": {
+    "evol1000": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "GAG12103AR": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "SIM18310": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EGWX 01": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "PERFA0261": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "TOR01522": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "KIMERAC1": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol0330": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "PROBOT41": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "logo-ferremax": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "login-bg": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol0025": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "evol3245": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol0028": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "evol2530": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -907,7 +1472,52 @@
       "height": 601,
       "ratio": 1.33
     },
+    "evol1970": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "evol0107": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "evol3510": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol0111": {
+      "width": 800,
+      "height": 601,
+      "ratio": 1.33
+    },
+    "evol0435": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evo115tu": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol0177": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol3970": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
     "evol1361": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "evol2205": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
@@ -917,12 +1527,17 @@
       "height": 601,
       "ratio": 1.33
     },
-    "evol3970": {
+    "evol3210": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
     },
-    "login-bg": {
+    "evo115co": {
+      "width": 800,
+      "height": 449,
+      "ratio": 1.78
+    },
+    "EVOL0174": {
       "width": 800,
       "height": 449,
       "ratio": 1.78
