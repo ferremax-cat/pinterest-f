@@ -22,3 +22,7 @@ package-lock.json
 js/modificaciones-temp.js
 .DS_Store
 *.log
+
+# Añade token.pickle al archivo
+token.pickle
+credentials.json
