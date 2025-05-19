@@ -497,6 +497,8 @@ nav .iconos img{
       }
 
 
+     }
+
 /* Tablets */
 @media screen and (max-width: 992px) {
     nav {
@@ -785,4 +787,3 @@ nav .iconos img{
          font-size: 0.75em;
      }
  }
-}
