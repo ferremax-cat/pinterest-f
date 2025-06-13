@@ -1199,46 +1199,6 @@
       "F": 58350
     }
   },
-  "ALI74": {
-    "name": "GARRAFA P/GAS.2Kg S/ARO APROB.ALIGAS",
-    "category": "8.GARRAFAS/ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 70543,
-      "E": 75970,
-      "F": 65117
-    }
-  },
-  "ALI75": {
-    "name": "GARRAFA P/GAS 2Kg C/ARO APROB.ALIGAS",
-    "category": "8.GARRAFAS/ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 76415,
-      "E": 82293,
-      "F": 70537
-    }
-  },
-  "ALI76": {
-    "name": "GARRAFA P/GAS 3Kg S/ARO APROB.ALIGAS",
-    "category": "8.GARRAFAS/ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 82405,
-      "E": 88743,
-      "F": 76066
-    }
-  },
-  "ALI77": {
-    "name": "GARRAFA P/GAS 3Kg C/ARO APROB.ALIGAS",
-    "category": "8.GARRAFAS/ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 88276,
-      "E": 95066,
-      "F": 81485
-    }
-  },
   "ALI86": {
     "name": "ANAFE 1 HORN.C/ROB.ENLOZ.G/N.ALIGAS",
     "category": "8.ANAFE y ACCES.",
@@ -2024,9 +1984,9 @@
     "category": "8.MEMBRANA ALUM.ALUMANTA",
     "bulk": 20.0,
     "prices": {
-      "D": 35083,
-      "E": 36545,
-      "F": 35083
+      "D": 36136,
+      "E": 37642,
+      "F": 36136
     }
   },
   "ANCARN4": {
@@ -2034,9 +1994,9 @@
     "category": "8.MEMBRANA ALUM.ALUMANTA",
     "bulk": 20.0,
     "prices": {
-      "D": 40890,
-      "E": 42594,
-      "F": 40890
+      "D": 42081,
+      "E": 43834,
+      "F": 42081
     }
   },
   "AQUAPB102": {
@@ -2870,7 +2830,7 @@
     }
   },
   "ARPMT8916": {
-    "name": "TORNILLO P/MECHA TANQUE 8x91/6\"ARGEN",
+    "name": "TORNILLO P/MECHA TANQUE 8x 91/6 ARGEN",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 200.0,
     "prices": {
@@ -5027,16 +4987,6 @@
       "D": 30923,
       "E": 33302,
       "F": 28544
-    }
-  },
-  "BLUTTCE": {
-    "name": "TAPA REP.TERMO A/INOX.1Lts.CAMPO EL",
-    "category": "8.TERMOS/REPUESTOS",
-    "bulk": 20.0,
-    "prices": {
-      "D": 4864,
-      "E": 5269,
-      "F": 4620
     }
   },
   "BLUVE1": {
@@ -17200,7 +17150,7 @@
     }
   },
   "CARRE06": {
-    "name": "TAPACAMARA ESTAMP.LIV.60x60cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP LIV 60x60cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 1.0,
     "prices": {
@@ -17260,7 +17210,7 @@
     }
   },
   "CARRE1010": {
-    "name": "TAPACAMARA ESTAMP.REF.20x20cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 20x20cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17290,7 +17240,7 @@
     }
   },
   "CARRE2020": {
-    "name": "TAPACAMARA ESTAMP.REF.25x25cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 25x25cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17300,7 +17250,7 @@
     }
   },
   "CARRE3030": {
-    "name": "TAPACAMARA ESTAMP.REF.30x30cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 30x30cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17310,7 +17260,7 @@
     }
   },
   "CARRE4040": {
-    "name": "TAPACAMARA ESTAMP.REF.40x40cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 40x40cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17320,7 +17270,7 @@
     }
   },
   "CARRE5050": {
-    "name": "TAPACAMARA ESTAMP.REF.50x50cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 50x50cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17330,7 +17280,7 @@
     }
   },
   "CARRE6060": {
-    "name": "TAPACAMARA ESTAMP.REF.60x60cmCARREMAK",
+    "name": "TAPACAMARA ESTAMP REF 60x60cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 10.0,
     "prices": {
@@ -17340,7 +17290,7 @@
     }
   },
   "CARRE6060SR": {
-    "name": "TAPACAMARA SUPER. REF.60x60cmCARREMAK",
+    "name": "TAPACAMARA SUPER  REF 60x60cm CARREMAK",
     "category": "1.TAPACAMARA SEPTICA PESA",
     "bulk": 5.0,
     "prices": {
@@ -21570,7 +21520,7 @@
     }
   },
   "CP35060": {
-    "name": "TAPA PVCx160mm        3.2mm   L/160",
+    "name": "TAPA DE PVC     160mm 3.2mm   L/160  CP",
     "category": "2.ACCESORIOS DE PVC L/160",
     "bulk": 10.0,
     "prices": {
@@ -28909,8 +28859,38 @@
       "F": 1933
     }
   },
+  "DX430": {
+    "name": "FLEXIBLE MALLADO GAS ECO 1/2x30c DX",
+    "category": "1.FLEXIBLE MALLADO GAS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1668,
+      "E": 1787,
+      "F": 1430
+    }
+  },
+  "DX440": {
+    "name": "FLEXIBLE MALLADO GAS ECO 1/2x40c DX",
+    "category": "1.FLEXIBLE MALLADO GAS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1763,
+      "E": 1889,
+      "F": 1511
+    }
+  },
+  "DX525": {
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x25c DX",
+    "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1711,
+      "E": 1843,
+      "F": 1580
+    }
+  },
   "DX530": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x30cFOV",
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x30c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
     "bulk": 10.0,
     "prices": {
@@ -28920,7 +28900,7 @@
     }
   },
   "DX535": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x35cFOV",
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x35c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
     "bulk": 10.0,
     "prices": {
@@ -28930,7 +28910,7 @@
     }
   },
   "DX540": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x40cFOV",
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x40c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
     "bulk": 10.0,
     "prices": {
@@ -28940,7 +28920,7 @@
     }
   },
   "DX550": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x50cFOV",
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x50c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
     "bulk": 10.0,
     "prices": {
@@ -28950,7 +28930,7 @@
     }
   },
   "DX560": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x60cFOV",
+    "name": "FLEXIBLE MALLADO AGUA ECO 1/2x60c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
     "bulk": 10.0,
     "prices": {
@@ -28959,8 +28939,18 @@
       "F": 1994
     }
   },
+  "DX920": {
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x20c DX",
+    "category": "1.FLEX.AC/MALL.AGUA/BCE",
+    "bulk": 10.0,
+    "prices": {
+      "D": 4616,
+      "E": 4971,
+      "F": 4261
+    }
+  },
   "DX925": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x25cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x25c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 20.0,
     "prices": {
@@ -28970,7 +28960,7 @@
     }
   },
   "DX930": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x30cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x30c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 20.0,
     "prices": {
@@ -28980,7 +28970,7 @@
     }
   },
   "DX935": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x35cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x35c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 20.0,
     "prices": {
@@ -28990,7 +28980,7 @@
     }
   },
   "DX940": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x40cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x40c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 10.0,
     "prices": {
@@ -29000,7 +28990,7 @@
     }
   },
   "DX950": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x50cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x50c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 20.0,
     "prices": {
@@ -29010,7 +29000,7 @@
     }
   },
   "DX960": {
-    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x60cDX",
+    "name": "FLEXIBLE MALLADO AGU/BNCE 3/4x60c DX",
     "category": "1.FLEX.AC/MALL.AGUA/BCE",
     "bulk": 20.0,
     "prices": {
@@ -31540,7 +31530,7 @@
     }
   },
   "EGVL 12": {
-    "name": "TAPA C/OREJA P/VALV.ADMISION     EGOPLAST",
+    "name": "TAPA C OREJA P VALV ADMISION     EGOPLAST",
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -43719,16 +43709,6 @@
       "F": 2284
     }
   },
-  "FOV430": {
-    "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x30cFOV",
-    "category": "1.FLEX.AC/MALL.GAS/BCE",
-    "bulk": 10.0,
-    "prices": {
-      "D": 2939,
-      "E": 3149,
-      "F": 2519
-    }
-  },
   "FOV440": {
     "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x40cFOV",
     "category": "1.FLEX.AC/MALL.GAS/BCE",
@@ -43817,36 +43797,6 @@
       "D": 4475,
       "E": 4795,
       "F": 3836
-    }
-  },
-  "FOV525": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x25cFOV",
-    "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1860,
-      "E": 2003,
-      "F": 1717
-    }
-  },
-  "FOV535": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.1/2x35cFOV",
-    "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
-    "bulk": 10.0,
-    "prices": {
-      "D": 2000,
-      "E": 2154,
-      "F": 1846
-    }
-  },
-  "FOV620": {
-    "name": "FLEX/MALL.AGUA.ZAMAC.BDO.3/4x20cFOV",
-    "category": "1.FLEX.AC/MALL.AGUA/BCE",
-    "bulk": 10.0,
-    "prices": {
-      "D": 3129,
-      "E": 3370,
-      "F": 2889
     }
   },
   "FOV730": {
@@ -51010,7 +50960,7 @@
     }
   },
   "ISA090BC": {
-    "name": "BULON CAMERO C/TyA 5/16x 90mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x90mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51020,7 +50970,7 @@
     }
   },
   "ISA100BC": {
-    "name": "BULON CAMERO C/TyA 5/16x100mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x100mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51030,7 +50980,7 @@
     }
   },
   "ISA110BC": {
-    "name": "BULON CAMERO C/TyA 5/16x110mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x110mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51040,7 +50990,7 @@
     }
   },
   "ISA120BC": {
-    "name": "BULON CAMERO C/TyA 5/16x120mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x120mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51050,7 +51000,7 @@
     }
   },
   "ISA125BC": {
-    "name": "BULON CAMERO C/TyA 5/16x125mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x125mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 0.0,
     "prices": {
@@ -51060,7 +51010,7 @@
     }
   },
   "ISA130BC": {
-    "name": "BULON CAMERO C/TyA 5/16x130mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x130mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51070,7 +51020,7 @@
     }
   },
   "ISA140BC": {
-    "name": "BULON CAMERO C/TyA 5/16x140mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x140mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 100.0,
     "prices": {
@@ -51080,7 +51030,7 @@
     }
   },
   "ISA150BC": {
-    "name": "BULON CAMERO C/TyA 5/16x150mm x100u",
+    "name": "BULON CAMERO C/TyA 5/16 x150mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
     "bulk": 50.0,
     "prices": {
@@ -51090,7 +51040,7 @@
     }
   },
   "ISA2001": {
-    "name": "BULON.C/EXA.USS.1/4x  1/2 (07)x12mm",
+    "name": "BULON C/HEXA USS 1/4 x1/2 (07) x12mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51100,7 +51050,7 @@
     }
   },
   "ISA2002": {
-    "name": "BULON.C/EXA.USS.1/4x  5/8 (07)x16mm",
+    "name": "BULON C/HEXA USS 1/4 x5/8 (07) x16mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51110,7 +51060,7 @@
     }
   },
   "ISA2003": {
-    "name": "BULON.C/EXA.USS.1/4x  3/4 (07)x19mm",
+    "name": "BULON C/HEXA USS 1/4 x3/4 (07) x19mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51120,7 +51070,7 @@
     }
   },
   "ISA2004": {
-    "name": "BULON.C/EXA.USS.1/4x  7/8 (07)x22mm",
+    "name": "BULON C/HEXA USS 1/4 x7/8 (07) x22mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51130,7 +51080,7 @@
     }
   },
   "ISA2005": {
-    "name": "BULON.C/EXA.USS.1/4x1\"    (07)x25mm",
+    "name": "BULON C/HEXA USS 1/4 x1 (07) x25mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51140,7 +51090,7 @@
     }
   },
   "ISA2006": {
-    "name": "BULON.C/EXA.USS.1/4x1\"1/4 (07)x32mm",
+    "name": "BULON C/HEXA USS 1/4 x11/4 (07) x32mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51150,7 +51100,7 @@
     }
   },
   "ISA2007": {
-    "name": "BULON.C/EXA.USS.1/4x1\"1/2 (07)x38mm",
+    "name": "BULON C/HEXA USS 1/4 x11/2 (07) x38mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51160,7 +51110,7 @@
     }
   },
   "ISA2008": {
-    "name": "BULON.C/EXA.USS.1/4x1\"3/4 (07)x44mm",
+    "name": "BULON C/HEXA USS 1/4 x13/4 (07) x44mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51170,7 +51120,7 @@
     }
   },
   "ISA2009": {
-    "name": "BULON.C/EXA.USS.1/4x2\"    (07)x50mm",
+    "name": "BULON C/HEXA USS 1/4 x2 (07) x50mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51180,7 +51130,7 @@
     }
   },
   "ISA2010": {
-    "name": "BULON.C/EXA.USS.1/4x2\"1/4 (07)x56mm",
+    "name": "BULON C/HEXA USS 1/4 x21/4 (07) x56mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51190,7 +51140,7 @@
     }
   },
   "ISA2011": {
-    "name": "BULON.C/EXA.USS.1/4x2\"1/2 (07)x63mm",
+    "name": "BULON C/HEXA USS 1/4 x21/2 (07) x63mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51200,7 +51150,7 @@
     }
   },
   "ISA2012": {
-    "name": "BULON.C/EXA.USS.1/4x2\"3/4 (07)x70mm",
+    "name": "BULON C/HEXA USS 1/4 x23/4 (07) x70mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51210,7 +51160,7 @@
     }
   },
   "ISA2013": {
-    "name": "BULON.C/EXA.USS.1/4x3\"    (07)x76mm",
+    "name": "BULON C/HEXA USS 1/4 x3 (07) x76mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51220,7 +51170,7 @@
     }
   },
   "ISA2014": {
-    "name": "BULON.C/EXA.USS.1/4x3\"1/4 (07)x82mm",
+    "name": "BULON C/HEXA USS 1/4 x31/4 (07) x82mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51230,7 +51180,7 @@
     }
   },
   "ISA2015": {
-    "name": "BULON.C/EXA.USS.1/4x3\"1/2 (07)x90mm",
+    "name": "BULON C/HEXA USS 1/4 x31/2 (07) x90mm",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51240,7 +51190,7 @@
     }
   },
   "ISA2017": {
-    "name": "BULON.C/EXA.USS.1/4x4\"    (07)x100m",
+    "name": "BULON C/HEXA USS 1/4 x4 (07) x100m",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51250,7 +51200,7 @@
     }
   },
   "ISA2019": {
-    "name": "BULON.C/EXA.USS.1/4x4\"1/2 (07)x110m",
+    "name": "BULON C/HEXA USS 1/4 x41/2 (07) x110m",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 100.0,
     "prices": {
@@ -51260,7 +51210,7 @@
     }
   },
   "ISA2020": {
-    "name": "BULON.C/EXA.USS.1/4x5\"    (07)x120m",
+    "name": "BULON C/HEXA USS 1/4 x5 (07) x120m",
     "category": "6.BULON EXAG.ZIN.1/4",
     "bulk": 50.0,
     "prices": {
@@ -51270,7 +51220,7 @@
     }
   },
   "ISA2025": {
-    "name": "BULON.C/EXA.USS.5/16x1/2  (08)x12mm",
+    "name": "BULON C/HEXA USS 5/16 X1/2 (08) x12mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51280,7 +51230,7 @@
     }
   },
   "ISA2026": {
-    "name": "BULON.C/EXA.USS.5/16x5/8  (08)x16mm",
+    "name": "BULON C/HEXA USS 5/16 x5/8 (08) x16mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51290,7 +51240,7 @@
     }
   },
   "ISA2027": {
-    "name": "BULON.C/EXA.USS.5/16x3/4  (08)x19mm",
+    "name": "BULON C/HEXA USS 5/16 x3/4 (08) x19mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51300,7 +51250,7 @@
     }
   },
   "ISA2028": {
-    "name": "BULON.C/EXA.USS.5/16x7/8  (08)x22mm",
+    "name": "BULON C/HEXA USS 5/16 x7/8 (08) x22mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51310,7 +51260,7 @@
     }
   },
   "ISA2029": {
-    "name": "BULON.C/EXA.USS.5/16x1\"   (08)x25mm",
+    "name": "BULON C/HEXA USS 5/16 x1 (08) x25mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51320,7 +51270,7 @@
     }
   },
   "ISA2030": {
-    "name": "BULON.C/EXA.USS.5/16x1\"1/4(08)x32mm",
+    "name": "BULON C/HEXA USS 5/16 x11/4 (08) x32mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51330,7 +51280,7 @@
     }
   },
   "ISA2031": {
-    "name": "BULON.C/EXA.USS.5/16x1\"1/2(08)x38mm",
+    "name": "BULON C/HEXA USS 5/16 x11/2 (08) x38mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51340,7 +51290,7 @@
     }
   },
   "ISA2032": {
-    "name": "BULON.C/EXA.USS.5/16x1\"3/4(08)x44mm",
+    "name": "BULON C/HEXA USS 5/16 x13/4 (08) x44mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51350,7 +51300,7 @@
     }
   },
   "ISA2033": {
-    "name": "BULON.C/EXA.USS.5/16x2\"   (08)x50mm",
+    "name": "BULON C/HEXA USS 5/16 x2 (08) x50mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51360,7 +51310,7 @@
     }
   },
   "ISA2034": {
-    "name": "BULON.C/EXA.USS.5/16x2\"1/4(08)x56mm",
+    "name": "BULON C/HEXA USS 5/16 x21/4 (08) x56mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51370,7 +51320,7 @@
     }
   },
   "ISA2035": {
-    "name": "BULON.C/EXA.USS.5/16x2\"1/2(08)x63mm",
+    "name": "BULON C/HEXA USS 5/16 x21/2 (08) x63mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51380,7 +51330,7 @@
     }
   },
   "ISA2036": {
-    "name": "BULON.C/EXA.USS.5/16x2\"3/4(08)x70mm",
+    "name": "BULON C/HEXA USS 5/16 x23/4 (08) x70mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51390,7 +51340,7 @@
     }
   },
   "ISA2037": {
-    "name": "BULON.C/EXA.USS.5/16x3\"   (08)x76mm",
+    "name": "BULON C/HEXA USS 5/16 x3 (08) x76mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51400,7 +51350,7 @@
     }
   },
   "ISA2038": {
-    "name": "BULON.C/EXA.USS.5/16x3\"1/4(08)x82mm",
+    "name": "BULON C/HEXA USS 5/16 x31/4 (08) x82mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51410,7 +51360,7 @@
     }
   },
   "ISA2039": {
-    "name": "BULON.C/EXA.USS.5/16x3\"1/2(08)x90mm",
+    "name": "BULON C/HEXA USS 5/16 x31/2 (08) x90mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51420,7 +51370,7 @@
     }
   },
   "ISA2040": {
-    "name": "BULON.C/EXA.USS.5/16x4\"   (08)x100mm",
+    "name": "BULON C/HEXA USS 5/16 x4 (08) x100mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51430,7 +51380,7 @@
     }
   },
   "ISA2041": {
-    "name": "BULON.C/EXA.USS.5/16x4\"1/4(08)x110mm",
+    "name": "BULON C/HEXA USS 5/16 x41/4 (08) x110mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 0.0,
     "prices": {
@@ -51440,7 +51390,7 @@
     }
   },
   "ISA2042": {
-    "name": "BULON.C/EXA.USS.5/16x4\"1/2(08)x110mm",
+    "name": "BULON C/HEXA USS 5/16 x41/2 (08) x110mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51450,7 +51400,7 @@
     }
   },
   "ISA2043": {
-    "name": "BULON.C/EXA.USS.5/16x5\"   (08)x120mm",
+    "name": "BULON C/HEXA USS 5/16 x5 (08) x120mm",
     "category": "6.BULON EXAG.ZIN.5/16",
     "bulk": 100.0,
     "prices": {
@@ -51460,7 +51410,7 @@
     }
   },
   "ISA2053": {
-    "name": "BULON.C/EXA.USS.3/8x  3/4 (09)x19mm",
+    "name": "BULON C/HEXA USS 3/8 x3/4 (09) x19mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51470,7 +51420,7 @@
     }
   },
   "ISA2055": {
-    "name": "BULON.C/EXA.USS.3/8x  7/8 (09)x22mm",
+    "name": "BULON C/HEXA USS 3/8 x7/8 (09) x22mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51480,7 +51430,7 @@
     }
   },
   "ISA2056": {
-    "name": "BULON.C/EXA.USS.3/8x1\"    (09)x25mm",
+    "name": "BULON C/HEXA USS 3/8 x1 (09) x25mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51490,7 +51440,7 @@
     }
   },
   "ISA2057": {
-    "name": "BULON.C/EXA.USS.3/8x1\"1/4 (09)x32mm",
+    "name": "BULON C/HEXA USS 3/8 x11/4 (09) x32mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51500,7 +51450,7 @@
     }
   },
   "ISA2058": {
-    "name": "BULON.C/EXA.USS.3/8x1\"1/2 (09)x38mm",
+    "name": "BULON C/HEXA USS 3/8 x11/2 (09) x38mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51510,7 +51460,7 @@
     }
   },
   "ISA2059": {
-    "name": "BULON.C/EXA.USS.3/8x1\"3/4 (09)x44mm",
+    "name": "BULON C/HEXA USS 3/8 x13/4 (09) x44mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51520,7 +51470,7 @@
     }
   },
   "ISA2060": {
-    "name": "BULON.C/EXA.USS.3/8x2\"    (09)x50mm",
+    "name": "BULON C/HEXA USS 3/8 x2 (09) x50mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51530,7 +51480,7 @@
     }
   },
   "ISA2061": {
-    "name": "BULON.C/EXA.USS.3/8x2\"1/4 (09)x56mm",
+    "name": "BULON C/HEXA USS 3/8 x21/4 (09) x56mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51540,7 +51490,7 @@
     }
   },
   "ISA2062": {
-    "name": "BULON.C/EXA.USS.3/8x2\"1/2 (09)x63mm",
+    "name": "BULON C/HEXA USS 3/8 x21/2 (09) x63mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51550,7 +51500,7 @@
     }
   },
   "ISA2063": {
-    "name": "BULON.C/EXA.USS.3/8x2\"3/4 (09)x70mm",
+    "name": "BULON C/HEXA USS 3/8 x23/4 (09) x70mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51560,7 +51510,7 @@
     }
   },
   "ISA2064": {
-    "name": "BULON.C/EXA.USS.3/8x3\"    (09)x76mm",
+    "name": "BULON C/HEXA USS 3/8 x3 (09) x76mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51570,7 +51520,7 @@
     }
   },
   "ISA2065": {
-    "name": "BULON.C/EXA.USS.3/8x3\"1/4 (09)x82mm",
+    "name": "BULON C/HEXA USS 3/8 x31/4 (09) x82mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51580,7 +51530,7 @@
     }
   },
   "ISA2066": {
-    "name": "BULON.C/EXA.USS.3/8x3\"1/2 (09)x90mm",
+    "name": "BULON C/HEXA USS 3/8 x31/2 (09) x90mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51590,7 +51540,7 @@
     }
   },
   "ISA2067": {
-    "name": "BULON.C/EXA.USS.3/8x4\"    (09)100mm",
+    "name": "BULON C/HEXA USS 3/8 x4 (09) 100mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51600,7 +51550,7 @@
     }
   },
   "ISA2068": {
-    "name": "BULON.C/EXA.USS.3/8x4\"1/2 (09)110mm",
+    "name": "BULON C/HEXA USS 3/8 x41/2 (09) 110mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51610,7 +51560,7 @@
     }
   },
   "ISA2069": {
-    "name": "BULON.C/EXA.USS.3/8x5\"    (09)000mm",
+    "name": "BULON C/HEXA USS 3/8 x5 (09) 000mm",
     "category": "6.BULON EXAG.ZIN.3/8",
     "bulk": 100.0,
     "prices": {
@@ -51620,7 +51570,7 @@
     }
   },
   "ISA2077": {
-    "name": "BULON.C/EXA.USS.7/16x1\"   (11)x25mm",
+    "name": "BULON C/HEXA USS 7/16 x1 (11) x25mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51630,7 +51580,7 @@
     }
   },
   "ISA2078": {
-    "name": "BULON.C/EXA.USS.7/16x1\"1/4(11)x32mm",
+    "name": "BULON C/HEXA USS 7/16 x11/4 (11) x32mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51640,7 +51590,7 @@
     }
   },
   "ISA2079": {
-    "name": "BULON.C/EXA.USS.7/16x1\"1/2(11)x38mm",
+    "name": "BULON C/HEXA USS 7/16 x11/2 (11) x38mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51650,7 +51600,7 @@
     }
   },
   "ISA2080": {
-    "name": "BULON.C/EXA.USS.7/16x1\"3/4(11)x44mm",
+    "name": "BULON C/HEXA USS 7/16 x13/4 (11) x44mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51660,7 +51610,7 @@
     }
   },
   "ISA2081": {
-    "name": "BULON.C/EXA.USS.7/16x2\"   (11)x50mm",
+    "name": "BULON C/HEXA USS 7/16 x2 (11) x50mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51670,7 +51620,7 @@
     }
   },
   "ISA2082": {
-    "name": "BULON.C/EXA.USS.7/16x2\"1/4(11)x56mm",
+    "name": "BULON C/HEXA USS 7/16 x21/4 (11) x56mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51680,7 +51630,7 @@
     }
   },
   "ISA2083": {
-    "name": "BULON.C/EXA.USS.7/16x2\"1/2(11)x63mm",
+    "name": "BULON C/HEXA USS 7/16 x21/2 (11) x63mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51690,7 +51640,7 @@
     }
   },
   "ISA2084": {
-    "name": "BULON.C/EXA.USS.7/16x2\"3/4(11)x70mm",
+    "name": "BULON C/HEXA USS 7/16 x23/4 (11) x70mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51700,7 +51650,7 @@
     }
   },
   "ISA2085": {
-    "name": "BULON.C/EXA.USS.7/16x3\"   (11)x76mm",
+    "name": "BULON C/HEXA USS 7/16 x3 (11) x76mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51710,7 +51660,7 @@
     }
   },
   "ISA2086": {
-    "name": "BULON.C/EXA.USS.7/16x3\"1/4(11)x82mm",
+    "name": "BULON C/HEXA USS 7/16 x31/4 (11) x82mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51720,7 +51670,7 @@
     }
   },
   "ISA2087": {
-    "name": "BULON.C/EXA.USS.7/16x3\"1/2(11)x90mm",
+    "name": "BULON C/HEXA USS 7/16 x31/2 (11) x90mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51730,7 +51680,7 @@
     }
   },
   "ISA2088": {
-    "name": "BULON.C/EXA.USS.7/16x4\"   (11)x100mm",
+    "name": "BULON C/HEXA USS 7/16 x4 (11) x100mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51740,7 +51690,7 @@
     }
   },
   "ISA2089": {
-    "name": "BULON.C/EXA.USS.7/16x4\"1/2(11)x110mm",
+    "name": "BULON C/HEXA USS 7/16 x41/2 (11) x110mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 100.0,
     "prices": {
@@ -51750,7 +51700,7 @@
     }
   },
   "ISA2090": {
-    "name": "BULON.C/EXA.USS.7/16x5\"   (11)x000mm",
+    "name": "BULON C/HEXA USS 7/16 x5 (11) x000mm",
     "category": "6.BULON EXAG.ZIN.7/16",
     "bulk": 50.0,
     "prices": {
@@ -51760,7 +51710,7 @@
     }
   },
   "ISA2096": {
-    "name": "BULON.C/EXA.USS.1/2x1\"    (12)x25mm",
+    "name": "BULON C/HEXA USS 1/2 x1 (12) x25mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 100.0,
     "prices": {
@@ -51770,7 +51720,7 @@
     }
   },
   "ISA2097": {
-    "name": "BULON.C/EXA.USS.1/2x1\"1/4 (12)x32mm",
+    "name": "BULON C/HEXA USS 1/2 x11/4 (12) x32mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 100.0,
     "prices": {
@@ -51780,7 +51730,7 @@
     }
   },
   "ISA2098": {
-    "name": "BULON.C/EXA.USS.1/2x1\"1/2 (12)x38mm",
+    "name": "BULON C/HEXA USS 1/2 x11/2 (12) x38mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 100.0,
     "prices": {
@@ -51790,7 +51740,7 @@
     }
   },
   "ISA2099": {
-    "name": "BULON.C/EXA.USS.1/2x1\"3/4 (12)x44mm",
+    "name": "BULON C/HEXA USS 1/2 x13/4 (12) x44mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 100.0,
     "prices": {
@@ -51800,7 +51750,7 @@
     }
   },
   "ISA2100": {
-    "name": "BULON.C/EXA.USS.1/2x2\"    (12)x50mm",
+    "name": "BULON C/HEXA USS 1/2 x2 (12) x50mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 100.0,
     "prices": {
@@ -51810,7 +51760,7 @@
     }
   },
   "ISA2102": {
-    "name": "BULON.C/EXA.USS.1/2x2\"1/4 (12)x56mm",
+    "name": "BULON C/HEXA USS 1/2 x21/4 (12) x56mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51820,7 +51770,7 @@
     }
   },
   "ISA2103": {
-    "name": "BULON.C/EXA.USS.1/2x2\"1/2 (12)x63mm",
+    "name": "BULON C/HEXA USS 1/2 x21/2 (12) x63mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51830,7 +51780,7 @@
     }
   },
   "ISA2104": {
-    "name": "BULON.C/EXA.USS.1/2x2\"3/4 (12)x70mm",
+    "name": "BULON C/HEXA USS 1/2 x23/4 (12) x70mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51840,7 +51790,7 @@
     }
   },
   "ISA2105": {
-    "name": "BULON.C/EXA.USS.1/2x3\"    (12)x76mm",
+    "name": "BULON C/HEXA USS 1/2x3 (12) x76mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51850,7 +51800,7 @@
     }
   },
   "ISA2106": {
-    "name": "BULON.C/EXA.USS.1/2x3\"1/4 (12)x82mm",
+    "name": "BULON C/HEXA USS 1/2 x31/4 (12) x82mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51860,7 +51810,7 @@
     }
   },
   "ISA2107": {
-    "name": "BULON.C/EXA.USS.1/2x3\"1/2 (12)x90mm",
+    "name": "BULON C/HEXA USS 1/2 x31/2 (12) x90mm",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51870,7 +51820,7 @@
     }
   },
   "ISA2108": {
-    "name": "BULON.C/EXA.USS.1/2x4\"    (12)x100m",
+    "name": "BULON C/HEXA USS 1/2x4 (12) x100m",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51880,7 +51830,7 @@
     }
   },
   "ISA2109": {
-    "name": "BULON.C/EXA.USS.1/2x4\"1/2 (12)x110m",
+    "name": "BULON C/HEXA USS 1/2 x41/2 (12) x110m",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51890,7 +51840,7 @@
     }
   },
   "ISA2110": {
-    "name": "BULON.C/EXA.USS.1/2x5\"    (12)x120m",
+    "name": "BULON C/HEXA USS 1/2 x5 (12) x120m",
     "category": "6.BULON EXAG.ZIN.1/2",
     "bulk": 50.0,
     "prices": {
@@ -51900,7 +51850,7 @@
     }
   },
   "ISAALAG14": {
-    "name": "ALAMBRE GALV.N\u00ba14 ROLLOx1Kgx10un AB",
+    "name": "ALAMBRE GALV N\u00ba14 ROLLO x1Kg x10un AB",
     "category": "8.ALAMBRE GALVANIZ.AB",
     "bulk": 10.0,
     "prices": {
@@ -51910,7 +51860,7 @@
     }
   },
   "ISAALAG16": {
-    "name": "ALAMBRE GALV.N\u00ba16 ROLLOx1Kgx10un AB",
+    "name": "ALAMBRE GALV N\u00ba16 ROLLO x1Kg x10un AB",
     "category": "8.ALAMBRE GALVANIZ.AB",
     "bulk": 10.0,
     "prices": {
@@ -51920,7 +51870,7 @@
     }
   },
   "ISAALAMF14": {
-    "name": "ALAMBRE FARDO N\u00ba14x 1Kg.SOLDAR ISADAR",
+    "name": "ALAMBRE FARDO N\u00ba14x 1Kg SOLDAR ISADAR",
     "category": "8.ALAMBRE DE FARDO AB",
     "bulk": 10.0,
     "prices": {
@@ -51930,7 +51880,7 @@
     }
   },
   "ISAALAMF16": {
-    "name": "ALAMBRE FARDO N\u00ba16x 1Kg.x10u.  ISADAR",
+    "name": "ALAMBRE FARDO N\u00ba16x 1Kg x10u ISADAR",
     "category": "8.ALAMBRE DE FARDO AB",
     "bulk": 10.0,
     "prices": {
@@ -51940,7 +51890,7 @@
     }
   },
   "ISAARA6001": {
-    "name": "ARAND.PLNA COM/ZINC.1/8x1400uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 1/8 x1400u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 0.0,
     "prices": {
@@ -51950,7 +51900,7 @@
     }
   },
   "ISAARA6002": {
-    "name": "ARAND.PLNA COM/ZINC.5/32x1400uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 5/32 x1400u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -51960,7 +51910,7 @@
     }
   },
   "ISAARA6003": {
-    "name": "ARAND.PLNA COM/ZINC.3/16x1100uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 3/16 x1100u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -51970,7 +51920,7 @@
     }
   },
   "ISAARA6004": {
-    "name": "ARAND.PLNA COM/ZINC.1/4 x 470uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 1/4 x470u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -51980,7 +51930,7 @@
     }
   },
   "ISAARA6005": {
-    "name": "ARAND.PLNA COM/ZINC.5/16x 280uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 5/16 x280u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -51990,7 +51940,7 @@
     }
   },
   "ISAARA6006": {
-    "name": "ARAND.PLNA COM/ZINC.3/8 x 160uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 3/8 x160u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52000,7 +51950,7 @@
     }
   },
   "ISAARA6007": {
-    "name": "ARAND.PLNA COM/ZINC.7/16x 120uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 7/16 x120u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52010,7 +51960,7 @@
     }
   },
   "ISAARA6008": {
-    "name": "ARAND.PLNA COM/ZINC.1/2 x  95uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 1/2 x95u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52020,7 +51970,7 @@
     }
   },
   "ISAARA6009": {
-    "name": "ARAND.PLNA COM/ZINC.9/16x  60uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 9/16 x60u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52030,7 +51980,7 @@
     }
   },
   "ISAARA6010": {
-    "name": "ARAND.PLNA COM/ZINC.5/8 x  50uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 5/8 x50u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52040,7 +51990,7 @@
     }
   },
   "ISAARA6011": {
-    "name": "ARAND.PLNA COM/ZINC.3/4 x  40uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 3/4 x40u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52050,7 +52000,7 @@
     }
   },
   "ISAARA6012": {
-    "name": "ARAND.PLNA COM/ZINC.7/8 x  25uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 7/8 x25u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52060,7 +52010,7 @@
     }
   },
   "ISAARA6013": {
-    "name": "ARAND.PLNA COM/ZINC. 1\" x  20uCj2Kg",
+    "name": "ARAND PLNA COM/ZINC 1 x20u Cj2Kg",
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
@@ -52070,7 +52020,7 @@
     }
   },
   "ISAARACHAP1": {
-    "name": "ARAND.PLNA/CHAP.  1\"x55 x 12u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 1 x55 x12u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52080,7 +52030,7 @@
     }
   },
   "ISAARACHAP1/2": {
-    "name": "ARAND.PLNA/CHAP.1/2 x55 x 40u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 1/2 x55 x40u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52090,7 +52040,7 @@
     }
   },
   "ISAARACHAP1/4": {
-    "name": "ARAND.PLNA/CHAP.1/4 x28 x180u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 1/4 x28 x180u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52100,7 +52050,7 @@
     }
   },
   "ISAARACHAP3/16": {
-    "name": "ARAND.PLNA/CHAP.3/16x20 x350u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 3/16 x20 x350u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52110,7 +52060,7 @@
     }
   },
   "ISAARACHAP3/4": {
-    "name": "ARAND.PLNA/CHAP.3/4 x55 x 16u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 3/4 x55 x16u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52120,7 +52070,7 @@
     }
   },
   "ISAARACHAP3/8": {
-    "name": "ARAND.PLNA/CHAP.3/8 x39 x 60u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 3/8 x39 x60u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52130,7 +52080,7 @@
     }
   },
   "ISAARACHAP5/16": {
-    "name": "ARAND.PLNA/CHAP.5/16x39 x 70u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 5/16 x39 x70u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52140,7 +52090,7 @@
     }
   },
   "ISAARACHAP5/8": {
-    "name": "ARAND.PLNA/CHAP.5/8 x55 x 17u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 5/8 x55 x17u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52150,7 +52100,7 @@
     }
   },
   "ISAARACHAP7/16": {
-    "name": "ARAND.PLNA/CHAP.7/16x39 x 45u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 7/16 x39 x45u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52160,7 +52110,7 @@
     }
   },
   "ISAARACHAP7/8": {
-    "name": "ARAND.PLNA/CHAP.7/8 x55 x 14u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 7/8 x55 x14u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52170,7 +52120,7 @@
     }
   },
   "ISAARACHAP9/16": {
-    "name": "ARAND.PLNA/CHAP.9/16x55 x 18u Cj2Kg",
+    "name": "ARAND PLNA/CHAP 9/16 x55 x18u Cj2Kg",
     "category": "6.ARANDELA PLANA CHAPISTA",
     "bulk": 2.0,
     "prices": {
@@ -52180,7 +52130,7 @@
     }
   },
   "ISAARAGROW1": {
-    "name": "ARANDELA GROWER/PULG. 1 \" .Cjx100un",
+    "name": "ARANDELA GROWER/PULG. 1 .Cjx100un",
     "category": "6.ARANDELA GROWER/PULGAD",
     "bulk": 200.0,
     "prices": {
@@ -52310,7 +52260,7 @@
     }
   },
   "ISABCR1827": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x 1\"  (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x1 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52320,7 +52270,7 @@
     }
   },
   "ISABCR1828": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x11/4 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x11/4 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52330,7 +52280,7 @@
     }
   },
   "ISABCR1829": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x11/2 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x11/2 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52340,7 +52290,7 @@
     }
   },
   "ISABCR1830": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x13/4 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x13/4 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52350,7 +52300,7 @@
     }
   },
   "ISABCR1831": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x2\"   (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x2 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52360,7 +52310,7 @@
     }
   },
   "ISABCR1832": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x21/4 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x21/4 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52370,7 +52320,7 @@
     }
   },
   "ISABCR1833": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x21/2 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x21/2 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52380,7 +52330,7 @@
     }
   },
   "ISABCR1834": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x23/4 (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x23/4 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52390,7 +52340,7 @@
     }
   },
   "ISABCR1835": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x3\"   (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x3 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52400,7 +52350,7 @@
     }
   },
   "ISABCR1837": {
-    "name": "BULON.CAB/RED.CU.CUA.1/4 x4\"   (07)",
+    "name": "BULON CAB/RED CU CUA 1/4 x4 (07)",
     "category": "6.BULON.C/RED.C/CUAD.7",
     "bulk": 100.0,
     "prices": {
@@ -52410,7 +52360,7 @@
     }
   },
   "ISABCR1852": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x1\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x1 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52420,7 +52370,7 @@
     }
   },
   "ISABCR1853": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x11/4 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x11/4 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52430,7 +52380,7 @@
     }
   },
   "ISABCR1854": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x11/2 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x11/2 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52440,7 +52390,7 @@
     }
   },
   "ISABCR1855": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x13/4 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x13/4 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52450,7 +52400,7 @@
     }
   },
   "ISABCR1856": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x2\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x2 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52460,7 +52410,7 @@
     }
   },
   "ISABCR1857": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x21/4 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x21/4 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52470,7 +52420,7 @@
     }
   },
   "ISABCR1858": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x21/2 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x21/2 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52480,7 +52430,7 @@
     }
   },
   "ISABCR1859": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x23/4 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x23/4 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52490,7 +52440,7 @@
     }
   },
   "ISABCR1860": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x3\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x3 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52500,7 +52450,7 @@
     }
   },
   "ISABCR1863": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x4\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x4 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52510,7 +52460,7 @@
     }
   },
   "ISABCR1864": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x41/2 (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x41/2 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52520,7 +52470,7 @@
     }
   },
   "ISABCR1865": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x5\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x5 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52530,7 +52480,7 @@
     }
   },
   "ISABCR1868": {
-    "name": "BULON.CAB/RED.CU.CUA.5/16x7\"   (08)",
+    "name": "BULON CAB/RED CU CUA 5/16 x7 (08)",
     "category": "6.BULON.C/RED.C/CUAD.8",
     "bulk": 100.0,
     "prices": {
@@ -52540,7 +52490,7 @@
     }
   },
   "ISABCR1881": {
-    "name": "BULON.CAB/RED.CU.CUA.3/8 x2\"   (09)",
+    "name": "BULON CAB/RED CU CUA 3/8 x2 (09)",
     "category": "6.BULON.C/RED.C/CUAD.9",
     "bulk": 100.0,
     "prices": {
@@ -52550,7 +52500,7 @@
     }
   },
   "ISABCR1882": {
-    "name": "BULON.CAB/RED.CU.CUA.3/8 x2 1/2\"   (09)",
+    "name": "BULON CAB/RED CU CUA 3/8 x2 1/2 (09)",
     "category": "6.BULON.C/RED.C/CUAD.9",
     "bulk": 0.0,
     "prices": {
@@ -52560,7 +52510,7 @@
     }
   },
   "ISABCR1888": {
-    "name": "BULON.CAB/RED.CU.CUA.3/8 x4\"   (09)",
+    "name": "BULON CAB/RED CU CUA 3/8 x4 (09)",
     "category": "6.BULON.C/RED.C/CUAD.9",
     "bulk": 100.0,
     "prices": {
@@ -52570,7 +52520,7 @@
     }
   },
   "ISABROC1/2IM": {
-    "name": "BROCA ANCLAJE 1/2\" IMx100u. FISCHER",
+    "name": "BROCA ANCLAJE 1/2\" IM x100u FISCHER",
     "category": "6.BROCA IM FISCHER",
     "bulk": 50.0,
     "prices": {
@@ -52580,7 +52530,7 @@
     }
   },
   "ISABROC1/4IM": {
-    "name": "BROCA ANCLAJE 1/4\" IMx100u. FISCHER",
+    "name": "BROCA ANCLAJE 1/4\" IM x100u FISCHER",
     "category": "6.BROCA IM FISCHER",
     "bulk": 100.0,
     "prices": {
@@ -52590,7 +52540,7 @@
     }
   },
   "ISABROC3/8IM": {
-    "name": "BROCA ANCLAJE 3/8\" IMx100u. FISCHER",
+    "name": "BROCA ANCLAJE 3/8\" IM x100u FISCHER",
     "category": "6.BROCA IM FISCHER",
     "bulk": 100.0,
     "prices": {
@@ -52600,7 +52550,7 @@
     }
   },
   "ISABROC5/16IM": {
-    "name": "BROCA ANCLAJE 5/16\"IMx100u. FISCHER",
+    "name": "BROCA ANCLAJE 5/16\" IM x100u FISCHER",
     "category": "6.BROCA IM FISCHER",
     "bulk": 100.0,
     "prices": {
@@ -52840,7 +52790,7 @@
     }
   },
   "ISATIR3616": {
-    "name": "TIRAFONDO ZINC.3/16x1\"   (25m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x1 (25m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52850,7 +52800,7 @@
     }
   },
   "ISATIR3617": {
-    "name": "TIRAFONDO ZINC.3/16x1\"1/4(32m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x11/4 (32m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52860,7 +52810,7 @@
     }
   },
   "ISATIR3618": {
-    "name": "TIRAFONDO ZINC.3/16x1\"1/2(38m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x11/2 (38m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52870,7 +52820,7 @@
     }
   },
   "ISATIR3619": {
-    "name": "TIRAFONDO ZINC.3/16x1\"3/4(44m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x13/4 (44m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52880,7 +52830,7 @@
     }
   },
   "ISATIR3620": {
-    "name": "TIRAFONDO ZINC.3/16x2\"   (50m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x2 (50m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52890,7 +52840,7 @@
     }
   },
   "ISATIR3621": {
-    "name": "TIRAFONDO ZINC.3/16x2\"1/4(56m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x21/4 (56m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52900,7 +52850,7 @@
     }
   },
   "ISATIR3622": {
-    "name": "TIRAFONDO ZINC.3/16x2\"1/2(63m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x21/2 (63m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52910,7 +52860,7 @@
     }
   },
   "ISATIR3623": {
-    "name": "TIRAFONDO ZINC.3/16x2\"3/4(70m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x23/4 (70m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52920,7 +52870,7 @@
     }
   },
   "ISATIR3624": {
-    "name": "TIRAFONDO ZINC.3/16x3\"   (76m)x100u",
+    "name": "TIRAFONDO ZINC 3/16 x3 (76m) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/16",
     "bulk": 100.0,
     "prices": {
@@ -52930,7 +52880,7 @@
     }
   },
   "ISATIR3625": {
-    "name": "TIRAFONDO ZINC.1/4 x1\"   (25m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x1 (25m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52940,7 +52890,7 @@
     }
   },
   "ISATIR3626": {
-    "name": "TIRAFONDO ZINC.1/4 x1\"1/4(32m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x11/4 (32m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52950,7 +52900,7 @@
     }
   },
   "ISATIR3627": {
-    "name": "TIRAFONDO ZINC.1/4 x1\"1/2(38m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x11/2 (38m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52960,7 +52910,7 @@
     }
   },
   "ISATIR3628": {
-    "name": "TIRAFONDO ZINC.1/4 x1\"3/4(44m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x13/4 (44m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52970,7 +52920,7 @@
     }
   },
   "ISATIR3629": {
-    "name": "TIRAFONDO ZINC.1/4 x2\"   (50m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x2 (50m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52980,7 +52930,7 @@
     }
   },
   "ISATIR3630": {
-    "name": "TIRAFONDO ZINC.1/4 x2\"1/4(56m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x21/4 (56m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -52990,7 +52940,7 @@
     }
   },
   "ISATIR3631": {
-    "name": "TIRAFONDO ZINC.1/4 x2\"1/2(63m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x21/2 (63m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53000,7 +52950,7 @@
     }
   },
   "ISATIR3632": {
-    "name": "TIRAFONDO ZINC.1/4 x2\"3/4(70m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x23/4 (70m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53010,7 +52960,7 @@
     }
   },
   "ISATIR3633": {
-    "name": "TIRAFONDO ZINC.1/4 x3\"   (76m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x3 (76m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53020,7 +52970,7 @@
     }
   },
   "ISATIR3634": {
-    "name": "TIRAFONDO ZINC.1/4 x3\"1/4(82m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x31/4 (82m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53030,7 +52980,7 @@
     }
   },
   "ISATIR3635": {
-    "name": "TIRAFONDO ZINC.1/4 x3\"1/2(90m)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x31/2 (90m) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53040,7 +52990,7 @@
     }
   },
   "ISATIR3636": {
-    "name": "TIRAFONDO ZINC.1/4 x4\"   (100)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x4 (100) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53050,7 +53000,7 @@
     }
   },
   "ISATIR3637": {
-    "name": "TIRAFONDO ZINC.1/4 x4\"1/2(110)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x41/2 (110) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53060,7 +53010,7 @@
     }
   },
   "ISATIR3638": {
-    "name": "TIRAFONDO ZINC.1/4 x5\"   (125)x100u",
+    "name": "TIRAFONDO ZINC 1/4 x5 (125) x100u",
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
@@ -53070,7 +53020,7 @@
     }
   },
   "ISATIR3651": {
-    "name": "TIRAFONDO ZINC.5/16x1\"1/4(32m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x11/4 (32m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53080,7 +53030,7 @@
     }
   },
   "ISATIR3652": {
-    "name": "TIRAFONDO ZINC.5/16x1\"1/2(38m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x11/2 (38m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53090,7 +53040,7 @@
     }
   },
   "ISATIR3653": {
-    "name": "TIRAFONDO ZINC.5/16x1\"3/4(44m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x13/4 (44m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53100,7 +53050,7 @@
     }
   },
   "ISATIR3654": {
-    "name": "TIRAFONDO ZINC.5/16x2\"   (50m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x2 (50m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53110,7 +53060,7 @@
     }
   },
   "ISATIR3655": {
-    "name": "TIRAFONDO ZINC.5/16x2\"1/4(56m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x21/4 (56m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53120,7 +53070,7 @@
     }
   },
   "ISATIR3656": {
-    "name": "TIRAFONDO ZINC.5/16x2\"1/2(63m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x21/2 (63m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53130,7 +53080,7 @@
     }
   },
   "ISATIR3657": {
-    "name": "TIRAFONDO ZINC.5/16x2\"3/4(70m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x23/4 (70m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53140,7 +53090,7 @@
     }
   },
   "ISATIR3658": {
-    "name": "TIRAFONDO ZINC.5/16x3\"   (76m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x3 (76m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53150,7 +53100,7 @@
     }
   },
   "ISATIR3659": {
-    "name": "TIRAFONDO ZINC.5/16x3\"1/4(82m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x31/4 (82m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53160,7 +53110,7 @@
     }
   },
   "ISATIR3660": {
-    "name": "TIRAFONDO ZINC.5/16x3\"1/2(90m)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x31/2 (90m) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53170,7 +53120,7 @@
     }
   },
   "ISATIR3662": {
-    "name": "TIRAFONDO ZINC.5/16x4\"   (100)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x4 (100) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53180,7 +53130,7 @@
     }
   },
   "ISATIR3663": {
-    "name": "TIRAFONDO ZINC.5/16x4\"1/2(110)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x41/2 (110) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53190,7 +53140,7 @@
     }
   },
   "ISATIR3664": {
-    "name": "TIRAFONDO ZINC.5/16x5\"   (125)x100u",
+    "name": "TIRAFONDO ZINC 5/16 x5 (125) x100u",
     "category": "6.TORNILLO TIRAFONDO 5/16",
     "bulk": 100.0,
     "prices": {
@@ -53200,7 +53150,7 @@
     }
   },
   "ISATIR3677": {
-    "name": "TIRAFONDO ZINC.3/8x11/2  (038)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x11/2 (038) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53210,7 +53160,7 @@
     }
   },
   "ISATIR3678": {
-    "name": "TIRAFONDO ZINC.3/8x13/4  (044)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x13/4 (044) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53220,7 +53170,7 @@
     }
   },
   "ISATIR3679": {
-    "name": "TIRAFONDO ZINC.3/8x2 \"   (050)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x2 (050) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53230,7 +53180,7 @@
     }
   },
   "ISATIR3680": {
-    "name": "TIRAFONDO ZINC.3/8x21/4  (056)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x21/4 (056) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53240,7 +53190,7 @@
     }
   },
   "ISATIR3681": {
-    "name": "TIRAFONDO ZINC.3/8x21/2  (063)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x21/2 (063) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53250,7 +53200,7 @@
     }
   },
   "ISATIR3682": {
-    "name": "TIRAFONDO ZINC.3/8x23/4  (070)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x23/4 (070) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53260,7 +53210,7 @@
     }
   },
   "ISATIR3683": {
-    "name": "TIRAFONDO ZINC.3/8x3 \"   (076)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x3 (076) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53270,7 +53220,7 @@
     }
   },
   "ISATIR3684": {
-    "name": "TIRAFONDO ZINC.3/8x31/4  (082)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x31/4 (082) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53280,7 +53230,7 @@
     }
   },
   "ISATIR3685": {
-    "name": "TIRAFONDO ZINC.3/8x31/2  (090)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x31/2 (090) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53290,7 +53240,7 @@
     }
   },
   "ISATIR3687": {
-    "name": "TIRAFONDO ZINC.3/8x4 \"   (100)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x4 (100) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53300,7 +53250,7 @@
     }
   },
   "ISATIR3688": {
-    "name": "TIRAFONDO ZINC.3/8x41/2  (110)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x41/2 (110) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53310,7 +53260,7 @@
     }
   },
   "ISATIR3689": {
-    "name": "TIRAFONDO ZINC.3/8x5 \"   (125)x100u",
+    "name": "TIRAFONDO ZINC 3/8 x5 (125) x100u",
     "category": "6.TORNILLO TIRAFONDO 3/8",
     "bulk": 100.0,
     "prices": {
@@ -53320,7 +53270,7 @@
     }
   },
   "ISATUAF12": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.1/2  \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 1/2 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53330,7 +53280,7 @@
     }
   },
   "ISATUAF14": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.1/4  \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 1/4 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53340,7 +53290,7 @@
     }
   },
   "ISATUAF316": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.3/16 \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 3/16 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53350,7 +53300,7 @@
     }
   },
   "ISATUAF38": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.3/8  \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 3/8 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53360,7 +53310,7 @@
     }
   },
   "ISATUAF516": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.5/16 \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 5/16 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53370,7 +53320,7 @@
     }
   },
   "ISATUAF58": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.5/8  \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 5/8 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 50.0,
     "prices": {
@@ -53380,7 +53330,7 @@
     }
   },
   "ISATUAF716": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.7/16 \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 7/16 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53390,7 +53340,7 @@
     }
   },
   "ISATUAF916": {
-    "name": "TUERCA AUTOFRE.UNC/WHT.ZIN.9/16 \"AB",
+    "name": "TUERCA AUTOFRE UNC/WHT ZIN 9/16 \"AB",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53400,7 +53350,7 @@
     }
   },
   "ISATUE5051": {
-    "name": "TUERCA UNC/WHT.ZIN.1/8\"(12000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 1/8 (12000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 0.0,
     "prices": {
@@ -53410,7 +53360,7 @@
     }
   },
   "ISATUE5052": {
-    "name": "TUERCA UNC/WHT.ZIN.5/32\"(12000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 5/32 (12000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 200.0,
     "prices": {
@@ -53420,7 +53370,7 @@
     }
   },
   "ISATUE5053": {
-    "name": "TUERCA UNC/WHT.ZIN.3/16\"(12000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 3/16 (12000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 200.0,
     "prices": {
@@ -53430,7 +53380,7 @@
     }
   },
   "ISATUE5054": {
-    "name": "TUERCA UNC/WHT.ZIN.1/4 \"( 8000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 1/4 (8000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53440,7 +53390,7 @@
     }
   },
   "ISATUE5055": {
-    "name": "TUERCA UNC/WHT.ZIN.5/16\"( 5000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 5/16 (5000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53450,7 +53400,7 @@
     }
   },
   "ISATUE5056": {
-    "name": "TUERCA UNC/WHT.ZIN.3/8 \"( 3500) A/B",
+    "name": "TUERCA UNC/WHT ZIN 3/8 (3500) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53460,7 +53410,7 @@
     }
   },
   "ISATUE5057": {
-    "name": "TUERCA UNC/WHT.ZIN.7/16\"( 2000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 7/16 (2000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53470,7 +53420,7 @@
     }
   },
   "ISATUE5058": {
-    "name": "TUERCA UNC/WHT.ZIN.1/2 \"( 1400) A/B",
+    "name": "TUERCA UNC/WHT ZIN 1/2 (1400) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53480,7 +53430,7 @@
     }
   },
   "ISATUE5059": {
-    "name": "TUERCA UNC/WHT.ZIN.9/16\"(1000) A/B",
+    "name": "TUERCA UNC/WHT ZIN 9/16 (1000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53490,7 +53440,7 @@
     }
   },
   "ISATUE5060": {
-    "name": "TUERCA UNC/WHT.ZIN.5/8 \"( 700)  A/B",
+    "name": "TUERCA UNC/WHT ZIN 5/8 (700) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53500,7 +53450,7 @@
     }
   },
   "ISATUE5061": {
-    "name": "TUERCA UNC/WHT.ZIN.3/4 \"(  400) A/B",
+    "name": "TUERCA UNC/WHT ZIN 3/4 (400) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 25.0,
     "prices": {
@@ -53510,7 +53460,7 @@
     }
   },
   "ISATUE5062": {
-    "name": "TUERCA UNC/WHT.ZIN.7/8 \"(  300) A/B",
+    "name": "TUERCA UNC/WHT ZIN 7/8 (300) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53520,7 +53470,7 @@
     }
   },
   "ISATUE5063": {
-    "name": "TUERCA UNC/WHT.ZIN. 1  \"(  150) A/B",
+    "name": "TUERCA UNC/WHT ZIN 1 (150) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
     "bulk": 100.0,
     "prices": {
@@ -53530,7 +53480,7 @@
     }
   },
   "ISATUE5450": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo 5x0.80",
+    "name": "TUERCA MIL G8 MA P/Gzo 5 x0.80",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53540,7 +53490,7 @@
     }
   },
   "ISATUE5451": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo 6x1.00",
+    "name": "TUERCA MIL G8 MA P/Gzo 6 x1.00",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53550,7 +53500,7 @@
     }
   },
   "ISATUE5452": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo 7x1.00",
+    "name": "TUERCA MIL G8 MA P/Gzo 7 x1.00",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53560,7 +53510,7 @@
     }
   },
   "ISATUE5453": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo 8x1.25",
+    "name": "TUERCA MIL G8 MA P/Gzo 8 x1.25",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53570,7 +53520,7 @@
     }
   },
   "ISATUE5455": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo10x1.50",
+    "name": "TUERCA MIL G8 MA P/Gzo 10 x1.50",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53580,7 +53530,7 @@
     }
   },
   "ISATUE5458": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo12x1.75",
+    "name": "TUERCA MIL G8 MA P/Gzo 12 x1.75",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53590,7 +53540,7 @@
     }
   },
   "ISATUE5460": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo14x2.00",
+    "name": "TUERCA MIL G8 MA P/Gzo 14 x2.00",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53600,7 +53550,7 @@
     }
   },
   "ISATUE5464": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo18x2.50",
+    "name": "TUERCA MIL G8 MA P/Gzo 18 x2.50",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53610,7 +53560,7 @@
     }
   },
   "ISATUE5466": {
-    "name": "TUERCA MIL.ACER.G8 MA P/Gzo20x2.50",
+    "name": "TUERCA MIL G8 MA P/Gzo 20 x2.50",
     "category": "6.TUER.MILIM.G8 MA P/GRZO",
     "bulk": 100.0,
     "prices": {
@@ -53620,7 +53570,7 @@
     }
   },
   "ISATUE5474": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino10x1.25",
+    "name": "TUERCA MIL G8 MB P/Fino 10 x1.25",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53630,7 +53580,7 @@
     }
   },
   "ISATUE5477": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino12x1.50",
+    "name": "TUERCA MIL ACER G8 MB P/Fino 12 x1.50",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53640,7 +53590,7 @@
     }
   },
   "ISATUE5479": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino14x1",
+    "name": "TUERCA MIL ACER G8 MB P/Fino 14 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53650,7 +53600,7 @@
     }
   },
   "ISATUE5481": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino16x1",
+    "name": "TUERCA MIL ACER G8 MB P/Fino 16 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53660,7 +53610,7 @@
     }
   },
   "ISATUE5483": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino18x1",
+    "name": "TUERCA MIL ACER G8 MB P/Fino 18 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53670,7 +53620,7 @@
     }
   },
   "ISATUE5485": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino20x1",
+    "name": "TUERCA MIL ACER G8 MB P/Fino 20 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53680,7 +53630,7 @@
     }
   },
   "ISATUE5487": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino22x1",
+    "name": "TUERCA MIL G8 MB P/Fino 22 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -53690,7 +53640,7 @@
     }
   },
   "ISATUE5489": {
-    "name": "TUERCA MIL.ACER.G8 MB P/Fino24x1",
+    "name": "TUERCA MIL G8 MB P/Fino 24 x1",
     "category": "6.TUER.MILIM.G8 MA P/FINO",
     "bulk": 100.0,
     "prices": {
@@ -57410,7 +57360,7 @@
     }
   },
   "LH8040120": {
-    "name": "TORNILLO FIX P/MADERA 4.0x12     LH",
+    "name": "TORNILLO FIX P/MADERA 4.0 x12 LH",
     "category": "6.TOR.FIX BRCEDO 4.0",
     "bulk": 20000.0,
     "prices": {
@@ -62860,7 +62810,7 @@
     }
   },
   "MAX2510": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x1/4 \"(07)",
+    "name": "TORNI PARQUER C/COMBIN 4 x1/4 (07)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62870,7 +62820,7 @@
     }
   },
   "MAX2511": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x5/16\"(08)",
+    "name": "TORNI PARQUER C/COMBIN 4 x5/16 (08)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62880,7 +62830,7 @@
     }
   },
   "MAX2512": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x3/8 \"(09)",
+    "name": "TORNI PARQUER C/COMBIN 4 x3/8 (09)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62890,7 +62840,7 @@
     }
   },
   "MAX2513": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 4 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62900,7 +62850,7 @@
     }
   },
   "MAX2514": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 4 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62910,7 +62860,7 @@
     }
   },
   "MAX2515": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 4 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62920,7 +62870,7 @@
     }
   },
   "MAX2516": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 4 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62930,7 +62880,7 @@
     }
   },
   "MAX2517": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x1\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 4 x1 (32)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62940,7 +62890,7 @@
     }
   },
   "MAX2518": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 4 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62950,7 +62900,7 @@
     }
   },
   "MAX2519": {
-    "name": "TORNI.PARQUER C/COMBIN. 4x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 4 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB. 4",
     "bulk": 200.0,
     "prices": {
@@ -62960,7 +62910,7 @@
     }
   },
   "MAX2520": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x1/4 \"(07)",
+    "name": "TORNI PARQUER C/COMBIN 6 x1/4 (07)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -62970,7 +62920,7 @@
     }
   },
   "MAX2521": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x5/16\"(08)",
+    "name": "TORNI PARQUER C/COMBIN 6 x5/16 (08)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -62980,7 +62930,7 @@
     }
   },
   "MAX2522": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x3/8 \"(09)",
+    "name": "TORNI PARQUER C/COMBIN 6 x3/8 (09)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -62990,7 +62940,7 @@
     }
   },
   "MAX2523": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 6 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63000,7 +62950,7 @@
     }
   },
   "MAX2524": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 6 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63010,7 +62960,7 @@
     }
   },
   "MAX2525": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 6 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63020,7 +62970,7 @@
     }
   },
   "MAX2526": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 6 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63030,7 +62980,7 @@
     }
   },
   "MAX2527": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 6 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63040,7 +62990,7 @@
     }
   },
   "MAX2528": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 6 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63050,7 +63000,7 @@
     }
   },
   "MAX2529": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 6 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63060,7 +63010,7 @@
     }
   },
   "MAX2530": {
-    "name": "TORNI.PARQUER C/COMBIN. 6x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 6 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB. 6",
     "bulk": 200.0,
     "prices": {
@@ -63070,7 +63020,7 @@
     }
   },
   "MAX2533": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x1/4 \"(07)",
+    "name": "TORNI PARQUER C/COMBIN 7 x1/4 (07)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63080,7 +63030,7 @@
     }
   },
   "MAX2534": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x5/16\"(08)",
+    "name": "TORNI PARQUER C/COMBIN 7 x5/16 (08)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63090,7 +63040,7 @@
     }
   },
   "MAX2535": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x3/8 \"(09)",
+    "name": "TORNI PARQUER C/COMBIN 7 x3/8 (09)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63100,7 +63050,7 @@
     }
   },
   "MAX2536": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 7 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63110,7 +63060,7 @@
     }
   },
   "MAX2537": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 7 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63120,7 +63070,7 @@
     }
   },
   "MAX2538": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 7 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63130,7 +63080,7 @@
     }
   },
   "MAX2539": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 7 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63140,7 +63090,7 @@
     }
   },
   "MAX2540": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 7 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63150,7 +63100,7 @@
     }
   },
   "MAX2541": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 7 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63160,7 +63110,7 @@
     }
   },
   "MAX2542": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 7 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63170,7 +63120,7 @@
     }
   },
   "MAX2543": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 7 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63180,7 +63130,7 @@
     }
   },
   "MAX2544": {
-    "name": "TORNI.PARQUER C/COMBIN. 7x 2  \"(50)",
+    "name": "TORNI PARQUER C/COMBIN 7 x2 (50)",
     "category": "6.TORN.PARQUER C/COMB. 7",
     "bulk": 200.0,
     "prices": {
@@ -63190,7 +63140,7 @@
     }
   },
   "MAX2550": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x1/4 \"(07)",
+    "name": "TORNI PARQUER C/COMBIN 8 x1/4 (07)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63200,7 +63150,7 @@
     }
   },
   "MAX2551": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x5/16\"(08)",
+    "name": "TORNI PARQUER C/COMBIN 8 x5/16 (08)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63210,7 +63160,7 @@
     }
   },
   "MAX2552": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x3/8 \"(09)",
+    "name": "TORNI PARQUER C/COMBIN 8 x3/8 (09)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63220,7 +63170,7 @@
     }
   },
   "MAX2553": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 8 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63230,7 +63180,7 @@
     }
   },
   "MAX2554": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 8 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63240,7 +63190,7 @@
     }
   },
   "MAX2555": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 8 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63250,7 +63200,7 @@
     }
   },
   "MAX2556": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 8 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63260,7 +63210,7 @@
     }
   },
   "MAX2557": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 8 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63270,7 +63220,7 @@
     }
   },
   "MAX2558": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 8 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63280,7 +63230,7 @@
     }
   },
   "MAX2559": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 8 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63290,7 +63240,7 @@
     }
   },
   "MAX2560": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 8 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63300,7 +63250,7 @@
     }
   },
   "MAX2561": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x 2  \"(50)",
+    "name": "TORNI PARQUER C/COMBIN 8 x2 (50)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63310,7 +63260,7 @@
     }
   },
   "MAX2562": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x21/4\"(56)",
+    "name": "TORNI PARQUER C/COMBIN 8 x21/4 (56)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63320,7 +63270,7 @@
     }
   },
   "MAX2563": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x21/2\"(63)",
+    "name": "TORNI PARQUER C/COMBIN 8 x21/2 (63)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63330,7 +63280,7 @@
     }
   },
   "MAX2564": {
-    "name": "TORNI.PARQUER C/COMBIN. 8x 3  \"(63)",
+    "name": "TORNI PARQUER C/COMBIN 8 x3 (63)",
     "category": "6.TORN.PARQUER C/COMB. 8",
     "bulk": 200.0,
     "prices": {
@@ -63340,7 +63290,7 @@
     }
   },
   "MAX2565": {
-    "name": "TORNI.PARQUER C/COMBIN.10x3/8 \"(09)",
+    "name": "TORNI PARQUER C/COMBIN 10 x3/8 (09)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63350,7 +63300,7 @@
     }
   },
   "MAX2566": {
-    "name": "TORNI.PARQUER C/COMBIN.10x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 10 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63360,7 +63310,7 @@
     }
   },
   "MAX2567": {
-    "name": "TORNI.PARQUER C/COMBIN.10x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 10 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63370,7 +63320,7 @@
     }
   },
   "MAX2568": {
-    "name": "TORNI.PARQUER C/COMBIN.10x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 10 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63380,7 +63330,7 @@
     }
   },
   "MAX2569": {
-    "name": "TORNI.PARQUER C/COMBIN.10x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 10 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63390,7 +63340,7 @@
     }
   },
   "MAX2570": {
-    "name": "TORNI.PARQUER C/COMBIN.10x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 10 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63400,7 +63350,7 @@
     }
   },
   "MAX2571": {
-    "name": "TORNI.PARQUER C/COMBIN.10x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 10 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63410,7 +63360,7 @@
     }
   },
   "MAX2572": {
-    "name": "TORNI.PARQUER C/COMBIN.10x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 10 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63420,7 +63370,7 @@
     }
   },
   "MAX2573": {
-    "name": "TORNI.PARQUER C/COMBIN.10x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 10 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63430,7 +63380,7 @@
     }
   },
   "MAX2574": {
-    "name": "TORNI.PARQUER C/COMBIN.10x 2  \"(50)",
+    "name": "TORNI PARQUER C/COMBIN 10 x2 (50)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63440,7 +63390,7 @@
     }
   },
   "MAX2575": {
-    "name": "TORNI.PARQUER C/COMBIN.10x21/4\"(56)",
+    "name": "TORNI PARQUER C/COMBIN 10 x21/4 (56)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63450,7 +63400,7 @@
     }
   },
   "MAX2576": {
-    "name": "TORNI.PARQUER C/COMBIN.10x21/2\"(63)",
+    "name": "TORNI PARQUER C/COMBIN 10 x21/2 (63)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63460,7 +63410,7 @@
     }
   },
   "MAX2577": {
-    "name": "TORNI.PARQUER C/COMBIN.10x 3  \"(76)",
+    "name": "TORNI PARQUER C/COMBIN 10 x3 (76)",
     "category": "6.TORN.PARQUER C/COMB.10",
     "bulk": 200.0,
     "prices": {
@@ -63470,7 +63420,7 @@
     }
   },
   "MAX2580": {
-    "name": "TORNI.PARQUER C/COMBIN.12x1/2 \"(12)",
+    "name": "TORNI PARQUER C/COMBIN 12 x1/2 (12)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63480,7 +63430,7 @@
     }
   },
   "MAX2581": {
-    "name": "TORNI.PARQUER C/COMBIN.12x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 12 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63490,7 +63440,7 @@
     }
   },
   "MAX2582": {
-    "name": "TORNI.PARQUER C/COMBIN.12x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 12 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63500,7 +63450,7 @@
     }
   },
   "MAX2583": {
-    "name": "TORNI.PARQUER C/COMBIN.12x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 12 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63510,7 +63460,7 @@
     }
   },
   "MAX2584": {
-    "name": "TORNI.PARQUER C/COMBIN.12x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 12 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63520,7 +63470,7 @@
     }
   },
   "MAX2585": {
-    "name": "TORNI.PARQUER C/COMBIN.12x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 12 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63530,7 +63480,7 @@
     }
   },
   "MAX2586": {
-    "name": "TORNI.PARQUER C/COMBIN.12x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 12 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63540,7 +63490,7 @@
     }
   },
   "MAX2587": {
-    "name": "TORNI.PARQUER C/COMBIN.12x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 12 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63550,7 +63500,7 @@
     }
   },
   "MAX2588": {
-    "name": "TORNI.PARQUER C/COMBIN.12x 2  \"(50)",
+    "name": "TORNI PARQUER C/COMBIN 12 x2 (50)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63560,7 +63510,7 @@
     }
   },
   "MAX2589": {
-    "name": "TORNI.PARQUER C/COMBIN.12x21/4\"(56)",
+    "name": "TORNI PARQUER C/COMBIN 12 x21/4 (56)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63570,7 +63520,7 @@
     }
   },
   "MAX2590": {
-    "name": "TORNI.PARQUER C/COMBIN.12x21/2\"(63)",
+    "name": "TORNI PARQUER C/COMBIN 12 x21/2 (63)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63580,7 +63530,7 @@
     }
   },
   "MAX2591": {
-    "name": "TORNI.PARQUER C/COMBIN.12x 3  \"(76)",
+    "name": "TORNI PARQUER C/COMBIN 12 x3 (76)",
     "category": "6.TORN.PARQUER C/COMB.12",
     "bulk": 200.0,
     "prices": {
@@ -63590,7 +63540,7 @@
     }
   },
   "MAX2592": {
-    "name": "TORNI.PARQUER C/COMBIN.14x1/2 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 14 x1/2 (19)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63600,7 +63550,7 @@
     }
   },
   "MAX2593": {
-    "name": "TORNI.PARQUER C/COMBIN.14x5/8 \"(16)",
+    "name": "TORNI PARQUER C/COMBIN 14 x5/8 (16)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63610,7 +63560,7 @@
     }
   },
   "MAX2594": {
-    "name": "TORNI.PARQUER C/COMBIN.14x3/4 \"(19)",
+    "name": "TORNI PARQUER C/COMBIN 14 x3/4 (19)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63620,7 +63570,7 @@
     }
   },
   "MAX2595": {
-    "name": "TORNI.PARQUER C/COMBIN.14x7/8 \"(22)",
+    "name": "TORNI PARQUER C/COMBIN 14 x7/8 (22)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63630,7 +63580,7 @@
     }
   },
   "MAX2596": {
-    "name": "TORNI.PARQUER C/COMBIN.14x 1  \"(25)",
+    "name": "TORNI PARQUER C/COMBIN 14 x1 (25)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63640,7 +63590,7 @@
     }
   },
   "MAX2597": {
-    "name": "TORNI.PARQUER C/COMBIN.14x11/4\"(32)",
+    "name": "TORNI PARQUER C/COMBIN 14 x11/4 (32)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63650,7 +63600,7 @@
     }
   },
   "MAX2598": {
-    "name": "TORNI.PARQUER C/COMBIN.14x11/2\"(38)",
+    "name": "TORNI PARQUER C/COMBIN 14 x11/2 (38)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63660,7 +63610,7 @@
     }
   },
   "MAX2599": {
-    "name": "TORNI.PARQUER C/COMBIN.14x13/4\"(44)",
+    "name": "TORNI PARQUER C/COMBIN 14 x13/4 (44)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63670,7 +63620,7 @@
     }
   },
   "MAX2600": {
-    "name": "TORNI.PARQUER C/COMBIN.14x 2  \"(50)",
+    "name": "TORNI PARQUER C/COMBIN 14 x2 (50)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63680,7 +63630,7 @@
     }
   },
   "MAX2601": {
-    "name": "TORNI.PARQUER C/COMBIN.14x21/4\"(56)",
+    "name": "TORNI PARQUER C/COMBIN 14 x21/4 (56)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63690,7 +63640,7 @@
     }
   },
   "MAX2602": {
-    "name": "TORNI.PARQUER C/COMBIN.14x21/2\"(63)",
+    "name": "TORNI PARQUER C/COMBIN 14 x21/2 (63)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63700,7 +63650,7 @@
     }
   },
   "MAX2603": {
-    "name": "TORNI.PARQUER C/COMBIN.14x 3  \"(76)",
+    "name": "TORNI PARQUER C/COMBIN 14 x3 (76)",
     "category": "6.TORN.PARQUER C/COMB.14",
     "bulk": 200.0,
     "prices": {
@@ -63930,7 +63880,7 @@
     }
   },
   "MAXTCT2507": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  1/4\"(06)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x1/4 (06)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63940,7 +63890,7 @@
     }
   },
   "MAXTCT2508": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x 5/16\"(08)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x5/16 (08)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63950,7 +63900,7 @@
     }
   },
   "MAXTCT2509": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  3/8\"(09)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x3/8 (09)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63960,7 +63910,7 @@
     }
   },
   "MAXTCT2510": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  1/2\"(12)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x1/2 (12)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63970,7 +63920,7 @@
     }
   },
   "MAXTCT2511": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  5/8\"(16)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x5/8 (16)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63980,7 +63930,7 @@
     }
   },
   "MAXTCT2512": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  3/4\"(19)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 X3/4 (19)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -63990,7 +63940,7 @@
     }
   },
   "MAXTCT2513": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x  7/8\"(22)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x7/8 (22)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64000,7 +63950,7 @@
     }
   },
   "MAXTCT2514": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x1    \"(25)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x1 (25)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64010,7 +63960,7 @@
     }
   },
   "MAXTCT2515": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x11/4 \"(32)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x11/4 (32)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64020,7 +63970,7 @@
     }
   },
   "MAXTCT2516": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x11/2 \"(38)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x11/2 (38)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64030,7 +63980,7 @@
     }
   },
   "MAXTCT2517": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x13/4 \"(44)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x13/4 (44)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64040,7 +63990,7 @@
     }
   },
   "MAXTCT2518": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/8x2    \"(50)",
+    "name": "TORNI CAB/TANQUE S/T 1/8 x2 (50)",
     "category": "6.TORNILLO CAB.TANQ.1/8",
     "bulk": 200.0,
     "prices": {
@@ -64050,7 +64000,7 @@
     }
   },
   "MAXTCT2530": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 1/4\"(06)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x1/4 (06)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64060,7 +64010,7 @@
     }
   },
   "MAXTCT2531": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x5/16\"(08)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x5/16 (08)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64070,7 +64020,7 @@
     }
   },
   "MAXTCT2532": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 3/8\"(09)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x3/8 (09)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64080,7 +64030,7 @@
     }
   },
   "MAXTCT2533": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 1/2\"(12)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x1/2 (12)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64090,7 +64040,7 @@
     }
   },
   "MAXTCT2534": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 5/8\"(16)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x5/8 (16)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64100,7 +64050,7 @@
     }
   },
   "MAXTCT2535": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 3/4\"(19)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x3/4 (19)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64110,7 +64060,7 @@
     }
   },
   "MAXTCT2536": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x 7/8\"(22)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x7/8 (22)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64120,7 +64070,7 @@
     }
   },
   "MAXTCT2537": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x1   \"(25)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x1 (25)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64130,7 +64080,7 @@
     }
   },
   "MAXTCT2538": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x11/4\"(32)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x11/4 (32)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64140,7 +64090,7 @@
     }
   },
   "MAXTCT2539": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x11/2\"(38)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x11/2 (38)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64150,7 +64100,7 @@
     }
   },
   "MAXTCT2540": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x13/4\"(44)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x13/4 (44)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64160,7 +64110,7 @@
     }
   },
   "MAXTCT2541": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x2   \"(50)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x2 (50)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64170,7 +64120,7 @@
     }
   },
   "MAXTCT2542": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x21/4\"(51)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x21/4 (51)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64180,7 +64130,7 @@
     }
   },
   "MAXTCT2543": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x21/2\"(63)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x21/2 (63)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64190,7 +64140,7 @@
     }
   },
   "MAXTCT2544": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x23/4\"(76)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x23/4 (76)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64200,7 +64150,7 @@
     }
   },
   "MAXTCT2545": {
-    "name": "TORNI.CAB/TANQUE.S/T 5/32x3   \"(76)",
+    "name": "TORNI CAB/TANQUE S/T 5/32 x3 (76)",
     "category": "6.TORNILLO CAB.TANQ.5/32",
     "bulk": 200.0,
     "prices": {
@@ -64210,7 +64160,7 @@
     }
   },
   "MAXTCT2613": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 1/4\"(06)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x1/4 (06)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64220,7 +64170,7 @@
     }
   },
   "MAXTCT2614": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x5/16\"(08)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x5/16 (08)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64230,7 +64180,7 @@
     }
   },
   "MAXTCT2615": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 3/8\"(09)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x3/8 (09)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64240,7 +64190,7 @@
     }
   },
   "MAXTCT2616": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 1/2\"(12)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x1/2 (12)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64250,7 +64200,7 @@
     }
   },
   "MAXTCT2617": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 5/8\"(16)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x5/8 (16)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64260,7 +64210,7 @@
     }
   },
   "MAXTCT2618": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 3/4\"(19)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x3/4 (19)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64270,7 +64220,7 @@
     }
   },
   "MAXTCT2619": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x 7/8\"(22)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x7/8 (22)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64280,7 +64230,7 @@
     }
   },
   "MAXTCT2620": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x1   \"(25)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x1 (25)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64290,7 +64240,7 @@
     }
   },
   "MAXTCT2621": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x11/4\"(32)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x11/4 (32)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64300,7 +64250,7 @@
     }
   },
   "MAXTCT2622": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x11/2\"(38)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x11/2 (38)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64310,7 +64260,7 @@
     }
   },
   "MAXTCT2623": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x13/4\"(44)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x13/4 (44)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64320,7 +64270,7 @@
     }
   },
   "MAXTCT2624": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x2   \"(50)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x2 (50)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64330,7 +64280,7 @@
     }
   },
   "MAXTCT2625": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x21/4\"(56)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x21/4 (56)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64340,7 +64290,7 @@
     }
   },
   "MAXTCT2626": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x21/2\"(63)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x21/2 (63)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64350,7 +64300,7 @@
     }
   },
   "MAXTCT2627": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x23/4\"(70)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x23/4 (70)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64360,7 +64310,7 @@
     }
   },
   "MAXTCT2628": {
-    "name": "TORNI.CAB/TANQUE.S/T 3/16x3   \"(76)",
+    "name": "TORNI CAB/TANQUE S/T 3/16 x3 (76)",
     "category": "6.TORNILLO CAB.TANQ.3/16",
     "bulk": 200.0,
     "prices": {
@@ -64370,7 +64320,7 @@
     }
   },
   "MAXTCT2651": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x 5/16\"(08)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x5/16 (08)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64380,7 +64330,7 @@
     }
   },
   "MAXTCT2652": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x  3/8\"(09)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x3/8 (09)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64390,7 +64340,7 @@
     }
   },
   "MAXTCT2653": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x  1/2\"(12)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x1/2 (12)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64400,7 +64350,7 @@
     }
   },
   "MAXTCT2654": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x  5/8\"(12)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x5/8 (12)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64410,7 +64360,7 @@
     }
   },
   "MAXTCT2655": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x  3/4\"(19)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x3/4 (19)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64420,7 +64370,7 @@
     }
   },
   "MAXTCT2656": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x  7/8\"(22)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x7/8 (22)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64430,7 +64380,7 @@
     }
   },
   "MAXTCT2657": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x1    \"(25)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x1 (25)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64440,7 +64390,7 @@
     }
   },
   "MAXTCT2658": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x11/4 \"(32)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x11/4 (32)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64450,7 +64400,7 @@
     }
   },
   "MAXTCT2659": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x11/2 \"(38)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x11/2 (38)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64460,7 +64410,7 @@
     }
   },
   "MAXTCT2660": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x13/4 \"(44)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x13/4 (44)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64470,7 +64420,7 @@
     }
   },
   "MAXTCT2661": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x2    \"(50)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x2 (50)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64480,7 +64430,7 @@
     }
   },
   "MAXTCT2662": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x21/4 \"(56)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x21/4 (56)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64490,7 +64440,7 @@
     }
   },
   "MAXTCT2663": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x21/2 \"(63)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x21/2 (63)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64500,7 +64450,7 @@
     }
   },
   "MAXTCT2664": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x23/4 \"(70)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x23/4 (70)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -64510,7 +64460,7 @@
     }
   },
   "MAXTCT2665": {
-    "name": "TORNI.CAB/TANQUE.S/T 1/4x3    \"(76)",
+    "name": "TORNI CAB/TANQUE S/T 1/4 x3 (76)",
     "category": "6.TORNILLO CAB.TANQ.1/4",
     "bulk": 200.0,
     "prices": {
@@ -70390,7 +70340,7 @@
     }
   },
   "MK000005": {
-    "name": "DEPOSITO A CADENA COLG.BLCO 11ltsMONKOTO",
+    "name": "DEPOSITO A CADENA COLG BLCO 11lts MONKOTO",
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 6.0,
     "prices": {
@@ -70400,7 +70350,7 @@
     }
   },
   "MK000006": {
-    "name": "DEPOSITO A BOTON  COLG.BLCO 11ltsMONKOTO",
+    "name": "DEPOSITO A BOTON COLG BLCO 11lts MONKOTO",
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 6.0,
     "prices": {
@@ -70410,7 +70360,7 @@
     }
   },
   "MK000008": {
-    "name": "DEPOSITO A CADENA COLG.BLCO  8ltsMONKOTO",
+    "name": "DEPOSITO A CADENA COLG BLCO 8lts MONKOTO",
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 8.0,
     "prices": {
@@ -70420,7 +70370,7 @@
     }
   },
   "MK000010": {
-    "name": "MOCHILA PVC.C/BOT.MOCHILETA 11lt.MONKOTO",
+    "name": "MOCHILA PVC C/BOT MOCHILETA 11lt MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 6.0,
     "prices": {
@@ -70430,7 +70380,7 @@
     }
   },
   "MK000013": {
-    "name": "MOCHILA PVC.C/BOT.LAT.WADA 12lt  MONKOTO",
+    "name": "MOCHILA PVC C/BOT LAT WADA 12lt MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 5.0,
     "prices": {
@@ -70450,7 +70400,7 @@
     }
   },
   "MK000029": {
-    "name": "CONJUNTO.BALANCIN.ARTIC.5y8 MONKOTO",
+    "name": "CONJUNTO BALANC IN ARTIC 5y8 MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -70460,7 +70410,7 @@
     }
   },
   "MK000030": {
-    "name": "TIRADOR A CADENA P/ART. 5   MONKOTO",
+    "name": "TIRADOR A CADENA P/ART 5 MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -70470,7 +70420,7 @@
     }
   },
   "MK000043": {
-    "name": "VALV.FLOT.C/BOY.VCAL.B/C-C.M   MONKOTO",
+    "name": "VALV FLOT C/BOY VCAL B/C-C.M MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -70480,7 +70430,7 @@
     }
   },
   "MK000046": {
-    "name": "VALV.HORIZ-B/C R-M-BOYA EXT.   MONKOTO",
+    "name": "VALV HORIZ-B/C R-M-BOYA EXT MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -70610,7 +70560,7 @@
     }
   },
   "MK000283": {
-    "name": "CONJUNTO.DESCARGA.DM11/DM12 MONKOTO",
+    "name": "CONJUNTO DESCARGA DM11/DM12 MONKOTO",
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
@@ -70854,9 +70804,9 @@
     "category": "8.RUEDA FUNDICION",
     "bulk": 1.0,
     "prices": {
-      "D": 10590,
-      "E": 11404,
-      "F": 9775
+      "D": 9627,
+      "E": 10368,
+      "F": 8887
     }
   },
   "MMDRFR08": {
@@ -71390,7 +71340,7 @@
     }
   },
   "MP1831": {
-    "name": "TAPA DE CHAPA P/Cj.OCTOGON.CHICA MP",
+    "name": "TAPA DE CHAPA CAJA OCTOGON CHICA MP",
     "category": "9.Cj LUZ METAL y ACC.",
     "bulk": 25.0,
     "prices": {
@@ -71400,7 +71350,7 @@
     }
   },
   "MP1832": {
-    "name": "TAPA DE CHAPA P/Cj.OCTOGON.GRNDE MP",
+    "name": "TAPA DE CHAPA CAJA OCTOGON GRNDE MP",
     "category": "9.Cj LUZ METAL y ACC.",
     "bulk": 25.0,
     "prices": {
@@ -71410,7 +71360,7 @@
     }
   },
   "MP1833": {
-    "name": "TAPA DE CHAPA P/Cj.CUADRADA      MP",
+    "name": "TAPA DE CHAPA CAJA CUADRADA      MP",
     "category": "9.Cj LUZ METAL y ACC.",
     "bulk": 25.0,
     "prices": {
@@ -72784,9 +72734,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 6029,
-      "E": 6459,
-      "F": 5598
+      "D": 6390,
+      "E": 6847,
+      "F": 5934
     }
   },
   "OR272A": {
@@ -72794,9 +72744,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 8239,
-      "E": 8828,
-      "F": 7651
+      "D": 8734,
+      "E": 9358,
+      "F": 8110
     }
   },
   "OR272B": {
@@ -72804,9 +72754,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 13665,
-      "E": 14642,
-      "F": 12689
+      "D": 14485,
+      "E": 15520,
+      "F": 13451
     }
   },
   "OR272C": {
@@ -72814,9 +72764,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 18087,
-      "E": 19379,
-      "F": 16795
+      "D": 19172,
+      "E": 20541,
+      "F": 17803
     }
   },
   "OR273": {
@@ -89404,9 +89354,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 3024,
-      "E": 3240,
-      "F": 2592
+      "D": 3057,
+      "E": 3276,
+      "F": 2620
     }
   },
   "SIM18311": {
@@ -89824,9 +89774,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 550,
-      "E": 593,
-      "F": 508
+      "D": 589,
+      "E": 634,
+      "F": 544
     }
   },
   "SPDARC115160222": {
@@ -89834,9 +89784,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 539
+      "D": 600,
+      "E": 647,
+      "F": 577
     }
   },
   "SPDARC180180222": {
@@ -89844,9 +89794,9 @@
     "category": "8.DISCO A/Inox.180 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 1609,
-      "E": 1733,
-      "F": 1485
+      "D": 1722,
+      "E": 1855,
+      "F": 1590
     }
   },
   "SPDARC180600222": {
@@ -89864,9 +89814,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2285,
-      "E": 2460,
-      "F": 2109
+      "D": 2742,
+      "E": 2952,
+      "F": 2531
     }
   },
   "SPDARC350320222": {
@@ -89874,9 +89824,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 5843,
-      "E": 6293,
-      "F": 5394
+      "D": 7597,
+      "E": 8181,
+      "F": 7012
     }
   },
   "SPDARD115600222": {
@@ -89884,9 +89834,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 1461,
-      "E": 1573,
-      "F": 1348
+      "D": 1563,
+      "E": 1683,
+      "F": 1443
     }
   },
   "SPSMAB2218": {
@@ -91440,7 +91390,7 @@
     }
   },
   "TAMTAPA": {
-    "name": "TAPA PLAST.ROSCA P/TANQUE     T.A.M",
+    "name": "TAPA PARA TANQUE CON ROSCA    T.A.M",
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 10.0,
     "prices": {
@@ -92700,7 +92650,7 @@
     }
   },
   "TIDIL-1047": {
-    "name": "TAPA PLAST.CIEGA P/Cj OCTOG.chica",
+    "name": "TAPA PLAST CIEGA CAJA OCTOGONAL CHICA",
     "category": "9.TAPA PVC.P/Cj OCTOGONAL",
     "bulk": 50.0,
     "prices": {
@@ -92710,7 +92660,7 @@
     }
   },
   "TIDIL-1049": {
-    "name": "TAPA PLAST.CIEGA P/Cj OCTOG.gde",
+    "name": "TAPA PLAST CIEGA CAJA OCTOGONAL GRANDE",
     "category": "9.TAPA PVC.P/Cj OCTOGONAL",
     "bulk": 10.0,
     "prices": {
@@ -92889,6 +92839,26 @@
       "F": 2927
     }
   },
+  "TIDIL-9955": {
+    "name": "TAPA PLAST CIEGA AUTOADH OCTOGONAL CHICA",
+    "category": "9.TAPA PVC LUZ OCTOGONAL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 492,
+      "E": 530,
+      "F": 454
+    }
+  },
+  "TIDIL-9958": {
+    "name": "TAPA PLAST CIEGA AUTOADH RECTANGULAR",
+    "category": "9.TAPA PVC LUZ OCTOGONAL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 492,
+      "E": 530,
+      "F": 454
+    }
+  },
   "TIELB-1200": {
     "name": "VARIADOR/VENTILAD/TECHO EXT.5v EL BUHO",
     "category": "9.REPUESTOS VENTILADOR",
@@ -93034,9 +93004,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 7421,
-      "E": 7992,
-      "F": 6850
+      "D": 7718,
+      "E": 8312,
+      "F": 7124
     }
   },
   "TIGAR-1931": {
@@ -93044,9 +93014,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 11689,
-      "E": 12588,
-      "F": 10789
+      "D": 12156,
+      "E": 13091,
+      "F": 11221
     }
   },
   "TIGAR-1932": {
@@ -93054,9 +93024,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 13358,
-      "E": 14386,
-      "F": 12331
+      "D": 13893,
+      "E": 14962,
+      "F": 12824
     }
   },
   "TIGAR-1933": {
@@ -93064,9 +93034,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 13637,
-      "E": 14686,
-      "F": 12588
+      "D": 14202,
+      "E": 15295,
+      "F": 13110
     }
   },
   "TIGAR-1934": {
@@ -93074,9 +93044,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 14472,
-      "E": 15585,
-      "F": 13358
+      "D": 15051,
+      "E": 16208,
+      "F": 13893
     }
   },
   "TIGAR-1935": {
@@ -93084,9 +93054,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 1.0,
     "prices": {
-      "D": 18554,
-      "E": 19981,
-      "F": 17126
+      "D": 19296,
+      "E": 20780,
+      "F": 17811
     }
   },
   "TIGAR-1937": {
@@ -93094,9 +93064,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 1.0,
     "prices": {
-      "D": 21355,
-      "E": 22998,
-      "F": 19713
+      "D": 22210,
+      "E": 23918,
+      "F": 20501
     }
   },
   "TIGAR-1945": {
@@ -93104,9 +93074,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 2038,
-      "E": 2183,
-      "F": 1746
+      "D": 2119,
+      "E": 2271,
+      "F": 1816
     }
   },
   "TIGAR-1946": {
@@ -93114,9 +93084,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 2227,
-      "E": 2387,
-      "F": 1909
+      "D": 2317,
+      "E": 2482,
+      "F": 1986
     }
   },
   "TIGAR-1948": {
@@ -93124,9 +93094,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 2793,
-      "E": 2992,
-      "F": 2394
+      "D": 2905,
+      "E": 3112,
+      "F": 2490
     }
   },
   "TIGAR-1949": {
@@ -93134,9 +93104,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 1798,
-      "E": 1926,
-      "F": 1541
+      "D": 1870,
+      "E": 2003,
+      "F": 1603
     }
   },
   "TIGAR-1954": {
@@ -93144,9 +93114,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 3710,
-      "E": 3996,
-      "F": 3425
+      "D": 3859,
+      "E": 4156,
+      "F": 3562
     }
   },
   "TIGAR-1955": {
@@ -93154,9 +93124,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 4638,
-      "E": 4995,
-      "F": 4281
+      "D": 4824,
+      "E": 5195,
+      "F": 4452
     }
   },
   "TIGAR-1957": {
@@ -93164,9 +93134,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 2659,
-      "E": 2849,
-      "F": 2279
+      "D": 2765,
+      "E": 2963,
+      "F": 2370
     }
   },
   "TIGAR-1958": {
@@ -93174,9 +93144,9 @@
     "category": "9.CAPACITOR P/VENTILADOR",
     "bulk": 0.0,
     "prices": {
-      "D": 2737,
-      "E": 2932,
-      "F": 2346
+      "D": 2846,
+      "E": 3050,
+      "F": 2440
     }
   },
   "TIGAR-1959": {
@@ -93184,9 +93154,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 1.0,
     "prices": {
-      "D": 2838,
-      "E": 3057,
-      "F": 2620
+      "D": 2952,
+      "E": 3179,
+      "F": 2725
     }
   },
   "TIGAR-1960": {
@@ -93194,9 +93164,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 3172,
-      "E": 3416,
-      "F": 2928
+      "D": 3304,
+      "E": 3558,
+      "F": 3050
     }
   },
   "TIGAR-1961": {
@@ -93204,9 +93174,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 4786,
-      "E": 5155,
-      "F": 4418
+      "D": 4978,
+      "E": 5361,
+      "F": 4595
     }
   },
   "TIGAR-1962": {
@@ -93214,9 +93184,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 4916,
-      "E": 5295,
-      "F": 4538
+      "D": 5113,
+      "E": 5506,
+      "F": 4720
     }
   },
   "TIGAR-1963": {
@@ -93224,9 +93194,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 5195,
-      "E": 5594,
-      "F": 4795
+      "D": 5402,
+      "E": 5818,
+      "F": 4987
     }
   },
   "TIGAR-1964": {
@@ -93234,9 +93204,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 0.0,
     "prices": {
-      "D": 5751,
-      "E": 6194,
-      "F": 5309
+      "D": 5990,
+      "E": 6451,
+      "F": 5529
     }
   },
   "TIGAR-1966": {
@@ -93244,9 +93214,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 1.0,
     "prices": {
-      "D": 6030,
-      "E": 6493,
-      "F": 5566
+      "D": 6271,
+      "E": 6753,
+      "F": 5788
     }
   },
   "TIGAR-1968": {
@@ -93254,9 +93224,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 6902,
-      "E": 7433,
-      "F": 6371
+      "D": 7188,
+      "E": 7741,
+      "F": 6635
     }
   },
   "TIGAR-1970": {
@@ -93264,9 +93234,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 1.0,
     "prices": {
-      "D": 7662,
-      "E": 8252,
-      "F": 7073
+      "D": 7969,
+      "E": 8582,
+      "F": 7356
     }
   },
   "TIGAR-1971": {
@@ -93274,9 +93244,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 8572,
-      "E": 9231,
-      "F": 7912
+      "D": 8914,
+      "E": 9600,
+      "F": 8229
     }
   },
   "TIGAR-1973": {
@@ -93284,9 +93254,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 1.0,
     "prices": {
-      "D": 10390,
-      "E": 11189,
-      "F": 9591
+      "D": 10805,
+      "E": 11637,
+      "F": 9974
     }
   },
   "TIGAR-1974": {
@@ -93294,9 +93264,9 @@
     "category": "9.CAPACITOR LAVARROPA",
     "bulk": 1.0,
     "prices": {
-      "D": 10204,
-      "E": 10989,
-      "F": 9419
+      "D": 10612,
+      "E": 11429,
+      "F": 9796
     }
   },
   "TIGAR-1986": {
@@ -93384,9 +93354,9 @@
     "category": "4.ACCESORIOS P/SECARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 799,
-      "E": 856,
-      "F": 685
+      "D": 831,
+      "E": 890,
+      "F": 712
     }
   },
   "TIGAR-2035": {
@@ -93394,9 +93364,9 @@
     "category": "4.ACCESORIOS P/SECARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 1069,
-      "E": 1145,
-      "F": 916
+      "D": 1111,
+      "E": 1191,
+      "F": 952
     }
   },
   "TIGAR-2036": {
@@ -93404,9 +93374,9 @@
     "category": "4.ACCESORIOS P/SECARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 1158,
-      "E": 1241,
-      "F": 993
+      "D": 1206,
+      "E": 1293,
+      "F": 1034
     }
   },
   "TIGAR-2044": {
@@ -95220,7 +95190,7 @@
     }
   },
   "TOR01019": {
-    "name": "TOR P/MECH P/CHAP C/HE 14x1\"",
+    "name": "TOR PUNTA MECHA P/CHAPA C/HE 14x1\"",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 2000.0,
     "prices": {
@@ -95230,7 +95200,7 @@
     }
   },
   "TOR01020": {
-    "name": "TOR P/MECH P/CHAP C/HE 14x11/2\"",
+    "name": "TOR PUNTA MECHA P/CHAPA C/HE 14x11/2\"",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 1500.0,
     "prices": {
@@ -95240,7 +95210,7 @@
     }
   },
   "TOR01021": {
-    "name": "TOR P/MECH P/CHAP C/HE 14x2\"",
+    "name": "TOR PUNTA MECHA P/CHAPA C/HE 14x2\"",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 1000.0,
     "prices": {
@@ -95250,7 +95220,7 @@
     }
   },
   "TOR01022": {
-    "name": "TOR P/MECH P/CHAP C/HE 14x21/2\"",
+    "name": "TOR PUNTA MECHA P/CHAPA C/HE 14x21/2\"",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 1000.0,
     "prices": {
@@ -95260,7 +95230,7 @@
     }
   },
   "TOR01199": {
-    "name": "TOR P/RANUR P/MAD C/HE 14x1\"",
+    "name": "TOR PUNTA RANURADA P/MAD C/HE 14x1",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 2000.0,
     "prices": {
@@ -95270,7 +95240,7 @@
     }
   },
   "TOR01200": {
-    "name": "TOR P/RANUR P/MAD C/HE 14x11/2\"",
+    "name": "TOR PUNTA RANURADA P/MAD C/HE 14x11/2\"",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 1500.0,
     "prices": {
@@ -95280,7 +95250,7 @@
     }
   },
   "TOR01201": {
-    "name": "TOR P/RANUR P/MAD C/HE 14x2\"",
+    "name": "TOR PUNTA RANURADA P/MAD C/HE 14x2\"",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 1000.0,
     "prices": {
@@ -95290,7 +95260,7 @@
     }
   },
   "TOR01202": {
-    "name": "TOR P/RANUR P/MAD C/HE 14x21/2\"",
+    "name": "TOR PUNTA RANURADA P/MAD C/HE 14x21/2\"",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 1000.0,
     "prices": {
@@ -95300,7 +95270,7 @@
     }
   },
   "TOR01203": {
-    "name": "TOR P/RANUR P/MAD C/HE 14x3\"",
+    "name": "TOR PUNTA RANURADA P/MAD C/HE 14x3\"",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 700.0,
     "prices": {
@@ -95310,7 +95280,7 @@
     }
   },
   "TOR01375": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x1\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x1 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 10000.0,
     "prices": {
@@ -95320,7 +95290,7 @@
     }
   },
   "TOR01376": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x11/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x11/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 8000.0,
     "prices": {
@@ -95330,7 +95300,7 @@
     }
   },
   "TOR01378": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x15/8\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x15/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95340,7 +95310,7 @@
     }
   },
   "TOR01379": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x13/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95350,7 +95320,7 @@
     }
   },
   "TOR01380": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x2\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x2 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 3500.0,
     "prices": {
@@ -95360,7 +95330,7 @@
     }
   },
   "TOR01422": {
-    "name": "TORNILLO FIX P/MADERA 4.0x25  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 10000.0,
     "prices": {
@@ -95370,7 +95340,7 @@
     }
   },
   "TOR01423": {
-    "name": "TORNILLO FIX P/MADERA 4.0x30  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x30 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 8000.0,
     "prices": {
@@ -95380,7 +95350,7 @@
     }
   },
   "TOR01424": {
-    "name": "TORNILLO FIX P/MADERA 4.0x35  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x35 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95390,7 +95360,7 @@
     }
   },
   "TOR01425": {
-    "name": "TORNILLO FIX P/MADERA 4.0x40  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95400,7 +95370,7 @@
     }
   },
   "TOR01426": {
-    "name": "TORNILLO FIX P/MADERA 4.0x45  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x45 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95410,7 +95380,7 @@
     }
   },
   "TOR01427": {
-    "name": "TORNILLO FIX P/MADERA 4.0x50  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 3500.0,
     "prices": {
@@ -95420,7 +95390,7 @@
     }
   },
   "TOR01429": {
-    "name": "TORNILLO FIX P/MADERA 4.5x25  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5",
     "bulk": 10000.0,
     "prices": {
@@ -95430,7 +95400,7 @@
     }
   },
   "TOR01430": {
-    "name": "TORNILLO FIX P/MADERA 4.5x30  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x30 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5",
     "bulk": 8000.0,
     "prices": {
@@ -95440,7 +95410,7 @@
     }
   },
   "TOR01431": {
-    "name": "TORNILLO FIX P/MADERA 4.5x35  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x35 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95450,7 +95420,7 @@
     }
   },
   "TOR01432": {
-    "name": "TORNILLO FIX P/MADERA 4.5x40  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5TOR",
     "bulk": 4000.0,
     "prices": {
@@ -95460,7 +95430,7 @@
     }
   },
   "TOR01433": {
-    "name": "TORNILLO FIX P/MADERA 4.5x45  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x45 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5TOR",
     "bulk": 3500.0,
     "prices": {
@@ -95470,7 +95440,7 @@
     }
   },
   "TOR01434": {
-    "name": "TORNILLO FIX P/MADERA 4.5x50  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.5 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5TOR",
     "bulk": 3000.0,
     "prices": {
@@ -95480,7 +95450,7 @@
     }
   },
   "TOR01435": {
-    "name": "TORNILLO FIX P/MADERA 5.0x25  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 6000.0,
     "prices": {
@@ -95490,7 +95460,7 @@
     }
   },
   "TOR01436": {
-    "name": "TORNILLO FIX P/MADERA 5.0x30  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x30 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95500,7 +95470,7 @@
     }
   },
   "TOR01437": {
-    "name": "TORNILLO FIX P/MADERA 5.0x35  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x35 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95510,7 +95480,7 @@
     }
   },
   "TOR01438": {
-    "name": "TORNILLO FIX P/MADERA 5.0x40  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 4000.0,
     "prices": {
@@ -95520,7 +95490,7 @@
     }
   },
   "TOR01440": {
-    "name": "TORNILLO FIX P/MADERA 5.0x50  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2500.0,
     "prices": {
@@ -95530,7 +95500,7 @@
     }
   },
   "TOR01523": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x11/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x11/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95540,7 +95510,7 @@
     }
   },
   "TOR01524": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x11/2\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x11/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95550,7 +95520,7 @@
     }
   },
   "TOR01525": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x15/8\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x15/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 4000.0,
     "prices": {
@@ -95560,7 +95530,7 @@
     }
   },
   "TOR01526": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x13/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 3000.0,
     "prices": {
@@ -95570,7 +95540,7 @@
     }
   },
   "TOR01527": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x2\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 2500.0,
     "prices": {
@@ -95580,7 +95550,7 @@
     }
   },
   "TOR01528": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x21/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 2500.0,
     "prices": {
@@ -95590,7 +95560,7 @@
     }
   },
   "TOR01529": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x21/2\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 2000.0,
     "prices": {
@@ -95600,7 +95570,7 @@
     }
   },
   "TOR01530": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x23/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x23/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 200.0,
     "prices": {
@@ -95610,7 +95580,7 @@
     }
   },
   "TOR01540": {
-    "name": "TORNILLO FIX P MADERA 5.0x55 TORAR",
+    "name": "TORNILLO FIX P MADERA 5.0 x55 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2500.0,
     "prices": {
@@ -95620,7 +95590,7 @@
     }
   },
   "TOR01541": {
-    "name": "TORNILLO FIX P MADERA 5.0x60 TORAR",
+    "name": "TORNILLO FIX P MADERA 5.0 x60 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2000.0,
     "prices": {
@@ -95630,7 +95600,7 @@
     }
   },
   "TOR01542": {
-    "name": "TORNILLO FIX P MADERA 5.0x70 TORAR",
+    "name": "TORNILLO FIX P MADERA 5.0 x70 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 1500.0,
     "prices": {
@@ -95640,7 +95610,7 @@
     }
   },
   "TOR01549": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x3/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x3/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 7000.0,
     "prices": {
@@ -95650,7 +95620,7 @@
     }
   },
   "TOR01558": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8X1\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 X1 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 10000.0,
     "prices": {
@@ -95660,7 +95630,7 @@
     }
   },
   "TOR01559": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x11/4\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x11/4 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 8000.0,
     "prices": {
@@ -95670,7 +95640,7 @@
     }
   },
   "TOR01560": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x11/2\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x11/2 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95680,7 +95650,7 @@
     }
   },
   "TOR01561": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x13/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 3500.0,
     "prices": {
@@ -95690,7 +95660,7 @@
     }
   },
   "TOR01562": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x2\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x2 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 3000.0,
     "prices": {
@@ -95700,7 +95670,7 @@
     }
   },
   "TOR01589": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x15/8\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x15/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95710,7 +95680,7 @@
     }
   },
   "TOR01602": {
-    "name": "TORNILLO FIX P/MADERA 5.0x65  TORAR",
+    "name": "TORNILLO FIX P/MADERA 5.0 x65 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2000.0,
     "prices": {
@@ -95730,7 +95700,7 @@
     }
   },
   "TORIMP000090": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x13/4\" TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 4800.0,
     "prices": {
@@ -95740,7 +95710,7 @@
     }
   },
   "TORIMP000323": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x5/8\" TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x5/8 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
     "bulk": 15000.0,
     "prices": {
@@ -95750,7 +95720,7 @@
     }
   },
   "TORIMP000350": {
-    "name": "TORNILLO P MECHA TANQUE 8x11/4 TORAR",
+    "name": "TORNILLO P/MECHA TANQUE 8x 11/4 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 200.0,
     "prices": {
@@ -95760,7 +95730,7 @@
     }
   },
   "TORIMP000357": {
-    "name": "TORNILLO DRYWALL MET Ngro 6 x11/4\" TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x11/4 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 9000.0,
     "prices": {
@@ -95770,7 +95740,7 @@
     }
   },
   "TORIMP000464": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x21/2\" TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
     "bulk": 2700.0,
     "prices": {
@@ -95780,7 +95750,7 @@
     }
   },
   "TORIMP000583": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x3\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 1500.0,
     "prices": {
@@ -95790,7 +95760,7 @@
     }
   },
   "TORIMP000648": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x3/4\" TORA",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x3/4 TORA",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 16000.0,
     "prices": {
@@ -95800,7 +95770,7 @@
     }
   },
   "TORIMP000662": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x21/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 200.0,
     "prices": {
@@ -95810,7 +95780,7 @@
     }
   },
   "TORIMP000671": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x21/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 2200.0,
     "prices": {
@@ -95820,7 +95790,7 @@
     }
   },
   "TORIMP000672": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x21/2\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 2000.0,
     "prices": {
@@ -95830,7 +95800,7 @@
     }
   },
   "TORIMP000716": {
-    "name": "TORNILLO FIX P MADERA 3.5x12 TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x12 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 22000.0,
     "prices": {
@@ -95840,7 +95810,7 @@
     }
   },
   "TORIMP000728": {
-    "name": "TORNILLO FIX P MADERA 4.5x20 TORAR",
+    "name": "TORNILLO FIX P MADERA 4.5 x20 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.5",
     "bulk": 12000.0,
     "prices": {
@@ -95850,7 +95820,7 @@
     }
   },
   "TORIMP000797": {
-    "name": "TORNILLO DRYWALL MAD Ngro 8x3\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 8 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 1800.0,
     "prices": {
@@ -95860,7 +95830,7 @@
     }
   },
   "TORIMP000799": {
-    "name": "TORNILLO DRYWALL MAD Ngro 10x1\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 10 x1 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 6000.0,
     "prices": {
@@ -95870,7 +95840,7 @@
     }
   },
   "TORIMP000854": {
-    "name": "TORNILLO P MECHA TANQUE 8x3/4\" TORAR",
+    "name": "TORNILLO P/MECHA TANQUE 8x 3/4 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 8000.0,
     "prices": {
@@ -95880,7 +95850,7 @@
     }
   },
   "TORIMP000862": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x3/4\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x3/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 12000.0,
     "prices": {
@@ -95890,7 +95860,7 @@
     }
   },
   "TORIMP000864": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6x21/2\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 2600.0,
     "prices": {
@@ -95900,7 +95870,7 @@
     }
   },
   "TORIMP000876": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x2\" TORAR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x2 TORAR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 4000.0,
     "prices": {
@@ -95910,7 +95880,7 @@
     }
   },
   "TORIMP000948": {
-    "name": "TORNILLO FIX P/MADERA 3.5x20  TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x20 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 13000.0,
     "prices": {
@@ -95920,7 +95890,7 @@
     }
   },
   "TORIMP000950": {
-    "name": "TORNILLO FIX P/MADERA 3.5x35  TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x35 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 7000.0,
     "prices": {
@@ -95930,7 +95900,7 @@
     }
   },
   "TORIMP000951": {
-    "name": "TORNILLO FIX P/MADERA 3.5x40  TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 6000.0,
     "prices": {
@@ -95940,7 +95910,7 @@
     }
   },
   "TORIMP000952": {
-    "name": "TORNILLO FIX P/MADERA 3.5x45  TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x45 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 5000.0,
     "prices": {
@@ -95950,7 +95920,7 @@
     }
   },
   "TORIMP000954": {
-    "name": "TORNILLO FIX P/MADERA 4.0x16  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x16 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 15000.0,
     "prices": {
@@ -95960,7 +95930,7 @@
     }
   },
   "TORIMP000955": {
-    "name": "TORNILLO FIX P/MADERA 4.0x20  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x20 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 12000.0,
     "prices": {
@@ -95970,7 +95940,7 @@
     }
   },
   "TORIMP000962": {
-    "name": "TORNILLO FIX P/MADERA 6.0x50  TORAR",
+    "name": "TORNILLO FIX P/MADERA 6.0 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0",
     "bulk": 1800.0,
     "prices": {
@@ -95980,7 +95950,7 @@
     }
   },
   "TORIMP000970": {
-    "name": "TORNILLO P MECHA TANQUE 8 x1\" TORAR",
+    "name": "TORNILLO P/MECHA TANQUE 8 x1 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 5000.0,
     "prices": {
@@ -95990,7 +95960,7 @@
     }
   },
   "TORIMP000975": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6 x5/8\" TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x5/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 12000.0,
     "prices": {
@@ -96000,7 +95970,7 @@
     }
   },
   "TORIMP000980": {
-    "name": "TORNILLO DRYWALL MAD Ngro 6 x3\" TORAR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 200.0,
     "prices": {
@@ -96010,7 +95980,7 @@
     }
   },
   "TORIMP001032": {
-    "name": "TORNILLO PAN FRAMING MECHA 6 x7/16\" TORAR",
+    "name": "TORNILLO PAN FRAMING MECHA 6 x7/16 TORAR",
     "category": "6.TOR.FRAMING",
     "bulk": 16500.0,
     "prices": {
@@ -96020,7 +95990,7 @@
     }
   },
   "TORIMP001045": {
-    "name": "TOR P MECH P CHAP C/HE C/A 14 x3\"",
+    "name": "TORNILLO PUNTA MECHA C/HE 14 x3\" TORO",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 800.0,
     "prices": {
@@ -96030,7 +96000,7 @@
     }
   },
   "TORIMP001057": {
-    "name": "TORNILLO FIX P MADERA 3.5 x25 TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 12000.0,
     "prices": {
@@ -96050,7 +96020,7 @@
     }
   },
   "TORIMP001086": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x 11/2\" TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x11/2 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 6000.0,
     "prices": {
@@ -96060,7 +96030,7 @@
     }
   },
   "TORIMP001094": {
-    "name": "TORNILLO FIX P/MADERA 4.0x60  TORAR",
+    "name": "TORNILLO FIX P/MADERA 4.0 x60 TORAR",
     "category": "6.TOR.FIX BRCEDO 4.0TOR",
     "bulk": 2500.0,
     "prices": {
@@ -96070,7 +96040,7 @@
     }
   },
   "TORIMP001109": {
-    "name": "TORNILLO DRYWALL MAD.Ngro.6x11/2\"TOR",
+    "name": "TORNILLO DRYWALL MAD Ngro 6 x11/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 6000.0,
     "prices": {
@@ -96090,7 +96060,7 @@
     }
   },
   "TORIMP001150": {
-    "name": "TORNILLO P MECHA TANQUE 8 x1/2\" TORAR",
+    "name": "TORNILLO P MECHA TANQUE 8 x1/2 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 10000.0,
     "prices": {
@@ -96100,7 +96070,7 @@
     }
   },
   "TORIMP001168": {
-    "name": "TORNILLO DRYWALL MET Ngro 6x 1 \"TOR",
+    "name": "TORNILLO DRYWALL MET Ngro 6 x1 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
     "bulk": 12000.0,
     "prices": {
@@ -96110,7 +96080,7 @@
     }
   },
   "TORIMP001188": {
-    "name": "TORNILLO FIX P MADERA 3.5 x15 TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x15 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 19000.0,
     "prices": {
@@ -96120,7 +96090,7 @@
     }
   },
   "TORIMP001190": {
-    "name": "TORNILLO FIX P MADERA 3.5 x30 TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x30 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 10000.0,
     "prices": {
@@ -96160,7 +96130,7 @@
     }
   },
   "TORIMP001254": {
-    "name": "TORNILLO FIX P MADERA 3.5 x50 TORAR",
+    "name": "TORNILLO FIX P/MADERA 3.5 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5",
     "bulk": 5000.0,
     "prices": {
@@ -96180,7 +96150,7 @@
     }
   },
   "TORIMP001272": {
-    "name": "TORNILLO P AGUJA TANQUE 8 x1/2\" TORAR",
+    "name": "TORNILLO P/AGUJA TANQUE 8 x1/2 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 200.0,
     "prices": {
