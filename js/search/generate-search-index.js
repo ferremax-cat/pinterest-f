@@ -57,8 +57,13 @@ function normalizeText(text) {
   
   return text
     .toLowerCase()                                    // Convertir a minúsculas
-    .normalize('NFD')                                 // Descomponer caracteres acentuados
-    .replace(/[\u0300-\u036f]/g, '')                  // Eliminar acentos
+    .replace(/[áàäâ]/g, 'a')                         // Normalizar acentos de 'a'
+    .replace(/[éèëê]/g, 'e')                         // Normalizar acentos de 'e'
+    .replace(/[íìïî]/g, 'i')                         // Normalizar acentos de 'i'
+    .replace(/[óòöô]/g, 'o')                         // Normalizar acentos de 'o'
+    .replace(/[úùüû]/g, 'u')                         // Normalizar acentos de 'u'
+    .replace(/[ç]/g, 'c')                            // Normalizar cedilla
+    // La ñ se mantiene automáticamente sin procesamiento
     .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')     // Reemplazar puntuación con espacios
     .replace(/\s+/g, ' ')                             // Normalizar espacios múltiples
     .trim();                                          // Eliminar espacios al inicio/fin
