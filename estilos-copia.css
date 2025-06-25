@@ -637,9 +637,16 @@ nav .iconos img{
     
     /* Ocultar el ícono de flecha */
     .container-img .bottom-row a:nth-child(1) span {
-     display: none;
+     /*25-6-25
+     /*display: none;*/
     }
 
+
+     /* Ocultar SOLO el ícono de flecha, no todos los spans */
+     .container-img .bottom-row a:nth-child(1) span.icon,
+     .container-img .bottom-row a:nth-child(1) span.fas {
+     display: none;
+     }
 
     .btn-inferiores {
           position: fixed;
@@ -788,3 +795,30 @@ nav .iconos img{
          font-size: 0.75em;
      }
  }
+
+
+ /* ===========================================
+   CORRECCIÓN: Eliminar espacios en resaltado
+   =========================================== */
+.search-highlight {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline !important;
+    letter-spacing: 0 !important;
+    word-spacing: 0 !important;
+    border: none !important;
+    line-height: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+}
+
+.bottom-row a .search-highlight {
+    margin: 0 !important;
+    padding: 0 !important;
+    letter-spacing: 0 !important;
+    word-spacing: 0 !important;
+    outline: none !important;
+    float: none !important;
+    position: static !important;
+}
