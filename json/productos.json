@@ -18204,9 +18204,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 9677,
-      "E": 10064,
-      "F": 9290
+      "D": 10752,
+      "E": 11182,
+      "F": 10322
     }
   },
   "CL00036001332": {
@@ -23084,9 +23084,9 @@
     "category": "1.FUELLES y CONEX.DEALER",
     "bulk": 75.0,
     "prices": {
-      "D": 2728,
-      "E": 2938,
-      "F": 2518
+      "D": 2729,
+      "E": 2939,
+      "F": 2519
     }
   },
   "DEAL440383": {
@@ -23464,9 +23464,9 @@
     "category": "1.TERMOTANQ/ACC.ELEC",
     "bulk": 1.0,
     "prices": {
-      "D": 18810,
-      "E": 20257,
-      "F": 18086
+      "D": 15913,
+      "E": 17137,
+      "F": 14689
     }
   },
   "DGP159-0192": {
@@ -23474,9 +23474,9 @@
     "category": "1.TERMOTANQ/ACC.ELEC",
     "bulk": 1.0,
     "prices": {
-      "D": 20696,
-      "E": 22288,
-      "F": 20377
+      "D": 17509,
+      "E": 18855,
+      "F": 16162
     }
   },
   "DGP184-008": {
@@ -27877,6 +27877,16 @@
       "D": 828,
       "E": 892,
       "F": 764
+    }
+  },
+  "DTF562": {
+    "name": "CINTA ADHES.DOBLE FAZ 18mmx1.5 IMP.",
+    "category": "8.CINTA ADHES/DBLE FAZ",
+    "bulk": 1.0,
+    "prices": {
+      "D": 1170,
+      "E": 1260,
+      "F": 1080
     }
   },
   "DTF575": {
@@ -36834,9 +36844,9 @@
     "category": "1.GRIF.BCE/MONO/PREGO",
     "bulk": 20.0,
     "prices": {
-      "D": 29121,
-      "E": 31362,
-      "F": 26881
+      "D": 25886,
+      "E": 27877,
+      "F": 23894
     }
   },
   "EVOPREG9011": {
@@ -36844,9 +36854,9 @@
     "category": "1.GRIF.BCE/MONO/PREGO",
     "bulk": 20.0,
     "prices": {
-      "D": 32357,
-      "E": 34846,
-      "F": 29868
+      "D": 28761,
+      "E": 30974,
+      "F": 26549
     }
   },
   "EVOPREG9012": {
@@ -36854,9 +36864,9 @@
     "category": "1.GRIF.BCE/MONO/PREGO",
     "bulk": 20.0,
     "prices": {
-      "D": 48854,
-      "E": 52612,
-      "F": 45096
+      "D": 32569,
+      "E": 35074,
+      "F": 30064
     }
   },
   "EVOPREG9020": {
@@ -36884,9 +36894,9 @@
     "category": "1.GRIF.BCE PREGO COC.",
     "bulk": 20.0,
     "prices": {
-      "D": 59118,
-      "E": 63666,
-      "F": 54571
+      "D": 45981,
+      "E": 49518,
+      "F": 42444
     }
   },
   "EVOPREG9030": {
@@ -38729,26 +38739,6 @@
       "F": 75825
     }
   },
-  "FD130": {
-    "name": "TERMINAL.BRONCE   OJAL  4  mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
-    }
-  },
-  "FD131": {
-    "name": "TERMINAL.BRONCE   OJAL  5  mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
-    }
-  },
   "FD131530": {
     "name": "CHAVETAS TIPO \"R\" 1.5x30mm",
     "category": "6.CHAVETAS TIPO \"R\"",
@@ -38757,16 +38747,6 @@
       "D": 164,
       "E": 175,
       "F": 140
-    }
-  },
-  "FD132": {
-    "name": "TERMINAL.BRONCE   OJAL  6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
     }
   },
   "FD13240": {
@@ -38819,16 +38799,6 @@
       "F": 298
     }
   },
-  "FD133": {
-    "name": "TERMINAL.BRONCE   OJAL 10  mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 2,
-      "E": 2,
-      "F": 1
-    }
-  },
   "FD133570": {
     "name": "CHAVETAS TIPO \"R\" 3.5x70mm",
     "category": "6.CHAVETAS TIPO \"R\"",
@@ -38837,16 +38807,6 @@
       "D": 723,
       "E": 774,
       "F": 619
-    }
-  },
-  "FD134": {
-    "name": "TERMINAL.BRNCE HORQUILLA  3mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 0
     }
   },
   "FD134110": {
@@ -38869,16 +38829,6 @@
       "F": 1509
     }
   },
-  "FD135": {
-    "name": "TERMINAL.BRNCE HORQUILLA  4mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 0
-    }
-  },
   "FD135100": {
     "name": "CHAVETAS TIPO \"R\" 5.0x100mm",
     "category": "6.CHAVETAS TIPO \"R\"",
@@ -38887,16 +38837,6 @@
       "D": 2008,
       "E": 2151,
       "F": 1721
-    }
-  },
-  "FD136": {
-    "name": "TERMINAL.BRNCE HORQUILLA  5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
     }
   },
   "FD136120": {
@@ -38919,166 +38859,6 @@
       "F": 4797
     }
   },
-  "FD138": {
-    "name": "TERMINAL.BCE PALA MACHO 2.8mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 1,
-      "F": 0
-    }
-  },
-  "FD140": {
-    "name": "TERMINAL.BCE PALA MACHO   5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 0
-    }
-  },
-  "FD141": {
-    "name": "TERMINAL.BCE PALA MACHO 6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
-    }
-  },
-  "FD143": {
-    "name": "TERMINAL.BCE PALA HEMBR.2.8mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
-    }
-  },
-  "FD144": {
-    "name": "TERMINAL.BCE PALA HEMBRA  5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 0
-    }
-  },
-  "FD145": {
-    "name": "TERMINAL.BCE PALA HEMBR.6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 0
-    }
-  },
-  "FD146": {
-    "name": "TERMINAL.BRONCE BANDERA 6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
-    }
-  },
-  "FD147": {
-    "name": "TERMINAL.BCE PALA H.6.5mC/TRABx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 1,
-      "F": 1
-    }
-  },
-  "FD153": {
-    "name": "TERMINAL.BNCE PERNO MACHO 4.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 2,
-      "E": 3,
-      "F": 2
-    }
-  },
-  "FD154": {
-    "name": "TERMINAL.BNCE TUBO HEMBRA 4.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 1,
-      "E": 2,
-      "F": 1
-    }
-  },
-  "FD158": {
-    "name": "TERMINAL.BCE AISL.HEMBRA 6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
-    }
-  },
-  "FD158M": {
-    "name": "TERMINAL.BCE AISL.MACHO  6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
-    }
-  },
-  "FD159": {
-    "name": "TERMINAL.BCE AISL.BANDERA6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
-    }
-  },
-  "FD165": {
-    "name": "TERMINAL OJAL 1/4 P/CABLE 6mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 3,
-      "E": 3,
-      "F": 2
-    }
-  },
-  "FD167": {
-    "name": "TERMINAL OJAL 3/4 P/CABLE 6mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 3,
-      "E": 3,
-      "F": 2
-    }
-  },
-  "FD168": {
-    "name": "TERMINAL TUBO P/PROLONG.2.3mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
-    }
-  },
   "FD17": {
     "name": "GAVETERO ARANDELAS DE SUPLEMENTO",
     "category": "6.ARANDELA DE SUPLEMENTOS",
@@ -39087,16 +38867,6 @@
       "D": 143507,
       "E": 153758,
       "F": 123006
-    }
-  },
-  "FD170": {
-    "name": "TERMINAL OJAL 3/8 P/CABLE10mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 5,
-      "E": 6,
-      "F": 5
     }
   },
   "FD171018": {
@@ -48026,7 +47796,7 @@
     "prices": {
       "D": 4365,
       "E": 4700,
-      "F": 3620
+      "F": 4029
     }
   },
   "GON00329": {
@@ -48036,7 +47806,7 @@
     "prices": {
       "D": 522800,
       "E": 563015,
-      "F": 539324
+      "F": 482584
     }
   },
   "GON00342": {
@@ -48046,7 +47816,7 @@
     "prices": {
       "D": 781758,
       "E": 841894,
-      "F": 680609
+      "F": 721623
     }
   },
   "GON00354": {
@@ -48056,7 +47826,7 @@
     "prices": {
       "D": 122332,
       "E": 131743,
-      "F": 98950
+      "F": 112922
     }
   },
   "GON00355": {
@@ -48066,7 +47836,7 @@
     "prices": {
       "D": 1803,
       "E": 1941,
-      "F": 1600
+      "F": 1664
     }
   },
   "GON00356": {
@@ -48076,7 +47846,7 @@
     "prices": {
       "D": 2582,
       "E": 2781,
-      "F": 2436
+      "F": 2383
     }
   },
   "GON00358": {
@@ -48086,7 +47856,7 @@
     "prices": {
       "D": 503269,
       "E": 541982,
-      "F": 497335
+      "F": 464556
     }
   },
   "GON00359": {
@@ -48106,7 +47876,7 @@
     "prices": {
       "D": 219808,
       "E": 236716,
-      "F": 215282
+      "F": 202900
     }
   },
   "GON00363": {
@@ -48116,7 +47886,7 @@
     "prices": {
       "D": 323409,
       "E": 348287,
-      "F": 321805
+      "F": 298532
     }
   },
   "GON00364": {
@@ -48126,7 +47896,7 @@
     "prices": {
       "D": 507441,
       "E": 546475,
-      "F": 460680
+      "F": 468407
     }
   },
   "GON00365": {
@@ -48136,7 +47906,7 @@
     "prices": {
       "D": 729381,
       "E": 785487,
-      "F": 734644
+      "F": 673274
     }
   },
   "GON00366": {
@@ -48146,7 +47916,7 @@
     "prices": {
       "D": 97120,
       "E": 104591,
-      "F": 96025
+      "F": 89649
     }
   },
   "GON00367": {
@@ -48156,7 +47926,7 @@
     "prices": {
       "D": 110614,
       "E": 119123,
-      "F": 113750
+      "F": 102105
     }
   },
   "GON00368": {
@@ -48166,7 +47936,7 @@
     "prices": {
       "D": 293226,
       "E": 315781,
-      "F": 281880
+      "F": 270670
     }
   },
   "GON00370": {
@@ -48176,7 +47946,7 @@
     "prices": {
       "D": 665728,
       "E": 716938,
-      "F": 631908
+      "F": 614519
     }
   },
   "GON00371": {
@@ -48186,7 +47956,7 @@
     "prices": {
       "D": 957179,
       "E": 1030808,
-      "F": 962833
+      "F": 883550
     }
   },
   "GON00373": {
@@ -48196,7 +47966,7 @@
     "prices": {
       "D": 152427,
       "E": 164153,
-      "F": 154535
+      "F": 140702
     }
   },
   "GON00374": {
@@ -48206,7 +47976,7 @@
     "prices": {
       "D": 222294,
       "E": 239393,
-      "F": 228016
+      "F": 205194
     }
   },
   "GON00375": {
@@ -48216,7 +47986,7 @@
     "prices": {
       "D": 391678,
       "E": 421807,
-      "F": 378250
+      "F": 361549
     }
   },
   "GON00379": {
@@ -48226,7 +47996,7 @@
     "prices": {
       "D": 208800,
       "E": 224862,
-      "F": 206505
+      "F": 192738
     }
   },
   "GON00392": {
@@ -48236,7 +48006,7 @@
     "prices": {
       "D": 349953,
       "E": 376873,
-      "F": 331442
+      "F": 323034
     }
   },
   "GON00395": {
@@ -48246,7 +48016,7 @@
     "prices": {
       "D": 130411,
       "E": 140443,
-      "F": 141972
+      "F": 120379
     }
   },
   "GON00396": {
@@ -48256,7 +48026,7 @@
     "prices": {
       "D": 228153,
       "E": 245703,
-      "F": 219068
+      "F": 210603
     }
   },
   "GON00397": {
@@ -48266,7 +48036,7 @@
     "prices": {
       "D": 99961,
       "E": 107650,
-      "F": 101704
+      "F": 92272
     }
   },
   "GON00398": {
@@ -48276,7 +48046,7 @@
     "prices": {
       "D": 113366,
       "E": 122087,
-      "F": 117536
+      "F": 104646
     }
   },
   "GON00399": {
@@ -48286,7 +48056,7 @@
     "prices": {
       "D": 174533,
       "E": 187958,
-      "F": 184822
+      "F": 161107
     }
   },
   "GON00401": {
@@ -48296,7 +48066,7 @@
     "prices": {
       "D": 152782,
       "E": 164535,
-      "F": 114
+      "F": 141030
     }
   },
   "GON00405": {
@@ -48346,7 +48116,7 @@
     "prices": {
       "D": 16053,
       "E": 17391,
-      "F": 17477
+      "F": 16053
     }
   },
   "GON01075": {
@@ -48356,7 +48126,7 @@
     "prices": {
       "D": 32918,
       "E": 35661,
-      "F": 35874
+      "F": 32918
     }
   },
   "GON01144": {
@@ -48396,7 +48166,7 @@
     "prices": {
       "D": 2285,
       "E": 2461,
-      "F": 2212
+      "F": 2110
     }
   },
   "GON01368": {
@@ -48406,7 +48176,7 @@
     "prices": {
       "D": 168229,
       "E": 181170,
-      "F": 167441
+      "F": 155289
     }
   },
   "GON01419": {
@@ -48429,26 +48199,6 @@
       "F": 10119
     }
   },
-  "GON1330": {
-    "name": "TERMINAL CU. ESTA\u00d1ADO 5/16x16mm x1un",
-    "category": "9.TERMINAL.COBRE P/BATERI",
-    "bulk": 1.0,
-    "prices": {
-      "D": 1424,
-      "E": 1526,
-      "F": 1122
-    }
-  },
-  "GON1331": {
-    "name": "TERMINAL CU. ESTA\u00d1ADO 5/16x10mm x1un",
-    "category": "9.TERMINAL.COBRE P/BATERI",
-    "bulk": 1.0,
-    "prices": {
-      "D": 1144,
-      "E": 1226,
-      "F": 861
-    }
-  },
   "GON1499": {
     "name": "CABLE T/SUBTER.3x4.00 N.IRAN TREFIL",
     "category": "9.CABLE T/SUBTER.TREFILCO",
@@ -48456,7 +48206,7 @@
     "prices": {
       "D": 375166,
       "E": 404025,
-      "F": 387796
+      "F": 346307
     }
   },
   "GON166815": {
@@ -48499,56 +48249,6 @@
       "F": 292632
     }
   },
-  "GON20159": {
-    "name": "TERMINAL.LATON OJAL 4.5mmx100un LCT",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 122,
-      "E": 131,
-      "F": 114
-    }
-  },
-  "GON20160": {
-    "name": "TERMINAL.LATON OJAL 6.0mmx100un LCT",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 130,
-      "E": 140,
-      "F": 122
-    }
-  },
-  "GON20161": {
-    "name": "TERMINAL.LATON OJAL 5.0mmx100un LCT",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 119,
-      "E": 129,
-      "F": 107
-    }
-  },
-  "GON20162": {
-    "name": "TERMINAL.LATON OJAL 10mmx100un  LCT",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 208,
-      "E": 224,
-      "F": 184
-    }
-  },
-  "GON20163": {
-    "name": "TERMINAL.LATON OJAL 8.5mmx100un LCT",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 172,
-      "E": 185,
-      "F": 153
-    }
-  },
   "GON21423": {
     "name": "CABLE UNIP.Bnco   1x1.5mmN/I.TREFIL",
     "category": "9.CABLE UNIP.1.5 TREFILC",
@@ -48576,7 +48276,7 @@
     "prices": {
       "D": 90909,
       "E": 94546,
-      "F": 94648
+      "F": 87273
     }
   },
   "GON21426": {
@@ -48586,7 +48286,7 @@
     "prices": {
       "D": 134358,
       "E": 139732,
-      "F": 140079
+      "F": 128984
     }
   },
   "GON214274": {
@@ -48596,7 +48296,7 @@
     "prices": {
       "D": 233975,
       "E": 243334,
-      "F": 243935
+      "F": 224616
     }
   },
   "GON22423": {
@@ -48626,7 +48326,7 @@
     "prices": {
       "D": 90909,
       "E": 94546,
-      "F": 94648
+      "F": 87273
     }
   },
   "GON22426": {
@@ -48636,7 +48336,7 @@
     "prices": {
       "D": 134358,
       "E": 139732,
-      "F": 140079
+      "F": 128984
     }
   },
   "GON23423": {
@@ -48666,7 +48366,7 @@
     "prices": {
       "D": 90909,
       "E": 94546,
-      "F": 94648
+      "F": 87273
     }
   },
   "GON23426": {
@@ -48676,7 +48376,7 @@
     "prices": {
       "D": 134358,
       "E": 139732,
-      "F": 140079
+      "F": 128984
     }
   },
   "GON23427": {
@@ -48686,7 +48386,7 @@
     "prices": {
       "D": 233975,
       "E": 243334,
-      "F": 243935
+      "F": 224616
     }
   },
   "GON24423": {
@@ -48716,7 +48416,7 @@
     "prices": {
       "D": 90909,
       "E": 94546,
-      "F": 94648
+      "F": 87273
     }
   },
   "GON24426": {
@@ -48726,7 +48426,7 @@
     "prices": {
       "D": 134358,
       "E": 139732,
-      "F": 140079
+      "F": 128984
     }
   },
   "GON24427": {
@@ -48736,7 +48436,7 @@
     "prices": {
       "D": 233975,
       "E": 243334,
-      "F": 243935
+      "F": 224616
     }
   },
   "GON24668": {
@@ -48746,27 +48446,7 @@
     "prices": {
       "D": 2509,
       "E": 2702,
-      "F": 4651
-    }
-  },
-  "GON24670": {
-    "name": "TERMINAL.BCE PALA HEMBR.5.0mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 65,
-      "E": 75,
-      "F": 59
-    }
-  },
-  "GON24671": {
-    "name": "TERMINAL.BCE PALA MACHO.5.0mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 110,
-      "E": 118,
-      "F": 114
+      "F": 2316
     }
   },
   "GON25423": {
@@ -48796,7 +48476,7 @@
     "prices": {
       "D": 90909,
       "E": 94546,
-      "F": 94648
+      "F": 87273
     }
   },
   "GON25426": {
@@ -48806,7 +48486,7 @@
     "prices": {
       "D": 134358,
       "E": 139732,
-      "F": 140079
+      "F": 128984
     }
   },
   "GON25427": {
@@ -48816,7 +48496,7 @@
     "prices": {
       "D": 233975,
       "E": 243334,
-      "F": 243935
+      "F": 224616
     }
   },
   "GON26423": {
@@ -48867,26 +48547,6 @@
       "D": 1272,
       "E": 1370,
       "F": 1174
-    }
-  },
-  "GONLCTA5111": {
-    "name": "TERMINAL.BCE PALA HEMBR.6.5mmx100un",
-    "category": "9.TERMINALES DE BRONCE",
-    "bulk": 100.0,
-    "prices": {
-      "D": 94,
-      "E": 102,
-      "F": 132
-    }
-  },
-  "GONLCTA7586": {
-    "name": "TERMINAL CU. ESTA\u00d1ADO 3/16x6mm x1un",
-    "category": "9.TERMINAL.COBRE P/BATERI",
-    "bulk": 1.0,
-    "prices": {
-      "D": 597,
-      "E": 640,
-      "F": 442
     }
   },
   "GONLEDL20139": {
@@ -48986,7 +48646,7 @@
     "prices": {
       "D": 243334,
       "E": 262052,
-      "F": 243935
+      "F": 224616
     }
   },
   "GONTREFILCON115": {
@@ -49006,7 +48666,7 @@
     "prices": {
       "D": 385375,
       "E": 415019,
-      "F": 386424
+      "F": 355731
     }
   },
   "GONTREFILCON1BC": {
@@ -49056,7 +48716,7 @@
     "prices": {
       "D": 128724,
       "E": 138626,
-      "F": 129066
+      "F": 118822
     }
   },
   "GONVARIOSJABJ1.": {
@@ -49066,7 +48726,7 @@
     "prices": {
       "D": 17734,
       "E": 19211,
-      "F": 20594
+      "F": 17734
     }
   },
   "GONVCPC112PDAL": {
@@ -49084,9 +48744,9 @@
     "category": "9.GUIRNALDA LUCES",
     "bulk": 1.0,
     "prices": {
-      "D": 21290,
-      "E": 22928,
-      "F": 18588
+      "D": 30654,
+      "E": 33012,
+      "F": 28296
     }
   },
   "GONVGUIRNALDA5": {
@@ -49094,9 +48754,9 @@
     "category": "9.GUIRNALDA LUCES",
     "bulk": 1.0,
     "prices": {
-      "D": 11826,
-      "E": 12735,
-      "F": 9731
+      "D": 14194,
+      "E": 15286,
+      "F": 13102
     }
   },
   "GP00217": {
@@ -54709,26 +54369,6 @@
       "F": 21185
     }
   },
-  "JC4574": {
-    "name": "TERMINAL PARA BARRAL 1/2     DACOR-",
-    "category": "8.ACC.P/CORTINA",
-    "bulk": 100.0,
-    "prices": {
-      "D": 147,
-      "E": 157,
-      "F": 126
-    }
-  },
-  "JC4575": {
-    "name": "TERMINAL PARA BARRAL 5/8     DACOR-",
-    "category": "8.ACC.P/CORTINA",
-    "bulk": 100.0,
-    "prices": {
-      "D": 215,
-      "E": 230,
-      "F": 184
-    }
-  },
   "JC460": {
     "name": "BARRAL PLACARD OVALAD H\u00b0 DORADO x4mt",
     "category": "8.ACC.P/CORTINA",
@@ -54967,6 +54607,16 @@
       "D": 8784,
       "E": 9459,
       "F": 8108
+    }
+  },
+  "JRCM070": {
+    "name": "CABO DE HIERRO PARA PALA 0.70cm JR",
+    "category": "8.CABOS PARA PALA FT",
+    "bulk": 1.0,
+    "prices": {
+      "D": 10357,
+      "E": 11153,
+      "F": 9560
     }
   },
   "KCMC1500": {
@@ -61317,16 +60967,6 @@
       "D": 1150,
       "E": 1233,
       "F": 986
-    }
-  },
-  "MASIV10057": {
-    "name": "CINTA ADHES.DOBLE FAZ 18mmx1.5 IMP.",
-    "category": "8.CINTA ADHES/DBLE FAZ",
-    "bulk": 288.0,
-    "prices": {
-      "D": 994,
-      "E": 1071,
-      "F": 918
     }
   },
   "MASIV10058": {
@@ -70044,9 +69684,9 @@
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 6.0,
     "prices": {
-      "D": 12961,
-      "E": 13958,
-      "F": 11964
+      "D": 13662,
+      "E": 14713,
+      "F": 12611
     }
   },
   "MK000006": {
@@ -70054,9 +69694,9 @@
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 6.0,
     "prices": {
-      "D": 12961,
-      "E": 13958,
-      "F": 11964
+      "D": 13662,
+      "E": 14713,
+      "F": 12611
     }
   },
   "MK000008": {
@@ -70064,9 +69704,9 @@
     "category": "1.DEPOSITO y ACCESORIOS",
     "bulk": 8.0,
     "prices": {
-      "D": 11224,
-      "E": 12087,
-      "F": 10361
+      "D": 11797,
+      "E": 12705,
+      "F": 10890
     }
   },
   "MK000010": {
@@ -70074,9 +69714,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 6.0,
     "prices": {
-      "D": 18610,
-      "E": 20041,
-      "F": 17178
+      "D": 19647,
+      "E": 21159,
+      "F": 18136
     }
   },
   "MK000013": {
@@ -70084,9 +69724,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 5.0,
     "prices": {
-      "D": 25764,
-      "E": 27746,
-      "F": 23783
+      "D": 27139,
+      "E": 29227,
+      "F": 25051
     }
   },
   "MK000021": {
@@ -70094,9 +69734,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 15.0,
     "prices": {
-      "D": 7249,
-      "E": 7807,
-      "F": 6692
+      "D": 7605,
+      "E": 8190,
+      "F": 7020
     }
   },
   "MK000029": {
@@ -70104,9 +69744,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 796,
-      "E": 858,
-      "F": 735
+      "D": 820,
+      "E": 883,
+      "F": 757
     }
   },
   "MK000030": {
@@ -70114,9 +69754,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 269,
-      "E": 290,
-      "F": 248
+      "D": 279,
+      "E": 301,
+      "F": 258
     }
   },
   "MK000043": {
@@ -70124,9 +69764,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 4716,
-      "E": 5079,
-      "F": 4354
+      "D": 4998,
+      "E": 5382,
+      "F": 4613
     }
   },
   "MK000046": {
@@ -70134,9 +69774,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 3428,
-      "E": 3692,
-      "F": 3164
+      "D": 3589,
+      "E": 3865,
+      "F": 3313
     }
   },
   "MK000101": {
@@ -70144,9 +69784,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 8541,
-      "E": 9198,
-      "F": 7884
+      "D": 8938,
+      "E": 9625,
+      "F": 8250
     }
   },
   "MK000103": {
@@ -70154,9 +69794,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000105": {
@@ -70164,9 +69804,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000106": {
@@ -70174,9 +69814,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000107": {
@@ -70184,9 +69824,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000108": {
@@ -70194,9 +69834,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000109": {
@@ -70204,9 +69844,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000113": {
@@ -70214,9 +69854,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000115": {
@@ -70224,9 +69864,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000117": {
@@ -70234,9 +69874,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000119": {
@@ -70244,9 +69884,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000120": {
@@ -70254,9 +69894,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 12.0,
     "prices": {
-      "D": 9225,
-      "E": 9934,
-      "F": 8515
+      "D": 9653,
+      "E": 10395,
+      "F": 8910
     }
   },
   "MK000283": {
@@ -70264,9 +69904,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 5614,
-      "E": 6046,
-      "F": 5182
+      "D": 5947,
+      "E": 6405,
+      "F": 5490
     }
   },
   "MK000302": {
@@ -70274,9 +69914,9 @@
     "category": "1.ASIENTO.INOD.ACC.MONKOT",
     "bulk": 15.0,
     "prices": {
-      "D": 7249,
-      "E": 7807,
-      "F": 6692
+      "D": 7605,
+      "E": 8190,
+      "F": 7020
     }
   },
   "MMD1189": {
@@ -73057,16 +72697,6 @@
       "D": 19228,
       "E": 20707,
       "F": 17749
-    }
-  },
-  "PAR2015": {
-    "name": "ANTENA TV UHF 21 ELEM.(flecha)CABLEPAR",
-    "category": "9.ANTENA TV STD.RED.PAR",
-    "bulk": 5.0,
-    "prices": {
-      "D": 23377,
-      "E": 25175,
-      "F": 21579
     }
   },
   "PAR2016": {
@@ -76230,13 +75860,13 @@
     }
   },
   "PX120314": {
-    "name": "ADAPTADOR TANQUE 1 PPN POLIMEX",
-    "category": "2.ACCES.PPN POLIMEX",
-    "bulk": 10.0,
+    "name": "ANTENA TV UHF 21 ELEM.(flecha)CABLEPAR",
+    "category": "9.ANTENA TV STD.RED.PAR",
+    "bulk": 5.0,
     "prices": {
-      "D": 2604,
-      "E": 2804,
-      "F": 2404
+      "D": 23377,
+      "E": 25175,
+      "F": 21579
     }
   },
   "PX120315": {
@@ -78110,7 +77740,7 @@
     }
   },
   "PX840050": {
-    "name": "CUPLA RED.CONCEN.M-H 50x40mmPOLISEAL",
+    "name": "CUPLA RED CONCEN M-H 50 x40mm POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 20.0,
     "prices": {
@@ -78120,7 +77750,7 @@
     }
   },
   "PX840063": {
-    "name": "CUPLA RED.CONCEN.M-H 63x50mmPOLISEAL",
+    "name": "CUPLA RED CONCEN M-H 63 x50mm POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78130,7 +77760,7 @@
     }
   },
   "PX840110": {
-    "name": "CUPLA RED.CONCEN.M-H 110x63mmPOLISEAL",
+    "name": "CUPLA RED CONCEN M-H 110 x63mm POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78140,7 +77770,7 @@
     }
   },
   "PX841212": {
-    "name": "PORTAREJA 12x12 REJ/Ace.110.POLISEAL",
+    "name": "PORTAREJA 12x12 REJ/Ace 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 15.0,
     "prices": {
@@ -78150,7 +77780,7 @@
     }
   },
   "PX841215": {
-    "name": "PORTAREJA 15x15 REJ/Ace.110.POLISEAL",
+    "name": "PORTAREJA 15x15 REJ/Ace 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 3.0,
     "prices": {
@@ -78160,7 +77790,7 @@
     }
   },
   "PX841222": {
-    "name": "PORTAREJA 12x12 CIEGA/Ace.110.POLISEAL",
+    "name": "PORTAREJA 12x12 CIEGA/Ace 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 6.0,
     "prices": {
@@ -78170,7 +77800,7 @@
     }
   },
   "PX841225": {
-    "name": "PORTAREJA 15x15 CIEGA/Ace.110.POLISEAL",
+    "name": "PORTAREJA 15x15 CIEGA/Ace 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 3.0,
     "prices": {
@@ -78180,7 +77810,7 @@
     }
   },
   "PX841308": {
-    "name": "PORTAREJ.8x8c/REJ.63mmPLAST.POLISEAL",
+    "name": "PORTAREJ 8x8 c/REJ 63mm PLAST POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78190,7 +77820,7 @@
     }
   },
   "PX841312": {
-    "name": "PORTAREJ.12x12 T/RjaPLAST.a110.POLISEAL",
+    "name": "PORTAREJ 12x12 T/Rja PLAST a 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78200,7 +77830,7 @@
     }
   },
   "PX841318": {
-    "name": "PORTAREJ.8x8c/REJ.40mmPLAST.POLISEAL",
+    "name": "PORTAREJ 8x8 c/REJ 40mm PLAST POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78210,7 +77840,7 @@
     }
   },
   "PX841415": {
-    "name": "PORTAREJ.C/REJ.PLAST.15x15a110.POLISEAL",
+    "name": "PORTAREJ C/REJ PLAST 15x15 a 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78220,7 +77850,7 @@
     }
   },
   "PX841428": {
-    "name": "PORTAREJ.8x8c/REJ.40mm Bce.POLISEAL",
+    "name": "PORTAREJ 8x8 c/REJ 40mm Bce POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78230,7 +77860,7 @@
     }
   },
   "PX841512": {
-    "name": "PORTAREJA 12x12 C/REJ.Bce 110.POLISEAL",
+    "name": "PORTAREJA 12x12 C/REJ Bce 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 6.0,
     "prices": {
@@ -78240,7 +77870,7 @@
     }
   },
   "PX841515": {
-    "name": "PORTAREJA 15x15 C/REJ/Bce.110.POLISEAL",
+    "name": "PORTAREJA 15x15 C/REJ Bce 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78250,7 +77880,7 @@
     }
   },
   "PX841522": {
-    "name": "PORTAREJA 12x12 T/CIEG.Bce110.POLISEAL",
+    "name": "PORTAREJA 12x12 T/CIEG Bce 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78260,7 +77890,7 @@
     }
   },
   "PX841525": {
-    "name": "PORTAREJA 15x15 T/CIEG.Bce110.POLISEAL",
+    "name": "PORTAREJA 15x15 T/CIEG Bce 110 POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78270,7 +77900,7 @@
     }
   },
   "PX841628": {
-    "name": "PORTAREJ.8x8c/REJ.40mmAC.Inox.POLISEAL",
+    "name": "PORTAREJ 8x8 c/REJ 40mm AC Inox POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -78280,7 +77910,7 @@
     }
   },
   "PX841638": {
-    "name": "PORTAREJ.8x8.T/Cieg.40mmAC.Inox.POLISEAL",
+    "name": "PORTAREJ 8x8 T/Cieg 40mm AC Inox POLISEAL",
     "category": "2.ACC.POLISEAL",
     "bulk": 10.0,
     "prices": {
@@ -96394,9 +96024,9 @@
     "category": "7.PINCEL TUCAN",
     "bulk": 12.0,
     "prices": {
-      "D": 1213,
-      "E": 1306,
-      "F": 1120
+      "D": 1276,
+      "E": 1374,
+      "F": 1177
     }
   },
   "TUCP25N": {
@@ -96754,9 +96384,9 @@
     "category": "8.MAQ.SIERRA CALAD.UMI",
     "bulk": 1.0,
     "prices": {
-      "D": 148146,
-      "E": 159542,
-      "F": 136750
+      "D": 130715,
+      "E": 140770,
+      "F": 120660
     }
   },
   "UMIHU010": {
@@ -97004,9 +96634,9 @@
     "category": "1.PILETAS y ACCES.",
     "bulk": 5.0,
     "prices": {
-      "D": 12799,
-      "E": 13784,
-      "F": 11814
+      "D": 12945,
+      "E": 13941,
+      "F": 11949
     }
   },
   "WATPB24": {
@@ -97014,9 +96644,9 @@
     "category": "1.PILETAS y ACCES.",
     "bulk": 5.0,
     "prices": {
-      "D": 17984,
-      "E": 19367,
-      "F": 16600
+      "D": 18146,
+      "E": 19541,
+      "F": 16750
     }
   },
   "WB126": {
