@@ -635,11 +635,7 @@ nav .iconos img{
         padding-left: 5px; /* Añade menos padding al contenedor */
     }
     
-    /* Ocultar el ícono de flecha */
-    .container-img .bottom-row a:nth-child(1) span {
-     /*25-6-25
-     /*display: none;*/
-    }
+   
 
 
      /* Ocultar SOLO el ícono de flecha, no todos los spans */
@@ -647,6 +643,8 @@ nav .iconos img{
      .container-img .bottom-row a:nth-child(1) span.fas {
      display: none;
      }
+
+     
 
     .btn-inferiores {
           position: fixed;

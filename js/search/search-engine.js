@@ -1418,6 +1418,11 @@ function displayNoResults(query) {
         try {
           window.galleryItems = document.querySelectorAll('.gallery-item');
           console.log('[search-engine] Variable global galleryItems actualizada con', window.galleryItems.length, 'elementos');
+          // AGREGAR AQUÍ - Disparar evento para ajustar posiciones
+          setTimeout(() => {
+              const event = new CustomEvent('searchResultsDisplayed');
+              window.dispatchEvent(event);
+          }, 100);
         } catch (e) {
           console.warn('[search-engine] No se pudo actualizar variable global galleryItems:', e);
         }
@@ -1587,4 +1592,67 @@ function displayNoResults(query) {
     // Inicializar
     addStyles();
     initSearch();
+
+    
+    // AGREGAR AQUÍ - // Función mejorada para ajustar posición del bottom-row basada en patrones
+    // Función mejorada que usa datos del JSON catalogo_dimensiones.json
+    async function adjustBottomRowPositions() {
+    try {
+        console.log('🔧 EJECUTANDO adjustBottomRowPositions...');
+        
+        // 1. Cargar JSON
+        const response = await fetch('./json/catalogo_dimensiones.json');
+        const catalogoDimensiones = await response.json();
+        console.log('✅ JSON cargado en adjustBottomRowPositions');
+        
+        // 2. Detectar breakpoint
+        const screenWidth = window.innerWidth;
+        const currentBreakpoint = screenWidth <= 768 ? 'mobile' : 
+                                screenWidth <= 1200 ? 'tablet' : 'desktop';
+        console.log(`📱 Breakpoint: ${currentBreakpoint} (${screenWidth}px)`);
+        
+        // 3. Aplicar a todos los elementos
+        const elementosBottomRow = document.querySelectorAll('.container-img .bottom-row');
+        console.log(`🔍 Encontrados ${elementosBottomRow.length} elementos bottom-row`);
+        
+        elementosBottomRow.forEach(bottomRow => {
+            const galleryItem = bottomRow.closest('.gallery-item');
+            if (!galleryItem) return;
+            
+            const codigo = galleryItem.getAttribute('data-product-code');
+            if (!codigo) return;
+            
+            const dimensiones = catalogoDimensiones.images_dimensions[codigo];
+            if (dimensiones && dimensiones.bottomPosition) {
+                const nuevoValor = dimensiones.bottomPosition[currentBreakpoint];
+                bottomRow.style.setProperty('bottom', nuevoValor + 'px', 'important');
+                console.log(`✅ ${codigo}: ${nuevoValor}px aplicado`);
+            }
+        });
+        
+        console.log('🎉 adjustBottomRowPositions COMPLETADO');
+        
+    } catch (error) {
+        console.error('❌ Error en adjustBottomRowPositions:', error);
+    }
+}
+
+    // Función de respaldo (la anterior simplificada)
+    function adjustBottomRowPositionsFallback() {
+        console.log('[adjustBottomRow] Usando método de respaldo');
+        
+        const screenWidth = window.innerWidth;
+        const fallbackValue = screenWidth <= 768 ? 55 : 
+                            screenWidth <= 1200 ? 65 : 75;
+        
+        document.querySelectorAll('.container-img .bottom-row').forEach(row => {
+            row.style.setProperty('bottom', fallbackValue + 'px', 'important');
+        });
+    }
+
+    // Ejecutar al cargar la página
+    adjustBottomRowPositions();
+
+    // También ejecutar cuando se muestren nuevos resultados de búsqueda
+    window.addEventListener('searchResultsDisplayed', adjustBottomRowPositions);
   });
