@@ -1579,9 +1579,43 @@ function displayNoResults(query) {
         .boton-limpiar:hover {
           background-color: #3a7cca;
         }
-      `;
-      
-      document.head.appendChild(styles);
+       /* AGREGAR AQUÍ - Estilos optimizados para bottom-row */
+        .container-img .bottom-row {
+            width: 240px !important;
+            max-width: 92% !important;
+            margin-left: 1% !important;
+            padding: 0 4px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 0px !important;              /* CAMBIAR: era 2px, ahora 0px */
+            min-height: 35px !important;
+            height: auto !important;
+        }
+        
+        .container-img .bottom-row a:nth-child(1) {
+            width: 140px !important;
+            padding-left: 2px !important;
+            margin: 0px !important;           /* AGREGAR: eliminar todos los margins */
+            margin-right: 0px !important;    /* AGREGAR: específicamente margin-right */
+            font-weight: 400 !important;     /* AGREGAR: el valor que elegiste */
+            overflow: visible !important;
+            text-overflow: clip !important;
+            white-space: normal !important;
+            flex-shrink: 0 !important;
+        }
+        
+        .container-img .bottom-row .price-tag {
+            min-width: 70px !important;
+            max-width: 70px !important;
+            margin-left: 5px !important;
+            font-size: 0.8em !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+        }
+    `;
+    
+    document.head.appendChild(styles);
     }
     
 
