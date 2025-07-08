@@ -289,24 +289,48 @@ nav .iconos img{
 }
 
 .container-img .bottom-row{
+     position: absolute;
+     bottom: 80px;
+     left: 0%;
+     height: 35px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     
+     /* VALORES ACTUALIZADOS */
+     width: 230px;                    /* Era fit-content */
+     max-width: 92%;                  /* Era 85% */
+     min-width: 200px;                /* Era 200px */
+     margin-left: 2%;                 /* Era 5% */
+     padding: 0 4px;                  /* Era 0 8px */
+     background-color: rgba(255, 255, 255, 0.9);
+     border-radius: 20px;
+     gap: 2px;
+}
 
-     position: absolute;          /* Posicionamiento absoluto respecto al contenedor padre */
-     bottom: 80px;               /* Distancia desde el borde inferior */
-     left: 0%;                   /* Alineación desde el borde izquierdo */
-     height: 35px;               /* Altura reducida */
-     display: flex;              /* Habilita flexbox para ordenar los elementos internos */
-     align-items: center;        /* Centra verticalmente los elementos */
-     justify-content: space-between;  /* Distribuye el espacio */
-     width: fit-content;         /* El ancho se ajusta al contenido */
-     min-width: 200px;          /* Ancho mínimo para el contenedor */
-     max-width: 85%;  
-     margin-left: 5%;           /* Margen izquierdo para centrado */
-     padding: 0 8px;            /* Padding horizontal uniforme */
-     background-color: rgba(255, 255, 255, 0.9);  /* Fondo blanco semi-transparente */
-     border-radius: 20px;       /* Bordes más redondeados */
-     gap: 2px;                  /* Espacio reducido entre elementos */      
-    
+/* AGREGAR DESPUÉS - Estilos para el enlace del código */
+.container-img .bottom-row a:nth-child(1) {
+     flex: 0 0 auto;
+     width: 100px;                    /* Ancho fijo para código */
+     padding-left: 2px;               /* Mínimo padding izquierdo */
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+     color: #111;
+     font-weight: 700;
+     font-size: 0.9em;
+}
 
+/* AGREGAR DESPUÉS - Estilos para el precio */
+.container-img .bottom-row .price-tag {
+     flex: 0 0 auto;
+     min-width: 70px;                 /* Espacio para 8 caracteres */
+     max-width: 70px;
+     margin-left: 5px;
+     font-size: 0.8em;
+     color: var(--gris400);
+     font-weight: 700;
+     white-space: nowrap;
 }
 
 /* Agregar nuevo estilo para el precio */
