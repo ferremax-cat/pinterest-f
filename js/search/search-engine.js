@@ -1395,7 +1395,7 @@ function displayNoResults(query) {
               </div>
 
               <div class="bottom-row">
-              <a href="#">${itemCode}</a>
+              <a href="#" style="font-weight: 400 !important;">${itemCode}</a>
               ${item.price ? `<span class="price-tag">$${formatPrice(item.price)}</span>` : ''}
               </div>
             </div>
@@ -1588,17 +1588,22 @@ function displayNoResults(query) {
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
+            align-items: flex-start !important;    /* MANTENER: flex-start */
             gap: 0px !important;              /* CAMBIAR: era 2px, ahora 0px */
             min-height: 35px !important;
             height: auto !important;
         }
         
-        .container-img .bottom-row a:nth-child(1) {
+        .gallery-container .container-img .bottom-row a:nth-child(1),
+        .gallery-item .container-img .bottom-row a:nth-child(1) {
             width: 140px !important;
             padding-left: 2px !important;
             margin: 0px !important;           /* AGREGAR: eliminar todos los margins */
             margin-right: 0px !important;    /* AGREGAR: específicamente margin-right */
             font-weight: 400 !important;     /* AGREGAR: el valor que elegiste */
+            margin-top: 12px !important;      /* AGREGAR: bajar código 8px */
+            font-size: 0.7em !important;     /* AGREGAR: tamaño muy pequeño */
+            align-self: flex-start !important;    /* AGREGAR: alineación flex-start */
             overflow: visible !important;
             text-overflow: clip !important;
             white-space: normal !important;
@@ -1612,6 +1617,7 @@ function displayNoResults(query) {
             font-size: 0.8em !important;
             flex-shrink: 0 !important;
             white-space: nowrap !important;
+            align-self: center !important;        /* AGREGAR: precio centrado */
         }
     `;
     
