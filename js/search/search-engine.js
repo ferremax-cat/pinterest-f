@@ -1614,7 +1614,7 @@ function displayNoResults(query) {
             min-width: 70px !important;
             max-width: 70px !important;
             margin-left: 5px !important;
-            font-size: 0.8em !important;
+            font-size: 0.99em !important;
             flex-shrink: 0 !important;
             white-space: nowrap !important;
             align-self: center !important;        /* AGREGAR: precio centrado */
