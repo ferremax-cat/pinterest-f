@@ -21,6 +21,8 @@ const config = {
     // ID del archivo IMAGENES_DRIVE
     catalogoImagenesId: '1IKRA31nI8N5dABByDoRWen5NbqiNFl2d',
 
+    // ID del archivo Margenes Clientes Ferremax
+    margenesClientesId: '1iQ32M6dO7mGVTls7590RpCTwQ-0T7nZRCbmWZ0Yk_h4',
     
     // Endpoints de APIs
     apiEndpoints: {

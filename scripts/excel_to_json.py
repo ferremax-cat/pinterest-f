@@ -23,6 +23,7 @@ def get_sheet_ids():
                 'promociones': re.search(r'promocionesId: [\'"](.+?)[\'"]', config).group(1),
                 'catalogo_grupos': re.search(r'catalogoGruposId: [\'"](.+?)[\'"]', config).group(1),
                 'catalogo_imagenes': re.search(r'catalogoImagenesId: [\'"](.+?)[\'"]', config).group(1),
+                'margenes_clientes': re.search(r'margenesClientesId: [\'"](.+?)[\'"]', config).group(1),  # NUEVA LÍNEA
             }
         
         print(f'No se encontró el archivo en: {config_path}')
@@ -190,6 +191,147 @@ def process_client_row(result, row):
 
     except Exception as e:
         print(f'Error procesando cuenta {cuenta_valor if "cuenta_valor" in locals() else "desconocida"}: {e}')
+
+# MODIFICACIÓN 2: Crear process_margin_row()
+def process_margin_row(result, row):
+    """Procesa una fila de márgenes desde Google Sheets"""
+    try:
+        print(f'Procesando fila de margen: {row}')
+
+        # Obtener cliente (columna B, índice 1)
+        cliente_valor = row['c'][1]['v']
+        cliente = str(int(float(cliente_valor)))
+        print(f'Cliente procesado: {cliente}')
+        
+        # Obtener datos de las otras columnas
+        nombre = row['c'][2]['v'] if row['c'][2] else ''
+        margen = int(row['c'][3]['v']) if row['c'][3] else 0
+        mostrar = row['c'][4]['v'] if row['c'][4] else 'lista'
+        fecha_cambio = row['c'][0]['v'] if row['c'][0] else ''  # Marca temporal
+        
+        result[cliente] = {
+            'nombre': nombre,
+            'margen': margen,
+            'mostrar': mostrar,
+            'ultima_actualizacion': fecha_cambio
+        }
+        print(f'Margen para cliente {cliente} agregado exitosamente')
+
+    except Exception as e:
+        print(f'Error procesando margen para cliente {cliente_valor if "cliente_valor" in locals() else "desconocido"}: {e}')
+
+# MODIFICACIÓN 3: Crear función específica para márgenes
+def process_margenes_sheet_data(data):
+    """Procesa específicamente los datos de márgenes desde Google Sheets"""
+    try:
+        result = {}
+        
+        print(f'\nProcesando sheet de márgenes')
+        print(f'Total de filas encontradas: {len(data["table"]["rows"])}')
+        
+        for index, row in enumerate(data['table']['rows']):
+            print(f'\nRevisando fila {index + 1}:')
+            print(f'Contenido de la fila: {row}')
+            
+            # Cliente está en columna B (índice 1)
+            if not row['c'][1]:
+                print(f'Fila {index + 1} saltada: No tiene datos de cliente')
+                continue
+            if not row['c'][1].get('v'):
+                print(f'Fila {index + 1} saltada: No tiene valor de cliente')
+                continue
+            
+            process_margin_row(result, row)
+            
+        print(f'\nTotal de márgenes procesados: {len(result)}')
+        print(f'Clientes procesados: {list(result.keys())}')
+
+        # Guardar JSON
+        with open('json/margenes_clientes.json', 'w', encoding='utf-8') as f:
+            json.dump(result, f, indent=2, ensure_ascii=False)
+            
+    except Exception as e:
+        print(f'Error procesando datos de márgenes: {e}')
+        raise
+
+
+# MODIFICACIÓN 4: Crear process_margins_local()
+def process_margins_local():
+    """Procesa MARGENES_CLIENTES.xlsx y genera margenes_clientes.json"""
+    try:
+        # Leer Excel
+        df = pd.read_excel('excel/MARGENES_CLIENTES.xlsx')
+        
+        # Procesar datos
+        margins_data = {}
+        for _, row in df.iterrows():
+            cliente = str(row['Cliente'])
+            margins_data[cliente] = {
+                'nombre': row['Nombre'],
+                'margen': int(row['Margen']),
+                'mostrar': row['Mostrar'],
+                'ultima_actualizacion': str(row['Fecha_Cambio']) if 'Fecha_Cambio' in row else ''
+            }
+            
+        # Guardar JSON
+        with open('json/margenes_clientes.json', 'w', encoding='utf-8') as f:
+            json.dump(margins_data, f, indent=2, ensure_ascii=False)
+            
+        print('margenes_clientes.json generado exitosamente')
+            
+    except Exception as e:
+        print(f'Error procesando márgenes: {e}')
+
+
+# MODIFICACIÓN 5: Crear función específica para actualización local de márgenes
+def update_margenes_from_local():
+    """Actualiza márgenes desde archivo Excel local"""
+    try:
+        print('Actualizando márgenes desde Excel local')
+        process_margins_local()
+        print('Actualización de márgenes local completada')
+    except Exception as e:
+        print(f'Error en actualización de márgenes local: {e}')
+
+
+# MODIFICACIÓN 6: Crear función específica para actualización de márgenes desde Google Sheets
+def update_margenes_from_sheets():
+    """Actualiza márgenes específicamente desde Google Sheets"""
+    try:
+        sheets = get_sheet_ids()
+        
+        if 'margenes_clientes' in sheets:
+            sheet_id = sheets['margenes_clientes']
+            print(f'Procesando margenes_clientes desde Google Sheets')
+            
+            data = get_sheet_data(sheet_id)
+            if data:
+                process_margenes_sheet_data(data)
+                print(f'Actualizado margenes_clientes.json desde Google Sheets')
+            else:
+                print('No se pudieron obtener datos de Google Sheets, usando Excel local')
+                update_margenes_from_local()
+        else:
+            print('ID de margenes_clientes no encontrado en config.js')
+            
+    except Exception as e:
+        print(f'Error en actualización de márgenes desde Sheets: {e}')
+        print('Intentando actualización local de márgenes')
+        update_margenes_from_local()
+
+
+# FUNCIÓN PRINCIPAL PARA ACTUALIZAR SOLO MÁRGENES
+def update_margenes():
+    """Función principal para actualizar solo márgenes (Sheets primero, Excel como backup)"""
+    try:
+        print('Iniciando actualización de márgenes')
+        update_margenes_from_sheets()
+    except Exception as e:
+        print(f'Error en actualización desde Sheets: {e}')
+        print('Intentando actualización local')
+        update_margenes_from_local()
+
+
 
 def process_group_row(result, row):
     """Procesa una fila de grupos desde Google Sheets"""
@@ -703,11 +845,12 @@ def main():
             return
         print('Iniciando actualización de JSONs')
         update_from_sheets()
+        update_margenes()  # NUEVA LÍNEA - Actualizar márgenes desde Google Sheets
     except Exception as e:
         print(f'Error en actualización desde Sheets: {e}')
         print('Intentando actualización local')
         update_from_local()
-
+        update_margenes_from_local()  # NUEVA LÍNEA - Actualizar márgenes desde Excel local
 
 if __name__ == "__main__":
     main()
