@@ -26,8 +26,8 @@
           </div>
 
           <div class="iconos">
-               <span class="fas fa-bell"></span>
-               <span class="fas fa-comment"></span>
+               <span class=""></span>
+               <span class=""></span>
                <div class="perfil-container">
                     <!--<img class="img-perfil" src="img/perfil.jpg" alt="">-->
                </div>
@@ -985,6 +985,7 @@
                // 3. DESPUÉS parsear clientConfig
                const clientConfig = JSON.parse(clientData);
 
+
                // 1. AGREGAR primero la obtención de instancias
                window.productManager = ProductManager.getInstance({ 
                monitoringSystem,
@@ -1113,6 +1114,7 @@
                }
 
                const clientConfig = JSON.parse(clientData);
+               
 
                // 2. Obtener instancias únicas de los managers
                /* window.productManager = ProductManager.getInstance({ 
@@ -2043,6 +2045,1090 @@
                // Si todo falla, intentar carga básica
                await cargarImagenes();
                 }
+
+
+                // ================================================
+               // SISTEMA DE MÁRGENES - CÓDIGO COMPLETAMENTE MODULAR
+               // ================================================
+
+               // FUNCIÓN PRINCIPAL - Agregar al final del DOMContentLoaded existente
+               function initializeMarginSystem() {
+               console.log('🎯 Inicializando sistema de márgenes...');
+               
+               // 0. Restaurar estado después de recarga (si aplica)
+               restoreMarginStateAfterReload();
+               
+               // 1. Cargar configuración del cliente
+               loadMarginConfiguration();
+               
+               // 2. Crear UI del toggle
+               createPriceToggleUI();
+               
+               // 3. Configurar interceptores
+               setupPriceInterceptors();
+
+               
+               
+               console.log('✅ Sistema de márgenes inicializado');
+               }
+
+               // ================================================
+               // CONFIGURACIÓN DE MÁRGENES
+               // ================================================
+
+               function loadMarginConfiguration() {
+                    try {
+                         console.log('📋 Cargando configuración de márgenes...');
+                         
+                         // Obtener ID del cliente actual
+                         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+                         const clientId = clientData.account || clientData.id || clientData.cuenta;
+                         
+                         if (!clientId) {
+                              console.log('⚠️ No se encontró ID de cliente');
+                              setDefaultMarginConfig();
+                              return;
+                         }
+
+                         // AGREGAR AQUÍ - Verificación de cambio de cliente
+                         const lastClientId = localStorage.getItem('lastLoggedClientId');
+                         if (lastClientId && lastClientId !== clientId) {
+                         console.log('🔄 Detectado cambio de cliente, limpiando configuración anterior');
+                         localStorage.removeItem('margenCliente');
+                         localStorage.removeItem('precioModo');
+                         localStorage.removeItem('margenTimestamp'); // AGREGAR ESTA LÍNEA
+                         }
+
+                         // Guardar el cliente actual para futuras verificaciones
+                         localStorage.setItem('lastLoggedClientId', clientId);
+                         
+                         // Intentar cargar desde JSON de márgenes
+                         fetch('./json/margenes_clientes.json')
+                              .then(response => response.json())
+                              .then(margenes => {
+                                   console.log('📋 JSON completo cargado:', margenes);
+                                   console.log('🔍 Buscando cliente:', clientId);
+                                   console.log('🔍 Datos del cliente:', margenes[clientId]);
+                                   if (margenes[clientId]) {
+                                        console.log(`✅ Configuración encontrada para cliente ${clientId}`);
+                                        console.log('📊 Margen del cliente:', margenes[clientId].margen);
+                                        console.log('👁️ Modo del cliente:', margenes[clientId].mostrar);
+                                        
+                                        // Guardar en localStorage con prioridad sobre JSON
+                                        // PRIORIDAD: localStorage primero, JSON como backup
+                                        const currentMargen = localStorage.getItem('margenCliente');
+                                        const currentModo = localStorage.getItem('precioModo');
+
+                                        if (!currentMargen) {
+                                        localStorage.setItem('margenCliente', margenes[clientId].margen || 0);
+                                        }
+
+                                        if (!currentModo) {
+                                        localStorage.setItem('precioModo', margenes[clientId].mostrar || 'lista');
+                                        }
+
+                                        // Actualizar el input visual con el nuevo margen
+                                        setTimeout(() => {
+                                        const marginInput = document.getElementById('marginInput');
+                                        if (marginInput) {
+                                             marginInput.value = margenes[clientId].margen || 0;
+                                             console.log('📱 Input actualizado con margen:', margenes[clientId].margen);
+                                        }
+                                        
+                                        // También actualizar el toggle
+                                        setInitialToggleState();
+                                        // AGREGAR ESTA LÍNEA: Recalcular todos los precios
+                                        recalculateAllVisiblePrices();
+
+                                        }, 500);
+                                   } else {
+                                        console.log(`⚠️ No se encontró configuración para cliente ${clientId}`);
+                                        setDefaultMarginConfig();
+                                   }
+                              })
+                              .catch(error => {
+                                   console.log('⚠️ Error cargando márgenes, usando valores por defecto:', error);
+                                   setDefaultMarginConfig();
+                              });
+                              
+                    } catch (error) {
+                         console.error('❌ Error en loadMarginConfiguration:', error);
+                         setDefaultMarginConfig();
+                    }
+               }
+
+               function setDefaultMarginConfig() {
+               if (!localStorage.getItem('margenCliente')) {
+                    localStorage.setItem('margenCliente', '0');
+               }
+               if (!localStorage.getItem('precioModo')) {
+                    localStorage.setItem('precioModo', 'lista');
+               }
+               }
+
+               // ================================================
+               // INTERFAZ DE USUARIO - TOGGLE
+               // ================================================
+
+               function createPriceToggleUI() {
+               try {
+                    console.log('🎨 Creando toggle de precios...');
+                    
+                    // Buscar el contenedor de la navbar
+                    const navbar = document.querySelector('nav');
+                    const inputContainer = document.querySelector('.input-container');
+                    const iconos = document.querySelector('.iconos');
+                    
+                    if (!navbar || !inputContainer || !iconos) {
+                         console.log('⚠️ No se encontraron elementos de navbar');
+                         return;
+                    }
+                    
+                    // Crear toggle container
+                    const toggleContainer = document.createElement('div');
+                    toggleContainer.className = 'price-toggle-container';
+                    toggleContainer.innerHTML = `
+                         <div class="price-toggle">
+                              <span class="toggle-label">P.L</span>
+                              <label class="toggle-switch">
+                                   <input type="checkbox" id="priceToggle">
+                                   <span class="slider"></span>
+                              </label>
+                              <span class="toggle-label">P.V</span>
+                         </div>
+                         <div class="margin-input-container" style="display: none;">
+                              <input type="number" id="marginInput" placeholder="%" min="0" max="100" step="1">
+                              <button id="marginSaveBtn">OK</button>
+                         </div>
+                    `;
+                    
+                    // Insertar entre input y iconos
+                    navbar.insertBefore(toggleContainer, iconos);
+                    
+                    // Aplicar estilos
+                    addToggleStyles();
+                    
+                    // Configurar eventos
+                    setupToggleEvents();
+                    
+                    // Establecer estado inicial
+                    setInitialToggleState();
+                    
+                    console.log('✅ Toggle de precios creado');
+                    
+               } catch (error) {
+                    console.error('❌ Error en createPriceToggleUI:', error);
+               }
+               }
+
+               function addToggleStyles() {
+               if (document.querySelector('#price-toggle-styles')) return;
+               
+               const style = document.createElement('style');
+               style.id = 'price-toggle-styles';
+               style.textContent = `
+                    .price-toggle-container {
+                         display: flex;
+                         align-items: center;
+                         gap: 10px;
+                         margin: 0 20px;
+                    }
+
+
+                    /* Media query específica para dispositivos móviles */
+                    @media screen and (max-width: 768px) {
+                    .price-toggle-container {
+                         display: flex !important;
+                         align-items: center !important;
+                         gap: 5px !important;
+                         margin: 0 10px !important;
+                         flex-wrap: nowrap !important;
+                         flex-shrink: 0 !important;
+                    }
+                    
+                    .price-toggle {
+                         
+                         min-height: 35px !important;
+                         display: flex !important;
+                         align-items: center !important;
+                    }
+                    
+                    .toggle-label {
+                         font-size: 15px !important;
+                    }
+                    
+                    .toggle-switch {
+                         width: 30px !important;
+                         height: 16px !important;
+                    }
+                    
+                    .slider:before {
+                         height: 12px !important;
+                         width: 12px !important;
+                    }
+                    
+                    input:checked + .slider:before {
+                         transform: translateX(14px) !important;
+                    }
+                    
+                    .margin-input-container {
+                         padding: 3px 6px !important;
+                         min-height: 35px !important;
+                         display: flex !important;
+                         align-items: center !important;
+                    }
+                    
+                    #marginInput {
+                         width: 35px !important;
+                         font-size: 15px !important;
+                    }
+                    
+                    #marginSaveBtn {
+                         width: 23px !important;
+                         height: 23px !important;
+                         font-size: 11px !important;
+                    }
+                    }
+                    
+                    .price-toggle {
+                         display: flex;
+                         align-items: center;
+                         gap: 8px;
+                         background: white;
+                         padding: 5px 10px;
+                         border-radius: 20px;
+                         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                    }
+                    
+                    .toggle-label {
+                         font-size: 12px;
+                         font-weight: bold;
+                         color: #666;
+                    }
+                    
+                    .toggle-switch {
+                         position: relative;
+                         display: inline-block;
+                         width: 40px;
+                         height: 20px;
+                    }
+                    
+                    .toggle-switch input {
+                         opacity: 0;
+                         width: 0;
+                         height: 0;
+                    }
+                    
+                    .slider {
+                         position: absolute;
+                         cursor: pointer;
+                         top: 0;
+                         left: 0;
+                         right: 0;
+                         bottom: 0;
+                         background-color: #ccc;
+                         transition: .4s;
+                         border-radius: 20px;
+                    }
+                    
+                    .slider:before {
+                         position: absolute;
+                         content: "";
+                         height: 16px;
+                         width: 16px;
+                         left: 2px;
+                         bottom: 2px;
+                         background-color: white;
+                         transition: .4s;
+                         border-radius: 50%;
+                    }
+                    
+                    input:checked + .slider {
+                         background-color: #ff8c00;
+                    }
+                    
+                    input:checked + .slider:before {
+                         transform: translateX(20px);
+                    }
+                    
+                    .margin-input-container {
+                         display: flex;
+                         align-items: center;
+                         gap: 5px;
+                         background: white;
+                         padding: 3px 8px;
+                         border-radius: 15px;
+                         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                         overflow: visible;         /* AGREGAR esta línea */
+                    }
+                    
+                    #marginInput {
+                         width: 60px;               /* MANTENER en 60px */
+                         min-width: 60px;           /* Asegurar ancho mínimo */
+                         min-height: 25px;          /* Asegurar altura mínima */
+                         border: none;
+                         outline: none;
+                         text-align: center;
+                         font-size: 12px;
+                         padding: 0 2px;            /* Padding mínimo */
+                         box-sizing: content-box;   /* No incluir padding en el ancho */
+                         overflow: visible;         /* Permitir que el contenido sea visible */
+                    }
+                    
+                    #marginSaveBtn {
+                         background: #ff8c00;
+                         color: white;
+                         border: none;
+                         border-radius: 50%;
+                         width: 20px;
+                         height: 20px;
+                         cursor: pointer;
+                         font-size: 10px;
+                    }
+                    
+                    .price-tag.lista {
+                         background-color: rgba(0, 0, 0, 0.7);
+                         color: white !important;  /* Agregar !important para forzar el color */
+                    }
+                    
+                    .price-tag.venta {
+                         background-color: rgba(255, 140, 0, 0.9);
+                         color: white;
+                         border-radius: 10px;  /* NUEVA LÍNEA: esquinas redondeadas */
+                    }
+                    
+                    .price-tag {
+                         padding: 3px 8px;
+                         border-radius: 10px;  /* Aumentar de 4px a 6px para más redondeo */
+                         margin-left: 10px;
+                         font-weight: bold;
+                         transition: all 0.3s ease;
+                    }
+
+                    /* Reducir ancho del campo de búsqueda para dar espacio al toggle */
+                    .input-container {
+                    flex: 0.8 !important; /* Reducir de tamaño completo a 80% */
+                    }
+
+                    .input-container input[type="text"] {
+                    width: 100% !important; /* Mantener responsive dentro del contenedor reducido */
+                    }
+               `;
+               
+               document.head.appendChild(style);
+               }
+
+               function setupToggleEvents() {
+                    const toggle = document.getElementById('priceToggle');
+                    const marginContainer = document.querySelector('.margin-input-container');
+                    const marginInput = document.getElementById('marginInput');
+                    const marginSaveBtn = document.getElementById('marginSaveBtn');
+                    
+                    if (!toggle) return;
+                    
+                    // Toggle entre P.L y P.V
+                    toggle.addEventListener('change', function() {
+                         const nuevoModo = this.checked ? 'venta' : 'lista';
+                         localStorage.setItem('precioModo', nuevoModo);
+                         
+                         console.log(`🔄 Cambio a modo: ${nuevoModo}`);
+                         
+                         if (nuevoModo === 'venta') {
+                              marginContainer.style.display = 'flex';
+                              marginInput.value = localStorage.getItem('margenCliente') || '0';
+                         } else {
+                              marginContainer.style.display = 'none';
+                         }
+                         
+                         // Recalcular todos los precios
+                         recalculateAllVisiblePrices();
+
+                         // Forzar procesamiento de elementos no procesados
+                         setTimeout(() => {
+                         const unprocessedElements = document.querySelectorAll('.price-tag:not([data-processed])');
+                         if (unprocessedElements.length > 0) {
+                              console.log(`Procesando ${unprocessedElements.length} elementos no interceptados`);
+                              unprocessedElements.forEach(el => {
+                                   const precio = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+                                   if (precio) {
+                                        el.dataset.originalPrice = precio;
+                                        el.dataset.processed = 'true';
+                                   }
+                              });
+                              recalculateAllVisiblePrices();
+                         }
+                         }, 100);
+
+                         
+
+                         // NUEVA LÍNEA: Enfocar campo de búsqueda
+                         focusSearchInput();
+                    });
+                    
+                    // Guardar margen
+                    if (marginSaveBtn) {
+                         marginSaveBtn.addEventListener('click', function() {
+                              const nuevoMargen = parseInt(marginInput.value) || 0;
+                              
+                              if (nuevoMargen >= 0 && nuevoMargen <= 100) {
+                                   localStorage.setItem('margenCliente', nuevoMargen.toString());
+                                   console.log(`💾 Margen guardado: ${nuevoMargen}%`);
+
+
+                                   // 1. Cambiar el modo local a venta
+                                        localStorage.setItem('precioModo', 'venta');
+
+                                        // 2. Actualizar el toggle visualmente
+                                        const toggle = document.getElementById('priceToggle');
+                                        if (toggle) {
+                                        toggle.checked = true; // Marcar como P.V
+                                        }
+
+                                        // 3. Mostrar el contenedor de margen
+                                        const marginContainer = document.querySelector('.margin-input-container');
+                                        if (marginContainer) {
+                                        marginContainer.style.display = 'flex';
+                                        }
+                                   
+                                   // Enviar a Google Form
+                                   sendMarginToGoogleForm(nuevoMargen);
+                                   
+                                   // Recalcular precios
+                                   recalculateAllVisiblePrices();
+                                   
+                                   // Feedback visual
+                                   // Cambiar color del botón en lugar de símbolo
+                                   marginSaveBtn.textContent = 'OK!';
+                                   marginSaveBtn.style.backgroundColor = 'green';
+                                   setTimeout(() => {
+                                   marginSaveBtn.textContent = 'OK';
+                                   marginSaveBtn.style.backgroundColor = '#ff8c00'; // Volver al naranja original
+                                   }, 1000);
+
+                                   // NUEVA LÍNEA: Enfocar campo de búsqueda
+                                   focusSearchInput();
+                              }
+                         });
+                    }
+                    
+                    // Enter en input de margen
+                    if (marginInput) {
+                         marginInput.addEventListener('keypress', function(e) {
+                              if (e.key === 'Enter') {
+                                   marginSaveBtn.click();
+                              }
+                         });
+                    }
+               }
+
+               
+
+               function setInitialToggleState() {
+               const toggle = document.getElementById('priceToggle');
+               const marginContainer = document.querySelector('.margin-input-container');
+               const marginInput = document.getElementById('marginInput');
+               
+               if (!toggle) return;
+               
+               const modoActual = localStorage.getItem('precioModo') || 'lista';
+               const margenActual = localStorage.getItem('margenCliente') || '0';
+               
+               // Establecer toggle
+               toggle.checked = (modoActual === 'venta');
+               
+               // Mostrar/ocultar input de margen
+               if (modoActual === 'venta') {
+                    marginContainer.style.display = 'flex';
+                    marginInput.value = margenActual;
+               } else {
+                    marginContainer.style.display = 'none';
+               }
+               
+               console.log(`🎯 Estado inicial: ${modoActual}, margen: ${margenActual}%`);
+               }
+
+               // ================================================
+               // CÁLCULO DE PRECIOS
+               // ================================================
+
+               function calculateDisplayPrice(precioOriginal, margen, modo) {
+               if (modo === 'lista') {
+                    return precioOriginal;
+               } else if (modo === 'venta') {
+                    return Math.round(precioOriginal * (1 + margen / 100));
+               }
+               return precioOriginal;
+               }
+
+               function recalculateAllVisiblePrices() {
+                    const modoActual = localStorage.getItem('precioModo') || 'lista';
+                    const margenActual = parseFloat(localStorage.getItem('margenCliente') || '0');
+                    
+                    // Obtener datos de productos desde cache_products_data
+                    const productosRaw = JSON.parse(localStorage.getItem('cache_products_data') || '{}')?.value?.products || {};
+                    
+                    console.log(`🔄 Recalculando con cache_products_data - Modo: ${modoActual}, Margen: ${margenActual}%`);
+                    
+                    document.querySelectorAll('.price-tag').forEach(el => {
+                         try {
+                              const bottomRow = el.closest('.bottom-row');
+                              let codigo = bottomRow?.querySelector('a')?.textContent || '';
+                              codigo = codigo.trim();
+                              
+                              const producto = productosRaw[codigo];
+                              if (producto && !isNaN(producto.precio)) {
+                                   const precioOriginal = producto.precio;
+                                   const precioFinal = modoActual === 'venta'
+                                        ? Math.round(precioOriginal * (1 + margenActual / 100))
+                                        : precioOriginal;
+                                   
+                                   el.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
+                                   el.className = `price-tag ${modoActual}`;
+                                   el.dataset.originalPrice = precioOriginal;
+                                   el.dataset.processed = 'true';
+                                   
+                                   console.log(`✅ ${codigo}: ${precioOriginal} → ${precioFinal}`);
+                              }  else{
+                                        // FALLBACK para elementos de búsqueda: usar data-original-price
+                                        const precioOriginal = parseFloat(el.dataset.originalPrice);
+                                        if (precioOriginal && !isNaN(precioOriginal)) {
+                                             const precioFinal = modoActual === 'venta'
+                                                  ? Math.round(precioOriginal * (1 + margenActual / 100))
+                                                  : precioOriginal;
+                                             
+                                             el.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
+                                             el.className = `price-tag ${modoActual}`;
+                                             el.dataset.processed = 'true';
+                                             
+                                             console.log(`🔄 Fallback: ${precioOriginal} → ${precioFinal} (${modoActual})`);
+                                        } else {
+                                                  console.log(`❌ No se encontró precio para ${codigo}`);
+                                               }
+                              }
+                         } catch (error) {
+                              console.log('⚠️ Error procesando elemento:', error);
+                         }
+                    });
+                    
+                    console.log('✅ Recalculado usando cache_products_data');
+               }
+
+               // INMEDIATAMENTE DESPUÉS DE DEFINIR LA FUNCIÓN:
+               window.recalculateAllVisiblePrices = recalculateAllVisiblePrices;
+
+               // ================================================
+               // INTERCEPTORES DE CARGA DE PRECIOS
+               // ================================================
+
+               function setupPriceInterceptors() {
+               console.log('🕵️ Configurando interceptores de precios...');
+               
+               // Interceptor para carga inicial
+               interceptInitialPriceLoad();
+
+               // NUEVO: Interceptor específico para precarga inicial
+               interceptInitialPreload();
+               
+               // Interceptor para búsquedas
+               interceptSearchPriceLoad();
+               
+               // NUEVO: Interceptor para botones de limpieza
+               interceptCleanupActions();
+
+               // AGREGAR al final de setupPriceInterceptors(), después de todos los otros interceptores:
+
+               // Interceptor continuo para elementos que aparecen dinámicamente
+               const continuousObserver = new MutationObserver(function(mutations) {
+               let newPriceElements = [];
+               
+               mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                         if (node.nodeType === 1) {
+                              // Buscar price-tags en el nuevo nodo
+                              const priceElements = node.querySelectorAll ? 
+                                   node.querySelectorAll('.price-tag:not([data-processed])') : [];
+                              
+                              newPriceElements.push(...priceElements);
+                              
+                              // Si el nodo mismo es un price-tag no procesado
+                              if (node.classList && node.classList.contains('price-tag') && !node.dataset.processed) {
+                                   newPriceElements.push(node);
+                              }
+                         }
+                    });
+               });
+               
+               if (newPriceElements.length > 0) {
+                    console.log(`🔄 Interceptor continuo: ${newPriceElements.length} elementos nuevos detectados`);
+                    setTimeout(() => {
+                         processNewPriceElements(newPriceElements);
+                    }, 100);
+               }
+               });
+
+               // Observar todo el documento para capturar elementos dinámicos
+               continuousObserver.observe(document.body, {
+               childList: true,
+               subtree: true
+               });
+
+               console.log('👁️ Interceptor continuo configurado para elementos dinámicos');
+               
+               console.log('✅ Interceptores configurados');
+               }
+
+               function interceptCleanupActions() {
+               console.log('🧹 Configurando interceptores de limpieza...');
+               
+               // 1. Interceptar evento resetCatalogo
+               window.addEventListener('resetCatalogo', function(event) {
+                    console.log('🔄 Interceptado evento resetCatalogo');
+                    
+                    // Esperar a que se carguen los productos iniciales
+                    setTimeout(() => {
+                         console.log('🎯 Aplicando configuración de márgenes después de resetCatalogo');
+                         recalculateAllVisiblePrices();
+                    }, 1000); // Dar tiempo a que se carguen los productos
+               });
+               
+               // 2. Interceptar botón X de búsqueda (cuando se cree dinámicamente)
+               const searchContainer = document.querySelector('.input-container');
+               if (searchContainer) {
+                    // Usar MutationObserver para detectar cuando se crea el botón X
+                    const observer = new MutationObserver(function(mutations) {
+                         mutations.forEach(function(mutation) {
+                              mutation.addedNodes.forEach(function(node) {
+                                   if (node.classList && node.classList.contains('search-clear-btn')) {
+                                   console.log('🧹 Interceptando botón X de búsqueda');
+                                   
+                                   // Guardar el evento original
+                                   const originalClick = node.onclick;
+                                   
+                                   // Reemplazar con nuestro interceptor
+                                   node.addEventListener('click', function(e) {
+                                        console.log('🔄 Botón X clickeado - aplicando márgenes después');
+                                        
+                                        // Esperar a que se complete la limpieza
+                                        setTimeout(() => {
+                                             recalculateAllVisiblePrices();
+                                        }, 500);
+                                   });
+                                   }
+                              });
+                         });
+                    });
+                    
+                    observer.observe(searchContainer, { childList: true, subtree: true });
+               }
+               
+               // 3. Interceptar tecla ESC
+               document.addEventListener('keydown', function(e) {
+                    if (e.keyCode === 27 || e.key === 'Escape') {
+                         const searchInput = document.querySelector('input[type="text"]');
+                         if (searchInput && searchInput === document.activeElement) {
+                              console.log('🔄 Tecla ESC presionada en búsqueda');
+                              
+                              // Esperar a que se complete la limpieza
+                              setTimeout(() => {
+                                   recalculateAllVisiblePrices();
+                              }, 500);
+                         }
+                    }
+               });
+               
+               // 4. Interceptar el botón "Limpiar" del search-engine.js
+               // Como se crea dinámicamente, usar MutationObserver
+               const bodyObserver = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                         mutation.addedNodes.forEach(function(node) {
+                              if (node.nodeType === 1) { // Element node
+                                   // Buscar el botón limpiar
+                                   const limpiarBtn = node.id === 'boton-limpiar-busqueda' ? 
+                                   node : node.querySelector ? node.querySelector('#boton-limpiar-busqueda') : null;
+                                   
+                                   if (limpiarBtn) {
+                                   console.log('🧹 Interceptando botón "Limpiar" de search-engine');
+                                   
+                                   // Agregar nuestro interceptor al evento click
+                                   limpiarBtn.addEventListener('click', function(e) {
+                                        console.log('🔄 Botón "Limpiar" clickeado - esperando recarga...');
+                                        
+                                        // Este botón hace window.location.reload(), así que no podemos interceptar después
+                                        // En su lugar, guardar el estado en localStorage antes de la recarga
+                                        const modoActual = localStorage.getItem('precioModo') || 'lista';
+                                        const margenActual = localStorage.getItem('margenCliente') || '0';
+                                        
+                                        localStorage.setItem('restoreMarginAfterReload', JSON.stringify({
+                                             modo: modoActual,
+                                             margen: margenActual,
+                                             timestamp: Date.now()
+                                        }));
+                                        
+                                        console.log('💾 Estado de márgenes guardado para restaurar después de recarga');
+                                   });
+                                   }
+                              }
+                         });
+                    });
+               });
+               
+               // Observar cambios en todo el documento
+               bodyObserver.observe(document.body, { childList: true, subtree: true });
+               
+               console.log('🧹 Interceptores de limpieza configurados');
+               }
+
+               // NUEVA FUNCIÓN: Restaurar estado después de recarga de página
+               function restoreMarginStateAfterReload() {
+               try {
+                    const savedState = localStorage.getItem('restoreMarginAfterReload');
+                    
+                    if (savedState) {
+                         const state = JSON.parse(savedState);
+                         const now = Date.now();
+                         
+                         // Solo restaurar si el guardado fue reciente (menos de 10 segundos)
+                         if (now - state.timestamp < 10000) {
+                              console.log('🔄 Restaurando estado de márgenes después de recarga');
+                              
+                              // Restaurar configuración
+                              localStorage.setItem('precioModo', state.modo);
+                              localStorage.setItem('margenCliente', state.margen);
+                              
+                              // Actualizar toggle UI cuando esté disponible
+                              setTimeout(() => {
+                                   setInitialToggleState();
+                              }, 500);
+                              
+                              console.log(`✅ Estado restaurado: modo=${state.modo}, margen=${state.margen}%`);
+                         }
+                         
+                         // Limpiar el estado guardado
+                         localStorage.removeItem('restoreMarginAfterReload');
+                    }
+               } catch (error) {
+                    console.log('⚠️ Error restaurando estado después de recarga:', error);
+                    localStorage.removeItem('restoreMarginAfterReload');
+               }
+               }
+
+               function interceptInitialPriceLoad() {
+               // Observar cuando se agregan nuevos elementos price-tag
+               const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                         mutation.addedNodes.forEach(function(node) {
+                              if (node.nodeType === 1) { // Element node
+                                   // Buscar price-tags en el nodo agregado
+                                   const priceElements = node.querySelectorAll ? 
+                                   node.querySelectorAll('.price-tag') : [];
+                                   
+                                   if (priceElements.length > 0) {
+                                   console.log(`🎯 Detectados ${priceElements.length} nuevos precios en carga inicial`);
+                                   setTimeout(() => {
+                                        processNewPriceElements(priceElements);
+                                   }, 100);
+                                   }
+                                   
+                                   // Si el nodo mismo es un price-tag
+                                   if (node.classList && node.classList.contains('price-tag')) {
+                                   console.log('🎯 Detectado nuevo price-tag individual');
+                                   setTimeout(() => {
+                                        processNewPriceElements([node]);
+                                   }, 100);
+                                   }
+                              }
+                         });
+                    });
+               });
+               
+               // Observar el contenedor de la galería
+               const galleryContainer = document.querySelector('.gallery-container');
+               if (galleryContainer) {
+                    observer.observe(galleryContainer, {
+                         childList: true,
+                         subtree: true
+                    });
+               }
+               }
+
+               // NUEVA FUNCIÓN: Interceptar precarga inicial de 25 elementos
+               function interceptInitialPreload() {
+               console.log('🎯 Configurando interceptor para precarga inicial...');
+               
+               // Función para procesar elementos ya existentes
+               function processExistingElements() {
+                    const existingPriceElements = document.querySelectorAll('.price-tag:not([data-processed])');
+                    
+                    if (existingPriceElements.length > 0) {
+                         console.log(`🔄 Procesando ${existingPriceElements.length} elementos de precarga inicial`);
+                         processNewPriceElements(existingPriceElements);
+                    }
+               }
+               
+               // Ejecutar inmediatamente para elementos ya presentes
+               setTimeout(processExistingElements, 100);
+               
+               // También ejecutar después de un delay mayor para capturar elementos que se cargan ligeramente después
+               setTimeout(processExistingElements, 1000);
+               setTimeout(processExistingElements, 2000);
+               
+               // Observador específico para la función cargarGaleria()
+               const galleryContainer = document.querySelector('.gallery-container');
+               if (galleryContainer) {
+                    
+                    // Crear observador que detecte cuando se completa la precarga inicial
+                    const preloadObserver = new MutationObserver(function(mutations) {
+                         let shouldProcess = false;
+                         
+                         mutations.forEach(function(mutation) {
+                              mutation.addedNodes.forEach(function(node) {
+                                   if (node.nodeType === 1) {
+                                   // Si se agregó un elemento con data-product-code, es de la precarga inicial
+                                   if (node.getAttribute && node.getAttribute('data-product-code')) {
+                                        shouldProcess = true;
+                                   }
+                                   
+                                   // O si se agregó un elemento que contiene price-tag
+                                   if (node.querySelector && node.querySelector('.price-tag')) {
+                                        shouldProcess = true;
+                                   }
+                                   }
+                              });
+                         });
+                         
+                         if (shouldProcess) {
+                              console.log('📦 Detectada precarga inicial, procesando elementos...');
+                              setTimeout(() => {
+                                   const newPriceElements = document.querySelectorAll('.price-tag:not([data-processed])');
+                                   if (newPriceElements.length > 0) {
+                                   processNewPriceElements(newPriceElements);
+                                   }
+                              }, 200);
+                         }
+                    });
+                    
+                    preloadObserver.observe(galleryContainer, {
+                         childList: true,
+                         subtree: true,
+                         attributes: true,
+                         attributeFilter: ['data-product-code']
+                    });
+               }
+               
+               console.log('✅ Interceptor de precarga inicial configurado');
+               }
+
+               // Función para enfocar el campo de búsqueda
+               function focusSearchInput() {
+               const searchInput = document.querySelector('input[type="text"]');
+               if (searchInput) {
+                    searchInput.focus();
+                    console.log('🎯 Foco movido al campo de búsqueda');
+               }
+               }
+
+
+               function interceptSearchPriceLoad() {
+               // Interceptar eventos de búsqueda
+               const searchInput = document.querySelector('input[type="text"]');
+               
+               if (searchInput) {
+                    // Override del evento input existente
+                    const originalInputHandler = searchInput.oninput;
+                    
+                    searchInput.addEventListener('input', function(e) {
+                         // Después de que se procese la búsqueda, interceptar resultados
+                         setTimeout(() => {
+                              const newPriceElements = document.querySelectorAll('.price-tag:not([data-processed])');
+                              if (newPriceElements.length > 0) {
+                                   console.log(`🔍 Detectados ${newPriceElements.length} precios en resultados de búsqueda`);
+                                   processNewPriceElements(newPriceElements);
+                              }
+                         }, 500);
+                    });
+               }
+               }
+
+               function processNewPriceElements(priceElements) {
+               const modoActual = localStorage.getItem('precioModo') || 'lista';
+               const margenActual = parseInt(localStorage.getItem('margenCliente') || '0');
+               
+               priceElements.forEach(priceElement => {
+                    if (priceElement.dataset.processed) return;
+                    
+                    try {
+                         // Obtener precio original del texto
+                         const textoOriginal = priceElement.textContent.replace(/[^0-9]/g, '');
+                         const precioOriginal = parseInt(textoOriginal);
+                         
+                         if (precioOriginal) {
+                              // Guardar precio original
+                              priceElement.dataset.originalPrice = precioOriginal;
+                              
+                              // Calcular precio según configuración actual
+                              const precioFinal = calculateDisplayPrice(precioOriginal, margenActual, modoActual);
+                              
+                              // Actualizar elemento
+                              priceElement.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
+                              priceElement.className = `price-tag ${modoActual}`;
+                              
+                              // Marcar como procesado
+                              priceElement.dataset.processed = 'true';
+                              
+                              console.log(`✅ Procesado precio: ${precioOriginal} → ${precioFinal} (${modoActual})`);
+                         }
+                         
+                    } catch (error) {
+                         console.log('⚠️ Error procesando precio:', priceElement, error);
+                    }
+               });
+               }
+               window.processNewPriceElements = processNewPriceElements;
+               // ================================================
+               // ENVÍO A GOOGLE FORM - MÉTODO ALTERNATIVO
+               // ================================================
+
+               function sendMarginToGoogleForm(margen) {
+               try {
+                    const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+                    const clientId = clientData.account || clientData.id || clientData.cuenta;
+                    const clientName = clientData.name || clientData.nombre || 'Cliente';
+                    const modoActual = localStorage.getItem('precioModo') || 'lista';
+                    const fechaActual = new Date().toLocaleString('es-AR');
+                    const dispositivo = /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Web';
+                    
+
+                    console.log('DEBUG - Datos que se envían:');
+                    console.log('clientId:', clientId);
+                    console.log('clientName:', clientName);
+                    console.log('margen:', margen);
+                    console.log('modoActual:', modoActual);
+
+                    const formData = new FormData();
+                    formData.append('entry.438339081', clientId);
+                    formData.append('entry.498070512', clientName);
+                    formData.append('entry.1412196668', margen);
+                    formData.append('entry.1089276059', 'venta');
+                    //formData.append('entry.1089276059', modoActual);
+
+
+                    // MÉTODO 1: Usar URL directa del Google Form con parámetros
+                    const baseURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfAO6Ag-9r6Mi10H-MiVVkCCzbgd0nG4L3cfXVMPIPeZnPUVQ/formResponse';
+                    
+                    
+                    // MÉTODO 2: Envío en background sin redirección
+                    fetch(`${baseURL}`, {
+                         method: 'POST',
+                         body: formData,
+                         mode: 'no-cors'
+                    }).then(() => {
+                         console.log(`Datos enviados - Cliente: ${clientId}, Nombre: ${clientName}, Margen: ${margen}%, Modo: ${modoActual}`);
+                    }).catch(error => {
+                         console.log('Error en envío automático, usando método de respaldo');
+                         
+                         // MÉTODO 3: Respaldo usando imagen invisible
+                         const img = new Image();
+                         img.src = `${baseURL}?entry.438339801=${encodeURIComponent(clientId)}&entry.498070512=${encodeURIComponent(clientName)}&entry.1412196668=${encodeURIComponent(margen)}&entry.1089276059=${encodeURIComponent(modoActual)}`;
+                    });
+                    
+                    // MÉTODO 4: Almacenar para envío manual posterior
+                    const pendingData = {
+                         cliente: clientId,
+                         nombre: clientName,
+                         margen: margen,
+                         mostrar: modoActual,
+                         fecha: fechaActual,
+                         dispositivo: dispositivo,
+                         timestamp: Date.now()
+                    };
+                    
+                    // Guardar en localStorage para que puedas procesarlo después
+                    let pendingSubmissions = JSON.parse(localStorage.getItem('pendingMarginSubmissions') || '[]');
+                    pendingSubmissions.push(pendingData);
+                    
+                    // Mantener solo los últimos 50 envíos
+                    if (pendingSubmissions.length > 50) {
+                         pendingSubmissions = pendingSubmissions.slice(-50);
+                    }
+                    
+                    localStorage.setItem('pendingMarginSubmissions', JSON.stringify(pendingSubmissions));
+                    
+                    console.log('Cambio de margen guardado localmente para procesamiento posterior');
+                    
+               } catch (error) {
+                    console.error('Error en sendMarginToGoogleForm:', error);
+               }
+               }
+
+               // Función para obtener envíos pendientes (para debug/verificación)
+               function getPendingSubmissions() {
+               return JSON.parse(localStorage.getItem('pendingMarginSubmissions') || '[]');
+               }
+
+               // Función para limpiar envíos pendientes
+               function clearPendingSubmissions() {
+               localStorage.removeItem('pendingMarginSubmissions');
+               console.log('Envíos pendientes limpiados');
+               }
+
+               // PEGAR AQUÍ LA FUNCIÓN
+               function debugPrices() {
+                    const allPrices = document.querySelectorAll('.price-tag');
+                    console.log(`Total elementos: ${allPrices.length}`);
+                    
+                    let withOriginal = 0;
+                    allPrices.forEach((el, i) => {
+                         if (el.dataset.originalPrice) withOriginal++;
+                         if (i < 3) {
+                              console.log(`Elemento ${i}: "${el.textContent}" - Original: ${el.dataset.originalPrice}`);
+                         }
+                    });
+                    
+                    console.log(`Con precio original: ${withOriginal}/${allPrices.length}`);
+               }
+
+
+               // ================================================
+               // FUNCIONES DE UTILIDAD
+               // ================================================
+
+               function getClientCurrentMargin() {
+               return parseInt(localStorage.getItem('margenCliente') || '0');
+               }
+
+               function getClientCurrentMode() {
+               return localStorage.getItem('precioModo') || 'lista';
+               }
+
+               function updateMarginConfig(margen, modo) {
+               localStorage.setItem('margenCliente', margen.toString());
+               localStorage.setItem('precioModo', modo);
+               
+               // Actualizar UI
+               const toggle = document.getElementById('priceToggle');
+               if (toggle) {
+                    toggle.checked = (modo === 'venta');
+               }
+               
+               // Enviar a Google Form
+               sendMarginToGoogleForm(margen);
+
+               // Recalcular precios
+               recalculateAllVisiblePrices();
+               
+               
+               }
+
+               // ================================================
+               // INICIALIZACIÓN
+               // ================================================
+
+               // Esta función se debe agregar al final del DOMContentLoaded existente
+               initializeMarginSystem();
+
+
+
+
                });
 
           // Utilidad debounce
@@ -2068,288 +3154,288 @@
   
            // Función para crear la utilidad debounce si no existe
            if (typeof window.debounce !== 'function') {
-    window.debounce = function(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    };
-  }
+               window.debounce = function(func, wait) {
+                    let timeout;
+                    return function executedFunction(...args) {
+                    const later = () => {
+                         clearTimeout(timeout);
+                         func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                    };
+               };
+          }
   
            // 1. Crear estilos necesarios
            function addPinterestStyles() {
-  if (document.querySelector('#pinterest-layout-styles')) return;
-  
-  const styleEl = document.createElement('style');
-  styleEl.id = 'pinterest-layout-styles';
-  styleEl.textContent = `
-    /* Ocultar inicialmente todos los elementos de la galería hasta que se posicionen */
-    .gallery-container.loading .gallery-item {
-      opacity: 0;
-      visibility: hidden;
-    }
-    
-    /* Indicador de carga mientras se posicionan las imágenes */
-    .gallery-loader {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 100;
-    }
-    
-    .gallery-loader i {
-      font-size: 2rem;
-      color: #666;
-    }
-    
-    /* Estilos base para todos los tamaños */
-    .gallery-container {
-      position: relative;
-      width: 100%;
-      padding: 10px;
-      background: white;
-    }
-    
-    .gallery-item {
-      position: absolute;
-      width: calc(20% - 20px); /* 5 columnas por defecto */
-      box-sizing: border-box;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-      z-index: 1; /* Base z-index */
-      transition: opacity 0.3s ease;
-    }
-    
-    .gallery-item.active {
-      z-index: 10; /* Mayor z-index para el activo */
-    }
-    
-    .gallery-item .container-img {
-      width: 100%;
-      overflow: hidden;
-      background: white;
-    }
-    
-    /* Corrección del pseudo-elemento ::before */
-    .gallery-item .container-img::before,
-    .container-img::before,
-    div.container-img::before,
-    [class*="container-img"]::before {
-      background: white !important;
-      background-color: white !important;
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      opacity: 0 !important; /* Hacer invisible el elemento */
-      border-radius: 15px !important;
-      transition: all .3s !important;
-    }
-    
-    .gallery-item .container-img img {
-      width: 100%;
-      display: block;
-      background: white;
-    }
-    
-    .gallery-item .top-row {
-      background-color: white;
-      padding: 8px;
-      padding-left: 5px; /* Nuevo padding-left */
-      padding-bottom: 0px; /* Nuevo padding-bottom */
-      margin: 5px 0;
-      position: relative;
-    }
-    
-    .gallery-item .bottom-row {
-      background-color: white;
-      padding: 8px;
-      margin: 5px 0;
-      position: relative;
-    }
-    
-    /* Permitir que el texto ocupe múltiples líneas */
-    .gallery-item .top-row a,
-    .gallery-item .bottom-row a {
-      display: block;
-      word-wrap: break-word; /* Permitir romper palabras largas */
-      overflow: visible; /* Mostrar todo el texto */
-      white-space: normal; /* Permitir saltos de línea */
-      line-height: 1.4; /* Espaciado adecuado entre líneas */
-      font-size: 14px;
-    }
-    
-    /* Eliminar fondos grises */
-    .gallery-item > div,
-    .gallery-item > div > div {
-      background: white !important;
-    }
-    
-    /* Eliminar fondos grises en áreas específicas */
-    .info-img {
-      background: white !important;
-    }
-    
-    /* Ajustar posición de bottom-row con margin-left */
-    .gallery-item .container-img .bottom-row,
-    .gallery-item .bottom-row,
-    .container-img .bottom-row {
-      bottom: 80px !important;
-      position: absolute !important;
-      margin-left: 5% !important;
-    }
-    
-    /* Media queries en orden descendente de tamaño */
-    @media screen and (max-width: 1200px) {
-      .gallery-item {
-        width: calc(25% - 20px); /* 4 columnas */
-      }
-    }
-    
-    @media screen and (max-width: 1000px) {
-      .gallery-item {
-        width: calc(25% - 20px); /* 4 columnas */
-      }
-    }
-    
-    @media screen and (max-width: 920px) {
-      .gallery-item {
-        width: calc(33.333% - 20px); /* 3 columnas */
-      }
-    }
-    
-    /* Estilos para dispositivos con 2 columnas */
-    @media screen and (max-width: 770px) {
-      .gallery-container {
-        width: 130% !important;
-        margin-left: 2% !important;
-        overflow: visible !important;
-      }
-      .gallery-item {
-        width: calc(33.333% - 20px) !important;
-      }
-      .btn-inferiores {
-        display: none !important;
-      }
-    }
-    
-    /* Estos estilos se aplicarán a TODOS los dispositivos de 576px o menos */
-    @media screen and (max-width: 576px) {
-      html body .gallery-container {
-        width: 130% !important;
-        margin-left: 2% !important;
-        overflow: visible !important;
-      }
-      html body .gallery-item {
-        width: calc(50% - 10px) !important;
-      }
-    }
-    
-    /* Estos estilos se aplicarán a TODOS los dispositivos de 480px o menos */
-    @media screen and (max-width: 480px) {
-      html body .gallery-container {
-        width: 130% !important;
-        margin-left: 2% !important;
-        overflow: visible !important;
-      }
-      html body .gallery-item {
-        width: calc(50% - 10px) !important;
-      }
-    }
-  `;
-  
-  document.head.appendChild(styleEl);
-  console.log('Estilos de Pinterest responsive agregados');
-}
+               if (document.querySelector('#pinterest-layout-styles')) return;
+               
+               const styleEl = document.createElement('style');
+               styleEl.id = 'pinterest-layout-styles';
+               styleEl.textContent = `
+               /* Ocultar inicialmente todos los elementos de la galería hasta que se posicionen */
+               .gallery-container.loading .gallery-item {
+                    opacity: 0;
+                    visibility: hidden;
+               }
+               
+               /* Indicador de carga mientras se posicionan las imágenes */
+               .gallery-loader {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                    z-index: 100;
+               }
+               
+               .gallery-loader i {
+                    font-size: 2rem;
+                    color: #666;
+               }
+               
+               /* Estilos base para todos los tamaños */
+               .gallery-container {
+                    position: relative;
+                    width: 100%;
+                    padding: 10px;
+                    background: white;
+               }
+               
+               .gallery-item {
+                    position: absolute;
+                    width: calc(20% - 20px); /* 5 columnas por defecto */
+                    box-sizing: border-box;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                    z-index: 1; /* Base z-index */
+                    transition: opacity 0.3s ease;
+               }
+               
+               .gallery-item.active {
+                    z-index: 10; /* Mayor z-index para el activo */
+               }
+               
+               .gallery-item .container-img {
+                    width: 100%;
+                    overflow: hidden;
+                    background: white;
+               }
+               
+               /* Corrección del pseudo-elemento ::before */
+               .gallery-item .container-img::before,
+               .container-img::before,
+               div.container-img::before,
+               [class*="container-img"]::before {
+                    background: white !important;
+                    background-color: white !important;
+                    content: '' !important;
+                    position: absolute !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100% !important;
+                    height: 100% !important;
+                    opacity: 0 !important; /* Hacer invisible el elemento */
+                    border-radius: 15px !important;
+                    transition: all .3s !important;
+               }
+               
+               .gallery-item .container-img img {
+                    width: 100%;
+                    display: block;
+                    background: white;
+               }
+               
+               .gallery-item .top-row {
+                    background-color: white;
+                    padding: 8px;
+                    padding-left: 5px; /* Nuevo padding-left */
+                    padding-bottom: 0px; /* Nuevo padding-bottom */
+                    margin: 5px 0;
+                    position: relative;
+               }
+               
+               .gallery-item .bottom-row {
+                    background-color: white;
+                    padding: 8px;
+                    margin: 5px 0;
+                    position: relative;
+               }
+               
+               /* Permitir que el texto ocupe múltiples líneas */
+               .gallery-item .top-row a,
+               .gallery-item .bottom-row a {
+                    display: block;
+                    word-wrap: break-word; /* Permitir romper palabras largas */
+                    overflow: visible; /* Mostrar todo el texto */
+                    white-space: normal; /* Permitir saltos de línea */
+                    line-height: 1.4; /* Espaciado adecuado entre líneas */
+                    font-size: 14px;
+               }
+               
+               /* Eliminar fondos grises */
+               .gallery-item > div,
+               .gallery-item > div > div {
+                    background: white !important;
+               }
+               
+               /* Eliminar fondos grises en áreas específicas */
+               .info-img {
+                    background: white !important;
+               }
+               
+               /* Ajustar posición de bottom-row con margin-left */
+               .gallery-item .container-img .bottom-row,
+               .gallery-item .bottom-row,
+               .container-img .bottom-row {
+                    bottom: 80px !important;
+                    position: absolute !important;
+                    margin-left: 5% !important;
+               }
+               
+               /* Media queries en orden descendente de tamaño */
+               @media screen and (max-width: 1200px) {
+                    .gallery-item {
+                    width: calc(25% - 20px); /* 4 columnas */
+                    }
+               }
+               
+               @media screen and (max-width: 1000px) {
+                    .gallery-item {
+                    width: calc(25% - 20px); /* 4 columnas */
+                    }
+               }
+               
+               @media screen and (max-width: 920px) {
+                    .gallery-item {
+                    width: calc(33.333% - 20px); /* 3 columnas */
+                    }
+               }
+               
+               /* Estilos para dispositivos con 2 columnas */
+               @media screen and (max-width: 770px) {
+                    .gallery-container {
+                    width: 130% !important;
+                    margin-left: 2% !important;
+                    overflow: visible !important;
+                    }
+                    .gallery-item {
+                    width: calc(33.333% - 20px) !important;
+                    }
+                    .btn-inferiores {
+                    display: none !important;
+                    }
+               }
+               
+               /* Estos estilos se aplicarán a TODOS los dispositivos de 576px o menos */
+               @media screen and (max-width: 576px) {
+                    html body .gallery-container {
+                    width: 130% !important;
+                    margin-left: 2% !important;
+                    overflow: visible !important;
+                    }
+                    html body .gallery-item {
+                    width: calc(50% - 10px) !important;
+                    }
+               }
+               
+               /* Estos estilos se aplicarán a TODOS los dispositivos de 480px o menos */
+               @media screen and (max-width: 480px) {
+                    html body .gallery-container {
+                    width: 130% !important;
+                    margin-left: 2% !important;
+                    overflow: visible !important;
+                    }
+                    html body .gallery-item {
+                    width: calc(50% - 10px) !important;
+                    }
+               }
+               `;
+               
+               document.head.appendChild(styleEl);
+               console.log('Estilos de Pinterest responsive agregados');
+          }
            // 2. Función para posicionar elementos
            function positionPinterestLayout() {
-    console.log('Aplicando posicionamiento estilo Pinterest...');
-    
-    const container = document.querySelector('.gallery-container');
-    if (!container) {
-      console.log('No se encontró el contenedor de la galería');
-      return;
-    }
-    
-    // Configuración de columnas basada en el ancho de la ventana
-    let columnCount = 5; // Por defecto 5 columnas
-    
-    // Ajustar el número de columnas según el ancho de la ventana
-    const windowWidth = window.innerWidth;
-    
-    if (windowWidth <= 480) {
-      columnCount = 2;
-    } else if (windowWidth <= 576) {
-      columnCount = 2;
-    } else if (windowWidth <= 770) {
-      columnCount = 3;
-     } else if (windowWidth <= 920) {
-     columnCount = 3; // 3 columnas entre 771px y 920px
-     } else if (windowWidth <= 1000) {
-     columnCount = 4; // 4 columnas entre 921px y 1000px
-     } else {
-     columnCount = 5; // 5 columnas a partir de 1000px
-     }
-    
-    console.log(`Ancho de ventana: ${windowWidth}px, usando ${columnCount} columnas`);
-    
-    // Usar un gap más pequeño para dispositivos con 2 columnas
-     const gap = (windowWidth <= 770) ? 10 : 20;
-    
-    // Obtener todos los elementos visibles
-    const items = Array.from(document.querySelectorAll('.gallery-item'))
-      .filter(item => item.style.display !== 'none');
-    
-    console.log(`Posicionando ${items.length} elementos en layout Pinterest...`);
-    
-    // Inicializar alturas de columnas
-    const columnHeights = Array(columnCount).fill(0);
-    
-    // Posicionar cada elemento
-    items.forEach((item, index) => {
-      // Encontrar la columna más corta
-      const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
-      
-      // Calcular posición
-      const leftPos = `calc(${shortestColumnIndex * (100 / columnCount)}% + ${gap/2}px)`;
-      const topPos = `${columnHeights[shortestColumnIndex]}px`;
-      
-      // Aplicar posición
-      item.style.position = 'absolute';
-      item.style.left = leftPos;
-      item.style.top = topPos;
-      
-      // Ajustar el ancho según el número de columnas actual (responsive)
-      item.style.width = `calc(${100 / columnCount}% - ${gap}px)`;
-      
-      // Hacer visible
-      item.style.opacity = '1';
-      
-      // Asegurarse de que los textos se muestren correctamente
-      const textElements = item.querySelectorAll('a');
-      textElements.forEach(el => {
-        el.style.whiteSpace = 'normal';
-        el.style.overflow = 'visible';
-        el.style.textOverflow = 'clip';
-      });
-      
-      // Obtener altura real o estimada
-      let itemHeight = item.offsetHeight;
-      if (!itemHeight || itemHeight < 100) {
-        const img = item.querySelector('img');
-        itemHeight = img && img.complete ? img.offsetHeight + 180 : 380; // Altura extra para textos
-      }
+               console.log('Aplicando posicionamiento estilo Pinterest...');
+               
+               const container = document.querySelector('.gallery-container');
+               if (!container) {
+                    console.log('No se encontró el contenedor de la galería');
+                    return;
+               }
+               
+               // Configuración de columnas basada en el ancho de la ventana
+               let columnCount = 5; // Por defecto 5 columnas
+               
+               // Ajustar el número de columnas según el ancho de la ventana
+               const windowWidth = window.innerWidth;
+               
+               if (windowWidth <= 480) {
+                    columnCount = 2;
+               } else if (windowWidth <= 576) {
+                    columnCount = 2;
+               } else if (windowWidth <= 770) {
+                    columnCount = 3;
+                    } else if (windowWidth <= 920) {
+                    columnCount = 3; // 3 columnas entre 771px y 920px
+                    } else if (windowWidth <= 1000) {
+                    columnCount = 4; // 4 columnas entre 921px y 1000px
+                    } else {
+                    columnCount = 5; // 5 columnas a partir de 1000px
+                    }
+               
+               console.log(`Ancho de ventana: ${windowWidth}px, usando ${columnCount} columnas`);
+               
+               // Usar un gap más pequeño para dispositivos con 2 columnas
+                    const gap = (windowWidth <= 770) ? 10 : 20;
+               
+               // Obtener todos los elementos visibles
+               const items = Array.from(document.querySelectorAll('.gallery-item'))
+                    .filter(item => item.style.display !== 'none');
+               
+               console.log(`Posicionando ${items.length} elementos en layout Pinterest...`);
+               
+               // Inicializar alturas de columnas
+               const columnHeights = Array(columnCount).fill(0);
+               
+               // Posicionar cada elemento
+               items.forEach((item, index) => {
+                    // Encontrar la columna más corta
+                    const shortestColumnIndex = columnHeights.indexOf(Math.min(...columnHeights));
+                    
+                    // Calcular posición
+                    const leftPos = `calc(${shortestColumnIndex * (100 / columnCount)}% + ${gap/2}px)`;
+                    const topPos = `${columnHeights[shortestColumnIndex]}px`;
+                    
+                    // Aplicar posición
+                    item.style.position = 'absolute';
+                    item.style.left = leftPos;
+                    item.style.top = topPos;
+                    
+                    // Ajustar el ancho según el número de columnas actual (responsive)
+                    item.style.width = `calc(${100 / columnCount}% - ${gap}px)`;
+                    
+                    // Hacer visible
+                    item.style.opacity = '1';
+                    
+                    // Asegurarse de que los textos se muestren correctamente
+                    const textElements = item.querySelectorAll('a');
+                    textElements.forEach(el => {
+                    el.style.whiteSpace = 'normal';
+                    el.style.overflow = 'visible';
+                    el.style.textOverflow = 'clip';
+                    });
+                    
+                    // Obtener altura real o estimada
+                    let itemHeight = item.offsetHeight;
+                    if (!itemHeight || itemHeight < 100) {
+                    const img = item.querySelector('img');
+                    itemHeight = img && img.complete ? img.offsetHeight + 180 : 380; // Altura extra para textos
+           }
       
       // Actualizar altura de columna
       columnHeights[shortestColumnIndex] += itemHeight + gap;

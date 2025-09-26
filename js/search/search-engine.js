@@ -1396,7 +1396,7 @@ function displayNoResults(query) {
 
               <div class="bottom-row">
               <a href="#" style="font-weight: 400 !important;">${itemCode}</a>
-              ${item.price ? `<span class="price-tag">$${formatPrice(item.price)}</span>` : ''}
+              ${item.price ? `<span class="price-tag" data-original-price="${item.price}" >$${formatPrice(item.price)}</span>` : ''}
               </div>
             </div>
 
@@ -1412,17 +1412,50 @@ function displayNoResults(query) {
           
           // Añadir el item a la galería
           galleryContainer.appendChild(galleryItem);
+
+          // Procesar el precio del nuevo elemento si existe
+          const priceTag = galleryItem.querySelector('.price-tag');
+          console.log('[DEBUG] priceTag encontrado:', !!priceTag);
+          console.log('[DEBUG] window.processNewPriceElements disponible:', !!window.processNewPriceElements);
+          
+          if (priceTag && window.processNewPriceElements) {
+            console.log('[DEBUG] Llamando a processNewPriceElements para:', priceTag.textContent);
+            console.log('[DEBUG] Estado del toggle antes de procesar:', localStorage.getItem('precioModo'));
+     
+            window.processNewPriceElements([priceTag]);
+           
+
+            console.log('[DEBUG] Precio después de procesar:', priceTag.textContent);
+            console.log('[DEBUG] Clase después de procesar:', priceTag.className);
+          }   else {
+                    console.log('[DEBUG] No se pudo procesar - priceTag:', !!priceTag, 'función:', !!window.processNewPriceElements);
+                  }     
+
+
+
         });
         
         // IMPORTANTE: Actualizar la variable global galleryItems si existe
         try {
-          window.galleryItems = document.querySelectorAll('.gallery-item');
-          console.log('[search-engine] Variable global galleryItems actualizada con', window.galleryItems.length, 'elementos');
-          // AGREGAR AQUÍ - Disparar evento para ajustar posiciones
-          setTimeout(() => {
-              const event = new CustomEvent('searchResultsDisplayed');
-              window.dispatchEvent(event);
-          }, 100);
+              window.galleryItems = document.querySelectorAll('.gallery-item');
+              console.log('[search-engine] Variable global galleryItems actualizada con', window.galleryItems.length, 'elementos');
+              
+
+              // AGREGAR ESTO: Aplicar configuración de márgenes a los nuevos elementos
+                setTimeout(() => {
+                    if (typeof window.recalculateAllVisiblePrices === 'function') {
+                        console.log('[search-engine] Aplicando configuración de márgenes a resultados de búsqueda...');
+                        window.recalculateAllVisiblePrices();
+                    } else {
+                        console.warn('[search-engine] Función recalculateAllVisiblePrices no disponible');
+                    }
+                }, 200);
+              
+              // AGREGAR AQUÍ - Disparar evento para ajustar posiciones
+              setTimeout(() => {
+                  const event = new CustomEvent('searchResultsDisplayed');
+                  window.dispatchEvent(event);
+              }, 100);
         } catch (e) {
           console.warn('[search-engine] No se pudo actualizar variable global galleryItems:', e);
         }
@@ -1486,6 +1519,10 @@ function displayNoResults(query) {
           }
         }
       }
+
+      
+
+
 
       // Función auxiliar para formatear precios
       function formatPrice(price) {
@@ -1573,9 +1610,18 @@ function displayNoResults(query) {
          /* Regla @media para pantallas pequeñas */
           @media (max-width: 768px) {
             .mensaje-busqueda {
-              top: 120px !important;
+              position: fixed !important;
+              top: 60px !important; /* Justo debajo del header */
+              left: 50% !important;
+              right: auto !important;
+              transform: translateX(-50%) !important;
+              width: 95% !important;
+              max-width: 300px !important;
+              z-index: 9999 !important;
             }
           }
+
+
         .boton-limpiar:hover {
           background-color: #3a7cca;
         }
