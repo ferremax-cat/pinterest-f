@@ -73,9 +73,9 @@
   },
   "20100": {
     "nombre": "EL RELINCHO FERRETERIA",
-    "margen": 65,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,1,13,27,18)"
+    "ultima_actualizacion": "Date(2025,9,1,14,44,33)"
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
@@ -88,5 +88,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2025,9,1,13,46,6)"
+  },
+  "20260": {
+    "nombre": "CORRALON 1001",
+    "margen": 40,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,1,15,11,46)"
   }
 }
