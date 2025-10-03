@@ -3,7 +3,7 @@
     "nombre": "CONSUMIDOR FINAL",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,2,12,32,54)"
+    "ultima_actualizacion": "Date(2025,9,3,9,42,49)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 0,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,2,19,58,13)"
+    "ultima_actualizacion": "Date(2025,9,3,10,4,7)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -117,7 +117,7 @@
     "nombre": "FLORES FERRETERIA",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,2,9,49,21)"
+    "ultima_actualizacion": "Date(2025,9,3,10,20,9)"
   },
   "20309": {
     "nombre": "LATINA FERRETERIA",
@@ -127,8 +127,14 @@
   },
   "50809": {
     "nombre": "CORRALON EL GATO",
+    "margen": 100,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,3,9,51,10)"
+  },
+  "10157": {
+    "nombre": "ITATI CORRALON",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,3,8,43,6)"
+    "ultima_actualizacion": "Date(2025,9,3,10,6,58)"
   }
 }
