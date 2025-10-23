@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 60,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,22,16,54,33)"
+    "ultima_actualizacion": "Date(2025,9,23,15,9,1)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -69,7 +69,7 @@
     "nombre": "PEDRO IVAN FERRETERIA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,17,17,43,44)"
+    "ultima_actualizacion": "Date(2025,9,23,15,9,20)"
   },
   "20100": {
     "nombre": "EL RELINCHO FERRETERIA",
@@ -223,9 +223,9 @@
   },
   "20116": {
     "nombre": "DE LA FUENTE FERRETERIA",
-    "margen": 0,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,23,12,14,7)"
+    "ultima_actualizacion": "Date(2025,9,23,14,50,22)"
   },
   "20189": {
     "nombre": "PINTURERIA NINA",
@@ -280,5 +280,17 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2025,9,23,10,12,10)"
+  },
+  "20228": {
+    "nombre": "PABLO GISELA CORRALON",
+    "margen": 4,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,23,14,30,45)"
+  },
+  "20385": {
+    "nombre": "FERRETERIA OHANA",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,23,15,18,17)"
   }
 }
