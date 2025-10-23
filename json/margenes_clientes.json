@@ -235,9 +235,9 @@
   },
   "60150": {
     "nombre": "FERRETERIA ALVAREZ",
-    "margen": 40,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,18,14,0,47)"
+    "ultima_actualizacion": "Date(2025,9,23,10,29,38)"
   },
   "60217": {
     "nombre": "FERRETERIA VM",
@@ -274,5 +274,11 @@
     "margen": 40,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2025,9,21,23,3,28)"
+  },
+  "33": {
+    "nombre": "AMADEO",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,23,10,12,10)"
   }
 }
