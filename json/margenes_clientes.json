@@ -45,7 +45,7 @@
     "nombre": "FERRETERIA FERRECAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,30,14,55,28)"
+    "ultima_actualizacion": "Date(2025,9,30,17,36,24)"
   },
   "1001": {
     "nombre": "FERRETERIA CAÑUELAS",
@@ -123,7 +123,7 @@
     "nombre": "LATINA FERRETERIA",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,21,18,32,52)"
+    "ultima_actualizacion": "Date(2025,9,30,19,9,54)"
   },
   "50809": {
     "nombre": "CORRALON EL GATO",
@@ -199,9 +199,9 @@
   },
   "20166": {
     "nombre": "CASA LEO FERRETERIA",
-    "margen": 48,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,23,16,11,1)"
+    "ultima_actualizacion": "Date(2025,9,31,13,27,1)"
   },
   "10162": {
     "nombre": "ENRIQUE FERRETERIA",
@@ -298,5 +298,11 @@
     "margen": 40,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2025,9,27,12,29,1)"
+  },
+  "998": {
+    "nombre": "LAS ACACIAS CORRALON",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,9,31,12,44,46)"
   }
 }
