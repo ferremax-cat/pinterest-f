@@ -484,9 +484,9 @@
     "category": "8.PROD.QUIM/CURABICHERA",
     "bulk": 0.0,
     "prices": {
-      "D": 6953,
-      "E": 7243,
-      "F": 6953
+      "D": 7302,
+      "E": 7606,
+      "F": 7302
     }
   },
   "AGRE70": {
@@ -494,9 +494,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 3660,
-      "E": 3978,
-      "F": 3819
+      "D": 4110,
+      "E": 4468,
+      "F": 4289
     }
   },
   "AGRF": {
@@ -1729,6 +1729,16 @@
       "F": 11242
     }
   },
+  "AMXDE071": {
+    "name": "ARNES SIMPLE PARA MAQ DESMALZADORA",
+    "category": "8.MAQ.DESMALEZ.y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4725,
+      "E": 5088,
+      "F": 4543
+    }
+  },
   "AMXDE072": {
     "name": "ARNES DOBLE 33/43/52cc.P/MAQ.DESMALZAD",
     "category": "8.MAQ.DESMALEZ.y ACCES.",
@@ -2760,7 +2770,7 @@
     }
   },
   "ARPMT8916": {
-    "name": "TORNILLO P/MECHA TANQUE 8x 91/6 ARGEN",
+    "name": "TORNILLO P/MECHA TANQUE 8 x91/6 ARGEN",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 200.0,
     "prices": {
@@ -18229,6 +18239,16 @@
       "F": 97
     }
   },
+  "CL00007000012": {
+    "name": "VARILLA/PLATA PLAN.Ptex2.5kg(54uxKg)",
+    "category": "8.VARILLA P/SOLDAR y ACCE",
+    "bulk": 54.0,
+    "prices": {
+      "D": 2709,
+      "E": 2917,
+      "F": 2500
+    }
+  },
   "CL000160000M1": {
     "name": "MORSA DE BANCO N\u00ba1          BARBERO",
     "category": "8.MORSA/ACCES.BARBERO",
@@ -18639,16 +18659,6 @@
       "F": 40995
     }
   },
-  "CL00036BRO3.0": {
-    "name": "VARILLA/BRONCE 3.0mm.Ptex5kg(17uxKg)",
-    "category": "8.VARILLA P/SOLDAR y ACCE",
-    "bulk": 17.0,
-    "prices": {
-      "D": 4350,
-      "E": 4684,
-      "F": 4015
-    }
-  },
   "CL00036CO2085": {
     "name": "ALAMBRE P/MAQ.MIG CO2 0.80mm x5Kg",
     "category": "8.MAQ.SOLDAR y ACCES.",
@@ -18814,9 +18824,19 @@
     "category": "8.VARILLA P/SOLDAR y ACCE",
     "bulk": 26.0,
     "prices": {
-      "D": 2854,
-      "E": 3074,
-      "F": 2634
+      "D": 2864,
+      "E": 3084,
+      "F": 2644
+    }
+  },
+  "CL00074BRO3.0": {
+    "name": "VARILLA/BRONCE 3.0mm.Ptex5kg(17uxKg)",
+    "category": "8.VARILLA P/SOLDAR y ACCE",
+    "bulk": 17.0,
+    "prices": {
+      "D": 4529,
+      "E": 4878,
+      "F": 4181
     }
   },
   "CL00075000001": {
@@ -19100,43 +19120,43 @@
     }
   },
   "CL00125000004": {
-    "name": "GRASERA 3kgPALANC.CMPTA.VULC/88-160",
-    "category": "8.ENGRASADOR",
-    "bulk": 6.0,
-    "prices": {
-      "D": 148135,
-      "E": 154061,
-      "F": 142210
-    }
-  },
-  "CL00125000010": {
     "name": "ENGRASADOR MANUAL 1/2x6 VULC/EM-120",
     "category": "8.ENGRASADOR",
     "bulk": 6.0,
     "prices": {
-      "D": 326198,
-      "E": 339246,
-      "F": 313150
+      "D": 81431,
+      "E": 84688,
+      "F": 78173
     }
   },
-  "CL00128000028": {
-    "name": "MACHETE HOJA ACERO LAM.20\" CIRIRI",
-    "category": "8.MACHETES",
-    "bulk": 1.0,
+  "CL00125000036": {
+    "name": "GRASERA 3kgPALANC.CMPTA.VULC/88-160",
+    "category": "8.ENGRASADOR",
+    "bulk": 6.0,
     "prices": {
-      "D": 31086,
-      "E": 33676,
-      "F": 31086
+      "D": 157104,
+      "E": 163388,
+      "F": 150820
     }
   },
-  "CL00128000029": {
-    "name": "MACHETE HOJA ACERO LAM.22\" CIRIRI",
+  "CL00128000133": {
+    "name": "MACHETE HOJA ACERO LAM.20\" CIRIRI",
     "category": "8.MACHETES",
     "bulk": 1.0,
     "prices": {
       "D": 32089,
       "E": 34763,
       "F": 32089
+    }
+  },
+  "CL00128000134": {
+    "name": "MACHETE HOJA ACERO LAM.22\" CIRIRI",
+    "category": "8.MACHETES",
+    "bulk": 1.0,
+    "prices": {
+      "D": 33191,
+      "E": 35957,
+      "F": 33191
     }
   },
   "CL00130000001": {
@@ -19207,16 +19227,6 @@
       "D": 64490,
       "E": 69451,
       "F": 59529
-    }
-  },
-  "CL001450000SP": {
-    "name": "VARILLA/PLATA PLAN.Ptex2.5kg(54uxKg)",
-    "category": "8.VARILLA P/SOLDAR y ACCE",
-    "bulk": 54.0,
-    "prices": {
-      "D": 2691,
-      "E": 2898,
-      "F": 2484
     }
   },
   "CODKP33cc": {
@@ -27489,6 +27499,16 @@
       "F": 2649
     }
   },
+  "DTF592": {
+    "name": "MECHA A/R CONICA ESCAL. 4-20mm IMP.",
+    "category": "8.MECHA A/RAPIDO CONICA",
+    "bulk": 100.0,
+    "prices": {
+      "D": 5073,
+      "E": 5464,
+      "F": 4683
+    }
+  },
   "DTF593": {
     "name": "MECHA A/R CONICA ESCAL. 4-32mm IMP.",
     "category": "8.MECHA A/RAPIDO CONICA",
@@ -28584,9 +28604,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 6.0,
     "prices": {
-      "D": 5882,
-      "E": 6334,
-      "F": 5429
+      "D": 6046,
+      "E": 6511,
+      "F": 5581
     }
   },
   "EA0202": {
@@ -28594,9 +28614,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 2.0,
     "prices": {
-      "D": 18480,
-      "E": 19901,
-      "F": 17058
+      "D": 17808,
+      "E": 19178,
+      "F": 16438
     }
   },
   "EA0203": {
@@ -28674,9 +28694,9 @@
     "category": "8.HIDROFUDOS",
     "bulk": 6.0,
     "prices": {
-      "D": 6089,
-      "E": 6558,
-      "F": 5621
+      "D": 5799,
+      "E": 6246,
+      "F": 5353
     }
   },
   "EA2209": {
@@ -28885,7 +28905,7 @@
     "bulk": 25.0,
     "prices": {
       "D": 6905,
-      "E": 7182,
+      "E": 7181,
       "F": 6629
     }
   },
@@ -28944,9 +28964,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 50.0,
     "prices": {
-      "D": 518,
-      "E": 558,
-      "F": 479
+      "D": 628,
+      "E": 676,
+      "F": 580
     }
   },
   "EGBT 01": {
@@ -29334,9 +29354,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 4387,
-      "E": 4725,
-      "F": 4050
+      "D": 4826,
+      "E": 5198,
+      "F": 4455
     }
   },
   "EGDP 08": {
@@ -30074,9 +30094,9 @@
     "category": "1.MANIJA P/LLAVE DE GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2052,
-      "E": 2052,
-      "F": 1894
+      "D": 2057,
+      "E": 2057,
+      "F": 1899
     }
   },
   "EGGS 251": {
@@ -30084,9 +30104,9 @@
     "category": "1.MANIJA P/LLAVE DE GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2052,
-      "E": 2052,
-      "F": 1894
+      "D": 2057,
+      "E": 2057,
+      "F": 1899
     }
   },
   "EGGS 252": {
@@ -30094,9 +30114,9 @@
     "category": "1.MANIJA P/LLAVE DE GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2052,
-      "E": 2052,
-      "F": 1894
+      "D": 2057,
+      "E": 2057,
+      "F": 1899
     }
   },
   "EGGS 253": {
@@ -30104,9 +30124,9 @@
     "category": "1.MANIJA P/LLAVE DE GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2052,
-      "E": 2052,
-      "F": 1894
+      "D": 2057,
+      "E": 2057,
+      "F": 1899
     }
   },
   "EGGS 255": {
@@ -30114,9 +30134,9 @@
     "category": "1.MANIJA P/LLAVE DE GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2052,
-      "E": 2052,
-      "F": 1894
+      "D": 2057,
+      "E": 2057,
+      "F": 1899
     }
   },
   "EGGS 40": {
@@ -30754,9 +30774,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 575,
-      "E": 620,
-      "F": 531
+      "D": 689,
+      "E": 742,
+      "F": 636
     }
   },
   "EGSE 04": {
@@ -31274,9 +31294,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 492,
-      "E": 527,
-      "F": 422
+      "D": 589,
+      "E": 631,
+      "F": 505
     }
   },
   "EGWX 05": {
@@ -31294,9 +31314,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 6.0,
     "prices": {
-      "D": 492,
-      "E": 527,
-      "F": 422
+      "D": 589,
+      "E": 631,
+      "F": 505
     }
   },
   "EGWX 10": {
@@ -44714,9 +44734,9 @@
     "category": "5.REP.COCINA CALISUA",
     "bulk": 10.0,
     "prices": {
-      "D": 10228,
-      "E": 11015,
-      "F": 9441
+      "D": 11179,
+      "E": 12039,
+      "F": 10319
     }
   },
   "FX9396": {
@@ -44724,9 +44744,9 @@
     "category": "5.REP.COCINA CALISUA",
     "bulk": 10.0,
     "prices": {
-      "D": 1386,
-      "E": 1493,
-      "F": 1280
+      "D": 1518,
+      "E": 1634,
+      "F": 1401
     }
   },
   "FX9398": {
@@ -44734,9 +44754,9 @@
     "category": "5.REP.COCINA CALISUA",
     "bulk": 10.0,
     "prices": {
-      "D": 1386,
-      "E": 1493,
-      "F": 1280
+      "D": 1511,
+      "E": 1627,
+      "F": 1395
     }
   },
   "FX9399": {
@@ -44744,9 +44764,9 @@
     "category": "5.REP.COCINA CALISUA",
     "bulk": 10.0,
     "prices": {
-      "D": 1386,
-      "E": 1493,
-      "F": 1280
+      "D": 1518,
+      "E": 1634,
+      "F": 1401
     }
   },
   "FXFCGN4VAR": {
@@ -53154,9 +53174,9 @@
     "category": "8.CHINCHES",
     "bulk": 25.0,
     "prices": {
-      "D": 748,
-      "E": 806,
-      "F": 691
+      "D": 788,
+      "E": 849,
+      "F": 728
     }
   },
   "JC1940": {
@@ -53714,9 +53734,9 @@
     "category": "8.NIVEL DE PLASTICO CORSI",
     "bulk": 6.0,
     "prices": {
-      "D": 8500,
-      "E": 9154,
-      "F": 7846
+      "D": 9010,
+      "E": 9704,
+      "F": 8317
     }
   },
   "JC3219": {
@@ -53724,9 +53744,9 @@
     "category": "8.NIVEL DE PLASTICO CORSI",
     "bulk": 6.0,
     "prices": {
-      "D": 9586,
-      "E": 10323,
-      "F": 8848
+      "D": 10161,
+      "E": 10943,
+      "F": 9379
     }
   },
   "JC3327": {
@@ -53774,9 +53794,9 @@
     "category": "8.PLOMADAS",
     "bulk": 12.0,
     "prices": {
-      "D": 7623,
-      "E": 8209,
-      "F": 7036
+      "D": 7928,
+      "E": 8538,
+      "F": 7318
     }
   },
   "JC3783": {
@@ -53784,9 +53804,9 @@
     "category": "8.RASTRILLO DE METAL",
     "bulk": 1.0,
     "prices": {
-      "D": 5972,
-      "E": 6431,
-      "F": 5512
+      "D": 6211,
+      "E": 6688,
+      "F": 5733
     }
   },
   "JC3784": {
@@ -53794,9 +53814,9 @@
     "category": "8.RASTRILLO DE METAL",
     "bulk": 6.0,
     "prices": {
-      "D": 6530,
-      "E": 7032,
-      "F": 6027
+      "D": 6791,
+      "E": 7313,
+      "F": 6268
     }
   },
   "JC3785": {
@@ -53804,9 +53824,9 @@
     "category": "8.RASTRILLO DE METAL",
     "bulk": 4.0,
     "prices": {
-      "D": 6769,
-      "E": 7290,
-      "F": 6248
+      "D": 7040,
+      "E": 7581,
+      "F": 6498
     }
   },
   "JC4126": {
@@ -54004,9 +54024,9 @@
     "category": "8.TACHAS BRONCEADAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1492,
-      "E": 1607,
-      "F": 1377
+      "D": 1572,
+      "E": 1693,
+      "F": 1451
     }
   },
   "JC449": {
@@ -54074,9 +54094,9 @@
     "category": "8.BARREHOJAS",
     "bulk": 50.0,
     "prices": {
-      "D": 6088,
-      "E": 6557,
-      "F": 5620
+      "D": 6332,
+      "E": 6819,
+      "F": 5845
     }
   },
   "JC5005": {
@@ -54764,9 +54784,9 @@
     "category": "8.PROD.QUIM.SODA CAUSTICA",
     "bulk": 10.0,
     "prices": {
-      "D": 1568,
-      "E": 1689,
-      "F": 1447
+      "D": 1405,
+      "E": 1513,
+      "F": 1297
     }
   },
   "KIMERTH1": {
@@ -56964,9 +56984,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 6.0,
     "prices": {
-      "D": 151,
-      "E": 162,
-      "F": 139
+      "D": 161,
+      "E": 174,
+      "F": 149
     }
   },
   "LP02001": {
@@ -56974,9 +56994,9 @@
     "category": "8.PERCHA LINEA PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 199,
-      "E": 215,
-      "F": 184
+      "D": 213,
+      "E": 230,
+      "F": 197
     }
   },
   "LP03001": {
@@ -56984,9 +57004,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 16.0,
     "prices": {
-      "D": 498,
-      "E": 536,
-      "F": 459
+      "D": 533,
+      "E": 574,
+      "F": 492
     }
   },
   "LP04001": {
@@ -56994,9 +57014,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 16.0,
     "prices": {
-      "D": 498,
-      "E": 536,
-      "F": 459
+      "D": 533,
+      "E": 574,
+      "F": 492
     }
   },
   "LP05001": {
@@ -57004,9 +57024,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 4.0,
     "prices": {
-      "D": 4192,
-      "E": 4515,
-      "F": 3870
+      "D": 4486,
+      "E": 4831,
+      "F": 4141
     }
   },
   "LP06001": {
@@ -57014,9 +57034,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTIC",
     "bulk": 4.0,
     "prices": {
-      "D": 2925,
-      "E": 3150,
-      "F": 2700
+      "D": 3130,
+      "E": 3370,
+      "F": 2889
     }
   },
   "LP07001": {
@@ -57024,9 +57044,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2925,
-      "E": 3150,
-      "F": 2700
+      "D": 3130,
+      "E": 3370,
+      "F": 2889
     }
   },
   "LP08001": {
@@ -57034,9 +57054,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 3374,
-      "E": 3634,
-      "F": 3115
+      "D": 3611,
+      "E": 3888,
+      "F": 3333
     }
   },
   "LP09001": {
@@ -57044,9 +57064,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 3795,
-      "E": 4086,
-      "F": 3503
+      "D": 4060,
+      "E": 4373,
+      "F": 3748
     }
   },
   "LP10001": {
@@ -57054,9 +57074,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 1233,
-      "E": 1328,
-      "F": 1139
+      "D": 1320,
+      "E": 1421,
+      "F": 1218
     }
   },
   "LP11001": {
@@ -57064,9 +57084,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 15783,
-      "E": 16997,
-      "F": 14569
+      "D": 16886,
+      "E": 18185,
+      "F": 15587
     }
   },
   "LP12001": {
@@ -57074,9 +57094,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 3288,
-      "E": 3541,
-      "F": 3035
+      "D": 3519,
+      "E": 3789,
+      "F": 3248
     }
   },
   "LP13001": {
@@ -57084,9 +57104,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 4134,
-      "E": 4452,
-      "F": 3816
+      "D": 4423,
+      "E": 4763,
+      "F": 4083
     }
   },
   "LP16001": {
@@ -57094,9 +57114,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
-      "D": 280,
-      "E": 301,
-      "F": 258
+      "D": 299,
+      "E": 322,
+      "F": 276
     }
   },
   "LP16003": {
@@ -57104,9 +57124,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
-      "D": 321,
-      "E": 345,
-      "F": 296
+      "D": 343,
+      "E": 370,
+      "F": 317
     }
   },
   "LP17001": {
@@ -57114,9 +57134,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
-      "D": 259,
-      "E": 279,
-      "F": 239
+      "D": 277,
+      "E": 299,
+      "F": 256
     }
   },
   "LP17003": {
@@ -57124,9 +57144,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
-      "D": 303,
-      "E": 326,
-      "F": 279
+      "D": 324,
+      "E": 349,
+      "F": 299
     }
   },
   "LP19001": {
@@ -57134,9 +57154,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 2.0,
     "prices": {
-      "D": 720,
-      "E": 775,
-      "F": 664
+      "D": 770,
+      "E": 830,
+      "F": 711
     }
   },
   "LP20001": {
@@ -57144,9 +57164,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 1312,
-      "E": 1413,
-      "F": 1211
+      "D": 1404,
+      "E": 1512,
+      "F": 1296
     }
   },
   "LP21001": {
@@ -57154,9 +57174,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 1609,
-      "E": 1733,
-      "F": 1485
+      "D": 1722,
+      "E": 1854,
+      "F": 1589
     }
   },
   "LP22001": {
@@ -57164,9 +57184,9 @@
     "category": "1.ACCES.P/COCINA L/PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 11192,
-      "E": 12053,
-      "F": 10331
+      "D": 11976,
+      "E": 12897,
+      "F": 11055
     }
   },
   "LP23001": {
@@ -57174,9 +57194,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1175,
-      "E": 1266,
-      "F": 1085
+      "D": 1257,
+      "E": 1354,
+      "F": 1161
     }
   },
   "LP24001": {
@@ -57184,9 +57204,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1344,
-      "E": 1448,
-      "F": 1241
+      "D": 1438,
+      "E": 1549,
+      "F": 1328
     }
   },
   "LP25001": {
@@ -57194,9 +57214,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1302,
-      "E": 1402,
-      "F": 1201
+      "D": 1393,
+      "E": 1500,
+      "F": 1286
     }
   },
   "LP25002": {
@@ -57204,9 +57224,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 4411,
-      "E": 4750,
-      "F": 4071
+      "D": 4719,
+      "E": 5082,
+      "F": 4356
     }
   },
   "LP26001": {
@@ -57214,9 +57234,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 24.0,
     "prices": {
-      "D": 272,
-      "E": 293,
-      "F": 251
+      "D": 291,
+      "E": 314,
+      "F": 269
     }
   },
   "LP27001": {
@@ -57224,9 +57244,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 953,
-      "E": 1027,
-      "F": 880
+      "D": 1020,
+      "E": 1099,
+      "F": 942
     }
   },
   "LP28001": {
@@ -57234,9 +57254,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 4688,
-      "E": 5049,
-      "F": 4328
+      "D": 5017,
+      "E": 5403,
+      "F": 4631
     }
   },
   "LP29001": {
@@ -57244,9 +57264,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1869,
-      "E": 2013,
-      "F": 1726
+      "D": 2000,
+      "E": 2154,
+      "F": 1846
     }
   },
   "LP29002": {
@@ -57254,9 +57274,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1869,
-      "E": 2013,
-      "F": 1726
+      "D": 2000,
+      "E": 2154,
+      "F": 1846
     }
   },
   "LP29003": {
@@ -57264,9 +57284,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1869,
-      "E": 2013,
-      "F": 1726
+      "D": 2000,
+      "E": 2154,
+      "F": 1846
     }
   },
   "LP30001": {
@@ -57274,9 +57294,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 2.0,
     "prices": {
-      "D": 1924,
-      "E": 2072,
-      "F": 1776
+      "D": 2059,
+      "E": 2217,
+      "F": 1900
     }
   },
   "LP31001": {
@@ -57284,9 +57304,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 2.0,
     "prices": {
-      "D": 2474,
-      "E": 2664,
-      "F": 2283
+      "D": 2647,
+      "E": 2851,
+      "F": 2443
     }
   },
   "LP32001": {
@@ -57294,9 +57314,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2375,
-      "E": 2558,
-      "F": 2192
+      "D": 2541,
+      "E": 2737,
+      "F": 2346
     }
   },
   "LP34001": {
@@ -57304,9 +57324,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 2649,
-      "E": 2852,
-      "F": 2445
+      "D": 2834,
+      "E": 3052,
+      "F": 2616
     }
   },
   "LP36001": {
@@ -57314,9 +57334,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1849,
-      "E": 1991,
-      "F": 1707
+      "D": 1978,
+      "E": 2131,
+      "F": 1826
     }
   },
   "LP37001": {
@@ -57324,9 +57344,9 @@
     "category": "1.ACCES.P/COCINA L/PRACTI",
     "bulk": 6.0,
     "prices": {
-      "D": 2679,
-      "E": 2885,
-      "F": 2473
+      "D": 2866,
+      "E": 3087,
+      "F": 2646
     }
   },
   "LP38001": {
@@ -57334,9 +57354,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 716,
-      "E": 771,
-      "F": 661
+      "D": 766,
+      "E": 825,
+      "F": 707
     }
   },
   "LP38002": {
@@ -57344,9 +57364,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 873,
-      "E": 940,
-      "F": 806
+      "D": 934,
+      "E": 1006,
+      "F": 862
     }
   },
   "LP39001": {
@@ -57354,9 +57374,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 919,
-      "E": 990,
-      "F": 849
+      "D": 984,
+      "E": 1059,
+      "F": 908
     }
   },
   "LQAA-5000K": {
@@ -61129,24 +61149,14 @@
       "F": 2703
     }
   },
-  "MASIV12578": {
-    "name": "MECHA A/R CONICA ESCAL. 4-20mm IMP.",
-    "category": "8.MECHA A/RAPIDO CONICA",
-    "bulk": 100.0,
-    "prices": {
-      "D": 8192,
-      "E": 8822,
-      "F": 7561
-    }
-  },
   "MASIV12579": {
     "name": "MECHA A/R CONICA ESCAL. 4-12mm IMP.",
     "category": "8.MECHA A/RAPIDO CONICA",
     "bulk": 200.0,
     "prices": {
-      "D": 5531,
-      "E": 5956,
-      "F": 5105
+      "D": 4424,
+      "E": 4765,
+      "F": 4084
     }
   },
   "MASIV12625": {
@@ -65497,6 +65507,26 @@
       "D": 1658,
       "E": 1785,
       "F": 1530
+    }
+  },
+  "MCDIFRZ7120": {
+    "name": "DISCO FLAP ZIRCONIO 120x180(7\")RHEIN",
+    "category": "8.DISCO FLAP RHEIN",
+    "bulk": 5.0,
+    "prices": {
+      "D": 9056,
+      "E": 9752,
+      "F": 8359
+    }
+  },
+  "MCDIFRZ780": {
+    "name": "DISCO FLAP ZIRCONIO  80x180(7\")RHEIN",
+    "category": "8.DISCO FLAP RHEIN",
+    "bulk": 5.0,
+    "prices": {
+      "D": 9056,
+      "E": 9752,
+      "F": 8359
     }
   },
   "MCDIGOC4": {
@@ -70464,9 +70494,9 @@
     "category": "8.CABOS CORTOS",
     "bulk": 12.0,
     "prices": {
-      "D": 577,
-      "E": 621,
-      "F": 532
+      "D": 591,
+      "E": 636,
+      "F": 545
     }
   },
   "MOI3066": {
@@ -70474,9 +70504,9 @@
     "category": "8.CABOS CORTOS",
     "bulk": 12.0,
     "prices": {
-      "D": 755,
-      "E": 813,
-      "F": 697
+      "D": 779,
+      "E": 839,
+      "F": 719
     }
   },
   "MOI3067": {
@@ -70484,9 +70514,9 @@
     "category": "8.CABOS CORTOS",
     "bulk": 12.0,
     "prices": {
-      "D": 1084,
-      "E": 1168,
-      "F": 1001
+      "D": 1116,
+      "E": 1201,
+      "F": 1030
     }
   },
   "MOI3068": {
@@ -70494,9 +70524,9 @@
     "category": "8.CABOS CORTOS",
     "bulk": 12.0,
     "prices": {
-      "D": 1351,
-      "E": 1455,
-      "F": 1247
+      "D": 1285,
+      "E": 1384,
+      "F": 1186
     }
   },
   "MOI3069": {
@@ -70834,9 +70864,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 50.0,
     "prices": {
-      "D": 4539,
-      "E": 4888,
-      "F": 4189
+      "D": 4581,
+      "E": 4933,
+      "F": 4228
     }
   },
   "MTORC005": {
@@ -70844,9 +70874,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 20.0,
     "prices": {
-      "D": 5935,
-      "E": 6391,
-      "F": 5478
+      "D": 5999,
+      "E": 6461,
+      "F": 5538
     }
   },
   "MTORC009": {
@@ -70854,9 +70884,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 50.0,
     "prices": {
-      "D": 5597,
-      "E": 6028,
-      "F": 5167
+      "D": 5709,
+      "E": 6148,
+      "F": 5270
     }
   },
   "MTORC010": {
@@ -70864,9 +70894,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 40.0,
     "prices": {
-      "D": 7322,
-      "E": 7886,
-      "F": 6759
+      "D": 7469,
+      "E": 8043,
+      "F": 6894
     }
   },
   "MTORC013": {
@@ -70874,9 +70904,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 100.0,
     "prices": {
-      "D": 1299,
-      "E": 1399,
-      "F": 1199
+      "D": 1325,
+      "E": 1427,
+      "F": 1223
     }
   },
   "MTORC015": {
@@ -70884,9 +70914,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 100.0,
     "prices": {
-      "D": 680,
-      "E": 732,
-      "F": 628
+      "D": 694,
+      "E": 747,
+      "F": 640
     }
   },
   "MTORC016": {
@@ -70894,9 +70924,9 @@
     "category": "8.ACC.P/CORTINA.ENROLLA",
     "bulk": 10.0,
     "prices": {
-      "D": 999,
-      "E": 1076,
-      "F": 922
+      "D": 1019,
+      "E": 1097,
+      "F": 940
     }
   },
   "MTORC019": {
@@ -70904,9 +70934,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 10.0,
     "prices": {
-      "D": 8313,
-      "E": 8952,
-      "F": 7673
+      "D": 8479,
+      "E": 9131,
+      "F": 7827
     }
   },
   "MTORC122": {
@@ -70914,9 +70944,9 @@
     "category": "8.TENSOR P/ALAMBRADOS ZI",
     "bulk": 25.0,
     "prices": {
-      "D": 3128,
-      "E": 3368,
-      "F": 2887
+      "D": 3190,
+      "E": 3436,
+      "F": 2945
     }
   },
   "MTORC124": {
@@ -70924,9 +70954,9 @@
     "category": "8.TENSOR P/ALAMBRADOS ZI",
     "bulk": 50.0,
     "prices": {
-      "D": 2167,
-      "E": 2334,
-      "F": 2000
+      "D": 2215,
+      "E": 2386,
+      "F": 2045
     }
   },
   "MTORC360": {
@@ -70934,9 +70964,9 @@
     "category": "8.GANCHO P/POSTE ZINC.GMT",
     "bulk": 50.0,
     "prices": {
-      "D": 561,
-      "E": 605,
-      "F": 518
+      "D": 570,
+      "E": 614,
+      "F": 526
     }
   },
   "MTORC362": {
@@ -70944,9 +70974,9 @@
     "category": "8.GANCHO P/POSTE ZINC.GMT",
     "bulk": 50.0,
     "prices": {
-      "D": 696,
-      "E": 749,
-      "F": 642
+      "D": 700,
+      "E": 754,
+      "F": 646
     }
   },
   "MTORC363": {
@@ -70954,9 +70984,9 @@
     "category": "8.GANCHO P/POSTE ZINC.GMT",
     "bulk": 50.0,
     "prices": {
-      "D": 763,
-      "E": 822,
-      "F": 704
+      "D": 778,
+      "E": 838,
+      "F": 718
     }
   },
   "MTORC454": {
@@ -70964,9 +70994,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 100.0,
     "prices": {
-      "D": 419,
-      "E": 451,
-      "F": 386
+      "D": 427,
+      "E": 460,
+      "F": 394
     }
   },
   "NATCABPINO": {
@@ -71584,9 +71614,9 @@
     "category": "1.SOPAPAS y ACCESORIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 5947,
-      "E": 6404,
-      "F": 5489
+      "D": 6541,
+      "E": 7045,
+      "F": 6038
     }
   },
   "OR017": {
@@ -71594,9 +71624,9 @@
     "category": "1.SOPAPAS y ACCESORIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 6907,
-      "E": 7438,
-      "F": 6375
+      "D": 7597,
+      "E": 8182,
+      "F": 7013
     }
   },
   "OR019 A": {
@@ -71604,9 +71634,9 @@
     "category": "1.SOPAPAS y ACCESORIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 2904,
-      "E": 3128,
-      "F": 2681
+      "D": 3195,
+      "E": 3441,
+      "F": 2949
     }
   },
   "OR021": {
@@ -71674,9 +71704,9 @@
     "category": "1.CALEF.TERMOT/AC.REP",
     "bulk": 0.0,
     "prices": {
-      "D": 1667,
-      "E": 1795,
-      "F": 1539
+      "D": 1717,
+      "E": 1849,
+      "F": 1584
     }
   },
   "OR100": {
@@ -71684,9 +71714,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 838,
-      "E": 902,
-      "F": 773
+      "D": 879,
+      "E": 947,
+      "F": 812
     }
   },
   "OR102": {
@@ -71694,9 +71724,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 1737,
-      "E": 1871,
-      "F": 1604
+      "D": 1824,
+      "E": 1964,
+      "F": 1684
     }
   },
   "OR1037": {
@@ -71714,9 +71744,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 1427,
-      "E": 1537,
-      "F": 1317
+      "D": 1499,
+      "E": 1614,
+      "F": 1383
     }
   },
   "OR11": {
@@ -71724,9 +71754,9 @@
     "category": "1.FILTRO SOPAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 604,
-      "E": 650,
-      "F": 557
+      "D": 633,
+      "E": 681,
+      "F": 584
     }
   },
   "OR118": {
@@ -72094,9 +72124,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 4872,
-      "E": 5247,
-      "F": 4497
+      "D": 5164,
+      "E": 5562,
+      "F": 4767
     }
   },
   "OR34": {
@@ -72104,9 +72134,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 2436,
-      "E": 2623,
-      "F": 2248
+      "D": 2578,
+      "E": 2776,
+      "F": 2379
     }
   },
   "OR365": {
@@ -72334,9 +72364,9 @@
     "category": "8.DELANTAL SOLDADOR",
     "bulk": 6.0,
     "prices": {
-      "D": 6954,
-      "E": 7489,
-      "F": 6419
+      "D": 11096,
+      "E": 11950,
+      "F": 10243
     }
   },
   "OSGUADESVAQCTO": {
@@ -74844,9 +74874,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 2522,
-      "E": 2717,
-      "F": 2425
+      "D": 2649,
+      "E": 2852,
+      "F": 2547
     }
   },
   "PRS101001": {
@@ -74854,9 +74884,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 3486,
-      "E": 3754,
-      "F": 3352
+      "D": 3625,
+      "E": 3904,
+      "F": 3486
     }
   },
   "PRS101200": {
@@ -74864,9 +74894,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 6.0,
     "prices": {
-      "D": 2662,
-      "E": 2867,
-      "F": 2560
+      "D": 2929,
+      "E": 3154,
+      "F": 2816
     }
   },
   "PRS101300": {
@@ -74874,9 +74904,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 0.0,
     "prices": {
-      "D": 2568,
-      "E": 2766,
-      "F": 2469
+      "D": 3005,
+      "E": 3236,
+      "F": 2889
     }
   },
   "PRS101303": {
@@ -74894,9 +74924,9 @@
     "category": "8.INFLA Y REPARA",
     "bulk": 6.0,
     "prices": {
-      "D": 6458,
-      "E": 6955,
-      "F": 6210
+      "D": 5618,
+      "E": 6051,
+      "F": 5402
     }
   },
   "PRS101344": {
@@ -74904,9 +74934,9 @@
     "category": "8.LIMPIA PARABRISAS",
     "bulk": 6.0,
     "prices": {
-      "D": 3483,
-      "E": 3750,
-      "F": 3349
+      "D": 3517,
+      "E": 3788,
+      "F": 3382
     }
   },
   "PRS101348": {
@@ -74914,9 +74944,9 @@
     "category": "8.LIMPIA TAPIZADOS",
     "bulk": 6.0,
     "prices": {
-      "D": 4174,
-      "E": 4495,
-      "F": 4014
+      "D": 4007,
+      "E": 4315,
+      "F": 3853
     }
   },
   "PRS101800": {
@@ -75134,9 +75164,9 @@
     "category": "8.ESPUMA POLIURETANO",
     "bulk": 12.0,
     "prices": {
-      "D": 5981,
-      "E": 6441,
-      "F": 5751
+      "D": 5682,
+      "E": 6119,
+      "F": 5463
     }
   },
   "PRS112002": {
@@ -75144,9 +75174,9 @@
     "category": "8.ESPUMA POLIURETANO",
     "bulk": 12.0,
     "prices": {
-      "D": 8991,
-      "E": 9683,
-      "F": 8645
+      "D": 8542,
+      "E": 9199,
+      "F": 8213
     }
   },
   "PRS112100": {
@@ -75154,9 +75184,9 @@
     "category": "8.MEMBRANA",
     "bulk": 6.0,
     "prices": {
-      "D": 10039,
-      "E": 10811,
-      "F": 9653
+      "D": 9035,
+      "E": 9730,
+      "F": 8688
     }
   },
   "PRS112102": {
@@ -75164,9 +75194,9 @@
     "category": "8.MEMBRANA",
     "bulk": 6.0,
     "prices": {
-      "D": 10039,
-      "E": 10811,
-      "F": 9653
+      "D": 9035,
+      "E": 9730,
+      "F": 8688
     }
   },
   "PRS112103": {
@@ -75174,9 +75204,9 @@
     "category": "8.MEMBRANA",
     "bulk": 6.0,
     "prices": {
-      "D": 10039,
-      "E": 10811,
-      "F": 9653
+      "D": 9035,
+      "E": 9730,
+      "F": 8688
     }
   },
   "PSAA010130095": {
@@ -85394,9 +85424,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 83374,
-      "E": 89787,
-      "F": 76960
+      "D": 96079,
+      "E": 103469,
+      "F": 88688
     }
   },
   "RPFC1109": {
@@ -85404,9 +85434,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 125041,
-      "E": 134659,
-      "F": 115422
+      "D": 144095,
+      "E": 155179,
+      "F": 133010
     }
   },
   "RPFC1110": {
@@ -85414,9 +85444,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 166748,
-      "E": 179575,
-      "F": 153921
+      "D": 192153,
+      "E": 206934,
+      "F": 177372
     }
   },
   "RPFN1102": {
@@ -87669,6 +87699,16 @@
       "F": 944
     }
   },
+  "SCG379": {
+    "name": "ROLDANA de PLAST de 32mmx12unSCOGAR",
+    "category": "8.ROLDANA de CHAPA",
+    "bulk": 12.0,
+    "prices": {
+      "D": 785,
+      "E": 846,
+      "F": 725
+    }
+  },
   "SCG571": {
     "name": "CUCHARA SOLDADA ALBA\u00d1IL 6    SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
@@ -88014,9 +88054,9 @@
     "category": "1.ACCES.PARA PILETA POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 30583,
-      "E": 32935,
-      "F": 28230
+      "D": 27524,
+      "E": 29642,
+      "F": 25407
     }
   },
   "SF16003": {
@@ -88024,9 +88064,9 @@
     "category": "1.ACCES.PARA PILETA POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 90085,
-      "E": 97014,
-      "F": 83155
+      "D": 58098,
+      "E": 62567,
+      "F": 53629
     }
   },
   "SF16012": {
@@ -88034,9 +88074,9 @@
     "category": "1.ACCES.PARA PILETA POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 39993,
-      "E": 43069,
-      "F": 36917
+      "D": 35994,
+      "E": 38762,
+      "F": 33225
     }
   },
   "SF6700": {
@@ -89459,7 +89499,7 @@
       "F": 13093
     }
   },
-  "SPT3005-06": {
+  "SPT3005-08": {
     "name": "KIT JUNTA CARBURA.52cc.DESMALZ. SPT",
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
@@ -91994,9 +92034,9 @@
     "category": "9.TAPA PVC.P/Cj OCTOGONAL",
     "bulk": 50.0,
     "prices": {
-      "D": 195,
-      "E": 210,
-      "F": 180
+      "D": 192,
+      "E": 207,
+      "F": 177
     }
   },
   "TIDIL-1049": {
@@ -92004,9 +92044,9 @@
     "category": "9.TAPA PVC.P/Cj OCTOGONAL",
     "bulk": 10.0,
     "prices": {
-      "D": 277,
-      "E": 299,
-      "F": 256
+      "D": 274,
+      "E": 295,
+      "F": 253
     }
   },
   "TIDIL-1050": {
@@ -92954,9 +92994,9 @@
     "category": "9.ARRANCADOR P/TUBO FLUO",
     "bulk": 25.0,
     "prices": {
-      "D": 771,
-      "E": 831,
-      "F": 712
+      "D": 787,
+      "E": 848,
+      "F": 726
     }
   },
   "TIINT-2637": {
@@ -92964,9 +93004,9 @@
     "category": "9.SENSOR",
     "bulk": 1.0,
     "prices": {
-      "D": 27863,
-      "E": 30006,
-      "F": 25720
+      "D": 28423,
+      "E": 30610,
+      "F": 26237
     }
   },
   "TIINT-2682": {
@@ -92974,9 +93014,9 @@
     "category": "9.TIMER",
     "bulk": 1.0,
     "prices": {
-      "D": 27159,
-      "E": 29249,
-      "F": 25070
+      "D": 27705,
+      "E": 29837,
+      "F": 25574
     }
   },
   "TIINT-2683": {
@@ -92984,9 +93024,9 @@
     "category": "9.TIMER",
     "bulk": 5.0,
     "prices": {
-      "D": 14940,
-      "E": 16090,
-      "F": 13791
+      "D": 15241,
+      "E": 16413,
+      "F": 14068
     }
   },
   "TIINT-2685": {
@@ -92994,9 +93034,9 @@
     "category": "9.LAMPARA DICROICA/ACC.",
     "bulk": 10.0,
     "prices": {
-      "D": 10007,
-      "E": 10777,
-      "F": 9237
+      "D": 10208,
+      "E": 10993,
+      "F": 9423
     }
   },
   "TIINT-3120": {
@@ -93004,9 +93044,9 @@
     "category": "9.TUBO FLUOR/ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2112,
-      "E": 2197,
-      "F": 2028
+      "D": 2155,
+      "E": 2241,
+      "F": 2068
     }
   },
   "TIINT-3121": {
@@ -93014,9 +93054,9 @@
     "category": "9.TUBO FLUOR/ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2297,
-      "E": 2389,
-      "F": 2205
+      "D": 2343,
+      "E": 2437,
+      "F": 2250
     }
   },
   "TIINT-3122": {
@@ -93044,9 +93084,9 @@
     "category": "9.LAMPARA DICROICA/ACC.",
     "bulk": 10.0,
     "prices": {
-      "D": 3166,
-      "E": 3293,
-      "F": 3040
+      "D": 3230,
+      "E": 3359,
+      "F": 3101
     }
   },
   "TIKWC-2901": {
@@ -93264,9 +93304,9 @@
     "category": "9.LAMPARA DICROICA/ACC.",
     "bulk": 10.0,
     "prices": {
-      "D": 5399,
-      "E": 5615,
-      "F": 5183
+      "D": 5507,
+      "E": 5728,
+      "F": 5287
     }
   },
   "TILUZ-3160": {
@@ -93584,9 +93624,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1079,
-      "E": 1162,
-      "F": 996
+      "D": 1075,
+      "E": 1158,
+      "F": 992
     }
   },
   "TIROD-4001": {
@@ -93594,9 +93634,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1062,
-      "E": 1144,
-      "F": 980
+      "D": 1058,
+      "E": 1140,
+      "F": 977
     }
   },
   "TIROD-4002": {
@@ -93604,9 +93644,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1359,
-      "E": 1464,
-      "F": 1254
+      "D": 1354,
+      "E": 1458,
+      "F": 1250
     }
   },
   "TIROD-4003": {
@@ -93614,9 +93654,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1423,
-      "E": 1533,
-      "F": 1314
+      "D": 1418,
+      "E": 1527,
+      "F": 1309
     }
   },
   "TIROD-4004": {
@@ -93624,9 +93664,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 2633,
-      "E": 2836,
-      "F": 2430
+      "D": 2624,
+      "E": 2826,
+      "F": 2422
     }
   },
   "TIROD-4008": {
@@ -93634,9 +93674,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 843,
-      "E": 908,
-      "F": 778
+      "D": 840,
+      "E": 905,
+      "F": 775
     }
   },
   "TIROD-4009": {
@@ -93644,9 +93684,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 759,
-      "E": 817,
-      "F": 700
+      "D": 756,
+      "E": 814,
+      "F": 698
     }
   },
   "TIROD-4010": {
@@ -93654,9 +93694,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 885,
-      "E": 953,
-      "F": 817
+      "D": 882,
+      "E": 950,
+      "F": 814
     }
   },
   "TIROD-4011": {
@@ -93664,9 +93704,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1003,
-      "E": 1080,
-      "F": 926
+      "D": 1000,
+      "E": 1076,
+      "F": 923
     }
   },
   "TIROD-4013": {
@@ -93674,9 +93714,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1703,
-      "E": 1834,
-      "F": 1572
+      "D": 1697,
+      "E": 1828,
+      "F": 1566
     }
   },
   "TIROD-4015": {
@@ -93684,9 +93724,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 2034,
-      "E": 2191,
-      "F": 1878
+      "D": 2027,
+      "E": 2183,
+      "F": 1871
     }
   },
   "TIROD-4016": {
@@ -93694,9 +93734,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 2698,
-      "E": 2906,
-      "F": 2491
+      "D": 2689,
+      "E": 2896,
+      "F": 2482
     }
   },
   "TIROD-4017": {
@@ -93704,9 +93744,9 @@
     "category": "3.RULEMANES",
     "bulk": 1.0,
     "prices": {
-      "D": 3204,
-      "E": 3451,
-      "F": 2958
+      "D": 3193,
+      "E": 3439,
+      "F": 2947
     }
   },
   "TIROD-4018": {
@@ -93714,9 +93754,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 4183,
-      "E": 4504,
-      "F": 3861
+      "D": 4168,
+      "E": 4488,
+      "F": 3847
     }
   },
   "TIROD-4020": {
@@ -93724,9 +93764,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 927,
-      "E": 999,
-      "F": 856
+      "D": 924,
+      "E": 995,
+      "F": 853
     }
   },
   "TIROD-4021": {
@@ -93734,9 +93774,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1234,
-      "E": 1329,
-      "F": 1139
+      "D": 1230,
+      "E": 1324,
+      "F": 1135
     }
   },
   "TIROD-4022": {
@@ -93744,9 +93784,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1518,
-      "E": 1634,
-      "F": 1401
+      "D": 1512,
+      "E": 1629,
+      "F": 1396
     }
   },
   "TIROD-4023": {
@@ -93754,9 +93794,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 1939,
-      "E": 2088,
-      "F": 1790
+      "D": 1932,
+      "E": 2081,
+      "F": 1784
     }
   },
   "TIROD-4024": {
@@ -93764,9 +93804,9 @@
     "category": "3.RULEMANES",
     "bulk": 10.0,
     "prices": {
-      "D": 2572,
-      "E": 2770,
-      "F": 2374
+      "D": 2563,
+      "E": 2760,
+      "F": 2365
     }
   },
   "TIROO-0013": {
@@ -93847,6 +93887,26 @@
       "D": 2136,
       "E": 2300,
       "F": 1971
+    }
+  },
+  "TITER-6300": {
+    "name": "TERMINAL PALA HEMBRA BCE 6.3mmx200un",
+    "category": "9.TERMINALES DE BRONCE",
+    "bulk": 200.0,
+    "prices": {
+      "D": 91,
+      "E": 98,
+      "F": 84
+    }
+  },
+  "TITER-6301": {
+    "name": "TERMINAL PALA MACHO  BCE 6.3mmx200un",
+    "category": "9.TERMINALES DE BRONCE",
+    "bulk": 200.0,
+    "prices": {
+      "D": 102,
+      "E": 110,
+      "F": 94
     }
   },
   "TITOP-4807": {
@@ -94324,9 +94384,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 100.0,
     "prices": {
-      "D": 545,
-      "E": 587,
-      "F": 503
+      "D": 557,
+      "E": 600,
+      "F": 514
     }
   },
   "TM1602": {
@@ -94334,9 +94394,9 @@
     "category": "8.ACC.P/CORTINA.ENRROLL",
     "bulk": 100.0,
     "prices": {
-      "D": 605,
-      "E": 652,
-      "F": 559
+      "D": 649,
+      "E": 698,
+      "F": 599
     }
   },
   "TM1751": {
@@ -94784,9 +94844,9 @@
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 6000.0,
     "prices": {
-      "D": 199,
-      "E": 214,
-      "F": 184
+      "D": 19,
+      "E": 21,
+      "F": 18
     }
   },
   "TOR01436": {
@@ -95110,7 +95170,7 @@
     }
   },
   "TORIMP000764": {
-    "name": "TORNILLO P/MECHA TANQUE 8x 11/4 TORAR",
+    "name": "TORNILLO P/MECHA TANQUE 8 x11/4 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 200.0,
     "prices": {
@@ -95150,7 +95210,7 @@
     }
   },
   "TORIMP000839": {
-    "name": "TORNILLO P/MECHA C/FREZ. 8x 11/2\" TORAR",
+    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/2\" TORAR",
     "category": "6.TOR.P/MECHA FREZADA",
     "bulk": 200.0,
     "prices": {
@@ -95370,7 +95430,7 @@
     }
   },
   "TORIMP001151": {
-    "name": "TORNILLO P/MECHA TANQUE 8x 3/4 TORAR",
+    "name": "TORNILLO P/MECHA TANQUE 8 x3/4 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
     "bulk": 8000.0,
     "prices": {
@@ -95520,7 +95580,7 @@
     }
   },
   "TORIMP001373": {
-    "name": "TORNILLO P/MECHA C/FREZ. 8x 11/4\" TORAR",
+    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/4\" TORAR",
     "category": "6.TOR.P/MECHA FREZADA",
     "bulk": 200.0,
     "prices": {
@@ -95537,6 +95597,16 @@
       "D": 83,
       "E": 90,
       "F": 77
+    }
+  },
+  "TORIMP001607": {
+    "name": "TORNILLO P/AGUJA TANQUE 8 x9/16 TORAR",
+    "category": "6.TOR.P/MECHA TANQ/PHI.8",
+    "bulk": 200.0,
+    "prices": {
+      "D": 11,
+      "E": 12,
+      "F": 10
     }
   },
   "TORNCB-10": {
