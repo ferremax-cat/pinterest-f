@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 20,
+    "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,10,11,11,47,47)"
+    "ultima_actualizacion": "Date(2025,10,12,11,22,45)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -45,7 +45,7 @@
     "nombre": "FERRETERIA FERRECAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,10,8,16,43,20)"
+    "ultima_actualizacion": "Date(2025,10,11,20,10,57)"
   },
   "1001": {
     "nombre": "FERRETERIA CAÑUELAS",
@@ -310,5 +310,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2025,10,6,16,21,35)"
+  },
+  "60269": {
+    "nombre": "FERRETERIA MAKANA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2025,10,11,16,33,2)"
   }
 }
