@@ -404,9 +404,9 @@
     "category": "8.COLLAR.ACCES.P/PERRO",
     "bulk": 12.0,
     "prices": {
-      "D": 1848,
-      "E": 1990,
-      "F": 1705
+      "D": 2065,
+      "E": 2224,
+      "F": 1906
     }
   },
   "AGRCN2": {
@@ -16039,6 +16039,26 @@
       "F": 1329
     }
   },
+  "BRI0011": {
+    "name": "BRIKOL LADRILLOS CERAMICO 4lts.",
+    "category": "7.BRIKOL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 88895,
+      "E": 96007,
+      "F": 85339
+    }
+  },
+  "BRI0014": {
+    "name": "BRIKOL LADRILLOS INCOLORO 4lts.",
+    "category": "7.BRIKOL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 88895,
+      "E": 96007,
+      "F": 85339
+    }
+  },
   "BRO02.BAL0045": {
     "name": "BALIN CONICO DE AIRE CAL 4.5 BROGAS",
     "category": "8.BALIN",
@@ -16374,9 +16394,9 @@
     "category": "1.CINTA DE TEFLON CAFU",
     "bulk": 100.0,
     "prices": {
-      "D": 6108,
-      "E": 6578,
-      "F": 5874
+      "D": 5498,
+      "E": 5921,
+      "F": 5286
     }
   },
   "CAFFLONP240": {
@@ -27474,9 +27494,9 @@
     "category": "8.PROD.QUIM/CUCARACHICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 1953,
-      "E": 2103,
-      "F": 1802
+      "D": 2086,
+      "E": 2246,
+      "F": 1925
     }
   },
   "DTF362": {
@@ -27484,9 +27504,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 2271,
-      "E": 2445,
-      "F": 2096
+      "D": 2429,
+      "E": 2616,
+      "F": 2242
     }
   },
   "DTF363": {
@@ -27494,9 +27514,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 1.0,
     "prices": {
-      "D": 14056,
-      "E": 15137,
-      "F": 12974
+      "D": 15032,
+      "E": 16189,
+      "F": 13876
     }
   },
   "DTF386": {
@@ -27514,9 +27534,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 10.0,
     "prices": {
-      "D": 2959,
-      "E": 3186,
-      "F": 2731
+      "D": 3157,
+      "E": 3400,
+      "F": 2914
     }
   },
   "DTF406": {
@@ -27574,9 +27594,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 10.0,
     "prices": {
-      "D": 2777,
-      "E": 2990,
-      "F": 2563
+      "D": 2973,
+      "E": 3202,
+      "F": 2745
     }
   },
   "DTF499": {
@@ -27614,9 +27634,9 @@
     "category": "8.PROD.QUIM/DERRIBANTES",
     "bulk": 1.0,
     "prices": {
-      "D": 4335,
-      "E": 4668,
-      "F": 4001
+      "D": 4641,
+      "E": 4998,
+      "F": 4284
     }
   },
   "DTF537": {
@@ -27624,9 +27644,9 @@
     "category": "8.TRAMPERA PARA RATA",
     "bulk": 20.0,
     "prices": {
-      "D": 2071,
-      "E": 2230,
-      "F": 1912
+      "D": 2219,
+      "E": 2390,
+      "F": 2048
     }
   },
   "DTF550": {
@@ -27839,6 +27859,16 @@
       "F": 2205
     }
   },
+  "DTF722": {
+    "name": "LLANA PLASTICA NEGRA  13 x 28 ECO TUCAN",
+    "category": "8.LLANA LISA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 1627,
+      "E": 1752,
+      "F": 1502
+    }
+  },
   "DTF727": {
     "name": "APARATO MATA MOSQUITO C/CABLE  GALI",
     "category": "8.APARATO MATAMOSQUITOS",
@@ -27874,9 +27904,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 1.0,
     "prices": {
-      "D": 2663,
-      "E": 2868,
-      "F": 2458
+      "D": 2752,
+      "E": 2963,
+      "F": 2540
     }
   },
   "DTF759": {
@@ -27941,6 +27971,16 @@
   },
   "DTP046": {
     "name": "SINT.AEROSOL AZUL MARINO  x240ccKUWAIT",
+    "category": "7.AEROSOL BRIL.240.KUWAIT",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3129,
+      "E": 3255,
+      "F": 3004
+    }
+  },
+  "DTP050": {
+    "name": "SINT.AEROSOL BERMELLON    x240ccKUWAIT",
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
@@ -28094,9 +28134,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 6.0,
     "prices": {
-      "D": 1923,
-      "E": 2071,
-      "F": 1775
+      "D": 1612,
+      "E": 1736,
+      "F": 1488
     }
   },
   "DTS001B": {
@@ -28214,9 +28254,9 @@
     "category": "1.SELLADOR P/PPN H3",
     "bulk": 25.0,
     "prices": {
-      "D": 2012,
-      "E": 2167,
-      "F": 1857
+      "D": 2071,
+      "E": 2230,
+      "F": 1912
     }
   },
   "DTS031": {
@@ -28224,9 +28264,9 @@
     "category": "1.SELLADOR P/PPN H3",
     "bulk": 24.0,
     "prices": {
-      "D": 3536,
-      "E": 3808,
-      "F": 3264
+      "D": 3642,
+      "E": 3922,
+      "F": 3362
     }
   },
   "DTS032": {
@@ -28234,9 +28274,9 @@
     "category": "1.SELLADOR P/PPN H3",
     "bulk": 12.0,
     "prices": {
-      "D": 5622,
-      "E": 6054,
-      "F": 5189
+      "D": 5791,
+      "E": 6236,
+      "F": 5345
     }
   },
   "DTS041": {
@@ -34067,6 +34107,16 @@
       "D": 3454,
       "E": 3719,
       "F": 3188
+    }
+  },
+  "EVOL0962": {
+    "name": "PINCEL CERDA BLNCA V:1 N\u00ba15 ROTTWEILER",
+    "category": "7.PINCEL ROTT.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 1092,
+      "E": 1176,
+      "F": 1008
     }
   },
   "EVOL1000": {
@@ -55604,9 +55654,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5576
+      "D": 6564,
+      "E": 6826,
+      "F": 6301
     }
   },
   "KU000107": {
@@ -55614,9 +55664,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000116": {
@@ -55624,9 +55674,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000117": {
@@ -55634,9 +55684,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000118": {
@@ -55644,9 +55694,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000121": {
@@ -55654,9 +55704,9 @@
     "category": "7.AEROSOL MATE.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000131": {
@@ -55664,9 +55714,9 @@
     "category": "7.AEROSOL SATI.240 KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000135": {
@@ -55674,9 +55724,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000141": {
@@ -55684,9 +55734,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4536,
-      "E": 4717,
-      "F": 4354
+      "D": 5125,
+      "E": 5330,
+      "F": 4920
     }
   },
   "KU000142": {
@@ -55694,9 +55744,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4536,
-      "E": 4717,
-      "F": 4354
+      "D": 5125,
+      "E": 5330,
+      "F": 4920
     }
   },
   "KU000151": {
@@ -55704,9 +55754,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4536,
-      "E": 4717,
-      "F": 4354
+      "D": 5125,
+      "E": 5330,
+      "F": 4920
     }
   },
   "KU000152": {
@@ -55714,9 +55764,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4536,
-      "E": 4717,
-      "F": 4354
+      "D": 5125,
+      "E": 5330,
+      "F": 4920
     }
   },
   "KU000184": {
@@ -55724,9 +55774,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000188": {
@@ -55734,9 +55784,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000195": {
@@ -55744,9 +55794,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000196": {
@@ -55754,9 +55804,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000197": {
@@ -55764,19 +55814,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
-    }
-  },
-  "KU000198": {
-    "name": "SINT.AEROSOL BERMELLON    x240ccKUWAIT",
-    "category": "7.AEROSOL BRIL.240.KUWAIT",
-    "bulk": 12.0,
-    "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000199": {
@@ -55784,9 +55824,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000200": {
@@ -55794,9 +55834,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000201": {
@@ -55804,9 +55844,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000202": {
@@ -55814,9 +55854,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000203": {
@@ -55824,9 +55864,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000204": {
@@ -55834,9 +55874,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000205": {
@@ -55844,9 +55884,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000206": {
@@ -55854,9 +55894,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000208": {
@@ -55864,9 +55904,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000215": {
@@ -55874,9 +55914,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU000219": {
@@ -55884,9 +55924,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3883,
-      "E": 4038,
-      "F": 3728
+      "D": 4388,
+      "E": 4563,
+      "F": 4212
     }
   },
   "KU000220": {
@@ -55894,9 +55934,9 @@
     "category": "7.AEROSOL GRAFI240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3694,
-      "E": 3842,
-      "F": 3547
+      "D": 4175,
+      "E": 4342,
+      "F": 4008
     }
   },
   "KU000232": {
@@ -55904,9 +55944,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4536,
-      "E": 4717,
-      "F": 4354
+      "D": 5125,
+      "E": 5330,
+      "F": 4920
     }
   },
   "KU000262": {
@@ -55914,9 +55954,9 @@
     "category": "7.AEROSOL PASTE240.KUWAI",
     "bulk": 12.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000264": {
@@ -55924,9 +55964,9 @@
     "category": "7.AEROSOL PASTE240.KUWAI",
     "bulk": 12.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000266": {
@@ -55934,9 +55974,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 0.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000267": {
@@ -55944,9 +55984,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000269": {
@@ -55954,9 +55994,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000271": {
@@ -55964,9 +56004,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3072,
-      "E": 3195,
-      "F": 2949
+      "D": 3472,
+      "E": 3610,
+      "F": 3333
     }
   },
   "KU000400": {
@@ -55974,9 +56014,9 @@
     "category": "7.AEROSOL MULTIPRO.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3455,
-      "E": 3720,
-      "F": 3189
+      "D": 3904,
+      "E": 4204,
+      "F": 3603
     }
   },
   "KU000402": {
@@ -55984,9 +56024,9 @@
     "category": "7.AEROSOL INF/SELL.KUWAI",
     "bulk": 12.0,
     "prices": {
-      "D": 6915,
-      "E": 7447,
-      "F": 6383
+      "D": 7815,
+      "E": 8416,
+      "F": 7213
     }
   },
   "KU000500": {
@@ -55994,9 +56034,9 @@
     "category": "7.AEROSOL METAL240.KUWAI",
     "bulk": 12.0,
     "prices": {
-      "D": 4292,
-      "E": 4464,
-      "F": 4120
+      "D": 4850,
+      "E": 5044,
+      "F": 4656
     }
   },
   "KU000501": {
@@ -56004,9 +56044,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4292,
-      "E": 4464,
-      "F": 4120
+      "D": 4850,
+      "E": 5044,
+      "F": 4656
     }
   },
   "KU000503": {
@@ -56014,9 +56054,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4292,
-      "E": 4464,
-      "F": 4120
+      "D": 4850,
+      "E": 5044,
+      "F": 4656
     }
   },
   "KU000504": {
@@ -56024,9 +56064,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5577
+      "D": 6564,
+      "E": 6827,
+      "F": 6302
     }
   },
   "KU000505": {
@@ -56034,9 +56074,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5577
+      "D": 6564,
+      "E": 6827,
+      "F": 6302
     }
   },
   "KU000506": {
@@ -56044,9 +56084,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5577
+      "D": 6564,
+      "E": 6827,
+      "F": 6302
     }
   },
   "KU000507": {
@@ -56054,9 +56094,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5577
+      "D": 6564,
+      "E": 6827,
+      "F": 6302
     }
   },
   "KU000508": {
@@ -56064,9 +56104,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5809,
-      "E": 6041,
-      "F": 5577
+      "D": 6564,
+      "E": 6827,
+      "F": 6302
     }
   },
   "KU000554": {
@@ -56074,9 +56114,9 @@
     "category": "7.AEROSOL EPOXI285.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 7932,
-      "E": 8249,
-      "F": 7615
+      "D": 8963,
+      "E": 9322,
+      "F": 8605
     }
   },
   "KU000564": {
@@ -56084,9 +56124,9 @@
     "category": "7.AEROSOL EPOXI285.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 7932,
-      "E": 8249,
-      "F": 7615
+      "D": 8963,
+      "E": 9322,
+      "F": 8605
     }
   },
   "KU000565": {
@@ -56094,9 +56134,9 @@
     "category": "7.AEROSOL EPOXI285.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 7932,
-      "E": 8249,
-      "F": 7615
+      "D": 8963,
+      "E": 9322,
+      "F": 8605
     }
   },
   "KU000604": {
@@ -56104,9 +56144,9 @@
     "category": "7.AEROSOL BARNI240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU001601": {
@@ -56114,9 +56154,9 @@
     "category": "7.AEROSOL 440 KWT .KUWAIT",
     "bulk": 6.0,
     "prices": {
-      "D": 6066,
-      "E": 6309,
-      "F": 5823
+      "D": 6855,
+      "E": 7129,
+      "F": 6581
     }
   },
   "KU002210": {
@@ -56134,9 +56174,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU003001": {
@@ -56144,9 +56184,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU003002": {
@@ -56154,9 +56194,9 @@
     "category": "7.AEROSOL BARNI240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 2792,
-      "E": 2903,
-      "F": 2680
+      "D": 3155,
+      "E": 3281,
+      "F": 3029
     }
   },
   "KU003003": {
@@ -56164,9 +56204,9 @@
     "category": "7.AEROSOL BARNI240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3212,
-      "E": 3341,
-      "F": 3084
+      "D": 3630,
+      "E": 3775,
+      "F": 3485
     }
   },
   "KU003031": {
@@ -56174,9 +56214,9 @@
     "category": "7.AEROSOL A/TEM240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3744,
-      "E": 3894,
-      "F": 3594
+      "D": 4231,
+      "E": 4400,
+      "F": 4061
     }
   },
   "KU003032": {
@@ -56184,9 +56224,9 @@
     "category": "7.AEROSOL A/TEM240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4044,
-      "E": 4205,
-      "F": 3882
+      "D": 4569,
+      "E": 4752,
+      "F": 4387
     }
   },
   "KU003037": {
@@ -56194,9 +56234,9 @@
     "category": "7.AEROSOL A/TEM240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5308,
-      "E": 5520,
-      "F": 5095
+      "D": 5998,
+      "E": 6238,
+      "F": 5758
     }
   },
   "KU003038": {
@@ -56204,9 +56244,9 @@
     "category": "7.AEROSOL A/TEM240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5308,
-      "E": 5520,
-      "F": 5095
+      "D": 5998,
+      "E": 6238,
+      "F": 5758
     }
   },
   "KU003039": {
@@ -56214,9 +56254,9 @@
     "category": "7.AEROSOL A/TEM240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5308,
-      "E": 5520,
-      "F": 5095
+      "D": 5998,
+      "E": 6238,
+      "F": 5758
     }
   },
   "KU003040": {
@@ -56224,9 +56264,9 @@
     "category": "7.AEROSOL BARNI240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3318,
-      "E": 3451,
-      "F": 3186
+      "D": 3750,
+      "E": 3900,
+      "F": 3600
     }
   },
   "KU003062": {
@@ -56234,9 +56274,9 @@
     "category": "7.AEROSOL FLUOR240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4837,
-      "E": 5031,
-      "F": 4644
+      "D": 5466,
+      "E": 5685,
+      "F": 5248
     }
   },
   "KU003063": {
@@ -56244,9 +56284,9 @@
     "category": "7.AEROSOL FLUOR240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4837,
-      "E": 5031,
-      "F": 4644
+      "D": 5466,
+      "E": 5685,
+      "F": 5248
     }
   },
   "KU003064": {
@@ -56254,9 +56294,9 @@
     "category": "7.AEROSOL FLUOR240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4837,
-      "E": 5031,
-      "F": 4644
+      "D": 5466,
+      "E": 5685,
+      "F": 5248
     }
   },
   "KU003065": {
@@ -56264,9 +56304,9 @@
     "category": "7.AEROSOL FLUOR240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4837,
-      "E": 5031,
-      "F": 4644
+      "D": 5466,
+      "E": 5685,
+      "F": 5248
     }
   },
   "KU003067": {
@@ -56274,9 +56314,9 @@
     "category": "7.AEROSOL FLUOR240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4837,
-      "E": 5031,
-      "F": 4644
+      "D": 5466,
+      "E": 5685,
+      "F": 5248
     }
   },
   "KU003750": {
@@ -56284,9 +56324,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3253,
-      "E": 3383,
-      "F": 3123
+      "D": 3676,
+      "E": 3823,
+      "F": 3529
     }
   },
   "KU003751": {
@@ -56294,9 +56334,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 0.0,
     "prices": {
-      "D": 3253,
-      "E": 3383,
-      "F": 3123
+      "D": 3676,
+      "E": 3823,
+      "F": 3529
     }
   },
   "KU003752": {
@@ -56304,9 +56344,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 0.0,
     "prices": {
-      "D": 3253,
-      "E": 3383,
-      "F": 3123
+      "D": 3676,
+      "E": 3823,
+      "F": 3529
     }
   },
   "KU003753": {
@@ -56314,9 +56354,9 @@
     "category": "7.AEROSOL ANTIO240.KUWAIT",
     "bulk": 0.0,
     "prices": {
-      "D": 3253,
-      "E": 3383,
-      "F": 3123
+      "D": 3676,
+      "E": 3823,
+      "F": 3529
     }
   },
   "LE110": {
@@ -61724,9 +61764,9 @@
     "category": "8.LLAVE TUBO KIT MASIVA",
     "bulk": 0.0,
     "prices": {
-      "D": 12089,
-      "E": 13019,
-      "F": 11159
+      "D": 9996,
+      "E": 10765,
+      "F": 9227
     }
   },
   "MASIV6530": {
@@ -74869,6 +74909,46 @@
       "F": 3042
     }
   },
+  "PRS101828": {
+    "name": "LACA BRILLANTE AEROSOL 240ml PINTURIC",
+    "category": "7.ESMALTE AERO PINTURIC",
+    "bulk": 6.0,
+    "prices": {
+      "D": 2968,
+      "E": 3196,
+      "F": 2854
+    }
+  },
+  "PRS101830": {
+    "name": "LACA SATINADA  AEROSOL 240ml PINTURIC",
+    "category": "7.ESMALTE AERO PINTURIC",
+    "bulk": 6.0,
+    "prices": {
+      "D": 2968,
+      "E": 3196,
+      "F": 2854
+    }
+  },
+  "PRS101831": {
+    "name": "BARNIZ BRILLANTE AEROSOL 240ml PINTURIC",
+    "category": "7.ESMALTE AERO PINTURIC",
+    "bulk": 6.0,
+    "prices": {
+      "D": 2756,
+      "E": 2968,
+      "F": 2650
+    }
+  },
+  "PRS101832": {
+    "name": "BARNIZ SATINADO  AEROSOL 240ml PINTURIC",
+    "category": "7.ESMALTE AERO PINTURIC",
+    "bulk": 6.0,
+    "prices": {
+      "D": 2756,
+      "E": 2968,
+      "F": 2650
+    }
+  },
   "PRS101846": {
     "name": "ESMALTE AEROSOL ROJO  160g.PINTURIC",
     "category": "7.ESMALTE AERO PINTURIC",
@@ -85054,9 +85134,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 102364,
-      "E": 110238,
-      "F": 94490
+      "D": 106809,
+      "E": 115025,
+      "F": 98593
     }
   },
   "ROT98128": {
@@ -85064,9 +85144,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 102364,
-      "E": 110238,
-      "F": 94490
+      "D": 113737,
+      "E": 122487,
+      "F": 104988
     }
   },
   "ROT98129": {
@@ -85074,9 +85154,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 0.0,
     "prices": {
-      "D": 143309,
-      "E": 154333,
-      "F": 132286
+      "D": 159233,
+      "E": 171481,
+      "F": 146984
     }
   },
   "ROT98131": {
@@ -85084,9 +85164,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 143309,
-      "E": 154333,
-      "F": 132286
+      "D": 136502,
+      "E": 147002,
+      "F": 126002
     }
   },
   "ROT98133": {
@@ -85114,9 +85194,9 @@
     "category": "8.BOLSAS PARA RESIDUO",
     "bulk": 1.0,
     "prices": {
-      "D": 367,
-      "E": 393,
-      "F": 341
+      "D": 474,
+      "E": 511,
+      "F": 474
     }
   },
   "RP5070E": {
@@ -85134,9 +85214,9 @@
     "category": "8.BOLSAS PARA RESIDUO",
     "bulk": 20.0,
     "prices": {
-      "D": 866,
-      "E": 928,
-      "F": 804
+      "D": 1012,
+      "E": 1090,
+      "F": 1012
     }
   },
   "RP80110R": {
@@ -85144,9 +85224,9 @@
     "category": "8.BOLSAS PARA RESIDUO",
     "bulk": 20.0,
     "prices": {
-      "D": 1480,
-      "E": 1585,
-      "F": 1374
+      "D": 1920,
+      "E": 2068,
+      "F": 1920
     }
   },
   "RP90120R": {
@@ -85154,9 +85234,9 @@
     "category": "8.BOLSAS PARA RESIDUO",
     "bulk": 20.0,
     "prices": {
-      "D": 1957,
-      "E": 2097,
-      "F": 1817
+      "D": 2358,
+      "E": 2539,
+      "F": 2358
     }
   },
   "RPFC1108": {
@@ -85354,9 +85434,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 1.0,
     "prices": {
-      "D": 25949,
-      "E": 27031,
-      "F": 25949
+      "D": 27315,
+      "E": 28453,
+      "F": 27315
     }
   },
   "RUS5161": {
@@ -85364,9 +85444,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 1.0,
     "prices": {
-      "D": 24584,
-      "E": 25608,
-      "F": 24584
+      "D": 25949,
+      "E": 27031,
+      "F": 25949
     }
   },
   "RUS5162": {
@@ -85374,9 +85454,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 0.0,
     "prices": {
-      "D": 30047,
-      "E": 31299,
-      "F": 30047
+      "D": 31412,
+      "E": 32721,
+      "F": 31412
     }
   },
   "RUS5164": {
@@ -85384,9 +85464,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 1.0,
     "prices": {
-      "D": 34144,
-      "E": 35567,
-      "F": 34144
+      "D": 36876,
+      "E": 38412,
+      "F": 36876
     }
   },
   "RUS5165": {
@@ -85394,9 +85474,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 1.0,
     "prices": {
-      "D": 25949,
-      "E": 27031,
-      "F": 25949
+      "D": 27315,
+      "E": 28453,
+      "F": 27315
     }
   },
   "RUS5166": {
@@ -85424,9 +85504,9 @@
     "category": "8.PANTALON/CAMISA TRABAJO",
     "bulk": 1.0,
     "prices": {
-      "D": 57362,
-      "E": 59752,
-      "F": 57362
+      "D": 61460,
+      "E": 64020,
+      "F": 61460
     }
   },
   "RUSAE30X1": {
@@ -91564,9 +91644,9 @@
     "category": "9.CINTA ADHES/DBLE FAZ",
     "bulk": 20.0,
     "prices": {
-      "D": 1224,
-      "E": 1318,
-      "F": 1130
+      "D": 1009,
+      "E": 1086,
+      "F": 931
     }
   },
   "TIDIL-0953": {
@@ -91644,9 +91724,9 @@
     "category": "9.PORTALAMPARAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1507,
-      "E": 1623,
-      "F": 1391
+      "D": 1602,
+      "E": 1725,
+      "F": 1479
     }
   },
   "TIDIL-1007": {
@@ -91774,9 +91854,9 @@
     "category": "9.SPAGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 11085,
-      "E": 11938,
-      "F": 10233
+      "D": 11307,
+      "E": 12177,
+      "F": 10437
     }
   },
   "TIDIL-1059": {
@@ -91784,9 +91864,9 @@
     "category": "9.SPAGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 12094,
-      "E": 13025,
-      "F": 11164
+      "D": 12336,
+      "E": 13285,
+      "F": 11387
     }
   },
   "TIDIL-1060": {
@@ -91794,9 +91874,9 @@
     "category": "9.SPAGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 14311,
-      "E": 15411,
-      "F": 13210
+      "D": 14597,
+      "E": 15720,
+      "F": 13474
     }
   },
   "TIDIL-1061": {
@@ -91804,9 +91884,9 @@
     "category": "9.SPAGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 15923,
-      "E": 17148,
-      "F": 14698
+      "D": 16242,
+      "E": 17491,
+      "F": 14992
     }
   },
   "TIDIL-1062": {
@@ -91814,9 +91894,9 @@
     "category": "9.SPAGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 19955,
-      "E": 21490,
-      "F": 18420
+      "D": 20354,
+      "E": 21920,
+      "F": 18788
     }
   },
   "TIDIL-1063": {
@@ -91824,9 +91904,9 @@
     "category": "9.SPEGUETTI TERMOCONTRAIB",
     "bulk": 1.0,
     "prices": {
-      "D": 21690,
-      "E": 23359,
-      "F": 20022
+      "D": 22124,
+      "E": 23826,
+      "F": 20422
     }
   },
   "TIDIL-1069": {
@@ -91974,9 +92054,9 @@
     "category": "9.PROTECTOR DE TENSION",
     "bulk": 10.0,
     "prices": {
-      "D": 18718,
-      "E": 19467,
-      "F": 17969
+      "D": 17605,
+      "E": 18309,
+      "F": 16901
     }
   },
   "TIEXU-1607": {
@@ -92054,9 +92134,9 @@
     "category": "8.REFRIGERACION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2578,
-      "E": 2776,
-      "F": 2379
+      "D": 2061,
+      "E": 2219,
+      "F": 1902
     }
   },
   "TIGAR-1901": {
@@ -92064,9 +92144,9 @@
     "category": "8.REFRIGERACION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3112,
-      "E": 3351,
-      "F": 2872
+      "D": 2489,
+      "E": 2681,
+      "F": 2298
     }
   },
   "TIGAR-1904": {
@@ -92074,9 +92154,9 @@
     "category": "8.REFRIGERACION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2209,
-      "E": 2379,
-      "F": 2039
+      "D": 1767,
+      "E": 1903,
+      "F": 1631
     }
   },
   "TIGAR-1912": {
@@ -92134,9 +92214,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 15506,
-      "E": 16699,
-      "F": 14313
+      "D": 15821,
+      "E": 17038,
+      "F": 14604
     }
   },
   "TIGAR-1934": {
@@ -92144,9 +92224,9 @@
     "category": "9.CAPACITOR P/MOTORES  3M",
     "bulk": 10.0,
     "prices": {
-      "D": 16455,
-      "E": 17721,
-      "F": 15190
+      "D": 16445,
+      "E": 17710,
+      "F": 15180
     }
   },
   "TIGAR-1935": {
@@ -92384,9 +92464,9 @@
     "category": "4.ACCESORIOS P/SECARROPA",
     "bulk": 10.0,
     "prices": {
-      "D": 556,
-      "E": 596,
-      "F": 457
+      "D": 781,
+      "E": 836,
+      "F": 641
     }
   },
   "TIGAR-2018": {
@@ -92814,9 +92894,9 @@
     "category": "9.CA\u00d1O LUZ PILAR",
     "bulk": 1.0,
     "prices": {
-      "D": 998,
-      "E": 1075,
-      "F": 921
+      "D": 1088,
+      "E": 1172,
+      "F": 1004
     }
   },
   "TIKWC-2901": {
@@ -92914,9 +92994,9 @@
     "category": "9.SOLDADOR ELECTRICO",
     "bulk": 5.0,
     "prices": {
-      "D": 11503,
-      "E": 12388,
-      "F": 10618
+      "D": 12937,
+      "E": 13932,
+      "F": 11942
     }
   },
   "TILUI-3014": {
@@ -92924,9 +93004,9 @@
     "category": "9.SOLDADOR ELECTRICO",
     "bulk": 5.0,
     "prices": {
-      "D": 14809,
-      "E": 15948,
-      "F": 13670
+      "D": 16867,
+      "E": 18164,
+      "F": 15569
     }
   },
   "TILUI-3023": {
@@ -93114,9 +93194,9 @@
     "category": "9.FICHA ADAPTADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 1370,
-      "E": 1475,
-      "F": 1265
+      "D": 1233,
+      "E": 1328,
+      "F": 1138
     }
   },
   "TIMIG-3703": {
@@ -93124,9 +93204,9 @@
     "category": "9.FICHA ADAPTADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1210
+      "D": 1179,
+      "E": 1270,
+      "F": 1089
     }
   },
   "TIMIG-3743": {
@@ -93134,9 +93214,9 @@
     "category": "9.LLAVE TORPEDO VELADOR",
     "bulk": 10.0,
     "prices": {
-      "D": 1032,
-      "E": 1112,
-      "F": 953
+      "D": 929,
+      "E": 1001,
+      "F": 858
     }
   },
   "TIMIG-3745": {
@@ -93144,9 +93224,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 24.0,
     "prices": {
-      "D": 2528,
-      "E": 2722,
-      "F": 2333
+      "D": 2275,
+      "E": 2450,
+      "F": 2100
     }
   },
   "TIMIG-3762": {
@@ -93154,9 +93234,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 48.0,
     "prices": {
-      "D": 1566,
-      "E": 1686,
-      "F": 1445
+      "D": 1409,
+      "E": 1518,
+      "F": 1301
     }
   },
   "TIMIG-3764": {
@@ -93164,9 +93244,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 24.0,
     "prices": {
-      "D": 2973,
-      "E": 3201,
-      "F": 2744
+      "D": 2675,
+      "E": 2881,
+      "F": 2469
     }
   },
   "TIMIG-3765": {
@@ -93174,9 +93254,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 24.0,
     "prices": {
-      "D": 2641,
-      "E": 2844,
-      "F": 2438
+      "D": 2377,
+      "E": 2560,
+      "F": 2194
     }
   },
   "TIMIG-3766": {
@@ -93184,9 +93264,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 24.0,
     "prices": {
-      "D": 1370,
-      "E": 1475,
-      "F": 1265
+      "D": 1233,
+      "E": 1328,
+      "F": 1138
     }
   },
   "TIMLS-3332": {
@@ -93284,9 +93364,9 @@
     "category": "9.GRAMPA P/CA\u00d1O LUZ",
     "bulk": 100.0,
     "prices": {
-      "D": 73,
-      "E": 79,
-      "F": 65
+      "D": 78,
+      "E": 84,
+      "F": 69
     }
   },
   "TIPEP-0001": {
@@ -93534,9 +93614,9 @@
     "category": "9.JABALINA.COBRE y ACCESO",
     "bulk": 1.0,
     "prices": {
-      "D": 8482,
-      "E": 9161,
-      "F": 8143
+      "D": 9246,
+      "E": 9985,
+      "F": 8876
     }
   },
   "TIROO-0014": {
@@ -93544,9 +93624,9 @@
     "category": "9.JABALINA.COBRE y ACCESO",
     "bulk": 10.0,
     "prices": {
-      "D": 12003,
-      "E": 12964,
-      "F": 11523
+      "D": 13084,
+      "E": 14131,
+      "F": 12560
     }
   },
   "TISPO-4302": {
@@ -93574,9 +93654,9 @@
     "category": "9.CINTA AISLADORA DUCTAPE",
     "bulk": 10.0,
     "prices": {
-      "D": 2693,
-      "E": 2917,
-      "F": 2693
+      "D": 2747,
+      "E": 2976,
+      "F": 2747
     }
   },
   "TITAC-4756": {
@@ -93584,9 +93664,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 2348,
-      "E": 2528,
-      "F": 2167
+      "D": 2395,
+      "E": 2579,
+      "F": 2210
     }
   },
   "TITAC-4757": {
@@ -93594,9 +93674,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 2645,
-      "E": 2848,
-      "F": 2441
+      "D": 2698,
+      "E": 2905,
+      "F": 2490
     }
   },
   "TITAC-4758": {
@@ -93604,9 +93684,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 2136,
-      "E": 2300,
-      "F": 1971
+      "D": 2178,
+      "E": 2346,
+      "F": 2011
     }
   },
   "TITER-6300": {
@@ -95434,9 +95514,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 60109,
-      "E": 64733,
-      "F": 55485
+      "D": 69125,
+      "E": 74443,
+      "F": 63808
     }
   },
   "TREPROTEJ-004": {
@@ -95444,9 +95524,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 63856,
-      "E": 68768,
-      "F": 58944
+      "D": 70241,
+      "E": 75645,
+      "F": 64838
     }
   },
   "TUBF 1060": {
@@ -96484,9 +96564,9 @@
     "category": "8.CARBONES",
     "bulk": 1.0,
     "prices": {
-      "D": 40888,
-      "E": 44034,
-      "F": 37743
+      "D": 38705,
+      "E": 41682,
+      "F": 35728
     }
   },
   "VITB400W": {
@@ -97464,9 +97544,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 55534,
-      "E": 59806,
-      "F": 51262
+      "D": 61087,
+      "E": 65787,
+      "F": 56388
     }
   },
   "WESTMSVF20": {
@@ -97474,9 +97554,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 55534,
-      "E": 59806,
-      "F": 51262
+      "D": 61087,
+      "E": 65787,
+      "F": 56388
     }
   },
   "WETECEN10x10": {
