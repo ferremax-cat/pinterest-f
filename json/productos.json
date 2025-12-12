@@ -509,6 +509,26 @@
       "F": 7302
     }
   },
+  "AGRDT1000cc": {
+    "name": "DERRIBANTE TOTAL LUQUIDO 1000cc FULLTION",
+    "category": "8.PROD.QUIM/DERRIBANTES",
+    "bulk": 6.0,
+    "prices": {
+      "D": 32296,
+      "E": 34780,
+      "F": 29812
+    }
+  },
+  "AGRDT250cc": {
+    "name": "DERRIBANTE TOTAL LUQUIDO 250cc FULLTION",
+    "category": "8.PROD.QUIM/DERRIBANTES",
+    "bulk": 15.0,
+    "prices": {
+      "D": 8413,
+      "E": 9060,
+      "F": 7766
+    }
+  },
   "AGRE70": {
     "name": "GARRAPATIC/PULGAS/SARNA 70cc ECTHOL",
     "category": "8.PROD.QUIM/GARRAPATICIDA",
@@ -16679,6 +16699,16 @@
       "F": 2570
     }
   },
+  "CAFPLG1/2X2": {
+    "name": "PROLONG.CROMO P/CANIL.1/2x 2 \" CAFU",
+    "category": "1.CANILLAS y ACC.PRO.CAFU",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4470,
+      "E": 4814,
+      "F": 4126
+    }
+  },
   "CAFPLG1/2X3/4": {
     "name": "PROLONG.CROMO P/CANIL.1/2x3/4 \"CAFU",
     "category": "1.CANILLAS y ACC.PRO.CAFU",
@@ -18424,9 +18454,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 211532,
-      "E": 220345,
-      "F": 211532
+      "D": 218142,
+      "E": 227231,
+      "F": 218142
     }
   },
   "CL000160000M4": {
@@ -18434,9 +18464,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 264415,
-      "E": 275432,
-      "F": 264415
+      "D": 277635,
+      "E": 289203,
+      "F": 277635
     }
   },
   "CL000160000M5": {
@@ -18444,9 +18474,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 330518,
-      "E": 343739,
-      "F": 317298
+      "D": 344290,
+      "E": 358061,
+      "F": 330518
     }
   },
   "CL0001600MOR2": {
@@ -18454,9 +18484,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 20262,
-      "E": 21072,
-      "F": 19451
+      "D": 20276,
+      "E": 21087,
+      "F": 19465
     }
   },
   "CL0001600MOR3": {
@@ -18464,9 +18494,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 21690,
-      "E": 22557,
-      "F": 20822
+      "D": 22034,
+      "E": 22915,
+      "F": 21153
     }
   },
   "CL0001600MOR4": {
@@ -18474,9 +18504,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 30366,
-      "E": 31581,
-      "F": 29151
+      "D": 31674,
+      "E": 32941,
+      "F": 30407
     }
   },
   "CL0001600MOR5": {
@@ -18484,9 +18514,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 35427,
-      "E": 36844,
-      "F": 34010
+      "D": 35806,
+      "E": 37238,
+      "F": 34373
     }
   },
   "CL0001600RES2": {
@@ -18494,9 +18524,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 6244,
-      "E": 6494,
-      "F": 5994
+      "D": 6432,
+      "E": 6689,
+      "F": 6174
     }
   },
   "CL0001600RES3": {
@@ -18504,9 +18534,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 6680,
-      "E": 6947,
-      "F": 6413
+      "D": 6880,
+      "E": 7155,
+      "F": 6605
     }
   },
   "CL0001600RES4": {
@@ -18514,9 +18544,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 7842,
-      "E": 8155,
-      "F": 7528
+      "D": 8077,
+      "E": 8400,
+      "F": 7754
     }
   },
   "CL0001600TOR2": {
@@ -18524,9 +18554,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 26028,
-      "E": 27069,
-      "F": 24987
+      "D": 26166,
+      "E": 27212,
+      "F": 25119
     }
   },
   "CL0001600TOR3": {
@@ -18534,9 +18564,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 27474,
-      "E": 28573,
-      "F": 26375
+      "D": 27543,
+      "E": 28644,
+      "F": 26441
     }
   },
   "CL0001600TOR4": {
@@ -18544,9 +18574,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 34704,
-      "E": 36092,
-      "F": 33316
+      "D": 37183,
+      "E": 38670,
+      "F": 35696
     }
   },
   "CL0001600TOR5": {
@@ -18554,9 +18584,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 43380,
-      "E": 45115,
-      "F": 41645
+      "D": 44069,
+      "E": 45831,
+      "F": 42306
     }
   },
   "CL0001600TUE2": {
@@ -18564,9 +18594,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 13592,
-      "E": 14136,
-      "F": 13048
+      "D": 13771,
+      "E": 14322,
+      "F": 13220
     }
   },
   "CL0001600TUE4": {
@@ -18574,9 +18604,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 24293,
-      "E": 25264,
-      "F": 23321
+      "D": 24788,
+      "E": 25780,
+      "F": 23797
     }
   },
   "CL0001600TUE5": {
@@ -18584,9 +18614,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 36150,
-      "E": 37596,
-      "F": 34704
+      "D": 37183,
+      "E": 38670,
+      "F": 35696
     }
   },
   "CL000160CADE2": {
@@ -18594,9 +18624,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 144601,
-      "E": 150386,
-      "F": 138817
+      "D": 148940,
+      "E": 154897,
+      "F": 142982
     }
   },
   "CL00020000001": {
@@ -19174,9 +19204,9 @@
     "category": "8.CARBURO PIEDRA 50/80",
     "bulk": 115.0,
     "prices": {
-      "D": 5752,
-      "E": 5752,
-      "F": 5752
+      "D": 5688,
+      "E": 5915,
+      "F": 5597
     }
   },
   "CL001010T160W": {
@@ -19716,7 +19746,7 @@
     "prices": {
       "D": 42486,
       "E": 45885,
-      "F": 39087
+      "F": 37388
     }
   },
   "CONOKT-2008": {
@@ -23134,9 +23164,9 @@
     "category": "8.HORQUILLA",
     "bulk": 5.0,
     "prices": {
-      "D": 22689,
-      "E": 24434,
-      "F": 21816
+      "D": 18637,
+      "E": 20070,
+      "F": 17920
     }
   },
   "DGP095-0041": {
@@ -23164,9 +23194,9 @@
     "category": "8.HORQUILLA",
     "bulk": 1.0,
     "prices": {
-      "D": 33092,
-      "E": 35638,
-      "F": 31820
+      "D": 31029,
+      "E": 33415,
+      "F": 29835
     }
   },
   "DGP132-0261": {
@@ -23207,6 +23237,16 @@
       "D": 28404,
       "E": 30589,
       "F": 26219
+    }
+  },
+  "DGP1426-06214": {
+    "name": "PULVERIZADOR C/BOMBA  12Lt REIZENEX",
+    "category": "8.PULVERIZADOR C/BOMBA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 62198,
+      "E": 66983,
+      "F": 57414
     }
   },
   "DGP151-000": {
@@ -23287,6 +23327,16 @@
       "D": 26085,
       "E": 28091,
       "F": 24078
+    }
+  },
+  "DGP197-02248": {
+    "name": "TEJIDO CUAD PVC 10 x10 x50mt.Ngro",
+    "category": "8.TEJIDO CUAD.PVC WEST",
+    "bulk": 50.0,
+    "prices": {
+      "D": 3848,
+      "E": 4144,
+      "F": 3552
     }
   },
   "DGP237-0074": {
@@ -27774,9 +27824,9 @@
     "category": "8.ANTIPARRAS",
     "bulk": 10.0,
     "prices": {
-      "D": 887,
-      "E": 956,
-      "F": 819
+      "D": 976,
+      "E": 1051,
+      "F": 901
     }
   },
   "DTF575": {
@@ -27854,9 +27904,9 @@
     "category": "9.CINTA AISLADORA MACAO",
     "bulk": 12.0,
     "prices": {
-      "D": 1819,
-      "E": 1959,
-      "F": 1679
+      "D": 1775,
+      "E": 1912,
+      "F": 1638
     }
   },
   "DTF647": {
@@ -28004,9 +28054,9 @@
     "category": "9.CINTA AISLADORA MACAO",
     "bulk": 6.0,
     "prices": {
-      "D": 1819,
-      "E": 1959,
-      "F": 1679
+      "D": 1775,
+      "E": 1912,
+      "F": 1638
     }
   },
   "DTF749": {
@@ -28034,9 +28084,9 @@
     "category": "8.SELLADOR POLIURETANO",
     "bulk": 20.0,
     "prices": {
-      "D": 7250,
-      "E": 7807,
-      "F": 6692
+      "D": 7693,
+      "E": 8285,
+      "F": 7102
     }
   },
   "DTF901": {
@@ -28294,9 +28344,9 @@
     "category": "1.ASIENTO.INOD.ACC.FH",
     "bulk": 10.0,
     "prices": {
-      "D": 3403,
-      "E": 3664,
-      "F": 3141
+      "D": 3743,
+      "E": 4031,
+      "F": 3455
     }
   },
   "DTS012": {
@@ -28749,6 +28799,26 @@
       "F": 1796
     }
   },
+  "DX450": {
+    "name": "FLEXIBLE MALLADO GAS ECO 1/2x50c DX",
+    "category": "1.FLEXIBLE MALLADO GAS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 2212,
+      "E": 2370,
+      "F": 1896
+    }
+  },
+  "DX460": {
+    "name": "FLEXIBLE MALLADO GAS ECO 1/2x60c DX",
+    "category": "1.FLEXIBLE MALLADO GAS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 2324,
+      "E": 2490,
+      "F": 1992
+    }
+  },
   "DX525": {
     "name": "FLEXIBLE MALLADO AGUA ECO 1/2x25c DX",
     "category": "1.FLEX.AC/MALL.AGUA/ZAMAK",
@@ -29164,9 +29234,9 @@
     "category": "1.ACCES.PARA PILETA",
     "bulk": 1.0,
     "prices": {
-      "D": 33876,
-      "E": 36482,
-      "F": 31270
+      "D": 27101,
+      "E": 29186,
+      "F": 25016
     }
   },
   "EA5310AZ": {
@@ -29174,9 +29244,9 @@
     "category": "1.ACCES.PARA PILETA",
     "bulk": 1.0,
     "prices": {
-      "D": 33876,
-      "E": 36482,
-      "F": 31270
+      "D": 27101,
+      "E": 29186,
+      "F": 25016
     }
   },
   "EA5310MT": {
@@ -29274,9 +29344,9 @@
     "category": "8.ESTA\u00d1O EN VARILLA",
     "bulk": 1.0,
     "prices": {
-      "D": 44387,
-      "E": 47802,
-      "F": 40973
+      "D": 56224,
+      "E": 60549,
+      "F": 51899
     }
   },
   "EDEST50": {
@@ -29284,9 +29354,9 @@
     "category": "8.ESTA\u00d1O EN VARILLA",
     "bulk": 1.0,
     "prices": {
-      "D": 66581,
-      "E": 71703,
-      "F": 61460
+      "D": 71020,
+      "E": 76483,
+      "F": 65557
     }
   },
   "EGAJ 03": {
@@ -31134,9 +31204,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 1176,
-      "E": 1267,
-      "F": 1086
+      "D": 1247,
+      "E": 1343,
+      "F": 1151
     }
   },
   "EGTM 01": {
@@ -31824,9 +31894,9 @@
     "category": "1.ASIENTO.INOD.ACC.",
     "bulk": 10.0,
     "prices": {
-      "D": 5838,
-      "E": 6287,
-      "F": 5389
+      "D": 911,
+      "E": 981,
+      "F": 841
     }
   },
   "EGZM 01": {
@@ -31924,9 +31994,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 5.0,
     "prices": {
-      "D": 1862,
-      "E": 2006,
-      "F": 1719
+      "D": 1043,
+      "E": 1123,
+      "F": 963
     }
   },
   "ENE36350": {
@@ -31934,9 +32004,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 40.0,
     "prices": {
-      "D": 5625,
-      "E": 6058,
-      "F": 5193
+      "D": 4347,
+      "E": 4681,
+      "F": 4012
     }
   },
   "ENE9760": {
@@ -31944,9 +32014,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 48.0,
     "prices": {
-      "D": 5812,
-      "E": 6259,
-      "F": 5365
+      "D": 6684,
+      "E": 7198,
+      "F": 6169
     }
   },
   "ENE9800": {
@@ -31954,9 +32024,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 40.0,
     "prices": {
-      "D": 5625,
-      "E": 6058,
-      "F": 5193
+      "D": 4347,
+      "E": 4681,
+      "F": 4012
     }
   },
   "EVE18890": {
@@ -31964,9 +32034,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 72.0,
     "prices": {
-      "D": 1722,
-      "E": 1854,
-      "F": 1589
+      "D": 1330,
+      "E": 1433,
+      "F": 1228
     }
   },
   "EVE21040": {
@@ -31974,9 +32044,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 48.0,
     "prices": {
-      "D": 3444,
-      "E": 3709,
-      "F": 3179
+      "D": 2661,
+      "E": 2866,
+      "F": 2457
     }
   },
   "EVE6210": {
@@ -31984,9 +32054,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 24.0,
     "prices": {
-      "D": 3214,
-      "E": 3461,
-      "F": 2967
+      "D": 3696,
+      "E": 3981,
+      "F": 3412
     }
   },
   "EVEL101": {
@@ -43299,36 +43369,6 @@
       "F": 2437
     }
   },
-  "FOV440": {
-    "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x40cFOV",
-    "category": "1.FLEX.AC/MALL.GAS/BCE",
-    "bulk": 10.0,
-    "prices": {
-      "D": 3646,
-      "E": 3906,
-      "F": 3125
-    }
-  },
-  "FOV450": {
-    "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x50cFOV",
-    "category": "1.FLEX.AC/MALL.GAS/BCE",
-    "bulk": 10.0,
-    "prices": {
-      "D": 3799,
-      "E": 4070,
-      "F": 3256
-    }
-  },
-  "FOV460": {
-    "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x60cFOV",
-    "category": "1.FLEX.AC/MALL.GAS/BCE",
-    "bulk": 10.0,
-    "prices": {
-      "D": 3950,
-      "E": 4233,
-      "F": 3386
-    }
-  },
   "FOV470": {
     "name": "FLEX/AC/MALL.GAS.BCE.TRA.1/2x70cFOV",
     "category": "1.FLEX.AC/MALL.GAS/BCE",
@@ -47944,9 +47984,9 @@
     "category": "3.BOMBA PERIFERICA ENERGY",
     "bulk": 5.0,
     "prices": {
-      "D": 36579,
-      "E": 39392,
-      "F": 33765
+      "D": 38052,
+      "E": 40979,
+      "F": 35125
     }
   },
   "GLAP20C1": {
@@ -51384,9 +51424,9 @@
     "category": "6.ARANDELA PLANA ZINCADA",
     "bulk": 2.0,
     "prices": {
-      "D": 4,
-      "E": 5,
-      "F": 4
+      "D": 5145,
+      "E": 5541,
+      "F": 4749
     }
   },
   "ISAARA6009": {
@@ -52124,9 +52164,9 @@
     "category": "8.CLAVOS P/PARIS SIPAR",
     "bulk": 16.0,
     "prices": {
-      "D": 3893,
-      "E": 4192,
-      "F": 3743
+      "D": 4256,
+      "E": 4584,
+      "F": 4093
     }
   },
   "ISACL8": {
@@ -54804,9 +54844,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 10.0,
     "prices": {
-      "D": 240316,
-      "E": 259541,
-      "F": 221091
+      "D": 254630,
+      "E": 275001,
+      "F": 234260
     }
   },
   "KCMTE60S": {
@@ -54814,9 +54854,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 10.0,
     "prices": {
-      "D": 257658,
-      "E": 278271,
-      "F": 247352
+      "D": 272523,
+      "E": 294325,
+      "F": 261622
     }
   },
   "KCMTE80S": {
@@ -54824,9 +54864,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 275001,
-      "E": 297001,
-      "F": 264001
+      "D": 282158,
+      "E": 304731,
+      "F": 270872
     }
   },
   "KCMTG110S": {
@@ -68584,9 +68624,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 12.0,
     "prices": {
-      "D": 10566,
-      "E": 11379,
-      "F": 9753
+      "D": 11212,
+      "E": 12075,
+      "F": 10350
     }
   },
   "MCmeau15": {
@@ -68594,9 +68634,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 8.0,
     "prices": {
-      "D": 15007,
-      "E": 16161,
-      "F": 13853
+      "D": 16818,
+      "E": 18112,
+      "F": 15525
     }
   },
   "MCmeau25": {
@@ -68604,9 +68644,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 4.0,
     "prices": {
-      "D": 24502,
-      "E": 26386,
-      "F": 22617
+      "D": 26462,
+      "E": 28497,
+      "F": 24426
     }
   },
   "MCmewe10": {
@@ -72414,9 +72454,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 7744,
-      "E": 8298,
-      "F": 7191
+      "D": 8031,
+      "E": 8605,
+      "F": 7457
     }
   },
   "OR272A": {
@@ -72424,9 +72464,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 10613,
-      "E": 11371,
-      "F": 9855
+      "D": 11091,
+      "E": 11883,
+      "F": 10299
     }
   },
   "OR272B": {
@@ -72434,9 +72474,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 17401,
-      "E": 18644,
-      "F": 16158
+      "D": 18166,
+      "E": 19464,
+      "F": 16869
     }
   },
   "OR272C": {
@@ -72444,9 +72484,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 26389,
-      "E": 28274,
-      "F": 24504
+      "D": 27537,
+      "E": 29504,
+      "F": 25570
     }
   },
   "OR273": {
@@ -72584,9 +72624,9 @@
     "category": "8.REFRIGERACION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 11401,
-      "E": 12278,
-      "F": 10524
+      "D": 10688,
+      "E": 11511,
+      "F": 9866
     }
   },
   "ORMAA2": {
@@ -72594,9 +72634,9 @@
     "category": "8.REFRIGERACION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 11912,
-      "E": 12828,
-      "F": 10995
+      "D": 11167,
+      "E": 12026,
+      "F": 10308
     }
   },
   "OS004": {
@@ -83794,9 +83834,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 12.0,
     "prices": {
-      "D": 1328,
-      "E": 1430,
-      "F": 1226
+      "D": 1461,
+      "E": 1573,
+      "F": 1348
     }
   },
   "ROS4284-2": {
@@ -83834,9 +83874,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 12.0,
     "prices": {
-      "D": 1446,
-      "E": 1558,
-      "F": 1335
+      "D": 1591,
+      "E": 1713,
+      "F": 1469
     }
   },
   "ROS4284-6": {
@@ -84710,53 +84750,53 @@
     }
   },
   "ROT92601": {
-    "name": "TANZA P/PEZCA 0.30x100mt TransARATY",
+    "name": "TANZA P/PEZCA 0.30x100mt DOURADO",
     "category": "8.TANZA P/PEZCA   ARATY",
     "bulk": 10.0,
     "prices": {
-      "D": 941,
-      "E": 1013,
-      "F": 869
+      "D": 637,
+      "E": 686,
+      "F": 588
     }
   },
   "ROT92603": {
-    "name": "TANZA P/PEZCA 0.40x100mt TransARATY",
+    "name": "TANZA P/PEZCA 0.40x100mt DOURADO",
     "category": "8.TANZA P/PEZCA   ARATY",
     "bulk": 10.0,
     "prices": {
-      "D": 1401,
-      "E": 1508,
-      "F": 1293
+      "D": 923,
+      "E": 995,
+      "F": 852
     }
   },
   "ROT92604": {
-    "name": "TANZA P/PEZCA 0.50x100mt TransARATY",
+    "name": "TANZA P/PEZCA 0.50x100mt DOURADO",
     "category": "8.TANZA P/PEZCA   ARATY",
     "bulk": 10.0,
     "prices": {
-      "D": 1733,
-      "E": 1867,
-      "F": 1600
+      "D": 1115,
+      "E": 1200,
+      "F": 1029
     }
   },
   "ROT92605": {
-    "name": "TANZA P/PEZCA 0.60x100mt TransARATY",
+    "name": "TANZA P/PEZCA 0.60x100mt DOURADO",
     "category": "8.TANZA P/PEZCA   ARATY",
     "bulk": 10.0,
     "prices": {
-      "D": 2505,
-      "E": 2698,
-      "F": 2313
+      "D": 1688,
+      "E": 1818,
+      "F": 1558
     }
   },
   "ROT92606": {
-    "name": "TANZA P/PEZCA 0.70x100mt TransARATY",
+    "name": "TANZA P/PEZCA 0.70x100mt DOURADO",
     "category": "8.TANZA P/PEZCA   ARATY",
     "bulk": 10.0,
     "prices": {
-      "D": 2935,
-      "E": 3161,
-      "F": 2709
+      "D": 1847,
+      "E": 1989,
+      "F": 1705
     }
   },
   "ROT92607": {
@@ -97537,16 +97577,6 @@
       "D": 61087,
       "E": 65787,
       "F": 56388
-    }
-  },
-  "WETECEN10x10": {
-    "name": "TEJIDO CUAD PVC 10 x10 Ngro WEST",
-    "category": "8.TEJIDO CUAD.PVC WEST",
-    "bulk": 25.0,
-    "prices": {
-      "D": 3271,
-      "E": 3523,
-      "F": 3020
     }
   },
   "WETECEN20x20": {
