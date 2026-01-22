@@ -1,0 +1,62 @@
+{
+  "funcionalidades": {
+    "estado_de_cuentas": {
+      "id": "estado_de_cuentas",
+      "nombre": "Estado de Cuentas",
+      "descripcion": "Ver estado de cuentas de clientes",
+      "icono": "💰",
+      "activa": true
+    },
+    "mi_cuenta": {
+      "id": "mi_cuenta",
+      "nombre": "Mi Cuenta",
+      "descripcion": "Ver mi estado de cuenta",
+      "icono": "👤",
+      "activa": true
+    },
+    "hacer_pedido": {
+      "id": "hacer_pedido",
+      "nombre": "Hacer Pedido",
+      "descripcion": "Realizar pedidos online",
+      "icono": "🛒",
+      "activa": true
+    },
+    "ver_oferta_especial": {
+      "id": "ver_oferta_especial",
+      "nombre": "Accede a descuentos exclusivos",
+      "descripcion": "Ofertas Especiales",
+      "icono": "🎁",
+      "activa": true
+    }
+  },
+  "roles": {
+    "vendedor_estandar": {
+      "nombre": "Vendedor Estándar",
+      "funcionalidades": [
+        "estado_de_cuentas",
+        "hacer_pedido"
+      ]
+    },
+    "cliente_estandar": {
+      "nombre": "Cliente Estándar",
+      "funcionalidades": [
+        "mi_cuenta",
+        "hacer_pedido"
+      ]
+    },
+    "cliente_premium": {
+      "nombre": "Cliente Premium",
+      "funcionalidades": [
+        "mi_cuenta",
+        "hacer_pedido",
+        "ver_oferta_especial"
+      ]
+    },
+    "admin": {
+      "nombre": "Administrador",
+      "funcionalidades": [
+        "all"
+      ]
+    }
+  }
+}
