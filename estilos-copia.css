@@ -844,3 +844,104 @@ nav .iconos img{
     float: none !important;
     position: static !important;
 }
+
+/* ================================================
+   MENÚ DE FUNCIONALIDADES
+   ================================================ */
+
+.menu-funcionalidades-container {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.menu-funcionalidades-container.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.menu-funcionalidades-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    overflow: hidden;
+}
+
+.menu-funcionalidad-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-funcionalidad-item:last-child {
+    border-bottom: none;
+}
+
+.menu-funcionalidad-item:hover {
+    background: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.menu-item-icon {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+}
+
+.menu-item-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.menu-item-empty {
+    padding: 20px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Cursor pointer para el trigger */
+#menu-funcionalidades-trigger {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#menu-funcionalidades-trigger:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .menu-funcionalidades-container {
+        right: 10px;
+        top: 55px;
+    }
+    
+    .menu-funcionalidades-content {
+        min-width: 200px;
+    }
+    
+    .menu-funcionalidad-item {
+        padding: 10px 14px;
+    }
+    
+    .menu-item-icon {
+        font-size: 18px;
+    }
+    
+    .menu-item-text {
+        font-size: 13px;
+    }
+}

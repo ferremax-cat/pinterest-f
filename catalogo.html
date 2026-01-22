@@ -31,11 +31,16 @@
                <div class="perfil-container">
                     <!--<img class="img-perfil" src="img/perfil.jpg" alt="">-->
                </div>
-               <span class="fas fa-angle-down"></span>
+               <span class="fas fa-angle-down" id="menu-funcionalidades-trigger"></span>
           </div>
      </nav>
 
-
+     <!-- Menú de Funcionalidades -->
+     <div id="menu-funcionalidades" class="menu-funcionalidades-container" style="display: none;">
+          <div class="menu-funcionalidades-content">
+               <!-- Los iconos se generarán dinámicamente aquí -->
+          </div>
+     </div>
 
      <!-- Seccion de imagenes -->
      <section class="gallery-container">
@@ -3782,7 +3787,8 @@
      });
      </script>
 
-
+     <!-- Sistema de Funcionalidades -->
+     <script src="./js/funcionalidades-menu.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->
