@@ -850,7 +850,7 @@ nav .iconos img{
    ================================================ */
 
 .menu-funcionalidades-container {
-    position: absolute;
+    position: fixed;
     top: 60px;
     right: 20px;
     z-index: 9999;
