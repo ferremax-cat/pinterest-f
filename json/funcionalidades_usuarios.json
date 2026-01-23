@@ -13,7 +13,7 @@
     "20166": {
       "clave": "20166",
       "nombre": "CASA LEO FERRETERIA",
-      "rol": "cliente_premium",
+      "rol": "admin",
       "numero_cuenta": "20166"
     },
     "20114": {
@@ -26,6 +26,12 @@
       "clave": "1817",
       "nombre": "HERNAN SCHIMPF",
       "rol": "admin"
+    },
+    "20246": {
+      "clave": "20246",
+      "nombre": "RAFAEL FERRETERIA",
+      "rol": "vendedor_estandar",
+      "numero_cuenta": "20246"
     }
   }
 }

@@ -1260,33 +1260,52 @@ function displayNoResults(query) {
         const { offset = 0, total = matchingItems.length, hasMore = false } = pagination;
         const isInitialLoad = offset === 0;
         
-        // Si es carga inicial (offset 0), limpiar el contenedor de galería
+       // Si es carga inicial (offset 0), limpiar el contenedor de galería
         if (isInitialLoad) {
           // Limpiar galería para mostrar nuevos resultados
           galleryContainer.innerHTML = '';
           
-          // Mostrar información sobre resultados usando mensaje-busqueda
-          // o crearlo si no existe
-          let mensajeBusqueda = document.getElementById('mensaje-busqueda');
-          if (!mensajeBusqueda) {
-            mensajeBusqueda = document.createElement('div');
+          // NUEVO: Mostrar información en la barra contextual
+          const barraInfo = document.getElementById('barra-info-contextual');
+          const barraContent = barraInfo ? barraInfo.querySelector('.barra-info-content') : null;
+          
+          if (barraInfo && barraContent) {
+            // Limpiar contenido previo
+            barraContent.innerHTML = '';
+            
+            // Crear mensaje usando TUS clases existentes
+            const mensajeBusqueda = document.createElement('div');
             mensajeBusqueda.id = 'mensaje-busqueda';
             mensajeBusqueda.className = 'mensaje-busqueda';
-            document.body.appendChild(mensajeBusqueda);
+            mensajeBusqueda.innerHTML = `
+              <div class="mensaje-contenido">
+                <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
+                ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
+              </div>
+              ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
+            `;
+            
+            // Agregar a la barra
+            barraContent.appendChild(mensajeBusqueda);
+            
+            // Mostrar la barra
+            barraInfo.classList.add('visible');
+            
+            console.log('[search-engine] Mensaje de búsqueda mostrado en barra contextual');
           }
-          
-          mensajeBusqueda.innerHTML = `
-            <div class="mensaje-contenido">
-              <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
-              ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
-            </div>
-            ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
-          `;
           
           // Añadir funcionalidad para limpiar búsqueda
           const botonLimpiar = document.getElementById('boton-limpiar-busqueda');
           if (botonLimpiar) {
             botonLimpiar.addEventListener('click', () => {
+
+              // NUEVO: Ocultar la barra contextual
+              const barraInfo = document.getElementById('barra-info-contextual');
+              if (barraInfo) {
+                barraInfo.classList.remove('visible');
+              }
+
+
 
               // Establecer una bandera en localStorage para que sea más fácil de inspeccionar
               localStorage.setItem('setFocusOnLoad', 'true');
@@ -1563,21 +1582,21 @@ function displayNoResults(query) {
           text-decoration: underline !important;
           }
         
-        /* Estilo para el mensaje de búsqueda */
-        .mensaje-busqueda {
-          position: fixed;
-          top: 70px;
-          right: 20px;
-          background-color: rgba(0, 0, 0, 0.8);
+        /* Estilo para el mensaje de búsqueda DENTRO de la barra contextual */
+        .barra-info-content .mensaje-busqueda {
+          position: relative;  /* ← CAMBIAR de fixed a relative */
+          top: auto;
+          right: auto;
+          background-color: transparent;  /* ← Sin fondo, usa el de la barra */
           color: white;
-          border-radius: 4px;
-          padding: 10px 15px;
+          border-radius: 0;
+          padding: 0;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 300px;
-          z-index: 9999;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          width: 100%;
+          z-index: auto;
+          box-shadow: none;
         }
         
         .mensaje-contenido {
@@ -1608,18 +1627,30 @@ function displayNoResults(query) {
         }
         
          /* Regla @media para pantallas pequeñas */
-          @media (max-width: 768px) {
-            .mensaje-busqueda {
-              position: fixed !important;
-              top: 60px !important; /* Justo debajo del header */
-              left: 50% !important;
-              right: auto !important;
-              transform: translateX(-50%) !important;
-              width: 95% !important;
-              max-width: 300px !important;
-              z-index: 9999 !important;
-            }
+        @media (max-width: 768px) {
+          .barra-info-content .mensaje-busqueda {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            z-index: auto !important;
+            flex-direction: column;
+            gap: 10px;
           }
+          
+          .barra-info-content .mensaje-contenido {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+          }
+          
+          .barra-info-content .boton-limpiar {
+            width: auto;
+          }
+        }
 
 
         .boton-limpiar:hover {

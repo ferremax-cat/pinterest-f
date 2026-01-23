@@ -111,10 +111,19 @@ class FuncionalidadesMenu {
                 return;
             }
             
-            // Filtrar solo funcionalidades activas
-            this.funcionalidadesDisponibles = funcionesRol.funcionalidades
-                .map(funcId => funcData.funcionalidades[funcId])
-                .filter(func => func && func.activa === true);
+            // Manejar rol admin con "all" o roles normales
+            if (funcionesRol.funcionalidades.includes('all')) {
+                // Si es admin con "all", mostrar TODAS las funcionalidades activas
+                this.funcionalidadesDisponibles = Object.values(funcData.funcionalidades)
+                    .filter(func => func && func.activa === true);
+                
+                console.log('✅ Usuario admin: mostrando todas las funcionalidades activas');
+            } else {
+                // Filtrar solo funcionalidades activas para roles normales
+                this.funcionalidadesDisponibles = funcionesRol.funcionalidades
+                    .map(funcId => funcData.funcionalidades[funcId])
+                    .filter(func => func && func.activa === true);
+            }
             
             // Agregar funcionalidades extra si existen
             if (this.usuarioActual.funcionalidades_extra) {
@@ -262,7 +271,7 @@ class FuncionalidadesMenu {
         
         // Aquí agregaremos la lógica específica según la funcionalidad
         switch(funcionalidad.id) {
-            case 'salud_financiera':
+            case 'estado_de_cuentas':  // ← CAMBIAR de salud_financiera
                 this.abrirSaludFinanciera();
                 break;
             case 'catalogo_completo':
@@ -286,7 +295,7 @@ class FuncionalidadesMenu {
      * Abrir Salud Financiera
      */
     abrirSaludFinanciera() {
-        console.log('💰 Abriendo Salud Financiera...');
+        console.log('💰 Abriendo Estado de Cuentas...');
         // TODO: Implementar vista de salud financiera
         alert('Salud Financiera - Próximamente');
     }
