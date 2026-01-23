@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 40,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,21,18,36,19)"
+    "ultima_actualizacion": "Date(2026,0,23,14,54,56)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -15,7 +15,7 @@
     "nombre": "FERRETERIA RITA",
     "margen": 80,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,21,10,45,59)"
+    "ultima_actualizacion": "Date(2026,0,23,12,21,28)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -61,9 +61,9 @@
   },
   "20096": {
     "nombre": "LA QUINTA MATERIALES",
-    "margen": 20,
+    "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,20,11,19,25)"
+    "ultima_actualizacion": "Date(2026,0,22,14,23,1)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -117,7 +117,7 @@
     "nombre": "FLORES FERRETERIA",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,20,17,13,27)"
+    "ultima_actualizacion": "Date(2026,0,22,10,41,12)"
   },
   "20309": {
     "nombre": "LATINA FERRETERIA",
@@ -235,9 +235,9 @@
   },
   "60150": {
     "nombre": "FERRETERIA ALVAREZ",
-    "margen": 0,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,23,10,29,38)"
+    "ultima_actualizacion": "Date(2026,0,23,13,1,32)"
   },
   "60217": {
     "nombre": "FERRETERIA VM",
@@ -418,5 +418,11 @@
     "margen": 30,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,0,20,19,37,42)"
+  },
+  "1038": {
+    "nombre": "FERRETERIA LOCK",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,0,23,13,13,43)"
   }
 }
