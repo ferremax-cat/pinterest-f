@@ -956,11 +956,12 @@ nav .iconos img{
     left: 0;
     right: 0;
     min-height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: #1f1f1f;  /* Negro corporativo */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     z-index: 8000;  /* Debajo del menú pero encima de todo lo demás */
     display: none;  /* Oculto por defecto */
     transition: all 0.3s ease;
+    border-bottom: 1px solid #333;  /* Borde sutil */
 }
 
 .barra-info-contextual.visible {
@@ -982,29 +983,32 @@ nav .iconos img{
     display: flex;
     align-items: center;
     gap: 10px;
-    color: white;
+    color: white; /* Texto blanco sobre fondo negro */
     flex: 1;
 }
 
 .barra-mensaje-contador {
     font-weight: bold;
     font-size: 18px;
+    color: #dc2626;  /* Rojo corporativo para números */
 }
 
 .barra-mensaje-texto {
     font-size: 14px;
+    color: white;
 }
 
 .barra-mensaje-termino {
     font-style: italic;
-    font-weight: bold;
+    font-weight: 600;
+    color: #dc2626;  /* Rojo corporativo para el término buscado */
 }
 
 .barra-boton-limpiar {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #dc2626;  /* Botón rojo sólido */
     color: white;
-    border: 2px solid white;
-    border-radius: 20px;
+    border: none;
+    border-radius: 4px;  /* Bordes más cuadrados, moderno */
     padding: 8px 20px;
     cursor: pointer;
     font-size: 13px;
@@ -1013,13 +1017,21 @@ nav .iconos img{
 }
 
 .barra-boton-limpiar:hover {
-    background-color: white;
-    color: #667eea;
+    background-color: #ef4444;  /* Rojo más claro al hover */
+    transform: translateY(-1px);  /* Efecto de elevación sutil */
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
 }
 
 /* Ajustar galería para que no quede tapada por la barra */
 .gallery-container {
-    margin-top: 60px;  /* Espacio para la barra cuando esté visible */
+    /* margin-top: 60px;  /* Espacio para la barra cuando esté visible */
+    margin-top: 0;
+    transition: margin-top 0.3s ease;
+}
+
+/* Agregar margen SOLO cuando la barra esté visible */
+body.barra-visible .gallery-container {
+    margin-top: 80px;
 }
 
 /* Responsive */
@@ -1039,9 +1051,16 @@ nav .iconos img{
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
+        width: 100%;
     }
      
-    .gallery-container {
-        margin-top: 40px !important;
+    .barra-boton-limpiar {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* En móvil, más margen porque la barra es más alta */
+    body.barra-visible .gallery-container {
+        margin-top: 80px;  /* Reducido según tu preferencia anterior */
     }
 }

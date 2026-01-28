@@ -1290,6 +1290,7 @@ function displayNoResults(query) {
             
             // Mostrar la barra
             barraInfo.classList.add('visible');
+            document.body.classList.add('barra-visible');  // ← Esta línea
             
             console.log('[search-engine] Mensaje de búsqueda mostrado en barra contextual');
           }
@@ -1303,6 +1304,7 @@ function displayNoResults(query) {
               const barraInfo = document.getElementById('barra-info-contextual');
               if (barraInfo) {
                 barraInfo.classList.remove('visible');
+                document.body.classList.remove('barra-visible');  // ← Esta línea
               }
 
 
@@ -1578,7 +1580,7 @@ function displayNoResults(query) {
           .gallery-item .bottom-row a .search-highlight,
           .search-highlight {
           font-weight: bold !important;
-          color: #ff4500 !important; /* Naranja más intenso para mayor visibilidad */
+          color: #dc2626 !important; /* Rojo corporativo */
           text-decoration: underline !important;
           }
         
@@ -1608,22 +1610,26 @@ function displayNoResults(query) {
         .mensaje-contador {
           font-weight: bold;
           margin-right: 5px;
+          color: #dc2626;
         }
         
         .mensaje-termino {
           font-style: italic;
           font-weight: bold;
+          color: #dc2626;
         }
         
         .boton-limpiar {
-          background-color: #4a90e2;
+          background-color: #dc2626;
           color: white;
           border: none;
-          border-radius: 3px;
-          padding: 5px 10px;
+          border-radius: 4px;
+          padding: 8px 16px;
           cursor: pointer;
-          font-size: 12px;
+          font-size: 13px;
+          font-weight: 600;
           margin-left: 10px;
+          transition: all 0.3s ease;
         }
         
          /* Regla @media para pantallas pequeñas */
@@ -1654,7 +1660,9 @@ function displayNoResults(query) {
 
 
         .boton-limpiar:hover {
-          background-color: #3a7cca;
+          background-color: #ef4444;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
         }
        /* AGREGAR AQUÍ - Estilos optimizados para bottom-row */
         .container-img .bottom-row {
