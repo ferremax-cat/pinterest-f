@@ -1,19 +1,24 @@
 {
   "usuarios": {
-    "12345": {
-      "clave": "12345",
+    "1218": {
+      "clave": "1218",
       "nombre": "ROBERTO",
       "rol": "vendedor_estandar"
     },
-    "1234": {
-      "clave": "1234",
+    "1959": {
+      "clave": "1959",
       "nombre": "JAIME",
+      "rol": "vendedor_estandar"
+    },
+    "5625": {
+      "clave": "5625",
+      "nombre": "CHRISTIAN",
       "rol": "vendedor_estandar"
     },
     "20166": {
       "clave": "20166",
       "nombre": "CASA LEO FERRETERIA",
-      "rol": "admin",
+      "rol": "cliente_estandar",
       "numero_cuenta": "20166"
     },
     "20114": {
@@ -30,7 +35,7 @@
     "20246": {
       "clave": "20246",
       "nombre": "RAFAEL FERRETERIA",
-      "rol": "vendedor_estandar",
+      "rol": "cliente_estandar",
       "numero_cuenta": "20246"
     }
   }
