@@ -484,9 +484,9 @@
     "category": "8.PROD.QUIM/CURABICHERA",
     "bulk": 0.0,
     "prices": {
-      "D": 7302,
-      "E": 7606,
-      "F": 7302
+      "D": 8010,
+      "E": 8344,
+      "F": 8010
     }
   },
   "AGRDT1000cc": {
@@ -4764,9 +4764,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 20.0,
     "prices": {
-      "D": 3724,
-      "E": 4034,
-      "F": 3724
+      "D": 4022,
+      "E": 4357,
+      "F": 4022
     }
   },
   "BKHL250": {
@@ -4774,9 +4774,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 15.0,
     "prices": {
-      "D": 6135,
-      "E": 6646,
-      "F": 6135
+      "D": 6626,
+      "E": 7178,
+      "F": 6626
     }
   },
   "BKHL60": {
@@ -4784,9 +4784,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 2597,
-      "E": 2814,
-      "F": 2597
+      "D": 2806,
+      "E": 3040,
+      "F": 2806
     }
   },
   "BKHM100": {
@@ -4794,9 +4794,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 30.0,
     "prices": {
-      "D": 1320,
-      "E": 1430,
-      "F": 1320
+      "D": 1427,
+      "E": 1546,
+      "F": 1427
     }
   },
   "BKHM250": {
@@ -4804,9 +4804,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 30.0,
     "prices": {
-      "D": 2806,
-      "E": 3040,
-      "F": 2806
+      "D": 3032,
+      "E": 3284,
+      "F": 3032
     }
   },
   "BKHP250": {
@@ -4814,9 +4814,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 3339,
-      "E": 3618,
-      "F": 3339
+      "D": 3607,
+      "E": 3907,
+      "F": 3607
     }
   },
   "BKHPS100": {
@@ -4824,9 +4824,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 30.0,
     "prices": {
-      "D": 1157,
-      "E": 1253,
-      "F": 1157
+      "D": 1205,
+      "E": 1306,
+      "F": 1205
     }
   },
   "BKHPS500": {
@@ -4834,9 +4834,9 @@
     "category": "8.PROD.QUIM/HORMIGUICIDA",
     "bulk": 15.0,
     "prices": {
-      "D": 3729,
-      "E": 4039,
-      "F": 3729
+      "D": 4027,
+      "E": 4363,
+      "F": 4027
     }
   },
   "BLUACD1": {
@@ -15839,6 +15839,16 @@
       "F": 14113
     }
   },
+  "BM7973": {
+    "name": "GRAMPA P CLAV/ENGRA 30mm Cj5000u BREMEN",
+    "category": "8.GRAMPA P/ENGRAM.NEUMATI",
+    "bulk": 1.0,
+    "prices": {
+      "D": 23652,
+      "E": 25472,
+      "F": 21833
+    }
+  },
   "BM8010": {
     "name": "BOC JgoE 1/2\" x160Pzs MECHANIKER BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
@@ -16027,6 +16037,16 @@
       "D": 35717,
       "E": 38464,
       "F": 32969
+    }
+  },
+  "BM8377": {
+    "name": "MARTILLO GOMA 450gr FIB+TPR  BREMEN",
+    "category": "8.MARTILLO GOMA  BREMEN",
+    "bulk": 1.0,
+    "prices": {
+      "D": 11270,
+      "E": 12137,
+      "F": 10403
     }
   },
   "BM8417": {
@@ -18869,6 +18889,16 @@
       "F": 7890
     }
   },
+  "CL000360W1325": {
+    "name": "ELECTRODO 6013 WELD 2.5mmx5Kg CONARCO",
+    "category": "8.ELECTRODOS CONARCO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 32198,
+      "E": 34675,
+      "F": 29722
+    }
+  },
   "CL00036308L20": {
     "name": "ELECTRODO Ac.Inox 308L 2.00mm CONARCO",
     "category": "8.ELECTRODOS CONARCO",
@@ -18907,16 +18937,6 @@
       "D": 42490,
       "E": 45759,
       "F": 39222
-    }
-  },
-  "CL00036CORTAD": {
-    "name": "ELECTRODO 6013 WELD 2.5mmx5Kg CONARCO",
-    "category": "8.ELECTRODOS CONARCO",
-    "bulk": 1.0,
-    "prices": {
-      "D": 35486,
-      "E": 38216,
-      "F": 32756
     }
   },
   "CL00040000030": {
@@ -19484,9 +19504,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 10.0,
     "prices": {
-      "D": 1055,
-      "E": 1136,
-      "F": 973
+      "D": 1118,
+      "E": 1204,
+      "F": 1032
     }
   },
   "CON102": {
@@ -19494,9 +19514,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 8.0,
     "prices": {
-      "D": 1630,
-      "E": 1755,
-      "F": 1505
+      "D": 1728,
+      "E": 1861,
+      "F": 1595
     }
   },
   "CON103": {
@@ -19504,9 +19524,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 8.0,
     "prices": {
-      "D": 2877,
-      "E": 3098,
-      "F": 2656
+      "D": 3050,
+      "E": 3285,
+      "F": 2816
     }
   },
   "CON104": {
@@ -19514,9 +19534,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 6.0,
     "prices": {
-      "D": 4795,
-      "E": 5164,
-      "F": 4426
+      "D": 5084,
+      "E": 5475,
+      "F": 4693
     }
   },
   "CON105": {
@@ -19524,9 +19544,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 2.0,
     "prices": {
-      "D": 17264,
-      "E": 18592,
-      "F": 15936
+      "D": 18303,
+      "E": 19711,
+      "F": 16895
     }
   },
   "CON112": {
@@ -19534,9 +19554,9 @@
     "category": "8.COLA VINILICA CONGO",
     "bulk": 1.0,
     "prices": {
-      "D": 76732,
-      "E": 82634,
-      "F": 70829
+      "D": 81351,
+      "E": 87608,
+      "F": 75093
     }
   },
   "CON200": {
@@ -19544,9 +19564,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 18.0,
     "prices": {
-      "D": 2382,
-      "E": 2565,
-      "F": 2199
+      "D": 2440,
+      "E": 2628,
+      "F": 2252
     }
   },
   "CON201": {
@@ -19554,9 +19574,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 9.0,
     "prices": {
-      "D": 2779,
-      "E": 2993,
-      "F": 2565
+      "D": 2847,
+      "E": 3066,
+      "F": 2628
     }
   },
   "CON202": {
@@ -19564,9 +19584,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 6.0,
     "prices": {
-      "D": 3573,
-      "E": 3848,
-      "F": 3298
+      "D": 3660,
+      "E": 3942,
+      "F": 3379
     }
   },
   "CON203": {
@@ -19574,9 +19594,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 6.0,
     "prices": {
-      "D": 5956,
-      "E": 6414,
-      "F": 5498
+      "D": 6101,
+      "E": 6570,
+      "F": 5631
     }
   },
   "CON204": {
@@ -19584,9 +19604,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 6.0,
     "prices": {
-      "D": 9927,
-      "E": 10690,
-      "F": 9163
+      "D": 10168,
+      "E": 10951,
+      "F": 9386
     }
   },
   "CON205": {
@@ -19594,9 +19614,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 2.0,
     "prices": {
-      "D": 33752,
-      "E": 36348,
-      "F": 31156
+      "D": 34574,
+      "E": 37233,
+      "F": 31914
     }
   },
   "CON206": {
@@ -19604,9 +19624,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 1.0,
     "prices": {
-      "D": 147632,
-      "E": 158989,
-      "F": 136276
+      "D": 150499,
+      "E": 162076,
+      "F": 138922
     }
   },
   "CON250": {
@@ -19614,9 +19634,9 @@
     "category": "8.MEMBRANA SILICONA LIQUI",
     "bulk": 6.0,
     "prices": {
-      "D": 9495,
-      "E": 10226,
-      "F": 8765
+      "D": 10067,
+      "E": 10841,
+      "F": 9292
     }
   },
   "CON251": {
@@ -19624,9 +19644,9 @@
     "category": "8.MEMBRANA SILICONA LIQUI",
     "bulk": 6.0,
     "prices": {
-      "D": 19854,
-      "E": 21381,
-      "F": 18327
+      "D": 21049,
+      "E": 22668,
+      "F": 19430
     }
   },
   "CON902CE": {
@@ -19634,9 +19654,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CON902NA": {
@@ -19644,9 +19664,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CON902NOG": {
@@ -19654,9 +19674,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CON902PET": {
@@ -19664,9 +19684,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CON902RC": {
@@ -19674,9 +19694,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CON902RO": {
@@ -19684,9 +19704,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 12.0,
     "prices": {
-      "D": 1726,
-      "E": 1859,
-      "F": 1593
+      "D": 1830,
+      "E": 1971,
+      "F": 1689
     }
   },
   "CONO202039": {
@@ -19721,6 +19741,16 @@
   },
   "CONO212001": {
     "name": "CALENTADOR A GAS VIAJERO ENLOZADO CONOMETAL",
+    "category": "8.CALENTADOR HORNALLA/GA",
+    "bulk": 20.0,
+    "prices": {
+      "D": 10667,
+      "E": 11488,
+      "F": 9847
+    }
+  },
+  "CONO212006": {
+    "name": "CALENTADOR A GAS TURBO ENLOZADO CONOMETAL",
     "category": "8.CALENTADOR HORNALLA/GA",
     "bulk": 20.0,
     "prices": {
@@ -21844,9 +21874,9 @@
     "category": "6.TARUGO 3 CORTES CRECCHI",
     "bulk": 1.0,
     "prices": {
-      "D": 21333,
-      "E": 22974,
-      "F": 19692
+      "D": 22399,
+      "E": 24123,
+      "F": 20676
     }
   },
   "CRE1118": {
@@ -21854,9 +21884,9 @@
     "category": "6.TARUGO 3 CORTES CRECCHI",
     "bulk": 1.0,
     "prices": {
-      "D": 33340,
-      "E": 35904,
-      "F": 30775
+      "D": 35007,
+      "E": 37700,
+      "F": 32314
     }
   },
   "CRE1120": {
@@ -21864,9 +21894,9 @@
     "category": "6.TARUGO 3 CORTES CRECCHI",
     "bulk": 1.0,
     "prices": {
-      "D": 29772,
-      "E": 32062,
-      "F": 27482
+      "D": 31261,
+      "E": 33666,
+      "F": 28856
     }
   },
   "CRE1122": {
@@ -21874,9 +21904,9 @@
     "category": "6.TARUGO 3 CORTES CRECCHI",
     "bulk": 1.0,
     "prices": {
-      "D": 42856,
-      "E": 46153,
-      "F": 39560
+      "D": 44999,
+      "E": 48460,
+      "F": 41537
     }
   },
   "CRE1502": {
@@ -21884,9 +21914,9 @@
     "category": "6.TARUGO PASA PRECINTO C",
     "bulk": 1.0,
     "prices": {
-      "D": 2847,
-      "E": 3066,
-      "F": 2628
+      "D": 2990,
+      "E": 3220,
+      "F": 2760
     }
   },
   "CRE1514": {
@@ -21894,9 +21924,9 @@
     "category": "6.TARUGO ANCLAJE CRECCHI",
     "bulk": 1000.0,
     "prices": {
-      "D": 57,
-      "E": 61,
-      "F": 53
+      "D": 60,
+      "E": 65,
+      "F": 55
     }
   },
   "CRE1516": {
@@ -21904,9 +21934,9 @@
     "category": "6.TARUGO ANCLAJE CRECCHIO",
     "bulk": 1000.0,
     "prices": {
-      "D": 66,
-      "E": 71,
-      "F": 61
+      "D": 69,
+      "E": 75,
+      "F": 64
     }
   },
   "CRE1881": {
@@ -21914,9 +21944,9 @@
     "category": "8.TARUGO P/HUECO CRECCHIO",
     "bulk": 1000.0,
     "prices": {
-      "D": 27,
-      "E": 29,
-      "F": 25
+      "D": 29,
+      "E": 31,
+      "F": 26
     }
   },
   "CRE1882": {
@@ -21924,9 +21954,9 @@
     "category": "8.TARUGO P/HUECO CRECCHIO",
     "bulk": 500.0,
     "prices": {
-      "D": 56,
-      "E": 60,
-      "F": 52
+      "D": 59,
+      "E": 63,
+      "F": 54
     }
   },
   "CRE1883": {
@@ -21934,9 +21964,9 @@
     "category": "8.TARUGO P/HUECO CRECCHIO",
     "bulk": 250.0,
     "prices": {
-      "D": 119,
-      "E": 129,
-      "F": 110
+      "D": 125,
+      "E": 135,
+      "F": 116
     }
   },
   "CRE5101": {
@@ -21944,9 +21974,9 @@
     "category": "8.GRAMPA CA\u00f1O LUZ CRECC",
     "bulk": 0.0,
     "prices": {
-      "D": 6740,
-      "E": 7259,
-      "F": 6222
+      "D": 7077,
+      "E": 7622,
+      "F": 6533
     }
   },
   "CRE5102": {
@@ -21954,9 +21984,9 @@
     "category": "8.GRAMPA CA\u00f1O LUZ CRECC",
     "bulk": 0.0,
     "prices": {
-      "D": 74,
-      "E": 80,
-      "F": 68
+      "D": 78,
+      "E": 84,
+      "F": 72
     }
   },
   "CRE7010": {
@@ -21964,9 +21994,9 @@
     "category": "8.BARREHOJAS",
     "bulk": 60.0,
     "prices": {
-      "D": 2369,
-      "E": 2552,
-      "F": 2187
+      "D": 1257,
+      "E": 1354,
+      "F": 1160
     }
   },
   "CRE7020": {
@@ -21974,9 +22004,9 @@
     "category": "8.BARREHOJAS",
     "bulk": 10.0,
     "prices": {
-      "D": 5639,
-      "E": 6073,
-      "F": 5205
+      "D": 2992,
+      "E": 3222,
+      "F": 2762
     }
   },
   "CRE7050": {
@@ -22014,9 +22044,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1551,
-      "E": 1670,
-      "F": 1432
+      "D": 1629,
+      "E": 1754,
+      "F": 1503
     }
   },
   "CRE7404": {
@@ -22024,9 +22054,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1551,
-      "E": 1670,
-      "F": 1432
+      "D": 1629,
+      "E": 1754,
+      "F": 1503
     }
   },
   "CRE7408": {
@@ -22034,9 +22064,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 2545,
-      "E": 2741,
-      "F": 2349
+      "D": 2672,
+      "E": 2878,
+      "F": 2467
     }
   },
   "CRE7410": {
@@ -22044,9 +22074,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 2655,
-      "E": 2860,
-      "F": 2451
+      "D": 2788,
+      "E": 3003,
+      "F": 2574
     }
   },
   "CRE7412": {
@@ -22054,9 +22084,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 1987,
-      "E": 2140,
-      "F": 1834
+      "D": 2087,
+      "E": 2247,
+      "F": 1926
     }
   },
   "CRE7414": {
@@ -22064,9 +22094,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1068,
-      "E": 1150,
-      "F": 986
+      "D": 1121,
+      "E": 1207,
+      "F": 1035
     }
   },
   "CRE7470": {
@@ -22074,9 +22104,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 4823,
-      "E": 5194,
-      "F": 4452
+      "D": 5063,
+      "E": 5453,
+      "F": 4674
     }
   },
   "CRE7472": {
@@ -22084,9 +22114,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 3233,
-      "E": 3482,
-      "F": 2985
+      "D": 3395,
+      "E": 3656,
+      "F": 3134
     }
   },
   "CRE7480": {
@@ -22094,9 +22124,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 9964,
-      "E": 10731,
-      "F": 9198
+      "D": 10462,
+      "E": 11267,
+      "F": 9657
     }
   },
   "CRE7502": {
@@ -22174,9 +22204,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 50.0,
     "prices": {
-      "D": 758,
-      "E": 816,
-      "F": 699
+      "D": 795,
+      "E": 856,
+      "F": 734
     }
   },
   "CRE9002": {
@@ -22184,9 +22214,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 50.0,
     "prices": {
-      "D": 1205,
-      "E": 1298,
-      "F": 1113
+      "D": 1265,
+      "E": 1363,
+      "F": 1168
     }
   },
   "CRE9003": {
@@ -22194,9 +22224,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 50.0,
     "prices": {
-      "D": 1355,
-      "E": 1459,
-      "F": 1251
+      "D": 1422,
+      "E": 1532,
+      "F": 1313
     }
   },
   "CRE9010": {
@@ -22204,9 +22234,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 1700,
-      "E": 1830,
-      "F": 1569
+      "D": 1784,
+      "E": 1921,
+      "F": 1647
     }
   },
   "CRE9011": {
@@ -22214,9 +22244,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 2599,
-      "E": 2799,
-      "F": 2399
+      "D": 2729,
+      "E": 2939,
+      "F": 2519
     }
   },
   "CRE9012": {
@@ -22224,9 +22254,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 3325,
-      "E": 3581,
-      "F": 3069
+      "D": 3491,
+      "E": 3760,
+      "F": 3223
     }
   },
   "CRE9013": {
@@ -22234,9 +22264,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 4365,
-      "E": 4701,
-      "F": 4030
+      "D": 4584,
+      "E": 4937,
+      "F": 4231
     }
   },
   "CRE9014": {
@@ -22244,9 +22274,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 5474,
-      "E": 5896,
-      "F": 5053
+      "D": 5748,
+      "E": 6191,
+      "F": 5306
     }
   },
   "CRE9021": {
@@ -22254,9 +22284,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 2938,
-      "E": 3164,
-      "F": 2712
+      "D": 3085,
+      "E": 3322,
+      "F": 2847
     }
   },
   "CRE9022": {
@@ -22264,9 +22294,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 3181,
-      "E": 3426,
-      "F": 2936
+      "D": 3340,
+      "E": 3597,
+      "F": 3083
     }
   },
   "CRE9023": {
@@ -22274,9 +22304,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 3421,
-      "E": 3684,
-      "F": 3158
+      "D": 3592,
+      "E": 3868,
+      "F": 3316
     }
   },
   "CRE9024": {
@@ -22284,9 +22314,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 4451,
-      "E": 4793,
-      "F": 4108
+      "D": 4673,
+      "E": 5033,
+      "F": 4314
     }
   },
   "CRE9025": {
@@ -22294,9 +22324,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 5380,
-      "E": 5794,
-      "F": 4967
+      "D": 5650,
+      "E": 6084,
+      "F": 5215
     }
   },
   "CRE9026": {
@@ -22304,9 +22334,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 7200,
-      "E": 7754,
-      "F": 6646
+      "D": 7560,
+      "E": 8142,
+      "F": 6978
     }
   },
   "CRE9027": {
@@ -22314,9 +22344,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 15.0,
     "prices": {
-      "D": 8036,
-      "E": 8655,
-      "F": 7418
+      "D": 8438,
+      "E": 9087,
+      "F": 7789
     }
   },
   "CRE9028": {
@@ -22324,9 +22354,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 10.0,
     "prices": {
-      "D": 10061,
-      "E": 10835,
-      "F": 9287
+      "D": 10564,
+      "E": 11377,
+      "F": 9752
     }
   },
   "CRE9029": {
@@ -22334,9 +22364,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 1.0,
     "prices": {
-      "D": 8036,
-      "E": 8655,
-      "F": 7418
+      "D": 8438,
+      "E": 9087,
+      "F": 7789
     }
   },
   "CRE9030": {
@@ -22344,9 +22374,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 1.0,
     "prices": {
-      "D": 7200,
-      "E": 7754,
-      "F": 6646
+      "D": 7560,
+      "E": 8142,
+      "F": 6978
     }
   },
   "CRE9031": {
@@ -22354,9 +22384,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 9120,
-      "E": 9821,
-      "F": 8418
+      "D": 9576,
+      "E": 10313,
+      "F": 8840
     }
   },
   "CRE9032": {
@@ -22364,9 +22394,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 11712,
-      "E": 12613,
-      "F": 10811
+      "D": 12298,
+      "E": 13244,
+      "F": 11352
     }
   },
   "CRE9033": {
@@ -22374,9 +22404,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 13652,
-      "E": 14702,
-      "F": 12602
+      "D": 14335,
+      "E": 15437,
+      "F": 13232
     }
   },
   "CRE9034": {
@@ -22384,9 +22414,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 7835,
-      "E": 8438,
-      "F": 7233
+      "D": 8227,
+      "E": 8860,
+      "F": 7594
     }
   },
   "CRE9035": {
@@ -22394,9 +22424,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 10158,
-      "E": 10940,
-      "F": 9377
+      "D": 10666,
+      "E": 11487,
+      "F": 9846
     }
   },
   "CRE9036": {
@@ -22404,9 +22434,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 12214,
-      "E": 13154,
-      "F": 11275
+      "D": 12825,
+      "E": 13812,
+      "F": 11839
     }
   },
   "CRE9037": {
@@ -22414,9 +22444,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 5.0,
     "prices": {
-      "D": 13334,
-      "E": 14360,
-      "F": 12308
+      "D": 14001,
+      "E": 15078,
+      "F": 12924
     }
   },
   "CRE9110": {
@@ -22424,9 +22454,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 1700,
-      "E": 1830,
-      "F": 1569
+      "D": 1784,
+      "E": 1921,
+      "F": 1647
     }
   },
   "CRE9111": {
@@ -22434,9 +22464,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 2599,
-      "E": 2799,
-      "F": 2399
+      "D": 2729,
+      "E": 2939,
+      "F": 2519
     }
   },
   "CRE9112": {
@@ -22444,9 +22474,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 3325,
-      "E": 3581,
-      "F": 3069
+      "D": 3491,
+      "E": 3760,
+      "F": 3223
     }
   },
   "CRE9113": {
@@ -22454,9 +22484,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 4365,
-      "E": 4701,
-      "F": 4030
+      "D": 4584,
+      "E": 4937,
+      "F": 4231
     }
   },
   "CRE9114": {
@@ -22464,9 +22494,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 25.0,
     "prices": {
-      "D": 5474,
-      "E": 5896,
-      "F": 5053
+      "D": 5748,
+      "E": 6191,
+      "F": 5306
     }
   },
   "CRE9122": {
@@ -22474,9 +22504,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 3181,
-      "E": 3426,
-      "F": 2936
+      "D": 3340,
+      "E": 3597,
+      "F": 3083
     }
   },
   "CRE9124": {
@@ -22484,9 +22514,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 4451,
-      "E": 4793,
-      "F": 4108
+      "D": 4673,
+      "E": 5033,
+      "F": 4314
     }
   },
   "CRE9125": {
@@ -22494,9 +22524,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 5380,
-      "E": 5794,
-      "F": 4967
+      "D": 5650,
+      "E": 6084,
+      "F": 5215
     }
   },
   "CRE9126": {
@@ -22504,9 +22534,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 20.0,
     "prices": {
-      "D": 7200,
-      "E": 7754,
-      "F": 6646
+      "D": 7560,
+      "E": 8142,
+      "F": 6978
     }
   },
   "CRE9127": {
@@ -22514,9 +22544,9 @@
     "category": "8.PRECINTOS PVC CRECHIO",
     "bulk": 15.0,
     "prices": {
-      "D": 8036,
-      "E": 8655,
-      "F": 7418
+      "D": 8438,
+      "E": 9087,
+      "F": 7789
     }
   },
   "CRIS200E": {
@@ -22524,9 +22554,9 @@
     "category": "8.FRATACHO/PLAST.TENDA",
     "bulk": 20.0,
     "prices": {
-      "D": 585,
-      "E": 630,
-      "F": 540
+      "D": 644,
+      "E": 694,
+      "F": 594
     }
   },
   "CRIS250E": {
@@ -22534,9 +22564,9 @@
     "category": "8.FRATACHO/PLAST.TENDA",
     "bulk": 20.0,
     "prices": {
-      "D": 683,
-      "E": 736,
-      "F": 630
+      "D": 751,
+      "E": 809,
+      "F": 694
     }
   },
   "CRIS40BLCA": {
@@ -22544,9 +22574,9 @@
     "category": "1.SOPAPAS y ACCES.CRIS",
     "bulk": 10.0,
     "prices": {
-      "D": 585,
-      "E": 630,
-      "F": 540
+      "D": 644,
+      "E": 694,
+      "F": 594
     }
   },
   "CRIS50BLCA": {
@@ -22554,9 +22584,9 @@
     "category": "1.SOPAPAS y ACCES.CRIS",
     "bulk": 10.0,
     "prices": {
-      "D": 611,
-      "E": 659,
-      "F": 564
+      "D": 673,
+      "E": 724,
+      "F": 621
     }
   },
   "CRISREJ9x9": {
@@ -22564,9 +22594,9 @@
     "category": "1.SOPAPAS y ACCES.CRIS",
     "bulk": 10.0,
     "prices": {
-      "D": 1559,
-      "E": 1671,
-      "F": 1337
+      "D": 1715,
+      "E": 1838,
+      "F": 1470
     }
   },
   "CRISSPCODO": {
@@ -22574,9 +22604,9 @@
     "category": "1.SOPAPAS y ACCES.CRIS",
     "bulk": 10.0,
     "prices": {
-      "D": 1266,
-      "E": 1363,
-      "F": 1168
+      "D": 1392,
+      "E": 1500,
+      "F": 1285
     }
   },
   "DAM190204": {
@@ -29439,6 +29469,16 @@
       "F": 493994
     }
   },
+  "ECSC1300W": {
+    "name": "MAQ SIERRA CIRC 71/4\" 1300w STANLEY",
+    "category": "8.MAQ.SIERRA CIRC.STANLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 202019,
+      "E": 217559,
+      "F": 186479
+    }
+  },
   "ECSID1.5": {
     "name": "ELECTRODO AWS-E.6013  1.5mm SIDERAL",
     "category": "8.ELECTRODOS SIDERAL",
@@ -29534,9 +29574,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1294,
-      "E": 1393,
-      "F": 1194
+      "D": 1383,
+      "E": 1489,
+      "F": 1276
     }
   },
   "EGBT 02": {
@@ -29544,9 +29584,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2594,
-      "E": 2794,
-      "F": 2395
+      "D": 2776,
+      "E": 2990,
+      "F": 2562
     }
   },
   "EGBT 03": {
@@ -29554,9 +29594,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1698,
-      "E": 1828,
-      "F": 1567
+      "D": 1816,
+      "E": 1956,
+      "F": 1676
     }
   },
   "EGBT 04": {
@@ -29564,9 +29604,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3126,
-      "E": 3367,
-      "F": 2886
+      "D": 3345,
+      "E": 3603,
+      "F": 3088
     }
   },
   "EGBT 05": {
@@ -29574,9 +29614,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3411,
-      "E": 3674,
-      "F": 3149
+      "D": 3097,
+      "E": 3335,
+      "F": 2859
     }
   },
   "EGBT 06": {
@@ -29584,9 +29624,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2737,
-      "E": 2920,
-      "F": 2190
+      "D": 2928,
+      "E": 3123,
+      "F": 2342
     }
   },
   "EGBT 07": {
@@ -29614,9 +29654,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1077,
-      "E": 1149,
-      "F": 861
+      "D": 1213,
+      "E": 1294,
+      "F": 970
     }
   },
   "EGBT 11": {
@@ -29624,9 +29664,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 160,
-      "E": 171,
-      "F": 128
+      "D": 177,
+      "E": 189,
+      "F": 142
     }
   },
   "EGBT 12": {
@@ -29634,9 +29674,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 213,
-      "E": 227,
-      "F": 170
+      "D": 228,
+      "E": 243,
+      "F": 182
     }
   },
   "EGBT 13": {
@@ -29644,9 +29684,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 138,
-      "E": 147,
-      "F": 110
+      "D": 155,
+      "E": 165,
+      "F": 124
     }
   },
   "EGBT 14": {
@@ -29654,9 +29694,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1698,
-      "E": 1828,
-      "F": 1567
+      "D": 1816,
+      "E": 1956,
+      "F": 1676
     }
   },
   "EGBT 15": {
@@ -29664,9 +29704,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3126,
-      "E": 3367,
-      "F": 2886
+      "D": 3345,
+      "E": 3603,
+      "F": 3088
     }
   },
   "EGBT 16": {
@@ -29674,9 +29714,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1884,
-      "E": 2010,
-      "F": 1507
+      "D": 2015,
+      "E": 2149,
+      "F": 1612
     }
   },
   "EGBT 17": {
@@ -29684,9 +29724,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3677,
-      "E": 3960,
-      "F": 3394
+      "D": 3678,
+      "E": 3961,
+      "F": 3395
     }
   },
   "EGBT 18": {
@@ -29714,9 +29754,9 @@
     "category": "1.FLOR.LLUVIA y ACCESORIO",
     "bulk": 10.0,
     "prices": {
-      "D": 4098,
-      "E": 4413,
-      "F": 3783
+      "D": 4314,
+      "E": 4645,
+      "F": 3982
     }
   },
   "EGCH 15": {
@@ -29724,9 +29764,9 @@
     "category": "1.FLOR.LLUVIA y ACCESORIO",
     "bulk": 10.0,
     "prices": {
-      "D": 1772,
-      "E": 1908,
-      "F": 1636
+      "D": 1848,
+      "E": 1991,
+      "F": 1706
     }
   },
   "EGCP 01": {
@@ -29734,9 +29774,9 @@
     "category": "1.ASIENTO.INOD.ACC.",
     "bulk": 10.0,
     "prices": {
-      "D": 1005,
-      "E": 1077,
-      "F": 862
+      "D": 1082,
+      "E": 1160,
+      "F": 928
     }
   },
   "EGCP 03": {
@@ -29914,9 +29954,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 4826,
-      "E": 5198,
-      "F": 4455
+      "D": 5165,
+      "E": 5562,
+      "F": 4768
     }
   },
   "EGDP 08": {
@@ -29964,9 +30004,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1568,
-      "E": 1688,
-      "F": 1447
+      "D": 1676,
+      "E": 1805,
+      "F": 1547
     }
   },
   "EGDS 02": {
@@ -29974,9 +30014,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 2033,
-      "E": 2190,
-      "F": 1877
+      "D": 2174,
+      "E": 2342,
+      "F": 2007
     }
   },
   "EGDS 04": {
@@ -29984,9 +30024,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1793,
-      "E": 1931,
-      "F": 1655
+      "D": 1918,
+      "E": 2066,
+      "F": 1771
     }
   },
   "EGDS 05": {
@@ -29994,9 +30034,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1897,
-      "E": 2043,
-      "F": 1751
+      "D": 2030,
+      "E": 2186,
+      "F": 1874
     }
   },
   "EGDS 06": {
@@ -30004,9 +30044,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1793,
-      "E": 1931,
-      "F": 1655
+      "D": 1918,
+      "E": 2066,
+      "F": 1771
     }
   },
   "EGDS 07": {
@@ -30014,9 +30054,9 @@
     "category": "1.OBTURADORES",
     "bulk": 10.0,
     "prices": {
-      "D": 2260,
-      "E": 2421,
-      "F": 1937
+      "D": 2417,
+      "E": 2589,
+      "F": 2071
     }
   },
   "EGDS 08": {
@@ -30024,9 +30064,9 @@
     "category": "1.OBTURADORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1970,
-      "E": 2110,
-      "F": 1688
+      "D": 2108,
+      "E": 2258,
+      "F": 1806
     }
   },
   "EGDS 10": {
@@ -30034,9 +30074,9 @@
     "category": "1.OBTURADORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1970,
-      "E": 2110,
-      "F": 1688
+      "D": 2108,
+      "E": 2258,
+      "F": 1806
     }
   },
   "EGDS 11": {
@@ -30044,9 +30084,9 @@
     "category": "1.OBTURADORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1916,
-      "E": 2063,
-      "F": 1769
+      "D": 2049,
+      "E": 2207,
+      "F": 1892
     }
   },
   "EGDS 12": {
@@ -30054,9 +30094,9 @@
     "category": "1.OBTURARORES",
     "bulk": 10.0,
     "prices": {
-      "D": 1793,
-      "E": 1931,
-      "F": 1655
+      "D": 1918,
+      "E": 2066,
+      "F": 1771
     }
   },
   "EGDS 13": {
@@ -30064,9 +30104,9 @@
     "category": "1.OBTURADORES",
     "bulk": 10.0,
     "prices": {
-      "D": 2230,
-      "E": 2402,
-      "F": 2058
+      "D": 2387,
+      "E": 2571,
+      "F": 2203
     }
   },
   "EGDS 19": {
@@ -30084,9 +30124,9 @@
     "category": "1.OBTURADORES",
     "bulk": 1000.0,
     "prices": {
-      "D": 17,
-      "E": 18,
-      "F": 14
+      "D": 18,
+      "E": 19,
+      "F": 15
     }
   },
   "EGDS 32": {
@@ -30104,9 +30144,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 389,
-      "E": 417,
-      "F": 333
+      "D": 415,
+      "E": 445,
+      "F": 356
     }
   },
   "EGEK 02": {
@@ -30114,9 +30154,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 389,
-      "E": 417,
-      "F": 333
+      "D": 415,
+      "E": 445,
+      "F": 356
     }
   },
   "EGEO1201": {
@@ -30244,9 +30284,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3220,
-      "E": 3468,
-      "F": 2973
+      "D": 3446,
+      "E": 3711,
+      "F": 3181
     }
   },
   "EGFO 02": {
@@ -30254,9 +30294,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5035,
-      "E": 5423,
-      "F": 4648
+      "D": 5389,
+      "E": 5803,
+      "F": 4974
     }
   },
   "EGFO 03": {
@@ -30284,9 +30324,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 842,
-      "E": 875,
-      "F": 808
+      "D": 899,
+      "E": 935,
+      "F": 863
     }
   },
   "EGFO 06": {
@@ -30294,9 +30334,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 842,
-      "E": 875,
-      "F": 808
+      "D": 899,
+      "E": 935,
+      "F": 863
     }
   },
   "EGFO 07": {
@@ -30304,9 +30344,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 971,
-      "E": 1010,
-      "F": 932
+      "D": 1037,
+      "E": 1078,
+      "F": 995
     }
   },
   "EGFO 08": {
@@ -30324,9 +30364,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 814,
-      "E": 846,
-      "F": 781
+      "D": 870,
+      "E": 904,
+      "F": 835
     }
   },
   "EGFO 10": {
@@ -30344,9 +30384,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 129,
-      "E": 134,
-      "F": 124
+      "D": 137,
+      "E": 142,
+      "F": 131
     }
   },
   "EGFO 12": {
@@ -30354,9 +30394,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 195,
-      "E": 209,
-      "F": 167
+      "D": 209,
+      "E": 224,
+      "F": 179
     }
   },
   "EGFO 13": {
@@ -30374,9 +30414,9 @@
     "category": "1.MOCHILA/DEPOSITO ACES.",
     "bulk": 10.0,
     "prices": {
-      "D": 319,
-      "E": 342,
-      "F": 273
+      "D": 345,
+      "E": 370,
+      "F": 296
     }
   },
   "EGFO 15": {
@@ -30384,9 +30424,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 359,
-      "E": 385,
-      "F": 308
+      "D": 394,
+      "E": 422,
+      "F": 338
     }
   },
   "EGFO 16": {
@@ -30394,9 +30434,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 431,
-      "E": 462,
-      "F": 369
+      "D": 469,
+      "E": 503,
+      "F": 402
     }
   },
   "EGFO 17": {
@@ -30404,9 +30444,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 382,
-      "E": 409,
-      "F": 327
+      "D": 408,
+      "E": 437,
+      "F": 350
     }
   },
   "EGFO 19": {
@@ -30414,9 +30454,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 625,
-      "E": 669,
-      "F": 535
+      "D": 668,
+      "E": 716,
+      "F": 573
     }
   },
   "EGFO 20": {
@@ -30424,9 +30464,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 319,
-      "E": 342,
-      "F": 273
+      "D": 345,
+      "E": 370,
+      "F": 296
     }
   },
   "EGFO 21": {
@@ -30434,9 +30474,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 305,
-      "E": 327,
-      "F": 261
+      "D": 323,
+      "E": 346,
+      "F": 276
     }
   },
   "EGFO 25": {
@@ -30444,9 +30484,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6746,
-      "E": 7265,
-      "F": 6227
+      "D": 7087,
+      "E": 7632,
+      "F": 6542
     }
   },
   "EGFO 26": {
@@ -30454,9 +30494,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 11190,
-      "E": 12051,
-      "F": 10329
+      "D": 11628,
+      "E": 12522,
+      "F": 10733
     }
   },
   "EGFT 02": {
@@ -30474,9 +30514,9 @@
     "category": "1.FLOTANTE DE PLASTICO",
     "bulk": 10.0,
     "prices": {
-      "D": 6083,
-      "E": 6551,
-      "F": 5615
+      "D": 6085,
+      "E": 6553,
+      "F": 5616
     }
   },
   "EGFT 05": {
@@ -30514,9 +30554,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 235,
-      "E": 252,
-      "F": 202
+      "D": 256,
+      "E": 275,
+      "F": 220
     }
   },
   "EGGA 06": {
@@ -30524,9 +30564,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 275,
-      "E": 294,
-      "F": 235
+      "D": 296,
+      "E": 318,
+      "F": 254
     }
   },
   "EGGA 07": {
@@ -30764,9 +30804,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 50.0,
     "prices": {
-      "D": 1427,
-      "E": 1536,
-      "F": 1317
+      "D": 1540,
+      "E": 1659,
+      "F": 1422
     }
   },
   "EGHD 02": {
@@ -30774,9 +30814,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 1277,
-      "E": 1376,
-      "F": 1179
+      "D": 1367,
+      "E": 1472,
+      "F": 1262
     }
   },
   "EGHD 04": {
@@ -30784,9 +30824,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 3146,
-      "E": 3388,
-      "F": 2904
+      "D": 3303,
+      "E": 3557,
+      "F": 3049
     }
   },
   "EGHD 05": {
@@ -30944,9 +30984,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 10590,
-      "E": 11405,
-      "F": 9775
+      "D": 11372,
+      "E": 12246,
+      "F": 10497
     }
   },
   "EGLF 02": {
@@ -30954,9 +30994,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 11750,
-      "E": 12653,
-      "F": 10846
+      "D": 12577,
+      "E": 13544,
+      "F": 11609
     }
   },
   "EGLF 03": {
@@ -30964,9 +31004,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2927,
-      "E": 3152,
-      "F": 2702
+      "D": 3138,
+      "E": 3379,
+      "F": 2896
     }
   },
   "EGLF 04": {
@@ -30974,9 +31014,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 11034,
-      "E": 11883,
-      "F": 10185
+      "D": 11696,
+      "E": 12596,
+      "F": 10797
     }
   },
   "EGLF 05": {
@@ -30984,9 +31024,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 10995,
-      "E": 11841,
-      "F": 10150
+      "D": 11668,
+      "E": 12566,
+      "F": 10771
     }
   },
   "EGLF 06": {
@@ -30994,9 +31034,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 12163,
-      "E": 13099,
-      "F": 11227
+      "D": 12877,
+      "E": 13867,
+      "F": 11886
     }
   },
   "EGMJ 01": {
@@ -31034,9 +31074,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 731,
-      "E": 787,
-      "F": 675
+      "D": 753,
+      "E": 811,
+      "F": 695
     }
   },
   "EGMJ 05": {
@@ -31044,9 +31084,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1717,
-      "E": 1849,
-      "F": 1585
+      "D": 1769,
+      "E": 1906,
+      "F": 1633
     }
   },
   "EGMJ 09": {
@@ -31094,9 +31134,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 2473,
-      "E": 2663,
-      "F": 2283
+      "D": 2646,
+      "E": 2850,
+      "F": 2443
     }
   },
   "EGQH 04": {
@@ -31194,9 +31234,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 20.0,
     "prices": {
-      "D": 2473,
-      "E": 2663,
-      "F": 2283
+      "D": 2646,
+      "E": 2850,
+      "F": 2443
     }
   },
   "EGQH 20": {
@@ -31204,9 +31244,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 2797,
-      "E": 3012,
-      "F": 2582
+      "D": 2992,
+      "E": 3222,
+      "F": 2762
     }
   },
   "EGQH 22": {
@@ -31214,9 +31254,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 1.0,
     "prices": {
-      "D": 2880,
-      "E": 3102,
-      "F": 2659
+      "D": 3080,
+      "E": 3317,
+      "F": 2843
     }
   },
   "EGQH 23": {
@@ -31224,9 +31264,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 2830,
-      "E": 3047,
-      "F": 2612
+      "D": 3026,
+      "E": 3259,
+      "F": 2793
     }
   },
   "EGQH 24": {
@@ -31234,9 +31274,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 2797,
-      "E": 3012,
-      "F": 2582
+      "D": 2992,
+      "E": 3222,
+      "F": 2762
     }
   },
   "EGRU 01": {
@@ -31254,9 +31294,9 @@
     "category": "8.MAQ.CORTA.CESPED/ACCESO",
     "bulk": 10.0,
     "prices": {
-      "D": 3953,
-      "E": 4257,
-      "F": 3649
+      "D": 4192,
+      "E": 4514,
+      "F": 3869
     }
   },
   "EGRU 04": {
@@ -31264,9 +31304,9 @@
     "category": "8.CHANGUITO y RUEDAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2262,
-      "E": 2436,
-      "F": 2088
+      "D": 2400,
+      "E": 2584,
+      "F": 2215
     }
   },
   "EGRZ 01": {
@@ -31274,9 +31314,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 499,
-      "E": 537,
-      "F": 461
+      "D": 535,
+      "E": 576,
+      "F": 494
     }
   },
   "EGRZ 02": {
@@ -31284,9 +31324,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5736,
-      "E": 6146,
-      "F": 4916
+      "D": 6242,
+      "E": 6688,
+      "F": 5350
     }
   },
   "EGRZ 03": {
@@ -31294,9 +31334,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 2334,
-      "E": 2514,
-      "F": 2155
+      "D": 2719,
+      "E": 2928,
+      "F": 2510
     }
   },
   "EGRZ 04": {
@@ -31304,9 +31344,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2814,
-      "E": 3030,
-      "F": 2597
+      "D": 3280,
+      "E": 3533,
+      "F": 3028
     }
   },
   "EGRZ 06": {
@@ -31314,9 +31354,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4979,
-      "E": 5362,
-      "F": 4596
+      "D": 5827,
+      "E": 6275,
+      "F": 5378
     }
   },
   "EGRZ 07": {
@@ -31324,9 +31364,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 621,
-      "E": 666,
-      "F": 532
+      "D": 667,
+      "E": 714,
+      "F": 571
     }
   },
   "EGSE 03": {
@@ -31344,9 +31384,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 1281,
-      "E": 1380,
-      "F": 1182
+      "D": 1370,
+      "E": 1475,
+      "F": 1265
     }
   },
   "EGSE 05": {
@@ -31364,9 +31404,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 397,
-      "E": 427,
-      "F": 366
+      "D": 418,
+      "E": 450,
+      "F": 386
     }
   },
   "EGTM 02": {
@@ -31374,9 +31414,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 397,
-      "E": 427,
-      "F": 366
+      "D": 418,
+      "E": 450,
+      "F": 386
     }
   },
   "EGTM 03": {
@@ -31384,9 +31424,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 496,
-      "E": 534,
-      "F": 458
+      "D": 518,
+      "E": 558,
+      "F": 479
     }
   },
   "EGTM 04": {
@@ -31394,9 +31434,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 397,
-      "E": 427,
-      "F": 366
+      "D": 418,
+      "E": 450,
+      "F": 386
     }
   },
   "EGTM 05": {
@@ -31424,9 +31464,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 444,
-      "E": 478,
-      "F": 410
+      "D": 470,
+      "E": 506,
+      "F": 434
     }
   },
   "EGTM 08": {
@@ -31444,9 +31484,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 574,
-      "E": 618,
-      "F": 529
+      "D": 603,
+      "E": 649,
+      "F": 556
     }
   },
   "EGTM 10": {
@@ -31454,9 +31494,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 480,
-      "E": 516,
-      "F": 443
+      "D": 502,
+      "E": 541,
+      "F": 464
     }
   },
   "EGTM 11": {
@@ -31474,9 +31514,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 619,
-      "E": 667,
-      "F": 571
+      "D": 648,
+      "E": 698,
+      "F": 598
     }
   },
   "EGTM 14": {
@@ -31484,9 +31524,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 324,
-      "E": 349,
-      "F": 299
+      "D": 340,
+      "E": 366,
+      "F": 314
     }
   },
   "EGTT 01": {
@@ -31534,9 +31574,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 5.0,
     "prices": {
-      "D": 26644,
-      "E": 28694,
-      "F": 24594
+      "D": 28510,
+      "E": 30703,
+      "F": 26317
     }
   },
   "EGUN 02": {
@@ -31554,9 +31594,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2051,
-      "E": 2209,
-      "F": 1893
+      "D": 2195,
+      "E": 2364,
+      "F": 2027
     }
   },
   "EGVL 06": {
@@ -31564,9 +31604,9 @@
     "category": "1.VALV.ADM/SILENC.EGOPLAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1962,
-      "E": 2113,
-      "F": 1811
+      "D": 2100,
+      "E": 2261,
+      "F": 1938
     }
   },
   "EGVL 09": {
@@ -31574,9 +31614,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 99,
-      "E": 106,
-      "F": 85
+      "D": 106,
+      "E": 114,
+      "F": 91
     }
   },
   "EGVL 10": {
@@ -31584,9 +31624,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 17,
-      "E": 20,
-      "F": 14
+      "D": 18,
+      "E": 22,
+      "F": 15
     }
   },
   "EGVL 11": {
@@ -31594,9 +31634,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 1000.0,
     "prices": {
-      "D": 17,
-      "E": 18,
-      "F": 14
+      "D": 18,
+      "E": 19,
+      "F": 15
     }
   },
   "EGVL 12": {
@@ -31604,9 +31644,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 288,
-      "E": 308,
-      "F": 247
+      "D": 307,
+      "E": 329,
+      "F": 263
     }
   },
   "EGVL 13": {
@@ -31614,9 +31654,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 139,
-      "E": 149,
-      "F": 119
+      "D": 148,
+      "E": 159,
+      "F": 127
     }
   },
   "EGVL 14": {
@@ -31624,9 +31664,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 127,
-      "E": 136,
-      "F": 109
+      "D": 136,
+      "E": 145,
+      "F": 116
     }
   },
   "EGVL 15": {
@@ -31634,9 +31674,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 382,
-      "E": 409,
-      "F": 327
+      "D": 408,
+      "E": 437,
+      "F": 350
     }
   },
   "EGVL 20": {
@@ -31654,9 +31694,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 178,
-      "E": 190,
-      "F": 152
+      "D": 190,
+      "E": 203,
+      "F": 163
     }
   },
   "EGVL 50": {
@@ -31664,9 +31704,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7777,
-      "E": 8375,
-      "F": 7178
+      "D": 7778,
+      "E": 8376,
+      "F": 7179
     }
   },
   "EGVL 51": {
@@ -31674,9 +31714,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7777,
-      "E": 8375,
-      "F": 7178
+      "D": 7778,
+      "E": 8376,
+      "F": 7179
     }
   },
   "EGVN 01": {
@@ -31684,9 +31724,9 @@
     "category": "1.VENTOSAS",
     "bulk": 10.0,
     "prices": {
-      "D": 720,
-      "E": 775,
-      "F": 664
+      "D": 770,
+      "E": 829,
+      "F": 710
     }
   },
   "EGVN 02": {
@@ -31694,9 +31734,9 @@
     "category": "1.VENTOSAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1800,
-      "E": 1938,
-      "F": 1661
+      "D": 1921,
+      "E": 2069,
+      "F": 1774
     }
   },
   "EGVN 03": {
@@ -31734,9 +31774,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 10.0,
     "prices": {
-      "D": 1026,
-      "E": 1105,
-      "F": 947
+      "D": 1065,
+      "E": 1147,
+      "F": 983
     }
   },
   "EGVO 14": {
@@ -31744,9 +31784,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 10.0,
     "prices": {
-      "D": 1026,
-      "E": 1105,
-      "F": 947
+      "D": 1065,
+      "E": 1147,
+      "F": 983
     }
   },
   "EGVO 15": {
@@ -31754,9 +31794,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 10.0,
     "prices": {
-      "D": 1047,
-      "E": 1127,
-      "F": 966
+      "D": 1083,
+      "E": 1166,
+      "F": 1000
     }
   },
   "EGVO 16": {
@@ -31764,9 +31804,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 10.0,
     "prices": {
-      "D": 1047,
-      "E": 1127,
-      "F": 966
+      "D": 1083,
+      "E": 1166,
+      "F": 1000
     }
   },
   "EGVO 17": {
@@ -31774,9 +31814,9 @@
     "category": "1.VOLANTE P/GRIFERIA",
     "bulk": 10.0,
     "prices": {
-      "D": 1067,
-      "E": 1149,
-      "F": 985
+      "D": 1101,
+      "E": 1185,
+      "F": 1016
     }
   },
   "EGVS 04": {
@@ -31834,9 +31874,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 361,
-      "E": 389,
-      "F": 333
+      "D": 392,
+      "E": 422,
+      "F": 362
     }
   },
   "EGWX 02": {
@@ -31844,9 +31884,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 376,
-      "E": 405,
-      "F": 347
+      "D": 405,
+      "E": 436,
+      "F": 374
     }
   },
   "EGWX 03": {
@@ -46559,6 +46599,16 @@
       "F": 111418
     }
   },
+  "GAG2584AR": {
+    "name": "COMPRESOR AIRE 50Lt 2.5HP SELECT GAMMA",
+    "category": "8.MAQ.COMPRESOR AIRE/ACCE",
+    "bulk": 1.0,
+    "prices": {
+      "D": 264283,
+      "E": 284613,
+      "F": 243954
+    }
+  },
   "GAG2710AR": {
     "name": "CARGADOR 40amp 12/24v INTELIG GAMMA",
     "category": "8.MAQ.CARGADOR/BATERIA",
@@ -46719,36 +46769,6 @@
       "F": 134368
     }
   },
-  "GAG2801KAR": {
-    "name": "COMPRES AIR C KIT 24Lt 2HP MONOF GAMMA",
-    "category": "8.MAQ.COMPRESOR AIRE/ACCE",
-    "bulk": 1.0,
-    "prices": {
-      "D": 410749,
-      "E": 442346,
-      "F": 379153
-    }
-  },
-  "GAG2802AR": {
-    "name": "COMPRESOR AIRE 50Lt 2HP MONOF GAMMA",
-    "category": "8.MAQ.COMPRESOR AIRE/ACCE",
-    "bulk": 1.0,
-    "prices": {
-      "D": 473406,
-      "E": 509822,
-      "F": 436990
-    }
-  },
-  "GAG2802KAR": {
-    "name": "COMPRES AIR C KIT 50Lt 2HP MONOF GAMMA",
-    "category": "8.MAQ.COMPRESOR AIRE/ACCE",
-    "bulk": 1.0,
-    "prices": {
-      "D": 551379,
-      "E": 593793,
-      "F": 508965
-    }
-  },
   "GAG2803AR": {
     "name": "COMPRESOR AIRE 100Lt 2HP MONOF GAMMA",
     "category": "8.MAQ.COMPRESOR AIRE/ACCE",
@@ -46827,16 +46847,6 @@
       "D": 541266,
       "E": 582902,
       "F": 499630
-    }
-  },
-  "GAG2850AR": {
-    "name": "COMPRES AIRE 50Lt 2HP NEG MONF GAMMA",
-    "category": "8.MAQ.COMPRESOR AIRE/ACCE",
-    "bulk": 0.0,
-    "prices": {
-      "D": 669299,
-      "E": 720783,
-      "F": 617814
     }
   },
   "GAG2852AR": {
@@ -47289,6 +47299,66 @@
       "F": 794883
     }
   },
+  "GAL1001": {
+    "name": "LITARGIRIO x 100grs            GALI",
+    "category": "1.LITARGIRIO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 2218,
+      "E": 2389,
+      "F": 2047
+    }
+  },
+  "GAL1101": {
+    "name": "GLICERINA  x 100grs            GALI",
+    "category": "1.GLICERINA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 944,
+      "E": 1016,
+      "F": 871
+    }
+  },
+  "GAL1201": {
+    "name": "DECAPANTE LIQ. SUELDA x  70grs GALI",
+    "category": "1.DECAPANTE",
+    "bulk": 12.0,
+    "prices": {
+      "D": 1143,
+      "E": 1231,
+      "F": 1055
+    }
+  },
+  "GAL1202": {
+    "name": "DECAPANTE LIQ. SUELDA x 200grs GALI",
+    "category": "1.DECAPANTE",
+    "bulk": 12.0,
+    "prices": {
+      "D": 1667,
+      "E": 1795,
+      "F": 1538
+    }
+  },
+  "GAL1301": {
+    "name": "ESTEARINA EN VELA              GALI",
+    "category": "1.ESTEARINA",
+    "bulk": 30.0,
+    "prices": {
+      "D": 471,
+      "E": 507,
+      "F": 435
+    }
+  },
+  "GAL1901": {
+    "name": "FUNDENTE EN PLATA Y BCE 100grs GALI",
+    "category": "1.FUNDENTE",
+    "bulk": 12.0,
+    "prices": {
+      "D": 14696,
+      "E": 15827,
+      "F": 13566
+    }
+  },
   "GAL2002": {
     "name": "ADHESIVO PARA PVC        60cc  GALI",
     "category": "1.ADHESIVO PVC GALI",
@@ -47299,14 +47369,114 @@
       "F": 962
     }
   },
+  "GAL2003": {
+    "name": "ADHESIVO PARA PVC       100cc  GALI",
+    "category": "1.ADHESIVO PVC GALI",
+    "bulk": 12.0,
+    "prices": {
+      "D": 1520,
+      "E": 1637,
+      "F": 1403
+    }
+  },
+  "GAL2004": {
+    "name": "ADHESIVO PARA PVC       250cc  GALI",
+    "category": "1.ADHESIVO PVC GALI",
+    "bulk": 6.0,
+    "prices": {
+      "D": 3388,
+      "E": 3649,
+      "F": 3128
+    }
+  },
+  "GAL2300": {
+    "name": "PINTURA EPOXI P GAS 80cc       GALI",
+    "category": "1.PINTURA EPOXI GAS",
+    "bulk": 6.0,
+    "prices": {
+      "D": 3242,
+      "E": 3491,
+      "F": 2993
+    }
+  },
+  "GAL2601": {
+    "name": "MASILLA PARA VIDRIERO  500gr   GALI",
+    "category": "8.MASILLA P/VIDRIOS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1134,
+      "E": 1221,
+      "F": 1046
+    }
+  },
+  "GAL2602": {
+    "name": "MASILLA PARA VIDRIERO 1000gr   GALI",
+    "category": "8.MASILLA P/VIDRIOS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 2240,
+      "E": 2413,
+      "F": 2068
+    }
+  },
   "GAL2901": {
-    "name": "CA\u00d1AMO x 20grs. GALI",
+    "name": "CA\u00d1AMO x 20grs                 GALI",
     "category": "1.CA\u00d1AMO",
     "bulk": 50.0,
     "prices": {
       "D": 1493,
       "E": 1608,
       "F": 1378
+    }
+  },
+  "GAL2902": {
+    "name": "CA\u00d1AMO x 50grs                 GALI",
+    "category": "1.CA\u00d1AMO",
+    "bulk": 10.0,
+    "prices": {
+      "D": 3341,
+      "E": 3598,
+      "F": 3084
+    }
+  },
+  "GAL4501": {
+    "name": "ADHESIVO PARA PVC en Gel 250cc GALI",
+    "category": "1.ADHESIVO PVC GALI",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6251,
+      "E": 6732,
+      "F": 5770
+    }
+  },
+  "GAL8001": {
+    "name": "SELLADOR LEMAX AGUA-GAS x 30gr GALI",
+    "category": "1.SELLADOR LEMAX",
+    "bulk": 18.0,
+    "prices": {
+      "D": 978,
+      "E": 1053,
+      "F": 902
+    }
+  },
+  "GAL8002": {
+    "name": "SELLADOR LEMAX AGUA-GAS x 70gr GALI",
+    "category": "1.SELLADOR LEMAX",
+    "bulk": 24.0,
+    "prices": {
+      "D": 1583,
+      "E": 1705,
+      "F": 1461
+    }
+  },
+  "GAL8003": {
+    "name": "SELLADOR LEMAX AGUA-GAS x220gr GALI",
+    "category": "1.SELLADOR LEMAX",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3834,
+      "E": 4129,
+      "F": 3539
     }
   },
   "GAMI1100FER": {
@@ -49054,9 +49224,9 @@
     "category": "9.CAJA TERMICA",
     "bulk": 72.0,
     "prices": {
-      "D": 821,
-      "E": 884,
-      "F": 758
+      "D": 1106,
+      "E": 1191,
+      "F": 1021
     }
   },
   "GP00223": {
@@ -49064,9 +49234,9 @@
     "category": "9.CAJA EMBUTIR",
     "bulk": 100.0,
     "prices": {
-      "D": 238,
-      "E": 256,
-      "F": 219
+      "D": 249,
+      "E": 268,
+      "F": 230
     }
   },
   "GP00268": {
@@ -49084,9 +49254,9 @@
     "category": "9.CAJA EMBUTIR",
     "bulk": 100.0,
     "prices": {
-      "D": 238,
-      "E": 256,
-      "F": 219
+      "D": 249,
+      "E": 268,
+      "F": 230
     }
   },
   "GP00303": {
@@ -49094,9 +49264,9 @@
     "category": "9.CAJA TERMICA",
     "bulk": 40.0,
     "prices": {
-      "D": 1387,
-      "E": 1494,
-      "F": 1281
+      "D": 1868,
+      "E": 2012,
+      "F": 1724
     }
   },
   "GP00320": {
@@ -49104,9 +49274,9 @@
     "category": "9.CAJA TERMICA",
     "bulk": 20.0,
     "prices": {
-      "D": 2675,
-      "E": 2880,
-      "F": 2469
+      "D": 3604,
+      "E": 3881,
+      "F": 3327
     }
   },
   "GP00322": {
@@ -49114,9 +49284,9 @@
     "category": "9.CAJA TERMICA",
     "bulk": 12.0,
     "prices": {
-      "D": 4446,
-      "E": 4788,
-      "F": 4104
+      "D": 5990,
+      "E": 6451,
+      "F": 5530
     }
   },
   "GP00324": {
@@ -49124,9 +49294,9 @@
     "category": "1.EXTRACTOR",
     "bulk": 1.0,
     "prices": {
-      "D": 84261,
-      "E": 90743,
-      "F": 77780
+      "D": 91039,
+      "E": 98042,
+      "F": 84036
     }
   },
   "GP00901": {
@@ -49134,9 +49304,9 @@
     "category": "9.SPOT",
     "bulk": 10.0,
     "prices": {
-      "D": 1310,
-      "E": 1410,
-      "F": 1209
+      "D": 1429,
+      "E": 1539,
+      "F": 1319
     }
   },
   "GP00903": {
@@ -49144,9 +49314,9 @@
     "category": "9.SPOT",
     "bulk": 10.0,
     "prices": {
-      "D": 1310,
-      "E": 1410,
-      "F": 1209
+      "D": 1429,
+      "E": 1539,
+      "F": 1319
     }
   },
   "GP248-012": {
@@ -49174,9 +49344,9 @@
     "category": "9.TORTUGA PLAFON",
     "bulk": 0.0,
     "prices": {
-      "D": 2308,
-      "E": 2485,
-      "F": 2130
+      "D": 2743,
+      "E": 2954,
+      "F": 2532
     }
   },
   "GP37803": {
@@ -49184,9 +49354,9 @@
     "category": "9.TORTUGA PLASTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2423,
-      "E": 2610,
-      "F": 2237
+      "D": 2880,
+      "E": 3102,
+      "F": 2659
     }
   },
   "GP37863": {
@@ -49194,9 +49364,9 @@
     "category": "9.TORTUGA PLASTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2308,
-      "E": 2485,
-      "F": 2130
+      "D": 2743,
+      "E": 2954,
+      "F": 2532
     }
   },
   "GP37869": {
@@ -49204,9 +49374,9 @@
     "category": "9.TORTUGA PLASTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2423,
-      "E": 2610,
-      "F": 2237
+      "D": 2880,
+      "E": 3102,
+      "F": 2659
     }
   },
   "HUNKIT": {
@@ -49364,9 +49534,9 @@
     "category": "8.GUANTE NITRILO DESCARTA",
     "bulk": 1.0,
     "prices": {
-      "D": 5346,
-      "E": 5757,
-      "F": 5140
+      "D": 6999,
+      "E": 7537,
+      "F": 6730
     }
   },
   "IGVGNT-XL": {
@@ -49374,9 +49544,9 @@
     "category": "8.GUANTE NITRILO DESCARTA",
     "bulk": 1.0,
     "prices": {
-      "D": 5346,
-      "E": 5757,
-      "F": 5140
+      "D": 6999,
+      "E": 7537,
+      "F": 6730
     }
   },
   "IGVGR35": {
@@ -49384,9 +49554,9 @@
     "category": "8.GUANTE/GOMA/INDUSTRIAL",
     "bulk": 40.0,
     "prices": {
-      "D": 4807,
-      "E": 5176,
-      "F": 4437
+      "D": 5918,
+      "E": 6373,
+      "F": 5463
     }
   },
   "IGVGR40": {
@@ -49394,9 +49564,9 @@
     "category": "8.GUANTE/GOMA/INDUSTRIAL",
     "bulk": 1.0,
     "prices": {
-      "D": 8012,
-      "E": 8628,
-      "F": 7395
+      "D": 9854,
+      "E": 10612,
+      "F": 9096
     }
   },
   "IGVPAT": {
@@ -49407,26 +49577,6 @@
       "D": 616,
       "E": 663,
       "F": 568
-    }
-  },
-  "INDU16001": {
-    "name": "MANGUER.AUTOFL.Pileta11/4\"x30mtINDUPLAST",
-    "category": "1.ACCES.PARA PILETA POLY",
-    "bulk": 1.0,
-    "prices": {
-      "D": 31991,
-      "E": 34452,
-      "F": 29530
-    }
-  },
-  "INDU16002": {
-    "name": "MANGUER.AUTOFL.Pileta11/2\"x30mtINDUPLAST",
-    "category": "1.ACCES.PARA PILETA POLY",
-    "bulk": 1.0,
-    "prices": {
-      "D": 39608,
-      "E": 42654,
-      "F": 36561
     }
   },
   "IPS0021V": {
@@ -54944,9 +55094,9 @@
     "category": "8.NIVEL DE PLASTICO CORSI",
     "bulk": 6.0,
     "prices": {
-      "D": 9010,
-      "E": 9704,
-      "F": 8317
+      "D": 9641,
+      "E": 10383,
+      "F": 8900
     }
   },
   "JC3219": {
@@ -54954,9 +55104,9 @@
     "category": "8.NIVEL DE PLASTICO CORSI",
     "bulk": 6.0,
     "prices": {
-      "D": 10161,
-      "E": 10943,
-      "F": 9379
+      "D": 10920,
+      "E": 11760,
+      "F": 10080
     }
   },
   "JC3327": {
@@ -58264,9 +58414,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 6.0,
     "prices": {
-      "D": 161,
-      "E": 174,
-      "F": 149
+      "D": 171,
+      "E": 184,
+      "F": 158
     }
   },
   "LP02001": {
@@ -58274,9 +58424,9 @@
     "category": "8.PERCHA LINEA PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 213,
-      "E": 230,
-      "F": 197
+      "D": 226,
+      "E": 243,
+      "F": 209
     }
   },
   "LP03001": {
@@ -58284,9 +58434,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 16.0,
     "prices": {
-      "D": 533,
-      "E": 574,
-      "F": 492
+      "D": 564,
+      "E": 608,
+      "F": 521
     }
   },
   "LP04001": {
@@ -58294,9 +58444,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 16.0,
     "prices": {
-      "D": 533,
-      "E": 574,
-      "F": 492
+      "D": 564,
+      "E": 608,
+      "F": 521
     }
   },
   "LP05001": {
@@ -58304,9 +58454,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 4.0,
     "prices": {
-      "D": 4486,
-      "E": 4831,
-      "F": 4141
+      "D": 4755,
+      "E": 5121,
+      "F": 4389
     }
   },
   "LP06001": {
@@ -58314,9 +58464,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTIC",
     "bulk": 4.0,
     "prices": {
-      "D": 3130,
-      "E": 3370,
-      "F": 2889
+      "D": 3317,
+      "E": 3573,
+      "F": 3062
     }
   },
   "LP07001": {
@@ -58324,9 +58474,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 3130,
-      "E": 3370,
-      "F": 2889
+      "D": 3317,
+      "E": 3573,
+      "F": 3062
     }
   },
   "LP08001": {
@@ -58334,9 +58484,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 3611,
-      "E": 3888,
-      "F": 3333
+      "D": 3827,
+      "E": 4122,
+      "F": 3533
     }
   },
   "LP09001": {
@@ -58344,9 +58494,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 4060,
-      "E": 4373,
-      "F": 3748
+      "D": 4304,
+      "E": 4635,
+      "F": 3973
     }
   },
   "LP10001": {
@@ -58354,9 +58504,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 1320,
-      "E": 1421,
-      "F": 1218
+      "D": 1399,
+      "E": 1507,
+      "F": 1291
     }
   },
   "LP11001": {
@@ -58364,9 +58514,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 16886,
-      "E": 18185,
-      "F": 15587
+      "D": 17898,
+      "E": 19274,
+      "F": 16521
     }
   },
   "LP12001": {
@@ -58374,9 +58524,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 6.0,
     "prices": {
-      "D": 3519,
-      "E": 3789,
-      "F": 3248
+      "D": 3730,
+      "E": 4017,
+      "F": 3443
     }
   },
   "LP13001": {
@@ -58384,9 +58534,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 4423,
-      "E": 4763,
-      "F": 4083
+      "D": 4688,
+      "E": 5049,
+      "F": 4328
     }
   },
   "LP16001": {
@@ -58394,13 +58544,33 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
-      "D": 299,
-      "E": 322,
-      "F": 276
+      "D": 317,
+      "E": 342,
+      "F": 293
     }
   },
   "LP16003": {
     "name": "TOPE AUTOADH.RECT.MADERx24unL/PRACTICA",
+    "category": "8.TOPES y CU\u00f1AS",
+    "bulk": 24.0,
+    "prices": {
+      "D": 364,
+      "E": 392,
+      "F": 336
+    }
+  },
+  "LP17001": {
+    "name": "TOPE AUTOADH.REDON.BLNCOx24unL/PRACTICA",
+    "category": "8.TOPES y CU\u00f1AS",
+    "bulk": 24.0,
+    "prices": {
+      "D": 294,
+      "E": 317,
+      "F": 271
+    }
+  },
+  "LP17003": {
+    "name": "TOPE AUTOADH.REDON.MADERx24unL/PRACTICA",
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 24.0,
     "prices": {
@@ -58409,34 +58579,14 @@
       "F": 317
     }
   },
-  "LP17001": {
-    "name": "TOPE AUTOADH.REDON.BLNCOx24unL/PRACTICA",
-    "category": "8.TOPES y CU\u00f1AS",
-    "bulk": 24.0,
-    "prices": {
-      "D": 277,
-      "E": 299,
-      "F": 256
-    }
-  },
-  "LP17003": {
-    "name": "TOPE AUTOADH.REDON.MADERx24unL/PRACTICA",
-    "category": "8.TOPES y CU\u00f1AS",
-    "bulk": 24.0,
-    "prices": {
-      "D": 324,
-      "E": 349,
-      "F": 299
-    }
-  },
   "LP19001": {
     "name": "PERCHA CON 1 PITON  .AUTx2u PRACTICA-",
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 2.0,
     "prices": {
-      "D": 770,
-      "E": 830,
-      "F": 711
+      "D": 816,
+      "E": 879,
+      "F": 754
     }
   },
   "LP20001": {
@@ -58444,9 +58594,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 1404,
-      "E": 1512,
-      "F": 1296
+      "D": 1488,
+      "E": 1603,
+      "F": 1374
     }
   },
   "LP21001": {
@@ -58454,9 +58604,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 1722,
-      "E": 1854,
-      "F": 1589
+      "D": 1825,
+      "E": 1966,
+      "F": 1685
     }
   },
   "LP22001": {
@@ -58464,9 +58614,9 @@
     "category": "1.ACCES.P/COCINA L/PRACTI",
     "bulk": 1.0,
     "prices": {
-      "D": 11976,
-      "E": 12897,
-      "F": 11055
+      "D": 12694,
+      "E": 13671,
+      "F": 11718
     }
   },
   "LP23001": {
@@ -58474,9 +58624,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1257,
-      "E": 1354,
-      "F": 1161
+      "D": 1333,
+      "E": 1436,
+      "F": 1230
     }
   },
   "LP24001": {
@@ -58484,9 +58634,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1438,
-      "E": 1549,
-      "F": 1328
+      "D": 1525,
+      "E": 1642,
+      "F": 1407
     }
   },
   "LP25001": {
@@ -58494,9 +58644,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 1393,
-      "E": 1500,
-      "F": 1286
+      "D": 1476,
+      "E": 1590,
+      "F": 1363
     }
   },
   "LP25002": {
@@ -58504,9 +58654,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 4719,
-      "E": 5082,
-      "F": 4356
+      "D": 5002,
+      "E": 5387,
+      "F": 4618
     }
   },
   "LP26001": {
@@ -58514,9 +58664,9 @@
     "category": "8.PERCHA PVC LINEA PRACTI",
     "bulk": 24.0,
     "prices": {
-      "D": 291,
-      "E": 314,
-      "F": 269
+      "D": 309,
+      "E": 332,
+      "F": 285
     }
   },
   "LP27001": {
@@ -58524,9 +58674,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1020,
-      "E": 1099,
-      "F": 942
+      "D": 1081,
+      "E": 1164,
+      "F": 998
     }
   },
   "LP28001": {
@@ -58534,9 +58684,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 5017,
-      "E": 5403,
-      "F": 4631
+      "D": 5318,
+      "E": 5727,
+      "F": 4909
     }
   },
   "LP29001": {
@@ -58544,9 +58694,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2000,
-      "E": 2154,
-      "F": 1846
+      "D": 2120,
+      "E": 2284,
+      "F": 1957
     }
   },
   "LP29002": {
@@ -58554,9 +58704,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2000,
-      "E": 2154,
-      "F": 1846
+      "D": 2120,
+      "E": 2284,
+      "F": 1957
     }
   },
   "LP29003": {
@@ -58564,9 +58714,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2000,
-      "E": 2154,
-      "F": 1846
+      "D": 2120,
+      "E": 2284,
+      "F": 1957
     }
   },
   "LP30001": {
@@ -58574,9 +58724,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 2.0,
     "prices": {
-      "D": 2059,
-      "E": 2217,
-      "F": 1900
+      "D": 2182,
+      "E": 2350,
+      "F": 2014
     }
   },
   "LP31001": {
@@ -58584,9 +58734,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 2.0,
     "prices": {
-      "D": 2647,
-      "E": 2851,
-      "F": 2443
+      "D": 2806,
+      "E": 3022,
+      "F": 2590
     }
   },
   "LP32001": {
@@ -58594,9 +58744,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 2541,
-      "E": 2737,
-      "F": 2346
+      "D": 2694,
+      "E": 2901,
+      "F": 2486
     }
   },
   "LP34001": {
@@ -58604,9 +58754,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 2834,
-      "E": 3052,
-      "F": 2616
+      "D": 3004,
+      "E": 3235,
+      "F": 2773
     }
   },
   "LP36001": {
@@ -58614,9 +58764,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2097,
+      "E": 2258,
+      "F": 1936
     }
   },
   "LP37001": {
@@ -58624,9 +58774,9 @@
     "category": "1.ACCES.P/COCINA L/PRACTI",
     "bulk": 6.0,
     "prices": {
-      "D": 2866,
-      "E": 3087,
-      "F": 2646
+      "D": 3038,
+      "E": 3272,
+      "F": 2805
     }
   },
   "LP38001": {
@@ -58634,9 +58784,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 766,
-      "E": 825,
-      "F": 707
+      "D": 812,
+      "E": 875,
+      "F": 750
     }
   },
   "LP38002": {
@@ -58644,9 +58794,9 @@
     "category": "1.ACCES.P/BA\u00d1O L/PRACTICA",
     "bulk": 1.0,
     "prices": {
-      "D": 934,
-      "E": 1006,
-      "F": 862
+      "D": 990,
+      "E": 1067,
+      "F": 914
     }
   },
   "LP39001": {
@@ -58654,9 +58804,9 @@
     "category": "8.TOPES y CU\u00f1AS",
     "bulk": 1.0,
     "prices": {
-      "D": 984,
-      "E": 1059,
-      "F": 908
+      "D": 1043,
+      "E": 1123,
+      "F": 963
     }
   },
   "LQAA-5000K": {
@@ -62094,9 +62244,9 @@
     "category": "9.BUSCAPOLOS",
     "bulk": 200.0,
     "prices": {
-      "D": 352,
-      "E": 379,
-      "F": 325
+      "D": 528,
+      "E": 569,
+      "F": 488
     }
   },
   "MASIV06621": {
@@ -70554,9 +70704,9 @@
     "category": "8.PISTOLA AIRE NEUMATICA",
     "bulk": 1.0,
     "prices": {
-      "D": 29135,
-      "E": 31376,
-      "F": 26894
+      "D": 31174,
+      "E": 33572,
+      "F": 28776
     }
   },
   "MIC06": {
@@ -70564,9 +70714,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 100.0,
     "prices": {
-      "D": 7780,
-      "E": 8379,
-      "F": 7182
+      "D": 8325,
+      "E": 8965,
+      "F": 7684
     }
   },
   "MIC08": {
@@ -70574,9 +70724,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 100.0,
     "prices": {
-      "D": 9223,
-      "E": 9932,
-      "F": 8513
+      "D": 9868,
+      "E": 10627,
+      "F": 9109
     }
   },
   "MIC09": {
@@ -70584,9 +70734,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 100.0,
     "prices": {
-      "D": 9767,
-      "E": 10519,
-      "F": 9016
+      "D": 10451,
+      "E": 11255,
+      "F": 9647
     }
   },
   "MIC10": {
@@ -70594,9 +70744,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 6481,
-      "E": 6980,
-      "F": 5983
+      "D": 6935,
+      "E": 7468,
+      "F": 6401
     }
   },
   "MIC12": {
@@ -70604,9 +70754,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 12.0,
     "prices": {
-      "D": 7848,
-      "E": 8452,
-      "F": 7244
+      "D": 8397,
+      "E": 9043,
+      "F": 7751
     }
   },
   "MIC13": {
@@ -70614,9 +70764,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 12.0,
     "prices": {
-      "D": 8649,
-      "E": 9314,
-      "F": 7984
+      "D": 9254,
+      "E": 9966,
+      "F": 8542
     }
   },
   "MIC14": {
@@ -70624,9 +70774,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 12.0,
     "prices": {
-      "D": 9962,
-      "E": 10729,
-      "F": 9196
+      "D": 10660,
+      "E": 11480,
+      "F": 9840
     }
   },
   "MIC15": {
@@ -70634,9 +70784,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 12.0,
     "prices": {
-      "D": 11298,
-      "E": 12167,
-      "F": 10429
+      "D": 12089,
+      "E": 13019,
+      "F": 11159
     }
   },
   "MIC16": {
@@ -70644,9 +70794,19 @@
     "category": "8.PRENSA ESCUADRADORA",
     "bulk": 1.0,
     "prices": {
-      "D": 11136,
-      "E": 11992,
-      "F": 10279
+      "D": 11915,
+      "E": 12832,
+      "F": 10998
+    }
+  },
+  "MIC23": {
+    "name": "SOPLETE TECH C/C 44mm 3K C/M  MICROGAS",
+    "category": "8.SOPLETE y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 7772,
+      "E": 8370,
+      "F": 7353
     }
   },
   "MIC24": {
@@ -70654,9 +70814,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 7772,
-      "E": 8370,
-      "F": 7353
+      "D": 8316,
+      "E": 8956,
+      "F": 7868
     }
   },
   "MIC25": {
@@ -70664,9 +70824,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 7772,
-      "E": 8370,
-      "F": 7353
+      "D": 8316,
+      "E": 8956,
+      "F": 7868
     }
   },
   "MIC26": {
@@ -70674,9 +70834,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 6084,
-      "E": 6552,
-      "F": 5756
+      "D": 6510,
+      "E": 7011,
+      "F": 6159
     }
   },
   "MIC28": {
@@ -70684,9 +70844,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7781,
-      "E": 8380,
-      "F": 7362
+      "D": 9139,
+      "E": 9842,
+      "F": 8647
     }
   },
   "MIC30": {
@@ -70694,9 +70854,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 8248,
-      "E": 8883,
-      "F": 7804
+      "D": 8826,
+      "E": 9505,
+      "F": 8350
     }
   },
   "MIC31K3": {
@@ -70704,9 +70864,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 8248,
-      "E": 8883,
-      "F": 7804
+      "D": 8826,
+      "E": 9505,
+      "F": 8350
     }
   },
   "MIC45": {
@@ -70714,9 +70874,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 1028,
-      "E": 1107,
-      "F": 949
+      "D": 1100,
+      "E": 1185,
+      "F": 1015
     }
   },
   "MIC46": {
@@ -70724,9 +70884,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 6.0,
     "prices": {
-      "D": 12087,
-      "E": 13016,
-      "F": 11436
+      "D": 12933,
+      "E": 13928,
+      "F": 12236
     }
   },
   "MIC46-3K": {
@@ -70734,9 +70894,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 12087,
-      "E": 13016,
-      "F": 11436
+      "D": 12812,
+      "E": 13798,
+      "F": 12122
     }
   },
   "MIC49": {
@@ -70744,9 +70904,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 25.0,
     "prices": {
-      "D": 21725,
-      "E": 23396,
-      "F": 20555
+      "D": 23246,
+      "E": 25034,
+      "F": 21994
     }
   },
   "MIC52": {
@@ -70754,9 +70914,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 13751,
-      "E": 14809,
-      "F": 13010
+      "D": 14713,
+      "E": 15845,
+      "F": 13921
     }
   },
   "MIC58": {
@@ -70764,9 +70924,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 14333,
-      "E": 15436,
-      "F": 13561
+      "D": 15336,
+      "E": 16516,
+      "F": 14511
     }
   },
   "MIC60": {
@@ -70774,9 +70934,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 11601,
-      "E": 12493,
-      "F": 10976
+      "D": 12413,
+      "E": 13368,
+      "F": 11744
     }
   },
   "MIC62": {
@@ -70784,9 +70944,9 @@
     "category": "8.SOPLETE y ACCES.",
     "bulk": 12.0,
     "prices": {
-      "D": 15373,
-      "E": 16555,
-      "F": 14545
+      "D": 16449,
+      "E": 17714,
+      "F": 15563
     }
   },
   "MIC64": {
@@ -70794,9 +70954,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 17534,
-      "E": 18883,
-      "F": 16590
+      "D": 18762,
+      "E": 20205,
+      "F": 17752
     }
   },
   "MIC66": {
@@ -70804,9 +70964,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 17534,
-      "E": 18883,
-      "F": 16590
+      "D": 18762,
+      "E": 20205,
+      "F": 17752
     }
   },
   "MIG121": {
@@ -74429,26 +74589,6 @@
       "F": 1069
     }
   },
-  "PEGAL250CC": {
-    "name": "LUBRICANTE AERO C/VAL FLEX 250CC PEGALO",
-    "category": "8.LUBRICANTES",
-    "bulk": 12.0,
-    "prices": {
-      "D": 2131,
-      "E": 2295,
-      "F": 1967
-    }
-  },
-  "PEGAL450CC": {
-    "name": "LUBRICANTE AERO C/VAL FLEX 450CC PEGALO",
-    "category": "8.LUBRICANTES",
-    "bulk": 12.0,
-    "prices": {
-      "D": 2763,
-      "E": 2975,
-      "F": 2550
-    }
-  },
   "PEGAL521": {
     "name": "SELLA.SILIC.ACETI.TRANS.280ccARTESANATO",
     "category": "8.SELLADOR SILICON.ARTESA",
@@ -74459,7 +74599,27 @@
       "F": 2441
     }
   },
-  "PEGALCN100CC": {
+  "PEGAL532": {
+    "name": "LUBRICANTE AERO C/VAL FLEX 250CC PEGALO",
+    "category": "8.LUBRICANTES",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3564,
+      "E": 3838,
+      "F": 3290
+    }
+  },
+  "PEGAL533": {
+    "name": "LUBRICANTE AERO C/VAL FLEX 450CC PEGALO",
+    "category": "8.LUBRICANTES",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4536,
+      "E": 4885,
+      "F": 4187
+    }
+  },
+  "PEGALAC10G": {
     "name": "ADHESIVO CIANOCRILATO 10gr.  PEGALO",
     "category": "8.ADHESIVO CIANO",
     "bulk": 10.0,
@@ -85204,9 +85364,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2239,
-      "E": 2411,
-      "F": 2067
+      "D": 2373,
+      "E": 2556,
+      "F": 2191
     }
   },
   "ROS4924": {
@@ -85547,6 +85707,16 @@
       "D": 226722,
       "E": 244163,
       "F": 209282
+    }
+  },
+  "ROT08171": {
+    "name": "MALLA ELECTROSOL 50 x50 2.7mm 1mtx25mts GARDE",
+    "category": "8.MALLA P/CONSTRUCCION",
+    "bulk": 1.0,
+    "prices": {
+      "D": 212580,
+      "E": 228932,
+      "F": 196227
     }
   },
   "ROT91601": {
@@ -90449,14 +90619,24 @@
       "F": 5204
     }
   },
-  "SPT3010-03": {
+  "SPT3010-04": {
     "name": "CARRETEL AUTOM. P/MAQ.DESM.NRJA.REF",
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 3888,
-      "E": 4187,
-      "F": 3589
+      "D": 5093,
+      "E": 5485,
+      "F": 4702
+    }
+  },
+  "SPT3010-05": {
+    "name": "CARRETEL AUTOM. P/MAQ.DESM.ROJO.ECO",
+    "category": "8.MAQ.DESMALEZ.y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 3499,
+      "E": 3768,
+      "F": 3230
     }
   },
   "SPT3011-03": {
@@ -90487,6 +90667,16 @@
       "D": 4082,
       "E": 4396,
       "F": 3768
+    }
+  },
+  "SPT3012-03": {
+    "name": "ARRANQUE FACIL HELIC. P DESMALZ SPT",
+    "category": "8.MAQ.DESMALEZ.y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4860,
+      "E": 5234,
+      "F": 4486
     }
   },
   "SPT3015-02": {
@@ -90827,6 +91017,26 @@
       "D": 10693,
       "E": 11515,
       "F": 10281
+    }
+  },
+  "SPT5088-04": {
+    "name": "PUNTA TORX Jgo x40pz SPLINE-ALLEN EASTMAN",
+    "category": "8.PUNTA AT/TORX/KIT EASTM",
+    "bulk": 1.0,
+    "prices": {
+      "D": 26844,
+      "E": 28909,
+      "F": 24779
+    }
+  },
+  "SPT5088-05": {
+    "name": "PUNTA TORX Jgo x15pz E 3/8-1/2\" EASTMAN",
+    "category": "8.PUNTA AT/TORX/KIT EASTM",
+    "bulk": 1.0,
+    "prices": {
+      "D": 18372,
+      "E": 19786,
+      "F": 16959
     }
   },
   "SPT7045": {
@@ -91759,6 +91969,16 @@
       "F": 1237
     }
   },
+  "TF.018A": {
+    "name": "CINTA OBRA AZUL UV  18mmx48u COLOR3",
+    "category": "7.CINTA ENMASCARAR COLOR3",
+    "bulk": 48.0,
+    "prices": {
+      "D": 1808,
+      "E": 1948,
+      "F": 1669
+    }
+  },
   "TF.024": {
     "name": "CINTA DE ENMASCARAR 24mmx36u COLOR3",
     "category": "7.CINTA ENMASCARAR COLOR3",
@@ -91767,6 +91987,16 @@
       "D": 1787,
       "E": 1924,
       "F": 1649
+    }
+  },
+  "TF.024A": {
+    "name": "CINTA OBRA AZUL UV  24mmx36u COLOR3",
+    "category": "7.CINTA ENMASCARAR COLOR3",
+    "bulk": 36.0,
+    "prices": {
+      "D": 2411,
+      "E": 2597,
+      "F": 2226
     }
   },
   "TF.036": {
@@ -91779,6 +92009,16 @@
       "F": 2474
     }
   },
+  "TF.036A": {
+    "name": "CINTA OBRA AZUL UV  36mmx24u COLOR3",
+    "category": "7.CINTA ENMASCARAR COLOR3",
+    "bulk": 24.0,
+    "prices": {
+      "D": 3617,
+      "E": 3896,
+      "F": 3339
+    }
+  },
   "TF.048": {
     "name": "CINTA DE ENMASCARAR 48mmx18u COLOR3",
     "category": "7.CINTA ENMASCARAR COLOR3",
@@ -91787,6 +92027,16 @@
       "D": 3574,
       "E": 3849,
       "F": 3299
+    }
+  },
+  "TF.048A": {
+    "name": "CINTA OBRA AZUL UV  48mmx18u COLOR3",
+    "category": "7.CINTA ENMASCARAR COLOR3",
+    "bulk": 18.0,
+    "prices": {
+      "D": 4823,
+      "E": 5194,
+      "F": 4452
     }
   },
   "TF.101": {
@@ -96539,16 +96789,6 @@
       "F": 3102
     }
   },
-  "TYRO27X-4-6050": {
-    "name": "DISCO O/AL 115x4.8 CD EXPER TYROLIT",
-    "category": "8.DISCO O/AL.EXP.TYROLIT",
-    "bulk": 25.0,
-    "prices": {
-      "D": 2971,
-      "E": 3200,
-      "F": 2742
-    }
-  },
   "TYRO34051373": {
     "name": "DISCO O/AL 115x1.0 CP BASIC TYROLIT",
     "category": "8.DISCO O/AL.BASI.TYROLIT",
@@ -96647,6 +96887,16 @@
       "D": 1925,
       "E": 2073,
       "F": 1777
+    }
+  },
+  "TYROSTD-1154": {
+    "name": "DISCO O/AL 115x4.8 CD STAND TYROLIT",
+    "category": "8.DISCO O/AL.EXP.TYROLIT",
+    "bulk": 25.0,
+    "prices": {
+      "D": 2971,
+      "E": 3200,
+      "F": 2742
     }
   },
   "TYROSTD-18016": {
