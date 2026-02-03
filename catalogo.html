@@ -35,6 +35,53 @@
           </div>
      </nav>
 
+     <!-- Barra de Salud Financiera -->
+     <div id="barra-salud-financiera" class="barra-salud-financiera" style="display: none;">
+          <div class="barra-salud-content">
+               <div class="cliente-info">
+                    <div class="cliente-nombre">
+                         💰 <span id="cliente-nombre">---</span>
+                    </div>
+                    
+                    <!-- Cupo (siempre visible) -->
+                    <div class="dato-item">
+                         <span class="dato-label">Cupo:</span>
+                         <span class="cupo-valor cupo-verde" id="cupo-valor">$0</span>
+                    </div>
+                    
+                    <!-- Datos principales (ocultos en móvil colapsado) -->
+                    <div class="cliente-datos">
+                         <div class="dato-item">
+                              <span class="dato-label">PG Prom 3M:</span>
+                              <span class="dato-valor" id="pg-prom">$0</span>
+                         </div>
+                         <div class="dato-item">
+                              <span class="dato-label">Compró:</span>
+                              <span class="dato-valor" id="compro">$0</span>
+                         </div>
+                    </div>
+               </div>
+               
+               <!-- Botón expandir (solo móvil) -->
+               <button class="boton-expandir" id="btn-expandir-salud">
+                    <span id="btn-expandir-texto">▼</span>
+               </button>
+               
+               <!-- Datos expandidos (ocultos por defecto en móvil) -->
+               <div class="datos-expandidos" id="datos-expandidos">
+                    <div class="dato-row">
+                         <span class="dato-label">Saldo Total:</span>
+                         <span class="dato-valor" id="saldo-total">$0</span>
+                    </div>
+                    <div class="dato-row">
+                         <span class="dato-label">Saldo Anterior:</span>
+                         <span class="dato-valor" id="saldo-anterior">$0</span>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+
      <!-- Barra de información contextual -->
      <div id="barra-info-contextual" class="barra-info-contextual">
      <div class="barra-info-content">
@@ -3796,6 +3843,9 @@
 
      <!-- Sistema de Funcionalidades -->
      <script src="./js/funcionalidades-menu.js"></script>
+
+     <!-- Salud Financiera (barra) -->
+     <script src="./js/salud-financiera.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->

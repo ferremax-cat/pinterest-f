@@ -1277,7 +1277,16 @@ function displayNoResults(query) {
             const mensajeBusqueda = document.createElement('div');
             mensajeBusqueda.id = 'mensaje-busqueda';
             mensajeBusqueda.className = 'mensaje-busqueda';
-            mensajeBusqueda.innerHTML = `
+            // Detectar si es móvil
+            const isMobile = window.innerWidth <= 768;
+            
+            // Mensaje simplificado para móvil
+            mensajeBusqueda.innerHTML = isMobile ? `
+              <div class="mensaje-contenido">
+                <span class="mensaje-contador">${total}</span> resultados
+              </div>
+              ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
+            ` : `
               <div class="mensaje-contenido">
                 <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
                 ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
@@ -1643,8 +1652,8 @@ function displayNoResults(query) {
             width: 100% !important;
             max-width: none !important;
             z-index: auto !important;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: row;
+            gap: 5px;
           }
           
           .barra-info-content .mensaje-contenido {

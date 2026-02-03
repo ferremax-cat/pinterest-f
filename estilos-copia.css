@@ -1059,8 +1059,282 @@ body.barra-visible .gallery-container {
         text-align: center;
     }
     
-    /* En móvil, más margen porque la barra es más alta */
-    body.barra-visible .gallery-container {
-        margin-top: 80px;  /* Reducido según tu preferencia anterior */
+    /* Solo barra de salud financiera activa */
+    body.salud-financiera-activa:not(.barra-visible) .gallery-container {
+        margin-top: 90px;
+    }
+
+    /* Ambas barras activas (salud + resultados) */
+    body.salud-financiera-activa.barra-visible .gallery-container {
+        margin-top: 210px;
+    }
+}
+
+
+/* ========================================
+   BARRA SALUD FINANCIERA
+   Negro con datos del cliente
+   ======================================== */
+
+.barra-salud-financiera {
+    position: fixed;
+    top: 75px;
+    left: 0;
+    right: 0;
+    min-height: 50px;
+    background: #1f1f1f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 8001;
+    display: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #333;
+}
+
+.barra-salud-financiera.visible {
+    display: block;
+}
+
+.barra-salud-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;  /* VOLVER A PONER */
+    flex-wrap: wrap;  /* AGREGAR */
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: white;
+}
+
+.cliente-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.cliente-nombre {
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cliente-datos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.dato-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dato-label {
+    color: #aaa;
+}
+
+.dato-valor {
+    font-weight: 600;
+}
+
+.cupo-valor {
+    font-weight: bold;
+    font-size: 15px;
+    padding: 4px 20px;
+    border-radius: 4px;
+}
+
+.cupo-verde {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.cupo-amarillo {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.cupo-rojo {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.boton-expandir {
+    background: transparent;
+    color: white;
+    border: 2px solid #444;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: block;  /* CAMBIAR: mostrar en desktop también */
+    margin-left: 15px;
+}
+
+.boton-expandir:hover {
+    border-color: #666;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.datos-expandidos {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+    display: none;
+    flex-direction: column;  /* AGREGAR */
+}
+
+.datos-expandidos.visible {
+    display: flex /* CAMBIAR de block a flex */
+}
+
+/* Mostrar datos expandidos cuando la barra está expandida */
+/* En desktop: datos expandidos van a nueva línea */
+.barra-salud-content.expandido .datos-expandidos {
+    display: flex;
+    width: 100%;
+    flex-basis: 100%;  /* Forzar nueva línea */
+}
+
+/* Desktop: espacio entre barras */
+@media screen and (min-width: 769px) {
+    body.salud-financiera-activa .barra-info-contextual {
+        top: 130px;
+    }
+}
+
+/* Desktop: Gallery debajo de barra de salud financiera */
+body.salud-financiera-activa .gallery-container {
+    margin-top: 70px;  /* Espacio para barra de salud */
+}
+
+/* Desktop: Gallery con ambas barras (salud + resultados) */
+body.salud-financiera-activa.barra-visible .gallery-container {
+    margin-top: 130px;  /* Espacio para ambas barras */
+}
+
+/* Desktop: Sin salud financiera pero con búsqueda */
+body:not(.salud-financiera-activa).barra-visible .gallery-container {
+    margin-top: 60px;
+}
+
+
+.dato-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Reordenar: Saldo Anterior primero, Saldo Total último */
+.datos-expandidos .dato-row:nth-child(1) {
+    order: 2;  /* Saldo Total va al final */
+}
+
+.datos-expandidos .dato-row:nth-child(2) {
+    order: 1;  /* Saldo Anterior va primero */
+}
+
+
+
+body:not(.salud-financiera-activa) .barra-info-contextual {
+    top: 75px;
+}
+
+@media screen and (max-width: 768px) {
+    .barra-salud-financiera {
+        top: 135px;
+    }
+
+    /* Desktop: espacio entre barras */
+    body.salud-financiera-activa .barra-info-contextual {
+        top: 193px;
+    }
+    
+    body:not(.salud-financiera-activa) .barra-info-contextual {
+        top: 135px;
+    }
+    
+    /* Contenedor principal: todo en row con wrap */
+    .barra-salud-content {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0;
+    }
+    
+    /* Cliente info: ocupar casi todo el ancho */
+    .cliente-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        flex: 1;
+        min-width: 0;
+        gap: 10px;
+    }
+    
+    .cliente-nombre {
+        flex-shrink: 0;
+    }
+    
+    /* El cupo siempre visible */
+    .cliente-info > .dato-item {
+        flex-shrink: 0;
+        margin-left: auto;  /* Empujar a la derecha */
+    }
+    
+    /* Botón al final de la primera línea */
+    .boton-expandir {
+        display: block;
+        flex-shrink: 0;
+        margin-left: 15px;  /* Separación entre cupo y flecha */
+    }
+    
+    /* Datos expandibles ocultos por defecto */
+    .cliente-datos {
+        display: none;
+    }
+    
+    /* Cuando se expande: datos ocupan nueva línea COMPLETA */
+    .barra-salud-content.expandido .cliente-datos {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        flex-basis: 100%;  /* Forzar nueva línea */
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex;  /* CAMBIAR de block a flex */
+        flex-direction: column;  /* AGREGAR */
+        width: 100%;
+        flex-basis: 100%;
+    }
+    
+    .dato-item {
+        width: auto;
+        justify-content: flex-start;
+        gap: 3px;
+    }
+    
+    /* Ajuste de márgenes para gallery */
+    body.salud-financiera-activa:not(.barra-visible) .gallery-container {
+        margin-top: 90px;
+    }
+    
+    body.salud-financiera-activa.barra-visible .gallery-container {
+        margin-top: 140px;
     }
 }
