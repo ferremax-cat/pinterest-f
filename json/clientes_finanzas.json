@@ -1,0 +1,57 @@
+{
+  "clientes": {
+    "20166": {
+      "nombre": "CASA LEO FERRETERIA",
+      "numero_cuenta": "20166",
+      "pgProm3M": 1500000,
+      "comproMes": 1200000,
+      "saldoTotal": 800000,
+      "saldoAnterior": 500000
+    },
+    "20114": {
+      "nombre": "CASA GABY",
+      "numero_cuenta": "20114",
+      "pgProm3M": 800000,
+      "comproMes": 750000,
+      "saldoTotal": 450000,
+      "saldoAnterior": 300000
+    },
+    "20246": {
+      "nombre": "RAFAEL FERRETERIA",
+      "numero_cuenta": "20246",
+      "pgProm3M": 1200000,
+      "comproMes": 1350000,
+      "saldoTotal": 950000,
+      "saldoAnterior": 600000
+    },
+    "20001": {
+      "nombre": "FERRETERIA CENTRAL",
+      "numero_cuenta": "20001",
+      "pgProm3M": 2000000,
+      "comproMes": 1800000,
+      "saldoTotal": 1200000,
+      "saldoAnterior": 800000
+    },
+    "20050": {
+      "nombre": "CASA MARTINEZ",
+      "numero_cuenta": "20050",
+      "pgProm3M": 900000,
+      "comproMes": 950000,
+      "saldoTotal": 600000,
+      "saldoAnterior": 400000
+    },
+    "20075": {
+      "nombre": "FERRETERIA DEL NORTE",
+      "numero_cuenta": "20075",
+      "pgProm3M": 1100000,
+      "comproMes": 900000,
+      "saldoTotal": 700000,
+      "saldoAnterior": 500000
+    }
+  },
+  "metadata": {
+    "ultima_actualizacion": "2025-02-03T15:30:00Z",
+    "total_clientes": 6,
+    "descripcion": "Datos financieros de clientes - Sistema de Salud Financiera Ferremax"
+  }
+}

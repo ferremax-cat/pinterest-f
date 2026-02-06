@@ -1,6 +1,7 @@
 /**
  * Sistema de Menú de Funcionalidades
  * Muestra funcionalidades disponibles según el rol del usuario
+ * MODIFICADO: Integración con búsqueda de clientes
  */
 
 class FuncionalidadesMenu {
@@ -271,15 +272,14 @@ class FuncionalidadesMenu {
         
         // Aquí agregaremos la lógica específica según la funcionalidad
         switch(funcionalidad.id) {
-            case 'estado_de_cuentas':  // ← CAMBIAR de salud_financiera
-                this.abrirSaludFinanciera();
+            case 'estado_de_cuentas':
+                this.abrirEstadoDeCuentas();
+                break;
+            case 'mi_cuenta':
+                this.abrirMiCuenta();
                 break;
             case 'catalogo_completo':
                 console.log('📦 Abrir catálogo completo');
-                // TODO: Implementar
-                break;
-            case 'mi_cuenta':
-                console.log('👤 Abrir mi cuenta');
                 // TODO: Implementar
                 break;
             case 'hacer_pedido':
@@ -292,12 +292,85 @@ class FuncionalidadesMenu {
     }
 
     /**
-     * Abrir Salud Financiera
+     * Abrir Estado de Cuentas (para vendedores)
+     * MODIFICADO: Integración con búsqueda de clientes
      */
-    abrirSaludFinanciera() {
-        console.log('💰 Abriendo Estado de Cuentas...');
-        // TODO: Implementar vista de salud financiera
-        alert('Salud Financiera - Próximamente');
+    abrirEstadoDeCuentas() {
+        console.log('💰 Abriendo Estado de Cuentas (búsqueda de clientes)...');
+        
+        // Verificar que el módulo de búsqueda esté disponible
+        if (!window.busquedaClientes) {
+            console.error('❌ Módulo de búsqueda de clientes no disponible');
+            alert('Error: Sistema de búsqueda no disponible. Por favor recarga la página.');
+            return;
+        }
+        
+        // Verificar que el usuario tenga permiso (es vendedor o admin)
+        const rolesPermitidos = ['vendedor_estandar', 'admin'];
+        if (!rolesPermitidos.includes(this.usuarioActual.rol)) {
+            console.warn('⚠️ Usuario no tiene permiso para Estado de Cuentas');
+            alert('Esta funcionalidad está disponible solo para vendedores.');
+            return;
+        }
+        
+        // Ocultar barra de salud financiera si estaba visible
+        if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
+            window.BarraSaludFinanciera.ocultar();
+        }
+        
+        // Activar modo búsqueda de clientes
+        window.busquedaClientes.activar();
+        
+        console.log('✅ Modo búsqueda de clientes activado');
+    }
+
+    /**
+     * Abrir Mi Cuenta (para clientes)
+     * NUEVO: Mostrar salud financiera del cliente logueado
+     */
+    abrirMiCuenta() {
+        console.log('👤 Abriendo Mi Cuenta...');
+        
+        // Verificar que sea un cliente
+        if (!this.usuarioActual.numero_cuenta) {
+            console.warn('⚠️ Usuario no tiene número de cuenta');
+            alert('Esta funcionalidad está disponible solo para clientes.');
+            return;
+        }
+        
+        // Verificar que el módulo de búsqueda esté disponible
+        if (!window.busquedaClientes || !window.busquedaClientes.clientesData) {
+            console.error('❌ Datos de clientes no disponibles');
+            alert('Error: No se pudieron cargar los datos. Por favor recarga la página.');
+            return;
+        }
+        
+        // Buscar datos del cliente actual
+        const numeroCuenta = this.usuarioActual.numero_cuenta;
+        const datosCliente = window.busquedaClientes.clientesData[numeroCuenta];
+        
+        if (!datosCliente) {
+            console.warn('⚠️ Datos financieros no encontrados para cuenta:', numeroCuenta);
+            alert('No se encontraron datos financieros para tu cuenta.');
+            return;
+        }
+        
+        // Preparar datos para la barra de salud financiera
+        const datosFinancieros = {
+            nombre: this.usuarioActual.nombre,
+            pgProm3M: datosCliente.pgProm3M,
+            comproMes: datosCliente.comproMes,
+            saldoTotal: datosCliente.saldoTotal,
+            saldoAnterior: datosCliente.saldoAnterior
+        };
+        
+        // Mostrar barra de salud financiera
+        if (window.BarraSaludFinanciera) {
+            window.BarraSaludFinanciera.mostrar(datosFinancieros);
+            console.log('✅ Mostrando salud financiera del cliente');
+        } else {
+            console.error('❌ BarraSaludFinanciera no disponible');
+        }
     }
 }
 

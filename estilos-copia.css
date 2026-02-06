@@ -489,7 +489,7 @@ nav .iconos img{
  }
 
 
-
+ 
 
 /* ... (mantener el resto del código CSS existente) ... */
 
@@ -1116,7 +1116,7 @@ body.barra-visible .gallery-container {
 
 .cliente-nombre {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1337,4 +1337,176 @@ body:not(.salud-financiera-activa) .barra-info-contextual {
     body.salud-financiera-activa.barra-visible .gallery-container {
         margin-top: 140px;
     }
+    
+
+}
+
+/* Responsive - Móviles pequeños */
+@media screen and (max-width: 410px) {
+    /* Aumentar tamaño de letra del input de búsqueda */
+    nav input[type="text"] {
+        font-size: 16px !important;
+    }
+    
+    /* Placeholder más grande */
+    nav input[type="text"]::placeholder {
+        font-size: 16px !important;
+    }
+
+    /* ⭐ AGREGAR ESTAS REGLAS ⭐ */
+    /* Bajar la barra de salud financiera */
+    .barra-salud-financiera {
+        top: 120px !important;
+    }
+    
+    /* Bajar la barra-info según estado */
+    /* CON resultados visibles - más espacio */
+    body.salud-financiera-activa .barra-info-contextual.visible {
+        top: 220px !important; /* Con datos - más espacio */
+    }
+
+    /* SIN resultados o vacía - menos espacio */
+    body.salud-financiera-activa .barra-info-contextual:not(.visible) {
+        top: 229px !important; /* Vacía - menos espacio */
+    }
+    
+    body:not(.salud-financiera-activa) .barra-info-contextual {
+        top: 135px !important; /* Sin salud financiera, un poco más abajo que el header */
+    }
+    
+    /* Altura máxima para que no se salga de pantalla */
+    .barra-info-contextual {
+        max-height: calc(100vh - 250px) !important;
+    }
+
+    /* ⭐ BARRA DE SALUD FINANCIERA ⭐ */
+    
+    /* Contenedor principal */
+    .barra-salud-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    /* Cliente info con wrap para crear filas */
+    .cliente-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        align-items: center;
+    }
+    
+    /* FILA 1: Nombre */
+    .cliente-nombre {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 12px;
+    }
+    
+    /* FILA 1: Botón expandir */
+    .boton-expandir {
+        order: 2;
+        flex: 0 0 auto;
+        margin-left: 0;
+    }
+    
+    /* Forzar salto de línea después del botón */
+    .cliente-info::after {
+        content: '';
+        order: 2;
+        flex-basis: 100%;
+        height: 0;
+    }
+    
+    /* FILA 2: Cupo */
+    .cliente-info > .dato-item:first-of-type {
+        order: 3;
+        flex: 1 1 30%;
+        min-width: 0;
+        text-align: center;
+    }
+    
+    /* FILA 2: Mostrar cliente-datos */
+    .cliente-info .cliente-datos {
+        order: 4;
+        display: flex !important;
+        flex: 1 1 65%;
+        gap: 8px;
+    }
+    
+    /* PG Prom y Compró: distribuir espacio */
+    .cliente-datos .dato-item {
+        flex: 1;
+        text-align: center;
+    }
+    
+    /* Ocultar datos expandidos */
+    .datos-expandidos {
+        display: none !important;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+    
+    /* Ajustar fuentes */
+    .dato-label {
+        font-size: 10px;
+        display: block;
+    }
+    
+    .dato-valor,
+    .cupo-valor {
+        font-size: 13px;
+        font-weight: 600;
+        display: block;
+    }
+    
+
+    /* Al expandir: Mostrar todos los datos */
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos .dato-row {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+    
+    
+
+}
+
+
+/* ========================================
+   ESTILOS ADICIONALES PARA BÚSQUEDA DE CLIENTES
+   ======================================== */
+
+/* Ícono de estado de cuentas */
+.fa-hand-holding-usd::before {
+    content: "\f4c0";
+}
+
+/* Ícono de búsqueda de clientes */
+.fa-people-group::before {
+    content: "\f0c0";
+}
+
+/* Ajuste de z-index para la barra info contextual */
+.barra-info-contextual {
+    z-index: 8000;
+}
+
+/* Asegurar que la barra de salud financiera esté por encima */
+.barra-salud-financiera {
+    z-index: 8001;
 }

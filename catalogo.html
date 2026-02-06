@@ -8,6 +8,8 @@
      <link rel="stylesheet" href="estilos-copia.css">
      <link rel="stylesheet" href="fontawesome/css/all.min.css">
      <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+     <!-- AGREGAR EN EL HEAD - Después de estilos-copia.css -->
+     <link rel="stylesheet" href="css/estilos-busqueda-clientes.css"> 
      <!-- Agregamos la librería XLSX -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -1682,6 +1684,11 @@
                async function precargarSiguientesPaginas() {
                     if (!imageLoader) return;
                     
+                    // ⭐ BLOQUEAR si estamos en modo búsqueda de clientes
+                    if (window.scrollPreloadBlocked || document.body.classList.contains('modo-busqueda-clientes')) {
+                         console.log('[Precarga] ✅ BLOQUEADA - modo búsqueda de clientes activo');
+                         return;
+                    }
                     console.log('Ejecutando precargarSiguientesPaginas para scroll infinito');
                     
                     try {
@@ -3417,11 +3424,27 @@
                document.head.appendChild(styleEl);
                console.log('Estilos de Pinterest responsive agregados');
           }
+
            // 2. Función para posicionar elementos
-           function positionPinterestLayout() {
+          function positionPinterestLayout() {
                console.log('Aplicando posicionamiento estilo Pinterest...');
                
+               
+
+               // ⭐ BLOQUEAR si estamos en modo búsqueda de clientes
+               const tieneModoClientes = document.body.classList.contains('modo-busqueda-clientes');
+               console.log('[Pinterest Layout] Verificando modo clientes:', tieneModoClientes);
+               console.log('[Pinterest Layout] Clases del body:', document.body.className);
+
+               if (tieneModoClientes) {
+               console.log('[Pinterest Layout] ✅ BLOQUEADO - modo búsqueda de clientes activo');
+               return;
+               } else {
+               console.log('[Pinterest Layout] ⚠️ NO BLOQUEADO - modo productos activo');
+               }
+
                const container = document.querySelector('.gallery-container');
+
                if (!container) {
                     console.log('No se encontró el contenedor de la galería');
                     return;
@@ -3494,22 +3517,22 @@
                     if (!itemHeight || itemHeight < 100) {
                     const img = item.querySelector('img');
                     itemHeight = img && img.complete ? img.offsetHeight + 180 : 380; // Altura extra para textos
-           }
+                    }
       
-      // Actualizar altura de columna
-      columnHeights[shortestColumnIndex] += itemHeight + gap;
-      
-      // Guardar posición para referencia
-      item.dataset.column = shortestColumnIndex.toString();
-      item.dataset.topPosition = columnHeights[shortestColumnIndex].toString();
-    });
-    
-    // Actualizar altura del contenedor
-    const maxHeight = Math.max(...columnHeights);
-    container.style.height = `${maxHeight + 50}px`;
-    
-    console.log('Posicionamiento estilo Pinterest completado');
-  }
+                    // Actualizar altura de columna
+                    columnHeights[shortestColumnIndex] += itemHeight + gap;
+                    
+                    // Guardar posición para referencia
+                    item.dataset.column = shortestColumnIndex.toString();
+                    item.dataset.topPosition = columnHeights[shortestColumnIndex].toString();
+               });
+               
+               // Actualizar altura del contenedor
+               const maxHeight = Math.max(...columnHeights);
+               container.style.height = `${maxHeight + 50}px`;
+               
+               console.log('Posicionamiento estilo Pinterest completado');
+          }
   
           // El resto del código continúa igual...
           
@@ -3519,126 +3542,111 @@
 
           // 3. Función para observar cambios en el DOM
           function setupMutationObserver() {
-          console.log('Configurando observador de mutaciones...');
-          
-          const targetNode = document.querySelector('.gallery-container');
-          if (!targetNode) {
-               console.log('No se encontró el contenedor para observar');
-               return;
-          }
-          
-          // Opciones para el observador
-          const config = { childList: true, subtree: true };
-          
-          // Callback para cuando ocurren cambios
-          const callback = function(mutationsList, observer) {
-               let needsRepositioning = false;
+               console.log('Configurando observador de mutaciones...');
                
-               for (let mutation of mutationsList) {
-               if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    needsRepositioning = true;
-                    break;
-               }
+               const targetNode = document.querySelector('.gallery-container');
+               if (!targetNode) {
+                    console.log('No se encontró el contenedor para observar');
+                    return;
                }
                
-               if (needsRepositioning) {
-               console.log('Detectados nuevos elementos, reposicionando...');
-               // Pequeño retraso para asegurar que los elementos estén completamente cargados
-               setTimeout(positionPinterestLayout, 200);
-               }
-          };
-          
-          // Crear y iniciar el observador
-          const observer = new MutationObserver(callback);
-          observer.observe(targetNode, config);
-          
-          console.log('Observador de mutaciones configurado');
+               // Opciones para el observador
+               const config = { childList: true, subtree: true };
+               
+               // Callback para cuando ocurren cambios
+               const callback = function(mutationsList, observer) {
+                    let needsRepositioning = false;
+                    
+                    for (let mutation of mutationsList) {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                         needsRepositioning = true;
+                         break;
+                    }
+                    }
+                    
+                    if (needsRepositioning) {
+                    console.log('Detectados nuevos elementos, reposicionando...');
+                    
+                    // ⭐ NO reposicionar si estamos en modo búsqueda de clientes
+                    if (document.body.classList.contains('modo-busqueda-clientes')) {
+                         console.log('[MutationObserver] Bloqueado - modo búsqueda de clientes activo');
+                         return;
+                    }
+                    
+                    // Pequeño retraso para asegurar que los elementos estén completamente cargados
+                    setTimeout(positionPinterestLayout, 200);
+                    }
+               };
+               
+               // Crear y iniciar el observador
+               const observer = new MutationObserver(callback);
+               observer.observe(targetNode, config);
+               
+               console.log('Observador de mutaciones configurado');
           }
           
           // 4. Función para interceptar la carga en scroll
           function setupScrollInterception() {
-          console.log('Configurando intercepción de scroll...');
-          
-          if (typeof window.precargarSiguientesPaginas === 'function') {
-               const originalFn = window.precargarSiguientesPaginas;
+               console.log('Configurando intercepción de scroll...');
                
-               window.precargarSiguientesPaginas = async function() {
-               console.log('Interceptando carga por scroll...');
-               
-               // Ejecutar función original
-               await originalFn.apply(this, arguments);
-               
-               // Reposicionar después de un retraso
-               setTimeout(positionPinterestLayout, 500);
-               };
-               
-               console.log('Intercepción de scroll configurada');
-          } else {
-               console.log('Función precargarSiguientesPaginas no encontrada');
-          }
+               if (typeof window.precargarSiguientesPaginas === 'function') {
+                    const originalFn = window.precargarSiguientesPaginas;
+                    
+                    window.precargarSiguientesPaginas = async function() {
+                         console.log('Interceptando carga por scroll...');
+                         
+                         // Ejecutar función original
+                         await originalFn.apply(this, arguments);
+                         
+                         // ⭐ NO reposicionar si estamos en modo búsqueda de clientes
+                         if (document.body.classList.contains('modo-busqueda-clientes')) {
+                              console.log('[ScrollInterception] Bloqueado - modo búsqueda de clientes activo');
+                              return;
+                         }
+                         
+                         // Reposicionar después de un retraso
+                         setTimeout(positionPinterestLayout, 500);
+                    };
+                    
+                    console.log('Intercepción de scroll configurada');
+               } else {
+                    console.log('Función precargarSiguientesPaginas no encontrada');
+               }
           }
           
           // 5. Inicializar cuando el DOM esté listo
           function init() {
-          // Evitar múltiples inicializaciones
-          if (window.pinterestLayoutInitialized) {
-               console.log('Layout Pinterest ya inicializado, omitiendo');
-               return;
-          }
-          
-          window.pinterestLayoutInitialized = true;
-          console.log('Inicializando layout Pinterest...');
-          
-          // Agregar estilos
-          addPinterestStyles();
-          
-          // Marcar el contenedor como "cargando"
-          const container = document.querySelector('.gallery-container');
-          if (container) {
-               container.classList.add('loading');
-               
-               // Añadir loader mientras se posicionan las imágenes
-               const loader = document.createElement('div');
-               loader.className = 'gallery-loader';
-               loader.innerHTML = `<i class="fas fa-spinner fa-spin"></i><p>Organizando productos...</p>`;
-               container.appendChild(loader);
-          }
-          
-          // Ejecutar posicionamiento lo antes posible, sin esperar a que todas las imágenes carguen
-          const galleryItems = document.querySelectorAll('.gallery-item');
-          if (galleryItems.length > 0) {
-               console.log(`Galería encontrada con ${galleryItems.length} elementos, posicionando inmediatamente...`);
-               
-               // Breve retraso para permitir que los estilos se apliquen
-               setTimeout(() => {
-               // Posicionar elementos
-               positionPinterestLayout();
-               
-               // Configurar observador
-               setupMutationObserver();
-               
-               // Interceptar scroll
-               setupScrollInterception();
-               
-               // Ejecutar periódicamente para asegurar el layout
-               setInterval(positionPinterestLayout, 5000);
-               
-               // Eliminar clase de carga y mostrar los elementos
-               if (container) {
-                    container.classList.remove('loading');
-                    const loader = container.querySelector('.gallery-loader');
-                    if (loader) loader.remove();
+               // Evitar múltiples inicializaciones
+               if (window.pinterestLayoutInitialized) {
+                    console.log('Layout Pinterest ya inicializado, omitiendo');
+                    return;
                }
-               }, 50);
-          } else {
-               // Si aún no hay elementos, esperar a que se carguen
-               const waitForGallery = setInterval(() => {
-               const items = document.querySelectorAll('.gallery-item');
                
-               if (items.length > 0) {
-                    clearInterval(waitForGallery);
-                    console.log(`Galería encontrada con ${items.length} elementos`);
+               window.pinterestLayoutInitialized = true;
+               console.log('Inicializando layout Pinterest...');
+               
+               // Agregar estilos
+               addPinterestStyles();
+          
+               // Marcar el contenedor como "cargando"
+               const container = document.querySelector('.gallery-container');
+               if (container) {
+                    container.classList.add('loading');
                     
+                    // Añadir loader mientras se posicionan las imágenes
+                    const loader = document.createElement('div');
+                    loader.className = 'gallery-loader';
+                    loader.innerHTML = `<i class="fas fa-spinner fa-spin"></i><p>Organizando productos...</p>`;
+                    container.appendChild(loader);
+               }
+          
+               // Ejecutar posicionamiento lo antes posible, sin esperar a que todas las imágenes carguen
+               const galleryItems = document.querySelectorAll('.gallery-item');
+               if (galleryItems.length > 0) {
+                    console.log(`Galería encontrada con ${galleryItems.length} elementos, posicionando inmediatamente...`);
+                    
+                    // Breve retraso para permitir que los estilos se apliquen
+                    setTimeout(() => {
                     // Posicionar elementos
                     positionPinterestLayout();
                     
@@ -3648,18 +3656,54 @@
                     // Interceptar scroll
                     setupScrollInterception();
                     
-                    // Ejecutar periódicamente para asegurar el layout
-                    setInterval(positionPinterestLayout, 5000);
+                    // Ejecutar periódicamente para asegurar el layout (solo si no estamos en modo clientes)
+                    window.pinterestLayoutInterval = setInterval(() => {
+                    if (!document.body.classList.contains('modo-busqueda-clientes')) {
+                         positionPinterestLayout();
+                    }
+                    }, 5000);
                     
                     // Eliminar clase de carga y mostrar los elementos
                     if (container) {
-                    container.classList.remove('loading');
-                    const loader = container.querySelector('.gallery-loader');
-                    if (loader) loader.remove();
+                         container.classList.remove('loading');
+                         const loader = container.querySelector('.gallery-loader');
+                         if (loader) loader.remove();
                     }
+                    }, 50);
+               } else {
+                    // Si aún no hay elementos, esperar a que se carguen
+                    const waitForGallery = setInterval(() => {
+                    const items = document.querySelectorAll('.gallery-item');
+                    
+                    if (items.length > 0) {
+                         clearInterval(waitForGallery);
+                         console.log(`Galería encontrada con ${items.length} elementos`);
+                         
+                         // Posicionar elementos
+                         positionPinterestLayout();
+                         
+                         // Configurar observador
+                         setupMutationObserver();
+                         
+                         // Interceptar scroll
+                         setupScrollInterception();
+                         
+                         // Ejecutar periódicamente para asegurar el layout (solo si no estamos en modo clientes)
+                         window.pinterestLayoutInterval = setInterval(() => {
+                         if (!document.body.classList.contains('modo-busqueda-clientes')) {
+                              positionPinterestLayout();
+                         }
+                         }, 5000);
+                         
+                         // Eliminar clase de carga y mostrar los elementos
+                         if (container) {
+                         container.classList.remove('loading');
+                         const loader = container.querySelector('.gallery-loader');
+                         if (loader) loader.remove();
+                         }
+                    }
+                    }, 100);
                }
-               }, 100);
-          }
           }
           
           // Añadir event listener para redimensionamiento de ventana
@@ -3841,11 +3885,16 @@
      });
      </script>
 
-     <!-- Sistema de Funcionalidades -->
-     <script src="./js/funcionalidades-menu.js"></script>
+     
 
      <!-- Salud Financiera (barra) -->
      <script src="./js/salud-financiera.js"></script>
+
+     <!-- Sistema de Funcionalidades -->
+     <script src="./js/funcionalidades-menu.js"></script>
+
+     <!-- Búsqueda de Clientes -->
+     <script src="./js/busqueda-clientes.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->

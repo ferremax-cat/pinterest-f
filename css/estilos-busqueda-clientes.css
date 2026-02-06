@@ -1,0 +1,476 @@
+/* ========================================
+   ESTILOS BÚSQUEDA DE CLIENTES
+   Sistema de búsqueda para vendedores
+   ======================================== */
+
+/* Resultados de clientes en barra contextual */
+.resultados-clientes {
+    width: 100%;
+    color: white;
+}
+
+.header-resultados {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.contador-resultados {
+    font-size: 14px;
+    font-weight: 600;
+    color: #eab308;
+}
+
+.btn-cerrar-resultados {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.btn-cerrar-resultados:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ef4444;
+}
+
+/* Lista de clientes */
+.lista-clientes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Scrollbar personalizado */
+.lista-clientes::-webkit-scrollbar {
+    width: 6px;
+}
+
+.lista-clientes::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.lista-clientes::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.lista-clientes::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Item individual de cliente */
+.item-cliente {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.item-cliente:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+.cliente-principal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.cliente-icono {
+    width: 40px;
+    height: 40px;
+    background: rgba(59, 130, 246, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cliente-icono i {
+    color: #3b82f6;
+    font-size: 18px;
+}
+
+.cliente-datos {
+    flex: 1;
+    min-width: 0;
+}
+
+.cliente-nombre-cuenta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.cliente-nombre {
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cliente-cuenta {
+    font-size: 12px;
+    color: #94a3b8;
+    font-family: 'Courier New', monospace;
+}
+
+.cliente-cupo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.label-cupo {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.valor-cupo {
+    font-weight: 700;
+    font-size: 14px;
+    padding: 3px 12px;
+    border-radius: 4px;
+}
+
+.valor-cupo.cupo-verde {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.valor-cupo.cupo-amarillo {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.valor-cupo.cupo-rojo {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.cliente-accion {
+    color: #64748b;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.item-cliente:hover .cliente-accion {
+    color: white;
+    transform: translateX(3px);
+}
+
+/* Mensaje sin resultados */
+.mensaje-sin-resultados {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: white;
+}
+
+.icono-sin-resultados {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.texto-sin-resultados {
+    font-size: 15px;
+    color: #cbd5e1;
+}
+
+.texto-sin-resultados strong {
+    color: #eab308;
+    font-weight: 600;
+}
+
+/* Indicador visual cuando está en modo búsqueda de clientes */
+body.modo-busqueda-clientes .input-container {
+    border: 2px solid #3b82f6;
+    border-radius: 40px;
+}
+
+body.modo-busqueda-clientes nav input {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+
+
+
+/* Responsive - Mobile */
+@media screen and (max-width: 768px) {
+    .resultados-clientes {
+        padding: 5px;
+    }
+    
+    .header-resultados {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+    }
+    
+    .contador-resultados {
+        font-size: 13px;
+    }
+    
+    .lista-clientes {
+        max-height: 300px;
+        gap: 8px;
+    }
+    
+    .item-cliente {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .item-cliente:hover {
+        transform: none;
+    }
+    
+    .cliente-principal {
+        width: 100%;
+    }
+    
+    /* ⭐ NUEVAS LÍNEAS ⭐ */
+    .cliente-datos {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+    
+    .cliente-nombre-cuenta {
+        display: flex !important;
+        flex-direction: row; /* ← Horizontal */
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap; /* Por si el nombre es muy largo */
+    }
+    /* ⭐ FIN NUEVAS LÍNEAS ⭐ */
+    
+    .cliente-icono {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .cliente-icono i {
+        font-size: 16px;
+    }
+    
+    .cliente-nombre {
+        font-size: 12px;
+    }
+    
+    .cliente-cuenta {
+        font-size: 17px;
+    }
+    
+    .cliente-cupo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .label-cupo {
+        font-size: 17px;
+    }
+    
+    .valor-cupo {
+        font-size: 17px;
+        padding: 2px 10px;
+    }
+    
+    .cliente-accion {
+        align-self: flex-end;
+        margin-top: -30px;
+    }
+    
+    .mensaje-sin-resultados {
+        padding: 30px 15px;
+    }
+    
+    .icono-sin-resultados {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    
+    .texto-sin-resultados {
+        font-size: 14px;
+    }
+}
+
+/* Animación de entrada */
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.item-cliente {
+    animation: fadeInSlide 0.3s ease-out;
+}
+
+/* Stagger animation para múltiples items */
+.item-cliente:nth-child(1) { animation-delay: 0.05s; }
+.item-cliente:nth-child(2) { animation-delay: 0.1s; }
+.item-cliente:nth-child(3) { animation-delay: 0.15s; }
+.item-cliente:nth-child(4) { animation-delay: 0.2s; }
+.item-cliente:nth-child(5) { animation-delay: 0.25s; }
+
+/* Botón X para cancelar búsqueda de clientes */
+.btn-cancelar-clientes {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #ef4444;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.btn-cancelar-clientes:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.btn-cancelar-clientes:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Mantener ícono visible en modo búsqueda de clientes */
+body.modo-busqueda-clientes nav input:focus {
+    padding: 0 0 0 38px !important;
+}
+
+/* ⭐ Restaurar padding normal cuando NO está en modo clientes ⭐ */
+body:not(.modo-busqueda-clientes) nav input[type="text"],
+body:not(.modo-busqueda-clientes) nav input[type="text"]:focus {
+    padding-left: 48px !important; /* Espacio para la lupa */
+}
+
+body.modo-busqueda-clientes nav input:focus ~ i {
+    width: 48px !important;
+    opacity: 1 !important;
+}
+
+/* Asegurar que el ícono de clientes siempre sea visible */
+body.modo-busqueda-clientes .input-container .fa-users,
+body.modo-busqueda-clientes .input-container .fa-address-book,
+body.modo-busqueda-clientes .input-container .fa-user-tie,
+body.modo-busqueda-clientes .input-container .fa-people-group {
+    width: 48px !important;
+    opacity: 1 !important;
+    display: flex !important;
+}
+
+/* ⭐ AGREGAR ESTO ⭐ */
+/* Ocultar TODAS las X del sistema de productos en modo clientes */
+body.modo-busqueda-clientes .search-clear-btn,
+body.modo-busqueda-clientes .clear-search,
+body.modo-busqueda-clientes .input-clear,
+body.modo-busqueda-clientes .btn-clear-input,
+body.modo-busqueda-clientes input[type="text"] + .fa-times,
+body.modo-busqueda-clientes .input-container .fa-times:not(.btn-cancelar-clientes),
+body.modo-busqueda-clientes .input-container > i.fa-times:not(.btn-cancelar-clientes) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Asegurar que SOLO la X roja (de clientes) sea visible */
+body.modo-busqueda-clientes .btn-cancelar-clientes {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+
+/* Responsive - Móviles muy pequeños */
+@media screen and (max-width: 410px) {
+    /* Ajustar posición de la X roja - menos a la derecha */
+    .btn-cancelar-clientes {
+        right: 15px !important; /* ← Era 8px, ahora 15px */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px; /* ← Un poco más grande */
+    }
+    
+    /* Aumentar tamaño de letra del input */
+    body.modo-busqueda-clientes nav input[type="text"] {
+        padding-right: 45px !important;
+        font-size: 20px !important; /* ← Era 14px, ahora 16px */
+    }
+    
+    /* Ajustar placeholder */
+    body.modo-busqueda-clientes nav input[type="text"]::placeholder {
+        font-size: 15px;
+    }
+    
+    /* Ajustar items de clientes */
+    .item-cliente {
+        padding: 10px;
+    }
+    
+    .cliente-nombre {
+        font-size: 12px !important;
+    }
+    
+    .cliente-cuenta {
+        font-size: 15px !important;
+    }
+    
+    .label-cupo,
+    .valor-cupo {
+        font-size: 15px !important;
+    }
+
+    /* ⭐ AGREGAR ESTO ⭐ */
+    /* Bajar la barra de resultados cuando hay barra de salud financiera */
+    .barra-info-contextual {
+        top: 140px !important; /* Más abajo para no taparse */
+        max-height: calc(100vh - 200px) !important;
+    }
+    
+    /* Si la barra de salud está visible, bajar aún más */
+    body.barra-salud-visible .barra-info-contextual {
+        top: 160px !important;
+    }
+}

@@ -116,6 +116,12 @@ async function initSearch() {
       
       // Añadir el nuevo listener con debounce
       searchInput.addEventListener('input', debounce(function() {
+        
+        // Verificar si estamos en modo búsqueda de clientes
+        if (document.body.classList.contains('modo-busqueda-clientes')) {
+            console.log('[Search Engine] Modo clientes activo - búsqueda de productos pausada');
+            return; // No ejecutar búsqueda de productos
+        }
         const termino = this.value.trim();
         performSearch(termino);
       }, 300));
@@ -379,6 +385,13 @@ async function initSearch() {
 // Añadir parámetros de paginación con valores por defecto
 // Función performSearch actualizada con soporte para paginación y carga de productos específicos
 async function performSearch(query, offset = 0, limit = 30) {
+  
+  // ⭐ VERIFICACIÓN CRÍTICA: No buscar si estamos en modo clientes
+  if (document.body.classList.contains('modo-busqueda-clientes')) {
+    console.log('[search-engine performSearch] Modo clientes activo - búsqueda bloqueada');
+    return;
+  }
+  
   if (!searchIndex || !searchIndex.indexes) {
     console.warn('[search-engine] Índice de búsqueda no disponible o formato incorrecto');
     return;
