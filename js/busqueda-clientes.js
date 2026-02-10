@@ -70,6 +70,13 @@ class BusquedaClientes {
         
         console.log('[Búsqueda Clientes] Activando modo búsqueda de clientes');
 
+        // ⭐ GUARDAR estado REAL de la barra (si está visible en pantalla)
+        if (this.barraInfo) {
+            const estiloActual = window.getComputedStyle(this.barraInfo);
+            this.barraInfoEstabaVisible = estiloActual.display !== 'none';
+            console.log('[Búsqueda Clientes] Estado previo barra-info visible:', this.barraInfoEstabaVisible);
+        }
+
         // ⭐ BLOQUEAR precarga INMEDIATAMENTE
         window.scrollPreloadBlocked = true;
         console.log('[Búsqueda Clientes] ⚠️ Precarga por scroll BLOQUEADA');
@@ -405,9 +412,6 @@ class BusquedaClientes {
             saldoAnterior: cliente.saldoAnterior
         };
         
-        // Limpiar resultados de búsqueda
-        this.limpiarResultados();
-        
         // Mostrar barra de salud financiera
         if (window.BarraSaludFinanciera) {
             window.BarraSaludFinanciera.mostrar(datosFinancieros);
@@ -415,7 +419,13 @@ class BusquedaClientes {
         } else {
             console.error('[Búsqueda Clientes] BarraSaludFinanciera no disponible');
         }
-        
+
+        // Limpiar resultados y restaurar estado previo
+        const debeOcultar = !this.barraInfoEstabaVisible;
+        this.limpiarResultados(debeOcultar);
+        console.log('[Búsqueda Clientes] Restaurando barra-info, ocultar:', debeOcultar);
+
+
         // Limpiar input de búsqueda
         if (this.searchInput) {
             this.searchInput.value = '';
@@ -435,7 +445,7 @@ class BusquedaClientes {
     /**
      * Limpiar resultados de la barra
      */
-    limpiarResultados() {
+    limpiarResultados(ocultarCompletamente = false) {
         if (!this.barraInfo) return;
         
         const barraContent = this.barraInfo.querySelector('.barra-info-content');
@@ -443,9 +453,18 @@ class BusquedaClientes {
             barraContent.innerHTML = '';
         }
         
-        //this.barraInfo.style.display = 'none';
+        // Siempre quitar clases
         this.barraInfo.classList.remove('visible');
         document.body.classList.remove('barra-visible');
+
+        if (ocultarCompletamente) {
+            this.barraInfo.style.display = 'none';
+            console.log('[Búsqueda Clientes] Barra-info ocultada completamente');
+        } else {
+            // ⭐ Asegurar que NO esté forzada a oculta
+            this.barraInfo.style.display = '';
+            console.log('[Búsqueda Clientes] Barra-info lista para usar');
+        }
     }
 
     /**

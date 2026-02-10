@@ -1235,13 +1235,13 @@ body:not(.salud-financiera-activa).barra-visible .gallery-container {
     font-size: 14px;
 }
 
-/* Reordenar: Saldo Anterior primero, Saldo Total último */
+/* Reordenar: Pago este mes primero, Saldo Total último */
 .datos-expandidos .dato-row:nth-child(1) {
     order: 2;  /* Saldo Total va al final */
 }
 
 .datos-expandidos .dato-row:nth-child(2) {
-    order: 1;  /* Saldo Anterior va primero */
+    order: 1;  /* pago-este mes va primero */
 }
 
 
@@ -1457,7 +1457,7 @@ body:not(.salud-financiera-activa) .barra-info-contextual {
     
     /* Ajustar fuentes */
     .dato-label {
-        font-size: 10px;
+        font-size: 12px;
         display: block;
     }
     

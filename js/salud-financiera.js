@@ -129,10 +129,10 @@ const BarraSaludFinanciera = {
             saldoTotalElem.textContent = this.formatearMoneda(datos.saldoTotal || 0);
         }
         
-        // Saldo Anterior
-        const saldoAnteriorElem = document.getElementById('saldo-anterior');
-        if (saldoAnteriorElem) {
-            saldoAnteriorElem.textContent = this.formatearMoneda(datos.saldoAnterior || 0);
+        // Pago este mes
+        const pagoMesElem = document.getElementById('pago-mes');
+        if (pagoMesElem) {
+            pagoMesElem.textContent = this.formatearMoneda(datos.saldoAnterior || 0);
         }
         
         // Cupo (con cálculo y color)
