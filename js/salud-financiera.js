@@ -132,7 +132,7 @@ const BarraSaludFinanciera = {
         // Pago este mes
         const pagoMesElem = document.getElementById('pago-mes');
         if (pagoMesElem) {
-            pagoMesElem.textContent = this.formatearMoneda(datos.saldoAnterior || 0);
+            pagoMesElem.textContent = this.formatearMoneda(datos.pagoMes || 0);
         }
         
         // Cupo (con cálculo y color)
@@ -144,16 +144,15 @@ const BarraSaludFinanciera = {
         const cupoElem = document.getElementById('cupo-valor');
         if (!cupoElem) return;
         
-        // Calcular cupo disponible
-        const pgProm = datos.pgProm3M || 0;
-        const compro = datos.comproMes || 0;
-        const cupoDisponible = pgProm - compro;
+        // ⭐ Usar cupoMes directamente (ya viene calculado del Excel)
+        const cupoDisponible = datos.cupoMes || 0;
         
         // Determinar color
         let colorClass = 'cupo-verde';
         
         if (cupoDisponible < 0) {
             // Está en negativo (usando flexibilidad)
+            const pgProm = datos.pgProm3M || 0;
             const porcentajeFlex = Math.abs(cupoDisponible) / pgProm * 100;
             
             if (porcentajeFlex <= 39) {

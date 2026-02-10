@@ -107,7 +107,8 @@ def leer_usuarios_funcionalidades():
             clave = str(row[0]).strip()
             nombre = str(row[1]).strip() if row[1] else ""
             numero_cuenta = str(row[2]).strip() if row[2] else ""
-            rol = str(row[3]).strip() if row[3] else ""
+            codigo = str(row[3]).strip() if row[3] else ""
+            rol = str(row[4]).strip() if row[4] else ""
             
             usuario_data = {
                 "clave": clave,
@@ -115,18 +116,22 @@ def leer_usuarios_funcionalidades():
                 "rol": rol
             }
             
+            # Agregar codigo solo si tiene valor
+            if codigo:
+                usuario_data["codigo"] = codigo
+
             # Agregar numero_cuenta solo si tiene valor
             if numero_cuenta:
                 usuario_data["numero_cuenta"] = numero_cuenta
             
-            # Funcionalidades extra (columna 5)
-            if row[4]:
-                extras_str = str(row[4]).strip()
-                usuario_data["funcionalidades_extra"] = [f.strip() for f in extras_str.split(",")]
-            
-            # Funcionalidades bloqueadas (columna 6)
+            # Funcionalidades extra (columna 6 ahora)
             if row[5]:
-                bloqueadas_str = str(row[5]).strip()
+                extras_str = str(row[5]).strip()
+                usuario_data["funcionalidades_extra"] = [f.strip() for f in extras_str.split(",")]
+
+            # Funcionalidades bloqueadas (columna 7 ahora)
+            if row[6]:
+                bloqueadas_str = str(row[6]).strip()
                 usuario_data["funcionalidades_bloqueadas"] = [f.strip() for f in bloqueadas_str.split(",")]
             
             resultado["usuarios"][clave] = usuario_data

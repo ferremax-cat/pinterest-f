@@ -265,8 +265,16 @@ class BusquedaClientes {
         const terminoLower = termino.toLowerCase();
         const resultados = [];
         
+        // ⭐ Obtener código del vendedor logueado
+        const codigoVendedor = this.obtenerCodigoVendedor();
+        
         // Buscar en todos los clientes
         for (const [cuenta, cliente] of Object.entries(this.clientesData)) {
+            // ⭐ Filtrar por vendedor (si es vendedor)
+            if (codigoVendedor && cliente.vendedor !== codigoVendedor) {
+                continue; // Saltar clientes de otros vendedores
+            }
+            
             const nombreLower = cliente.nombre.toLowerCase();
             const cuentaStr = cuenta.toString();
             
@@ -279,11 +287,40 @@ class BusquedaClientes {
             }
         }
         
-        console.log('[Búsqueda Clientes] Resultados encontrados:', resultados.length);
+        console.log('[Búsqueda Clientes] Resultados encontrados:', resultados.length, 
+            `(vendedor: ${codigoVendedor || 'TODOS'})`);
         
         // Mostrar resultados
         this.mostrarResultados(resultados, termino);
     }
+
+    /**
+     * Obtener código del vendedor logueado
+     */
+    obtenerCodigoVendedor() {
+        try {
+            // Obtener cuenta del usuario logueado
+            const clientDataStr = localStorage.getItem('clientData');
+            if (!clientDataStr) return null;
+            
+            const clientData = JSON.parse(clientDataStr);
+            const clave = clientData.account;
+            
+            // Buscar en funcionalidades_usuarios para obtener el código
+            // (asumiendo que ya está cargado en menuFuncionalidades)
+            if (window.menuFuncionalidades && window.menuFuncionalidades.usuarioActual) {
+                const codigo = window.menuFuncionalidades.usuarioActual.codigo;
+                console.log(`[Búsqueda Clientes] Código vendedor: ${codigo || 'sin código (cliente/admin)'}`);
+                return codigo || null;
+            }
+            
+            return null;
+        } catch (error) {
+            console.error('[Búsqueda Clientes] Error obteniendo código vendedor:', error);
+            return null;
+        }
+    }
+
 
     /**
      * Mostrar resultados en la barra contextual
@@ -409,7 +446,8 @@ class BusquedaClientes {
             pgProm3M: cliente.pgProm3M,
             comproMes: cliente.comproMes,
             saldoTotal: cliente.saldoTotal,
-            saldoAnterior: cliente.saldoAnterior
+            pagoMes: cliente.pagoMes, // Renombrado para claridad en la barra de salud financiera
+            cupoMes: cliente.cupoMes  // ⭐ Agregar cupoMes
         };
         
         // Mostrar barra de salud financiera

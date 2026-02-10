@@ -3,17 +3,20 @@
     "1218": {
       "clave": "1218",
       "nombre": "ROBERTO",
-      "rol": "vendedor_estandar"
+      "rol": "vendedor_estandar",
+      "codigo": "RF"
     },
     "1959": {
       "clave": "1959",
       "nombre": "JAIME",
-      "rol": "vendedor_estandar"
+      "rol": "vendedor_estandar",
+      "codigo": "JG"
     },
     "5625": {
       "clave": "5625",
       "nombre": "CHRISTIAN",
-      "rol": "vendedor_estandar"
+      "rol": "vendedor_estandar",
+      "codigo": "CS"
     },
     "20166": {
       "clave": "20166",
@@ -29,7 +32,12 @@
     },
     "1817": {
       "clave": "1817",
-      "nombre": "HERNAN SCHIMPF",
+      "nombre": "HERNAN",
+      "rol": "admin"
+    },
+    "5737": {
+      "clave": "5737",
+      "nombre": "ISRAEL",
       "rol": "admin"
     },
     "20246": {
