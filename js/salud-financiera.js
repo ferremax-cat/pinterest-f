@@ -44,10 +44,18 @@ const BarraSaludFinanciera = {
     },
     
     // Mostrar la barra
-    mostrar(datosCliente) {
+    mostrar(datosCliente, modoCliente = false) {
         if (!this.barra) return;
         
         console.log('[Salud Financiera] Mostrando barra con datos:', datosCliente);
+        console.log('[Salud Financiera] Modo cliente:', modoCliente);
+    
+        // ⭐ Agregar/quitar clase modo-cliente
+        if (modoCliente) {
+            this.barra.classList.add('modo-cliente');
+        } else {
+            this.barra.classList.remove('modo-cliente');
+        }
         
         // Actualizar datos
         this.actualizarDatos(datosCliente);
@@ -135,6 +143,13 @@ const BarraSaludFinanciera = {
             pagoMesElem.textContent = this.formatearMoneda(datos.pagoMes || 0);
         }
         
+        // ⭐ AGREGAR ESTO ⭐
+        // Última operación
+        const ultOperacionElem = document.getElementById('ult-operacion');
+        if (ultOperacionElem) {
+            ultOperacionElem.textContent = datos.ultOperacion || '--/--/----';
+        }
+
         // Cupo (con cálculo y color)
         this.actualizarCupo(datos);
     },

@@ -33,23 +33,19 @@
     "vendedor_estandar": {
       "nombre": "Vendedor Estándar",
       "funcionalidades": [
-        "estado_de_cuentas",
-        "hacer_pedido"
+        "estado_de_cuentas"
       ]
     },
     "cliente_estandar": {
       "nombre": "Cliente Estándar",
       "funcionalidades": [
-        "mi_cuenta",
-        "hacer_pedido"
+        "mi_cuenta"
       ]
     },
     "cliente_premium": {
       "nombre": "Cliente Premium",
       "funcionalidades": [
-        "mi_cuenta",
-        "hacer_pedido",
-        "ver_oferta_especial"
+        "mi_cuenta"
       ]
     },
     "admin": {

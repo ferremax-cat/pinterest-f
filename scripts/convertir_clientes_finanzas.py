@@ -15,6 +15,28 @@ def limpiar_moneda(valor):
         return float(valor)
     return float(valor)
 
+def formatear_fecha(valor):
+    """Convierte fecha a formato dd/mm/yyyy"""
+    if pd.isna(valor):
+        return ""
+    
+    try:
+        # Si es datetime de pandas
+        if isinstance(valor, pd.Timestamp):
+            return valor.strftime('%d/%m/%Y')
+        # Si es string, intentar parsear
+        elif isinstance(valor, str):
+            # Ya está en formato correcto
+            if '/' in valor:
+                return valor
+            # Intentar parsear otros formatos
+            fecha = pd.to_datetime(valor)
+            return fecha.strftime('%d/%m/%Y')
+        else:
+            return ""
+    except:
+        return ""
+
 def main():
     print("\n" + "="*60)
     print("📄 CONVERTIDOR: clientes_finanzas.xlsx → JSON")
@@ -49,7 +71,8 @@ def main():
             "comproMes": limpiar_moneda(row['CP_Este_Mes']),
             "saldoTotal": limpiar_moneda(row['Saldo_Total']),
             "pagoMes": limpiar_moneda(row['PG_Este_Mes']),
-            "cupoMes": limpiar_moneda(row['Cupo_Mes'])
+            "cupoMes": limpiar_moneda(row['Cupo_Mes']),
+            "ultOperacion": formatear_fecha(row['Ult_Operacion'])  # ⭐ NUEVA LÍNEA
         }
     
     # Guardar JSON

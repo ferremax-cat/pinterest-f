@@ -447,7 +447,8 @@ class BusquedaClientes {
             comproMes: cliente.comproMes,
             saldoTotal: cliente.saldoTotal,
             pagoMes: cliente.pagoMes, // Renombrado para claridad en la barra de salud financiera
-            cupoMes: cliente.cupoMes  // ⭐ Agregar cupoMes
+            cupoMes: cliente.cupoMes,  // ⭐ Agregar cupoMes
+            ultOperacion: cliente.ultOperacion  // ⭐ AGREGAR
         };
         
         // Mostrar barra de salud financiera

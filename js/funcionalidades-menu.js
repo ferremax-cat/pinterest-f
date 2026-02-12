@@ -361,13 +361,15 @@ class FuncionalidadesMenu {
             pgProm3M: datosCliente.pgProm3M,
             comproMes: datosCliente.comproMes,
             saldoTotal: datosCliente.saldoTotal,
-            saldoAnterior: datosCliente.saldoAnterior
+            pagoMes: datosCliente.pagoMes,
+            cupoMes: datosCliente.cupoMes,
+            ultOperacion: datosCliente.ultOperacion
         };
         
-        // Mostrar barra de salud financiera
+        // Mostrar barra de salud financiera EN MODO CLIENTE
         if (window.BarraSaludFinanciera) {
-            window.BarraSaludFinanciera.mostrar(datosFinancieros);
-            console.log('✅ Mostrando salud financiera del cliente');
+            window.BarraSaludFinanciera.mostrar(datosFinancieros, true); // ⭐ true = modo cliente
+            console.log('✅ Mostrando salud financiera del cliente (modo simplificado)');
         } else {
             console.error('❌ BarraSaludFinanciera no disponible');
         }
