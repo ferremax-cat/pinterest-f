@@ -1357,7 +1357,7 @@ body:not(.salud-financiera-activa) .barra-info-contextual {
     /* ⭐ AGREGAR ESTAS REGLAS ⭐ */
     /* Bajar la barra de salud financiera */
     .barra-salud-financiera {
-        top: 120px !important;
+        top: 135px !important;
     }
     
     /* Bajar la barra-info según estado */
@@ -1746,7 +1746,7 @@ body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not
     
     /* MOBILE: Modo vendedor EXPANDIDO - Sin barra-info */
     body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
-        margin-top: 220px !important;
+        margin-top: 245px !important;
     }
 }
 
@@ -1779,11 +1779,11 @@ body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .bar
 /* MOBILE: Modo vendedor COLAPSADO */
 @media screen and (max-width: 410px) {
     body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .barra-info-contextual {
-        top: 220px !important;
+        top: 238px !important;
     }
     
     /* MOBILE: Modo vendedor EXPANDIDO */
     body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .barra-info-contextual {
-        top: 385px !important;
+        top: 403px !important;
     }
 }
