@@ -1098,7 +1098,7 @@ body.barra-visible .gallery-container {
 .barra-salud-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 12px 20px;
+    padding: 12px 10px;
     display: flex;  /* VOLVER A PONER */
     flex-wrap: wrap;  /* AGREGAR */
     align-items: center;
