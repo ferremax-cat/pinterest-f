@@ -1597,12 +1597,12 @@ body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-sal
 /* MOBILE: Modo cliente COLAPSADO */
 @media screen and (max-width: 410px) {
     body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .barra-info-contextual {
-        top: 175px !important;
+        top: 190px !important;
     }
     
     /* MOBILE: Modo cliente EXPANDIDO */
     body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .barra-info-contextual {
-        top: 288px !important;
+        top: 300px !important;
     }
 }
 
