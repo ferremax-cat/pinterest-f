@@ -116,6 +116,12 @@ async function initSearch() {
       
       // Añadir el nuevo listener con debounce
       searchInput.addEventListener('input', debounce(function() {
+        
+        // Verificar si estamos en modo búsqueda de clientes
+        if (document.body.classList.contains('modo-busqueda-clientes')) {
+            console.log('[Search Engine] Modo clientes activo - búsqueda de productos pausada');
+            return; // No ejecutar búsqueda de productos
+        }
         const termino = this.value.trim();
         performSearch(termino);
       }, 300));
@@ -379,6 +385,13 @@ async function initSearch() {
 // Añadir parámetros de paginación con valores por defecto
 // Función performSearch actualizada con soporte para paginación y carga de productos específicos
 async function performSearch(query, offset = 0, limit = 30) {
+  
+  // ⭐ VERIFICACIÓN CRÍTICA: No buscar si estamos en modo clientes
+  if (document.body.classList.contains('modo-busqueda-clientes')) {
+    console.log('[search-engine performSearch] Modo clientes activo - búsqueda bloqueada');
+    return;
+  }
+  
   if (!searchIndex || !searchIndex.indexes) {
     console.warn('[search-engine] Índice de búsqueda no disponible o formato incorrecto');
     return;
@@ -1260,33 +1273,63 @@ function displayNoResults(query) {
         const { offset = 0, total = matchingItems.length, hasMore = false } = pagination;
         const isInitialLoad = offset === 0;
         
-        // Si es carga inicial (offset 0), limpiar el contenedor de galería
+       // Si es carga inicial (offset 0), limpiar el contenedor de galería
         if (isInitialLoad) {
           // Limpiar galería para mostrar nuevos resultados
           galleryContainer.innerHTML = '';
           
-          // Mostrar información sobre resultados usando mensaje-busqueda
-          // o crearlo si no existe
-          let mensajeBusqueda = document.getElementById('mensaje-busqueda');
-          if (!mensajeBusqueda) {
-            mensajeBusqueda = document.createElement('div');
+          // NUEVO: Mostrar información en la barra contextual
+          const barraInfo = document.getElementById('barra-info-contextual');
+          const barraContent = barraInfo ? barraInfo.querySelector('.barra-info-content') : null;
+          
+          if (barraInfo && barraContent) {
+            // Limpiar contenido previo
+            barraContent.innerHTML = '';
+            
+            // Crear mensaje usando TUS clases existentes
+            const mensajeBusqueda = document.createElement('div');
             mensajeBusqueda.id = 'mensaje-busqueda';
             mensajeBusqueda.className = 'mensaje-busqueda';
-            document.body.appendChild(mensajeBusqueda);
+            // Detectar si es móvil
+            const isMobile = window.innerWidth <= 768;
+            
+            // Mensaje simplificado para móvil
+            mensajeBusqueda.innerHTML = isMobile ? `
+              <div class="mensaje-contenido">
+                <span class="mensaje-contador">${total}</span> resultados
+              </div>
+              ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
+            ` : `
+              <div class="mensaje-contenido">
+                <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
+                ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
+              </div>
+              ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
+            `;
+            
+            // Agregar a la barra
+            barraContent.appendChild(mensajeBusqueda);
+            
+            // Mostrar la barra
+            barraInfo.classList.add('visible');
+            document.body.classList.add('barra-visible');  // ← Esta línea
+            
+            console.log('[search-engine] Mensaje de búsqueda mostrado en barra contextual');
           }
-          
-          mensajeBusqueda.innerHTML = `
-            <div class="mensaje-contenido">
-              <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
-              ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
-            </div>
-            ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
-          `;
           
           // Añadir funcionalidad para limpiar búsqueda
           const botonLimpiar = document.getElementById('boton-limpiar-busqueda');
           if (botonLimpiar) {
             botonLimpiar.addEventListener('click', () => {
+
+              // NUEVO: Ocultar la barra contextual
+              const barraInfo = document.getElementById('barra-info-contextual');
+              if (barraInfo) {
+                barraInfo.classList.remove('visible');
+                document.body.classList.remove('barra-visible');  // ← Esta línea
+              }
+
+
 
               // Establecer una bandera en localStorage para que sea más fácil de inspeccionar
               localStorage.setItem('setFocusOnLoad', 'true');
@@ -1559,25 +1602,25 @@ function displayNoResults(query) {
           .gallery-item .bottom-row a .search-highlight,
           .search-highlight {
           font-weight: bold !important;
-          color: #ff4500 !important; /* Naranja más intenso para mayor visibilidad */
+          color: #dc2626 !important; /* Rojo corporativo */
           text-decoration: underline !important;
           }
         
-        /* Estilo para el mensaje de búsqueda */
-        .mensaje-busqueda {
-          position: fixed;
-          top: 70px;
-          right: 20px;
-          background-color: rgba(0, 0, 0, 0.8);
+        /* Estilo para el mensaje de búsqueda DENTRO de la barra contextual */
+        .barra-info-content .mensaje-busqueda {
+          position: relative;  /* ← CAMBIAR de fixed a relative */
+          top: auto;
+          right: auto;
+          background-color: transparent;  /* ← Sin fondo, usa el de la barra */
           color: white;
-          border-radius: 4px;
-          padding: 10px 15px;
+          border-radius: 0;
+          padding: 0;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 300px;
-          z-index: 9999;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          width: 100%;
+          z-index: auto;
+          box-shadow: none;
         }
         
         .mensaje-contenido {
@@ -1589,41 +1632,59 @@ function displayNoResults(query) {
         .mensaje-contador {
           font-weight: bold;
           margin-right: 5px;
+          color: #dc2626;
         }
         
         .mensaje-termino {
           font-style: italic;
           font-weight: bold;
+          color: #dc2626;
         }
         
         .boton-limpiar {
-          background-color: #4a90e2;
+          background-color: #dc2626;
           color: white;
           border: none;
-          border-radius: 3px;
-          padding: 5px 10px;
+          border-radius: 4px;
+          padding: 8px 16px;
           cursor: pointer;
-          font-size: 12px;
+          font-size: 13px;
+          font-weight: 600;
           margin-left: 10px;
+          transition: all 0.3s ease;
         }
         
          /* Regla @media para pantallas pequeñas */
-          @media (max-width: 768px) {
-            .mensaje-busqueda {
-              position: fixed !important;
-              top: 60px !important; /* Justo debajo del header */
-              left: 50% !important;
-              right: auto !important;
-              transform: translateX(-50%) !important;
-              width: 95% !important;
-              max-width: 300px !important;
-              z-index: 9999 !important;
-            }
+        @media (max-width: 768px) {
+          .barra-info-content .mensaje-busqueda {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            transform: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            z-index: auto !important;
+            flex-direction: row;
+            gap: 5px;
           }
+          
+          .barra-info-content .mensaje-contenido {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+          }
+          
+          .barra-info-content .boton-limpiar {
+            width: auto;
+          }
+        }
 
 
         .boton-limpiar:hover {
-          background-color: #3a7cca;
+          background-color: #ef4444;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
         }
        /* AGREGAR AQUÍ - Estilos optimizados para bottom-row */
         .container-img .bottom-row {
