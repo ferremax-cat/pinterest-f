@@ -490,6 +490,7 @@ nav .iconos img{
 
 
 
+ 
 
 /* ... (mantener el resto del código CSS existente) ... */
 
@@ -843,4 +844,946 @@ nav .iconos img{
     outline: none !important;
     float: none !important;
     position: static !important;
+}
+
+/* ================================================
+   MENÚ DE FUNCIONALIDADES
+   ================================================ */
+
+.menu-funcionalidades-container {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.menu-funcionalidades-container.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.menu-funcionalidades-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    overflow: hidden;
+}
+
+.menu-funcionalidad-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.menu-funcionalidad-item:last-child {
+    border-bottom: none;
+}
+
+.menu-funcionalidad-item:hover {
+    background: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.menu-item-icon {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+}
+
+.menu-item-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.menu-item-empty {
+    padding: 20px;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Cursor pointer para el trigger */
+#menu-funcionalidades-trigger {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#menu-funcionalidades-trigger:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .menu-funcionalidades-container {
+        right: 10px;
+        top: 80px;
+    }
+    
+    .menu-funcionalidades-content {
+        min-width: 200px;
+    }
+    
+    .menu-funcionalidad-item {
+        padding: 10px 14px;
+    }
+    
+    .menu-item-icon {
+        font-size: 18px;
+    }
+    
+    .menu-item-text {
+        font-size: 13px;
+    }
+}
+
+/* ================================================
+   BARRA DE INFORMACIÓN CONTEXTUAL
+   ================================================ */
+
+.barra-info-contextual {
+    position: fixed;
+    top: 75px;  /* Justo debajo del navbar */
+    left: 0;
+    right: 0;
+    min-height: 50px;
+    background: #1f1f1f;  /* Negro corporativo */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 8000;  /* Debajo del menú pero encima de todo lo demás */
+    display: none;  /* Oculto por defecto */
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #333;  /* Borde sutil */
+}
+
+.barra-info-contextual.visible {
+    display: block;
+}
+
+.barra-info-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Estilos para mensaje de búsqueda dentro de la barra */
+.barra-mensaje-busqueda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white; /* Texto blanco sobre fondo negro */
+    flex: 1;
+}
+
+.barra-mensaje-contador {
+    font-weight: bold;
+    font-size: 18px;
+    color: #dc2626;  /* Rojo corporativo para números */
+}
+
+.barra-mensaje-texto {
+    font-size: 14px;
+    color: white;
+}
+
+.barra-mensaje-termino {
+    font-style: italic;
+    font-weight: 600;
+    color: #dc2626;  /* Rojo corporativo para el término buscado */
+}
+
+.barra-boton-limpiar {
+    background-color: #dc2626;  /* Botón rojo sólido */
+    color: white;
+    border: none;
+    border-radius: 4px;  /* Bordes más cuadrados, moderno */
+    padding: 8px 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.barra-boton-limpiar:hover {
+    background-color: #ef4444;  /* Rojo más claro al hover */
+    transform: translateY(-1px);  /* Efecto de elevación sutil */
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
+}
+
+/* Ajustar galería para que no quede tapada por la barra */
+.gallery-container {
+    /* margin-top: 60px;  /* Espacio para la barra cuando esté visible */
+    margin-top: 0;
+    transition: margin-top 0.3s ease;
+}
+
+/* Agregar margen SOLO cuando la barra esté visible */
+body.barra-visible .gallery-container {
+    margin-top: 80px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .barra-info-contextual {
+        top: 135px;
+    }
+    
+    .barra-info-content {
+        padding: 10px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .barra-mensaje-busqueda {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        width: 100%;
+    }
+     
+    .barra-boton-limpiar {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* Solo barra de salud financiera activa */
+    body.salud-financiera-activa:not(.barra-visible) .gallery-container {
+        margin-top: 90px;
+    }
+
+    /* Ambas barras activas (salud + resultados) */
+    body.salud-financiera-activa.barra-visible .gallery-container {
+        margin-top: 210px;
+    }
+}
+
+
+/* ========================================
+   BARRA SALUD FINANCIERA
+   Negro con datos del cliente
+   ======================================== */
+
+.barra-salud-financiera {
+    position: fixed;
+    top: 75px;
+    left: 0;
+    right: 0;
+    min-height: 50px;
+    background: #1f1f1f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 8001;
+    display: none;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #333;
+}
+
+.barra-salud-financiera.visible {
+    display: block;
+}
+
+.barra-salud-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 10px;
+    display: flex;  /* VOLVER A PONER */
+    flex-wrap: wrap;  /* AGREGAR */
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    color: white;
+}
+
+.cliente-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+.cliente-nombre {
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cliente-datos {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+.dato-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dato-label {
+    color: #aaa;
+}
+
+.dato-valor {
+    font-weight: 600;
+}
+
+.cupo-valor {
+    font-weight: bold;
+    font-size: 15px;
+    padding: 4px 20px;
+    border-radius: 4px;
+}
+
+.cupo-verde {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.cupo-amarillo {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.cupo-rojo {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.boton-expandir {
+    background: transparent;
+    color: white;
+    border: 2px solid #444;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: block;  /* CAMBIAR: mostrar en desktop también */
+    margin-left: 15px;
+}
+
+.boton-expandir:hover {
+    border-color: #666;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.datos-expandidos {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #333;
+    display: none;
+    flex-direction: column;  /* AGREGAR */
+}
+
+.datos-expandidos.visible {
+    display: flex /* CAMBIAR de block a flex */
+}
+
+/* Mostrar datos expandidos cuando la barra está expandida */
+/* En desktop: datos expandidos van a nueva línea */
+.barra-salud-content.expandido .datos-expandidos {
+    display: flex;
+    width: 100%;
+    flex-basis: 100%;  /* Forzar nueva línea */
+}
+
+/* Desktop: espacio entre barras */
+@media screen and (min-width: 769px) {
+    body.salud-financiera-activa .barra-info-contextual {
+        top: 130px;
+    }
+}
+
+/* Desktop: Gallery debajo de barra de salud financiera */
+body.salud-financiera-activa .gallery-container {
+    margin-top: 70px;  /* Espacio para barra de salud */
+}
+
+/* Desktop: Gallery con ambas barras (salud + resultados) */
+body.salud-financiera-activa.barra-visible .gallery-container {
+    margin-top: 130px;  /* Espacio para ambas barras */
+}
+
+/* Desktop: Sin salud financiera pero con búsqueda */
+body:not(.salud-financiera-activa).barra-visible .gallery-container {
+    margin-top: 60px;
+}
+
+
+.dato-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Reordenar: Pago este mes primero, Saldo Total último */
+.datos-expandidos .dato-row:nth-child(1) {
+    order: 2;  /* Saldo Total va al final */
+}
+
+.datos-expandidos .dato-row:nth-child(2) {
+    order: 1;  /* pago-este mes va primero */
+}
+
+
+
+body:not(.salud-financiera-activa) .barra-info-contextual {
+    top: 75px;
+}
+
+@media screen and (max-width: 768px) {
+    .barra-salud-financiera {
+        top: 135px;
+    }
+
+    /* Desktop: espacio entre barras */
+    body.salud-financiera-activa .barra-info-contextual {
+        top: 193px;
+    }
+    
+    body:not(.salud-financiera-activa) .barra-info-contextual {
+        top: 135px;
+    }
+    
+    /* Contenedor principal: todo en row con wrap */
+    .barra-salud-content {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0;
+    }
+    
+    /* Cliente info: ocupar casi todo el ancho */
+    .cliente-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+        flex: 1;
+        min-width: 0;
+        gap: 10px;
+    }
+    
+    .cliente-nombre {
+        flex-shrink: 0;
+    }
+    
+    /* El cupo siempre visible */
+    .cliente-info > .dato-item {
+        flex-shrink: 0;
+        margin-left: auto;  /* Empujar a la derecha */
+    }
+    
+    /* Botón al final de la primera línea */
+    .boton-expandir {
+        display: block;
+        flex-shrink: 0;
+        margin-left: 15px;  /* Separación entre cupo y flecha */
+    }
+    
+    /* Datos expandibles ocultos por defecto */
+    .cliente-datos {
+        display: none;
+    }
+    
+    /* Cuando se expande: datos ocupan nueva línea COMPLETA */
+    .barra-salud-content.expandido .cliente-datos {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        flex-basis: 100%;  /* Forzar nueva línea */
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex;  /* CAMBIAR de block a flex */
+        flex-direction: column;  /* AGREGAR */
+        width: 100%;
+        flex-basis: 100%;
+    }
+    
+    .dato-item {
+        width: auto;
+        justify-content: flex-start;
+        gap: 3px;
+    }
+    
+    /* Ajuste de márgenes para gallery */
+    body.salud-financiera-activa:not(.barra-visible) .gallery-container {
+        margin-top: 90px;
+    }
+    
+    body.salud-financiera-activa.barra-visible .gallery-container {
+        margin-top: 140px;
+    }
+    
+
+}
+
+/* Responsive - Móviles pequeños */
+@media screen and (max-width: 410px) {
+    /* Aumentar tamaño de letra del input de búsqueda */
+    nav input[type="text"] {
+        font-size: 16px !important;
+    }
+    
+    /* Placeholder más grande */
+    nav input[type="text"]::placeholder {
+        font-size: 16px !important;
+    }
+
+    /* ⭐ AGREGAR ESTAS REGLAS ⭐ */
+    /* Bajar la barra de salud financiera */
+    .barra-salud-financiera {
+        top: 135px !important;
+    }
+    
+    /* Bajar la barra-info según estado */
+    /* CON resultados visibles - más espacio */
+    body.salud-financiera-activa .barra-info-contextual.visible {
+        top: 220px !important; /* Con datos - más espacio */
+    }
+
+    /* SIN resultados o vacía - menos espacio */
+    body.salud-financiera-activa .barra-info-contextual:not(.visible) {
+        top: 229px !important; /* Vacía - menos espacio */
+    }
+    
+    body:not(.salud-financiera-activa) .barra-info-contextual {
+        top: 135px !important; /* Sin salud financiera, un poco más abajo que el header */
+    }
+    
+    /* Altura máxima para que no se salga de pantalla */
+    .barra-info-contextual {
+        max-height: calc(100vh - 250px) !important;
+    }
+
+    /* ⭐ BARRA DE SALUD FINANCIERA ⭐ */
+    
+    /* Contenedor principal */
+    .barra-salud-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+    
+    /* Cliente info con wrap para crear filas */
+    .cliente-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+        align-items: center;
+    }
+    
+    /* FILA 1: Nombre */
+    .cliente-nombre {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 12px;
+    }
+    
+    /* FILA 1: Botón expandir */
+    .boton-expandir {
+        order: 2;
+        flex: 0 0 auto;
+        margin-left: 0;
+    }
+    
+    /* Forzar salto de línea después del botón */
+    .cliente-info::after {
+        content: '';
+        order: 2;
+        flex-basis: 100%;
+        height: 0;
+    }
+    
+    /* FILA 2: Cupo */
+    .cliente-info > .dato-item:first-of-type {
+        order: 3;
+        flex: 1 1 30%;
+        min-width: 0;
+        text-align: center;
+    }
+    
+    /* FILA 2: Mostrar cliente-datos */
+    .cliente-info .cliente-datos {
+        order: 4;
+        display: flex !important;
+        flex: 1 1 65%;
+        gap: 8px;
+    }
+    
+    /* PG Prom y Compró: distribuir espacio */
+    .cliente-datos .dato-item {
+        flex: 1;
+        text-align: center;
+    }
+    
+    /* Ocultar datos expandidos */
+    .datos-expandidos {
+        display: none !important;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+    
+    /* Ajustar fuentes */
+    .dato-label {
+        font-size: 12px;
+        display: block;
+    }
+    
+    .dato-valor,
+    .cupo-valor {
+        font-size: 13px;
+        font-weight: 600;
+        display: block;
+    }
+    
+
+    /* Al expandir: Mostrar todos los datos */
+    .barra-salud-content.expandido .datos-expandidos {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    
+    .barra-salud-content.expandido .datos-expandidos .dato-row {
+        display: flex !important;
+        justify-content: space-between !important;
+    }
+    
+    
+
+}
+
+
+/* ========================================
+   ESTILOS ADICIONALES PARA BÚSQUEDA DE CLIENTES
+   ======================================== */
+
+/* Ícono de estado de cuentas */
+.fa-hand-holding-usd::before {
+    content: "\f4c0";
+}
+
+/* Ícono de búsqueda de clientes */
+.fa-people-group::before {
+    content: "\f0c0";
+}
+
+/* Ajuste de z-index para la barra info contextual */
+.barra-info-contextual {
+    z-index: 8000;
+}
+
+/* Asegurar que la barra de salud financiera esté por encima */
+.barra-salud-financiera {
+    z-index: 8001;
+}
+
+/* ========================================
+   MODO CLIENTE - Vista simplificada
+   ======================================== */
+
+/* Ocultar cupo y datos de vendedor */
+.barra-salud-financiera.modo-cliente .cliente-info .dato-item,
+.barra-salud-financiera.modo-cliente .cliente-datos {
+    display: none !important;
+}
+
+/* ⭐ MOSTRAR botón expandir en modo cliente ⭐ */
+.barra-salud-financiera.modo-cliente .boton-expandir {
+    display: flex !important;
+}
+
+/* Por defecto: datos OCULTOS (colapsado) */
+.barra-salud-financiera.modo-cliente .datos-expandidos {
+    display: none !important;
+}
+
+/* Cuando se expande: mostrar datos */
+.barra-salud-financiera.modo-cliente .barra-salud-content.expandido .datos-expandidos {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+}
+
+/* Ocultar TODOS los datos expandidos primero */
+.barra-salud-financiera.modo-cliente .datos-expandidos .dato-row {
+    display: none !important;
+}
+
+/* Mostrar SOLO Saldo Total y Última Operación */
+.barra-salud-financiera.modo-cliente .datos-expandidos .dato-row:has(#saldo-total),
+.barra-salud-financiera.modo-cliente .datos-expandidos .dato-row:has(#ult-operacion) {
+    display: flex !important;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+/* Ajustar nombre del cliente */
+.barra-salud-financiera.modo-cliente .cliente-info {
+    width: 100%;
+}
+
+.barra-salud-financiera.modo-cliente .cliente-nombre {
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* ========================================
+   BARRA-INFO: Ajustes según estado modo cliente
+   ======================================== */
+
+/* DESKTOP: Modo cliente COLAPSADO */
+body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .barra-info-contextual {
+    top: 130px !important;
+}
+
+/* DESKTOP: Modo cliente EXPANDIDO */
+body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .barra-info-contextual {
+    top: 230px !important;
+}
+
+/* TABLET: Modo cliente COLAPSADO */
+@media screen and (max-width: 768px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .barra-info-contextual {
+        top: 190px !important;
+    }
+    
+    /* TABLET: Modo cliente EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .barra-info-contextual {
+        top: 275px !important;
+    }
+}
+
+/* MOBILE: Modo cliente COLAPSADO */
+@media screen and (max-width: 410px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .barra-info-contextual {
+        top: 190px !important;
+    }
+    
+    /* MOBILE: Modo cliente EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .barra-info-contextual {
+        top: 300px !important;
+    }
+}
+
+/* ========================================
+   GALLERY-CONTAINER: Ajustes según estado modo cliente
+   ======================================== */
+
+/* DESKTOP: Modo cliente COLAPSADO */
+body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+    margin-top: 120px !important;
+}
+
+/* DESKTOP: Modo cliente EXPANDIDO */
+body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+    margin-top: 220px !important;
+}
+
+/* TABLET: Modo cliente COLAPSADO */
+@media screen and (max-width: 768px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 100px !important;
+    }
+    
+    /* TABLET: Modo cliente EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+        margin-top: 190px !important;
+    }
+}
+
+/* MOBILE: Modo cliente COLAPSADO */
+@media screen and (max-width: 410px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 85px !important;
+    }
+    
+    /* MOBILE: Modo cliente EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+        margin-top: 200px !important;
+    }
+}
+
+/* ========================================
+   GALLERY-CONTAINER: Modo cliente SIN barra-info visible
+   ======================================== */
+
+/* DESKTOP: Modo cliente COLAPSADO - Sin barra-info */
+body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+    margin-top: 80px !important;
+}
+
+/* DESKTOP: Modo cliente EXPANDIDO - Sin barra-info */
+body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+    margin-top: 170px !important;
+}
+
+/* TABLET: Modo cliente COLAPSADO - Sin barra-info */
+@media screen and (max-width: 768px) {
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 80px !important;
+    }
+    
+    /* TABLET: Modo cliente EXPANDIDO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+        margin-top: 150px !important;
+    }
+}
+
+/* MOBILE: Modo cliente COLAPSADO - Sin barra-info */
+@media screen and (max-width: 410px) {
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 10px !important;
+    }
+    
+    /* MOBILE: Modo cliente EXPANDIDO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera.modo-cliente .barra-salud-content.expandido) .gallery-container {
+        margin-top: 150px !important;
+    }
+}
+
+/* ========================================
+   GALLERY-CONTAINER: Modo vendedor
+   ======================================== */
+
+/* DESKTOP: Modo vendedor COLAPSADO - Con barra-info */
+body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+    margin-top: 120px !important;
+}
+
+/* DESKTOP: Modo vendedor EXPANDIDO - Con barra-info */
+body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+    margin-top: 240px !important;
+}
+
+/* DESKTOP: Modo vendedor COLAPSADO - Sin barra-info */
+body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+    margin-top: 70px !important;
+}
+
+/* DESKTOP: Modo vendedor EXPANDIDO - Sin barra-info */
+body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+    margin-top: 190px !important;
+}
+
+/* TABLET: Modo vendedor COLAPSADO - Con barra-info */
+@media screen and (max-width: 768px) {
+    body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 130px !important;
+    }
+    
+    /* TABLET: Modo vendedor EXPANDIDO - Con barra-info */
+    body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+        margin-top: 290px !important;
+    }
+    
+    /* TABLET: Modo vendedor COLAPSADO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 90px !important;
+    }
+    
+    /* TABLET: Modo vendedor EXPANDIDO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+        margin-top: 220px !important;
+    }
+}
+
+/* MOBILE: Modo vendedor COLAPSADO - Con barra-info */
+@media screen and (max-width: 410px) {
+    body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 130px !important;
+    }
+    
+    /* MOBILE: Modo vendedor EXPANDIDO - Con barra-info */
+    body.salud-financiera-activa.barra-visible:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+        margin-top: 280px !important;
+    }
+    
+    /* MOBILE: Modo vendedor COLAPSADO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .gallery-container {
+        margin-top: 80px !important;
+    }
+    
+    /* MOBILE: Modo vendedor EXPANDIDO - Sin barra-info */
+    body.salud-financiera-activa:not(.barra-visible):has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .gallery-container {
+        margin-top: 245px !important;
+    }
+}
+
+/* ========================================
+   BARRA-INFO: Ajustes según estado modo vendedor
+   ======================================== */
+
+/* DESKTOP: Modo vendedor COLAPSADO */
+body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .barra-info-contextual {
+    top: 130px !important;
+}
+
+/* DESKTOP: Modo vendedor EXPANDIDO */
+body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .barra-info-contextual {
+    top: 250px !important;
+}
+
+/* TABLET: Modo vendedor COLAPSADO */
+@media screen and (max-width: 768px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .barra-info-contextual {
+        top: 205px !important;
+    }
+    
+    /* TABLET: Modo vendedor EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .barra-info-contextual {
+        top: 350px !important;
+    }
+}
+
+/* MOBILE: Modo vendedor COLAPSADO */
+@media screen and (max-width: 410px) {
+    body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .barra-info-contextual {
+        top: 238px !important;
+    }
+    
+    /* MOBILE: Modo vendedor EXPANDIDO */
+    body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .barra-info-contextual {
+        top: 403px !important;
+    }
 }

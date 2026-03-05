@@ -1,0 +1,2462 @@
+{
+  "usuarios": {
+    "1218": {
+      "clave": "1218",
+      "nombre": "ROBERTO",
+      "rol": "vendedor_estandar",
+      "codigo": "RF"
+    },
+    "1959": {
+      "clave": "1959",
+      "nombre": "JAIME",
+      "rol": "vendedor_estandar",
+      "codigo": "JG"
+    },
+    "5625": {
+      "clave": "5625",
+      "nombre": "CHRISTIAN",
+      "rol": "vendedor_estandar",
+      "codigo": "CS"
+    },
+    "1817": {
+      "clave": "1817",
+      "nombre": "HERNAN",
+      "rol": "admin"
+    },
+    "5737": {
+      "clave": "5737",
+      "nombre": "ISRAEL",
+      "rol": "admin"
+    },
+    "949": {
+      "clave": "949",
+      "nombre": "EDU FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "949"
+    },
+    "20271": {
+      "clave": "20271",
+      "nombre": "M y R SANITARIOS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20271"
+    },
+    "90679": {
+      "clave": "90679",
+      "nombre": "EL COLO CLIENTE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90679"
+    },
+    "20163": {
+      "clave": "20163",
+      "nombre": "EBEN EZER SANITARIOS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20163"
+    },
+    "965": {
+      "clave": "965",
+      "nombre": "CASA CAEIRO MATERIAL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "965"
+    },
+    "20241": {
+      "clave": "20241",
+      "nombre": "LOS CHAQUEÑOS FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20241"
+    },
+    "20164": {
+      "clave": "20164",
+      "nombre": "A Y B FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20164"
+    },
+    "33": {
+      "clave": "33",
+      "nombre": "AMADEO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "33"
+    },
+    "20179": {
+      "clave": "20179",
+      "nombre": "DOBALE CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20179"
+    },
+    "70114": {
+      "clave": "70114",
+      "nombre": "FERRETERIA FERRECAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70114"
+    },
+    "20290": {
+      "clave": "20290",
+      "nombre": "CONSTRUCTORA SYS SA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20290"
+    },
+    "20380": {
+      "clave": "20380",
+      "nombre": "FERRETERIA PITU",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20380"
+    },
+    "70103": {
+      "clave": "70103",
+      "nombre": "CERAMICA SAN EDUARDO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70103"
+    },
+    "1021": {
+      "clave": "1021",
+      "nombre": "FERRETERIA GERMAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1021"
+    },
+    "20228": {
+      "clave": "20228",
+      "nombre": "PABLO GISELA CORRALO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20228"
+    },
+    "946": {
+      "clave": "946",
+      "nombre": "FABIAN FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "946"
+    },
+    "90705": {
+      "clave": "90705",
+      "nombre": "KALO TM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90705"
+    },
+    "70113": {
+      "clave": "70113",
+      "nombre": "ILUMINARTE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70113"
+    },
+    "20309": {
+      "clave": "20309",
+      "nombre": "LATINA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20309"
+    },
+    "60279": {
+      "clave": "60279",
+      "nombre": "FERRETERIA KJOCHALO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60279"
+    },
+    "90660": {
+      "clave": "90660",
+      "nombre": "VILLEGAS FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90660"
+    },
+    "20137": {
+      "clave": "20137",
+      "nombre": "CABOT CORRALON d/MAT",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20137"
+    },
+    "50819": {
+      "clave": "50819",
+      "nombre": "DON COTY FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50819"
+    },
+    "20101": {
+      "clave": "20101",
+      "nombre": "J.R. FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20101"
+    },
+    "969": {
+      "clave": "969",
+      "nombre": "CORRALON LINCH",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "969"
+    },
+    "20256": {
+      "clave": "20256",
+      "nombre": "LAYMAR FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20256"
+    },
+    "20096": {
+      "clave": "20096",
+      "nombre": "LA QUINTA MATERIALES",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20096"
+    },
+    "20284": {
+      "clave": "20284",
+      "nombre": "LA PATORA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20284"
+    },
+    "950": {
+      "clave": "950",
+      "nombre": "MARIANO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "950"
+    },
+    "61012": {
+      "clave": "61012",
+      "nombre": "EL TREBOL FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "61012"
+    },
+    "61004": {
+      "clave": "61004",
+      "nombre": "CASA MIGUEL FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "61004"
+    },
+    "20292": {
+      "clave": "20292",
+      "nombre": "CIRO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20292"
+    },
+    "20166": {
+      "clave": "20166",
+      "nombre": "CASA LEO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20166"
+    },
+    "60130": {
+      "clave": "60130",
+      "nombre": "MATIAS FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60130"
+    },
+    "1017": {
+      "clave": "1017",
+      "nombre": "FERRETERIA ULISES",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1017"
+    },
+    "50623": {
+      "clave": "50623",
+      "nombre": "FERRETERIA LAPLACE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50623"
+    },
+    "1002": {
+      "clave": "1002",
+      "nombre": "CORRALON HS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1002"
+    },
+    "1018": {
+      "clave": "1018",
+      "nombre": "EL CORDOBES FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1018"
+    },
+    "50808": {
+      "clave": "50808",
+      "nombre": "CORRALON LA CURVA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50808"
+    },
+    "60245": {
+      "clave": "60245",
+      "nombre": "FERRETERIA GENERAL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60245"
+    },
+    "237": {
+      "clave": "237",
+      "nombre": "PAROISSIEN FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "237"
+    },
+    "90602": {
+      "clave": "90602",
+      "nombre": "EL DORADO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90602"
+    },
+    "963": {
+      "clave": "963",
+      "nombre": "CORDERO J.CARLOS FER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "963"
+    },
+    "20303": {
+      "clave": "20303",
+      "nombre": "CORRALON NICOL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20303"
+    },
+    "60242": {
+      "clave": "60242",
+      "nombre": "FERRETERIA DOBLE C",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60242"
+    },
+    "60126": {
+      "clave": "60126",
+      "nombre": "MARY FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60126"
+    },
+    "70640": {
+      "clave": "70640",
+      "nombre": "LOS 4 HERMANOS FERRE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70640"
+    },
+    "60253": {
+      "clave": "60253",
+      "nombre": "FERRETERIA EMILIANO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60253"
+    },
+    "90671": {
+      "clave": "90671",
+      "nombre": "CLAVIJO OSCAR ALBERT",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90671"
+    },
+    "20282": {
+      "clave": "20282",
+      "nombre": "LEOPARDI FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20282"
+    },
+    "60124": {
+      "clave": "60124",
+      "nombre": "FERRENOVA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60124"
+    },
+    "60139": {
+      "clave": "60139",
+      "nombre": "VICTOR FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60139"
+    },
+    "60290": {
+      "clave": "60290",
+      "nombre": "FERRETERIA JUAN FER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60290"
+    },
+    "60205": {
+      "clave": "60205",
+      "nombre": "GABRIELA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60205"
+    },
+    "20180": {
+      "clave": "20180",
+      "nombre": "R.R FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20180"
+    },
+    "90683": {
+      "clave": "90683",
+      "nombre": "CRISTIAN DISTRIBUIDO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90683"
+    },
+    "20116": {
+      "clave": "20116",
+      "nombre": "DE LA FUENTE FERRETE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20116"
+    },
+    "1010": {
+      "clave": "1010",
+      "nombre": "FERRETERIA CHIOZZA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1010"
+    },
+    "60191": {
+      "clave": "60191",
+      "nombre": "CORRALON LA VICTORIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60191"
+    },
+    "20246": {
+      "clave": "20246",
+      "nombre": "RAFAEL  FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20246"
+    },
+    "20331": {
+      "clave": "20331",
+      "nombre": "LA ESQUINA FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20331"
+    },
+    "60206": {
+      "clave": "60206",
+      "nombre": "POLLEDO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60206"
+    },
+    "992": {
+      "clave": "992",
+      "nombre": "EL NEGRO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "992"
+    },
+    "20293": {
+      "clave": "20293",
+      "nombre": "ARMONIA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20293"
+    },
+    "20395": {
+      "clave": "20395",
+      "nombre": "FERRETERIA RITA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20395"
+    },
+    "20285": {
+      "clave": "20285",
+      "nombre": "TAHIEL FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20285"
+    },
+    "61102": {
+      "clave": "61102",
+      "nombre": "HERMANOS DE LA PUNA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "61102"
+    },
+    "60222": {
+      "clave": "60222",
+      "nombre": "FERRETERIA AFFRE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60222"
+    },
+    "60280": {
+      "clave": "60280",
+      "nombre": "FERRETERIA EL TALA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60280"
+    },
+    "20357": {
+      "clave": "20357",
+      "nombre": "PAEZ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20357"
+    },
+    "90708": {
+      "clave": "90708",
+      "nombre": "ALAN VAZQUEZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90708"
+    },
+    "962": {
+      "clave": "962",
+      "nombre": "AZ FERRTERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "962"
+    },
+    "20298": {
+      "clave": "20298",
+      "nombre": "LA FAMILIA FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20298"
+    },
+    "90504": {
+      "clave": "90504",
+      "nombre": "ALBERDI MATERIALES",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90504"
+    },
+    "20234": {
+      "clave": "20234",
+      "nombre": "NOELIA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20234"
+    },
+    "308": {
+      "clave": "308",
+      "nombre": "ADRIAN BULON CAMERO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "308"
+    },
+    "20374": {
+      "clave": "20374",
+      "nombre": "NAVARRO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20374"
+    },
+    "20381": {
+      "clave": "20381",
+      "nombre": "CASA LAUTARO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20381"
+    },
+    "20200": {
+      "clave": "20200",
+      "nombre": "VALDEZ DANIEL FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20200"
+    },
+    "20310": {
+      "clave": "20310",
+      "nombre": "AMANDA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20310"
+    },
+    "20260": {
+      "clave": "20260",
+      "nombre": "CORRALON 1001",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20260"
+    },
+    "60219": {
+      "clave": "60219",
+      "nombre": "EL PELADO CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60219"
+    },
+    "20236": {
+      "clave": "20236",
+      "nombre": "FERRETERIA S Y D",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20236"
+    },
+    "50230": {
+      "clave": "50230",
+      "nombre": "FERRETERIA LOS VASCO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50230"
+    },
+    "20362": {
+      "clave": "20362",
+      "nombre": "FERRETERIA RAMIREZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20362"
+    },
+    "987": {
+      "clave": "987",
+      "nombre": "LA HERRADURA FERRETE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "987"
+    },
+    "20272": {
+      "clave": "20272",
+      "nombre": "EL COLIBRI CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20272"
+    },
+    "10163": {
+      "clave": "10163",
+      "nombre": "CORRALON ESCALISE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10163"
+    },
+    "20113": {
+      "clave": "20113",
+      "nombre": "EL VIRREY CORRALON d",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20113"
+    },
+    "20110": {
+      "clave": "20110",
+      "nombre": "MATEO (2) FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20110"
+    },
+    "1039": {
+      "clave": "1039",
+      "nombre": "FERRETERIA PERICO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1039"
+    },
+    "955": {
+      "clave": "955",
+      "nombre": "FERRETERIA VILLARRUB",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "955"
+    },
+    "1006": {
+      "clave": "1006",
+      "nombre": "CORRALON LA ESTACION",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1006"
+    },
+    "233": {
+      "clave": "233",
+      "nombre": "FERRETERIA IMPERIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "233"
+    },
+    "50820": {
+      "clave": "50820",
+      "nombre": "FERRETERIA LA PETY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50820"
+    },
+    "60289": {
+      "clave": "60289",
+      "nombre": "FERRETERIA EL ÑANDU",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60289"
+    },
+    "934": {
+      "clave": "934",
+      "nombre": "CORRALON JP",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "934"
+    },
+    "50622": {
+      "clave": "50622",
+      "nombre": "LAFE-RRETERIA PONTEV",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50622"
+    },
+    "20277": {
+      "clave": "20277",
+      "nombre": "ORTIZ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20277"
+    },
+    "40137": {
+      "clave": "40137",
+      "nombre": "JAVI FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40137"
+    },
+    "40139": {
+      "clave": "40139",
+      "nombre": "ENCINA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40139"
+    },
+    "972": {
+      "clave": "972",
+      "nombre": "EL GALPON PINTURERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "972"
+    },
+    "50809": {
+      "clave": "50809",
+      "nombre": "CORRALON EL GATO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50809"
+    },
+    "50826": {
+      "clave": "50826",
+      "nombre": "RODOLFO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50826"
+    },
+    "60286": {
+      "clave": "60286",
+      "nombre": "FERRETERIA CASERES A",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60286"
+    },
+    "60157": {
+      "clave": "60157",
+      "nombre": "COOPERATIVA R.J.R.T",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60157"
+    },
+    "952": {
+      "clave": "952",
+      "nombre": "ADRIAN MARQUES FERRE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "952"
+    },
+    "50224": {
+      "clave": "50224",
+      "nombre": "JUANCHI CORDERO FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50224"
+    },
+    "20100": {
+      "clave": "20100",
+      "nombre": "EL RELINCHO FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20100"
+    },
+    "60293": {
+      "clave": "60293",
+      "nombre": "FERRETERIA 07",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60293"
+    },
+    "60297": {
+      "clave": "60297",
+      "nombre": "FERRETERIA JULIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60297"
+    },
+    "20258": {
+      "clave": "20258",
+      "nombre": "EMPRENDIMIENTOS DAMA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20258"
+    },
+    "20296": {
+      "clave": "20296",
+      "nombre": "IVAN \"2\" FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20296"
+    },
+    "20169": {
+      "clave": "20169",
+      "nombre": "CHARLY FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20169"
+    },
+    "1030": {
+      "clave": "1030",
+      "nombre": "FERRETERIA CONTRERAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1030"
+    },
+    "60216": {
+      "clave": "60216",
+      "nombre": "UNIMOK (MANOLO)",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60216"
+    },
+    "1033": {
+      "clave": "1033",
+      "nombre": "FERRETERIA FERREMIX",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1033"
+    },
+    "20230": {
+      "clave": "20230",
+      "nombre": "EL TRUENO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20230"
+    },
+    "40143": {
+      "clave": "40143",
+      "nombre": "EL TAURO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40143"
+    },
+    "40151": {
+      "clave": "40151",
+      "nombre": "FERRETERIA LUJAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40151"
+    },
+    "60133": {
+      "clave": "60133",
+      "nombre": "MARITO OBARRIO FERRE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60133"
+    },
+    "1015": {
+      "clave": "1015",
+      "nombre": "CORRALON ISAIAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1015"
+    },
+    "60225": {
+      "clave": "60225",
+      "nombre": "MATERIALES AGUILAR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60225"
+    },
+    "1038": {
+      "clave": "1038",
+      "nombre": "FERRETERIA LOCK",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1038"
+    },
+    "61018": {
+      "clave": "61018",
+      "nombre": "FERREIRA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "61018"
+    },
+    "20379": {
+      "clave": "20379",
+      "nombre": "NUNE FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20379"
+    },
+    "20291": {
+      "clave": "20291",
+      "nombre": "EL PROGRESO FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20291"
+    },
+    "20275": {
+      "clave": "20275",
+      "nombre": "LA CHAVETA FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20275"
+    },
+    "1024": {
+      "clave": "1024",
+      "nombre": "FERRETERIA MP",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1024"
+    },
+    "20148": {
+      "clave": "20148",
+      "nombre": "FLORES FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20148"
+    },
+    "20103": {
+      "clave": "20103",
+      "nombre": "ELEUTERIO FERNANDEZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20103"
+    },
+    "50813": {
+      "clave": "50813",
+      "nombre": "MARCELO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50813"
+    },
+    "20301": {
+      "clave": "20301",
+      "nombre": "LARRAYA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20301"
+    },
+    "60196": {
+      "clave": "60196",
+      "nombre": "WORO 2 FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60196"
+    },
+    "974": {
+      "clave": "974",
+      "nombre": "CORRALON URIBE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "974"
+    },
+    "60217": {
+      "clave": "60217",
+      "nombre": "FERRETERIA VM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60217"
+    },
+    "20319": {
+      "clave": "20319",
+      "nombre": "LU-MI FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20319"
+    },
+    "10107": {
+      "clave": "10107",
+      "nombre": "GONZALEZ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10107"
+    },
+    "958": {
+      "clave": "958",
+      "nombre": "FORRAJERIA MARTIN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "958"
+    },
+    "939": {
+      "clave": "939",
+      "nombre": "AGUSTINA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "939"
+    },
+    "50607": {
+      "clave": "50607",
+      "nombre": "LA BOTICA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50607"
+    },
+    "10137": {
+      "clave": "10137",
+      "nombre": "FERRETERIA GASTON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10137"
+    },
+    "70102": {
+      "clave": "70102",
+      "nombre": "CASA GIMENEZ FERRETE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70102"
+    },
+    "90706": {
+      "clave": "90706",
+      "nombre": "MOTOS COCO XL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90706"
+    },
+    "60137": {
+      "clave": "60137",
+      "nombre": "FERRETERIA CARRIZO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60137"
+    },
+    "60274": {
+      "clave": "60274",
+      "nombre": "ELECTRICA LOLY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60274"
+    },
+    "60258": {
+      "clave": "60258",
+      "nombre": "FERRETERIA CLAUDIO (",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60258"
+    },
+    "60180": {
+      "clave": "60180",
+      "nombre": "ALUM-GLASS FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60180"
+    },
+    "70109": {
+      "clave": "70109",
+      "nombre": "FATIMA GUALY FERRETE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70109"
+    },
+    "1035": {
+      "clave": "1035",
+      "nombre": "FERRETERIA TORRENT",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1035"
+    },
+    "20318": {
+      "clave": "20318",
+      "nombre": "CASA DAMIAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20318"
+    },
+    "60241": {
+      "clave": "60241",
+      "nombre": "FERRETERIA LA LUZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60241"
+    },
+    "20174": {
+      "clave": "20174",
+      "nombre": "EL REY ZINGUERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20174"
+    },
+    "40141": {
+      "clave": "40141",
+      "nombre": "JORGE LA NUEVA 2 FER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40141"
+    },
+    "1016": {
+      "clave": "1016",
+      "nombre": "FERRETERIA FERREMAX",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1016"
+    },
+    "998": {
+      "clave": "998",
+      "nombre": "LAS ACACIAS CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "998"
+    },
+    "50445": {
+      "clave": "50445",
+      "nombre": "FERRETERIA ALAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50445"
+    },
+    "60165": {
+      "clave": "60165",
+      "nombre": "NA-FA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60165"
+    },
+    "50812": {
+      "clave": "50812",
+      "nombre": "CORRALON RH",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50812"
+    },
+    "20262": {
+      "clave": "20262",
+      "nombre": "LA BANDA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20262"
+    },
+    "1009": {
+      "clave": "1009",
+      "nombre": "SUPERMERCADO LAS HER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1009"
+    },
+    "50806": {
+      "clave": "50806",
+      "nombre": "L Y M FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50806"
+    },
+    "20371": {
+      "clave": "20371",
+      "nombre": "DE TODO UN POCO FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20371"
+    },
+    "30101": {
+      "clave": "30101",
+      "nombre": "CORRALON JESUS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "30101"
+    },
+    "60287": {
+      "clave": "60287",
+      "nombre": "FERRETERIA PATRICIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60287"
+    },
+    "1027": {
+      "clave": "1027",
+      "nombre": "FERRETERIA GARAY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1027"
+    },
+    "980": {
+      "clave": "980",
+      "nombre": "CORRALON CABEZON PER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "980"
+    },
+    "956": {
+      "clave": "956",
+      "nombre": "LOS POZOS FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "956"
+    },
+    "93": {
+      "clave": "93",
+      "nombre": "ALBERTO CARDOSO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "93"
+    },
+    "10162": {
+      "clave": "10162",
+      "nombre": "ENRIQUE FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10162"
+    },
+    "20224": {
+      "clave": "20224",
+      "nombre": "ACOSTA WALTER FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20224"
+    },
+    "961": {
+      "clave": "961",
+      "nombre": "CHICHO FERRTERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "961"
+    },
+    "60254": {
+      "clave": "60254",
+      "nombre": "ROBERTO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60254"
+    },
+    "20204": {
+      "clave": "20204",
+      "nombre": "FERREPITER FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20204"
+    },
+    "20388": {
+      "clave": "20388",
+      "nombre": "FERRETERIA SAN CAYET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20388"
+    },
+    "5": {
+      "clave": "5",
+      "nombre": "MUNDOMAT SRL.CORRALO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "5"
+    },
+    "20178": {
+      "clave": "20178",
+      "nombre": "DON PANCHO FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20178"
+    },
+    "60172": {
+      "clave": "60172",
+      "nombre": "PIEDRA BLANCA FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60172"
+    },
+    "20397": {
+      "clave": "20397",
+      "nombre": "CORRALON SAN JORGE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20397"
+    },
+    "20281": {
+      "clave": "20281",
+      "nombre": "PEDRO IVAN FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20281"
+    },
+    "20125": {
+      "clave": "20125",
+      "nombre": "MATERIALES EL 35",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20125"
+    },
+    "20337": {
+      "clave": "20337",
+      "nombre": "FERRETERIA LAS MELLI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20337"
+    },
+    "50810": {
+      "clave": "50810",
+      "nombre": "LAS NENAS FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50810"
+    },
+    "60285": {
+      "clave": "60285",
+      "nombre": "FERRETERIA MUJICA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60285"
+    },
+    "10167": {
+      "clave": "10167",
+      "nombre": "ISLEÑO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10167"
+    },
+    "50818": {
+      "clave": "50818",
+      "nombre": "EL URU FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50818"
+    },
+    "20320": {
+      "clave": "20320",
+      "nombre": "LUCENA JULIAN FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20320"
+    },
+    "20366": {
+      "clave": "20366",
+      "nombre": "MADERERA COBO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20366"
+    },
+    "20129": {
+      "clave": "20129",
+      "nombre": "LUCIA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20129"
+    },
+    "10157": {
+      "clave": "10157",
+      "nombre": "ITATI CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10157"
+    },
+    "940": {
+      "clave": "940",
+      "nombre": "EL 44 FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "940"
+    },
+    "20340": {
+      "clave": "20340",
+      "nombre": "FERNANDO ELECTRICIDA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20340"
+    },
+    "50227": {
+      "clave": "50227",
+      "nombre": "FORTEMAX FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50227"
+    },
+    "20386": {
+      "clave": "20386",
+      "nombre": "CARMEN EL PORTUGUES",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20386"
+    },
+    "60281": {
+      "clave": "60281",
+      "nombre": "CASA MAXIMO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60281"
+    },
+    "1031": {
+      "clave": "1031",
+      "nombre": "TRENTIN ALEJANDRO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1031"
+    },
+    "20242": {
+      "clave": "20242",
+      "nombre": "COSENTINO JORGE FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20242"
+    },
+    "50831": {
+      "clave": "50831",
+      "nombre": "FERRETERIA MYM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50831"
+    },
+    "993": {
+      "clave": "993",
+      "nombre": "LOS 22 FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "993"
+    },
+    "60148": {
+      "clave": "60148",
+      "nombre": "FERRETERIA ROMY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60148"
+    },
+    "60159": {
+      "clave": "60159",
+      "nombre": "EL ARROYO CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60159"
+    },
+    "90630": {
+      "clave": "90630",
+      "nombre": "FERRETERIA DUARTE HE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90630"
+    },
+    "60230": {
+      "clave": "60230",
+      "nombre": "CORRALON BETO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60230"
+    },
+    "60215": {
+      "clave": "60215",
+      "nombre": "FERRETERIA COLON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60215"
+    },
+    "20385": {
+      "clave": "20385",
+      "nombre": "FERRETERIA OHANA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20385"
+    },
+    "60198": {
+      "clave": "60198",
+      "nombre": "MATERIALES EL CHILEN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60198"
+    },
+    "60246": {
+      "clave": "60246",
+      "nombre": "FERRETERIA PEPITO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60246"
+    },
+    "20249": {
+      "clave": "20249",
+      "nombre": "LARRE FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20249"
+    },
+    "50608": {
+      "clave": "50608",
+      "nombre": "MATERIALES ROMA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50608"
+    },
+    "20369": {
+      "clave": "20369",
+      "nombre": "ATALCO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20369"
+    },
+    "20114": {
+      "clave": "20114",
+      "nombre": "CASA GABY CERAMICA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20114"
+    },
+    "20297": {
+      "clave": "20297",
+      "nombre": "FERRETERIA LUNA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20297"
+    },
+    "20299": {
+      "clave": "20299",
+      "nombre": "CORRALON EL OVALO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20299"
+    },
+    "40124": {
+      "clave": "40124",
+      "nombre": "EL TATA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40124"
+    },
+    "60288": {
+      "clave": "60288",
+      "nombre": "FERRETERIA ARGENTINA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60288"
+    },
+    "20261": {
+      "clave": "20261",
+      "nombre": "MG CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20261"
+    },
+    "60192": {
+      "clave": "60192",
+      "nombre": "SANTA LUCIA FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60192"
+    },
+    "60163": {
+      "clave": "60163",
+      "nombre": "NAHUEL FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60163"
+    },
+    "50821": {
+      "clave": "50821",
+      "nombre": "FERRETERIA ESPOSITO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50821"
+    },
+    "1012": {
+      "clave": "1012",
+      "nombre": "CORRALON CURTO MARTI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1012"
+    },
+    "988": {
+      "clave": "988",
+      "nombre": "LUCKY FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "988"
+    },
+    "1013": {
+      "clave": "1013",
+      "nombre": "FERRETERIA BICENTENA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1013"
+    },
+    "20391": {
+      "clave": "20391",
+      "nombre": "FERRETERIA VIDAL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20391"
+    },
+    "60202": {
+      "clave": "60202",
+      "nombre": "FERRETERIA CEBALLO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60202"
+    },
+    "70638": {
+      "clave": "70638",
+      "nombre": "FERRETERIA MAGNUM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70638"
+    },
+    "60162": {
+      "clave": "60162",
+      "nombre": "JON-LUC FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60162"
+    },
+    "20127": {
+      "clave": "20127",
+      "nombre": "SERVI-TEC",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20127"
+    },
+    "10158": {
+      "clave": "10158",
+      "nombre": "EL SUEÑO CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10158"
+    },
+    "60276": {
+      "clave": "60276",
+      "nombre": "FERRETERIA SAVIC",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60276"
+    },
+    "936": {
+      "clave": "936",
+      "nombre": "EL VALLECITO CORRALO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "936"
+    },
+    "20372": {
+      "clave": "20372",
+      "nombre": "LA MATANCITA FERRETE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20372"
+    },
+    "60170": {
+      "clave": "60170",
+      "nombre": "CORRALON OASIS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60170"
+    },
+    "60278": {
+      "clave": "60278",
+      "nombre": "J.A FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60278"
+    },
+    "20351": {
+      "clave": "20351",
+      "nombre": "GARDUÑO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20351"
+    },
+    "70100": {
+      "clave": "70100",
+      "nombre": "TROILO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70100"
+    },
+    "50827": {
+      "clave": "50827",
+      "nombre": "FERRETERIA LA PALOMA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50827"
+    },
+    "20367": {
+      "clave": "20367",
+      "nombre": "LEONARDO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20367"
+    },
+    "60204": {
+      "clave": "60204",
+      "nombre": "EL PANI CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60204"
+    },
+    "90621": {
+      "clave": "90621",
+      "nombre": "MORINICO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90621"
+    },
+    "60269": {
+      "clave": "60269",
+      "nombre": "FERRETERIA MAKANA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60269"
+    },
+    "50835": {
+      "clave": "50835",
+      "nombre": "DON PELU FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50835"
+    },
+    "50222": {
+      "clave": "50222",
+      "nombre": "CASCOTITO CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50222"
+    },
+    "20159": {
+      "clave": "20159",
+      "nombre": "LOS NOGALES CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20159"
+    },
+    "60142": {
+      "clave": "60142",
+      "nombre": "ML FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60142"
+    },
+    "70101": {
+      "clave": "70101",
+      "nombre": "ROMERO VICTOR FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70101"
+    },
+    "60283": {
+      "clave": "60283",
+      "nombre": "CACHO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60283"
+    },
+    "20140": {
+      "clave": "20140",
+      "nombre": "FERRETERIA HUGUITO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20140"
+    },
+    "20211": {
+      "clave": "20211",
+      "nombre": "EL CHISPAZO CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20211"
+    },
+    "60275": {
+      "clave": "60275",
+      "nombre": "FERRETERIA GALLELLI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60275"
+    },
+    "90509": {
+      "clave": "90509",
+      "nombre": "JUAN DIAZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90509"
+    },
+    "90668": {
+      "clave": "90668",
+      "nombre": "PABLO ARAUJO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90668"
+    },
+    "60195": {
+      "clave": "60195",
+      "nombre": "MIK-MA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60195"
+    },
+    "60109": {
+      "clave": "60109",
+      "nombre": "CERAMICA SANTA MARTA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60109"
+    },
+    "20189": {
+      "clave": "20189",
+      "nombre": "PINTURERIA NINA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20189"
+    },
+    "20238": {
+      "clave": "20238",
+      "nombre": "LOS PEQUES FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20238"
+    },
+    "1042": {
+      "clave": "1042",
+      "nombre": "FERRETERIA 25 DE MAY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1042"
+    },
+    "60147": {
+      "clave": "60147",
+      "nombre": "MYM FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60147"
+    },
+    "10166": {
+      "clave": "10166",
+      "nombre": "FERRETERIA LA HORMIG",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10166"
+    },
+    "20294": {
+      "clave": "20294",
+      "nombre": "TJ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20294"
+    },
+    "50816": {
+      "clave": "50816",
+      "nombre": "EL NUEVO VASQUITO FE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50816"
+    },
+    "20121": {
+      "clave": "20121",
+      "nombre": "GOITEA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20121"
+    },
+    "90658": {
+      "clave": "90658",
+      "nombre": "FERRETERIA DEL OESTE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90658"
+    },
+    "1034": {
+      "clave": "1034",
+      "nombre": "FERRETERIA VARELA LU",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1034"
+    },
+    "20109": {
+      "clave": "20109",
+      "nombre": "VITO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20109"
+    },
+    "1028": {
+      "clave": "1028",
+      "nombre": "ELECTRO CHIQUI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1028"
+    },
+    "40144": {
+      "clave": "40144",
+      "nombre": "J.D ADRIANA FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40144"
+    },
+    "20146": {
+      "clave": "20146",
+      "nombre": "EL CABURE-I CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20146"
+    },
+    "20267": {
+      "clave": "20267",
+      "nombre": "FERRETERIA VIGO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20267"
+    },
+    "920": {
+      "clave": "920",
+      "nombre": "ESTERCITA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "920"
+    },
+    "997": {
+      "clave": "997",
+      "nombre": "FERRETERIA PILLADO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "997"
+    },
+    "10165": {
+      "clave": "10165",
+      "nombre": "FRETES FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10165"
+    },
+    "40140": {
+      "clave": "40140",
+      "nombre": "CASTELLANO FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40140"
+    },
+    "1026": {
+      "clave": "1026",
+      "nombre": "FERRETERIA BRADAMEL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1026"
+    },
+    "1041": {
+      "clave": "1041",
+      "nombre": "CORRALON 1003",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1041"
+    },
+    "60128": {
+      "clave": "60128",
+      "nombre": "EL CORTIJO FERRETERI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60128"
+    },
+    "1032": {
+      "clave": "1032",
+      "nombre": "FERRETERIA MELANI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1032"
+    },
+    "20289": {
+      "clave": "20289",
+      "nombre": "SAN AGUSTIN FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20289"
+    },
+    "20201": {
+      "clave": "20201",
+      "nombre": "POSAMAY JAVIER FERRE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20201"
+    },
+    "20117": {
+      "clave": "20117",
+      "nombre": "MATERIALES AZUL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20117"
+    },
+    "971": {
+      "clave": "971",
+      "nombre": "CORRALON MIMAR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "971"
+    },
+    "951": {
+      "clave": "951",
+      "nombre": "GOMEZ OSCAR FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "951"
+    },
+    "954": {
+      "clave": "954",
+      "nombre": "VILLALBA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "954"
+    },
+    "20160": {
+      "clave": "20160",
+      "nombre": "RAUL FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20160"
+    },
+    "20333": {
+      "clave": "20333",
+      "nombre": "LINA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20333"
+    },
+    "1001": {
+      "clave": "1001",
+      "nombre": "FERRETERIA CAÑUELAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1001"
+    },
+    "60169": {
+      "clave": "60169",
+      "nombre": "ALPA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60169"
+    },
+    "999": {
+      "clave": "999",
+      "nombre": "MS LIBERTAD FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "999"
+    },
+    "50611": {
+      "clave": "50611",
+      "nombre": "FERRETERIA HORACIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50611"
+    },
+    "40129": {
+      "clave": "40129",
+      "nombre": "MARCONI FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40129"
+    },
+    "60158": {
+      "clave": "60158",
+      "nombre": "EL CHUECO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60158"
+    },
+    "1043": {
+      "clave": "1043",
+      "nombre": "FERRETERIA ARI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1043"
+    },
+    "989": {
+      "clave": "989",
+      "nombre": "ENZO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "989"
+    },
+    "20394": {
+      "clave": "20394",
+      "nombre": "CORRALON LAU.MOREYRA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20394"
+    },
+    "60201": {
+      "clave": "60201",
+      "nombre": "BULONERA WORO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60201"
+    },
+    "20227": {
+      "clave": "20227",
+      "nombre": "CORRALON NORMA SUARE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20227"
+    },
+    "1044": {
+      "clave": "1044",
+      "nombre": "FERRETERIA LIBER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1044"
+    },
+    "20343": {
+      "clave": "20343",
+      "nombre": "SALTA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20343"
+    },
+    "1005": {
+      "clave": "1005",
+      "nombre": "CORRADO AGUSTINA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1005"
+    },
+    "60256": {
+      "clave": "60256",
+      "nombre": "FERRE-LIBERTAD",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60256"
+    },
+    "20095": {
+      "clave": "20095",
+      "nombre": "LEZCANO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20095"
+    },
+    "50803": {
+      "clave": "50803",
+      "nombre": "FERRETERIA KyM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50803"
+    },
+    "60184": {
+      "clave": "60184",
+      "nombre": "J.B BARGERO FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60184"
+    },
+    "1000": {
+      "clave": "1000",
+      "nombre": "ALIENDRE FORRAJERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1000"
+    },
+    "20324": {
+      "clave": "20324",
+      "nombre": "CASA MAIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20324"
+    },
+    "20257": {
+      "clave": "20257",
+      "nombre": "FERNANDEZ RUBEN FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20257"
+    },
+    "40127": {
+      "clave": "40127",
+      "nombre": "SAN JOSE FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40127"
+    },
+    "60270": {
+      "clave": "60270",
+      "nombre": "FERRETERIA BOGADO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60270"
+    },
+    "60240": {
+      "clave": "60240",
+      "nombre": "FERRETERIA FACU",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60240"
+    },
+    "938": {
+      "clave": "938",
+      "nombre": "QUIROGA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "938"
+    },
+    "994": {
+      "clave": "994",
+      "nombre": "FERRETERIA TE GUSTA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "994"
+    },
+    "90712": {
+      "clave": "90712",
+      "nombre": "LUIS FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90712"
+    },
+    "50823": {
+      "clave": "50823",
+      "nombre": "FERRETERIA PLAN Z",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50823"
+    },
+    "50832": {
+      "clave": "50832",
+      "nombre": "LAS 3 HERMANAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50832"
+    },
+    "20120": {
+      "clave": "20120",
+      "nombre": "EL NONO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20120"
+    },
+    "70106": {
+      "clave": "70106",
+      "nombre": "FATIMA DANIEL CORRAL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70106"
+    },
+    "40150": {
+      "clave": "40150",
+      "nombre": "KIOSCO MARCELO MENDE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40150"
+    },
+    "20158": {
+      "clave": "20158",
+      "nombre": "CORRALON EVITA 2",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20158"
+    },
+    "1416": {
+      "clave": "1416",
+      "nombre": "CORRALON COELHO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1416"
+    },
+    "20090": {
+      "clave": "20090",
+      "nombre": "CAÑETE RAFAEL FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20090"
+    },
+    "985": {
+      "clave": "985",
+      "nombre": "SANTOS FERNANDO FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "985"
+    },
+    "60296": {
+      "clave": "60296",
+      "nombre": "CORRALON LAS MORADAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60296"
+    },
+    "60150": {
+      "clave": "60150",
+      "nombre": "FERRETERIA ALVAREZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60150"
+    },
+    "973": {
+      "clave": "973",
+      "nombre": "JOSE LA TORRE FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "973"
+    },
+    "60125": {
+      "clave": "60125",
+      "nombre": "HERRERA GABRIEL FERR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60125"
+    },
+    "60200": {
+      "clave": "60200",
+      "nombre": "MEGAFER FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60200"
+    },
+    "970": {
+      "clave": "970",
+      "nombre": "SUR HERRAMIENTAS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "970"
+    },
+    "60132": {
+      "clave": "60132",
+      "nombre": "HERNAN FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60132"
+    },
+    "50815": {
+      "clave": "50815",
+      "nombre": "EL PELA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50815"
+    },
+    "20128": {
+      "clave": "20128",
+      "nombre": "EN LO DE HUGO FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20128"
+    },
+    "50825": {
+      "clave": "50825",
+      "nombre": "FERRETERIA V Y F",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50825"
+    },
+    "60295": {
+      "clave": "60295",
+      "nombre": "FERRETERIA FERREMAR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60295"
+    },
+    "1029": {
+      "clave": "1029",
+      "nombre": "FERRETERIA LA BROCA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1029"
+    },
+    "20094": {
+      "clave": "20094",
+      "nombre": "CORRALON EL ATALAYA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20094"
+    },
+    "982": {
+      "clave": "982",
+      "nombre": "A Y M FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "982"
+    },
+    "60284": {
+      "clave": "60284",
+      "nombre": "LA FLECHA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60284"
+    },
+    "60257": {
+      "clave": "60257",
+      "nombre": "FERRETERIA EL PAISA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60257"
+    },
+    "40146": {
+      "clave": "40146",
+      "nombre": "CASA PORTUGAL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40146"
+    },
+    "60292": {
+      "clave": "60292",
+      "nombre": "FERRETERIA ALFA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60292"
+    },
+    "60250": {
+      "clave": "60250",
+      "nombre": "SANITARIOS RZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60250"
+    },
+    "61009": {
+      "clave": "61009",
+      "nombre": "MARAN FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "61009"
+    },
+    "60291": {
+      "clave": "60291",
+      "nombre": "FERRETERIA LAS MARGA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60291"
+    },
+    "20183": {
+      "clave": "20183",
+      "nombre": "CORRALON COLODRERO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20183"
+    },
+    "20173": {
+      "clave": "20173",
+      "nombre": "CORRALON TRANSOL",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20173"
+    },
+    "50444": {
+      "clave": "50444",
+      "nombre": "MATERIALES ONICE",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50444"
+    },
+    "20364": {
+      "clave": "20364",
+      "nombre": "CORRALON REA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20364"
+    },
+    "10168": {
+      "clave": "10168",
+      "nombre": "FERRETERIA UNIVERSO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10168"
+    },
+    "50824": {
+      "clave": "50824",
+      "nombre": "FERRETERIA LA CAROSI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50824"
+    },
+    "20106": {
+      "clave": "20106",
+      "nombre": "LA PAZ CORRALON MAT.",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20106"
+    },
+    "90676": {
+      "clave": "90676",
+      "nombre": "COOP.D.TRAB.DIEGO A.",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90676"
+    },
+    "933": {
+      "clave": "933",
+      "nombre": "FERRETERIA CORDOBES",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "933"
+    },
+    "20344": {
+      "clave": "20344",
+      "nombre": "FERRETERIA LUIS ROLD",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20344"
+    },
+    "90711": {
+      "clave": "90711",
+      "nombre": "CONSTRUCTORA 22AC",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90711"
+    },
+    "50834": {
+      "clave": "50834",
+      "nombre": "FERRETERIA PROKO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50834"
+    },
+    "251": {
+      "clave": "251",
+      "nombre": "EL PITUTO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "251"
+    },
+    "1040": {
+      "clave": "1040",
+      "nombre": "FERRETERIA ORION",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1040"
+    },
+    "20138": {
+      "clave": "20138",
+      "nombre": "TITO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20138"
+    },
+    "20244": {
+      "clave": "20244",
+      "nombre": "ROLON FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20244"
+    },
+    "50231": {
+      "clave": "50231",
+      "nombre": "FERRETERIA LA LOMA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50231"
+    },
+    "990": {
+      "clave": "990",
+      "nombre": "FERRETERIA BEDINI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "990"
+    },
+    "50102": {
+      "clave": "50102",
+      "nombre": "LA ESPERANZA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50102"
+    },
+    "20191": {
+      "clave": "20191",
+      "nombre": "FERRETERIA DAUBERT",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20191"
+    },
+    "60234": {
+      "clave": "60234",
+      "nombre": "CORRALON M y M",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60234"
+    },
+    "20093": {
+      "clave": "20093",
+      "nombre": "ROCIO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20093"
+    },
+    "50625": {
+      "clave": "50625",
+      "nombre": "PEHUEN FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50625"
+    },
+    "60282": {
+      "clave": "60282",
+      "nombre": "FERRETERIA JMK",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60282"
+    },
+    "10160": {
+      "clave": "10160",
+      "nombre": "BUTTNER FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "10160"
+    },
+    "90631": {
+      "clave": "90631",
+      "nombre": "FERRETERIA NALDO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90631"
+    },
+    "1020": {
+      "clave": "1020",
+      "nombre": "FERRETERIA LAS CHICA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1020"
+    },
+    "50206": {
+      "clave": "50206",
+      "nombre": "CORRALON MARIA Y TAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50206"
+    },
+    "20139": {
+      "clave": "20139",
+      "nombre": "CASA JORGE CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20139"
+    },
+    "60244": {
+      "clave": "60244",
+      "nombre": "FERRETERIA MARTINEZ",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60244"
+    },
+    "1045": {
+      "clave": "1045",
+      "nombre": "FERRETERIA MARTINS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1045"
+    },
+    "60298": {
+      "clave": "60298",
+      "nombre": "CORRALON TRES BANDER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60298"
+    },
+    "20156": {
+      "clave": "20156",
+      "nombre": "A TU SERVICIO FERRET",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20156"
+    },
+    "50442": {
+      "clave": "50442",
+      "nombre": "FERRETERIA RO-DAM",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50442"
+    },
+    "20398": {
+      "clave": "20398",
+      "nombre": "FERRETERIA JULIAN",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20398"
+    },
+    "50610": {
+      "clave": "50610",
+      "nombre": "FERRETERIA LA SOLUCI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50610"
+    },
+    "60243": {
+      "clave": "60243",
+      "nombre": "FERRETERIA GRACIELA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60243"
+    },
+    "20165": {
+      "clave": "20165",
+      "nombre": "MI BANDERA CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20165"
+    },
+    "1007": {
+      "clave": "1007",
+      "nombre": "CORRALON CATALINA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1007"
+    },
+    "40145": {
+      "clave": "40145",
+      "nombre": "SANITARIO ANTONIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40145"
+    },
+    "1037": {
+      "clave": "1037",
+      "nombre": "FERRETERIA LAURA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1037"
+    },
+    "50629": {
+      "clave": "50629",
+      "nombre": "FERRITO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50629"
+    },
+    "50833": {
+      "clave": "50833",
+      "nombre": "FERRETERIA NOR-CINTI",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50833"
+    },
+    "20361": {
+      "clave": "20361",
+      "nombre": "P y P FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20361"
+    },
+    "20205": {
+      "clave": "20205",
+      "nombre": "CASA DAVID CORRALON",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20205"
+    },
+    "20396": {
+      "clave": "20396",
+      "nombre": "FERRETERIA JUJUY",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20396"
+    },
+    "50805": {
+      "clave": "50805",
+      "nombre": "LUZMILA CORRALON MAT",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "50805"
+    },
+    "20363": {
+      "clave": "20363",
+      "nombre": "DYLAN FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20363"
+    },
+    "20268": {
+      "clave": "20268",
+      "nombre": "CORRALON CARCAZA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "20268"
+    },
+    "60299": {
+      "clave": "60299",
+      "nombre": "QUIMICA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60299"
+    },
+    "60149": {
+      "clave": "60149",
+      "nombre": "MATERIALES MARIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60149"
+    },
+    "60178": {
+      "clave": "60178",
+      "nombre": "CORRALON EL GAUCHITO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60178"
+    },
+    "60190": {
+      "clave": "60190",
+      "nombre": "LA TORRE FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60190"
+    },
+    "1014": {
+      "clave": "1014",
+      "nombre": "PALOMER FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1014"
+    },
+    "60272": {
+      "clave": "60272",
+      "nombre": "EMMA FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60272"
+    },
+    "60211": {
+      "clave": "60211",
+      "nombre": "GUTIERREZ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60211"
+    },
+    "60294": {
+      "clave": "60294",
+      "nombre": "FERRETERIA ARCENIO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60294"
+    },
+    "1019": {
+      "clave": "1019",
+      "nombre": "CORRALON DOÑA MONICA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1019"
+    },
+    "40125": {
+      "clave": "40125",
+      "nombre": "BENITEZ FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "40125"
+    },
+    "70115": {
+      "clave": "70115",
+      "nombre": "FERRETERIA ROSITA (L",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70115"
+    },
+    "70613": {
+      "clave": "70613",
+      "nombre": "LA SOLUCION FERRETER",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "70613"
+    },
+    "90666": {
+      "clave": "90666",
+      "nombre": "FERRETERIA LUIS",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "90666"
+    },
+    "60134": {
+      "clave": "60134",
+      "nombre": "EL FARO FERRETERIA",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "60134"
+    },
+    "1036": {
+      "clave": "1036",
+      "nombre": "FERRETERIA ALBERTO",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "1036"
+    }
+  }
+}
