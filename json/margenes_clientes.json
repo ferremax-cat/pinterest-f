@@ -3,7 +3,7 @@
     "nombre": "CONSUMIDOR FINAL",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,6,15,48,54)"
+    "ultima_actualizacion": "Date(2026,2,7,13,50,36)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 20,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,6,11,32,32)"
+    "ultima_actualizacion": "Date(2026,2,9,8,30,54)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -187,9 +187,9 @@
   },
   "10167": {
     "nombre": "ISLEÑO FERRETERIA",
-    "margen": 0,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,7,14,16,44)"
+    "ultima_actualizacion": "Date(2026,2,9,18,28,3)"
   },
   "60275": {
     "nombre": "FERRETERIA GALLELLI",
@@ -199,9 +199,9 @@
   },
   "20166": {
     "nombre": "CASA LEO FERRETERIA",
-    "margen": 50,
+    "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,1,27,17,26,16)"
+    "ultima_actualizacion": "Date(2026,2,8,11,22,22)"
   },
   "10162": {
     "nombre": "ENRIQUE FERRETERIA",
@@ -301,9 +301,9 @@
   },
   "998": {
     "nombre": "LAS ACACIAS CORRALON",
-    "margen": 0,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,6,15,46,41)"
+    "ultima_actualizacion": "Date(2026,2,9,15,11,58)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -333,7 +333,7 @@
     "nombre": "FERRETERIA CASERES",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,10,25,9,37,21)"
+    "ultima_actualizacion": "Date(2026,2,9,9,33,0)"
   },
   "50827": {
     "nombre": "FERRETERIA LA PALOMA",
@@ -505,14 +505,20 @@
   },
   "60274": {
     "nombre": "ELECTRICA LOLY",
-    "margen": 50,
+    "margen": 45,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,4,13,6,3)"
+    "ultima_actualizacion": "Date(2026,2,9,13,30,50)"
   },
   "1021": {
     "nombre": "FERRETERIA GERMAN",
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,2,4,10,43,21)"
+  },
+  "60241": {
+    "nombre": "FERRETERIA LA LUZ",
+    "margen": 41,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,2,9,14,13,2)"
   }
 }
