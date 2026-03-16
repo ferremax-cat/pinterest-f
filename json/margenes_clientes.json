@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 50,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,10,14,22,4)"
+    "ultima_actualizacion": "Date(2026,2,15,10,32,9)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 5,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,13,10,12,41)"
+    "ultima_actualizacion": "Date(2026,2,16,8,3,43)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,11,16,18,58)"
+    "ultima_actualizacion": "Date(2026,2,16,8,13,25)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -471,7 +471,7 @@
     "nombre": "CIRO FERRETERIA",
     "margen": 80,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,13,13,19,1)"
+    "ultima_actualizacion": "Date(2026,2,15,11,29,25)"
   },
   "60299": {
     "nombre": "QUIMICA",
@@ -520,5 +520,11 @@
     "margen": 41,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,2,9,14,13,2)"
+  },
+  "60172": {
+    "nombre": "PIEDRA BLANCA FERRETERIA",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,2,16,14,47,18)"
   }
 }
