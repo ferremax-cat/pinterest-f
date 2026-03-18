@@ -1,4 +1,9 @@
 {
+  "1": {
+    "name": "DEPOSITO",
+    "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
+    "priceList": "E"
+  },
   "3": {
     "name": "CONSUMIDOR FINAL",
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
@@ -1578,6 +1583,11 @@
     "name": "FERRETERIA DOBLE C",
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
     "priceList": "D"
+  },
+  "60243": {
+    "name": "FERRETERIA GRACIELA",
+    "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
+    "priceList": "C"
   },
   "60245": {
     "name": "FERRETERIA GENERAL",
