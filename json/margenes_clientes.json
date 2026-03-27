@@ -45,7 +45,7 @@
     "nombre": "FERRETERIA FERRECAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,23,11,26,0)"
+    "ultima_actualizacion": "Date(2026,2,27,11,43,57)"
   },
   "1001": {
     "nombre": "FERRETERIA CAÑUELAS",
@@ -301,9 +301,9 @@
   },
   "998": {
     "nombre": "LAS ACACIAS CORRALON",
-    "margen": 0,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,24,12,59,9)"
+    "ultima_actualizacion": "Date(2026,2,27,11,31,23)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -555,6 +555,12 @@
     "nombre": "FERRETERIA CONTRERAS",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,27,9,57,52)"
+    "ultima_actualizacion": "Date(2026,2,27,10,21,2)"
+  },
+  "1029": {
+    "nombre": "FERRETERIA LA BROCA",
+    "margen": 100,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,2,27,10,45,15)"
   }
 }
