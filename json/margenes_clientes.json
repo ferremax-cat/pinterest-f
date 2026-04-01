@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 40,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,30,11,10,47)"
+    "ultima_actualizacion": "Date(2026,3,1,14,59,7)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 40,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,30,11,11,2)"
+    "ultima_actualizacion": "Date(2026,3,1,12,49,23)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -45,7 +45,7 @@
     "nombre": "FERRETERIA FERRECAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,27,11,43,57)"
+    "ultima_actualizacion": "Date(2026,2,31,19,18,37)"
   },
   "1001": {
     "nombre": "FERRETERIA CAÑUELAS",
@@ -127,9 +127,9 @@
   },
   "50809": {
     "nombre": "CORRALON EL GATO",
-    "margen": 50,
+    "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,2,12,6,52)"
+    "ultima_actualizacion": "Date(2026,3,1,10,26,36)"
   },
   "10157": {
     "nombre": "ITATI CORRALON",
@@ -183,7 +183,7 @@
     "nombre": "BULONERA WORO",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,6,17,3,45)"
+    "ultima_actualizacion": "Date(2026,2,31,14,49,45)"
   },
   "10167": {
     "nombre": "ISLEÑO FERRETERIA",
@@ -301,9 +301,9 @@
   },
   "998": {
     "nombre": "LAS ACACIAS CORRALON",
-    "margen": 40,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,28,13,40,48)"
+    "ultima_actualizacion": "Date(2026,2,31,11,41,56)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -568,5 +568,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,2,27,17,21,32)"
+  },
+  "992": {
+    "nombre": "EL NEGRO FERRETERIA",
+    "margen": 60,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,3,1,12,0,26)"
   }
 }
