@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 40,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,3,10,53,23)"
+    "ultima_actualizacion": "Date(2026,3,5,9,30,34)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,3,13,5,8)"
+    "ultima_actualizacion": "Date(2026,3,5,13,30,18)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -75,7 +75,7 @@
     "nombre": "EL RELINCHO FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,28,14,49,19)"
+    "ultima_actualizacion": "Date(2026,3,6,11,52,31)"
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
@@ -519,7 +519,7 @@
     "nombre": "FERRETERIA LA LUZ",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,23,14,46,59)"
+    "ultima_actualizacion": "Date(2026,3,4,9,27,6)"
   },
   "60172": {
     "nombre": "PIEDRA BLANCA FERRETERIA",
@@ -574,5 +574,23 @@
     "margen": 60,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,3,1,12,0,26)"
+  },
+  "20227": {
+    "nombre": "CORRALON NORMA SUAREZ",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,3,5,8,45,2)"
+  },
+  "90509": {
+    "nombre": "JUAN DIAZ",
+    "margen": 20,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,3,6,8,59,17)"
+  },
+  "1218": {
+    "nombre": "ROBERTO FERRIN",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,3,6,8,58,54)"
   }
 }
