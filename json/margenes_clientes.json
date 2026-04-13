@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 40,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,12,13,25,23)"
+    "ultima_actualizacion": "Date(2026,3,13,11,0,28)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -423,7 +423,7 @@
     "nombre": "FERRETERIA LOCK",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,23,13,13,43)"
+    "ultima_actualizacion": "Date(2026,3,13,10,13,1)"
   },
   "20394": {
     "nombre": "CORRALON LAU.MOREYRA",
@@ -598,5 +598,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,3,8,13,56,14)"
+  },
+  "20291": {
+    "nombre": "EL PROGRESO FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,3,13,11,44,19)"
   }
 }
