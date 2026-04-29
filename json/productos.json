@@ -699,46 +699,6 @@
       "F": 20628
     }
   },
-  "AKE036": {
-    "name": "LINGA FINA 1mt.C/CANDADO 32MM    AC",
-    "category": "8.LINGAS C/CANDADOS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 5918,
-      "E": 6373,
-      "F": 5690
-    }
-  },
-  "AKE039": {
-    "name": "LINGA MEDIANA 1mt.C/CAND.32MM    AK",
-    "category": "8.LINGAS C/CANDADOS",
-    "bulk": 100.0,
-    "prices": {
-      "D": 5918,
-      "E": 6373,
-      "F": 5690
-    }
-  },
-  "AKE040": {
-    "name": "LINGA MEDIANA 1.15mt.C/CANDADO 38MM AC",
-    "category": "8.LINGAS C/CANDADOS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 6658,
-      "E": 7170,
-      "F": 6402
-    }
-  },
-  "AKE046": {
-    "name": "LINGA GSA 1.15mts.C/CANDADO 38MM AC",
-    "category": "8.LINGAS C/CANDADOS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 7397,
-      "E": 7967,
-      "F": 7113
-    }
-  },
   "ALI152": {
     "name": "CALENTADOR ELEC. 600wts.14cm ALIGAS",
     "category": "8.CALENTADOR ELECTR/ACCES",
@@ -17949,6 +17909,16 @@
       "F": 30730
     }
   },
+  "CARRE062": {
+    "name": "CARRETILLA ESTAMPADA Nrja CARREMAX",
+    "category": "8.CARRETILLA y REPUESTOS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 77443,
+      "E": 80541,
+      "F": 74346
+    }
+  },
   "CARRE066": {
     "name": "CARRETILL.LIVIANA C/R NEUMAT CARREMAK",
     "category": "8.CARRETILLA y REPUESTOS",
@@ -19649,26 +19619,6 @@
       "F": 162470
     }
   },
-  "CL00128000133": {
-    "name": "MACHETE HOJA ACERO LAM.20\" CIRIRI",
-    "category": "8.MACHETES",
-    "bulk": 1.0,
-    "prices": {
-      "D": 35766,
-      "E": 38747,
-      "F": 35766
-    }
-  },
-  "CL00128000134": {
-    "name": "MACHETE HOJA ACERO LAM.22\" CIRIRI",
-    "category": "8.MACHETES",
-    "bulk": 1.0,
-    "prices": {
-      "D": 36995,
-      "E": 40077,
-      "F": 36995
-    }
-  },
   "CL00130000001": {
     "name": "MARTILLO CHAPISTA 1 PENAHriz RICO",
     "category": "8.MARTILLO CHAPISTA",
@@ -19737,16 +19687,6 @@
       "D": 75221,
       "E": 81007,
       "F": 69435
-    }
-  },
-  "CODKP33cc": {
-    "name": "KIT REPARACION DE PILETAS    CODIGO",
-    "category": "1.ACCES.PARA PILETA CODIG",
-    "bulk": 100.0,
-    "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
     }
   },
   "CON101": {
@@ -23874,9 +23814,9 @@
     "category": "9.FICHA REF 3 P RICHI",
     "bulk": 1.0,
     "prices": {
-      "D": 1011,
-      "E": 1089,
-      "F": 933
+      "D": 1386,
+      "E": 1493,
+      "F": 1280
     }
   },
   "DIS125-27702": {
@@ -23884,9 +23824,9 @@
     "category": "9.FICHA REF 3 P RICHI",
     "bulk": 1.0,
     "prices": {
-      "D": 1011,
-      "E": 1089,
-      "F": 933
+      "D": 1386,
+      "E": 1493,
+      "F": 1280
     }
   },
   "DISCHI12x1.50": {
@@ -23894,9 +23834,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 15239,
-      "E": 16412,
-      "F": 14419
+      "D": 15887,
+      "E": 17109,
+      "F": 15032
     }
   },
   "DISEP-010": {
@@ -23904,9 +23844,9 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 12.0,
     "prices": {
-      "D": 2683,
-      "E": 2890,
-      "F": 2477
+      "D": 3159,
+      "E": 3402,
+      "F": 2916
     }
   },
   "DISEP-040": {
@@ -23914,9 +23854,9 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 1.0,
     "prices": {
-      "D": 8380,
-      "E": 9025,
-      "F": 7735
+      "D": 9912,
+      "E": 10675,
+      "F": 9150
     }
   },
   "DISEP-100": {
@@ -23924,19 +23864,9 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 1.0,
     "prices": {
-      "D": 22315,
-      "E": 24032,
-      "F": 20598
-    }
-  },
-  "DISSEG-C400": {
-    "name": "SELLADOR PARA GRIETAS   400gr TELPLAST",
-    "category": "8.SELLADOR SILICON.TELPLA",
-    "bulk": 24.0,
-    "prices": {
-      "D": 3422,
-      "E": 3685,
-      "F": 3159
+      "D": 24073,
+      "E": 25924,
+      "F": 22221
     }
   },
   "DISSELLPIC01": {
@@ -23944,9 +23874,9 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 4432,
-      "E": 4773,
-      "F": 4091
+      "D": 4568,
+      "E": 4920,
+      "F": 4217
     }
   },
   "DISSELLPOL01": {
@@ -23954,9 +23884,9 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 6867,
-      "E": 7396,
-      "F": 6339
+      "D": 7374,
+      "E": 7941,
+      "F": 6807
     }
   },
   "DISSELLZIN01": {
@@ -23964,9 +23894,19 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 4077,
-      "E": 4391,
-      "F": 3764
+      "D": 4203,
+      "E": 4526,
+      "F": 3879
+    }
+  },
+  "DISSG-C400": {
+    "name": "SELLADOR PARA GRIETAS   400gr TELPLAST",
+    "category": "8.SELLADOR SILICON.TELPLA",
+    "bulk": 24.0,
+    "prices": {
+      "D": 3812,
+      "E": 4105,
+      "F": 3519
     }
   },
   "DOSECRH01": {
@@ -25674,9 +25614,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE003C": {
@@ -25684,9 +25624,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE003M": {
@@ -25694,9 +25634,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE003N": {
@@ -25704,9 +25644,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE003R": {
@@ -25714,9 +25654,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE003V": {
@@ -25724,9 +25664,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 296,
-      "E": 319,
-      "F": 273
+      "D": 305,
+      "E": 328,
+      "F": 281
     }
   },
   "DTE004B": {
@@ -25734,9 +25674,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE004C": {
@@ -25744,9 +25684,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE004M": {
@@ -25754,9 +25694,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE004N": {
@@ -25764,9 +25704,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE004R": {
@@ -25774,9 +25714,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE004V": {
@@ -25784,9 +25724,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 500,
-      "E": 539,
-      "F": 462
+      "D": 515,
+      "E": 555,
+      "F": 476
     }
   },
   "DTE005B": {
@@ -25794,9 +25734,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE005C": {
@@ -25804,9 +25744,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE005M": {
@@ -25814,9 +25754,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE005N": {
@@ -25824,9 +25764,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE005R": {
@@ -25834,9 +25774,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE005V": {
@@ -25844,9 +25784,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 860,
-      "E": 926,
-      "F": 794
+      "D": 886,
+      "E": 954,
+      "F": 818
     }
   },
   "DTE006B": {
@@ -25854,9 +25794,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE006C": {
@@ -25864,9 +25804,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE006M": {
@@ -25874,9 +25814,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE006N": {
@@ -25884,9 +25824,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE006R": {
@@ -25894,9 +25834,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE006V": {
@@ -25904,9 +25844,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1310,
-      "E": 1411,
-      "F": 1209
+      "D": 1349,
+      "E": 1453,
+      "F": 1246
     }
   },
   "DTE007": {
@@ -25914,9 +25854,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 452,
-      "E": 487,
-      "F": 417
+      "D": 466,
+      "E": 501,
+      "F": 430
     }
   },
   "DTE008": {
@@ -25924,9 +25864,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 462,
-      "E": 498,
-      "F": 427
+      "D": 476,
+      "E": 513,
+      "F": 439
     }
   },
   "DTE009": {
@@ -25934,9 +25874,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 628,
-      "E": 676,
-      "F": 580
+      "D": 647,
+      "E": 696,
+      "F": 597
     }
   },
   "DTE010": {
@@ -25944,9 +25884,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1061,
-      "E": 1143,
-      "F": 979
+      "D": 1093,
+      "E": 1177,
+      "F": 1009
     }
   },
   "DTE015": {
@@ -25954,9 +25894,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 840,
-      "E": 904,
-      "F": 775
+      "D": 865,
+      "E": 932,
+      "F": 799
     }
   },
   "DTE016": {
@@ -26004,9 +25944,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 2253,
-      "E": 2426,
-      "F": 2080
+      "D": 2321,
+      "E": 2499,
+      "F": 2142
     }
   },
   "DTE041": {
@@ -26014,9 +25954,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1117,
-      "E": 1203,
-      "F": 1031
+      "D": 1151,
+      "E": 1240,
+      "F": 1062
     }
   },
   "DTE042": {
@@ -26024,9 +25964,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1325,
-      "E": 1427,
-      "F": 1223
+      "D": 1365,
+      "E": 1470,
+      "F": 1260
     }
   },
   "DTE043": {
@@ -26034,9 +25974,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1924,
-      "E": 2072,
-      "F": 1776
+      "D": 1982,
+      "E": 2134,
+      "F": 1829
     }
   },
   "DTE044": {
@@ -26044,9 +25984,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 2488,
-      "E": 2680,
-      "F": 2297
+      "D": 2564,
+      "E": 2761,
+      "F": 2366
     }
   },
   "DTE053B": {
@@ -26054,9 +25994,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE053C": {
@@ -26064,9 +26004,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE053M": {
@@ -26074,9 +26014,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE053N": {
@@ -26084,9 +26024,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE053R": {
@@ -26094,9 +26034,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE053V": {
@@ -26104,9 +26044,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 497,
-      "E": 536,
-      "F": 459
+      "D": 512,
+      "E": 552,
+      "F": 473
     }
   },
   "DTE054B": {
@@ -26114,9 +26054,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE054C": {
@@ -26124,9 +26064,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE054M": {
@@ -26134,9 +26074,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE054N": {
@@ -26144,9 +26084,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE054R": {
@@ -26154,9 +26094,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE054V": {
@@ -26164,9 +26104,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 834,
-      "E": 899,
-      "F": 770
+      "D": 859,
+      "E": 925,
+      "F": 793
     }
   },
   "DTE055B": {
@@ -26174,9 +26114,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE055C": {
@@ -26184,9 +26124,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE055M": {
@@ -26194,9 +26134,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE055N": {
@@ -26204,9 +26144,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE055R": {
@@ -26214,9 +26154,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE055V": {
@@ -26224,9 +26164,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1232,
-      "E": 1327,
-      "F": 1137
+      "D": 1269,
+      "E": 1367,
+      "F": 1172
     }
   },
   "DTE056B": {
@@ -26234,9 +26174,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE056C": {
@@ -26244,9 +26184,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE056M": {
@@ -26254,9 +26194,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE056N": {
@@ -26264,9 +26204,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE056R": {
@@ -26274,9 +26214,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE056V": {
@@ -26284,9 +26224,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1978,
-      "E": 2131,
-      "F": 1826
+      "D": 2038,
+      "E": 2194,
+      "F": 1881
     }
   },
   "DTE058": {
@@ -26294,9 +26234,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 0.0,
     "prices": {
-      "D": 651,
-      "E": 701,
-      "F": 601
+      "D": 672,
+      "E": 724,
+      "F": 620
     }
   },
   "DTE059": {
@@ -26304,9 +26244,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 200.0,
     "prices": {
-      "D": 1055,
-      "E": 1136,
-      "F": 974
+      "D": 1086,
+      "E": 1170,
+      "F": 1003
     }
   },
   "DTE060": {
@@ -26314,9 +26254,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 100.0,
     "prices": {
-      "D": 1720,
-      "E": 1853,
-      "F": 1588
+      "D": 1772,
+      "E": 1909,
+      "F": 1636
     }
   },
   "DTE061": {
@@ -26324,9 +26264,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 930,
-      "E": 1002,
-      "F": 859
+      "D": 958,
+      "E": 1032,
+      "F": 884
     }
   },
   "DTE062": {
@@ -26334,9 +26274,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 100.0,
     "prices": {
-      "D": 1346,
-      "E": 1450,
-      "F": 1243
+      "D": 1387,
+      "E": 1493,
+      "F": 1280
     }
   },
   "DTE063": {
@@ -26354,9 +26294,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 3083,
-      "E": 3320,
-      "F": 2845
+      "D": 3175,
+      "E": 3419,
+      "F": 2930
     }
   },
   "DTE065": {
@@ -26844,9 +26784,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 0.0,
     "prices": {
-      "D": 218166,
-      "E": 234948,
-      "F": 201384
+      "D": 224706,
+      "E": 241991,
+      "F": 207420
     }
   },
   "DTE208": {
@@ -26994,9 +26934,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 0.0,
     "prices": {
-      "D": 159352,
-      "E": 171610,
-      "F": 147094
+      "D": 164190,
+      "E": 176820,
+      "F": 151560
     }
   },
   "DTE271": {
@@ -28354,9 +28294,9 @@
     "category": "8.MANGUERA P/ALTAPRES.DT",
     "bulk": 1.0,
     "prices": {
-      "D": 34933,
-      "E": 37620,
-      "F": 32246
+      "D": 32994,
+      "E": 35533,
+      "F": 30456
     }
   },
   "DTF655": {
@@ -28554,9 +28494,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3505,
-      "E": 3645,
-      "F": 3365
+      "D": 3926,
+      "E": 4083,
+      "F": 3769
     }
   },
   "DTP050": {
@@ -28564,9 +28504,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3505,
-      "E": 3645,
-      "F": 3365
+      "D": 3926,
+      "E": 4083,
+      "F": 3769
     }
   },
   "DTP052": {
@@ -28574,9 +28514,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3505,
-      "E": 3645,
-      "F": 3365
+      "D": 3926,
+      "E": 4083,
+      "F": 3769
     }
   },
   "DTP065": {
@@ -28584,9 +28524,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3645,
-      "E": 3926,
-      "F": 3365
+      "D": 4083,
+      "E": 4397,
+      "F": 3769
     }
   },
   "DTP067": {
@@ -28594,9 +28534,9 @@
     "category": "7.AEROSOL MATE.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3645,
-      "E": 3926,
-      "F": 3365
+      "D": 4083,
+      "E": 4397,
+      "F": 3769
     }
   },
   "DTP069": {
@@ -28604,9 +28544,9 @@
     "category": "7.AEROSOL SATIN240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3645,
-      "E": 3926,
-      "F": 3365
+      "D": 4083,
+      "E": 4397,
+      "F": 3769
     }
   },
   "DTP072": {
@@ -28614,9 +28554,9 @@
     "category": "7.AEROSOL BRIL.240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 3505,
-      "E": 3645,
-      "F": 3365
+      "D": 3926,
+      "E": 4083,
+      "F": 3769
     }
   },
   "DTP086": {
@@ -28624,9 +28564,9 @@
     "category": "7.AEROSOL METAL240.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 4827,
-      "E": 5020,
-      "F": 4634
+      "D": 5406,
+      "E": 5622,
+      "F": 5189
     }
   },
   "DTP157": {
@@ -29074,9 +29014,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 718,
-      "E": 773,
-      "F": 663
+      "D": 783,
+      "E": 843,
+      "F": 723
     }
   },
   "DUR902": {
@@ -29084,9 +29024,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 794,
-      "E": 855,
-      "F": 733
+      "D": 865,
+      "E": 932,
+      "F": 799
     }
   },
   "DUR903": {
@@ -29094,9 +29034,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 957,
-      "E": 1031,
-      "F": 884
+      "D": 1043,
+      "E": 1124,
+      "F": 963
     }
   },
   "DUR904": {
@@ -29104,9 +29044,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 1230,
-      "E": 1325,
-      "F": 1135
+      "D": 1341,
+      "E": 1444,
+      "F": 1237
     }
   },
   "DUR905": {
@@ -29114,9 +29054,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 1829,
-      "E": 1970,
-      "F": 1689
+      "D": 1994,
+      "E": 2147,
+      "F": 1840
     }
   },
   "DUR906": {
@@ -29124,9 +29064,9 @@
     "category": "7.PINCEL RODIPIN",
     "bulk": 24.0,
     "prices": {
-      "D": 2351,
-      "E": 2532,
-      "F": 2170
+      "D": 2562,
+      "E": 2760,
+      "F": 2365
     }
   },
   "DX1130": {
@@ -29864,9 +29804,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3097,
-      "E": 3335,
-      "F": 2859
+      "D": 3235,
+      "E": 3484,
+      "F": 2986
     }
   },
   "EGBT 06": {
@@ -29984,9 +29924,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2059,
-      "E": 2218,
-      "F": 1901
+      "D": 2165,
+      "E": 2331,
+      "F": 1998
     }
   },
   "EGCA 17": {
@@ -30004,9 +29944,9 @@
     "category": "1.FLOR.LLUVIA y ACCESORIO",
     "bulk": 10.0,
     "prices": {
-      "D": 4443,
-      "E": 4785,
-      "F": 4101
+      "D": 4854,
+      "E": 5227,
+      "F": 4480
     }
   },
   "EGCH 15": {
@@ -30014,9 +29954,9 @@
     "category": "1.FLOR.LLUVIA y ACCESORIO",
     "bulk": 10.0,
     "prices": {
-      "D": 1910,
-      "E": 2057,
-      "F": 1763
+      "D": 2088,
+      "E": 2249,
+      "F": 1928
     }
   },
   "EGCP 01": {
@@ -31314,9 +31254,9 @@
     "category": "1.MOCHILA/DEPOSITO ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1769,
-      "E": 1906,
-      "F": 1633
+      "D": 1910,
+      "E": 2057,
+      "F": 1763
     }
   },
   "EGMJ 09": {
@@ -31634,9 +31574,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 324,
-      "E": 349,
-      "F": 299
+      "D": 344,
+      "E": 371,
+      "F": 318
     }
   },
   "EGTM 02": {
@@ -31644,9 +31584,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 382,
-      "E": 411,
-      "F": 352
+      "D": 405,
+      "E": 436,
+      "F": 374
     }
   },
   "EGTM 03": {
@@ -31654,9 +31594,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 402,
-      "E": 433,
-      "F": 371
+      "D": 427,
+      "E": 460,
+      "F": 394
     }
   },
   "EGTM 04": {
@@ -31664,9 +31604,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 382,
-      "E": 411,
-      "F": 352
+      "D": 405,
+      "E": 436,
+      "F": 374
     }
   },
   "EGTM 05": {
@@ -31694,9 +31634,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 429,
-      "E": 462,
-      "F": 396
+      "D": 455,
+      "E": 490,
+      "F": 420
     }
   },
   "EGTM 08": {
@@ -31704,9 +31644,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 494,
-      "E": 532,
-      "F": 456
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "EGTM 09": {
@@ -31714,9 +31654,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 468,
-      "E": 504,
-      "F": 432
+      "D": 496,
+      "E": 535,
+      "F": 458
     }
   },
   "EGTM 10": {
@@ -31724,9 +31664,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 390,
-      "E": 420,
-      "F": 360
+      "D": 413,
+      "E": 445,
+      "F": 382
     }
   },
   "EGTM 11": {
@@ -31744,9 +31684,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 592,
-      "E": 638,
-      "F": 546
+      "D": 628,
+      "E": 676,
+      "F": 580
     }
   },
   "EGTM 14": {
@@ -31754,9 +31694,9 @@
     "category": "1.VALVULA P/CANILLA EG",
     "bulk": 100.0,
     "prices": {
-      "D": 311,
-      "E": 334,
-      "F": 287
+      "D": 329,
+      "E": 355,
+      "F": 304
     }
   },
   "EGTT 01": {
@@ -31964,9 +31904,9 @@
     "category": "1.VENTOSAS",
     "bulk": 10.0,
     "prices": {
-      "D": 770,
-      "E": 829,
-      "F": 710
+      "D": 807,
+      "E": 869,
+      "F": 745
     }
   },
   "EGVN 02": {
@@ -31974,9 +31914,9 @@
     "category": "1.VENTOSAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1921,
-      "E": 2069,
-      "F": 1774
+      "D": 2019,
+      "E": 2174,
+      "F": 1863
     }
   },
   "EGVN 03": {
@@ -38644,9 +38584,9 @@
     "category": "1.CALEFON ELECT/ACCES.A",
     "bulk": 10.0,
     "prices": {
-      "D": 21890,
-      "E": 23574,
-      "F": 20206
+      "D": 20122,
+      "E": 21670,
+      "F": 18574
     }
   },
   "FER50608": {
@@ -38654,9 +38594,9 @@
     "category": "1.CALEFON ELECT/ACCES.A",
     "bulk": 1.0,
     "prices": {
-      "D": 26447,
-      "E": 28482,
-      "F": 24413
+      "D": 24413,
+      "E": 26291,
+      "F": 22535
     }
   },
   "FIA210160": {
@@ -44904,9 +44844,9 @@
     "category": "8.BALDE DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 1331,
-      "E": 1382,
-      "F": 1259
+      "D": 1553,
+      "E": 1613,
+      "F": 1469
     }
   },
   "GP00324": {
@@ -53454,9 +53394,9 @@
     "category": "8.TENAZA ARMADOR GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 20086,
-      "E": 21631,
-      "F": 18541
+      "D": 20488,
+      "E": 22064,
+      "F": 18912
     }
   },
   "LOUGHE015": {
@@ -53464,9 +53404,9 @@
     "category": "8.TENAZA ARMADOR GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 19675,
-      "E": 21188,
-      "F": 18161
+      "D": 20068,
+      "E": 21612,
+      "F": 18525
     }
   },
   "LOUGHE076": {
@@ -53474,9 +53414,9 @@
     "category": "8.PICOS y PALA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 74656,
-      "E": 77642,
-      "F": 68683
+      "D": 79152,
+      "E": 82318,
+      "F": 72820
     }
   },
   "LOUGHE100": {
@@ -53484,9 +53424,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 50695,
-      "E": 52807,
-      "F": 48583
+      "D": 51709,
+      "E": 53863,
+      "F": 49554
     }
   },
   "LOUGHE101": {
@@ -53494,9 +53434,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 50695,
-      "E": 52807,
-      "F": 48583
+      "D": 51709,
+      "E": 53863,
+      "F": 49554
     }
   },
   "LOUGHE110": {
@@ -53504,9 +53444,9 @@
     "category": "8.PALA ESTAMPADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 41731,
-      "E": 43470,
-      "F": 39993
+      "D": 42566,
+      "E": 44340,
+      "F": 40792
     }
   },
   "LOUGHE113": {
@@ -53514,9 +53454,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 0.0,
     "prices": {
-      "D": 57142,
-      "E": 59523,
-      "F": 54761
+      "D": 58285,
+      "E": 60714,
+      "F": 55857
     }
   },
   "LOUGHE117": {
@@ -53524,9 +53464,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 63800,
-      "E": 66459,
-      "F": 61142
+      "D": 65076,
+      "E": 67788,
+      "F": 62365
     }
   },
   "LOUGHE118": {
@@ -53534,9 +53474,9 @@
     "category": "8.PALA ESTAMPADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 41731,
-      "E": 43470,
-      "F": 41731
+      "D": 42566,
+      "E": 44340,
+      "F": 42566
     }
   },
   "LOUGHE127": {
@@ -53544,9 +53484,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 25160,
-      "E": 27257,
-      "F": 24112
+      "D": 25663,
+      "E": 27802,
+      "F": 24594
     }
   },
   "LOUGHE20": {
@@ -53554,9 +53494,9 @@
     "category": "8.MACHETE GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 33251,
-      "E": 35809,
-      "F": 30693
+      "D": 33916,
+      "E": 36525,
+      "F": 31307
     }
   },
   "LOUGHE208": {
@@ -53564,9 +53504,9 @@
     "category": "8.HACHAS",
     "bulk": 1.0,
     "prices": {
-      "D": 80577,
-      "E": 86775,
-      "F": 74378
+      "D": 82188,
+      "E": 88510,
+      "F": 75866
     }
   },
   "LOUGHE22": {
@@ -53574,9 +53514,9 @@
     "category": "8.MACHETE GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 34393,
-      "E": 37039,
-      "F": 31748
+      "D": 35081,
+      "E": 37780,
+      "F": 32382
     }
   },
   "LOUGHE26": {
@@ -53584,9 +53524,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 22773,
-      "E": 24671,
-      "F": 21824
+      "D": 23229,
+      "E": 25164,
+      "F": 22261
     }
   },
   "LOUGHE27": {
@@ -53594,9 +53534,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 25160,
-      "E": 27257,
-      "F": 24112
+      "D": 25663,
+      "E": 27802,
+      "F": 24594
     }
   },
   "LOUGHE28": {
@@ -53604,9 +53544,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 25587,
-      "E": 27719,
-      "F": 24520
+      "D": 26098,
+      "E": 28273,
+      "F": 25011
     }
   },
   "LOUGHE281": {
@@ -53614,9 +53554,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 26293,
-      "E": 28484,
-      "F": 25197
+      "D": 26819,
+      "E": 29054,
+      "F": 25701
     }
   },
   "LOUGHE30": {
@@ -53624,9 +53564,9 @@
     "category": "8.MARTILLO GALPONERO",
     "bulk": 1.0,
     "prices": {
-      "D": 38931,
-      "E": 41926,
-      "F": 35936
+      "D": 39710,
+      "E": 42764,
+      "F": 36655
     }
   },
   "LOUMEC3608": {
@@ -53734,9 +53674,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 60.0,
     "prices": {
-      "D": 7097,
-      "E": 7665,
-      "F": 6699
+      "D": 7452,
+      "E": 8048,
+      "F": 7034
     }
   },
   "LOUPRI102": {
@@ -53744,9 +53684,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 60.0,
     "prices": {
-      "D": 7283,
-      "E": 7865,
-      "F": 6875
+      "D": 7647,
+      "E": 8259,
+      "F": 7218
     }
   },
   "LOUPRI200": {
@@ -53754,9 +53694,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 30.0,
     "prices": {
-      "D": 16681,
-      "E": 18015,
-      "F": 15746
+      "D": 17515,
+      "E": 18916,
+      "F": 16534
     }
   },
   "LOUPRI204": {
@@ -53764,9 +53704,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 10.0,
     "prices": {
-      "D": 21726,
-      "E": 22595,
-      "F": 20509
+      "D": 22812,
+      "E": 23724,
+      "F": 21534
     }
   },
   "LOUPRI205": {
@@ -53774,9 +53714,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 30.0,
     "prices": {
-      "D": 18460,
-      "E": 19937,
-      "F": 17427
+      "D": 19383,
+      "E": 20934,
+      "F": 18298
     }
   },
   "LOUPRI206": {
@@ -53784,9 +53724,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 50.0,
     "prices": {
-      "D": 19561,
-      "E": 21126,
-      "F": 18465
+      "D": 20539,
+      "E": 22182,
+      "F": 19389
     }
   },
   "LOUPRI207": {
@@ -53794,9 +53734,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 6.0,
     "prices": {
-      "D": 15246,
-      "E": 16465,
-      "F": 14392
+      "D": 16008,
+      "E": 17289,
+      "F": 15111
     }
   },
   "LOUPRI208": {
@@ -53804,9 +53744,9 @@
     "category": "8.CERRADURAS PRIVE",
     "bulk": 6.0,
     "prices": {
-      "D": 15676,
-      "E": 16303,
-      "F": 15049
+      "D": 16460,
+      "E": 17118,
+      "F": 15801
     }
   },
   "LOUPRI210": {
@@ -53814,9 +53754,9 @@
     "category": "8.CERROJOS PRIVE",
     "bulk": 40.0,
     "prices": {
-      "D": 15512,
-      "E": 16754,
-      "F": 14644
+      "D": 16288,
+      "E": 17591,
+      "F": 15376
     }
   },
   "LOUPRI212": {
@@ -53824,9 +53764,9 @@
     "category": "8.CERROJOS PRIVE",
     "bulk": 40.0,
     "prices": {
-      "D": 22032,
-      "E": 23794,
-      "F": 20798
+      "D": 23133,
+      "E": 24984,
+      "F": 21838
     }
   },
   "LOUPRI214": {
@@ -53834,9 +53774,9 @@
     "category": "8.CERROJOS PRIVE",
     "bulk": 1.0,
     "prices": {
-      "D": 30199,
-      "E": 32615,
-      "F": 28508
+      "D": 31709,
+      "E": 34246,
+      "F": 29934
     }
   },
   "LOUPRI400": {
@@ -53844,9 +53784,9 @@
     "category": "8.CERROJOS PRIVE",
     "bulk": 40.0,
     "prices": {
-      "D": 42270,
-      "E": 45652,
-      "F": 39903
+      "D": 44384,
+      "E": 47934,
+      "F": 41898
     }
   },
   "LOUPRI4000": {
@@ -53914,9 +53854,9 @@
     "category": "8.PALA HOYERA",
     "bulk": 1.0,
     "prices": {
-      "D": 88193,
-      "E": 98777,
-      "F": 84666
+      "D": 89674,
+      "E": 100435,
+      "F": 86087
     }
   },
   "LOUTRA7982": {
@@ -57619,36 +57559,6 @@
       "F": 45382
     }
   },
-  "LY725520": {
-    "name": "SOBREPASO CORTO FUS/FUS 20mm LATYN",
-    "category": "2.ACC/TERMOF.AGUA LATYN",
-    "bulk": 40.0,
-    "prices": {
-      "D": 889,
-      "E": 957,
-      "F": 820
-    }
-  },
-  "LY725525": {
-    "name": "SOBREPASO CORTO FUS/FUS 25mm LATYN",
-    "category": "2.ACC/TERMOF.AGUA LATYN",
-    "bulk": 40.0,
-    "prices": {
-      "D": 1302,
-      "E": 1402,
-      "F": 1202
-    }
-  },
-  "LY725532": {
-    "name": "SOBREPASO CORTO FUS/FUS 32mm LATYN",
-    "category": "2.ACC/TERMOF.AGUA LATYN",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1768,
-      "E": 1904,
-      "F": 1632
-    }
-  },
   "MAGI500": {
     "name": "IDON TERMICO 2Lt         MAGICLICK",
     "category": "8.TERMOS/REPUESTOS",
@@ -57884,9 +57794,9 @@
     "category": "8.ANTIPARRAS/MASCARAS",
     "bulk": 200.0,
     "prices": {
-      "D": 1216,
-      "E": 1310,
-      "F": 1122
+      "D": 1741,
+      "E": 1875,
+      "F": 1607
     }
   },
   "MASIV10155": {
@@ -58734,9 +58644,9 @@
     "category": "9.CABLECANAL PVC TAAD/ACC",
     "bulk": 50.0,
     "prices": {
-      "D": 1077,
-      "E": 1160,
-      "F": 994
+      "D": 1145,
+      "E": 1233,
+      "F": 1057
     }
   },
   "MAVKL18x21CA": {
@@ -58744,9 +58654,9 @@
     "category": "9.CABLECANAL PVC TAAD/ACC",
     "bulk": 50.0,
     "prices": {
-      "D": 2447,
-      "E": 2635,
-      "F": 2259
+      "D": 2465,
+      "E": 2654,
+      "F": 2275
     }
   },
   "MAVKL20x10CA": {
@@ -58754,9 +58664,9 @@
     "category": "9.CABLECANAL PVC TAAD/ACC",
     "bulk": 50.0,
     "prices": {
-      "D": 1417,
-      "E": 1526,
-      "F": 1308
+      "D": 1513,
+      "E": 1630,
+      "F": 1397
     }
   },
   "MAVKL27X30CA": {
@@ -58764,9 +58674,9 @@
     "category": "9.CABLECANAL PVC TAAD/ACC",
     "bulk": 50.0,
     "prices": {
-      "D": 4753,
-      "E": 5119,
-      "F": 4387
+      "D": 5228,
+      "E": 5630,
+      "F": 4826
     }
   },
   "MAVPTGRAM08B": {
@@ -68524,9 +68434,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K4 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 18382,
-      "E": 19796,
-      "F": 16968
+      "D": 19301,
+      "E": 20786,
+      "F": 17817
     }
   },
   "NPCPN194": {
@@ -68534,9 +68444,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K4 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 33893,
-      "E": 36501,
-      "F": 31286
+      "D": 35588,
+      "E": 38326,
+      "F": 32850
     }
   },
   "NPCPN254": {
@@ -68544,9 +68454,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K4 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 47978,
-      "E": 51669,
-      "F": 44288
+      "D": 50377,
+      "E": 54253,
+      "F": 46502
     }
   },
   "NPCPN324": {
@@ -68554,9 +68464,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K4 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 80841,
-      "E": 87060,
-      "F": 74623
+      "D": 84883,
+      "E": 91413,
+      "F": 78354
     }
   },
   "NPCPN384": {
@@ -68564,9 +68474,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K4 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 112936,
-      "E": 121624,
-      "F": 104249
+      "D": 118583,
+      "E": 127705,
+      "F": 109461
     }
   },
   "NPCPN506": {
@@ -68574,9 +68484,9 @@
     "category": "2.CA\u00d1OS DE POLIET.K6 POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 166149,
-      "E": 178930,
-      "F": 153368
+      "D": 193891,
+      "E": 208805,
+      "F": 178976
     }
   },
   "OR003": {
@@ -68714,9 +68624,9 @@
     "category": "1.CALEF.TERMOT/AC.REP",
     "bulk": 0.0,
     "prices": {
-      "D": 1888,
-      "E": 2034,
-      "F": 1743
+      "D": 2021,
+      "E": 2176,
+      "F": 1865
     }
   },
   "OR100": {
@@ -68764,9 +68674,9 @@
     "category": "1.FILTRO SOPAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 591,
-      "E": 637,
-      "F": 546
+      "D": 633,
+      "E": 681,
+      "F": 584
     }
   },
   "OR118": {
@@ -68884,9 +68794,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 50.0,
     "prices": {
-      "D": 94,
-      "E": 98,
-      "F": 91
+      "D": 111,
+      "E": 115,
+      "F": 107
     }
   },
   "OR220": {
@@ -69144,9 +69054,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 5422,
-      "E": 5840,
-      "F": 5005
+      "D": 5824,
+      "E": 6272,
+      "F": 5376
     }
   },
   "OR34": {
@@ -69154,9 +69064,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 2707,
-      "E": 2915,
-      "F": 2498
+      "D": 2912,
+      "E": 3136,
+      "F": 2688
     }
   },
   "OR365": {
@@ -69224,9 +69134,9 @@
     "category": "1.CALEF.TERMOT/AC.REP.",
     "bulk": 10.0,
     "prices": {
-      "D": 9566,
-      "E": 10302,
-      "F": 8830
+      "D": 10236,
+      "E": 11023,
+      "F": 9448
     }
   },
   "ORA01": {
@@ -81759,116 +81669,6 @@
       "F": 9225
     }
   },
-  "ROT95900": {
-    "name": "CINTA DOBLE FAZ 12MM",
-    "category": "8.CINTA",
-    "bulk": 0.0,
-    "prices": {
-      "D": 2519,
-      "E": 2713,
-      "F": 2325
-    }
-  },
-  "ROT95901": {
-    "name": "CINTA DOBLE FAZ 19MM",
-    "category": "8.CINTA",
-    "bulk": 0.0,
-    "prices": {
-      "D": 2954,
-      "E": 3181,
-      "F": 2726
-    }
-  },
-  "ROT95902": {
-    "name": "CINTA DOBLE FAZ 24MM",
-    "category": "8.CINTA",
-    "bulk": 0.0,
-    "prices": {
-      "D": 3388,
-      "E": 3649,
-      "F": 3128
-    }
-  },
-  "ROT95924": {
-    "name": "CINTA PAPEL 722 AZUL 24MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 4490,
-      "E": 4835,
-      "F": 4145
-    }
-  },
-  "ROT95927": {
-    "name": "CINTA PAPEL 766 AUTO VERDE 48MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 4673,
-      "E": 5033,
-      "F": 4314
-    }
-  },
-  "ROT95932": {
-    "name": "CINTA PAPEL 710 18MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 1853,
-      "E": 1996,
-      "F": 1711
-    }
-  },
-  "ROT95933": {
-    "name": "CINTA PAPEL 710 24MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 2577,
-      "E": 2775,
-      "F": 2379
-    }
-  },
-  "ROT95934": {
-    "name": "CINTA PAPEL 710 36MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 3156,
-      "E": 3399,
-      "F": 2914
-    }
-  },
-  "ROT95935": {
-    "name": "CINTA PAPEL 710 48MM",
-    "category": "8.CINTA ENMASCARAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 4576,
-      "E": 4928,
-      "F": 4224
-    }
-  },
-  "ROT95939": {
-    "name": "CINTA EMBAL 48MM MARRON",
-    "category": "8.CINTA EMBALAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 1303,
-      "E": 1403,
-      "F": 1203
-    }
-  },
-  "ROT95940": {
-    "name": "CINTA EMBAL 48MM TRANSP",
-    "category": "8.CINTA EMBALAR",
-    "bulk": 0.0,
-    "prices": {
-      "D": 1303,
-      "E": 1403,
-      "F": 1203
-    }
-  },
   "ROT96901": {
     "name": "CINCHA C/CATGARD.25x4.6mt 800K BELLOTA",
     "category": "8.CINCHA CATGARDEX.BELLOT",
@@ -82084,9 +81884,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 111213,
-      "E": 119768,
-      "F": 102658
+      "D": 122334,
+      "E": 131745,
+      "F": 112924
     }
   },
   "RPFC1109": {
@@ -82094,9 +81894,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 166792,
-      "E": 179623,
-      "F": 153962
+      "D": 183472,
+      "E": 197585,
+      "F": 169359
     }
   },
   "RPFC1110": {
@@ -82104,9 +81904,9 @@
     "category": "8.NYLON CRISTAL RP",
     "bulk": 1.0,
     "prices": {
-      "D": 222421,
-      "E": 239530,
-      "F": 205312
+      "D": 244663,
+      "E": 263483,
+      "F": 225843
     }
   },
   "RPFN1102": {
@@ -82114,9 +81914,9 @@
     "category": "8.NYLON NEGRO RP",
     "bulk": 1.0,
     "prices": {
-      "D": 31469,
-      "E": 33890,
-      "F": 29048
+      "D": 34616,
+      "E": 37279,
+      "F": 31953
     }
   },
   "RPFN1103": {
@@ -82124,9 +81924,9 @@
     "category": "8.NYLON COBERTOR POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 46650,
-      "E": 50239,
-      "F": 43062
+      "D": 51316,
+      "E": 55263,
+      "F": 47368
     }
   },
   "RPFN1104": {
@@ -82134,9 +81934,9 @@
     "category": "8.NYLON COBERTOR POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 62362,
-      "E": 67159,
-      "F": 57565
+      "D": 68598,
+      "E": 73875,
+      "F": 63321
     }
   },
   "RPFN1105": {
@@ -82144,9 +81944,9 @@
     "category": "8.NYLON COBERTOR POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 31469,
-      "E": 33890,
-      "F": 29048
+      "D": 34616,
+      "E": 37279,
+      "F": 31953
     }
   },
   "RPFN1106": {
@@ -82154,9 +81954,9 @@
     "category": "8.NYLON COBERTOR POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 46650,
-      "E": 50239,
-      "F": 43062
+      "D": 51316,
+      "E": 55263,
+      "F": 47368
     }
   },
   "RPFN1107": {
@@ -82164,9 +81964,9 @@
     "category": "8.NYLON COBERTOR POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 62362,
-      "E": 67159,
-      "F": 57565
+      "D": 68598,
+      "E": 73875,
+      "F": 63321
     }
   },
   "RUCAB100": {
@@ -84854,9 +84654,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 19433,
-      "E": 20928,
-      "F": 17938
+      "D": 20017,
+      "E": 21556,
+      "F": 18477
     }
   },
   "SG0000SP/2": {
@@ -84864,9 +84664,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 8228,
-      "E": 8861,
-      "F": 7595
+      "D": 8474,
+      "E": 9126,
+      "F": 7822
     }
   },
   "SG0000SP/3": {
@@ -84874,9 +84674,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 8228,
-      "E": 8861,
-      "F": 7595
+      "D": 8474,
+      "E": 9126,
+      "F": 7822
     }
   },
   "SG0000SP/4": {
@@ -84884,9 +84684,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 8228,
-      "E": 8861,
-      "F": 7595
+      "D": 8474,
+      "E": 9126,
+      "F": 7822
     }
   },
   "SG0000SP/5": {
@@ -84894,9 +84694,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 2589,
-      "E": 2788,
-      "F": 2390
+      "D": 2668,
+      "E": 2873,
+      "F": 2463
     }
   },
   "SG1005SG/4": {
@@ -84904,9 +84704,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 4.0,
     "prices": {
-      "D": 191872,
-      "E": 206632,
-      "F": 177113
+      "D": 197628,
+      "E": 212830,
+      "F": 182425
     }
   },
   "SG2000/A": {
@@ -84914,9 +84714,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 40.0,
     "prices": {
-      "D": 36149,
-      "E": 38930,
-      "F": 33369
+      "D": 37233,
+      "E": 40098,
+      "F": 34369
     }
   },
   "SG2001/A": {
@@ -84924,9 +84724,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 9603,
-      "E": 10342,
-      "F": 8865
+      "D": 9892,
+      "E": 10653,
+      "F": 9131
     }
   },
   "SG2001/A01": {
@@ -84934,9 +84734,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 9603,
-      "E": 10342,
-      "F": 8865
+      "D": 9892,
+      "E": 10653,
+      "F": 9131
     }
   },
   "SG2001/A02": {
@@ -84944,9 +84744,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 9603,
-      "E": 10342,
-      "F": 8865
+      "D": 9892,
+      "E": 10653,
+      "F": 9131
     }
   },
   "SG2006SP/2": {
@@ -84954,9 +84754,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 4.0,
     "prices": {
-      "D": 134387,
-      "E": 144724,
-      "F": 124049
+      "D": 138419,
+      "E": 149067,
+      "F": 127771
     }
   },
   "SGBOQKIT": {
@@ -84964,9 +84764,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 0.0,
     "prices": {
-      "D": 40653,
-      "E": 43780,
-      "F": 37526
+      "D": 41873,
+      "E": 45094,
+      "F": 38652
     }
   },
   "SGHOBB": {
@@ -84974,9 +84774,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 9365,
-      "E": 10085,
-      "F": 8644
+      "D": 9646,
+      "E": 10388,
+      "F": 8904
     }
   },
   "SGTER1400": {
@@ -84984,9 +84784,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 3.0,
     "prices": {
-      "D": 82679,
-      "E": 89039,
-      "F": 76319
+      "D": 85160,
+      "E": 91710,
+      "F": 78609
     }
   },
   "SGTER800": {
@@ -84994,9 +84794,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 1.0,
     "prices": {
-      "D": 73510,
-      "E": 79165,
-      "F": 67856
+      "D": 75716,
+      "E": 81540,
+      "F": 69891
     }
   },
   "SILC12": {
@@ -91219,84 +91019,34 @@
       "F": 424
     }
   },
-  "TOR01019": {
-    "name": "TOR PUNTA MECHA CHAPA C/HE 14x1\"",
-    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
-    "bulk": 2000.0,
-    "prices": {
-      "D": 55,
-      "E": 59,
-      "F": 50
-    }
-  },
-  "TOR01020": {
-    "name": "TOR PUNTA MECHA CHAPA C/HE 14x11/2\"",
-    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
-    "bulk": 1500.0,
-    "prices": {
-      "D": 73,
-      "E": 78,
-      "F": 67
-    }
-  },
-  "TOR01021": {
+  "TOR01027": {
     "name": "TOR PUNTA MECHA CHAPA C/HE 14x2\"",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 1000.0,
     "prices": {
-      "D": 81,
-      "E": 88,
-      "F": 75
+      "D": 76,
+      "E": 82,
+      "F": 70
     }
   },
-  "TOR01022": {
-    "name": "TOR PUNTA MECHA CHAPA C/HE 14x21/2\"",
-    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
-    "bulk": 1000.0,
-    "prices": {
-      "D": 95,
-      "E": 103,
-      "F": 88
-    }
-  },
-  "TOR01199": {
+  "TOR01205": {
     "name": "TOR PUNTA RANURA MAD C/HE 14x1",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 2000.0,
     "prices": {
-      "D": 62,
-      "E": 67,
-      "F": 58
+      "D": 57,
+      "E": 62,
+      "F": 53
     }
   },
-  "TOR01201": {
+  "TOR01207": {
     "name": "TOR PUNTA RANURA MAD C/HE 14x2\"",
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 1000.0,
     "prices": {
-      "D": 92,
-      "E": 99,
-      "F": 85
-    }
-  },
-  "TOR01202": {
-    "name": "TOR PUNTA RANURA MAD C/HE 14x21/2\"",
-    "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
-    "bulk": 1000.0,
-    "prices": {
-      "D": 102,
-      "E": 110,
-      "F": 94
-    }
-  },
-  "TOR01203": {
-    "name": "TOR PUNTA RANURA MAD C/HE 14x3\"",
-    "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
-    "bulk": 700.0,
-    "prices": {
-      "D": 119,
-      "E": 128,
-      "F": 110
+      "D": 80,
+      "E": 86,
+      "F": 74
     }
   },
   "TOR01523": {
@@ -91304,9 +91054,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 5000.0,
     "prices": {
-      "D": 25,
-      "E": 27,
-      "F": 23
+      "D": 23,
+      "E": 24,
+      "F": 21
     }
   },
   "TOR01524": {
@@ -91314,9 +91064,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 5000.0,
     "prices": {
-      "D": 26,
-      "E": 29,
-      "F": 24
+      "D": 24,
+      "E": 26,
+      "F": 22
     }
   },
   "TOR01525": {
@@ -91324,9 +91074,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 4000.0,
     "prices": {
-      "D": 29,
-      "E": 31,
-      "F": 27
+      "D": 26,
+      "E": 28,
+      "F": 24
     }
   },
   "TOR01526": {
@@ -91334,19 +91084,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 3000.0,
     "prices": {
-      "D": 32,
-      "E": 35,
-      "F": 30
-    }
-  },
-  "TOR01527": {
-    "name": "TORNILLO DRYWALL MAD 10 x2 TOR",
-    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 2500.0,
-    "prices": {
-      "D": 37,
-      "E": 40,
-      "F": 34
+      "D": 29,
+      "E": 31,
+      "F": 26
     }
   },
   "TOR01528": {
@@ -91354,9 +91094,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 2500.0,
     "prices": {
-      "D": 41,
-      "E": 44,
-      "F": 38
+      "D": 37,
+      "E": 39,
+      "F": 34
     }
   },
   "TOR01529": {
@@ -91364,9 +91104,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 2000.0,
     "prices": {
-      "D": 47,
-      "E": 51,
-      "F": 43
+      "D": 42,
+      "E": 45,
+      "F": 39
     }
   },
   "TOR01530": {
@@ -91374,9 +91114,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 200.0,
     "prices": {
-      "D": 51,
-      "E": 55,
-      "F": 48
+      "D": 46,
+      "E": 50,
+      "F": 42
     }
   },
   "TOR01540": {
@@ -91384,9 +91124,9 @@
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2500.0,
     "prices": {
-      "D": 37,
-      "E": 40,
-      "F": 34
+      "D": 35,
+      "E": 38,
+      "F": 32
     }
   },
   "TOR01549": {
@@ -91394,39 +91134,9 @@
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 7000.0,
     "prices": {
-      "D": 16,
-      "E": 17,
-      "F": 15
-    }
-  },
-  "TOR01558": {
-    "name": "TORNILLO DRYWALL MAD 8 X1 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 10000.0,
-    "prices": {
-      "D": 16,
-      "E": 17,
-      "F": 14
-    }
-  },
-  "TOR01559": {
-    "name": "TORNILLO DRYWALL MAD 8 x11/4 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 8000.0,
-    "prices": {
-      "D": 19,
-      "E": 21,
-      "F": 18
-    }
-  },
-  "TOR01560": {
-    "name": "TORNILLO DRYWALL MAD 8 x11/2 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 5000.0,
-    "prices": {
-      "D": 22,
-      "E": 24,
-      "F": 20
+      "D": 14,
+      "E": 16,
+      "F": 13
     }
   },
   "TOR01561": {
@@ -91434,19 +91144,9 @@
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 3500.0,
     "prices": {
-      "D": 24,
-      "E": 26,
-      "F": 22
-    }
-  },
-  "TOR01562": {
-    "name": "TORNILLO DRYWALL MAD 8 x2 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 3000.0,
-    "prices": {
-      "D": 28,
-      "E": 30,
-      "F": 26
+      "D": 22,
+      "E": 23,
+      "F": 20
     }
   },
   "TOR01589": {
@@ -91454,9 +91154,9 @@
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 5000.0,
     "prices": {
-      "D": 23,
-      "E": 25,
-      "F": 22
+      "D": 21,
+      "E": 23,
+      "F": 19
     }
   },
   "TOR01602": {
@@ -91464,9 +91164,9 @@
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
     "bulk": 2000.0,
     "prices": {
-      "D": 44,
-      "E": 47,
-      "F": 40
+      "D": 41,
+      "E": 45,
+      "F": 38
     }
   },
   "TOR0901": {
@@ -91484,9 +91184,9 @@
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 4000.0,
     "prices": {
-      "D": 18,
-      "E": 20,
-      "F": 17
+      "D": 16,
+      "E": 18,
+      "F": 15
     }
   },
   "TORIMP000323": {
@@ -91494,9 +91194,9 @@
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
     "bulk": 15000.0,
     "prices": {
-      "D": 8,
-      "E": 9,
-      "F": 8
+      "D": 7,
+      "E": 8,
+      "F": 7
     }
   },
   "TORIMP000357": {
@@ -91504,9 +91204,9 @@
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
     "bulk": 9000.0,
     "prices": {
-      "D": 13,
-      "E": 14,
-      "F": 12
+      "D": 11,
+      "E": 12,
+      "F": 10
     }
   },
   "TORIMP000464": {
@@ -91514,114 +91214,14 @@
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
     "bulk": 2700.0,
     "prices": {
-      "D": 29,
-      "E": 31,
-      "F": 26
+      "D": 25,
+      "E": 27,
+      "F": 23
     }
   },
-  "TORIMP000648": {
-    "name": "TORNILLO DRYWALL MET 6 x3/4 TORA",
-    "category": "6.TOR.DRYWAL.R/MET. 6TOR",
-    "bulk": 16000.0,
-    "prices": {
-      "D": 10,
-      "E": 11,
-      "F": 9
-    }
-  },
-  "TORIMP000662": {
-    "name": "TORNILLO DRYWALL MAD 6 x21/4 TOR",
-    "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
-    "bulk": 200.0,
-    "prices": {
-      "D": 21,
-      "E": 22,
-      "F": 19
-    }
-  },
-  "TORIMP000672": {
-    "name": "TORNILLO DRYWALL MAD 8 x21/2 TOR",
+  "TORIMP000667": {
+    "name": "TORNILLO DRYWALL MAD 8 x11/4 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 2000.0,
-    "prices": {
-      "D": 38,
-      "E": 41,
-      "F": 35
-    }
-  },
-  "TORIMP000674": {
-    "name": "TORNILLO DRYWALL MAD 10 x3 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 1500.0,
-    "prices": {
-      "D": 52,
-      "E": 56,
-      "F": 48
-    }
-  },
-  "TORIMP000764": {
-    "name": "TORNILLO P/MECHA TANQUE 8 x11/4 TORAR",
-    "category": "6.TOR.P/MECHA TANQ/PHI.8",
-    "bulk": 5000.0,
-    "prices": {
-      "D": 31,
-      "E": 33,
-      "F": 28
-    }
-  },
-  "TORIMP000795": {
-    "name": "TORNILLO DRYWALL MAD 8 x21/4 TOR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 2200.0,
-    "prices": {
-      "D": 35,
-      "E": 37,
-      "F": 32
-    }
-  },
-  "TORIMP000797": {
-    "name": "TORNILLO DRYWALL MAD 8 x3 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 1800.0,
-    "prices": {
-      "D": 41,
-      "E": 45,
-      "F": 38
-    }
-  },
-  "TORIMP000799": {
-    "name": "TORNILLO DRYWALL MAD 10 x1 TOR",
-    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 6000.0,
-    "prices": {
-      "D": 21,
-      "E": 22,
-      "F": 19
-    }
-  },
-  "TORIMP000839": {
-    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/2\" TORAR",
-    "category": "6.TOR.P/MECHA FREZADA",
-    "bulk": 200.0,
-    "prices": {
-      "D": 48,
-      "E": 52,
-      "F": 44
-    }
-  },
-  "TORIMP000948": {
-    "name": "TORNILLO FIX P MADERA 3.5 x20 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 13000.0,
-    "prices": {
-      "D": 9,
-      "E": 9,
-      "F": 8
-    }
-  },
-  "TORIMP000952": {
-    "name": "TORNILLO FIX P MADERA 3.5 x45 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 5000.0,
     "prices": {
       "D": 17,
@@ -91629,39 +91229,29 @@
       "F": 15
     }
   },
-  "TORIMP000980": {
-    "name": "TORNILLO DRYWALL MAD 6 x3 TORAR",
-    "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
-    "bulk": 200.0,
+  "TORIMP000674": {
+    "name": "TORNILLO DRYWALL MAD 10 x3 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
+    "bulk": 1500.0,
     "prices": {
-      "D": 39,
-      "E": 42,
-      "F": 36
+      "D": 47,
+      "E": 50,
+      "F": 43
     }
   },
-  "TORIMP001032": {
-    "name": "TORNILLO PAN FRAMING MECHA 6 x7/16 TORAR",
-    "category": "6.TOR.FRAMING",
-    "bulk": 16500.0,
+  "TORIMP000764": {
+    "name": "TORNILLO P/MECHA TANQUE 8 x11/4 TORAR",
+    "category": "6.TOR.P/MECHA TANQ/PHI.8",
+    "bulk": 5000.0,
     "prices": {
-      "D": 14,
-      "E": 15,
-      "F": 13
+      "D": 27,
+      "E": 30,
+      "F": 25
     }
   },
-  "TORIMP001057": {
-    "name": "TORNILLO FIX P MADERA 3.5 x25 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 12000.0,
-    "prices": {
-      "D": 10,
-      "E": 11,
-      "F": 10
-    }
-  },
-  "TORIMP001059": {
-    "name": "TORNILLO FIX P MADERA 3.5 x35 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+  "TORIMP000789": {
+    "name": "TORNILLO DRYWALL MAD 8 X1 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 7000.0,
     "prices": {
       "D": 13,
@@ -91669,14 +91259,104 @@
       "F": 12
     }
   },
-  "TORIMP001060": {
-    "name": "TORNILLO FIX P MADERA 3.5 x40 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+  "TORIMP000795": {
+    "name": "TORNILLO DRYWALL MAD 8 x21/4 TOR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
+    "bulk": 2200.0,
+    "prices": {
+      "D": 31,
+      "E": 33,
+      "F": 29
+    }
+  },
+  "TORIMP000796": {
+    "name": "TORNILLO DRYWALL MAD 8 x21/2 TOR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
+    "bulk": 2000.0,
+    "prices": {
+      "D": 33,
+      "E": 35,
+      "F": 30
+    }
+  },
+  "TORIMP000797": {
+    "name": "TORNILLO DRYWALL MAD 8 x3 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
+    "bulk": 1800.0,
+    "prices": {
+      "D": 37,
+      "E": 40,
+      "F": 34
+    }
+  },
+  "TORIMP000799": {
+    "name": "TORNILLO DRYWALL MAD 10 x1 TOR",
+    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
     "bulk": 6000.0,
     "prices": {
-      "D": 13,
-      "E": 14,
-      "F": 12
+      "D": 18,
+      "E": 20,
+      "F": 17
+    }
+  },
+  "TORIMP000839": {
+    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/2\" TORAR",
+    "category": "6.TOR.P/MECHA FREZADA",
+    "bulk": 200.0,
+    "prices": {
+      "D": 43,
+      "E": 46,
+      "F": 39
+    }
+  },
+  "TORIMP000863": {
+    "name": "TORNILLO DRYWALL MAD 6 x21/4 TOR",
+    "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
+    "bulk": 200.0,
+    "prices": {
+      "D": 25,
+      "E": 27,
+      "F": 23
+    }
+  },
+  "TORIMP000948": {
+    "name": "TORNILLO FIX P MADERA 3.5 x20 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+    "bulk": 13000.0,
+    "prices": {
+      "D": 8,
+      "E": 8,
+      "F": 7
+    }
+  },
+  "TORIMP001032": {
+    "name": "TORNILLO PAN FRAMING MECHA 6 x7/16 TORAR",
+    "category": "6.TOR.FRAMING",
+    "bulk": 16500.0,
+    "prices": {
+      "D": 12,
+      "E": 13,
+      "F": 11
+    }
+  },
+  "TORIMP001044": {
+    "name": "TOR PUNTA MECHA CHAPA C/HE 14x1\"",
+    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
+    "bulk": 2200.0,
+    "prices": {
+      "D": 56,
+      "E": 61,
+      "F": 52
+    }
+  },
+  "TORIMP001059": {
+    "name": "TORNILLO FIX P MADERA 3.5 x35 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+    "bulk": 7000.0,
+    "prices": {
+      "D": 12,
+      "E": 13,
+      "F": 11
     }
   },
   "TORIMP001132": {
@@ -91689,24 +91369,34 @@
       "F": 16
     }
   },
+  "TORIMP001140": {
+    "name": "TOR PUNTA MECHA CHAPA C/HE 14x21/2\"",
+    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
+    "bulk": 1000.0,
+    "prices": {
+      "D": 95,
+      "E": 103,
+      "F": 88
+    }
+  },
   "TORIMP001141": {
     "name": "TOR PUNTA MECHA CHAPA C/HE 14x3\"   TORO",
     "category": "6.TOR.C/HE.P/MECH.P/CHAP",
     "bulk": 800.0,
     "prices": {
-      "D": 127,
-      "E": 137,
-      "F": 117
+      "D": 113,
+      "E": 122,
+      "F": 105
     }
   },
-  "TORIMP001188": {
-    "name": "TORNILLO FIX P MADERA 3.5 x15 TORAR",
+  "TORIMP001189": {
+    "name": "TORNILLO FIX P MADERA 3.5 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 19000.0,
+    "bulk": 12000.0,
     "prices": {
-      "D": 6,
-      "E": 6,
-      "F": 5
+      "D": 9,
+      "E": 10,
+      "F": 8
     }
   },
   "TORIMP001190": {
@@ -91714,29 +91404,59 @@
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
     "bulk": 10000.0,
     "prices": {
-      "D": 12,
+      "D": 11,
       "E": 12,
-      "F": 11
+      "F": 10
     }
   },
-  "TORIMP001250": {
-    "name": "TORNILLO FIX P MADERA 3.5 x12 TORAR",
+  "TORIMP001192": {
+    "name": "TORNILLO FIX P MADERA 3.5 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 22000.0,
+    "bulk": 6000.0,
     "prices": {
-      "D": 7,
-      "E": 8,
-      "F": 7
+      "D": 14,
+      "E": 15,
+      "F": 13
     }
   },
-  "TORIMP001254": {
-    "name": "TORNILLO FIX P MADERA 3.5 x50 TORAR",
-    "category": "6.TOR.FIX BRCEDO 3.5",
+  "TORIMP001222": {
+    "name": "TOR PUNTA MECHA CHAPA C/HE 14x11/2\"",
+    "category": "6.TOR.C/HE.P/MECH.P/CHAP",
+    "bulk": 1600.0,
+    "prices": {
+      "D": 68,
+      "E": 74,
+      "F": 63
+    }
+  },
+  "TORIMP001234": {
+    "name": "TORNILLO DRYWALL MAD 8 x11/2 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
     "bulk": 5000.0,
     "prices": {
-      "D": 20,
-      "E": 22,
-      "F": 19
+      "D": 19,
+      "E": 21,
+      "F": 18
+    }
+  },
+  "TORIMP001236": {
+    "name": "TORNILLO DRYWALL MAD 8 x2 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
+    "bulk": 3000.0,
+    "prices": {
+      "D": 24,
+      "E": 26,
+      "F": 22
+    }
+  },
+  "TORIMP001251": {
+    "name": "TORNILLO FIX P MADERA 3.5 x15 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+    "bulk": 19000.0,
+    "prices": {
+      "D": 5,
+      "E": 6,
+      "F": 5
     }
   },
   "TORIMP001373": {
@@ -91744,9 +91464,19 @@
     "category": "6.TOR.P/MECHA FREZADA",
     "bulk": 200.0,
     "prices": {
-      "D": 36,
-      "E": 39,
-      "F": 33
+      "D": 32,
+      "E": 34,
+      "F": 29
+    }
+  },
+  "TORIMP001380": {
+    "name": "TORNILLO FIX P MADERA 3.5 x50 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5",
+    "bulk": 5000.0,
+    "prices": {
+      "D": 18,
+      "E": 20,
+      "F": 17
     }
   },
   "TORIMP001400": {
@@ -91754,9 +91484,79 @@
     "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
     "bulk": 1600.0,
     "prices": {
-      "D": 83,
-      "E": 90,
-      "F": 77
+      "D": 74,
+      "E": 80,
+      "F": 69
+    }
+  },
+  "TORIMP001635": {
+    "name": "TORNILLO FIX P MADERA 3.5 x12 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+    "bulk": 22000.0,
+    "prices": {
+      "D": 7,
+      "E": 7,
+      "F": 6
+    }
+  },
+  "TORIMP001637": {
+    "name": "TORNILLO FIX P MADERA 3.5 x45 TORAR",
+    "category": "6.TOR.FIX BRCEDO 3.5TOR",
+    "bulk": 5000.0,
+    "prices": {
+      "D": 15,
+      "E": 16,
+      "F": 14
+    }
+  },
+  "TORIMP001655": {
+    "name": "TOR PUNTA RANURA MAD C/HE 14x3\"",
+    "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
+    "bulk": 800.0,
+    "prices": {
+      "D": 108,
+      "E": 116,
+      "F": 99
+    }
+  },
+  "TORIMP001734": {
+    "name": "TORNILLO DRYWALL MAD 6 x3 TORAR",
+    "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
+    "bulk": 200.0,
+    "prices": {
+      "D": 33,
+      "E": 36,
+      "F": 31
+    }
+  },
+  "TORIMP001735": {
+    "name": "TORNILLO DRYWALL MAD 10 x2 TOR",
+    "category": "6.TOR.DRYWAL.R/MAD.10TOR",
+    "bulk": 2500.0,
+    "prices": {
+      "D": 32,
+      "E": 34,
+      "F": 29
+    }
+  },
+  "TORIMP001746": {
+    "name": "TORNILLO DRYWALL MET 6 x3/4 TORA",
+    "category": "6.TOR.DRYWAL.R/MET. 6TOR",
+    "bulk": 16000.0,
+    "prices": {
+      "D": 8,
+      "E": 9,
+      "F": 8
+    }
+  },
+  "TORIMP1402": {
+    "name": "TOR PUNTA RANURA MAD C/HE 14x21/2\"",
+    "category": "6.TOR.C/HE.P/AGUJ.P/MAD.",
+    "bulk": 800.0,
+    "prices": {
+      "D": 94,
+      "E": 102,
+      "F": 87
     }
   },
   "TORNCB-10": {
