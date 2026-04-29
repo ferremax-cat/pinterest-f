@@ -853,4 +853,9 @@ def main():
         update_margenes_from_local()  # NUEVA LÍNEA - Actualizar márgenes desde Excel local
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if '--solo-imagenes' in sys.argv:
+        print('Modo: solo actualización de catálogo de imágenes')
+        process_image_catalog_local()
+    else:
+        main()

@@ -16,6 +16,24 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
+
+TIMESTAMP_FILE = './json/ultimo_scan.json'
+
+def cargar_ultimo_timestamp():
+    # Si el archivo no existe, es el primer escaneo: traemos todo
+    if not os.path.exists(TIMESTAMP_FILE):
+        return None
+    with open(TIMESTAMP_FILE, 'r') as f:
+        data = json.load(f)
+    # Devuelve el string de fecha guardado, ej: "2025-04-29T14:41:23.847Z"
+    return data.get('ultimo_modified_time', None)
+
+def guardar_ultimo_timestamp(timestamp_str):
+    # Guarda el modifiedTime más reciente encontrado en Drive
+    with open(TIMESTAMP_FILE, 'w') as f:
+        json.dump({'ultimo_modified_time': timestamp_str}, f, indent=2)
+    print(f"Timestamp guardado: {timestamp_str}")
+
 # def obtener_credenciales():
 #     credenciales = None
 #     # Verificar si ya existen tokens guardados
@@ -77,15 +95,28 @@ def escanear_carpeta(carpeta_id):
     service = build('drive', 'v3', credentials=credenciales)
     
     resultados = []
+
+    ultimo_timestamp = cargar_ultimo_timestamp()
+    nuevo_timestamp = None  # Aquí iremos guardando el modifiedTime más reciente que encontremos
+
+    # Construir el filtro de fecha para la query de Drive
+    # Si hay timestamp previo, traemos solo archivos modificados DESDE ese momento
+    if ultimo_timestamp:
+        filtro_fecha = f" and modifiedTime >= '{ultimo_timestamp}'"
+        print(f"Escaneo incremental desde: {ultimo_timestamp}")
+    else:
+        filtro_fecha = ""
+        print("Primer escaneo: procesando todas las imágenes")
+
     page_token = None
     
     while True:
         try:
             # Buscar archivos en la carpeta especificada
             response = service.files().list(
-                q=f"'{carpeta_id}' in parents and (mimeType contains 'image/')",
+                q=f"'{carpeta_id}' in parents and (mimeType contains 'image/'){filtro_fecha}",
                 spaces='drive',
-                fields='nextPageToken, files(id, name, webViewLink)',
+                fields='nextPageToken, files(id, name, webViewLink, modifiedTime)',
                 pageToken=page_token
             ).execute()
             
@@ -113,6 +144,13 @@ def escanear_carpeta(carpeta_id):
                     'link_vista': f"https://drive.google.com/uc?export=view&id={archivo['id']}",
                     'articulo': articulo # Nueva columna con el nombre sin extensión
                 })
+
+                # Rastrear el modifiedTime más reciente de este escaneo
+                mod_time = archivo.get('modifiedTime')
+                if mod_time:
+                    if nuevo_timestamp is None or mod_time > nuevo_timestamp:
+                        # Comparación de strings ISO 8601: funciona correctamente por su formato
+                        nuevo_timestamp = mod_time
                 
             page_token = response.get('nextPageToken', None)
             if page_token is None:
@@ -123,10 +161,29 @@ def escanear_carpeta(carpeta_id):
             break
     
     # Crear DataFrame y exportar a Excel
-    df = pd.DataFrame(resultados)
-    df.to_excel('imagenes_drive.xlsx', index=False)
-    print(f'Se encontraron {len(resultados)} imágenes')
-    return 'imagenes_drive.xlsx'
+    excel_path = 'imagenes_drive.xlsx'
+    
+    if ultimo_timestamp and resultados:
+        if os.path.exists(excel_path):
+            df_existente = pd.read_excel(excel_path)
+            df_nuevos = pd.DataFrame(resultados)
+            df_combinado = pd.concat([df_existente, df_nuevos], ignore_index=True)
+            df_combinado.drop_duplicates(subset='id', keep='last', inplace=True)
+            df_combinado.to_excel(excel_path, index=False)
+            print(f"Se agregaron/actualizaron {len(resultados)} imágenes. Total: {len(df_combinado)}")
+        else:
+            pd.DataFrame(resultados).to_excel(excel_path, index=False)
+            print(f"Se encontraron {len(resultados)} imágenes (nuevo archivo)")
+    elif not ultimo_timestamp:
+        pd.DataFrame(resultados).to_excel(excel_path, index=False)
+        print(f"Escaneo completo: {len(resultados)} imágenes guardadas")
+    else:
+        print("No se encontraron imágenes nuevas desde el último escaneo")
+    
+    if nuevo_timestamp:
+        guardar_ultimo_timestamp(nuevo_timestamp)
+    
+    return excel_path
 
 #AGREGUE 25-3-25
 # Añadir este nuevo método al final, antes del código de ejecución
@@ -149,17 +206,33 @@ def generar_json_dimensiones_rapido():
         catalog = json.load(file)
     
     # Preparar estructura para el archivo de dimensiones
-    dimensiones = {
-        "version": "1.0",
-        "lastUpdate": datetime.now().isoformat(),
-        "images_dimensions": {}
-    }
+    # Cargar dimensiones existentes si ya hay un archivo previo
+    if os.path.exists(dimensiones_path):
+        with open(dimensiones_path, 'r', encoding='utf-8') as file:
+            dimensiones = json.load(file)
+        print(f"Dimensiones existentes cargadas: {len(dimensiones['images_dimensions'])} imágenes ya procesadas")
+    else:
+        dimensiones = {
+            "version": "1.0",
+            "lastUpdate": datetime.now().isoformat(),
+            "images_dimensions": {}
+        }
     
     # Obtener el diccionario de imágenes
     images_dict = catalog.get('images', {})
+    
+    # Filtrar solo las imágenes que NO están en el archivo de dimensiones
+    ya_procesadas = set(dimensiones['images_dimensions'].keys())
+    images_dict = {k: v for k, v in images_dict.items() if k not in ya_procesadas}
     total_images = len(images_dict)
     
-    print(f"Procesando {total_images} imágenes para obtener dimensiones...")
+    if total_images == 0:
+        print("No hay imágenes nuevas para procesar en dimensiones")
+        return True
+    
+    print(f"Imágenes nuevas a procesar: {total_images} imágenes para obtener dimensiones...")
+    
+    
     
     # Función para procesar una imagen individual
     def procesar_imagen(code, drive_id):
