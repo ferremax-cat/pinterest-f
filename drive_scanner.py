@@ -90,7 +90,7 @@ def obtener_credenciales():
     return credenciales
 
 
-def escanear_carpeta(carpeta_id):
+def escanear_carpeta(carpeta_id, verificar_eliminaciones=False):
     credenciales = obtener_credenciales()
     service = build('drive', 'v3', credentials=credenciales)
     
@@ -183,7 +183,52 @@ def escanear_carpeta(carpeta_id):
     if nuevo_timestamp:
         guardar_ultimo_timestamp(nuevo_timestamp)
     
+    
+    if verificar_eliminaciones and os.path.exists(excel_path):
+        print("\nVerificando imágenes eliminadas de Drive...")
+        ids_activos = obtener_ids_activos_drive(service, carpeta_id)
+        df_actual = pd.read_excel(excel_path)
+        total_antes = len(df_actual)
+        df_limpio = df_actual[df_actual['id'].isin(ids_activos)]
+        eliminados = total_antes - len(df_limpio)
+        if eliminados > 0:
+            df_limpio.to_excel(excel_path, index=False)
+            print(f"Se eliminaron {eliminados} imágenes que ya no existen en Drive. Total: {len(df_limpio)}")
+        else:
+            print("No se detectaron imágenes eliminadas")
+
     return excel_path
+
+def obtener_ids_activos_drive(service, carpeta_id):
+    """
+    Trae SOLO los IDs de todas las imágenes activas en Drive.
+    No trae nombre ni links - es la consulta más liviana posible.
+    """
+    ids_activos = set()
+    page_token = None
+
+    while True:
+        try:
+            response = service.files().list(
+                q=f"'{carpeta_id}' in parents and (mimeType contains 'image/')",
+                spaces='drive',
+                fields='nextPageToken, files(id)',
+                pageToken=page_token
+            ).execute()
+
+            for archivo in response.get('files', []):
+                ids_activos.add(archivo['id'])
+
+            page_token = response.get('nextPageToken', None)
+            if page_token is None:
+                break
+
+        except Exception as e:
+            print(f'Error obteniendo IDs activos: {e}')
+            break
+
+    print(f"IDs activos en Drive: {len(ids_activos)}")
+    return ids_activos
 
 #AGREGUE 25-3-25
 # Añadir este nuevo método al final, antes del código de ejecución
@@ -384,7 +429,9 @@ def generar_posiciones_bottom_completo():
 
 # Uso del script
 ID_CARPETA = '1cBGnmG32LEJe1IOhhueV1hW-Qk1tdnDS'  # ID de la carpeta de Google Drive
-archivo_excel = escanear_carpeta(ID_CARPETA)
+import sys
+limpiar = '--limpiar' in sys.argv
+archivo_excel = escanear_carpeta(ID_CARPETA, limpiar)
 
 #AGREUE 25-3-25
 # Agregar esta línea para ejecutar el nuevo método
