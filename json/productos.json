@@ -3070,7 +3070,7 @@
     }
   },
   "AT241.2": {
-    "name": "PLACHUELA REF.3/4x3/16\"x1.50mtrx50un",
+    "name": "PLACHUELA REF 3/4x3/16\" x1.50mts",
     "category": "8.PLACHUELA P/ALAMBRADO",
     "bulk": 1.0,
     "prices": {
@@ -3080,13 +3080,23 @@
     }
   },
   "AT241.3": {
-    "name": "PLACHUELA REF.3/4x3/16\"x1.80mtrx50un",
+    "name": "PLACHUELA REF 3/4x3/16\" x1.80mts",
     "category": "8.PLACHUELA P/ALAMBRADO",
     "bulk": 0.0,
     "prices": {
       "D": 4819,
       "E": 5221,
       "F": 4819
+    }
+  },
+  "AT241.4": {
+    "name": "PLACHUELA REF 3/4x3/16\" x2.00mts",
+    "category": "8.PLACHUELA P/ALAMBRADO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4425,
+      "E": 4793,
+      "F": 4425
     }
   },
   "AT329.2": {
@@ -16624,9 +16634,9 @@
     "category": "8.PERCHA ALUMINIO",
     "bulk": 10.0,
     "prices": {
-      "D": 1666,
-      "E": 1794,
-      "F": 1537
+      "D": 1767,
+      "E": 1903,
+      "F": 1631
     }
   },
   "BRU404.1NAT": {
@@ -16634,9 +16644,9 @@
     "category": "8.PERCHA ALUMINIO",
     "bulk": 10.0,
     "prices": {
-      "D": 1364,
-      "E": 1469,
-      "F": 1259
+      "D": 1447,
+      "E": 1558,
+      "F": 1335
     }
   },
   "BRU405.1": {
@@ -16644,9 +16654,9 @@
     "category": "8.PERCHA ALUMINIO",
     "bulk": 20.0,
     "prices": {
-      "D": 1414,
-      "E": 1523,
-      "F": 1305
+      "D": 1197,
+      "E": 1289,
+      "F": 1105
     }
   },
   "BRU405.1NAT": {
@@ -16654,9 +16664,9 @@
     "category": "8.PERCHA ALUMINIO",
     "bulk": 20.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 967,
+      "E": 1041,
+      "F": 892
     }
   },
   "BRU600.3PC": {
@@ -16664,9 +16674,9 @@
     "category": "8.MANIJA MINIST.BRONCE.DB",
     "bulk": 1.0,
     "prices": {
-      "D": 7478,
-      "E": 8053,
-      "F": 6902
+      "D": 7932,
+      "E": 8543,
+      "F": 7322
     }
   },
   "BRU600.3PL": {
@@ -16674,9 +16684,9 @@
     "category": "8.MANIJA MINIST.BRONCE.DB",
     "bulk": 1.0,
     "prices": {
-      "D": 7478,
-      "E": 8053,
-      "F": 6902
+      "D": 7932,
+      "E": 8543,
+      "F": 7322
     }
   },
   "BRU600.3PM": {
@@ -16684,9 +16694,9 @@
     "category": "8.MANIJA MINIST.BRONCE.DB",
     "bulk": 1.0,
     "prices": {
-      "D": 7478,
-      "E": 8053,
-      "F": 6902
+      "D": 7932,
+      "E": 8543,
+      "F": 7322
     }
   },
   "BRU600.5PC": {
@@ -16694,9 +16704,9 @@
     "category": "8.MANIJA MINIST.ALUM.DT",
     "bulk": 24.0,
     "prices": {
-      "D": 2566,
-      "E": 2763,
-      "F": 2368
+      "D": 2669,
+      "E": 2875,
+      "F": 2464
     }
   },
   "BRU600.5PL": {
@@ -16704,9 +16714,9 @@
     "category": "8.MANIJA MINIST.ALUM.DT",
     "bulk": 24.0,
     "prices": {
-      "D": 2566,
-      "E": 2763,
-      "F": 2368
+      "D": 2669,
+      "E": 2875,
+      "F": 2464
     }
   },
   "BRU600.5PM": {
@@ -16714,9 +16724,9 @@
     "category": "8.MANIJA MINIST.ALUM.DT",
     "bulk": 24.0,
     "prices": {
-      "D": 2566,
-      "E": 2763,
-      "F": 2368
+      "D": 2669,
+      "E": 2875,
+      "F": 2464
     }
   },
   "BRU601.5": {
@@ -16724,9 +16734,9 @@
     "category": "8.MANIJA MINIST.ALUM.DT",
     "bulk": 24.0,
     "prices": {
-      "D": 1894,
-      "E": 2040,
-      "F": 1749
+      "D": 2008,
+      "E": 2162,
+      "F": 1854
     }
   },
   "BUJ2TECTIO": {
@@ -17584,9 +17594,9 @@
     "category": "9.REFLECTOR LED",
     "bulk": 10.0,
     "prices": {
-      "D": 3857,
-      "E": 4154,
-      "F": 3560
+      "D": 4050,
+      "E": 4362,
+      "F": 3738
     }
   },
   "CAN7089": {
@@ -19024,9 +19034,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 15604,
-      "E": 16228,
-      "F": 14979
+      "D": 16384,
+      "E": 17039,
+      "F": 15728
     }
   },
   "CL00036001325": {
@@ -19034,9 +19044,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 10914,
-      "E": 11351,
-      "F": 10477
+      "D": 11460,
+      "E": 11918,
+      "F": 11001
     }
   },
   "CL00036001332": {
@@ -19044,9 +19054,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 10560,
-      "E": 10982,
-      "F": 10137
+      "D": 11088,
+      "E": 11531,
+      "F": 10644
     }
   },
   "CL00036001840": {
@@ -19074,9 +19084,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 10.0,
     "prices": {
-      "D": 16036,
-      "E": 16036,
-      "F": 14803
+      "D": 11293,
+      "E": 11293,
+      "F": 10425
     }
   },
   "CL000360OK200": {
@@ -19084,9 +19094,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 10013,
-      "E": 10414,
-      "F": 9612
+      "D": 10313,
+      "E": 10726,
+      "F": 9901
     }
   },
   "CL000360OK250": {
@@ -19094,9 +19104,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 7163,
-      "E": 7450,
-      "F": 6876
+      "D": 7378,
+      "E": 7673,
+      "F": 7083
     }
   },
   "CL000360OK325": {
@@ -19104,9 +19114,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 6324,
-      "E": 6577,
-      "F": 6071
+      "D": 6426,
+      "E": 6683,
+      "F": 6169
     }
   },
   "CL000360OK400": {
@@ -19114,9 +19124,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 8350,
-      "E": 8685,
-      "F": 8016
+      "D": 8601,
+      "E": 8945,
+      "F": 8257
     }
   },
   "CL000360W1325": {
@@ -19214,9 +19224,9 @@
     "category": "8.DISCO FLAP TYROLIT",
     "bulk": 10.0,
     "prices": {
-      "D": 4345,
-      "E": 3965,
-      "F": 3399
+      "D": 4605,
+      "E": 4203,
+      "F": 3603
     }
   },
   "CL00072000000": {
@@ -22264,9 +22274,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1824,
-      "E": 1965,
-      "F": 1684
+      "D": 2189,
+      "E": 2358,
+      "F": 2021
     }
   },
   "CRE7404": {
@@ -22274,9 +22284,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1824,
-      "E": 1965,
-      "F": 1684
+      "D": 2189,
+      "E": 2358,
+      "F": 2021
     }
   },
   "CRE7408": {
@@ -22284,9 +22294,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 2993,
-      "E": 3223,
-      "F": 2763
+      "D": 3592,
+      "E": 3868,
+      "F": 3316
     }
   },
   "CRE7410": {
@@ -22294,9 +22304,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 3123,
-      "E": 3364,
-      "F": 2883
+      "D": 3748,
+      "E": 4036,
+      "F": 3460
     }
   },
   "CRE7412": {
@@ -22304,9 +22314,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 30.0,
     "prices": {
-      "D": 2337,
-      "E": 2517,
-      "F": 2157
+      "D": 2804,
+      "E": 3020,
+      "F": 2588
     }
   },
   "CRE7414": {
@@ -22314,9 +22324,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 50.0,
     "prices": {
-      "D": 1255,
-      "E": 1352,
-      "F": 1159
+      "D": 1507,
+      "E": 1623,
+      "F": 1391
     }
   },
   "CRE7470": {
@@ -22324,9 +22334,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 5671,
-      "E": 6108,
-      "F": 5235
+      "D": 6806,
+      "E": 7329,
+      "F": 6282
     }
   },
   "CRE7472": {
@@ -22334,9 +22344,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 3802,
-      "E": 4095,
-      "F": 3510
+      "D": 4563,
+      "E": 4914,
+      "F": 4212
     }
   },
   "CRE7480": {
@@ -22344,9 +22354,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 11717,
-      "E": 12619,
-      "F": 10816
+      "D": 14061,
+      "E": 15142,
+      "F": 12979
     }
   },
   "CRE7502": {
@@ -25334,9 +25344,9 @@
     "category": "1.EXTRACTOR",
     "bulk": 1.0,
     "prices": {
-      "D": 15646,
-      "E": 16849,
-      "F": 14442
+      "D": 17744,
+      "E": 19109,
+      "F": 16379
     }
   },
   "DSEXB06": {
@@ -25344,9 +25354,9 @@
     "category": "1.EXTRACTOR",
     "bulk": 1.0,
     "prices": {
-      "D": 20862,
-      "E": 22467,
-      "F": 19257
+      "D": 23659,
+      "E": 25479,
+      "F": 21839
     }
   },
   "DTB001": {
@@ -25604,9 +25614,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE003C": {
@@ -25614,9 +25624,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE003M": {
@@ -25624,9 +25634,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE003N": {
@@ -25634,9 +25644,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE003R": {
@@ -25644,9 +25654,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE003V": {
@@ -25654,9 +25664,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 305,
-      "E": 328,
-      "F": 281
+      "D": 308,
+      "E": 331,
+      "F": 284
     }
   },
   "DTE004B": {
@@ -25664,9 +25674,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE004C": {
@@ -25674,9 +25684,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE004M": {
@@ -25684,9 +25694,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE004N": {
@@ -25694,9 +25704,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE004R": {
@@ -25704,9 +25714,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE004V": {
@@ -25714,9 +25724,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 515,
-      "E": 555,
-      "F": 476
+      "D": 521,
+      "E": 561,
+      "F": 481
     }
   },
   "DTE005B": {
@@ -25724,9 +25734,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE005C": {
@@ -25734,9 +25744,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE005M": {
@@ -25744,9 +25754,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE005N": {
@@ -25754,9 +25764,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE005R": {
@@ -25764,9 +25774,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE005V": {
@@ -25774,9 +25784,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 886,
-      "E": 954,
-      "F": 818
+      "D": 903,
+      "E": 973,
+      "F": 834
     }
   },
   "DTE006B": {
@@ -25784,9 +25794,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE006C": {
@@ -25794,9 +25804,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE006M": {
@@ -25804,9 +25814,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE006N": {
@@ -25814,9 +25824,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE006R": {
@@ -25824,9 +25834,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE006V": {
@@ -25834,9 +25844,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1246
+      "D": 1381,
+      "E": 1487,
+      "F": 1274
     }
   },
   "DTE007": {
@@ -25854,9 +25864,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 476,
-      "E": 513,
-      "F": 439
+      "D": 481,
+      "E": 518,
+      "F": 444
     }
   },
   "DTE009": {
@@ -25864,9 +25874,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 647,
-      "E": 696,
-      "F": 597
+      "D": 616,
+      "E": 663,
+      "F": 568
     }
   },
   "DTE010": {
@@ -25874,9 +25884,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1093,
-      "E": 1177,
-      "F": 1009
+      "D": 1042,
+      "E": 1123,
+      "F": 962
     }
   },
   "DTE015": {
@@ -25984,9 +25994,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE053C": {
@@ -25994,9 +26004,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE053M": {
@@ -26004,9 +26014,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE053N": {
@@ -26014,9 +26024,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE053R": {
@@ -26024,9 +26034,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE053V": {
@@ -26034,9 +26044,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 512,
-      "E": 552,
-      "F": 473
+      "D": 524,
+      "E": 565,
+      "F": 484
     }
   },
   "DTE054B": {
@@ -26044,9 +26054,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 881,
+      "E": 949,
+      "F": 813
     }
   },
   "DTE054C": {
@@ -26054,9 +26064,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 881,
+      "E": 949,
+      "F": 813
     }
   },
   "DTE054M": {
@@ -26064,9 +26074,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 881,
+      "E": 949,
+      "F": 813
     }
   },
   "DTE054N": {
@@ -26074,9 +26084,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 881,
+      "E": 949,
+      "F": 813
     }
   },
   "DTE054R": {
@@ -26084,9 +26094,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 881,
+      "E": 949,
+      "F": 813
     }
   },
   "DTE054V": {
@@ -26094,9 +26104,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 859,
-      "E": 925,
-      "F": 793
+      "D": 882,
+      "E": 950,
+      "F": 814
     }
   },
   "DTE055B": {
@@ -26104,9 +26114,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE055C": {
@@ -26114,9 +26124,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE055M": {
@@ -26124,9 +26134,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE055N": {
@@ -26134,9 +26144,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE055R": {
@@ -26144,9 +26154,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE055V": {
@@ -26154,9 +26164,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1269,
-      "E": 1367,
-      "F": 1172
+      "D": 1304,
+      "E": 1405,
+      "F": 1204
     }
   },
   "DTE056B": {
@@ -26164,9 +26174,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE056C": {
@@ -26174,9 +26184,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE056M": {
@@ -26184,9 +26194,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE056N": {
@@ -26194,9 +26204,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE056R": {
@@ -26204,9 +26214,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE056V": {
@@ -26214,9 +26224,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 2038,
-      "E": 2194,
-      "F": 1881
+      "D": 2101,
+      "E": 2262,
+      "F": 1939
     }
   },
   "DTE058": {
@@ -26224,9 +26234,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 0.0,
     "prices": {
-      "D": 672,
-      "E": 724,
-      "F": 620
+      "D": 701,
+      "E": 754,
+      "F": 647
     }
   },
   "DTE059": {
@@ -26234,9 +26244,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 200.0,
     "prices": {
-      "D": 1086,
-      "E": 1170,
-      "F": 1003
+      "D": 1138,
+      "E": 1225,
+      "F": 1050
     }
   },
   "DTE060": {
@@ -26244,9 +26254,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 100.0,
     "prices": {
-      "D": 1772,
-      "E": 1909,
-      "F": 1636
+      "D": 1862,
+      "E": 2005,
+      "F": 1719
     }
   },
   "DTE061": {
@@ -26254,9 +26264,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 958,
-      "E": 1032,
-      "F": 884
+      "D": 940,
+      "E": 1012,
+      "F": 868
     }
   },
   "DTE062": {
@@ -26264,9 +26274,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 100.0,
     "prices": {
-      "D": 1387,
-      "E": 1493,
-      "F": 1280
+      "D": 1374,
+      "E": 1479,
+      "F": 1268
     }
   },
   "DTE063": {
@@ -26284,9 +26294,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 3175,
-      "E": 3419,
-      "F": 2930
+      "D": 3182,
+      "E": 3427,
+      "F": 2937
     }
   },
   "DTE065": {
@@ -26294,9 +26304,9 @@
     "category": "9.CINTA PASACAB.ALMA ACER",
     "bulk": 10.0,
     "prices": {
-      "D": 5750,
-      "E": 6210,
-      "F": 5520
+      "D": 6096,
+      "E": 6583,
+      "F": 5852
     }
   },
   "DTE066": {
@@ -26304,9 +26314,9 @@
     "category": "9.CINTA PASACAB.ALMA ACER",
     "bulk": 10.0,
     "prices": {
-      "D": 7984,
-      "E": 8622,
-      "F": 7664
+      "D": 8464,
+      "E": 9142,
+      "F": 8126
     }
   },
   "DTE067": {
@@ -26314,9 +26324,9 @@
     "category": "9.CINTA PASACAB.ALMA ACER",
     "bulk": 10.0,
     "prices": {
-      "D": 10086,
-      "E": 10893,
-      "F": 9683
+      "D": 10688,
+      "E": 11543,
+      "F": 10261
     }
   },
   "DTE069": {
@@ -26724,9 +26734,9 @@
     "category": "9.CINTA PASACAB.ALMA ACER",
     "bulk": 10.0,
     "prices": {
-      "D": 5007,
-      "E": 5408,
-      "F": 4807
+      "D": 5306,
+      "E": 5731,
+      "F": 5094
     }
   },
   "DTE179": {
@@ -27454,9 +27464,9 @@
     "category": "8.NAFTALINA",
     "bulk": 1.0,
     "prices": {
-      "D": 801,
-      "E": 863,
-      "F": 740
+      "D": 875,
+      "E": 943,
+      "F": 808
     }
   },
   "DTF106AT": {
@@ -27864,9 +27874,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 966,
-      "E": 1040,
-      "F": 891
+      "D": 1025,
+      "E": 1104,
+      "F": 946
     }
   },
   "DTF209": {
@@ -28064,9 +28074,9 @@
     "category": "8.DISCO DIAMANT.TYROLIT",
     "bulk": 1.0,
     "prices": {
-      "D": 6214,
-      "E": 6692,
-      "F": 5736
+      "D": 6118,
+      "E": 6588,
+      "F": 5647
     }
   },
   "DTF407": {
@@ -28644,9 +28654,9 @@
     "category": "7.MASILLA P/MADERA",
     "bulk": 6.0,
     "prices": {
-      "D": 1704,
-      "E": 1835,
-      "F": 1573
+      "D": 1760,
+      "E": 1896,
+      "F": 1625
     }
   },
   "DTS001B": {
@@ -28704,9 +28714,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 4438,
-      "E": 4780,
-      "F": 4097
+      "D": 4571,
+      "E": 4923,
+      "F": 4220
     }
   },
   "DTS029": {
@@ -28714,9 +28724,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 9469,
-      "E": 10197,
-      "F": 8740
+      "D": 9765,
+      "E": 10516,
+      "F": 9014
     }
   },
   "DTS030": {
@@ -29714,9 +29724,9 @@
     "category": "8.ESTA\u00d1O EN VARILLA",
     "bulk": 1.0,
     "prices": {
-      "D": 56224,
-      "E": 60549,
-      "F": 51899
+      "D": 58473,
+      "E": 62971,
+      "F": 53975
     }
   },
   "EDEST50": {
@@ -29724,9 +29734,9 @@
     "category": "8.ESTA\u00d1O EN VARILLA",
     "bulk": 1.0,
     "prices": {
-      "D": 71020,
-      "E": 76483,
-      "F": 65557
+      "D": 73979,
+      "E": 79670,
+      "F": 68289
     }
   },
   "EGAJ 03": {
@@ -32659,6 +32669,36 @@
       "F": 19338
     }
   },
+  "EVELNL1D": {
+    "name": "NIVEL LASER CROSS LINE 1 LINEA EVEL",
+    "category": "8.NIVEL LASER EVEL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 87390,
+      "E": 94113,
+      "F": 80668
+    }
+  },
+  "EVELNL3D": {
+    "name": "NIVEL LASER DIGITAL 3x3D x360\u00b0 EVEL",
+    "category": "8.NIVEL LASER EVEL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 291302,
+      "E": 313710,
+      "F": 268894
+    }
+  },
+  "EVELTR065": {
+    "name": "TRIPODE PROFESIONAL 65cm CROMO EVEL",
+    "category": "8.NIVEL LASER EVEL",
+    "bulk": 1.0,
+    "prices": {
+      "D": 15948,
+      "E": 17175,
+      "F": 14721
+    }
+  },
   "EVO115CO": {
     "name": "DISCO DIAMANT CONTI 115mm ROTTWEILER",
     "category": "8.DISCO DIAMANT.ROTTWE",
@@ -34587,6 +34627,16 @@
       "D": 3731,
       "E": 4018,
       "F": 3444
+    }
+  },
+  "EVOL0804": {
+    "name": "CINCEL PLANO SDS PLUS 14x40x300mm ROTTWEILER",
+    "category": "8.SDS PLUS CINCEL ROTTWEI",
+    "bulk": 50.0,
+    "prices": {
+      "D": 4320,
+      "E": 4653,
+      "F": 3988
     }
   },
   "EVOL0815": {
@@ -38057,6 +38107,26 @@
       "D": 19560,
       "E": 21064,
       "F": 18055
+    }
+  },
+  "EXT15810": {
+    "name": "TERMINAL DORADO P BARRAL 1/2 EXTENDER",
+    "category": "8.ACC.P/CORTINA",
+    "bulk": 50.0,
+    "prices": {
+      "D": 227,
+      "E": 244,
+      "F": 209
+    }
+  },
+  "EXT15820": {
+    "name": "TERMINAL DORADO P BARRAL 5/8 EXTENDER",
+    "category": "8.ACC.P/CORTINA",
+    "bulk": 50.0,
+    "prices": {
+      "D": 289,
+      "E": 311,
+      "F": 267
     }
   },
   "EXT35141": {
@@ -43294,9 +43364,9 @@
     "category": "1.SELLADOR LEMAX",
     "bulk": 18.0,
     "prices": {
-      "D": 1548,
-      "E": 1667,
-      "F": 1429
+      "D": 1037,
+      "E": 1117,
+      "F": 957
     }
   },
   "GAL8002": {
@@ -44934,9 +45004,9 @@
     "category": "7.KM305",
     "bulk": 1.0,
     "prices": {
-      "D": 7034,
-      "E": 7575,
-      "F": 6493
+      "D": 7527,
+      "E": 8106,
+      "F": 6948
     }
   },
   "HUNKIT1": {
@@ -44944,9 +45014,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 11413,
-      "E": 12291,
-      "F": 10535
+      "D": 12212,
+      "E": 13151,
+      "F": 11272
     }
   },
   "HUNKIT2": {
@@ -44954,9 +45024,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 17948,
-      "E": 19329,
-      "F": 16568
+      "D": 19205,
+      "E": 20682,
+      "F": 17728
     }
   },
   "HUNMFV90": {
@@ -45084,9 +45154,9 @@
     "category": "8.GUANTE NITRILO DESCARTA",
     "bulk": 1.0,
     "prices": {
-      "D": 6999,
-      "E": 7537,
-      "F": 6730
+      "D": 10531,
+      "E": 11341,
+      "F": 10126
     }
   },
   "IGVGNT-XL": {
@@ -45094,9 +45164,9 @@
     "category": "8.GUANTE NITRILO DESCARTA",
     "bulk": 1.0,
     "prices": {
-      "D": 6999,
-      "E": 7537,
-      "F": 6730
+      "D": 10531,
+      "E": 11341,
+      "F": 10126
     }
   },
   "IGVGR35": {
@@ -47855,7 +47925,7 @@
     "bulk": 50.0,
     "prices": {
       "D": 574,
-      "E": 619,
+      "E": 618,
       "F": 530
     }
   },
@@ -47886,7 +47956,7 @@
     "prices": {
       "D": 173,
       "E": 186,
-      "F": 159
+      "F": 160
     }
   },
   "ISACAD25": {
@@ -47904,8 +47974,8 @@
     "category": "8.CADENA PATENTE ZINC.ISA",
     "bulk": 25.0,
     "prices": {
-      "D": 4971,
-      "E": 5155,
+      "D": 4970,
+      "E": 5154,
       "F": 4602
     }
   },
@@ -47914,7 +47984,7 @@
     "category": "8.CADENA PATENTE ZINC.RZX",
     "bulk": 25.0,
     "prices": {
-      "D": 4827,
+      "D": 4828,
       "E": 5199,
       "F": 4456
     }
@@ -48094,9 +48164,9 @@
     "category": "8.CLAVOS P/PARIS SIPAR",
     "bulk": 20.0,
     "prices": {
-      "D": 5120,
-      "E": 5513,
-      "F": 4923
+      "D": 6819,
+      "E": 7344,
+      "F": 6557
     }
   },
   "ISACLE212": {
@@ -48104,9 +48174,9 @@
     "category": "8.CLAVOS P/PARIS SIPAR",
     "bulk": 20.0,
     "prices": {
-      "D": 5120,
-      "E": 5513,
-      "F": 4923
+      "D": 6256,
+      "E": 6737,
+      "F": 6015
     }
   },
   "ISADRY61": {
@@ -48179,6 +48249,16 @@
       "F": 18
     }
   },
+  "ISADRY6214": {
+    "name": "TORNILLO DRYWALL MADERA 6 x21/4  DM",
+    "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
+    "bulk": 200.0,
+    "prices": {
+      "D": 17,
+      "E": 18,
+      "F": 15
+    }
+  },
   "ISADRY634": {
     "name": "TORNILLO DRYWALL MADERA 6 x3/4   DM",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
@@ -48227,6 +48307,16 @@
       "D": 16,
       "E": 17,
       "F": 14
+    }
+  },
+  "ISAES4x4": {
+    "name": "ESCALERA ALUMIN ARTICULADA x4 BULLDAR",
+    "category": "8.ESCALERA ARTIC.ALUMINIO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 155357,
+      "E": 167308,
+      "F": 143406
     }
   },
   "ISAFIX4012": {
@@ -48884,9 +48974,9 @@
     "category": "6.TORNILLO TIRAFONDO 1/4",
     "bulk": 100.0,
     "prices": {
-      "D": 116,
-      "E": 125,
-      "F": 107
+      "D": 127,
+      "E": 136,
+      "F": 117
     }
   },
   "ISATIR3637": {
@@ -53094,9 +53184,9 @@
     "category": "8.TARUGO P/HUECO BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 24205,
-      "E": 26066,
-      "F": 22343
+      "D": 16587,
+      "E": 17863,
+      "F": 15311
     }
   },
   "LH50100": {
@@ -66154,9 +66244,9 @@
     "category": "8.BARREHOJAS",
     "bulk": 1.0,
     "prices": {
-      "D": 1045,
-      "E": 1125,
-      "F": 964
+      "D": 1057,
+      "E": 1138,
+      "F": 975
     }
   },
   "MF-3805": {
@@ -66164,9 +66254,9 @@
     "category": "8.BARREHOJAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1701,
-      "E": 1832,
-      "F": 1570
+      "D": 2114,
+      "E": 2276,
+      "F": 1951
     }
   },
   "MF-3806": {
@@ -67634,9 +67724,9 @@
     "category": "9.Cj LUZ METAL.y ACC.",
     "bulk": 50.0,
     "prices": {
-      "D": 165,
-      "E": 177,
-      "F": 152
+      "D": 482,
+      "E": 519,
+      "F": 445
     }
   },
   "MP1994": {
@@ -68784,9 +68874,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 50.0,
     "prices": {
-      "D": 111,
-      "E": 115,
-      "F": 107
+      "D": 122,
+      "E": 126,
+      "F": 117
     }
   },
   "OR220": {
@@ -70027,16 +70117,6 @@
       "D": 3173,
       "E": 3417,
       "F": 2929
-    }
-  },
-  "PEGAL108": {
-    "name": "SELLADOR POLIUR P/Vidrio310ccPEGALO",
-    "category": "8.ADHES.P/VIDRIO PEGALO",
-    "bulk": 10.0,
-    "prices": {
-      "D": 7159,
-      "E": 7710,
-      "F": 6609
     }
   },
   "PEGAL114": {
@@ -77744,9 +77824,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 1453,
-      "E": 1565,
-      "F": 1341
+      "D": 1602,
+      "E": 1726,
+      "F": 1479
     }
   },
   "RK43064": {
@@ -77754,9 +77834,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 1897,
-      "E": 2043,
-      "F": 1751
+      "D": 2092,
+      "E": 2253,
+      "F": 1931
     }
   },
   "RK43078": {
@@ -77764,9 +77844,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 2019,
-      "E": 2174,
-      "F": 1863
+      "D": 2226,
+      "E": 2397,
+      "F": 2054
     }
   },
   "RK43082": {
@@ -77774,9 +77854,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 2582,
-      "E": 2781,
-      "F": 2383
+      "D": 2847,
+      "E": 3066,
+      "F": 2628
     }
   },
   "RK43083": {
@@ -77784,9 +77864,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 3676,
-      "E": 3959,
-      "F": 3393
+      "D": 4053,
+      "E": 4365,
+      "F": 3741
     }
   },
   "RK43109": {
@@ -77794,9 +77874,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 4675,
-      "E": 5035,
-      "F": 4316
+      "D": 5155,
+      "E": 5551,
+      "F": 4758
     }
   },
   "RK43114": {
@@ -77804,9 +77884,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 7211,
-      "E": 7765,
-      "F": 6656
+      "D": 7950,
+      "E": 8561,
+      "F": 7338
     }
   },
   "RK43129": {
@@ -77814,9 +77894,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 9614,
-      "E": 10354,
-      "F": 8875
+      "D": 10600,
+      "E": 11415,
+      "F": 9784
     }
   },
   "RK43133": {
@@ -77824,9 +77904,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 10.0,
     "prices": {
-      "D": 12018,
-      "E": 12942,
-      "F": 11093
+      "D": 13250,
+      "E": 14269,
+      "F": 12231
     }
   },
   "RK43505": {
@@ -77834,9 +77914,9 @@
     "category": "7.ESPATULA PINTOR RAKETA",
     "bulk": 25.0,
     "prices": {
-      "D": 1215,
-      "E": 1309,
-      "F": 1122
+      "D": 1340,
+      "E": 1443,
+      "F": 1237
     }
   },
   "RK43513": {
@@ -77844,9 +77924,9 @@
     "category": "7.ESPATULA PINTOR RAKETA",
     "bulk": 25.0,
     "prices": {
-      "D": 1598,
-      "E": 1721,
-      "F": 1475
+      "D": 1762,
+      "E": 1898,
+      "F": 1626
     }
   },
   "RK43527": {
@@ -77854,9 +77934,9 @@
     "category": "7.ESPATULA PINTOR RAKETA",
     "bulk": 25.0,
     "prices": {
-      "D": 2389,
-      "E": 2573,
-      "F": 2205
+      "D": 2634,
+      "E": 2837,
+      "F": 2432
     }
   },
   "RK43535": {
@@ -77864,9 +77944,9 @@
     "category": "7.ESPATULA PINTOR RAKETA",
     "bulk": 25.0,
     "prices": {
-      "D": 3603,
-      "E": 3880,
-      "F": 3325
+      "D": 3972,
+      "E": 4277,
+      "F": 3666
     }
   },
   "RK44507": {
@@ -77874,9 +77954,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 1453,
-      "E": 1565,
-      "F": 1341
+      "D": 1602,
+      "E": 1726,
+      "F": 1479
     }
   },
   "RK44508": {
@@ -77884,9 +77964,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 1897,
-      "E": 2043,
-      "F": 1751
+      "D": 2092,
+      "E": 2253,
+      "F": 1931
     }
   },
   "RK44511": {
@@ -77894,9 +77974,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 2019,
-      "E": 2174,
-      "F": 1863
+      "D": 2226,
+      "E": 2397,
+      "F": 2054
     }
   },
   "RK44526": {
@@ -77904,9 +77984,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 2582,
-      "E": 2781,
-      "F": 2383
+      "D": 2847,
+      "E": 3066,
+      "F": 2628
     }
   },
   "RK44527": {
@@ -77914,9 +77994,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 12.0,
     "prices": {
-      "D": 3676,
-      "E": 3959,
-      "F": 3393
+      "D": 4053,
+      "E": 4365,
+      "F": 3741
     }
   },
   "RK44635": {
@@ -77924,9 +78004,9 @@
     "category": "8.ACC.P/CORTINA SABELCORT",
     "bulk": 200.0,
     "prices": {
-      "D": 960,
-      "E": 1034,
-      "F": 886
+      "D": 1109,
+      "E": 1194,
+      "F": 1023
     }
   },
   "RK44716": {
@@ -77934,9 +78014,9 @@
     "category": "8.ZOCALO ALUMINIO/PUERTA",
     "bulk": 25.0,
     "prices": {
-      "D": 1791,
-      "E": 1928,
-      "F": 1653
+      "D": 1880,
+      "E": 2025,
+      "F": 1736
     }
   },
   "RK44717": {
@@ -77944,9 +78024,9 @@
     "category": "8.ZOCALO ALUMINIO/PUERTA",
     "bulk": 25.0,
     "prices": {
-      "D": 1917,
-      "E": 2064,
-      "F": 1769
+      "D": 2013,
+      "E": 2167,
+      "F": 1858
     }
   },
   "RK44718": {
@@ -77954,9 +78034,9 @@
     "category": "8.ZOCALO ALUMINIO/PUERTA",
     "bulk": 25.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2005
+      "D": 2281,
+      "E": 2456,
+      "F": 2105
     }
   },
   "RK44719": {
@@ -77964,9 +78044,9 @@
     "category": "8.ZOCALO ALUMINIO/PUERTA",
     "bulk": 25.0,
     "prices": {
-      "D": 2388,
-      "E": 2571,
-      "F": 2204
+      "D": 2507,
+      "E": 2700,
+      "F": 2314
     }
   },
   "RK48349": {
@@ -77974,9 +78054,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 25.0,
     "prices": {
-      "D": 2791,
-      "E": 3006,
-      "F": 2576
+      "D": 3077,
+      "E": 3314,
+      "F": 2840
     }
   },
   "RK48350": {
@@ -77984,9 +78064,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 15.0,
     "prices": {
-      "D": 3441,
-      "E": 3705,
-      "F": 3176
+      "D": 3793,
+      "E": 4085,
+      "F": 3501
     }
   },
   "RK48351": {
@@ -77994,9 +78074,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 15.0,
     "prices": {
-      "D": 3722,
-      "E": 4009,
-      "F": 3436
+      "D": 4104,
+      "E": 4420,
+      "F": 3788
     }
   },
   "RK48352": {
@@ -78004,9 +78084,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 20.0,
     "prices": {
-      "D": 2970,
-      "E": 3198,
-      "F": 2741
+      "D": 3274,
+      "E": 3526,
+      "F": 3022
     }
   },
   "RK48353": {
@@ -78014,9 +78094,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 30.0,
     "prices": {
-      "D": 2087,
-      "E": 2248,
-      "F": 1926
+      "D": 2301,
+      "E": 2478,
+      "F": 2124
     }
   },
   "RK48368": {
@@ -78024,9 +78104,9 @@
     "category": "8.BURLETE AUTOADH.RAKETA",
     "bulk": 75.0,
     "prices": {
-      "D": 1596,
-      "E": 1719,
-      "F": 1474
+      "D": 1760,
+      "E": 1895,
+      "F": 1625
     }
   },
   "RK76001": {
@@ -78034,9 +78114,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 4801,
-      "E": 5170,
-      "F": 4431
+      "D": 5293,
+      "E": 5700,
+      "F": 4886
     }
   },
   "RK76029": {
@@ -78044,9 +78124,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 5761,
-      "E": 6204,
-      "F": 5318
+      "D": 6352,
+      "E": 6840,
+      "F": 5863
     }
   },
   "RK76046": {
@@ -78054,9 +78134,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 6721,
-      "E": 7238,
-      "F": 6204
+      "D": 7410,
+      "E": 7980,
+      "F": 6840
     }
   },
   "RK76063": {
@@ -78064,9 +78144,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 7682,
-      "E": 8272,
-      "F": 7091
+      "D": 8469,
+      "E": 9120,
+      "F": 7817
     }
   },
   "RK76085": {
@@ -78074,9 +78154,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 8642,
-      "E": 9307,
-      "F": 7977
+      "D": 9528,
+      "E": 10261,
+      "F": 8795
     }
   },
   "RK76104": {
@@ -78084,9 +78164,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 9602,
-      "E": 10341,
-      "F": 8863
+      "D": 10586,
+      "E": 11401,
+      "F": 9772
     }
   },
   "RK76121": {
@@ -78094,9 +78174,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 10562,
-      "E": 11375,
-      "F": 9750
+      "D": 11645,
+      "E": 12541,
+      "F": 10749
     }
   },
   "RK76149": {
@@ -78104,9 +78184,9 @@
     "category": "8.RIEL P/CORTINA y Acc.",
     "bulk": 1.0,
     "prices": {
-      "D": 11523,
-      "E": 12409,
-      "F": 10636
+      "D": 12704,
+      "E": 13681,
+      "F": 11726
     }
   },
   "RK76536": {
@@ -78114,9 +78194,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 4675,
-      "E": 5035,
-      "F": 4316
+      "D": 5155,
+      "E": 5551,
+      "F": 4758
     }
   },
   "RK76545": {
@@ -78124,9 +78204,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 7211,
-      "E": 7765,
-      "F": 6656
+      "D": 7950,
+      "E": 8561,
+      "F": 7338
     }
   },
   "RK76553": {
@@ -78134,9 +78214,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 15.0,
     "prices": {
-      "D": 9614,
-      "E": 10354,
-      "F": 8875
+      "D": 10600,
+      "E": 11415,
+      "F": 9784
     }
   },
   "RK76567": {
@@ -78144,9 +78224,9 @@
     "category": "8.RIEL y MENSULA P/ESTANT",
     "bulk": 1.0,
     "prices": {
-      "D": 12018,
-      "E": 12942,
-      "F": 11093
+      "D": 13250,
+      "E": 14269,
+      "F": 12231
     }
   },
   "ROCKY1903/40": {
@@ -78294,9 +78374,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD122": {
@@ -78304,9 +78384,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD123": {
@@ -78314,9 +78394,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD124": {
@@ -78324,9 +78404,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD125": {
@@ -78334,9 +78414,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD126": {
@@ -78344,9 +78424,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD127": {
@@ -78354,9 +78434,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "ROD128": {
@@ -78364,9 +78444,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 12.0,
     "prices": {
-      "D": 16850,
-      "E": 18198,
-      "F": 15502
+      "D": 17005,
+      "E": 18365,
+      "F": 15644
     }
   },
   "RODFTA1": {
@@ -79324,9 +79404,9 @@
     "category": "8.CINTA PELIGRO",
     "bulk": 75.0,
     "prices": {
-      "D": 4330,
-      "E": 4663,
-      "F": 3997
+      "D": 4923,
+      "E": 5302,
+      "F": 4544
     }
   },
   "ROLP200": {
@@ -79334,9 +79414,9 @@
     "category": "8.CINTA PELIGRO",
     "bulk": 30.0,
     "prices": {
-      "D": 4923,
-      "E": 5302,
-      "F": 4544
+      "D": 4475,
+      "E": 4820,
+      "F": 4131
     }
   },
   "ROS1400": {
@@ -81354,9 +81434,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 1.0,
     "prices": {
-      "D": 15292,
-      "E": 16468,
-      "F": 14116
+      "D": 18690,
+      "E": 20128,
+      "F": 17253
     }
   },
   "ROT92509": {
@@ -83800,7 +83880,7 @@
     }
   },
   "SCG001": {
-    "name": "PITON C/TU.CERR.3/16x60mm50uN\u00b01.SCG",
+    "name": "PITON C/TU CERR 3/16 x60mm 50u N\u00b01 SCG",
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
@@ -83810,7 +83890,7 @@
     }
   },
   "SCG002": {
-    "name": "PITON C/TU.CERR.3/16x70mm50uN\u00b02.SCG",
+    "name": "PITON C/TU CERR 3/16 x70mm 50u N\u00b02 SCG",
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
@@ -83820,7 +83900,7 @@
     }
   },
   "SCG005": {
-    "name": "PITON C/TU.CERR.1/4 x85mm50uN\u00b05.SCG",
+    "name": "PITON C/TU CERR 1/4 x85mm 50u N\u00b05 SCG",
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
@@ -83830,7 +83910,7 @@
     }
   },
   "SCG008": {
-    "name": "PITON C/TU.CERR.5/16x100m50uN\u00b08.SCG",
+    "name": "PITON C/TU CERR 5/16 x100m 50u N\u00b08 SCG",
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
@@ -83840,7 +83920,7 @@
     }
   },
   "SCG011": {
-    "name": "SOPORTE P/CUAD.TRIANG.N\u00ba1x100u SCOGAR",
+    "name": "SOPORTE P/CUAD TRIANG N\u00ba1 x100u SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
@@ -83850,7 +83930,7 @@
     }
   },
   "SCG012": {
-    "name": "SOPORTE P/CUAD.TRIANG.N\u00ba2x100u SCOGAR",
+    "name": "SOPORTE P/CUAD TRIANG N\u00ba2 x100u SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
@@ -83860,7 +83940,7 @@
     }
   },
   "SCG013": {
-    "name": "SOPORTE P/CUAD.TRIANG.N\u00ba3x100u SCOGAR",
+    "name": "SOPORTE P/CUAD TRIANG N\u00ba3 x100u SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
@@ -83910,7 +83990,7 @@
     }
   },
   "SCG024": {
-    "name": "PASADOR REDONDO ZINCADO   35 SCOGAR",
+    "name": "PASADOR REDONDO ZINCADO 35 SCOGAR",
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
@@ -83920,7 +84000,7 @@
     }
   },
   "SCG025": {
-    "name": "PASADOR REDONDO ZINCADO   40 SCOGAR",
+    "name": "PASADOR REDONDO ZINCADO 40 SCOGAR",
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
@@ -83930,7 +84010,7 @@
     }
   },
   "SCG026": {
-    "name": "PASADOR REDONDO ZINCADO   47 SCOGAR",
+    "name": "PASADOR REDONDO ZINCADO 47 SCOGAR",
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
@@ -83940,7 +84020,7 @@
     }
   },
   "SCG027": {
-    "name": "PASADOR REDONDO ZINCADO   57 SCOGAR",
+    "name": "PASADOR REDONDO ZINCADO 57 SCOGAR",
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
@@ -83950,7 +84030,7 @@
     }
   },
   "SCG033": {
-    "name": "PASADOR PORTACANDAD.ZINC.12cmSCOGAR",
+    "name": "PASADOR PORTACANDAD ZINC 12cm SCOGAR",
     "category": "8.PASADOR PORTACANDADO",
     "bulk": 6.0,
     "prices": {
@@ -83960,7 +84040,7 @@
     }
   },
   "SCG034": {
-    "name": "PASADOR PORTACANDAD.ZINC.14cmSCOGAR",
+    "name": "PASADOR PORTACANDAD ZINC 14cm SCOGAR",
     "category": "8.PASADOR PORTACANDADO",
     "bulk": 6.0,
     "prices": {
@@ -83970,7 +84050,7 @@
     }
   },
   "SCG035": {
-    "name": "PASADOR PORTACANDAD.ZINC.17cmSCOGAR",
+    "name": "PASADOR PORTACANDAD ZINC 17cm SCOGAR",
     "category": "8.PASADOR PORTACANDADO",
     "bulk": 6.0,
     "prices": {
@@ -83980,7 +84060,7 @@
     }
   },
   "SCG038": {
-    "name": "PITON ABIE.miniBdoC/T17x40x100uSCOGAR",
+    "name": "PITON ABIE mini Bdo C/T17 x40 x100u SCOGAR",
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
@@ -83990,7 +84070,7 @@
     }
   },
   "SCG039": {
-    "name": "PITON ABIE.miniBdoC/T19x50x100uSCOGAR",
+    "name": "PITON ABIE mini Bdo C/T19 x50 x100u SCOGAR",
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
@@ -84000,7 +84080,7 @@
     }
   },
   "SCG040": {
-    "name": "PITON ESCU.miniBdoC/T17x40x100uSCOGAR",
+    "name": "PITON ESCU mini Bdo C/T17 x40 x100u SCOGAR",
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
@@ -84010,7 +84090,7 @@
     }
   },
   "SCG041": {
-    "name": "PITON ESCU.miniBdoC/T19x50x100uSCOGAR",
+    "name": "PITON ESCU mini Bdo C/T19 x50 x100u SCOGAR",
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
@@ -84020,7 +84100,7 @@
     }
   },
   "SCG080": {
-    "name": "SOPORTE P/CUADROS N\u00ba20x100un SCOGAR",
+    "name": "SOPORTE P/CUADROS N\u00ba20 x100un SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
@@ -84030,7 +84110,7 @@
     }
   },
   "SCG081": {
-    "name": "SOPORTE P/CUADROS N\u00ba25x100un SCOGAR",
+    "name": "SOPORTE P/CUADROS N\u00ba25 x100un SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
@@ -84040,7 +84120,7 @@
     }
   },
   "SCG082": {
-    "name": "SOPORTE P/CUADROS N\u00ba35x100un SCOGAR",
+    "name": "SOPORTE P/CUADROS N\u00ba35 x100un SCOGAR",
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
@@ -84050,7 +84130,7 @@
     }
   },
   "SCG165": {
-    "name": "PASADOR CERROJO CHAP.PORTAC.10cmSCG",
+    "name": "PASADOR CERROJO CHAP PORTAC 10cm SCG",
     "category": "8.PASADOR PORTACAND.SCG",
     "bulk": 6.0,
     "prices": {
@@ -84060,7 +84140,7 @@
     }
   },
   "SCG166": {
-    "name": "PASADOR CERROJO CHAP.PORTAC.14cmSCG",
+    "name": "PASADOR CERROJO CHAP PORTAC 14cm SCG",
     "category": "8.PASADOR PORTACAND.SCG",
     "bulk": 6.0,
     "prices": {
@@ -84070,7 +84150,7 @@
     }
   },
   "SCG167": {
-    "name": "PASADOR CERROJO CHAP.PORTAC.17cmSCG",
+    "name": "PASADOR CERROJO CHAP PORTAC 17cm SCG",
     "category": "8.PASADOR PORTACAND.SCG",
     "bulk": 6.0,
     "prices": {
@@ -84080,7 +84160,7 @@
     }
   },
   "SCG240": {
-    "name": "PITON C/TUERC.ESCUAD.5/32.Cjx50uSCG",
+    "name": "PITON C/TUERCA ESCUAD 5/32 Cj x50u SCG",
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 50.0,
     "prices": {
@@ -84090,7 +84170,7 @@
     }
   },
   "SCG241": {
-    "name": "PITON C/TUERC.ESCUAD.3/16.Cjx50uSCG",
+    "name": "PITON C/TUERCA ESCUAD 3/16 Cj x50u SCG",
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 50.0,
     "prices": {
@@ -84100,7 +84180,7 @@
     }
   },
   "SCG242": {
-    "name": "PITON C/TUERC.ESCUAD.1/4 .Cjx25uSCG",
+    "name": "PITON C/TUERCA ESCUAD 1/4 Cj x25u SCG",
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 25.0,
     "prices": {
@@ -84110,7 +84190,7 @@
     }
   },
   "SCG244": {
-    "name": "ROLDANA de CHAPA de 25mmx12unSCOGAR",
+    "name": "ROLDANA de CHAPA de 25mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84120,7 +84200,7 @@
     }
   },
   "SCG245": {
-    "name": "ROLDANA de CHAPA de 32mmx12unSCOGAR",
+    "name": "ROLDANA de CHAPA de 32mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84130,7 +84210,7 @@
     }
   },
   "SCG246": {
-    "name": "ROLDANA de CHAPA de 38mmx12unSCOGAR",
+    "name": "ROLDANA de CHAPA de 38mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84140,7 +84220,7 @@
     }
   },
   "SCG247": {
-    "name": "ROLDANA de CHAPA de 50mmx12unSCOGAR",
+    "name": "ROLDANA de CHAPA de 50mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84150,7 +84230,7 @@
     }
   },
   "SCG378": {
-    "name": "ROLDANA de PLAST de 25mmx12unSCOGAR",
+    "name": "ROLDANA de PLAST de 25mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84160,7 +84240,7 @@
     }
   },
   "SCG379": {
-    "name": "ROLDANA de PLAST de 32mmx12unSCOGAR",
+    "name": "ROLDANA de PLAST de 32mm x12un SCOGAR",
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
@@ -84170,7 +84250,7 @@
     }
   },
   "SCG571": {
-    "name": "CUCHARA SOLDADA ALBA\u00d1IL 6    SCOGAR",
+    "name": "CUCHARA SOLDADA ALBA\u00d1IL 6 SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
@@ -84180,7 +84260,7 @@
     }
   },
   "SCG572": {
-    "name": "CUCHARA SOLDADA ALBA\u00d1IL 7    SCOGAR",
+    "name": "CUCHARA SOLDADA ALBA\u00d1IL 7 SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
@@ -84190,7 +84270,7 @@
     }
   },
   "SCG573": {
-    "name": "CUCHARA SOLDADA ALBA\u00d1IL 7M   SCOGAR",
+    "name": "CUCHARA SOLDADA ALBA\u00d1IL 7M SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
@@ -84200,7 +84280,7 @@
     }
   },
   "SCG574": {
-    "name": "CUCHARA SOLDADA ALBA\u00d1IL 8    SCOGAR",
+    "name": "CUCHARA SOLDADA ALBA\u00d1IL 8 SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
@@ -84210,7 +84290,7 @@
     }
   },
   "SCG575": {
-    "name": "CUCHARA SOLDADA ALBA\u00d1IL 8/M  SCOGAR",
+    "name": "CUCHARA SOLDADA ALBA\u00d1IL 8/M SCOGAR",
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
@@ -88294,9 +88374,9 @@
     "category": "9.PORTALAMPARAS",
     "bulk": 10.0,
     "prices": {
-      "D": 522,
-      "E": 563,
-      "F": 482
+      "D": 538,
+      "E": 580,
+      "F": 497
     }
   },
   "TIDIL-1009": {
@@ -88304,9 +88384,9 @@
     "category": "9.PORTALAMPARAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1383,
-      "E": 1489,
-      "F": 1276
+      "D": 1424,
+      "E": 1534,
+      "F": 1315
     }
   },
   "TIDIL-1014": {
@@ -89524,9 +89604,9 @@
     "category": "9.GUARDALAMP.DE METAL",
     "bulk": 10.0,
     "prices": {
-      "D": 12298,
-      "E": 13244,
-      "F": 11352
+      "D": 13281,
+      "E": 14303,
+      "F": 12259
     }
   },
   "TIKWC-2909": {
@@ -92094,9 +92174,9 @@
     "category": "8.DISCO PIEDRA ABRA.CIRCU",
     "bulk": 5.0,
     "prices": {
-      "D": 26297,
-      "E": 28320,
-      "F": 24274
+      "D": 25220,
+      "E": 27160,
+      "F": 23280
     }
   },
   "TYRO1-5-7": {
@@ -92164,9 +92244,9 @@
     "category": "8.DISCO O/AL.SEC.TYROLIT",
     "bulk": 25.0,
     "prices": {
-      "D": 4460,
-      "E": 4803,
-      "F": 4116
+      "D": 4469,
+      "E": 4812,
+      "F": 4125
     }
   },
   "TYRO41F-20-5662": {
@@ -92214,9 +92294,9 @@
     "category": "8.DISCO O/AL.BASI.TYROLIT",
     "bulk": 50.0,
     "prices": {
-      "D": 707,
-      "E": 762,
-      "F": 653
+      "D": 680,
+      "E": 732,
+      "F": 628
     }
   },
   "TYROSTD-11516": {
@@ -92234,9 +92314,9 @@
     "category": "8.DISCO O/AL.EXP.TYROLIT",
     "bulk": 25.0,
     "prices": {
-      "D": 3275,
-      "E": 3527,
-      "F": 3023
+      "D": 3073,
+      "E": 3309,
+      "F": 2836
     }
   },
   "TYROSTD-18016": {
@@ -92634,9 +92714,9 @@
     "category": "8.CARBONES",
     "bulk": 1.0,
     "prices": {
-      "D": 47863,
-      "E": 51545,
-      "F": 44181
+      "D": 53128,
+      "E": 57215,
+      "F": 49041
     }
   },
   "VITB400W": {
