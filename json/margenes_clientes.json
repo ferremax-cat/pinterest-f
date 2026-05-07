@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 0,
+    "margen": 9,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,6,14,53,50)"
+    "ultima_actualizacion": "Date(2026,4,7,16,58,14)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 10,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,7,11,57,58)"
+    "ultima_actualizacion": "Date(2026,4,7,15,18,16)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -646,5 +646,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,3,24,15,32,34)"
+  },
+  "20364": {
+    "nombre": "CORRALON REA",
+    "margen": 30,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,4,7,15,21,51)"
   }
 }
