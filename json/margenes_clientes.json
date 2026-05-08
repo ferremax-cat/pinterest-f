@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 9,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,7,16,58,14)"
+    "ultima_actualizacion": "Date(2026,4,8,12,5,18)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,7,18,47,8)"
+    "ultima_actualizacion": "Date(2026,4,8,14,40,11)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -127,9 +127,9 @@
   },
   "50809": {
     "nombre": "CORRALON EL GATO",
-    "margen": 30,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,6,15,58,3)"
+    "ultima_actualizacion": "Date(2026,4,8,10,35,47)"
   },
   "10157": {
     "nombre": "ITATI CORRALON",
@@ -205,9 +205,9 @@
   },
   "10162": {
     "nombre": "ENRIQUE FERRETERIA",
-    "margen": 50,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,13,12,6,53)"
+    "ultima_actualizacion": "Date(2026,4,8,13,9,18)"
   },
   "10137": {
     "nombre": "FERRETERIA GASTON",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,6,17,1,55)"
+    "ultima_actualizacion": "Date(2026,4,8,13,24,34)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 50,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,19,9,37,20)"
+    "ultima_actualizacion": "Date(2026,4,8,15,7,58)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -651,12 +651,18 @@
     "nombre": "CORRALON REA",
     "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,7,15,21,51)"
+    "ultima_actualizacion": "Date(2026,4,8,15,8,1)"
   },
   "50622": {
     "nombre": "LAFE-RRETERIA PONTEVEDRA",
     "margen": 75,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,4,7,20,51,10)"
+  },
+  "989": {
+    "nombre": "ENZO FERRETERIA",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,4,8,10,36,49)"
   }
 }
