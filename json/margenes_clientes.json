@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 100,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,8,14,40,11)"
+    "ultima_actualizacion": "Date(2026,4,10,10,39,19)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -117,7 +117,7 @@
     "nombre": "FLORES FERRETERIA",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,28,14,52,30)"
+    "ultima_actualizacion": "Date(2026,4,10,11,4,59)"
   },
   "20309": {
     "nombre": "LATINA FERRETERIA",
@@ -177,7 +177,7 @@
     "nombre": "FERRETERIA PITU",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,4,10,33,43)"
+    "ultima_actualizacion": "Date(2026,4,9,14,4,36)"
   },
   "60201": {
     "nombre": "BULONERA WORO",
@@ -201,7 +201,7 @@
     "nombre": "CASA LEO FERRETERIA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,21,11,43,34)"
+    "ultima_actualizacion": "Date(2026,4,9,13,43,39)"
   },
   "10162": {
     "nombre": "ENRIQUE FERRETERIA",
@@ -237,7 +237,7 @@
     "nombre": "FERRETERIA ALVAREZ",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,30,11,20,3)"
+    "ultima_actualizacion": "Date(2026,4,9,12,50,53)"
   },
   "60217": {
     "nombre": "FERRETERIA VM",
@@ -303,13 +303,13 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,8,13,24,34)"
+    "ultima_actualizacion": "Date(2026,4,11,11,46,43)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
-    "margen": 50,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,28,14,30,12)"
+    "ultima_actualizacion": "Date(2026,4,9,16,7,13)"
   },
   "60269": {
     "nombre": "FERRETERIA MAKANA",
@@ -469,9 +469,9 @@
   },
   "20292": {
     "nombre": "CIRO FERRETERIA",
-    "margen": 0,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,30,9,49,22)"
+    "ultima_actualizacion": "Date(2026,4,9,17,37,26)"
   },
   "60299": {
     "nombre": "QUIMICA",
@@ -664,5 +664,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,4,8,10,36,49)"
+  },
+  "60137": {
+    "nombre": "FERRETERIA CARRIZO",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,4,11,9,25,0)"
   }
 }
