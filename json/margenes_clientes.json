@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 20,
+    "margen": 55,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,19,15,16,52)"
+    "ultima_actualizacion": "Date(2026,4,21,10,33,5)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,19,16,9,16)"
+    "ultima_actualizacion": "Date(2026,4,21,17,21,20)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -61,9 +61,9 @@
   },
   "20096": {
     "nombre": "LA QUINTA MATERIALES",
-    "margen": 70,
+    "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,15,9,35,48)"
+    "ultima_actualizacion": "Date(2026,4,21,16,21,55)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -169,15 +169,15 @@
   },
   "20128": {
     "nombre": "EN LO DE HUGO FERRETERIA",
-    "margen": 52,
+    "margen": 53,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,9,27,17,46,52)"
+    "ultima_actualizacion": "Date(2026,4,20,19,22,0)"
   },
   "20380": {
     "nombre": "FERRETERIA PITU",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,11,16,39,42)"
+    "ultima_actualizacion": "Date(2026,4,21,14,23,41)"
   },
   "60201": {
     "nombre": "BULONERA WORO",
@@ -469,9 +469,9 @@
   },
   "20292": {
     "nombre": "CIRO FERRETERIA",
-    "margen": 60,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,19,10,5,52)"
+    "ultima_actualizacion": "Date(2026,4,21,11,3,39)"
   },
   "60299": {
     "nombre": "QUIMICA",
@@ -688,5 +688,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,4,18,12,4,29)"
+  },
+  "958": {
+    "nombre": "FORRAJERIA MARTIN",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,4,22,12,43,4)"
   }
 }
