@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 80,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,30,23,8,40)"
+    "ultima_actualizacion": "Date(2026,5,2,9,14,36)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -706,5 +706,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,5,1,18,6,39)"
+  },
+  "60290": {
+    "nombre": "FERRETERIA JUAN FER",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,5,2,11,12,26)"
   }
 }
