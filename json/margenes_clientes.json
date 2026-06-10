@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 100,
+    "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,5,16,28,17)"
+    "ultima_actualizacion": "Date(2026,5,10,12,24,33)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -79,9 +79,9 @@
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
-    "margen": 70,
+    "margen": 80,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,1,9,57,40)"
+    "ultima_actualizacion": "Date(2026,5,10,12,57,25)"
   },
   "20310": {
     "nombre": "AMANDA FERRETERIA",
@@ -718,5 +718,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,5,4,16,28,51)"
+  },
+  "60126": {
+    "nombre": "MARY FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,5,10,13,50,27)"
   }
 }
