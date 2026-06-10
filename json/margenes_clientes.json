@@ -1,21 +1,21 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 60,
+    "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,8,17,36,42)"
+    "ultima_actualizacion": "Date(2026,5,9,7,7,40)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,6,12,10,42)"
+    "ultima_actualizacion": "Date(2026,5,10,15,34,32)"
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 100,
+    "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,5,16,28,17)"
+    "ultima_actualizacion": "Date(2026,5,10,12,24,33)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,6,10,58,5)"
+    "ultima_actualizacion": "Date(2026,5,9,12,34,19)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -75,13 +75,13 @@
     "nombre": "EL RELINCHO FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,28,17,23,49)"
+    "ultima_actualizacion": "Date(2026,5,9,17,48,23)"
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
-    "margen": 70,
+    "margen": 80,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,1,9,57,40)"
+    "ultima_actualizacion": "Date(2026,5,10,12,57,25)"
   },
   "20310": {
     "nombre": "AMANDA FERRETERIA",
@@ -153,7 +153,7 @@
     "nombre": "LEOPARDI FERRETERIA",
     "margen": 55,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,4,16,14,51)"
+    "ultima_actualizacion": "Date(2026,5,9,11,25,29)"
   },
   "20205": {
     "nombre": "CASA DAVID CORRALON MAT.de CON",
@@ -411,7 +411,7 @@
     "nombre": "FERRETERIA S Y D",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,2,2,20,6,38)"
+    "ultima_actualizacion": "Date(2026,5,8,19,14,48)"
   },
   "90671": {
     "nombre": "CLAVIJO OSCAR ALBERTO",
@@ -555,7 +555,7 @@
     "nombre": "FERRETERIA CONTRERAS",
     "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,8,14,32,8)"
+    "ultima_actualizacion": "Date(2026,5,10,16,29,21)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -718,5 +718,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,5,4,16,28,51)"
+  },
+  "60126": {
+    "nombre": "MARY FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,5,10,13,50,27)"
   }
 }
