@@ -2754,9 +2754,9 @@
     "category": "8.ESPUMA POLIURETANICA",
     "bulk": 12.0,
     "prices": {
-      "D": 4037,
-      "E": 4348,
-      "F": 3727
+      "D": 4486,
+      "E": 4831,
+      "F": 4141
     }
   },
   "AR855500": {
@@ -2764,9 +2764,9 @@
     "category": "8.ESPUMA POLIURETANICA",
     "bulk": 12.0,
     "prices": {
-      "D": 5766,
-      "E": 6209,
-      "F": 5322
+      "D": 6406,
+      "E": 6899,
+      "F": 5914
     }
   },
   "AR85750": {
@@ -5049,16 +5049,6 @@
       "F": 76944
     }
   },
-  "BLURNHCT": {
-    "name": "RUEDA NEUM HORMIG TACO 360  BLUETOOLS",
-    "category": "8.HORMIGONERA y REPUESTOS",
-    "bulk": 1.0,
-    "prices": {
-      "D": 28247,
-      "E": 30419,
-      "F": 26074
-    }
-  },
   "BLURNZ26016": {
     "name": "RUEDA NEUM P/ZORRA 260X80 MET",
     "category": "8.HORMIGONERA y REPUESTOS",
@@ -5077,16 +5067,6 @@
       "D": 14633,
       "E": 15759,
       "F": 13508
-    }
-  },
-  "BLURSNCT": {
-    "name": "RUEDA NEUM CARRET PU NARANJ BLUETOOLS",
-    "category": "8.HORMIGONERA y REPUESTOS",
-    "bulk": 1.0,
-    "prices": {
-      "D": 40347,
-      "E": 43451,
-      "F": 37244
     }
   },
   "BLUSZ-FSTS2": {
@@ -6017,16 +5997,6 @@
       "D": 8289,
       "E": 8927,
       "F": 7651
-    }
-  },
-  "BM3256": {
-    "name": "CEPILLO CIRC COPA TRENZAD 7\" BREMEN",
-    "category": "8.CEPILLO COPA CIRC.BREME",
-    "bulk": 10.0,
-    "prices": {
-      "D": 0,
-      "E": 0,
-      "F": 0
     }
   },
   "BM3257": {
@@ -11150,7 +11120,7 @@
     }
   },
   "BM5566": {
-    "name": "BOC.JgoE.1/2\" C/acx27Pz.Multip.BREMEN",
+    "name": "BOC Jgo E.1/2\" C/acx27Pz.Multip.BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -11690,7 +11660,7 @@
     }
   },
   "BM6066": {
-    "name": "BOC JgoE 1/2\" x35Pzs C/llav mm BREMEN",
+    "name": "BOC Jgo E 1/2\" x35Pzs C/llav mm BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -11840,7 +11810,7 @@
     }
   },
   "BM6145": {
-    "name": "BOC.JgoC/PUNT.CUADR.E.1/2\"4pzBREMEN",
+    "name": "BOC Jgo C/PUNT.CUADR.E.1/2\"4pzBREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 6.0,
     "prices": {
@@ -13160,7 +13130,7 @@
     }
   },
   "BM6628": {
-    "name": "BOC JgoE 1/2\" x55Pz llave Comb MM BREMEN",
+    "name": "BOC Jgo E 1/2\" x55Pz llave Comb MM BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -13369,8 +13339,18 @@
       "F": 154872
     }
   },
+  "BM6656": {
+    "name": "BOC Jgo E 1/4\" x12Pz (4-13mm)  BREMEN",
+    "category": "8.BOCALLAVE KIT BREMEN",
+    "bulk": 1.0,
+    "prices": {
+      "D": 32740,
+      "E": 35259,
+      "F": 30222
+    }
+  },
   "BM6657": {
-    "name": "BOC JgoE 1/4\" x28Pz (4-14mm) +Pnta BREMEN",
+    "name": "BOC Jgo E 1/4\" x28Pz (4-14mm) +Pnta BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 6.0,
     "prices": {
@@ -13390,7 +13370,7 @@
     }
   },
   "BM6659": {
-    "name": "BOC JgoE 1/2\" x20Pzs PORT 08-32mm BREMEN",
+    "name": "BOC Jgo E 1/2\" x20Pzs PORT 08-32mm BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -13400,7 +13380,7 @@
     }
   },
   "BM6660": {
-    "name": "BOC JgoE 1/2\" x22Pzs C/ Acc mm BREMEN",
+    "name": "BOC Jgo E 1/2\" x22Pzs C/ Acc mm BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 6.0,
     "prices": {
@@ -13700,7 +13680,7 @@
     }
   },
   "BM6728": {
-    "name": "BOC.JgoE.1/4\"x53Pz.Cta/Lga+PntaBREMEN",
+    "name": "BOC Jgo E.1/4\"x53Pz.Cta/Lga+PntaBREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -15910,7 +15890,7 @@
     }
   },
   "BM8010": {
-    "name": "BOC JgoE 1/2\" x160Pzs MECHANIKER BREMEN",
+    "name": "BOC Jgo E 1/2\" x160Pzs MECHANIKER BREMEN",
     "category": "8.BOCALLAVE KIT BREMEN",
     "bulk": 1.0,
     "prices": {
@@ -16137,6 +16117,16 @@
       "D": 11266,
       "E": 12133,
       "F": 10400
+    }
+  },
+  "BM8495": {
+    "name": "CEPILLO CIRC COPA TRENZAD 7\" BREMEN",
+    "category": "8.CEPILLO COPA CIRC.BREME",
+    "bulk": 20.0,
+    "prices": {
+      "D": 16191,
+      "E": 17437,
+      "F": 14946
     }
   },
   "BM8719": {
@@ -17760,7 +17750,7 @@
     }
   },
   "CARRE081": {
-    "name": "RUEDA COMPACTA  P/TROMPITO CARREMAK",
+    "name": "RUEDA GOMA COMPACTA  HORMIGONER CARREMAK",
     "category": "8.HORMIGONERA y REPUESTOS",
     "bulk": 1.0,
     "prices": {
@@ -17770,7 +17760,7 @@
     }
   },
   "CARRE088": {
-    "name": "RUEDA COMPACTA  CARRETILLA CARREMAK",
+    "name": "RUEDA GOMA COMPACTA  CARRETILLA CARREMAK",
     "category": "8.HORMIGONERA y REPUESTOS",
     "bulk": 1.0,
     "prices": {
@@ -18614,9 +18604,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 16875,
-      "E": 17550,
-      "F": 16200
+      "D": 15710,
+      "E": 16967,
+      "F": 15082
     }
   },
   "CL00036001325": {
@@ -18624,9 +18614,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 11803,
-      "E": 12276,
-      "F": 11331
+      "D": 10988,
+      "E": 11868,
+      "F": 10549
     }
   },
   "CL00036001332": {
@@ -18634,9 +18624,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 30.0,
     "prices": {
-      "D": 11420,
-      "E": 11877,
-      "F": 10964
+      "D": 10632,
+      "E": 11482,
+      "F": 10206
     }
   },
   "CL00036001840": {
@@ -18664,9 +18654,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 10.0,
     "prices": {
-      "D": 11632,
-      "E": 11632,
-      "F": 10737
+      "D": 12098,
+      "E": 12098,
+      "F": 11167
     }
   },
   "CL000360OK200": {
@@ -18674,9 +18664,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 10623,
-      "E": 11048,
-      "F": 10198
+      "D": 10829,
+      "E": 11695,
+      "F": 10396
     }
   },
   "CL000360OK250": {
@@ -18684,9 +18674,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 7599,
-      "E": 7903,
-      "F": 7295
+      "D": 7747,
+      "E": 8367,
+      "F": 7437
     }
   },
   "CL000360OK325": {
@@ -18694,9 +18684,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 6619,
-      "E": 6883,
-      "F": 6354
+      "D": 6747,
+      "E": 7287,
+      "F": 6477
     }
   },
   "CL000360OK400": {
@@ -18814,9 +18804,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 6620,
-      "E": 7129,
-      "F": 6111
+      "D": 6819,
+      "E": 7343,
+      "F": 6294
     }
   },
   "CL00072000002": {
@@ -18824,9 +18814,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 15270,
-      "E": 15881,
-      "F": 14659
+      "D": 15728,
+      "E": 16358,
+      "F": 15099
     }
   },
   "CL00072000003": {
@@ -18844,9 +18834,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 1787,
-      "E": 1924,
-      "F": 1649
+      "D": 1840,
+      "E": 1982,
+      "F": 1699
     }
   },
   "CL00072000006": {
@@ -18854,9 +18844,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 2361,
-      "E": 2543,
-      "F": 2180
+      "D": 2432,
+      "E": 2619,
+      "F": 2245
     }
   },
   "CL00072000012": {
@@ -18864,9 +18854,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 1617,
-      "E": 1741,
-      "F": 1492
+      "D": 1681,
+      "E": 1811,
+      "F": 1552
     }
   },
   "CL00072000017": {
@@ -18874,9 +18864,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 2318,
-      "E": 2497,
-      "F": 2140
+      "D": 2388,
+      "E": 2571,
+      "F": 2204
     }
   },
   "CL00072000023": {
@@ -18884,9 +18874,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 2122,
-      "E": 2285,
-      "F": 1959
+      "D": 2207,
+      "E": 2377,
+      "F": 2037
     }
   },
   "CL00072000025": {
@@ -18894,9 +18884,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 10.0,
     "prices": {
-      "D": 1888,
-      "E": 2034,
-      "F": 1743
+      "D": 1945,
+      "E": 2095,
+      "F": 1795
     }
   },
   "CL00074BRO2.5": {
@@ -18924,9 +18914,9 @@
     "category": "8.KIT.ENGRASE y ACCESOR.",
     "bulk": 100.0,
     "prices": {
-      "D": 211,
-      "E": 229,
-      "F": 211
+      "D": 217,
+      "E": 236,
+      "F": 217
     }
   },
   "CL00075000005": {
@@ -18934,9 +18924,9 @@
     "category": "8.KIT.ENGRASE y ACCESOR.",
     "bulk": 100.0,
     "prices": {
-      "D": 199,
-      "E": 216,
-      "F": 199
+      "D": 205,
+      "E": 222,
+      "F": 205
     }
   },
   "CL00075000006": {
@@ -18944,9 +18934,9 @@
     "category": "8.KIT.ENGRASE y ACCESOR.",
     "bulk": 100.0,
     "prices": {
-      "D": 262,
-      "E": 284,
-      "F": 262
+      "D": 270,
+      "E": 292,
+      "F": 270
     }
   },
   "CL00086000002": {
@@ -19109,6 +19099,26 @@
       "F": 5597
     }
   },
+  "CL001010T160W": {
+    "name": "SOLDADOR ELECT. TUBULAR 160W HERCAS",
+    "category": "9.SOLDADOR ELECTRICO",
+    "bulk": 0.0,
+    "prices": {
+      "D": 73421,
+      "E": 79069,
+      "F": 67773
+    }
+  },
+  "CL001010T250W": {
+    "name": "SOLDADOR ELECT. TUBULAR 250W HERCAS",
+    "category": "9.SOLDADOR ELECTRICO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 136140,
+      "E": 146612,
+      "F": 125667
+    }
+  },
   "CL00121000001": {
     "name": "DISCO LIJA MONTADA EJE 1/4 de 25mm",
     "category": "8.DISCO LIJA MONTADA",
@@ -19184,9 +19194,9 @@
     "category": "8.ENGRASADOR",
     "bulk": 6.0,
     "prices": {
-      "D": 93854,
-      "E": 97608,
-      "F": 90100
+      "D": 98838,
+      "E": 102792,
+      "F": 94885
     }
   },
   "CL00125000036": {
@@ -19194,9 +19204,9 @@
     "category": "8.ENGRASADOR",
     "bulk": 6.0,
     "prices": {
-      "D": 169239,
-      "E": 176009,
-      "F": 162470
+      "D": 175829,
+      "E": 182862,
+      "F": 168796
     }
   },
   "CL00130000001": {
@@ -19499,6 +19509,26 @@
       "F": 30730
     }
   },
+  "CONO202051E": {
+    "name": "ANAFE 2 HORNALLAS LUJO ENLOZADO CONOMETAL",
+    "category": "8.ANAFE y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 47347,
+      "E": 50989,
+      "F": 43704
+    }
+  },
+  "CONO202074": {
+    "name": "ANAFE 1 HORNALLAS INDUSTRIAL CONOMETAL",
+    "category": "8.ANAFE y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 112426,
+      "E": 121074,
+      "F": 103778
+    }
+  },
   "CONO202078": {
     "name": "ANAFE 2 HORNALLAS NACIONAL ECO CONOMETAL",
     "category": "8.ANAFE y ACCES.",
@@ -19589,6 +19619,16 @@
       "F": 67114
     }
   },
+  "CONO243005E": {
+    "name": "PANTALLA VAL Y ROB 3000ca G/E CONOMETAL",
+    "category": "8.ESTUFA A GAS y ACCES.",
+    "bulk": 0.0,
+    "prices": {
+      "D": 80031,
+      "E": 86187,
+      "F": 73875
+    }
+  },
   "CONO243005N": {
     "name": "PANTALLA VAL Y ROB 3000ca G/N CONOMETAL",
     "category": "8.ESTUFA A GAS y ACCES.",
@@ -19677,6 +19717,16 @@
       "D": 46740,
       "E": 50335,
       "F": 43144
+    }
+  },
+  "CONOP02004": {
+    "name": "LUBRICANTE AEROSOL C/PICO 360ml PIRAMIDE",
+    "category": "8.LUBRICANTES",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4416,
+      "E": 4756,
+      "F": 4076
     }
   },
   "CONOTKT-96070": {
@@ -23294,9 +23344,9 @@
     "category": "8.GOMA SUERO",
     "bulk": 1.0,
     "prices": {
-      "D": 8095,
-      "E": 8718,
-      "F": 7784
+      "D": 8500,
+      "E": 9154,
+      "F": 8173
     }
   },
   "DINGS103": {
@@ -23304,9 +23354,9 @@
     "category": "8.GOMA SUERO",
     "bulk": 1.0,
     "prices": {
-      "D": 31058,
-      "E": 33447,
-      "F": 29864
+      "D": 32611,
+      "E": 35120,
+      "F": 31357
     }
   },
   "DINI10000001": {
@@ -23314,19 +23364,9 @@
     "category": "8.PARCHE y ACCES.",
     "bulk": 5.0,
     "prices": {
-      "D": 994,
-      "E": 1071,
-      "F": 956
-    }
-  },
-  "DINI1000002": {
-    "name": "SOLUCION P/PARCH.TAO POMO Cjx10DINI",
-    "category": "8.PARCHE y ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 842,
-      "E": 907,
-      "F": 810
+      "D": 1044,
+      "E": 1124,
+      "F": 1004
     }
   },
   "DINI17543": {
@@ -23334,9 +23374,9 @@
     "category": "8.INFLADOR",
     "bulk": 25.0,
     "prices": {
-      "D": 15570,
-      "E": 16767,
-      "F": 14971
+      "D": 16348,
+      "E": 17606,
+      "F": 15719
     }
   },
   "DINI17544": {
@@ -23344,9 +23384,9 @@
     "category": "8.INFLADOR",
     "bulk": 15.0,
     "prices": {
-      "D": 19486,
-      "E": 20985,
-      "F": 18737
+      "D": 20461,
+      "E": 22034,
+      "F": 19674
     }
   },
   "DINI17545": {
@@ -23354,9 +23394,9 @@
     "category": "8.INFLADOR",
     "bulk": 50.0,
     "prices": {
-      "D": 7468,
-      "E": 8042,
-      "F": 7181
+      "D": 7841,
+      "E": 8445,
+      "F": 7540
     }
   },
   "DINI600000100": {
@@ -23364,9 +23404,9 @@
     "category": "8.PARCHE y ACCES.",
     "bulk": 200.0,
     "prices": {
-      "D": 1411,
-      "E": 1519,
-      "F": 1356
+      "D": 1481,
+      "E": 1595,
+      "F": 1424
     }
   },
   "DINIINF0003": {
@@ -23374,9 +23414,9 @@
     "category": "8.PARCHE y ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 2333,
-      "E": 2500,
-      "F": 2083
+      "D": 2450,
+      "E": 2625,
+      "F": 2188
     }
   },
   "DINIPA0203": {
@@ -23384,9 +23424,9 @@
     "category": "8.PARCHE y ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 3575,
-      "E": 3850,
-      "F": 3437
+      "D": 3753,
+      "E": 4042,
+      "F": 3609
     }
   },
   "DINIPA0204": {
@@ -23394,9 +23434,9 @@
     "category": "8.PARCHE y ACCES.",
     "bulk": 24.0,
     "prices": {
-      "D": 3463,
-      "E": 3730,
-      "F": 3330
+      "D": 3636,
+      "E": 3916,
+      "F": 3496
     }
   },
   "DIS103-27302": {
@@ -24927,6 +24967,16 @@
       "D": 14221,
       "E": 15315,
       "F": 13127
+    }
+  },
+  "DRBIO": {
+    "name": "DR BIO CAJA x20 SOBRES de 80grs",
+    "category": "8.DR BIO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 38095,
+      "E": 41026,
+      "F": 35165
     }
   },
   "DSEXB04": {
@@ -28997,26 +29047,6 @@
       "D": 1388,
       "E": 1494,
       "F": 1281
-    }
-  },
-  "EA0125": {
-    "name": "MANTA ELASTICA LIVIANA x25mt.    EA",
-    "category": "8.VENDAS F.SINT.EL ALBA\u00d1I",
-    "bulk": 10.0,
-    "prices": {
-      "D": 6022,
-      "E": 6486,
-      "F": 5559
-    }
-  },
-  "EA0125R": {
-    "name": "MANTA ELASTICA REFORZADA   x25mt.EA",
-    "category": "8.VENDAS F.SINT.EL ALBA\u00d1I",
-    "bulk": 10.0,
-    "prices": {
-      "D": 9393,
-      "E": 10115,
-      "F": 8670
     }
   },
   "EA0201": {
@@ -33457,6 +33487,16 @@
       "D": 463,
       "E": 499,
       "F": 428
+    }
+  },
+  "EVOL0181": {
+    "name": "SOPORTE ESTANT 125 x150 Bco x24u NEON",
+    "category": "8.SOPORTE.EST/STRONG NEON",
+    "bulk": 24.0,
+    "prices": {
+      "D": 540,
+      "E": 581,
+      "F": 498
     }
   },
   "EVOL0183": {
@@ -40919,16 +40959,6 @@
       "F": 4752
     }
   },
-  "GA O202037E": {
-    "name": "ANAFE 2 HORNALLAS NAC.ESMALTADO CONOMETAL",
-    "category": "8.ANAFE y ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 38950,
-      "E": 41946,
-      "F": 35954
-    }
-  },
   "GAE1701AR": {
     "name": "BOMBA PERIFERICA 1/2HP B60 EVERGREEN",
     "category": "3.BOMBA PERIFERICA GAMMA",
@@ -42784,9 +42814,9 @@
     "category": "1.LITARGIRIO",
     "bulk": 1.0,
     "prices": {
-      "D": 2255,
-      "E": 2429,
-      "F": 2082
+      "D": 2293,
+      "E": 2469,
+      "F": 2116
     }
   },
   "GAL1101": {
@@ -42794,9 +42824,9 @@
     "category": "1.GLICERINA",
     "bulk": 1.0,
     "prices": {
-      "D": 1211,
-      "E": 1304,
-      "F": 1118
+      "D": 1231,
+      "E": 1326,
+      "F": 1136
     }
   },
   "GAL1201": {
@@ -42804,9 +42834,9 @@
     "category": "1.DECAPANTE",
     "bulk": 12.0,
     "prices": {
-      "D": 1440,
-      "E": 1551,
-      "F": 1330
+      "D": 1464,
+      "E": 1577,
+      "F": 1352
     }
   },
   "GAL1202": {
@@ -42814,9 +42844,9 @@
     "category": "1.DECAPANTE",
     "bulk": 12.0,
     "prices": {
-      "D": 2043,
-      "E": 2200,
-      "F": 1885
+      "D": 2065,
+      "E": 2224,
+      "F": 1906
     }
   },
   "GAL1301": {
@@ -42834,9 +42864,9 @@
     "category": "1.FUNDENTE",
     "bulk": 12.0,
     "prices": {
-      "D": 15264,
-      "E": 16439,
-      "F": 14090
+      "D": 15319,
+      "E": 16497,
+      "F": 14140
     }
   },
   "GAL2002": {
@@ -42874,9 +42904,9 @@
     "category": "1.PINTURA EPOXI GAS",
     "bulk": 6.0,
     "prices": {
-      "D": 3242,
-      "E": 3491,
-      "F": 2993
+      "D": 3296,
+      "E": 3550,
+      "F": 3043
     }
   },
   "GAL2601": {
@@ -42884,9 +42914,9 @@
     "category": "8.MASILLA P/VIDRIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 1312,
-      "E": 1413,
-      "F": 1211
+      "D": 1490,
+      "E": 1605,
+      "F": 1375
     }
   },
   "GAL2602": {
@@ -42894,9 +42924,9 @@
     "category": "8.MASILLA P/VIDRIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 2598,
-      "E": 2798,
-      "F": 2398
+      "D": 2955,
+      "E": 3182,
+      "F": 2727
     }
   },
   "GAL2901": {
@@ -48714,9 +48744,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 5.0,
     "prices": {
-      "D": 14749,
-      "E": 15883,
-      "F": 13614
+      "D": 14051,
+      "E": 15132,
+      "F": 12970
     }
   },
   "ISAVAR1/2": {
@@ -48724,9 +48754,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 25.0,
     "prices": {
-      "D": 3261,
-      "E": 3512,
-      "F": 3010
+      "D": 2847,
+      "E": 3066,
+      "F": 2628
     }
   },
   "ISAVAR1/4": {
@@ -48734,9 +48764,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 75.0,
     "prices": {
-      "D": 776,
-      "E": 836,
-      "F": 717
+      "D": 783,
+      "E": 843,
+      "F": 723
     }
   },
   "ISAVAR3/16": {
@@ -48744,9 +48774,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 150.0,
     "prices": {
-      "D": 546,
-      "E": 588,
-      "F": 504
+      "D": 793,
+      "E": 854,
+      "F": 732
     }
   },
   "ISAVAR3/4": {
@@ -48754,9 +48784,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 10.0,
     "prices": {
-      "D": 7902,
-      "E": 8510,
-      "F": 7294
+      "D": 7695,
+      "E": 8287,
+      "F": 7103
     }
   },
   "ISAVAR3/8": {
@@ -48764,9 +48794,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 40.0,
     "prices": {
-      "D": 1799,
-      "E": 1937,
-      "F": 1660
+      "D": 1692,
+      "E": 1822,
+      "F": 1562
     }
   },
   "ISAVAR5/16": {
@@ -48774,9 +48804,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 65.0,
     "prices": {
-      "D": 1285,
-      "E": 1384,
-      "F": 1186
+      "D": 1151,
+      "E": 1239,
+      "F": 1062
     }
   },
   "ISAVAR5/8": {
@@ -48784,9 +48814,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 15.0,
     "prices": {
-      "D": 5097,
-      "E": 5489,
-      "F": 4705
+      "D": 4843,
+      "E": 5216,
+      "F": 4471
     }
   },
   "ISAVAR7/16": {
@@ -48794,9 +48824,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 30.0,
     "prices": {
-      "D": 2562,
-      "E": 2759,
-      "F": 2365
+      "D": 2390,
+      "E": 2573,
+      "F": 2206
     }
   },
   "ISAVAR7/8": {
@@ -48804,9 +48834,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 8.0,
     "prices": {
-      "D": 11170,
-      "E": 12029,
-      "F": 10311
+      "D": 10305,
+      "E": 11098,
+      "F": 9513
     }
   },
   "ISAVAR9/16": {
@@ -48814,9 +48844,9 @@
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 15.0,
     "prices": {
-      "D": 4274,
-      "E": 4602,
-      "F": 3945
+      "D": 3877,
+      "E": 4175,
+      "F": 3579
     }
   },
   "ITEACP1-2": {
@@ -49344,9 +49374,9 @@
     "category": "7.ESPATULA ENDUIR SJ",
     "bulk": 6.0,
     "prices": {
-      "D": 4265,
-      "E": 4593,
-      "F": 3937
+      "D": 4313,
+      "E": 4645,
+      "F": 3982
     }
   },
   "JC1988": {
@@ -49354,9 +49384,9 @@
     "category": "7.ESPATULA ENDUIR SJ",
     "bulk": 6.0,
     "prices": {
-      "D": 4412,
-      "E": 4751,
-      "F": 4073
+      "D": 4462,
+      "E": 4805,
+      "F": 4119
     }
   },
   "JC1989": {
@@ -49364,9 +49394,9 @@
     "category": "7.ESPATULA ENDUIR SJ",
     "bulk": 6.0,
     "prices": {
-      "D": 4419,
-      "E": 4759,
-      "F": 4079
+      "D": 4665,
+      "E": 5024,
+      "F": 4306
     }
   },
   "JC1990": {
@@ -49374,9 +49404,9 @@
     "category": "7.ESPATULA ENDUIR SJ",
     "bulk": 6.0,
     "prices": {
-      "D": 4968,
-      "E": 5351,
-      "F": 4586
+      "D": 5025,
+      "E": 5411,
+      "F": 4638
     }
   },
   "JC1991": {
@@ -49384,9 +49414,9 @@
     "category": "7.ESPATULA ENDUIR SJ",
     "bulk": 6.0,
     "prices": {
-      "D": 5692,
-      "E": 6129,
-      "F": 5254
+      "D": 5756,
+      "E": 6199,
+      "F": 5313
     }
   },
   "JC1992": {
@@ -49514,9 +49544,9 @@
     "category": "8.GUANTE/GOMA/INDUSTRIAL",
     "bulk": 12.0,
     "prices": {
-      "D": 3553,
-      "E": 3827,
-      "F": 3280
+      "D": 3297,
+      "E": 3550,
+      "F": 3043
     }
   },
   "JC2283": {
@@ -49887,46 +49917,6 @@
       "D": 10017,
       "E": 10788,
       "F": 9247
-    }
-  },
-  "JC4238": {
-    "name": "SOLDADOR ELECT. 45W CIMURAT",
-    "category": "9.SOLDADOR ELECTRICO",
-    "bulk": 0.0,
-    "prices": {
-      "D": 13115,
-      "E": 14124,
-      "F": 12106
-    }
-  },
-  "JC4239": {
-    "name": "SOLDADOR ELECT. 60W CIMURAT",
-    "category": "9.SOLDADOR ELECTRICO",
-    "bulk": 0.0,
-    "prices": {
-      "D": 16249,
-      "E": 17499,
-      "F": 14999
-    }
-  },
-  "JC4242": {
-    "name": "SOLDADOR ELECT. 160W CIMURAT",
-    "category": "9.SOLDADOR ELECTRICO",
-    "bulk": 0.0,
-    "prices": {
-      "D": 36863,
-      "E": 39699,
-      "F": 34027
-    }
-  },
-  "JC4243": {
-    "name": "SOLDADOR ELECT. 160W CIMURAT",
-    "category": "9.SOLDADOR ELECTRICO",
-    "bulk": 0.0,
-    "prices": {
-      "D": 36210,
-      "E": 38996,
-      "F": 33425
     }
   },
   "JC4278": {
@@ -50464,9 +50454,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 6899,
-      "E": 7430,
-      "F": 6369
+      "D": 6835,
+      "E": 7361,
+      "F": 6309
     }
   },
   "KEYC102/4": {
@@ -50474,9 +50464,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 6899,
-      "E": 7430,
-      "F": 6369
+      "D": 6835,
+      "E": 7361,
+      "F": 6309
     }
   },
   "KEYC108/5": {
@@ -50484,9 +50474,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 10193,
-      "E": 10977,
-      "F": 9409
+      "D": 10099,
+      "E": 10875,
+      "F": 9322
     }
   },
   "KEYC108/7": {
@@ -50494,9 +50484,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 10591,
-      "E": 11406,
-      "F": 9695
+      "D": 10493,
+      "E": 11300,
+      "F": 9605
     }
   },
   "KEYC109/5": {
@@ -50504,9 +50494,9 @@
     "category": "8.CERROJOS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 11476,
-      "E": 12359,
-      "F": 10594
+      "D": 11370,
+      "E": 12244,
+      "F": 10495
     }
   },
   "KEYC110/5": {
@@ -50514,9 +50504,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 14234,
-      "E": 15329,
-      "F": 13468
+      "D": 11823,
+      "E": 12732,
+      "F": 11186
     }
   },
   "KEYC110/7": {
@@ -50524,9 +50514,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 14778,
-      "E": 15915,
-      "F": 13982
+      "D": 12275,
+      "E": 13219,
+      "F": 11614
     }
   },
   "KEYC112/5": {
@@ -50534,9 +50524,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 12286,
-      "E": 13231,
-      "F": 11341
+      "D": 12005,
+      "E": 12929,
+      "F": 11082
     }
   },
   "KEYC112/7": {
@@ -50544,9 +50534,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 12835,
-      "E": 13822,
-      "F": 11848
+      "D": 12542,
+      "E": 13507,
+      "F": 11578
     }
   },
   "KEYC114/5": {
@@ -50554,9 +50544,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 13622,
-      "E": 14670,
-      "F": 12574
+      "D": 14012,
+      "E": 15090,
+      "F": 12934
     }
   },
   "KEYC125/3": {
@@ -50564,9 +50554,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 50.0,
     "prices": {
-      "D": 13079,
-      "E": 14085,
-      "F": 12073
+      "D": 13456,
+      "E": 14491,
+      "F": 12420
     }
   },
   "KEYC128/3": {
@@ -50574,9 +50564,9 @@
     "category": "8.CERRADURAS KEYMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 22129,
-      "E": 23831,
-      "F": 20427
+      "D": 23081,
+      "E": 24857,
+      "F": 21306
     }
   },
   "KIMERAC1": {
@@ -50674,9 +50664,9 @@
     "category": "7.DILUYENTE KIMER",
     "bulk": 0.0,
     "prices": {
-      "D": 6677,
-      "E": 7191,
-      "F": 6163
+      "D": 5844,
+      "E": 6293,
+      "F": 5394
     }
   },
   "KIMERMAS1000": {
@@ -52354,9 +52344,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 448125,
-      "E": 482596,
-      "F": 430889
+      "D": 468494,
+      "E": 504532,
+      "F": 450475
     }
   },
   "LOUBIA14": {
@@ -52364,9 +52354,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 12380,
-      "E": 13332,
-      "F": 11428
+      "D": 12751,
+      "E": 13732,
+      "F": 11771
     }
   },
   "LOUBIA214": {
@@ -52374,9 +52364,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 13806,
-      "E": 14868,
-      "F": 12744
+      "D": 14220,
+      "E": 15314,
+      "F": 13126
     }
   },
   "LOUBIA2316": {
@@ -52384,9 +52374,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 13149,
-      "E": 14160,
-      "F": 12137
+      "D": 13543,
+      "E": 14585,
+      "F": 12501
     }
   },
   "LOUBIA238": {
@@ -52394,9 +52384,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 13305,
-      "E": 14329,
-      "F": 12282
+      "D": 13704,
+      "E": 14758,
+      "F": 12650
     }
   },
   "LOUBIA2516": {
@@ -52404,9 +52394,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 12619,
-      "E": 13590,
-      "F": 11649
+      "D": 12998,
+      "E": 13998,
+      "F": 11998
     }
   },
   "LOUBIA316": {
@@ -52414,9 +52404,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 11900,
-      "E": 12815,
-      "F": 10984
+      "D": 12257,
+      "E": 13200,
+      "F": 11314
     }
   },
   "LOUBIA38": {
@@ -52424,9 +52414,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 13022,
-      "E": 14024,
-      "F": 12021
+      "D": 13413,
+      "E": 14445,
+      "F": 12381
     }
   },
   "LOUBIA516": {
@@ -52434,9 +52424,9 @@
     "category": "8.MECHA PILOTO P/MAD.BIAS",
     "bulk": 1.0,
     "prices": {
-      "D": 12301,
-      "E": 13247,
-      "F": 11354
+      "D": 12670,
+      "E": 13644,
+      "F": 11695
     }
   },
   "LOUCAL247": {
@@ -52444,9 +52434,9 @@
     "category": "8.ESCOBILLON BARRENDERO",
     "bulk": 6.0,
     "prices": {
-      "D": 7875,
-      "E": 8480,
-      "F": 7269
+      "D": 8663,
+      "E": 9329,
+      "F": 7997
     }
   },
   "LOUCAL248": {
@@ -52454,9 +52444,9 @@
     "category": "8.ESCOBILLON BARRENDERO",
     "bulk": 6.0,
     "prices": {
-      "D": 3954,
-      "E": 4259,
-      "F": 3650
+      "D": 4349,
+      "E": 4684,
+      "F": 4015
     }
   },
   "LOUCAN40": {
@@ -52514,9 +52504,9 @@
     "category": "1.ACOPLE RAPIDO DUKE",
     "bulk": 6.0,
     "prices": {
-      "D": 3448,
-      "E": 3714,
-      "F": 3183
+      "D": 3630,
+      "E": 3909,
+      "F": 3351
     }
   },
   "LOUDUK7034": {
@@ -52524,9 +52514,9 @@
     "category": "1.ACOPLE RAPIDO DUKE",
     "bulk": 6.0,
     "prices": {
-      "D": 3018,
-      "E": 3250,
-      "F": 2785
+      "D": 3176,
+      "E": 3421,
+      "F": 2932
     }
   },
   "LOUDUK7212": {
@@ -52534,9 +52524,9 @@
     "category": "1.ACOPLE RAPIDO DUKE",
     "bulk": 6.0,
     "prices": {
-      "D": 2686,
-      "E": 2892,
-      "F": 2479
+      "D": 2826,
+      "E": 3043,
+      "F": 2608
     }
   },
   "LOUDUK7234": {
@@ -52544,9 +52534,9 @@
     "category": "1.ACOPLE RAPIDO DUKE",
     "bulk": 6.0,
     "prices": {
-      "D": 3319,
-      "E": 3574,
-      "F": 3064
+      "D": 3493,
+      "E": 3762,
+      "F": 3224
     }
   },
   "LOUDUK7312": {
@@ -52554,9 +52544,9 @@
     "category": "1.ACOPLE RAPIDO DUKE",
     "bulk": 6.0,
     "prices": {
-      "D": 2790,
-      "E": 3004,
-      "F": 2575
+      "D": 2936,
+      "E": 3162,
+      "F": 2710
     }
   },
   "LOUDUK7412": {
@@ -52569,14 +52559,34 @@
       "F": 3224
     }
   },
+  "LOUERN3": {
+    "name": "RUEDA PLASTICA PARA CARRETILLA",
+    "category": "8.HORMIGONERA y REPUESTOS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6706,
+      "E": 7221,
+      "F": 6190
+    }
+  },
+  "LOUERN4": {
+    "name": "RUEDA PLASTICA PARA HORMIGONERA",
+    "category": "8.HORMIGONERA y REPUESTOS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6706,
+      "E": 7221,
+      "F": 6190
+    }
+  },
   "LOUFER301": {
     "name": "AZADA CARPIR N\u00b01 ESTAMPADA  FERCAS",
     "category": "8.AZADAS",
     "bulk": 6.0,
     "prices": {
-      "D": 8332,
-      "E": 8973,
-      "F": 7691
+      "D": 8346,
+      "E": 8988,
+      "F": 7704
     }
   },
   "LOUFER302": {
@@ -52584,9 +52594,9 @@
     "category": "8.AZADAS",
     "bulk": 6.0,
     "prices": {
-      "D": 8750,
-      "E": 9423,
-      "F": 8077
+      "D": 8969,
+      "E": 9659,
+      "F": 8279
     }
   },
   "LOUGHE0034": {
@@ -52594,9 +52604,9 @@
     "category": "8.HORQUILLA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 42827,
-      "E": 46121,
-      "F": 39533
+      "D": 44112,
+      "E": 47505,
+      "F": 40718
     }
   },
   "LOUGHE0044": {
@@ -52604,9 +52614,9 @@
     "category": "8.HORQUILLA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 39326,
-      "E": 42351,
-      "F": 36300
+      "D": 40505,
+      "E": 43621,
+      "F": 37389
     }
   },
   "LOUGHE011": {
@@ -52614,9 +52624,9 @@
     "category": "8.TENAZA ARMADOR GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 20488,
-      "E": 22064,
-      "F": 18912
+      "D": 21102,
+      "E": 22726,
+      "F": 19479
     }
   },
   "LOUGHE0113": {
@@ -52624,19 +52634,29 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 70481,
-      "E": 73418,
-      "F": 67544
+      "D": 72595,
+      "E": 75620,
+      "F": 69570
     }
   },
-  "LOUGHE015": {
-    "name": "TENAZA ARMADOR 9\"  Cte Enter.GHERARDI",
+  "LOUGHE013": {
+    "name": "TENAZA ARMADOR 11\" Cte Enter GHERARDI",
     "category": "8.TENAZA ARMADOR GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 20068,
-      "E": 21612,
-      "F": 18525
+      "D": 22040,
+      "E": 23736,
+      "F": 20345
+    }
+  },
+  "LOUGHE015": {
+    "name": "TENAZA ARMADOR  9\" Cte Enter GHERARDI",
+    "category": "8.TENAZA ARMADOR GHERARDI",
+    "bulk": 1.0,
+    "prices": {
+      "D": 20670,
+      "E": 22260,
+      "F": 19080
     }
   },
   "LOUGHE076": {
@@ -52644,9 +52664,9 @@
     "category": "8.PICOS y PALA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 79152,
-      "E": 82318,
-      "F": 72820
+      "D": 81527,
+      "E": 84788,
+      "F": 75005
     }
   },
   "LOUGHE100": {
@@ -52654,9 +52674,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 51709,
-      "E": 53863,
-      "F": 49554
+      "D": 53260,
+      "E": 55479,
+      "F": 51041
     }
   },
   "LOUGHE101": {
@@ -52664,9 +52684,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 51709,
-      "E": 53863,
-      "F": 49554
+      "D": 53260,
+      "E": 55479,
+      "F": 51041
     }
   },
   "LOUGHE110": {
@@ -52674,9 +52694,9 @@
     "category": "8.PALA ESTAMPADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 42566,
-      "E": 44340,
-      "F": 40792
+      "D": 43843,
+      "E": 45670,
+      "F": 42016
     }
   },
   "LOUGHE113": {
@@ -52684,9 +52704,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 0.0,
     "prices": {
-      "D": 58285,
-      "E": 60714,
-      "F": 55857
+      "D": 60034,
+      "E": 62535,
+      "F": 57532
     }
   },
   "LOUGHE117": {
@@ -52694,9 +52714,9 @@
     "category": "8.PALA FORJADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 65076,
-      "E": 67788,
-      "F": 62365
+      "D": 67029,
+      "E": 69822,
+      "F": 64236
     }
   },
   "LOUGHE118": {
@@ -52704,9 +52724,9 @@
     "category": "8.PALA ESTAMPADA GHERARDI",
     "bulk": 6.0,
     "prices": {
-      "D": 42566,
-      "E": 44340,
-      "F": 42566
+      "D": 43843,
+      "E": 45670,
+      "F": 43843
     }
   },
   "LOUGHE127": {
@@ -52714,9 +52734,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 25663,
-      "E": 27802,
-      "F": 24594
+      "D": 26433,
+      "E": 28636,
+      "F": 25332
     }
   },
   "LOUGHE20": {
@@ -52724,9 +52744,9 @@
     "category": "8.MACHETE GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 33916,
-      "E": 36525,
-      "F": 31307
+      "D": 34934,
+      "E": 37621,
+      "F": 32246
     }
   },
   "LOUGHE208": {
@@ -52734,9 +52754,9 @@
     "category": "8.HACHAS",
     "bulk": 1.0,
     "prices": {
-      "D": 82188,
-      "E": 88510,
-      "F": 75866
+      "D": 84654,
+      "E": 91166,
+      "F": 78142
     }
   },
   "LOUGHE22": {
@@ -52744,9 +52764,9 @@
     "category": "8.MACHETE GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 35081,
-      "E": 37780,
-      "F": 32382
+      "D": 36133,
+      "E": 38913,
+      "F": 33354
     }
   },
   "LOUGHE26": {
@@ -52754,9 +52774,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 23229,
-      "E": 25164,
-      "F": 22261
+      "D": 23926,
+      "E": 25919,
+      "F": 22929
     }
   },
   "LOUGHE27": {
@@ -52764,9 +52784,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 25663,
-      "E": 27802,
-      "F": 24594
+      "D": 26433,
+      "E": 28636,
+      "F": 25332
     }
   },
   "LOUGHE28": {
@@ -52774,9 +52794,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 26098,
-      "E": 28273,
-      "F": 25011
+      "D": 26881,
+      "E": 29121,
+      "F": 25761
     }
   },
   "LOUGHE281": {
@@ -52784,9 +52804,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 6.0,
     "prices": {
-      "D": 26819,
-      "E": 29054,
-      "F": 25701
+      "D": 27623,
+      "E": 29925,
+      "F": 26472
     }
   },
   "LOUGHE30": {
@@ -52794,9 +52814,19 @@
     "category": "8.MARTILLO GALPONERO",
     "bulk": 1.0,
     "prices": {
-      "D": 39710,
-      "E": 42764,
-      "F": 36655
+      "D": 40901,
+      "E": 44047,
+      "F": 37755
+    }
+  },
+  "LOUHIL127": {
+    "name": "HILO ALBA\u00d1IL N\u00ba27 BOBINA x 1Kg HILADOS",
+    "category": "8.HILO/ALBA\u00f1IL NAVEGANTE",
+    "bulk": 1.0,
+    "prices": {
+      "D": 17448,
+      "E": 18790,
+      "F": 16509
     }
   },
   "LOUMEC3608": {
@@ -52824,9 +52854,9 @@
     "category": "8.ESCALERA ALUMINIO",
     "bulk": 1.0,
     "prices": {
-      "D": 55105,
-      "E": 59344,
-      "F": 50866
+      "D": 60616,
+      "E": 65279,
+      "F": 55953
     }
   },
   "LOUMOR4": {
@@ -52834,9 +52864,9 @@
     "category": "8.ESCALERA ALUMINIO",
     "bulk": 1.0,
     "prices": {
-      "D": 64403,
-      "E": 69357,
-      "F": 59449
+      "D": 72130,
+      "E": 77679,
+      "F": 66582
     }
   },
   "LOUMOR5": {
@@ -52844,9 +52874,9 @@
     "category": "8.ESCALERA ALUMINIO",
     "bulk": 1.0,
     "prices": {
-      "D": 82764,
-      "E": 89130,
-      "F": 76397
+      "D": 91039,
+      "E": 98042,
+      "F": 84036
     }
   },
   "LOUMOR6": {
@@ -52854,9 +52884,9 @@
     "category": "8.ESCALERA ALUMINIO",
     "bulk": 1.0,
     "prices": {
-      "D": 97061,
-      "E": 104528,
-      "F": 89595
+      "D": 106767,
+      "E": 114980,
+      "F": 98554
     }
   },
   "LOUMOR7": {
@@ -53024,9 +53054,9 @@
     "category": "8.CERROJOS PRIVE",
     "bulk": 1.0,
     "prices": {
-      "D": 27692,
-      "E": 29907,
-      "F": 26141
+      "D": 14326,
+      "E": 15472,
+      "F": 13524
     }
   },
   "LOUQAL3075": {
@@ -68879,16 +68909,6 @@
       "F": 31302
     }
   },
-  "PAR7807": {
-    "name": "CABLE COAXIL TV RG56 TIPO DIRECTV",
-    "category": "9.CABLE PARA TV COAXIL",
-    "bulk": 305.0,
-    "prices": {
-      "D": 207,
-      "E": 223,
-      "F": 191
-    }
-  },
   "PARTDA": {
     "name": "ANTENA TV TDA C/BALUM FULL HD CABLEPAR",
     "category": "9.ANTENA TDA",
@@ -69734,9 +69754,9 @@
     "category": "8.CA\u00d1O D/CRISTAL POLYAGRO",
     "bulk": 1.0,
     "prices": {
-      "D": 10788,
-      "E": 11617,
-      "F": 9958
+      "D": 12006,
+      "E": 12930,
+      "F": 11083
     }
   },
   "PLASTI1006": {
@@ -69744,9 +69764,9 @@
     "category": "8.CA\u00d1O D/CRISTAL PLASTIRA",
     "bulk": 1.0,
     "prices": {
-      "D": 7030,
-      "E": 7570,
-      "F": 6489
+      "D": 7824,
+      "E": 8426,
+      "F": 7222
     }
   },
   "PLASTI1009": {
@@ -69754,9 +69774,9 @@
     "category": "8.CA\u00d1O D/CRISTAL PLASTIRA",
     "bulk": 1.0,
     "prices": {
-      "D": 11579,
-      "E": 12469,
-      "F": 10688
+      "D": 12887,
+      "E": 13879,
+      "F": 11896
     }
   },
   "PLASTI1021": {
@@ -69764,9 +69784,9 @@
     "category": "8.CA\u00d1O D/CRISTAL PLASTIRA",
     "bulk": 1.0,
     "prices": {
-      "D": 16514,
-      "E": 17784,
-      "F": 15244
+      "D": 18380,
+      "E": 19794,
+      "F": 16966
     }
   },
   "PLASTI1033": {
@@ -69774,9 +69794,9 @@
     "category": "8.CA\u00d1O D/CRISTAL PLASTIRA",
     "bulk": 1.0,
     "prices": {
-      "D": 19247,
-      "E": 20727,
-      "F": 17766
+      "D": 21422,
+      "E": 23070,
+      "F": 19774
     }
   },
   "PLASTI2000": {
@@ -69784,9 +69804,9 @@
     "category": "8.MANGUERA P/ALTAPRES.DT",
     "bulk": 1.0,
     "prices": {
-      "D": 23530,
-      "E": 25340,
-      "F": 21720
+      "D": 25690,
+      "E": 27667,
+      "F": 23714
     }
   },
   "PLASTI2006": {
@@ -69794,9 +69814,9 @@
     "category": "8.MANGUERA P/ALTAPRES.DT",
     "bulk": 1.0,
     "prices": {
-      "D": 26442,
-      "E": 28476,
-      "F": 24408
+      "D": 28869,
+      "E": 31090,
+      "F": 26648
     }
   },
   "PLASTI2009": {
@@ -69804,9 +69824,9 @@
     "category": "8.MANGUERA P/ALTAPRES.DT",
     "bulk": 1.0,
     "prices": {
-      "D": 52884,
-      "E": 56952,
-      "F": 48816
+      "D": 57738,
+      "E": 62180,
+      "F": 53297
     }
   },
   "PLASTI30020": {
@@ -69814,9 +69834,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 40.0,
     "prices": {
-      "D": 3641,
-      "E": 3921,
-      "F": 3361
+      "D": 4095,
+      "E": 4410,
+      "F": 3780
     }
   },
   "PLASTI30021": {
@@ -69824,9 +69844,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 40.0,
     "prices": {
-      "D": 3974,
-      "E": 4280,
-      "F": 3668
+      "D": 4454,
+      "E": 4796,
+      "F": 4111
     }
   },
   "PLASTI30022": {
@@ -69834,9 +69854,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
-      "D": 4307,
-      "E": 4638,
-      "F": 3976
+      "D": 4812,
+      "E": 5183,
+      "F": 4442
     }
   },
   "PLASTI30023": {
@@ -69844,9 +69864,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
-      "D": 4540,
-      "E": 4889,
-      "F": 4191
+      "D": 5051,
+      "E": 5440,
+      "F": 4663
     }
   },
   "PLASTI30024": {
@@ -69854,9 +69874,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 25.0,
     "prices": {
-      "D": 5113,
-      "E": 5506,
-      "F": 4720
+      "D": 5649,
+      "E": 6083,
+      "F": 5214
     }
   },
   "PLASTI30028": {
@@ -69864,9 +69884,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
-      "D": 3036,
-      "E": 3270,
-      "F": 2803
+      "D": 3677,
+      "E": 3960,
+      "F": 3394
     }
   },
   "PLASTI30030": {
@@ -69874,9 +69894,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 50.0,
     "prices": {
-      "D": 3749,
-      "E": 4037,
-      "F": 3460
+      "D": 4360,
+      "E": 4696,
+      "F": 4025
     }
   },
   "PLASTI30032": {
@@ -69884,9 +69904,9 @@
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 36.0,
     "prices": {
-      "D": 3889,
-      "E": 4188,
-      "F": 3590
+      "D": 5175,
+      "E": 5573,
+      "F": 4777
     }
   },
   "PLASTI40061": {
@@ -69894,9 +69914,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
-      "D": 2839,
-      "E": 3058,
-      "F": 2621
+      "D": 2909,
+      "E": 3132,
+      "F": 2685
     }
   },
   "PLASTI60000": {
@@ -69984,9 +70004,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 400.0,
     "prices": {
-      "D": 934,
-      "E": 1006,
-      "F": 898
+      "D": 984,
+      "E": 1060,
+      "F": 946
     }
   },
   "PLASTI60050": {
@@ -70004,9 +70024,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 1500.0,
     "prices": {
-      "D": 477,
-      "E": 513,
-      "F": 458
+      "D": 502,
+      "E": 541,
+      "F": 483
     }
   },
   "PLASTI60070": {
@@ -70014,9 +70034,9 @@
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 60.0,
     "prices": {
-      "D": 3192,
-      "E": 3437,
-      "F": 3069
+      "D": 3506,
+      "E": 3776,
+      "F": 3372
     }
   },
   "PLASTI60090": {
@@ -70084,9 +70104,9 @@
     "category": "1.ACCES.P/BA\u00f1O",
     "bulk": 10.0,
     "prices": {
-      "D": 37069,
-      "E": 39921,
-      "F": 35644
+      "D": 41147,
+      "E": 44312,
+      "F": 39565
     }
   },
   "POX001": {
@@ -70437,16 +70457,6 @@
       "D": 14742,
       "E": 16665,
       "F": 14101
-    }
-  },
-  "POZ01": {
-    "name": "POZOLIMP TRATAMIENT/POZO CIEGO 500gs",
-    "category": "8.POZOLIMP",
-    "bulk": 10.0,
-    "prices": {
-      "D": 980,
-      "E": 1055,
-      "F": 905
     }
   },
   "PROBOT39-40": {
@@ -75334,9 +75344,9 @@
     "category": "8.LAPIZ PARA CARPINTERO",
     "bulk": 72.0,
     "prices": {
-      "D": 1962,
-      "E": 2113,
-      "F": 1856
+      "D": 2060,
+      "E": 2218,
+      "F": 1949
     }
   },
   "RABEN80005": {
@@ -75344,9 +75354,9 @@
     "category": "8.LAPIZ PARA CARPINTERO",
     "bulk": 12.0,
     "prices": {
-      "D": 2391,
-      "E": 2575,
-      "F": 2262
+      "D": 2514,
+      "E": 2708,
+      "F": 2379
     }
   },
   "RABEN80010": {
@@ -75354,9 +75364,9 @@
     "category": "8.LAPIZ PARA CARPINTERO",
     "bulk": 72.0,
     "prices": {
-      "D": 1962,
-      "E": 2113,
-      "F": 1856
+      "D": 2060,
+      "E": 2218,
+      "F": 1949
     }
   },
   "RABEN80015": {
@@ -75364,9 +75374,9 @@
     "category": "8.LAPIZ PARA CARPINTERO",
     "bulk": 12.0,
     "prices": {
-      "D": 2391,
-      "E": 2575,
-      "F": 2262
+      "D": 2514,
+      "E": 2708,
+      "F": 2379
     }
   },
   "RDBR25200": {
@@ -78574,9 +78584,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 343,
-      "E": 370,
-      "F": 317
+      "D": 378,
+      "E": 407,
+      "F": 349
     }
   },
   "ROS1402": {
@@ -78584,9 +78594,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 224,
-      "E": 242,
-      "F": 207
+      "D": 247,
+      "E": 266,
+      "F": 228
     }
   },
   "ROS1404": {
@@ -78594,9 +78604,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 221,
-      "E": 238,
-      "F": 204
+      "D": 243,
+      "E": 261,
+      "F": 224
     }
   },
   "ROS1420": {
@@ -78604,9 +78614,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 4065,
-      "E": 4378,
-      "F": 3753
+      "D": 4472,
+      "E": 4816,
+      "F": 4128
     }
   },
   "ROS1430": {
@@ -78614,9 +78624,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1349,
-      "E": 1453,
-      "F": 1245
+      "D": 1484,
+      "E": 1599,
+      "F": 1370
     }
   },
   "ROS1431": {
@@ -78624,9 +78634,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1396,
-      "E": 1504,
-      "F": 1289
+      "D": 1536,
+      "E": 1654,
+      "F": 1418
     }
   },
   "ROS1716": {
@@ -78734,9 +78744,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5514,
-      "E": 5939,
-      "F": 5090
+      "D": 6066,
+      "E": 6533,
+      "F": 5599
     }
   },
   "ROS2661": {
@@ -78744,9 +78754,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2982,
-      "E": 3211,
-      "F": 2752
+      "D": 3280,
+      "E": 3532,
+      "F": 3028
     }
   },
   "ROS3604": {
@@ -78824,9 +78834,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6574,
-      "E": 7079,
-      "F": 6321
+      "D": 7034,
+      "E": 7575,
+      "F": 6763
     }
   },
   "ROS4181": {
@@ -78834,9 +78844,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 4971,
-      "E": 5353,
-      "F": 4588
+      "D": 5319,
+      "E": 5728,
+      "F": 4909
     }
   },
   "ROS4182": {
@@ -78844,9 +78854,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5822,
-      "E": 6270,
-      "F": 5598
+      "D": 6229,
+      "E": 6709,
+      "F": 5990
     }
   },
   "ROS4182-1": {
@@ -78854,13 +78864,33 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5822,
-      "E": 6270,
-      "F": 5598
+      "D": 6229,
+      "E": 6709,
+      "F": 5990
     }
   },
   "ROS4183": {
     "name": "CABEZAL CENTAURO (2123) LAV/BI/ME ROS",
+    "category": "1.CABEZALES y ACCES.",
+    "bulk": 10.0,
+    "prices": {
+      "D": 6514,
+      "E": 7015,
+      "F": 6013
+    }
+  },
+  "ROS4184": {
+    "name": "CABEZAL CENTAURO (2124) LLUVIA  ROS",
+    "category": "1.CABEZALES y ACCES.",
+    "bulk": 10.0,
+    "prices": {
+      "D": 7027,
+      "E": 7568,
+      "F": 6486
+    }
+  },
+  "ROS4185": {
+    "name": "CABEZAL ROCA-HIDROM LAV/BID/MES ROS",
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
@@ -78869,34 +78899,14 @@
       "F": 5619
     }
   },
-  "ROS4184": {
-    "name": "CABEZAL CENTAURO (2124) LLUVIA  ROS",
-    "category": "1.CABEZALES y ACCES.",
-    "bulk": 10.0,
-    "prices": {
-      "D": 6567,
-      "E": 7072,
-      "F": 6062
-    }
-  },
-  "ROS4185": {
-    "name": "CABEZAL ROCA-HIDROM LAV/BID/MES ROS",
-    "category": "1.CABEZALES y ACCES.",
-    "bulk": 10.0,
-    "prices": {
-      "D": 5690,
-      "E": 6127,
-      "F": 5252
-    }
-  },
   "ROS4186": {
     "name": "CABEZAL ROCA-STALGRIF (2152) L/B/LL ROS",
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6696,
-      "E": 7212,
-      "F": 6181
+      "D": 7165,
+      "E": 7716,
+      "F": 6614
     }
   },
   "ROS4187": {
@@ -78904,9 +78914,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8201,
-      "E": 8831,
-      "F": 7570
+      "D": 8775,
+      "E": 9450,
+      "F": 8100
     }
   },
   "ROS4188": {
@@ -78914,9 +78924,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9451,
-      "E": 10179,
-      "F": 8724
+      "D": 10113,
+      "E": 10891,
+      "F": 9335
     }
   },
   "ROS4189": {
@@ -78924,9 +78934,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3730,
-      "E": 4017,
-      "F": 3443
+      "D": 3991,
+      "E": 4298,
+      "F": 3684
     }
   },
   "ROS4190": {
@@ -78934,9 +78944,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5478,
-      "E": 5899,
-      "F": 5056
+      "D": 5861,
+      "E": 6312,
+      "F": 5410
     }
   },
   "ROS4191": {
@@ -78944,9 +78954,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6041,
-      "E": 6506,
-      "F": 5576
+      "D": 6464,
+      "E": 6961,
+      "F": 5967
     }
   },
   "ROS4192": {
@@ -78954,9 +78964,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6827,
-      "E": 7352,
-      "F": 6302
+      "D": 7305,
+      "E": 7867,
+      "F": 6743
     }
   },
   "ROS4193": {
@@ -78964,9 +78974,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5856,
-      "E": 6307,
-      "F": 5406
+      "D": 6266,
+      "E": 6748,
+      "F": 5784
     }
   },
   "ROS4194": {
@@ -78974,9 +78984,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6714,
-      "E": 7231,
-      "F": 6198
+      "D": 7184,
+      "E": 7737,
+      "F": 6632
     }
   },
   "ROS4195": {
@@ -78984,9 +78994,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4975,
-      "E": 5357,
-      "F": 4592
+      "D": 5323,
+      "E": 5732,
+      "F": 4913
     }
   },
   "ROS4196": {
@@ -78994,9 +79004,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4435,
-      "E": 4777,
-      "F": 4094
+      "D": 4746,
+      "E": 5111,
+      "F": 4381
     }
   },
   "ROS4197": {
@@ -79004,9 +79014,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4376,
-      "E": 4712,
-      "F": 4039
+      "D": 4682,
+      "E": 5042,
+      "F": 4322
     }
   },
   "ROS4198": {
@@ -79014,9 +79024,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6779,
-      "E": 7300,
-      "F": 6257
+      "D": 7253,
+      "E": 7811,
+      "F": 6695
     }
   },
   "ROS4199": {
@@ -79024,9 +79034,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6587,
-      "E": 7094,
-      "F": 6081
+      "D": 7049,
+      "E": 7591,
+      "F": 6506
     }
   },
   "ROS4200": {
@@ -79034,9 +79044,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5953,
-      "E": 6410,
-      "F": 5495
+      "D": 6369,
+      "E": 6859,
+      "F": 5879
     }
   },
   "ROS4202": {
@@ -79044,9 +79054,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6822,
-      "E": 7347,
-      "F": 6297
+      "D": 7299,
+      "E": 7861,
+      "F": 6738
     }
   },
   "ROS4203": {
@@ -79054,9 +79064,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6490,
-      "E": 6990,
-      "F": 5991
+      "D": 6945,
+      "E": 7479,
+      "F": 6411
     }
   },
   "ROS4204": {
@@ -79064,9 +79074,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5768,
-      "E": 6212,
-      "F": 5324
+      "D": 6172,
+      "E": 6647,
+      "F": 5697
     }
   },
   "ROS4205": {
@@ -79074,9 +79084,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5768,
-      "E": 6212,
-      "F": 5324
+      "D": 6172,
+      "E": 6647,
+      "F": 5697
     }
   },
   "ROS4206": {
@@ -79084,9 +79094,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5379,
-      "E": 5793,
-      "F": 4965
+      "D": 5755,
+      "E": 6198,
+      "F": 5313
     }
   },
   "ROS4207": {
@@ -79094,9 +79104,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5379,
-      "E": 5793,
-      "F": 4965
+      "D": 5755,
+      "E": 6198,
+      "F": 5313
     }
   },
   "ROS4208": {
@@ -79104,9 +79114,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9631,
-      "E": 10372,
-      "F": 8890
+      "D": 10305,
+      "E": 11098,
+      "F": 9513
     }
   },
   "ROS4209": {
@@ -79114,9 +79124,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 9631,
-      "E": 10372,
-      "F": 8890
+      "D": 10305,
+      "E": 11098,
+      "F": 9513
     }
   },
   "ROS4210": {
@@ -79124,9 +79134,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7643,
-      "E": 8231,
-      "F": 7055
+      "D": 8178,
+      "E": 8808,
+      "F": 7549
     }
   },
   "ROS4211": {
@@ -79134,9 +79144,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7712,
-      "E": 8305,
-      "F": 7118
+      "D": 8251,
+      "E": 8886,
+      "F": 7617
     }
   },
   "ROS4212": {
@@ -79144,9 +79154,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6754,
-      "E": 7274,
-      "F": 6235
+      "D": 7227,
+      "E": 7783,
+      "F": 6671
     }
   },
   "ROS4213": {
@@ -79154,9 +79164,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7086,
-      "E": 7631,
-      "F": 6541
+      "D": 7582,
+      "E": 8165,
+      "F": 6999
     }
   },
   "ROS4214": {
@@ -79164,9 +79174,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6033,
-      "E": 6497,
-      "F": 5569
+      "D": 6456,
+      "E": 6952,
+      "F": 5959
     }
   },
   "ROS4215": {
@@ -79174,9 +79184,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6558,
-      "E": 7062,
-      "F": 6053
+      "D": 7017,
+      "E": 7557,
+      "F": 6477
     }
   },
   "ROS4216": {
@@ -79184,9 +79194,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5023,
-      "E": 5410,
-      "F": 4637
+      "D": 5375,
+      "E": 5789,
+      "F": 4962
     }
   },
   "ROS4217": {
@@ -79194,9 +79204,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5460,
-      "E": 5880,
-      "F": 5040
+      "D": 5842,
+      "E": 6292,
+      "F": 5393
     }
   },
   "ROS4218": {
@@ -79204,9 +79214,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 12462,
-      "E": 13420,
-      "F": 11503
+      "D": 13334,
+      "E": 14360,
+      "F": 12308
     }
   },
   "ROS4219": {
@@ -79214,9 +79224,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9695,
-      "E": 10440,
-      "F": 8949
+      "D": 10373,
+      "E": 11171,
+      "F": 9575
     }
   },
   "ROS4220": {
@@ -79234,9 +79244,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7043,
-      "E": 7584,
-      "F": 6501
+      "D": 7536,
+      "E": 8115,
+      "F": 6956
     }
   },
   "ROS4222": {
@@ -79244,9 +79254,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8531,
-      "E": 9188,
-      "F": 7875
+      "D": 9128,
+      "E": 9831,
+      "F": 8426
     }
   },
   "ROS4223": {
@@ -79254,9 +79264,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8531,
-      "E": 9188,
-      "F": 7875
+      "D": 9128,
+      "E": 9831,
+      "F": 8426
     }
   },
   "ROS4224": {
@@ -79264,9 +79274,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5776,
-      "E": 6220,
-      "F": 5331
+      "D": 6180,
+      "E": 6655,
+      "F": 5704
     }
   },
   "ROS4225": {
@@ -79274,9 +79284,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4735,
-      "E": 5100,
-      "F": 4371
+      "D": 5067,
+      "E": 5457,
+      "F": 4677
     }
   },
   "ROS4226": {
@@ -79284,9 +79294,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7087,
-      "E": 7632,
-      "F": 6542
+      "D": 7583,
+      "E": 8166,
+      "F": 7000
     }
   },
   "ROS4227": {
@@ -79294,9 +79304,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7434,
-      "E": 8006,
-      "F": 6862
+      "D": 7954,
+      "E": 8566,
+      "F": 7342
     }
   },
   "ROS4228": {
@@ -79304,9 +79314,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 8004,
-      "E": 8620,
-      "F": 7388
+      "D": 8564,
+      "E": 9223,
+      "F": 7906
     }
   },
   "ROS4229": {
@@ -79324,9 +79334,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 710,
-      "E": 765,
-      "F": 655
+      "D": 781,
+      "E": 841,
+      "F": 721
     }
   },
   "ROS4231": {
@@ -79334,9 +79344,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3746,
-      "E": 4035,
-      "F": 3458
+      "D": 4009,
+      "E": 4317,
+      "F": 3700
     }
   },
   "ROS4231-2": {
@@ -79344,9 +79354,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3746,
-      "E": 4035,
-      "F": 3458
+      "D": 4009,
+      "E": 4317,
+      "F": 3700
     }
   },
   "ROS4232": {
@@ -79354,9 +79364,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 4771,
-      "E": 5138,
-      "F": 4404
+      "D": 5105,
+      "E": 5497,
+      "F": 4712
     }
   },
   "ROS4234": {
@@ -79364,9 +79374,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5054,
-      "E": 5443,
-      "F": 4666
+      "D": 5408,
+      "E": 5824,
+      "F": 4992
     }
   },
   "ROS4235": {
@@ -79374,9 +79384,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6147,
-      "E": 6620,
-      "F": 5674
+      "D": 6578,
+      "E": 7084,
+      "F": 6072
     }
   },
   "ROS4236": {
@@ -79384,9 +79394,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4849,
-      "E": 5222,
-      "F": 4476
+      "D": 5189,
+      "E": 5588,
+      "F": 4790
     }
   },
   "ROS4236-1": {
@@ -79394,9 +79404,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4849,
-      "E": 5222,
-      "F": 4476
+      "D": 5189,
+      "E": 5588,
+      "F": 4790
     }
   },
   "ROS4236-2": {
@@ -79404,9 +79414,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4995,
-      "E": 5379,
-      "F": 4610
+      "D": 5344,
+      "E": 5756,
+      "F": 4933
     }
   },
   "ROS4236-3": {
@@ -79414,9 +79424,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4995,
-      "E": 5379,
-      "F": 4610
+      "D": 5344,
+      "E": 5756,
+      "F": 4933
     }
   },
   "ROS4236-4": {
@@ -79424,9 +79434,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5063,
-      "E": 5453,
-      "F": 4674
+      "D": 5418,
+      "E": 5835,
+      "F": 5001
     }
   },
   "ROS4236-5": {
@@ -79434,9 +79444,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5063,
-      "E": 5453,
-      "F": 4674
+      "D": 5418,
+      "E": 5835,
+      "F": 5001
     }
   },
   "ROS4237": {
@@ -79444,9 +79454,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5048,
-      "E": 5436,
-      "F": 4660
+      "D": 5402,
+      "E": 5817,
+      "F": 4986
     }
   },
   "ROS4237-1": {
@@ -79454,9 +79464,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5048,
-      "E": 5436,
-      "F": 4660
+      "D": 5402,
+      "E": 5817,
+      "F": 4986
     }
   },
   "ROS4238": {
@@ -79464,9 +79474,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5690,
-      "E": 6128,
-      "F": 5252
+      "D": 6088,
+      "E": 6557,
+      "F": 5620
     }
   },
   "ROS4239": {
@@ -79474,9 +79484,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6969,
-      "E": 7505,
-      "F": 6433
+      "D": 7457,
+      "E": 8031,
+      "F": 6883
     }
   },
   "ROS4240": {
@@ -79484,9 +79494,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6695,
-      "E": 7210,
-      "F": 6180
+      "D": 7164,
+      "E": 7715,
+      "F": 6613
     }
   },
   "ROS4241": {
@@ -79494,9 +79504,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 9003,
-      "E": 9696,
-      "F": 8311
+      "D": 9633,
+      "E": 10374,
+      "F": 8892
     }
   },
   "ROS4242": {
@@ -79504,9 +79514,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5277,
-      "E": 5683,
-      "F": 4871
+      "D": 5647,
+      "E": 6081,
+      "F": 5212
     }
   },
   "ROS4243": {
@@ -79514,9 +79524,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5579,
-      "E": 6009,
-      "F": 5150
+      "D": 5970,
+      "E": 6429,
+      "F": 5511
     }
   },
   "ROS4244": {
@@ -79524,9 +79534,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8059,
-      "E": 8679,
-      "F": 7439
+      "D": 8623,
+      "E": 9287,
+      "F": 7960
     }
   },
   "ROS4245": {
@@ -79534,9 +79544,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5856,
-      "E": 6306,
-      "F": 5405
+      "D": 6266,
+      "E": 6748,
+      "F": 5784
     }
   },
   "ROS4246": {
@@ -79544,9 +79554,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5075,
-      "E": 5466,
-      "F": 4685
+      "D": 5431,
+      "E": 5848,
+      "F": 5013
     }
   },
   "ROS4247": {
@@ -79554,9 +79564,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6290,
-      "E": 6774,
-      "F": 5806
+      "D": 6730,
+      "E": 7248,
+      "F": 6212
     }
   },
   "ROS4247-1": {
@@ -79564,9 +79574,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6290,
-      "E": 6774,
-      "F": 5806
+      "D": 6730,
+      "E": 7248,
+      "F": 6212
     }
   },
   "ROS4248": {
@@ -79574,9 +79584,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4849,
-      "E": 5222,
-      "F": 4476
+      "D": 5188,
+      "E": 5587,
+      "F": 4789
     }
   },
   "ROS4248-1": {
@@ -79584,9 +79594,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4849,
-      "E": 5222,
-      "F": 4476
+      "D": 5188,
+      "E": 5587,
+      "F": 4789
     }
   },
   "ROS4249": {
@@ -79594,9 +79604,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5063,
-      "E": 5453,
-      "F": 4674
+      "D": 5418,
+      "E": 5835,
+      "F": 5001
     }
   },
   "ROS4249-1": {
@@ -79604,9 +79614,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5063,
-      "E": 5453,
-      "F": 4674
+      "D": 5418,
+      "E": 5835,
+      "F": 5001
     }
   },
   "ROS4260": {
@@ -79744,9 +79754,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4968,
-      "E": 5350,
-      "F": 4586
+      "D": 5316,
+      "E": 5725,
+      "F": 4907
     }
   },
   "ROS4312": {
@@ -79754,9 +79764,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5717,
-      "E": 6157,
-      "F": 5277
+      "D": 6117,
+      "E": 6588,
+      "F": 5647
     }
   },
   "ROS4312-1": {
@@ -79764,9 +79774,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5717,
-      "E": 6157,
-      "F": 5277
+      "D": 6117,
+      "E": 6588,
+      "F": 5647
     }
   },
   "ROS4313": {
@@ -79774,9 +79784,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6315,
-      "E": 6801,
-      "F": 5830
+      "D": 6758,
+      "E": 7277,
+      "F": 6238
     }
   },
   "ROS4315": {
@@ -79784,9 +79794,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7501,
-      "E": 8078,
-      "F": 6924
+      "D": 8026,
+      "E": 8643,
+      "F": 7408
     }
   },
   "ROS4316": {
@@ -79794,9 +79804,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6770,
-      "E": 7291,
-      "F": 6250
+      "D": 7244,
+      "E": 7802,
+      "F": 6687
     }
   },
   "ROS4317": {
@@ -79804,9 +79814,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6839,
-      "E": 7366,
-      "F": 6313
+      "D": 7318,
+      "E": 7881,
+      "F": 6755
     }
   },
   "ROS4318": {
@@ -79814,9 +79824,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6712,
-      "E": 7229,
-      "F": 6196
+      "D": 7182,
+      "E": 7735,
+      "F": 6630
     }
   },
   "ROS4319": {
@@ -79824,9 +79834,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6568,
-      "E": 7074,
-      "F": 6063
+      "D": 7028,
+      "E": 7569,
+      "F": 6487
     }
   },
   "ROS4320": {
@@ -79834,9 +79844,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5999,
-      "E": 6461,
-      "F": 5538
+      "D": 6419,
+      "E": 6913,
+      "F": 5925
     }
   },
   "ROS4321": {
@@ -79844,9 +79854,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7565,
-      "E": 8147,
-      "F": 6983
+      "D": 8094,
+      "E": 8717,
+      "F": 7472
     }
   },
   "ROS4322": {
@@ -79854,9 +79864,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7359,
-      "E": 7925,
-      "F": 6793
+      "D": 7874,
+      "E": 8480,
+      "F": 7269
     }
   },
   "ROS4323": {
@@ -79864,9 +79874,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8737,
-      "E": 9409,
-      "F": 8065
+      "D": 9348,
+      "E": 10067,
+      "F": 8629
     }
   },
   "ROS4324": {
@@ -79874,9 +79884,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 9589,
-      "E": 10327,
-      "F": 8852
+      "D": 10260,
+      "E": 11050,
+      "F": 9471
     }
   },
   "ROS4325": {
@@ -79884,9 +79894,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7005,
-      "E": 7544,
-      "F": 6466
+      "D": 7495,
+      "E": 8072,
+      "F": 6919
     }
   },
   "ROS4326": {
@@ -79894,9 +79904,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6947,
-      "E": 7481,
-      "F": 6412
+      "D": 7433,
+      "E": 8005,
+      "F": 6861
     }
   },
   "ROS4327": {
@@ -79904,9 +79914,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6707,
-      "E": 7223,
-      "F": 6191
+      "D": 7177,
+      "E": 7729,
+      "F": 6625
     }
   },
   "ROS4328": {
@@ -79914,9 +79924,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6088,
-      "E": 6556,
-      "F": 5619
+      "D": 6514,
+      "E": 7015,
+      "F": 6013
     }
   },
   "ROS4329": {
@@ -79924,9 +79934,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6568,
-      "E": 7073,
-      "F": 6062
+      "D": 7027,
+      "E": 7568,
+      "F": 6487
     }
   },
   "ROS4331": {
@@ -79934,9 +79944,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5630,
-      "E": 6063,
-      "F": 5197
+      "D": 6024,
+      "E": 6488,
+      "F": 5561
     }
   },
   "ROS4331-1": {
@@ -79944,9 +79954,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5630,
-      "E": 6063,
-      "F": 5197
+      "D": 6024,
+      "E": 6488,
+      "F": 5561
     }
   },
   "ROS4332": {
@@ -79954,9 +79964,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5629,
-      "E": 6063,
-      "F": 5196
+      "D": 6024,
+      "E": 6487,
+      "F": 5560
     }
   },
   "ROS4332-1": {
@@ -79964,9 +79974,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5629,
-      "E": 6063,
-      "F": 5196
+      "D": 6024,
+      "E": 6487,
+      "F": 5560
     }
   },
   "ROS4333": {
@@ -79974,9 +79984,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6722,
-      "E": 7239,
-      "F": 6205
+      "D": 7192,
+      "E": 7746,
+      "F": 6639
     }
   },
   "ROS4334": {
@@ -79984,9 +79994,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6729,
-      "E": 7247,
-      "F": 6211
+      "D": 7200,
+      "E": 7754,
+      "F": 6646
     }
   },
   "ROS4335": {
@@ -79994,9 +80004,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5878,
-      "E": 6330,
-      "F": 5426
+      "D": 6290,
+      "E": 6774,
+      "F": 5806
     }
   },
   "ROS4335-1": {
@@ -80004,9 +80014,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5878,
-      "E": 6330,
-      "F": 5426
+      "D": 6290,
+      "E": 6774,
+      "F": 5806
     }
   },
   "ROS4338": {
@@ -80014,9 +80024,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 8887,
-      "E": 9571,
-      "F": 8204
+      "D": 9509,
+      "E": 10241,
+      "F": 8778
     }
   },
   "ROS4338-1": {
@@ -80024,9 +80034,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 8887,
-      "E": 9571,
-      "F": 8204
+      "D": 9509,
+      "E": 10241,
+      "F": 8778
     }
   },
   "ROS4339": {
@@ -80034,9 +80044,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 12390,
-      "E": 13343,
-      "F": 11437
+      "D": 13258,
+      "E": 14278,
+      "F": 12238
     }
   },
   "ROS4339-1": {
@@ -80044,9 +80054,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 12390,
-      "E": 13343,
-      "F": 11437
+      "D": 13258,
+      "E": 14278,
+      "F": 12238
     }
   },
   "ROS4360": {
@@ -80064,9 +80074,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 4228,
-      "E": 4553,
-      "F": 3903
+      "D": 4651,
+      "E": 5009,
+      "F": 4293
     }
   },
   "ROS4520": {
@@ -80074,9 +80084,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 6596,
-      "E": 7103,
-      "F": 6088
+      "D": 7255,
+      "E": 7814,
+      "F": 6697
     }
   },
   "ROS4522": {
@@ -80084,9 +80094,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 8357,
-      "E": 9000,
-      "F": 7714
+      "D": 9193,
+      "E": 9900,
+      "F": 8486
     }
   },
   "ROS468": {
@@ -80094,9 +80104,9 @@
     "category": "5.REP.COCINA INYECTOR",
     "bulk": 10.0,
     "prices": {
-      "D": 697,
-      "E": 747,
-      "F": 648
+      "D": 767,
+      "E": 822,
+      "F": 712
     }
   },
   "ROS469": {
@@ -80104,9 +80114,9 @@
     "category": "5.REP.COCINA INYECTOR",
     "bulk": 100.0,
     "prices": {
-      "D": 697,
-      "E": 747,
-      "F": 648
+      "D": 767,
+      "E": 822,
+      "F": 712
     }
   },
   "ROS4920": {
@@ -80144,9 +80154,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2444,
-      "E": 2632,
-      "F": 2256
+      "D": 2591,
+      "E": 2790,
+      "F": 2392
     }
   },
   "ROS4924": {
@@ -80174,9 +80184,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 1.0,
     "prices": {
-      "D": 18916,
-      "E": 20372,
-      "F": 17461
+      "D": 20051,
+      "E": 21594,
+      "F": 18509
     }
   },
   "ROS5012": {
@@ -80384,9 +80394,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 2420,
-      "E": 2606,
-      "F": 2234
+      "D": 2565,
+      "E": 2762,
+      "F": 2368
     }
   },
   "ROS8008": {
@@ -80464,9 +80474,9 @@
     "category": "1.FLOTANTE.BNCE/ACCES.",
     "bulk": 100.0,
     "prices": {
-      "D": 91,
-      "E": 98,
-      "F": 84
+      "D": 97,
+      "E": 104,
+      "F": 89
     }
   },
   "ROSRM-ECM": {
@@ -80474,9 +80484,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 536250,
-      "E": 577500,
-      "F": 474375
+      "D": 602477,
+      "E": 648822,
+      "F": 532961
     }
   },
   "ROT08161": {
@@ -81404,9 +81414,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 5203,
-      "E": 5637,
-      "F": 5203
+      "D": 5736,
+      "E": 6214,
+      "F": 5736
     }
   },
   "RUSAE40x1": {
@@ -81414,49 +81424,9 @@
     "category": "8.LUBRICANTES",
     "bulk": 12.0,
     "prices": {
-      "D": 1427,
-      "E": 1546,
-      "F": 1427
-    }
-  },
-  "SAHAI1H": {
-    "name": "ANAFE 1 HORNALLAS INDUSTRIAL SAHARA",
-    "category": "8.ANAFE y ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 50779,
-      "E": 54685,
-      "F": 46873
-    }
-  },
-  "SAHAI2H": {
-    "name": "ANAFE 2 HORNALLAS INDUSTRIAL SAHARA",
-    "category": "8.ANAFE y ACCES.",
-    "bulk": 1.0,
-    "prices": {
-      "D": 75400,
-      "E": 81200,
-      "F": 69600
-    }
-  },
-  "SAHANAF1H": {
-    "name": "ANAFE 1 HORNALLAS ECO.   MET.SAHARA",
-    "category": "8.ANAFE y ACCES.",
-    "bulk": 10.0,
-    "prices": {
-      "D": 23389,
-      "E": 25188,
-      "F": 21590
-    }
-  },
-  "SAHANAF2H": {
-    "name": "ANAFE 2 HORNALLAS ECO.   MET.SAHARA",
-    "category": "8.ANAFE y ACCES.",
-    "bulk": 10.0,
-    "prices": {
-      "D": 25389,
-      "E": 27342,
-      "F": 23436
+      "D": 1584,
+      "E": 1716,
+      "F": 1584
     }
   },
   "SAHGRIFCCERBIDE": {
@@ -83064,9 +83034,9 @@
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
-      "D": 278,
-      "E": 299,
-      "F": 256
+      "D": 303,
+      "E": 326,
+      "F": 279
     }
   },
   "SCG002": {
@@ -83074,9 +83044,9 @@
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
-      "D": 316,
-      "E": 340,
-      "F": 292
+      "D": 342,
+      "E": 369,
+      "F": 316
     }
   },
   "SCG005": {
@@ -83084,9 +83054,9 @@
     "category": "8.PITON C/TUERCA SCOGAR",
     "bulk": 100.0,
     "prices": {
-      "D": 537,
-      "E": 578,
-      "F": 495
+      "D": 541,
+      "E": 583,
+      "F": 499
     }
   },
   "SCG008": {
@@ -83104,9 +83074,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
-      "D": 23,
-      "E": 25,
-      "F": 21
+      "D": 24,
+      "E": 26,
+      "F": 22
     }
   },
   "SCG012": {
@@ -83114,9 +83084,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
-      "D": 29,
+      "D": 30,
       "E": 32,
-      "F": 27
+      "F": 28
     }
   },
   "SCG013": {
@@ -83124,9 +83094,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 100.0,
     "prices": {
-      "D": 43,
-      "E": 47,
-      "F": 40
+      "D": 45,
+      "E": 48,
+      "F": 41
     }
   },
   "SCG020": {
@@ -83134,9 +83104,9 @@
     "category": "8.PASADOR REDONDO SCG",
     "bulk": 12.0,
     "prices": {
-      "D": 635,
-      "E": 684,
-      "F": 586
+      "D": 653,
+      "E": 703,
+      "F": 602
     }
   },
   "SCG021": {
@@ -83144,9 +83114,9 @@
     "category": "8.PASADOR REDONDO SCG",
     "bulk": 12.0,
     "prices": {
-      "D": 671,
-      "E": 722,
-      "F": 619
+      "D": 689,
+      "E": 742,
+      "F": 636
     }
   },
   "SCG022": {
@@ -83154,9 +83124,9 @@
     "category": "8.PASADOR REDONDO SCG",
     "bulk": 12.0,
     "prices": {
-      "D": 895,
-      "E": 963,
-      "F": 826
+      "D": 900,
+      "E": 969,
+      "F": 831
     }
   },
   "SCG023": {
@@ -83174,9 +83144,9 @@
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
-      "D": 620,
-      "E": 668,
-      "F": 572
+      "D": 631,
+      "E": 680,
+      "F": 582
     }
   },
   "SCG025": {
@@ -83184,9 +83154,9 @@
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
-      "D": 655,
-      "E": 705,
-      "F": 605
+      "D": 666,
+      "E": 717,
+      "F": 615
     }
   },
   "SCG026": {
@@ -83194,9 +83164,9 @@
     "category": "8.PASADOR REDONDO EMPAVON",
     "bulk": 12.0,
     "prices": {
-      "D": 858,
-      "E": 924,
-      "F": 792
+      "D": 860,
+      "E": 927,
+      "F": 794
     }
   },
   "SCG027": {
@@ -83244,9 +83214,9 @@
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
-      "D": 195,
-      "E": 210,
-      "F": 180
+      "D": 197,
+      "E": 213,
+      "F": 182
     }
   },
   "SCG039": {
@@ -83254,9 +83224,9 @@
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
-      "D": 257,
-      "E": 276,
-      "F": 237
+      "D": 259,
+      "E": 279,
+      "F": 239
     }
   },
   "SCG040": {
@@ -83264,9 +83234,9 @@
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
-      "D": 195,
-      "E": 210,
-      "F": 180
+      "D": 197,
+      "E": 213,
+      "F": 182
     }
   },
   "SCG041": {
@@ -83274,9 +83244,9 @@
     "category": "8.PITON ABIE.MINI SCG",
     "bulk": 100.0,
     "prices": {
-      "D": 257,
-      "E": 276,
-      "F": 237
+      "D": 259,
+      "E": 279,
+      "F": 239
     }
   },
   "SCG080": {
@@ -83284,9 +83254,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
-      "D": 50,
-      "E": 58,
-      "F": 46
+      "D": 52,
+      "E": 60,
+      "F": 48
     }
   },
   "SCG081": {
@@ -83294,9 +83264,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
-      "D": 56,
-      "E": 65,
-      "F": 52
+      "D": 58,
+      "E": 67,
+      "F": 54
     }
   },
   "SCG082": {
@@ -83304,9 +83274,9 @@
     "category": "8.SOPORTE PARA CUADRO",
     "bulk": 1.0,
     "prices": {
-      "D": 84,
-      "E": 90,
-      "F": 72
+      "D": 85,
+      "E": 91,
+      "F": 73
     }
   },
   "SCG240": {
@@ -83314,9 +83284,9 @@
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 50.0,
     "prices": {
-      "D": 170,
-      "E": 183,
-      "F": 157
+      "D": 199,
+      "E": 214,
+      "F": 183
     }
   },
   "SCG241": {
@@ -83324,9 +83294,9 @@
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 50.0,
     "prices": {
-      "D": 224,
-      "E": 241,
-      "F": 207
+      "D": 249,
+      "E": 268,
+      "F": 230
     }
   },
   "SCG242": {
@@ -83334,9 +83304,9 @@
     "category": "8.PITON CON TUERCA SCOGAR",
     "bulk": 25.0,
     "prices": {
-      "D": 466,
-      "E": 502,
-      "F": 430
+      "D": 479,
+      "E": 515,
+      "F": 442
     }
   },
   "SCG244": {
@@ -83344,9 +83314,9 @@
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 664,
-      "E": 715,
-      "F": 613
+      "D": 684,
+      "E": 737,
+      "F": 632
     }
   },
   "SCG245": {
@@ -83354,9 +83324,9 @@
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 838,
-      "E": 903,
-      "F": 774
+      "D": 840,
+      "E": 904,
+      "F": 775
     }
   },
   "SCG246": {
@@ -83364,9 +83334,9 @@
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 883,
-      "E": 951,
-      "F": 815
+      "D": 884,
+      "E": 952,
+      "F": 816
     }
   },
   "SCG378": {
@@ -83374,9 +83344,9 @@
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 565,
-      "E": 609,
-      "F": 522
+      "D": 589,
+      "E": 634,
+      "F": 543
     }
   },
   "SCG379": {
@@ -83384,9 +83354,9 @@
     "category": "8.ROLDANA de CHAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 825,
-      "E": 888,
-      "F": 761
+      "D": 846,
+      "E": 912,
+      "F": 781
     }
   },
   "SCG571": {
@@ -83394,9 +83364,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 4521,
-      "E": 4869,
-      "F": 4173
+      "D": 4662,
+      "E": 5021,
+      "F": 4304
     }
   },
   "SCG572": {
@@ -83404,9 +83374,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 5110,
-      "E": 5503,
-      "F": 4717
+      "D": 5261,
+      "E": 5665,
+      "F": 4856
     }
   },
   "SCG573": {
@@ -83414,9 +83384,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 5110,
-      "E": 5503,
-      "F": 4717
+      "D": 5261,
+      "E": 5665,
+      "F": 4856
     }
   },
   "SCG574": {
@@ -83424,9 +83394,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 5834,
-      "E": 6283,
-      "F": 5386
+      "D": 6008,
+      "E": 6470,
+      "F": 5545
     }
   },
   "SCG575": {
@@ -83434,9 +83404,9 @@
     "category": "8.CUCHARA DE ALBA\u00d1IL",
     "bulk": 12.0,
     "prices": {
-      "D": 5834,
-      "E": 6283,
-      "F": 5386
+      "D": 6008,
+      "E": 6470,
+      "F": 5545
     }
   },
   "SER00041": {
@@ -86264,9 +86234,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 83796,
-      "E": 90499,
-      "F": 77092
+      "D": 65077,
+      "E": 70283,
+      "F": 59871
     }
   },
   "TAM01": {
@@ -86274,9 +86244,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 98455,
-      "E": 106331,
-      "F": 90578
+      "D": 83444,
+      "E": 90120,
+      "F": 76769
     }
   },
   "TAM02": {
@@ -86284,9 +86254,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 132429,
-      "E": 143023,
-      "F": 121834
+      "D": 119450,
+      "E": 129006,
+      "F": 109894
     }
   },
   "TAM03": {
@@ -86294,9 +86264,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 166634,
-      "E": 179965,
-      "F": 153303
+      "D": 147184,
+      "E": 158958,
+      "F": 135409
     }
   },
   "TAM04": {
@@ -86324,9 +86294,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 142367,
-      "E": 153756,
-      "F": 130977
+      "D": 149860,
+      "E": 161849,
+      "F": 137871
     }
   },
   "TAM07": {
@@ -86354,9 +86324,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 94110,
-      "E": 101639,
-      "F": 86581
+      "D": 91549,
+      "E": 98873,
+      "F": 84225
     }
   },
   "TAM10": {
@@ -86364,9 +86334,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 117798,
-      "E": 127222,
-      "F": 108374
+      "D": 115237,
+      "E": 124456,
+      "F": 106018
     }
   },
   "TAM11": {
@@ -86844,9 +86814,9 @@
     "category": "8.ESPUMA POLIURETANICA",
     "bulk": 12.0,
     "prices": {
-      "D": 6664,
-      "E": 7177,
-      "F": 6151
+      "D": 5098,
+      "E": 5490,
+      "F": 4706
     }
   },
   "TF.301": {
@@ -86854,9 +86824,9 @@
     "category": "8.ESPUMA POLIURETANICA",
     "bulk": 12.0,
     "prices": {
-      "D": 9449,
-      "E": 10176,
-      "F": 8722
+      "D": 7228,
+      "E": 7785,
+      "F": 6672
     }
   },
   "TF.304": {
@@ -87620,13 +87590,13 @@
     }
   },
   "TIDIL-1050": {
-    "name": "TAPA 1/2/3 BOCA UREA BLANCOx50Un JB",
-    "category": "9.TAPA STD P/MODULO JB",
+    "name": "TAPA UREA CIEGA RECT BLANCO      JB",
+    "category": "9.TAPA PVC RECT.CIEGAB",
     "bulk": 50.0,
     "prices": {
-      "D": 381,
-      "E": 410,
-      "F": 351
+      "D": 289,
+      "E": 311,
+      "F": 267
     }
   },
   "TIDIL-1058": {
@@ -87837,6 +87807,16 @@
       "D": 17605,
       "E": 18309,
       "F": 16901
+    }
+  },
+  "TIEPU-1501": {
+    "name": "CABLE COAXIL TV RG56 TIPO DIRECTV",
+    "category": "9.CABLE PARA TV COAXIL",
+    "bulk": 100.0,
+    "prices": {
+      "D": 815,
+      "E": 878,
+      "F": 752
     }
   },
   "TIEXU-1607": {
@@ -89737,6 +89717,16 @@
       "D": 507,
       "E": 543,
       "F": 434
+    }
+  },
+  "TIUNI-5016": {
+    "name": "CONECTOR KLIMPLEAR DIREC TV",
+    "category": "9.TV AUDIO CONECTOR ADAP",
+    "bulk": 1.0,
+    "prices": {
+      "D": 906,
+      "E": 976,
+      "F": 837
     }
   },
   "TIUNI-5017": {
