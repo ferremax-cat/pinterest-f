@@ -2974,9 +2974,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP12CC": {
@@ -2984,9 +2984,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP12LA": {
@@ -2994,9 +2994,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP12LC": {
@@ -3004,9 +3004,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP58CA": {
@@ -3014,9 +3014,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP58CC": {
@@ -3024,9 +3024,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP58LA": {
@@ -3034,9 +3034,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "ASOP58LC": {
@@ -3044,9 +3044,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 421,
-      "E": 454,
-      "F": 389
+      "D": 443,
+      "E": 478,
+      "F": 409
     }
   },
   "AT018": {
@@ -16229,6 +16229,26 @@
       "F": 1506
     }
   },
+  "BRA25034": {
+    "name": "COBERTOR FILM C/ CINTA ADH 1.50x20M TOOLMAK",
+    "category": "8.COBERTOR FILM CON CINTA",
+    "bulk": 35.0,
+    "prices": {
+      "D": 4109,
+      "E": 4425,
+      "F": 3793
+    }
+  },
+  "BRA25055": {
+    "name": "COBERTOR FILM C/ CINTA ADH 2.40x20M TOOLMAK",
+    "category": "8.COBERTOR FILM CON CINTA",
+    "bulk": 30.0,
+    "prices": {
+      "D": 5423,
+      "E": 5840,
+      "F": 5006
+    }
+  },
   "BRABR0057": {
     "name": "MASCARA PROTEC FACIAL ACRIL BRACO",
     "category": "8.MASCARA PROTEC.FACIAL",
@@ -16299,6 +16319,56 @@
       "F": 5505
     }
   },
+  "BRAJL9521": {
+    "name": "INFLADOR BICI ALUM. DOBLE PICO TOOLMAK",
+    "category": "8.INFLADOR",
+    "bulk": 60.0,
+    "prices": {
+      "D": 8166,
+      "E": 8795,
+      "F": 7538
+    }
+  },
+  "BRAPDBR": {
+    "name": "PERCHA DOBLE  BRONCEADO TOOLMAK",
+    "category": "8.PERCHA",
+    "bulk": 100.0,
+    "prices": {
+      "D": 2109,
+      "E": 2271,
+      "F": 1947
+    }
+  },
+  "BRAPDCR": {
+    "name": "PERCHA DOBLE  CROMADA   TOOLMAK",
+    "category": "8.PERCHA",
+    "bulk": 100.0,
+    "prices": {
+      "D": 2109,
+      "E": 2271,
+      "F": 1947
+    }
+  },
+  "BRAPSBR": {
+    "name": "PERCHA SIMPLE BRONCEADA TOOLMAK",
+    "category": "8.PERCHA",
+    "bulk": 100.0,
+    "prices": {
+      "D": 1161,
+      "E": 1250,
+      "F": 1072
+    }
+  },
+  "BRAPSCR": {
+    "name": "PERCHA SIMPLE CROMADA   TOOLMAK",
+    "category": "8.PERCHA",
+    "bulk": 100.0,
+    "prices": {
+      "D": 1161,
+      "E": 1250,
+      "F": 1072
+    }
+  },
   "BRASX-1B": {
     "name": "PULVERIZADOR C/BOMBA 1.0Lt    BRACO",
     "category": "8.PULVERIZADOR C/BOMBA",
@@ -16367,6 +16437,16 @@
       "D": 27588,
       "E": 29711,
       "F": 26103
+    }
+  },
+  "BRATMK19859": {
+    "name": "GABETERO CON O RING SURT. 222Pz TOOLMAK",
+    "category": "8.GABETERO O RING",
+    "bulk": 1.0,
+    "prices": {
+      "D": 7612,
+      "E": 8197,
+      "F": 7026
     }
   },
   "BRATMK19910": {
@@ -16449,6 +16529,16 @@
       "F": 5558
     }
   },
+  "BRATMK20290": {
+    "name": "PISTOLA SOPLETEAR C TANQUE 900cc TOOLMAK",
+    "category": "8.PISTOLA SOPLETEAR",
+    "bulk": 1.0,
+    "prices": {
+      "D": 17309,
+      "E": 18641,
+      "F": 15978
+    }
+  },
   "BRI0011": {
     "name": "BRIKOL LADRILLOS CERAMICO 4lts.",
     "category": "7.BRIKOL",
@@ -16527,46 +16617,6 @@
       "D": 25847,
       "E": 27914,
       "F": 24813
-    }
-  },
-  "BRU404.1": {
-    "name": "PERCHA DOBLE  ALUMINIO BL/NE BRUATO",
-    "category": "8.PERCHA ALUMINIO",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1802,
-      "E": 1941,
-      "F": 1663
-    }
-  },
-  "BRU404.1NAT": {
-    "name": "PERCHA DOBLE  ALUMINIO NATU. BRUATO",
-    "category": "8.PERCHA ALUMINIO",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1476,
-      "E": 1589,
-      "F": 1362
-    }
-  },
-  "BRU405.1": {
-    "name": "PERCHA SIMPLE ALUMINIO BL/NE BRUATO",
-    "category": "8.PERCHA ALUMINIO",
-    "bulk": 20.0,
-    "prices": {
-      "D": 1221,
-      "E": 1315,
-      "F": 1127
-    }
-  },
-  "BRU405.1NAT": {
-    "name": "PERCHA SIMPLE ALUMINIO NATU. BRUATO",
-    "category": "8.PERCHA ALUMINIO",
-    "bulk": 20.0,
-    "prices": {
-      "D": 986,
-      "E": 1062,
-      "F": 910
     }
   },
   "BRU600.3PC": {
@@ -19394,9 +19444,9 @@
     "category": "8.ADHES.de CONT.CONGO",
     "bulk": 2.0,
     "prices": {
-      "D": 2033,
-      "E": 2190,
-      "F": 1877
+      "D": 36607,
+      "E": 39423,
+      "F": 33791
     }
   },
   "CON206": {
@@ -29334,9 +29384,9 @@
     "category": "8.ELECTRODOS SIDERAL",
     "bulk": 20.0,
     "prices": {
-      "D": 18034,
-      "E": 18756,
-      "F": 17313
+      "D": 18517,
+      "E": 19258,
+      "F": 17776
     }
   },
   "ECSID2.0": {
@@ -37854,9 +37904,9 @@
     "category": "1.CALEF.TERMOT/AC.REP.",
     "bulk": 1.0,
     "prices": {
-      "D": 39478,
-      "E": 41123,
-      "F": 39478
+      "D": 21188,
+      "E": 22071,
+      "F": 21188
     }
   },
   "FAB35": {
@@ -37874,9 +37924,9 @@
     "category": "1.CALEF.TERMOT/AC.REP.",
     "bulk": 1.0,
     "prices": {
-      "D": 22268,
-      "E": 23195,
-      "F": 22268
+      "D": 12459,
+      "E": 12978,
+      "F": 12459
     }
   },
   "FAMA301": {
@@ -48749,7 +48799,7 @@
       "F": 12970
     }
   },
-  "ISAVAR1/2": {
+  "ISAVAR1-2": {
     "name": "VARILLA ROSCADA ZIN.PULG.x1/2 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 25.0,
@@ -48759,7 +48809,7 @@
       "F": 2628
     }
   },
-  "ISAVAR1/4": {
+  "ISAVAR1-4": {
     "name": "VARILLA ROSCADA ZIN.PULG.x1/4 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 75.0,
@@ -48769,7 +48819,7 @@
       "F": 723
     }
   },
-  "ISAVAR3/16": {
+  "ISAVAR3-16": {
     "name": "VARILLA ROSCADA ZIN.PULG.x3/16WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 150.0,
@@ -48779,7 +48829,7 @@
       "F": 732
     }
   },
-  "ISAVAR3/4": {
+  "ISAVAR3-4": {
     "name": "VARILLA ROSCADA ZIN.PULG.x3/4 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 10.0,
@@ -48789,7 +48839,7 @@
       "F": 7103
     }
   },
-  "ISAVAR3/8": {
+  "ISAVAR3-8": {
     "name": "VARILLA ROSCADA ZIN.PULG.x3/8 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 40.0,
@@ -48799,7 +48849,7 @@
       "F": 1562
     }
   },
-  "ISAVAR5/16": {
+  "ISAVAR5-16": {
     "name": "VARILLA ROSCADA ZIN.PULG.x5/16WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 65.0,
@@ -48809,7 +48859,7 @@
       "F": 1062
     }
   },
-  "ISAVAR5/8": {
+  "ISAVAR5-8": {
     "name": "VARILLA ROSCADA ZIN.PULG.x5/8 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 15.0,
@@ -48819,7 +48869,7 @@
       "F": 4471
     }
   },
-  "ISAVAR7/16": {
+  "ISAVAR7-16": {
     "name": "VARILLA ROSCADA ZIN.PULG.x7/16WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 30.0,
@@ -48829,7 +48879,7 @@
       "F": 2206
     }
   },
-  "ISAVAR7/8": {
+  "ISAVAR7-8": {
     "name": "VARILLA ROSCADA ZIN.PULG.x7/8 WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 8.0,
@@ -48839,7 +48889,7 @@
       "F": 9513
     }
   },
-  "ISAVAR9/16": {
+  "ISAVAR9-16": {
     "name": "VARILLA ROSCADA ZIN.PULG.x9/16WHIT*",
     "category": "6.VARILLA ROSCADA PULGADA",
     "bulk": 15.0,
@@ -49674,9 +49724,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 23054,
-      "E": 24827,
-      "F": 21280
+      "D": 24437,
+      "E": 26317,
+      "F": 22557
     }
   },
   "JC2803": {
@@ -49684,9 +49734,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 25906,
-      "E": 27899,
-      "F": 23913
+      "D": 27460,
+      "E": 29573,
+      "F": 25348
     }
   },
   "JC2804": {
@@ -49694,9 +49744,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 29420,
-      "E": 31683,
-      "F": 27157
+      "D": 31185,
+      "E": 33584,
+      "F": 28787
     }
   },
   "JC2858": {
@@ -49704,9 +49754,9 @@
     "category": "8.MAQUINA DE SALPICAR",
     "bulk": 4.0,
     "prices": {
-      "D": 23000,
-      "E": 24916,
-      "F": 23000
+      "D": 23149,
+      "E": 25078,
+      "F": 23149
     }
   },
   "JC3167": {
@@ -50074,9 +50124,9 @@
     "category": "8.TRAMPERA PARA LAUCHAS",
     "bulk": 24.0,
     "prices": {
-      "D": 1334,
-      "E": 1437,
-      "F": 1231
+      "D": 1467,
+      "E": 1580,
+      "F": 1354
     }
   },
   "JC5007": {
@@ -50084,9 +50134,9 @@
     "category": "8.TRAMPERA PARA RATAS",
     "bulk": 5.0,
     "prices": {
-      "D": 15855,
-      "E": 17075,
-      "F": 14636
+      "D": 17099,
+      "E": 18414,
+      "F": 15784
     }
   },
   "JC5008": {
@@ -50094,9 +50144,9 @@
     "category": "8.TRAMPERA PARA RATAS",
     "bulk": 20.0,
     "prices": {
-      "D": 2414,
-      "E": 2600,
-      "F": 2228
+      "D": 2655,
+      "E": 2860,
+      "F": 2451
     }
   },
   "JC5009": {
@@ -50104,9 +50154,9 @@
     "category": "8.TRAMPERA PARA LAUCHAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1499,
-      "E": 1615,
-      "F": 1384
+      "D": 1649,
+      "E": 1776,
+      "F": 1523
     }
   },
   "JC5010": {
@@ -50114,9 +50164,9 @@
     "category": "8.TRAMPERA PARA RATAS",
     "bulk": 12.0,
     "prices": {
-      "D": 2713,
-      "E": 2922,
-      "F": 2504
+      "D": 2984,
+      "E": 3214,
+      "F": 2755
     }
   },
   "JC5524": {
@@ -57209,16 +57259,6 @@
       "F": 4084
     }
   },
-  "MASIV12625": {
-    "name": "INFLADOR D/MANO.C/SOP.C/SIMPL P.IMPORTADO",
-    "category": "8.INFLADOR",
-    "bulk": 100.0,
-    "prices": {
-      "D": 4721,
-      "E": 5084,
-      "F": 4358
-    }
-  },
   "MASIV12672": {
     "name": "HILO SISAL x100grs              MAS",
     "category": "8.HILO SISAL",
@@ -57737,16 +57777,6 @@
       "D": 7269,
       "E": 7828,
       "F": 6710
-    }
-  },
-  "MASIV9396": {
-    "name": "INFLADOR P/PELOTA  MANO C/PCOS  MAS",
-    "category": "8.INFLADOR",
-    "bulk": 12.0,
-    "prices": {
-      "D": 1784,
-      "E": 1911,
-      "F": 1529
     }
   },
   "MASIV9850": {
@@ -68564,9 +68594,9 @@
     "category": "8.GUANTES DE CUERO MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 2811,
-      "E": 3027,
-      "F": 2594
+      "D": 2959,
+      "E": 3186,
+      "F": 2731
     }
   },
   "OSGUANDESGRIS": {
@@ -68574,9 +68604,9 @@
     "category": "8.GUANTES DE CUERO MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 2811,
-      "E": 3027,
-      "F": 2594
+      "D": 2959,
+      "E": 3186,
+      "F": 2731
     }
   },
   "OSGUANSOLDADOR": {
@@ -68594,9 +68624,9 @@
     "category": "8.GUANTES DE CUERO MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 2663,
-      "E": 2868,
-      "F": 2458
+      "D": 2959,
+      "E": 3186,
+      "F": 2731
     }
   },
   "OSGUANVAQCTOR": {
@@ -68604,9 +68634,9 @@
     "category": "8.GUANTES DE CUERO MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 2811,
-      "E": 3027,
-      "F": 2594
+      "D": 2959,
+      "E": 3186,
+      "F": 2731
     }
   },
   "PAB503": {
@@ -69254,9 +69284,9 @@
     "category": "8.SELLADOR SILICON.PEGALO",
     "bulk": 24.0,
     "prices": {
-      "D": 3173,
-      "E": 3417,
-      "F": 2929
+      "D": 3526,
+      "E": 3797,
+      "F": 3254
     }
   },
   "PEGAL010": {
@@ -69264,9 +69294,9 @@
     "category": "8.SELLADOR SILICON.PEGALO",
     "bulk": 24.0,
     "prices": {
-      "D": 3173,
-      "E": 3417,
-      "F": 2929
+      "D": 3526,
+      "E": 3797,
+      "F": 3254
     }
   },
   "PEGAL011": {
@@ -69274,9 +69304,9 @@
     "category": "8.SELLADOR SILICON.PEGALO",
     "bulk": 24.0,
     "prices": {
-      "D": 3173,
-      "E": 3417,
-      "F": 2929
+      "D": 3526,
+      "E": 3797,
+      "F": 3254
     }
   },
   "PEGAL114": {
@@ -69830,7 +69860,7 @@
     }
   },
   "PLASTI30020": {
-    "name": "MANGUERA P/CARGA LAVARR.1.20mtPLASTIRRABIT",
+    "name": "MANGUERA P CARGA LAVARR 1.20mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 40.0,
     "prices": {
@@ -69840,7 +69870,7 @@
     }
   },
   "PLASTI30021": {
-    "name": "MANGUERA P/CARGA LAVARR.1.50mtPLASTIRRABIT",
+    "name": "MANGUERA P CARGA LAVARR 1.50mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 40.0,
     "prices": {
@@ -69850,7 +69880,7 @@
     }
   },
   "PLASTI30022": {
-    "name": "MANGUERA P/CARGA LAVARR.1.80mtPLASTIRRABIT",
+    "name": "MANGUERA P CARGA LAVARR 1.80mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
@@ -69860,7 +69890,7 @@
     }
   },
   "PLASTI30023": {
-    "name": "MANGUERA P/CARGA LAVARR.2.00mtPLASTIRRABIT",
+    "name": "MANGUERA P CARGA LAVARR 2.00mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
@@ -69870,7 +69900,7 @@
     }
   },
   "PLASTI30024": {
-    "name": "MANGUERA P/CARGA LAVARR.2.50mtPLASTIRRABIT",
+    "name": "MANGUERA P CARGA LAVARR 2.50mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 25.0,
     "prices": {
@@ -69880,7 +69910,7 @@
     }
   },
   "PLASTI30028": {
-    "name": "MANGUERA DESCARGA LAVAR.1.20mtPLASTIRRABIT",
+    "name": "MANGUERA DESCARGA LAVAR 1.20mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 30.0,
     "prices": {
@@ -69890,7 +69920,7 @@
     }
   },
   "PLASTI30030": {
-    "name": "MANGUERA DESCARGA LAVAR.1.80mtPLASTIRRABIT",
+    "name": "MANGUERA DESCARGA LAVAR 1.80mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 50.0,
     "prices": {
@@ -69900,7 +69930,7 @@
     }
   },
   "PLASTI30032": {
-    "name": "MANGUERA DESCARGA LAVAR.2.50mtPLASTIRRABIT",
+    "name": "MANGUERA DESCARGA LAVAR 2.50mt PLASTIRRABIT",
     "category": "1.MANGUERA P/LAVARROPAS",
     "bulk": 36.0,
     "prices": {
@@ -69910,7 +69940,7 @@
     }
   },
   "PLASTI40061": {
-    "name": "SACA HOJAS SIN CABO   P/PILETA PLASTIRRABIT",
+    "name": "SACA HOJAS SIN CABO P PILETA PLASTIRRABIT",
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
@@ -69920,7 +69950,7 @@
     }
   },
   "PLASTI60000": {
-    "name": "LANZA RIEG.C/CONEC.RAP.HP1001PLASTIRRABI",
+    "name": "LANZA RIEG C CONEC RAP HP1001 PLASTIRRABI",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 238.0,
     "prices": {
@@ -69930,7 +69960,7 @@
     }
   },
   "PLASTI60005": {
-    "name": "PIST.RIEG.2VIAS C/CONE.HP1005PLASTIRRABIT",
+    "name": "PIST RIEG 2VIAS C CONE HP1005 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 200.0,
     "prices": {
@@ -69940,7 +69970,7 @@
     }
   },
   "PLASTI60010": {
-    "name": "PIST.RIEG.7Fun. C/CONE.HP1010PLASTIRRABIT",
+    "name": "PIST RIEG 7Fun C CONE HP1010 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 100.0,
     "prices": {
@@ -69950,7 +69980,7 @@
     }
   },
   "PLASTI60015": {
-    "name": "PIST.RIEG.REFOR.2 VIAS HP1015PLASTIRRABI",
+    "name": "PIST RIEG REFOR 2 VIAS HP1015 PLASTIRRABI",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 100.0,
     "prices": {
@@ -69960,7 +69990,7 @@
     }
   },
   "PLASTI60025": {
-    "name": "ROCIADOR JABAL.3BzsAJU.HP4009PLASTIRRABIT",
+    "name": "ROCIADOR JABAL 3Bzs AJU HP4009 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 100.0,
     "prices": {
@@ -69970,7 +70000,7 @@
     }
   },
   "PLASTI60030": {
-    "name": "ROCIADOR JABAL.IMPU.2D.HP4012PLASTIRRABIT",
+    "name": "ROCIADOR JABAL IMPU 2D HP4012 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 100.0,
     "prices": {
@@ -69980,7 +70010,7 @@
     }
   },
   "PLASTI60036": {
-    "name": "ROCIAD.JABAL.3BzsC/BAS.HP4015PLASTIRRABIT",
+    "name": "ROCIAD JABAL 3Bzs C/BAS HP4015 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 50.0,
     "prices": {
@@ -69990,7 +70020,7 @@
     }
   },
   "PLASTI60041": {
-    "name": "ROCIADOR ALTO IMP.8Fun.HP4019PLASTIRRABIT",
+    "name": "ROCIADOR ALTO IMP 8Fun HP4019 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 50.0,
     "prices": {
@@ -70000,7 +70030,7 @@
     }
   },
   "PLASTI60045": {
-    "name": "ACOPLE RAP/MANG.DE 1/2\"HP2001PLASTIRRABIT",
+    "name": "ACOPLE RAP MANG DE 1/2\" HP2001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 400.0,
     "prices": {
@@ -70010,7 +70040,7 @@
     }
   },
   "PLASTI60050": {
-    "name": "ACOPLE RAP/MANG.DE 3/4\"HP2001PLASTIRRABIT",
+    "name": "ACOPLE RAP MANG DE 3/4\" HP2001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 300.0,
     "prices": {
@@ -70030,7 +70060,7 @@
     }
   },
   "PLASTI60070": {
-    "name": "SOPORTE PORTA MANGUERA HC8001PLASTIRRABIT",
+    "name": "SOPORTE PORTA MANGUERA HC8001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 60.0,
     "prices": {
@@ -70040,7 +70070,7 @@
     }
   },
   "PLASTI60090": {
-    "name": "ENRROLLADOR P/MARGUERA HD3001PLASTIRRABIT",
+    "name": "ENRROLLADOR P MARGUERA HD3001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 6.0,
     "prices": {
@@ -70050,7 +70080,7 @@
     }
   },
   "PLASTI60092": {
-    "name": "ENRROLL.P/MARG.C/CARRO HD4001PLASTIRRABIT",
+    "name": "ENRROLL P MARG C CARRO HD4001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 6.0,
     "prices": {
@@ -70060,7 +70090,7 @@
     }
   },
   "PLASTI60097": {
-    "name": "SET 4Pzs.LANZA/CONEC.  HP3001PLASTIRRABIT",
+    "name": "SET 4Pzs LANZA CONEC HP3001 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 100.0,
     "prices": {
@@ -70070,7 +70100,7 @@
     }
   },
   "PLASTI60098": {
-    "name": "SET 4Pzs.PISTOLA/CONEC.HP3005PLASTIRRABIT",
+    "name": "SET 4Pzs PISTOLA CONEC HP3005 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 50.0,
     "prices": {
@@ -70080,7 +70110,7 @@
     }
   },
   "PLASTI60099": {
-    "name": "ROCIADOR JABAL.IMPU. METAL 23033 PLASTIRRABOT",
+    "name": "ROCIADOR JABAL IMPU METAL 23033 PLASTIRRABO",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 1.0,
     "prices": {
@@ -70090,7 +70120,7 @@
     }
   },
   "PLASTI60100": {
-    "name": "ROCIADOR C/17SAL.OSCIL.HP4024PLASTIRRABIT",
+    "name": "ROCIADOR C 17SAL OSCIL HP4024 PLASTIRRABIT",
     "category": "1.ACCES.PARA RIEGO",
     "bulk": 16.0,
     "prices": {
@@ -70100,7 +70130,7 @@
     }
   },
   "PLASTI82900": {
-    "name": "KIT BA\u00d1O 6 Pzs.METAL CROM.PLASTIRRABIT",
+    "name": "KIT BA\u00d1O 6 Pzs METAL CROM PLASTIRRABIT",
     "category": "1.ACCES.P/BA\u00f1O",
     "bulk": 10.0,
     "prices": {
@@ -70150,7 +70180,7 @@
     }
   },
   "POX012": {
-    "name": "LA GOTITA LIQ. x10ml Grande POXIPOL",
+    "name": "LA GOTITA LIQ x10ml Grande POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70160,7 +70190,7 @@
     }
   },
   "POX013": {
-    "name": "POXIRAN ADHES/CONTAC. 23grs POXIPOL",
+    "name": "POXIRAN ADHES CONTAC 23grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70170,7 +70200,7 @@
     }
   },
   "POX014": {
-    "name": "POXIRAN SIN TOLUENO   45grs POXIPOL",
+    "name": "POXIRAN SIN TOLUENO 45grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 6.0,
     "prices": {
@@ -70180,7 +70210,7 @@
     }
   },
   "POX015": {
-    "name": "POXIRAN SIN TOLUENO  225grs POXIPOL",
+    "name": "POXIRAN SIN TOLUENO 225grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -70190,7 +70220,7 @@
     }
   },
   "POX017": {
-    "name": "ECOLE ADHESIV P/ZAPATILL 3gr POXIPOL",
+    "name": "ECOLE ADHESIV P ZAPATILL 3gr POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70200,7 +70230,7 @@
     }
   },
   "POX018": {
-    "name": "ECOLE ADHESIV.P/ZAPATILL.9grsPOXIPOL",
+    "name": "ECOLE ADHESIV P ZAPATILL 9grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70210,7 +70240,7 @@
     }
   },
   "POX021": {
-    "name": "EPOXI ADHESI.GRIS ACEROx14mlPOXIPOL",
+    "name": "EPOXI ADHESI GRIS ACERO x14ml POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70220,7 +70250,7 @@
     }
   },
   "POX023": {
-    "name": "EPOXI ADHESIVO TRANSPARx14mlPOXIPOL",
+    "name": "EPOXI ADHESIVO TRANSPAR x14ml POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70230,7 +70260,7 @@
     }
   },
   "POX029": {
-    "name": "FASTIX ADH/SIL.A/TEMPERAT. 25mlPOXIPOL",
+    "name": "FASTIX ADH/SIL A TEMPERAT. 25ml POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70250,7 +70280,7 @@
     }
   },
   "POX038": {
-    "name": "POXILINA x 70grs            POXIPOL",
+    "name": "POXILINA x 70grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70260,7 +70290,7 @@
     }
   },
   "POX039": {
-    "name": "POXILINA x 250 GRS           POXIPOL",
+    "name": "POXILINA x 250 GRS POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 0.0,
     "prices": {
@@ -70270,7 +70300,7 @@
     }
   },
   "POX040": {
-    "name": "UNIPOX ADHES/CONT.25grs     POXIPOL",
+    "name": "UNIPOX ADHES CONT 25grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70280,7 +70310,7 @@
     }
   },
   "POX041": {
-    "name": "UNIPOX ADHES/CONT.100grs     POXIPOL",
+    "name": "UNIPOX ADHES CONT 100grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 0.0,
     "prices": {
@@ -70290,7 +70320,7 @@
     }
   },
   "POX042": {
-    "name": "UNIPOX SILICONA LIQUIDAx24ml GEL",
+    "name": "UNIPOX SILICONA LIQUIDA x24ml GEL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -70300,7 +70330,7 @@
     }
   },
   "POX043": {
-    "name": "UNIPOX EXTRAFUERTE.25grs    POXIPOL",
+    "name": "UNIPOX EXTRAFUERTE 25grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 6.0,
     "prices": {
@@ -70310,7 +70340,7 @@
     }
   },
   "POX044": {
-    "name": "UNIPOX EXTRAFUERTE.100grs   POXIPOL",
+    "name": "UNIPOX EXTRAFUERTE 100grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -70320,7 +70350,7 @@
     }
   },
   "POX051": {
-    "name": "W40 LUBRICANTE AERO/155cc   POXIPOL",
+    "name": "W40 LUBRICANTE AERO 155cc POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70330,7 +70360,7 @@
     }
   },
   "POX052": {
-    "name": "W40 LUBRICANTE AERO/311cc   POXIPOL",
+    "name": "W40 LUBRICANTE AERO 311cc POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70340,7 +70370,7 @@
     }
   },
   "POX053": {
-    "name": "W40 LUBRIC.FLEXITAP.AERO/220ccPOXIPOL",
+    "name": "W40 LUBRIC FLEXITAP AERO 220cc POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70350,7 +70380,7 @@
     }
   },
   "POX061": {
-    "name": "POXIMIX INTER.AZUL   1250gr POXIPOL",
+    "name": "POXIMIX INTER AZUL 1250gr POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70360,7 +70390,7 @@
     }
   },
   "POX062": {
-    "name": "POXIMIX EXTER.NARANJ.1250gr POXIPOL",
+    "name": "POXIMIX EXTER NARANJ 1250gr POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70370,7 +70400,7 @@
     }
   },
   "POX063": {
-    "name": "EL PULPITO       50grs      POXIPOL",
+    "name": "EL PULPITO 50grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70380,7 +70410,7 @@
     }
   },
   "POX064": {
-    "name": "EL PULPITO      120grs      POXIPOL",
+    "name": "EL PULPITO 120grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 0.0,
     "prices": {
@@ -70390,7 +70420,7 @@
     }
   },
   "POX065": {
-    "name": "EL PULPITO      240grs      POXIPOL",
+    "name": "EL PULPITO 240grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -70400,7 +70430,7 @@
     }
   },
   "POX066": {
-    "name": "EL PULPITO      400grs      POXIPOL",
+    "name": "EL PULPITO 400grs POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 0.0,
     "prices": {
@@ -70410,7 +70440,7 @@
     }
   },
   "POX070": {
-    "name": "POXITAS                x12unPOXIPOL",
+    "name": "POXITAS x12un POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70430,7 +70460,7 @@
     }
   },
   "POXST03152": {
-    "name": "FASTIX ADHES/SILIC/TRANS.25mlPOXIPOL",
+    "name": "FASTIX ADHES SILIC TRANS 25ml POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 12.0,
     "prices": {
@@ -70440,7 +70470,7 @@
     }
   },
   "POXST03154": {
-    "name": "FASTIX ADHES/SILIC/TRANS.100gPOXIPOL",
+    "name": "FASTIX ADHES SILIC TRANS 100g POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -70450,7 +70480,7 @@
     }
   },
   "POXST03155": {
-    "name": "FASTIX ADHES/SILIC/TRANS.280gPOXIPOL",
+    "name": "FASTIX ADHES SILIC TRANS 280g POXIPOL",
     "category": "8.POXIPOL",
     "bulk": 1.0,
     "prices": {
@@ -84004,9 +84034,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 1.0,
     "prices": {
-      "D": 2589,
-      "E": 2774,
-      "F": 2219
+      "D": 2770,
+      "E": 2968,
+      "F": 2375
     }
   },
   "SIM18008": {
@@ -84014,9 +84044,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 935,
-      "E": 1002,
-      "F": 801
+      "D": 1000,
+      "E": 1072,
+      "F": 857
     }
   },
   "SIM18009": {
@@ -84024,9 +84054,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 5.0,
     "prices": {
-      "D": 3529,
-      "E": 3781,
-      "F": 3025
+      "D": 3776,
+      "E": 4046,
+      "F": 3236
     }
   },
   "SIM18010": {
@@ -84034,9 +84064,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 1.0,
     "prices": {
-      "D": 6676,
-      "E": 7153,
-      "F": 5722
+      "D": 7143,
+      "E": 7653,
+      "F": 6122
     }
   },
   "SIM18011": {
@@ -84044,9 +84074,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1024,
-      "E": 1097,
-      "F": 878
+      "D": 1096,
+      "E": 1174,
+      "F": 939
     }
   },
   "SIM18012": {
@@ -84054,9 +84084,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 4343,
-      "E": 4653,
-      "F": 3723
+      "D": 4647,
+      "E": 4979,
+      "F": 3983
     }
   },
   "SIM18013": {
@@ -84064,9 +84094,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 0.0,
     "prices": {
-      "D": 8112,
-      "E": 8691,
-      "F": 6953
+      "D": 8679,
+      "E": 9299,
+      "F": 7439
     }
   },
   "SIM18015": {
@@ -84074,9 +84104,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1762,
-      "E": 1888,
-      "F": 1510
+      "D": 1885,
+      "E": 2019,
+      "F": 1615
     }
   },
   "SIM18016": {
@@ -84084,9 +84114,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 7058,
-      "E": 7563,
-      "F": 6050
+      "D": 7552,
+      "E": 8092,
+      "F": 6473
     }
   },
   "SIM18019": {
@@ -84094,9 +84124,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1813,
-      "E": 1942,
-      "F": 1554
+      "D": 1940,
+      "E": 2079,
+      "F": 1663
     }
   },
   "SIM18020": {
@@ -84104,9 +84134,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 7305,
-      "E": 7827,
-      "F": 6262
+      "D": 7817,
+      "E": 8375,
+      "F": 6700
     }
   },
   "SIM18025": {
@@ -84114,9 +84144,9 @@
     "category": "8.MESCLA ADHESIVA SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 1389,
-      "E": 1488,
-      "F": 1190
+      "D": 1486,
+      "E": 1592,
+      "F": 1274
     }
   },
   "SIM18026": {
@@ -84124,9 +84154,9 @@
     "category": "8.MESCLA ADHESIVA SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 3064,
-      "E": 3282,
-      "F": 2626
+      "D": 3279,
+      "E": 3513,
+      "F": 2810
     }
   },
   "SIM18027": {
@@ -84134,9 +84164,9 @@
     "category": "8.MESCLA ADHESIVA SIMBOLO",
     "bulk": 1.0,
     "prices": {
-      "D": 5578,
-      "E": 5976,
-      "F": 4781
+      "D": 5968,
+      "E": 6395,
+      "F": 5116
     }
   },
   "SIM18028": {
@@ -84144,9 +84174,9 @@
     "category": "8.MESCLA ADHESIVA SIMBOLO",
     "bulk": 1.0,
     "prices": {
-      "D": 13092,
-      "E": 14100,
-      "F": 12085
+      "D": 14008,
+      "E": 15086,
+      "F": 12931
     }
   },
   "SIM18030": {
@@ -84154,9 +84184,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1048,
-      "E": 1123,
-      "F": 898
+      "D": 1121,
+      "E": 1201,
+      "F": 961
     }
   },
   "SIM18031": {
@@ -84164,9 +84194,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 2173,
-      "E": 2328,
-      "F": 1862
+      "D": 2324,
+      "E": 2490,
+      "F": 1992
     }
   },
   "SIM18032": {
@@ -84174,9 +84204,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 4217,
-      "E": 4519,
-      "F": 3615
+      "D": 4512,
+      "E": 4834,
+      "F": 3867
     }
   },
   "SIM18053": {
@@ -84184,9 +84214,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1070,
-      "E": 1147,
-      "F": 917
+      "D": 1145,
+      "E": 1227,
+      "F": 982
     }
   },
   "SIM18054": {
@@ -84194,9 +84224,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 4573,
-      "E": 4899,
-      "F": 3919
+      "D": 4893,
+      "E": 5242,
+      "F": 4194
     }
   },
   "SIM18055": {
@@ -84204,9 +84234,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 6.0,
     "prices": {
-      "D": 8441,
-      "E": 9044,
-      "F": 7235
+      "D": 9033,
+      "E": 9678,
+      "F": 7742
     }
   },
   "SIM18058": {
@@ -84214,9 +84244,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 930,
-      "E": 997,
-      "F": 797
+      "D": 995,
+      "E": 1067,
+      "F": 853
     }
   },
   "SIM18060": {
@@ -84224,9 +84254,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18061": {
@@ -84234,9 +84264,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18062": {
@@ -84244,9 +84274,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18063": {
@@ -84254,9 +84284,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18066": {
@@ -84264,9 +84294,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18067": {
@@ -84274,9 +84304,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18068": {
@@ -84284,9 +84314,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18069": {
@@ -84294,9 +84324,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18070": {
@@ -84304,9 +84334,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18071": {
@@ -84314,9 +84344,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18072": {
@@ -84324,9 +84354,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 2172,
-      "E": 2339,
-      "F": 2004
+      "D": 2324,
+      "E": 2503,
+      "F": 2145
     }
   },
   "SIM18200": {
@@ -84334,9 +84364,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 10.0,
     "prices": {
-      "D": 1715,
-      "E": 1837,
-      "F": 1470
+      "D": 1834,
+      "E": 1965,
+      "F": 1572
     }
   },
   "SIM18201": {
@@ -84344,9 +84374,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 10.0,
     "prices": {
-      "D": 2804,
-      "E": 3004,
-      "F": 2403
+      "D": 3000,
+      "E": 3214,
+      "F": 2571
     }
   },
   "SIM18310": {
@@ -84384,9 +84414,9 @@
     "category": "7.SAL DE LIMON",
     "bulk": 24.0,
     "prices": {
-      "D": 3774,
-      "E": 4044,
-      "F": 3235
+      "D": 4039,
+      "E": 4327,
+      "F": 3462
     }
   },
   "SIM18530": {
@@ -84394,9 +84424,9 @@
     "category": "8.PROD.QUIM.POLVO SIMBOLO",
     "bulk": 12.0,
     "prices": {
-      "D": 1880,
-      "E": 2014,
-      "F": 1611
+      "D": 2012,
+      "E": 2156,
+      "F": 1724
     }
   },
   "SIM30-1": {
@@ -84404,9 +84434,9 @@
     "category": "8.PROD.QUIM.FERRITE SIMBO",
     "bulk": 12.0,
     "prices": {
-      "D": 4495,
-      "E": 4816,
-      "F": 3852
+      "D": 4719,
+      "E": 5056,
+      "F": 4045
     }
   },
   "SIM31-1": {
@@ -84414,9 +84444,9 @@
     "category": "8.PROD.QUIM.FERRITE SIMBO",
     "bulk": 12.0,
     "prices": {
-      "D": 4495,
-      "E": 4816,
-      "F": 3852
+      "D": 4719,
+      "E": 5056,
+      "F": 4045
     }
   },
   "SIM32-1": {
@@ -84424,9 +84454,9 @@
     "category": "8.PROD.QUIM.FERRITE SIMBO",
     "bulk": 12.0,
     "prices": {
-      "D": 4931,
-      "E": 5283,
-      "F": 4227
+      "D": 5178,
+      "E": 5548,
+      "F": 4438
     }
   },
   "SIM33-1": {
@@ -84434,9 +84464,9 @@
     "category": "8.PROD.QUIM.FERRITE SIMBO",
     "bulk": 12.0,
     "prices": {
-      "D": 6781,
-      "E": 7265,
-      "F": 5812
+      "D": 7120,
+      "E": 7629,
+      "F": 6103
     }
   },
   "SIM34-1": {
@@ -84444,9 +84474,9 @@
     "category": "8.PROD.QUIM.FERRITE SIMBO",
     "bulk": 12.0,
     "prices": {
-      "D": 6781,
-      "E": 7265,
-      "F": 5812
+      "D": 7120,
+      "E": 7629,
+      "F": 6103
     }
   },
   "SIM802": {
@@ -84454,9 +84484,9 @@
     "category": "8.PROD.QUIM.QUITA SARRO",
     "bulk": 12.0,
     "prices": {
-      "D": 3886,
-      "E": 4163,
-      "F": 3331
+      "D": 4158,
+      "E": 4455,
+      "F": 3564
     }
   },
   "SIM803": {
@@ -84464,9 +84494,9 @@
     "category": "8.PROD.QUI.DESTAPACA\u00d1ERIA",
     "bulk": 12.0,
     "prices": {
-      "D": 2288,
-      "E": 2451,
-      "F": 1961
+      "D": 2492,
+      "E": 2670,
+      "F": 2136
     }
   },
   "SIM804": {
@@ -84474,9 +84504,9 @@
     "category": "8.PROD.QUI.DESTAPACA\u00d1ERIA",
     "bulk": 12.0,
     "prices": {
-      "D": 9323,
-      "E": 9988,
-      "F": 7991
+      "D": 9789,
+      "E": 10489,
+      "F": 8391
     }
   },
   "SIM9801": {
@@ -84484,9 +84514,9 @@
     "category": "7.LATIZADOR LECHE DE TUNA",
     "bulk": 12.0,
     "prices": {
-      "D": 1148,
-      "E": 1230,
-      "F": 984
+      "D": 1228,
+      "E": 1316,
+      "F": 1053
     }
   },
   "SIM9829": {
@@ -84494,9 +84524,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 3647,
-      "E": 3927,
-      "F": 3647
+      "D": 3903,
+      "E": 4203,
+      "F": 3903
     }
   },
   "SIM9831": {
@@ -84504,9 +84534,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9832": {
@@ -84514,9 +84544,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9833": {
@@ -84524,9 +84554,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9834": {
@@ -84534,9 +84564,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9835": {
@@ -84544,9 +84574,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9836": {
@@ -84554,9 +84584,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9837": {
@@ -84564,9 +84594,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9838": {
@@ -84574,9 +84604,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4765,
-      "E": 5106,
-      "F": 4085
+      "D": 5098,
+      "E": 5463,
+      "F": 4370
     }
   },
   "SIM9839": {
@@ -84584,9 +84614,9 @@
     "category": "7.PINT.A LA CAL SIMBOLO",
     "bulk": 4.0,
     "prices": {
-      "D": 4425,
-      "E": 4765,
-      "F": 4085
+      "D": 4734,
+      "E": 5098,
+      "F": 4370
     }
   },
   "SIMD805": {
@@ -84594,9 +84624,9 @@
     "category": "8.PROD.QUI.DESOXIDANTE",
     "bulk": 6.0,
     "prices": {
-      "D": 6176,
-      "E": 6651,
-      "F": 5701
+      "D": 6609,
+      "E": 7117,
+      "F": 6100
     }
   },
   "SL2181": {
@@ -91014,9 +91044,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 594,
-      "E": 640,
-      "F": 549
+      "D": 619,
+      "E": 667,
+      "F": 572
     }
   },
   "TUC07": {
@@ -91024,9 +91054,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 717,
-      "E": 772,
-      "F": 662
+      "D": 747,
+      "E": 804,
+      "F": 689
     }
   },
   "TUC08": {
@@ -91034,9 +91064,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 742,
-      "E": 799,
-      "F": 685
+      "D": 773,
+      "E": 833,
+      "F": 714
     }
   },
   "TUC09": {
@@ -91044,9 +91074,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2358,
-      "E": 2540,
-      "F": 2177
+      "D": 2453,
+      "E": 2642,
+      "F": 2264
     }
   },
   "TUC10": {
@@ -91054,9 +91084,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2494,
-      "E": 2686,
-      "F": 2302
+      "D": 2595,
+      "E": 2794,
+      "F": 2395
     }
   },
   "TUC11": {
@@ -91064,9 +91094,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 630,
-      "E": 678,
-      "F": 581
+      "D": 656,
+      "E": 707,
+      "F": 606
     }
   },
   "TUC12": {
@@ -91074,9 +91104,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 710,
-      "E": 764,
-      "F": 655
+      "D": 739,
+      "E": 796,
+      "F": 682
     }
   },
   "TUC13": {
@@ -91084,9 +91114,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 770,
-      "E": 830,
-      "F": 711
+      "D": 801,
+      "E": 863,
+      "F": 740
     }
   },
   "TUC14": {
@@ -91094,9 +91124,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 3015,
-      "E": 3247,
-      "F": 2783
+      "D": 3257,
+      "E": 3508,
+      "F": 3006
     }
   },
   "TUC15": {
@@ -91104,9 +91134,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 3194,
-      "E": 3439,
-      "F": 2948
+      "D": 3450,
+      "E": 3715,
+      "F": 3184
     }
   },
   "TUC16": {
@@ -91114,9 +91144,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 50.0,
     "prices": {
-      "D": 2632,
-      "E": 2834,
-      "F": 2429
+      "D": 2843,
+      "E": 3062,
+      "F": 2625
     }
   },
   "TUC17": {
@@ -91124,9 +91154,9 @@
     "category": "7.RODILLO POLI.C/F.TUCAN",
     "bulk": 50.0,
     "prices": {
-      "D": 2765,
-      "E": 2978,
-      "F": 2552
+      "D": 2987,
+      "E": 3217,
+      "F": 2757
     }
   },
   "TUC20": {
@@ -91134,9 +91164,9 @@
     "category": "7.RODILLO EPOXI TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 603,
-      "E": 650,
-      "F": 557
+      "D": 616,
+      "E": 664,
+      "F": 569
     }
   },
   "TUC21": {
@@ -91144,9 +91174,9 @@
     "category": "7.RODILLO EPOXI TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 671,
-      "E": 723,
-      "F": 620
+      "D": 822,
+      "E": 885,
+      "F": 759
     }
   },
   "TUC23": {
@@ -91154,9 +91184,9 @@
     "category": "7.RODILLO EPOXI TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 727,
-      "E": 783,
-      "F": 671
+      "D": 742,
+      "E": 799,
+      "F": 685
     }
   },
   "TUC24": {
@@ -91164,9 +91194,9 @@
     "category": "7.RODILLO EPOXI TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2402,
-      "E": 2587,
-      "F": 2217
+      "D": 2499,
+      "E": 2691,
+      "F": 2307
     }
   },
   "TUC25": {
@@ -91174,9 +91204,9 @@
     "category": "7.RODILLO EPOXI TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2510,
-      "E": 2703,
-      "F": 2317
+      "D": 2611,
+      "E": 2812,
+      "F": 2410
     }
   },
   "TUC30": {
@@ -91184,9 +91214,9 @@
     "category": "7.RODILLO LANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 4824,
-      "E": 5196,
-      "F": 4453
+      "D": 5018,
+      "E": 5404,
+      "F": 4632
     }
   },
   "TUC31": {
@@ -91194,9 +91224,9 @@
     "category": "7.RODILLO LANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 5083,
-      "E": 5474,
-      "F": 4692
+      "D": 5288,
+      "E": 5694,
+      "F": 4881
     }
   },
   "TUC35": {
@@ -91204,9 +91234,9 @@
     "category": "7.RODILLO LANA TUCAN",
     "bulk": 1.0,
     "prices": {
-      "D": 2920,
-      "E": 3145,
-      "F": 2696
+      "D": 3037,
+      "E": 3271,
+      "F": 2803
     }
   },
   "TUC36": {
@@ -91214,9 +91244,9 @@
     "category": "7.RODILLO LANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2278,
-      "E": 2453,
-      "F": 2103
+      "D": 2370,
+      "E": 2552,
+      "F": 2187
     }
   },
   "TUC37": {
@@ -91224,9 +91254,9 @@
     "category": "7.RODILLO LANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2612,
-      "E": 2813,
-      "F": 2411
+      "D": 2718,
+      "E": 2927,
+      "F": 2508
     }
   },
   "TUC38": {
@@ -91234,9 +91264,9 @@
     "category": "7.RODILLO SIMILANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2219,
-      "E": 2390,
-      "F": 2048
+      "D": 2308,
+      "E": 2485,
+      "F": 2130
     }
   },
   "TUC38R": {
@@ -91244,9 +91274,9 @@
     "category": "7.RODILLO SIMILANA TUCAN",
     "bulk": 50.0,
     "prices": {
-      "D": 1237,
-      "E": 1332,
-      "F": 1142
+      "D": 1286,
+      "E": 1385,
+      "F": 1187
     }
   },
   "TUC39": {
@@ -91254,9 +91284,9 @@
     "category": "7.RODILLO SIMILANA TUCAN",
     "bulk": 10.0,
     "prices": {
-      "D": 2423,
-      "E": 2610,
-      "F": 2237
+      "D": 2520,
+      "E": 2714,
+      "F": 2326
     }
   },
   "TUC4000": {
@@ -91264,9 +91294,9 @@
     "category": "7.PINCELETA V.2",
     "bulk": 20.0,
     "prices": {
-      "D": 2589,
-      "E": 2788,
-      "F": 2390
+      "D": 2668,
+      "E": 2873,
+      "F": 2462
     }
   },
   "TUC4000B": {
@@ -91274,9 +91304,9 @@
     "category": "7.PINCELETA V.2",
     "bulk": 12.0,
     "prices": {
-      "D": 2713,
-      "E": 2922,
-      "F": 2505
+      "D": 2795,
+      "E": 3010,
+      "F": 2580
     }
   },
   "TUC81": {
@@ -91284,9 +91314,9 @@
     "category": "7.BANDEJA P/PINTOR DE PVC",
     "bulk": 12.0,
     "prices": {
-      "D": 945,
-      "E": 1018,
-      "F": 873
+      "D": 984,
+      "E": 1060,
+      "F": 909
     }
   },
   "TUCP07": {
