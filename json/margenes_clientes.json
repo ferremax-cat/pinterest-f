@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 5,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,10,23,28,47)"
+    "ultima_actualizacion": "Date(2026,6,14,8,46,48)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 40,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,10,16,57,52)"
+    "ultima_actualizacion": "Date(2026,6,14,11,48,33)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,11,10,33,25)"
+    "ultima_actualizacion": "Date(2026,6,13,16,2,9)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -75,7 +75,7 @@
     "nombre": "EL RELINCHO FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,9,17,48,23)"
+    "ultima_actualizacion": "Date(2026,6,12,11,5,24)"
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
@@ -117,7 +117,7 @@
     "nombre": "FLORES FERRETERIA",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,4,19,13,17,17)"
+    "ultima_actualizacion": "Date(2026,6,12,13,7,13)"
   },
   "20309": {
     "nombre": "LATINA FERRETERIA",
@@ -129,7 +129,7 @@
     "nombre": "CORRALON EL GATO",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,4,9,22,59)"
+    "ultima_actualizacion": "Date(2026,6,13,16,20,11)"
   },
   "10157": {
     "nombre": "ITATI CORRALON",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,8,10,11,37)"
+    "ultima_actualizacion": "Date(2026,6,14,11,32,43)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -519,7 +519,7 @@
     "nombre": "FERRETERIA LA LUZ",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,8,9,52,10)"
+    "ultima_actualizacion": "Date(2026,6,13,16,58,45)"
   },
   "60172": {
     "nombre": "PIEDRA BLANCA FERRETERIA",
@@ -591,7 +591,7 @@
     "nombre": "ROBERTO FERRIN",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,8,15,56,8)"
+    "ultima_actualizacion": "Date(2026,6,13,11,52,54)"
   },
   "1959": {
     "nombre": "JAIME GONZALEZ",
@@ -736,5 +736,11 @@
     "margen": 60,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,5,20,18,41,45)"
+  },
+  "61001": {
+    "nombre": "FERRIYAN 2",
+    "margen": 35,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,6,13,18,0,43)"
   }
 }
