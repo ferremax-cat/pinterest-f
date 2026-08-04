@@ -1,21 +1,21 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 5,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,21,10,55,31)"
+    "ultima_actualizacion": "Date(2026,7,4,10,20,56)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,19,11,59,46)"
+    "ultima_actualizacion": "Date(2026,7,3,13,11,33)"
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,23,17,19,38)"
+    "ultima_actualizacion": "Date(2026,7,3,10,35,14)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,15,9,17,29)"
+    "ultima_actualizacion": "Date(2026,7,3,9,54,2)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -79,9 +79,9 @@
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
-    "margen": 80,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,23,15,42,33)"
+    "ultima_actualizacion": "Date(2026,6,29,12,16,32)"
   },
   "20310": {
     "nombre": "AMANDA FERRETERIA",
@@ -127,9 +127,9 @@
   },
   "50809": {
     "nombre": "CORRALON EL GATO",
-    "margen": 50,
+    "margen": 30,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,13,16,20,11)"
+    "ultima_actualizacion": "Date(2026,6,25,10,36,17)"
   },
   "10157": {
     "nombre": "ITATI CORRALON",
@@ -177,7 +177,7 @@
     "nombre": "FERRETERIA PITU",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,11,17,53,25)"
+    "ultima_actualizacion": "Date(2026,6,26,11,29,47)"
   },
   "60201": {
     "nombre": "BULONERA WORO",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,14,11,32,43)"
+    "ultima_actualizacion": "Date(2026,6,31,12,19,5)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -405,7 +405,7 @@
     "nombre": "FERRETERIA MYM",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,26,18,20,51)"
+    "ultima_actualizacion": "Date(2026,6,27,18,23,35)"
   },
   "20236": {
     "nombre": "FERRETERIA S Y D",
@@ -471,7 +471,7 @@
     "nombre": "CIRO FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,17,12,39,52)"
+    "ultima_actualizacion": "Date(2026,7,3,16,13,46)"
   },
   "60299": {
     "nombre": "QUIMICA",
@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 50,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,24,10,31,20)"
+    "ultima_actualizacion": "Date(2026,7,4,12,0,51)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -591,7 +591,7 @@
     "nombre": "ROBERTO FERRIN",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,24,12,36,55)"
+    "ultima_actualizacion": "Date(2026,7,4,14,59,8)"
   },
   "1959": {
     "nombre": "JAIME GONZALEZ",
@@ -675,7 +675,7 @@
     "nombre": "FERRETERIA VIGO",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,11,7,57,13)"
+    "ultima_actualizacion": "Date(2026,6,26,11,52,36)"
   },
   "61012": {
     "nombre": "EL TREBOL FERRETERIA",
@@ -699,7 +699,7 @@
     "nombre": "ALBERDI MATERIALES",
     "margen": 65,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,5,1,8,29,22)"
+    "ultima_actualizacion": "Date(2026,6,31,11,43,32)"
   },
   "50826": {
     "nombre": "RODOLFO FERRETERIA",
@@ -748,5 +748,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,6,23,12,34,8)"
+  },
+  "60158": {
+    "nombre": "EL CHUECO FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,7,1,10,52,53)"
   }
 }
