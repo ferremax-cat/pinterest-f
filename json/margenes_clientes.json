@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 7,
+    "margen": 5,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,6,18,44,38)"
+    "ultima_actualizacion": "Date(2026,7,7,14,23,21)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -255,7 +255,7 @@
     "nombre": "CORRALON TRANSOL",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,3,17,14,10,47)"
+    "ultima_actualizacion": "Date(2026,7,7,16,18,54)"
   },
   "60282": {
     "nombre": "FERRETERIA JMK",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,31,12,19,5)"
+    "ultima_actualizacion": "Date(2026,7,7,15,22,15)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 50,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,6,13,36,55)"
+    "ultima_actualizacion": "Date(2026,7,7,13,26,39)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -772,5 +772,11 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,7,7,12,25,9)"
+  },
+  "60215": {
+    "nombre": "FERRETERIA COLON",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,7,7,16,42,36)"
   }
 }
