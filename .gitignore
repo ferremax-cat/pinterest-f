@@ -26,3 +26,8 @@ js/modificaciones-temp.js
 # Añade token.pickle al archivo
 token.pickle
 credentials.json
+
+# Credenciales de servicio - NUNCA commitear
+credenciales/
+*.credentials.json
+service-account*.json
