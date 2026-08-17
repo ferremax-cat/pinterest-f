@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 50,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,15,18,24,18)"
+    "ultima_actualizacion": "Date(2026,7,17,9,32,29)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -591,7 +591,7 @@
     "nombre": "ROBERTO FERRIN",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,14,16,19,18)"
+    "ultima_actualizacion": "Date(2026,7,17,9,23,22)"
   },
   "1959": {
     "nombre": "JAIME GONZALEZ",
@@ -784,5 +784,11 @@
     "margen": 40,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,7,8,12,9,47)"
+  },
+  "50820": {
+    "nombre": "FERRETERIA LA PETY",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,7,17,9,31,50)"
   }
 }
