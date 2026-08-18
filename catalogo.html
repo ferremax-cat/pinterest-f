@@ -1072,6 +1072,16 @@
 
                //--agregue 19-3-25
 
+               // Si cambio el cliente logueado, hay que reinicializar si o si
+               const clienteActivoPrevio = sessionStorage.getItem('clienteActivo');
+               const clienteActivoAhora = String(clientConfig.account || '');
+
+               if (clienteActivoPrevio !== clienteActivoAhora) {
+                    console.log('[INIT] Cambio de cliente detectado:', clienteActivoPrevio, '->', clienteActivoAhora);
+                    sessionStorage.removeItem('managersInitialized');
+                    sessionStorage.setItem('clienteActivo', clienteActivoAhora);
+               }
+
                const managersInitialized = sessionStorage.getItem('managersInitialized') === 'true';
                
 
