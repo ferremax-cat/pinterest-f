@@ -25,9 +25,12 @@ class ProductManager {
      * @param {Object} config Configuración opcional
      * @returns {ProductManager}
      */
-  static getInstance(config = {}) {
+    static getInstance(config = {}) {
     if (!ProductManager.#instance) {
         ProductManager.#instance = new ProductManager(config);
+    } else if (config.clientData && Object.keys(config.clientData).length) {
+        // El singleton existia: refrescar los datos del cliente actual
+        ProductManager.#instance.clientData = config.clientData;
     }
     return ProductManager.#instance;
   }
