@@ -1,21 +1,21 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 5,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,18,9,29,49)"
+    "ultima_actualizacion": "Date(2026,7,19,9,48,54)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,18,14,43,30)"
+    "ultima_actualizacion": "Date(2026,7,19,18,47,48)"
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 50,
+    "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,18,13,1,45)"
+    "ultima_actualizacion": "Date(2026,7,20,10,58,25)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,3,9,54,2)"
+    "ultima_actualizacion": "Date(2026,7,19,14,27,35)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -129,7 +129,7 @@
     "nombre": "CORRALON EL GATO",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,14,11,42,11)"
+    "ultima_actualizacion": "Date(2026,7,19,10,15,38)"
   },
   "10157": {
     "nombre": "ITATI CORRALON",
@@ -385,9 +385,9 @@
   },
   "60289": {
     "nombre": "FERRETERIA EL ÑANDU",
-    "margen": 30,
+    "margen": 25,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,15,22,17,0)"
+    "ultima_actualizacion": "Date(2026,7,20,9,49,35)"
   },
   "20268": {
     "nombre": "CORRALON CARCAZA",
@@ -555,7 +555,7 @@
     "nombre": "FERRETERIA CONTRERAS",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,18,15,3,38)"
+    "ultima_actualizacion": "Date(2026,7,20,12,22,16)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -591,7 +591,7 @@
     "nombre": "ROBERTO FERRIN",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,17,9,23,22)"
+    "ultima_actualizacion": "Date(2026,7,19,13,1,10)"
   },
   "1959": {
     "nombre": "JAIME GONZALEZ",
@@ -793,8 +793,20 @@
   },
   "40147": {
     "nombre": "ATR FERRETERIA",
-    "margen": 60,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,18,12,49,24)"
+    "ultima_actualizacion": "Date(2026,7,19,12,2,48)"
+  },
+  "965": {
+    "nombre": "CASA CAEIRO MATERIALES",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,7,20,12,1,27)"
+  },
+  "962": {
+    "nombre": "AZ FERRTERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,7,20,12,1,56)"
   }
 }

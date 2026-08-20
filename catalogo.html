@@ -1072,6 +1072,16 @@
 
                //--agregue 19-3-25
 
+               // Si cambio el cliente logueado, hay que reinicializar si o si
+               const clienteActivoPrevio = sessionStorage.getItem('clienteActivo');
+               const clienteActivoAhora = String(clientConfig.account || '');
+
+               if (clienteActivoPrevio !== clienteActivoAhora) {
+                    console.log('[INIT] Cambio de cliente detectado:', clienteActivoPrevio, '->', clienteActivoAhora);
+                    sessionStorage.removeItem('managersInitialized');
+                    sessionStorage.setItem('clienteActivo', clienteActivoAhora);
+               }
+
                const managersInitialized = sessionStorage.getItem('managersInitialized') === 'true';
                
 
@@ -1302,11 +1312,9 @@
                                    }
                               }
 
-                              //const precio = priceMap[codigoLimpio]; // VIEJO
-                              console.log('[catalogo.html- cargargarImagenes Precios 2] Debug precio:', codigoLimpio, productManager.getPrice(codigoLimpio));
-                              
-                              if (priceMap[codigoLimpio]) {
-                                   const precio = productManager.getPrice(codigoLimpio); // NUEVO
+                              // Precio unificado: unica fuente de verdad (js/precios.js)
+                              // Ya no depende de priceMap ni de getPrice asincrono
+                              if (window.Precios) {
                                    const bottomRowDiv = item.querySelector('.bottom-row');
                                    let precioElement = bottomRowDiv.querySelector('.price-tag');
                                    if (!precioElement) {
@@ -1314,15 +1322,7 @@
                                         precioElement.className = 'price-tag';
                                         bottomRowDiv.appendChild(precioElement);
                                    }
-                                   precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
-
-                                   console.log('[catalogo.html- cargargarImagenes Precios 3]', {
-                                   precio,
-                                   elementoCreado: precioElement.textContent,
-                                   padreVisible: bottomRowDiv.offsetParent !== null,
-                                   elementoVisible: precioElement.offsetParent !== null
-                                   });
-
+                                   window.Precios.pintarPrecio(precioElement, codigoLimpio);
                               }
                               }
                          });
@@ -1521,50 +1521,20 @@
                          
                          const codigoMayus = codigo.toUpperCase();
                          
-                         // Intentar obtener el precio del producto
+                                                  // Precio unificado: unica fuente de verdad (js/precios.js)
                          try {
-                              // Intentar primero con getPrice (método oficial)
-                              const precio = await window.productManager.getPrice(codigoMayus);
-                              console.log(`[DEBUG-PRECIOS] Precio obtenido para ${codigoMayus}:`, precio);
-                              
-                              if (precio !== null && precio !== undefined) {
-                                   // Obtener o crear el elemento para el precio
-                                   const bottomRowDiv = item.querySelector('.bottom-row');
-                                   if (bottomRowDiv) {
-                                        let precioElement = bottomRowDiv.querySelector('.price-tag');
-                                        
-                                        // Si no existe el elemento para el precio, crearlo
-                                        if (!precioElement) {
-                                             precioElement = document.createElement('span');
-                                             precioElement.className = 'price-tag';
-                                             bottomRowDiv.appendChild(precioElement);
-                                        }
-                                        
-                                        // Actualizar el texto del precio
-                                        precioElement.textContent = `$${precio.toLocaleString('es-AR')}`;
-                                        console.log(`[DEBUG-PRECIOS] Precio mostrado para ${codigoMayus}: $${precio.toLocaleString('es-AR')}`);
+                              const bottomRowDiv = item.querySelector('.bottom-row');
+                              if (bottomRowDiv && window.Precios) {
+                                   let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                   if (!precioElement) {
+                                        precioElement = document.createElement('span');
+                                        precioElement.className = 'price-tag';
+                                        bottomRowDiv.appendChild(precioElement);
                                    }
-                              } else {
-                                   console.log(`[DEBUG-PRECIOS] No se pudo obtener precio para ${codigoMayus}`);
-                                   
-                                   // Intentar obtener el precio directamente del producto como alternativa
-                                   const producto = window.productManager.products.get(codigoMayus);
-                                   if (producto && producto.precio) {
-                                        const bottomRowDiv = item.querySelector('.bottom-row');
-                                        if (bottomRowDiv) {
-                                             let precioElement = bottomRowDiv.querySelector('.price-tag');
-                                             if (!precioElement) {
-                                             precioElement = document.createElement('span');
-                                             precioElement.className = 'price-tag';
-                                             bottomRowDiv.appendChild(precioElement);
-                                             }
-                                             precioElement.textContent = `$${producto.precio.toLocaleString('es-AR')}`;
-                                             console.log(`[DEBUG-PRECIOS] Precio (alternativo) mostrado para ${codigoMayus}: $${producto.precio}`);
-                                        }
-                                   }
+                                   window.Precios.pintarPrecio(precioElement, codigoMayus);
                               }
                          } catch (error) {
-                              console.log(`[DEBUG-PRECIOS] Error al obtener precio para ${codigoMayus}:`, error);
+                              console.log(`[PRECIOS] Error al pintar ${codigoMayus}:`, error);
                          }
                          }
 
@@ -3900,6 +3870,9 @@
 
      <!-- Búsqueda de Clientes -->
      <script src="./js/busqueda-clientes.js"></script>
+
+     <!-- Nuevo modulo que controla precios -->
+     <script type="module" src="js/precios.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->
