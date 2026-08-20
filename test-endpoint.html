@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Endpoint Ferremax</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    button { padding: 10px 18px; margin: 6px 6px 6px 0; cursor: pointer; font-size: 14px; }
+    pre { background: #f4f4f4; padding: 14px; border-radius: 6px; white-space: pre-wrap; word-break: break-all; }
+    .ok { color: #0a0; font-weight: bold; }
+    .err { color: #c00; font-weight: bold; }
+    input { width: 100%; padding: 8px; margin-bottom: 14px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h2>Test de endpoint — Ferremax API</h2>
+
+  <label>URL del despliegue (termina en /exec):</label>
+  <input id="url" placeholder="https://script.google.com/macros/s/.../exec">
+
+  <div>
+    <button onclick="probar('ping')">1. Ping (GET)</button>
+    <button onclick="probar('test_planilla')">2. Leer planilla (GET)</button>
+    <button onclick="probarPost()">3. POST</button>
+  </div>
+
+  <pre id="salida">Pegá la URL y probá los tres botones en orden.</pre>
+
+<script>
+const salida = document.getElementById('salida');
+
+function log(txt, clase) {
+  salida.innerHTML += `\n<span class="${clase || ''}">${txt}</span>`;
+}
+
+function getUrl() {
+  const u = document.getElementById('url').value.trim();
+  if (!u.endsWith('/exec')) {
+    salida.textContent = '';
+    log('ERROR: la URL debe terminar en /exec', 'err');
+    return null;
+  }
+  return u;
+}
+
+async function probar(accion) {
+  const url = getUrl();
+  if (!url) return;
+
+  salida.textContent = `GET accion=${accion} ...`;
+  const t0 = performance.now();
+
+  try {
+    const resp = await fetch(`${url}?accion=${accion}`);
+    const ms = Math.round(performance.now() - t0);
+    const data = await resp.json();
+
+    log(`\nOK en ${ms} ms`, 'ok');
+    log(JSON.stringify(data, null, 2));
+  } catch (err) {
+    const ms = Math.round(performance.now() - t0);
+    log(`\nFALLO tras ${ms} ms`, 'err');
+    log(String(err), 'err');
+  }
+}
+
+async function probarPost() {
+  const url = getUrl();
+  if (!url) return;
+
+  salida.textContent = 'POST ...';
+  const t0 = performance.now();
+
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ prueba: true, desde: 'test-endpoint.html' })
+    });
+    const ms = Math.round(performance.now() - t0);
+    const data = await resp.json();
+
+    log(`\nOK en ${ms} ms`, 'ok');
+    log(JSON.stringify(data, null, 2));
+  } catch (err) {
+    const ms = Math.round(performance.now() - t0);
+    log(`\nFALLO tras ${ms} ms`, 'err');
+    log(String(err), 'err');
+  }
+}
+</script>
+</body>
+</html>

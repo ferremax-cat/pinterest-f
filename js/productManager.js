@@ -25,9 +25,12 @@ class ProductManager {
      * @param {Object} config Configuración opcional
      * @returns {ProductManager}
      */
-  static getInstance(config = {}) {
+    static getInstance(config = {}) {
     if (!ProductManager.#instance) {
         ProductManager.#instance = new ProductManager(config);
+    } else if (config.clientData && Object.keys(config.clientData).length) {
+        // El singleton existia: refrescar los datos del cliente actual
+        ProductManager.#instance.clientData = config.clientData;
     }
     return ProductManager.#instance;
   }
@@ -182,6 +185,8 @@ class ProductManager {
                 
             }
         
+          // El flag va ANTES de guardar, si no se persiste en false
+            this.#initialized = true;
 
           // Guardar estado en sessionStorage
             this.#saveState();
@@ -273,7 +278,14 @@ class ProductManager {
                 }
             }
 
-            // 3. Convertir a Map
+            // 3. Convertir a Map, re-resolviendo el precio segun la lista
+            //    del cliente ACTUAL (la cache puede venir de otro cliente)
+            const listaActual = this.clientData?.priceList || 'D';
+            Object.values(productosFiltrados).forEach(p => {
+                if (p.precios && p.precios[listaActual] !== undefined) {
+                    p.precio = p.precios[listaActual];
+                }
+            });
             this.products = new Map(Object.entries(productosFiltrados));
             console.log('Map creado:', {
                 size: this.products.size,
@@ -299,10 +311,13 @@ class ProductManager {
 
             console.log('Métricas actualizadas:', this.metrics);
             
+             // Agregar esta línea:
+            // El flag va ANTES de guardar, si no se persiste en false 
+            this.#initialized = true;
+            
             // Guardar estado actualizado
             this.#saveState();
-             // Agregar esta línea:
-            this.#initialized = true;
+            
 
 
               // En loadFromCache, justo antes de guardar en caché
@@ -468,6 +483,7 @@ class ProductManager {
             categoria: productData.category,
             bulto: productData.bulk,
             precio: productData.prices[this.clientData.priceList],
+            precios: productData.prices,
             metadata: {
               lastUpdate: Date.now(),
               estado: 'activo'
@@ -996,7 +1012,7 @@ class ProductManager {
    * @returns {Array} Productos encontrados
    */
   searchProducts(criteria = {}) {
-    this.monitoringSystem.trackUsage('search', { criteria });
+    this.monitor?.trackUsage?.('search', { criteria });
 
     try {
       let results = Array.from(this.products.values());
@@ -1018,7 +1034,7 @@ class ProductManager {
       // Filtrar por rango de precio
       if (criteria.precioMin || criteria.precioMax) {
         results = results.filter(p => {
-          const precio = p.precios[this.clientData.priceList];
+          const precio = p.precios?.[this.clientData.priceList] ?? p.precio;
           if (!precio) return false;
           if (criteria.precioMin && precio < criteria.precioMin) return false;
           if (criteria.precioMax && precio > criteria.precioMax) return false;
