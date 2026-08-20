@@ -6,6 +6,20 @@ import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
 
 
+// --- Login por endpoint (Etapa 1) ---
+// Interruptor de convivencia: en false, vuelve al comportamiento anterior.
+const USAR_LOGIN_ENDPOINT = true;
+const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+
+async function autenticarEnEndpoint(clave) {
+    const resp = await fetch(URL_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ accion: 'login', clave: String(clave).trim() })
+    });
+    return await resp.json();
+}
+
 class LoginManager {
 
     static #instance = null;
@@ -42,7 +56,29 @@ class LoginManager {
             // 1. PRIMERO: Limpiar las cachés antes de procesar el nuevo login
             this.limpiarCachesAlCambiarUsuario();
 
-                   
+                        // Autenticacion contra el endpoint: el servidor decide si la clave
+            // es valida y cual es el rol. Los permisos siguen viniendo del JSON.
+            if (USAR_LOGIN_ENDPOINT) {
+                try {
+                    const auth = await autenticarEnEndpoint(inputClave);
+
+                    if (!auth.ok) {
+                        console.log('Login rechazado por el endpoint:', auth.error);
+                        return false;
+                    }
+
+                    sessionStorage.setItem('authToken', auth.token);
+                    sessionStorage.setItem('authRol', auth.rol);
+                    sessionStorage.setItem('authCodigo', auth.codigo || '');
+                    sessionStorage.setItem('authVence', String(auth.vence));
+
+                    console.log('Autenticado como', auth.rol, auth.nombre);
+                } catch (err) {
+                    // Si el endpoint no responde, se sigue con el metodo anterior
+                    // para no dejar a nadie afuera. Transitorio.
+                    console.warn('Endpoint no disponible, usando validacion local:', err);
+                }
+            }       
         
             //- fin agregue 19-3-25
 
