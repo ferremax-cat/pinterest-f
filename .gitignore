@@ -15,7 +15,8 @@ LISTA SABANA.xls
 *.bak
 *.tmp.vscode/
 .vscode/
-doc
+doc/*
+!doc/especificacion-carrito-v12.md
 
 node_modules/
 package-lock.json

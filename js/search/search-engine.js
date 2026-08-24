@@ -1426,6 +1426,7 @@ function displayNoResults(query) {
               
             });  
 
+           
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
@@ -1439,7 +1440,7 @@ function displayNoResults(query) {
 
               <div class="bottom-row">
               <a href="#" style="font-weight: 400 !important;">${itemCode}</a>
-              ${item.price ? `<span class="price-tag" data-original-price="${item.price}" >$${formatPrice(item.price)}</span>` : ''}
+              <span class="price-tag" data-sku="${item.code}"></span>
               </div>
             </div>
 
@@ -1455,6 +1456,13 @@ function displayNoResults(query) {
           
           // Añadir el item a la galería
           galleryContainer.appendChild(galleryItem);
+
+                    // Precio unificado: se resuelve segun la lista vigente (cliente
+          // logueado, o el que el vendedor tenga seleccionado)
+          if (window.Precios) {
+            const tagPrecio = galleryItem.querySelector('.price-tag');
+            if (tagPrecio) window.Precios.pintarPrecio(tagPrecio, item.code);
+          }  
 
           // Procesar el precio del nuevo elemento si existe
           const priceTag = galleryItem.querySelector('.price-tag');
