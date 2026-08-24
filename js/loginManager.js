@@ -20,6 +20,20 @@ async function autenticarEnEndpoint(clave) {
     return await resp.json();
 }
 
+/**
+ * Despierta el endpoint mientras el usuario escribe su clave.
+ * No bloquea nada: si falla, se ignora.
+ */
+function calentarEndpoint() {
+    if (!USAR_LOGIN_ENDPOINT) return;
+    const t0 = performance.now();
+    fetch(URL_API + '?accion=ping')
+        .then(r => r.json())
+        .then(() => console.log('[LOGIN] Warm-up listo en', Math.round(performance.now() - t0), 'ms'))
+        .catch(() => { /* silencioso */ });
+}
+
+
 class LoginManager {
 
     static #instance = null;
@@ -56,7 +70,10 @@ class LoginManager {
             // 1. PRIMERO: Limpiar las cachés antes de procesar el nuevo login
             this.limpiarCachesAlCambiarUsuario();
 
-                        // Autenticacion contra el endpoint: el servidor decide si la clave
+            // Al entrar, ningun cliente seleccionado: la lista es la del que se loguea
+            sessionStorage.removeItem('clienteVista');
+
+            // Autenticacion contra el endpoint: el servidor decide si la clave
             // es valida y cual es el rol. Los permisos siguen viniendo del JSON.
             if (USAR_LOGIN_ENDPOINT) {
                 try {

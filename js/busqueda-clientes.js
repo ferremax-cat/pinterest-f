@@ -459,6 +459,17 @@ class BusquedaClientes {
             console.error('[Búsqueda Clientes] BarraSaludFinanciera no disponible');
         }
 
+        // Aplicar la lista de precios del cliente seleccionado.
+        // Solo vendedores y admin: el cliente final ve siempre la suya.
+        const rol = sessionStorage.getItem('authRol') || '';
+        if (window.Precios && rol !== 'cliente_estandar') {
+            window.Precios.setClienteVista(cuenta).then(info => {
+                if (info) {
+                    console.log('[Precios] Mostrando lista', info.lista, 'de', info.nombre);
+                }
+            });
+        }
+
         // Limpiar resultados y restaurar estado previo
         const debeOcultar = !this.barraInfoEstabaVisible;
         this.limpiarResultados(debeOcultar);

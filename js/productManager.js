@@ -632,6 +632,20 @@ class ProductManager {
                     
 
                   };
+                  // Incorporar el producto a memoria para que getProduct lo
+                  // encuentre despues. Guardamos las TRES listas: el precio
+                  // final se resuelve al mostrar, no aca.
+                  if (!this.products.has(codigoMayusculas)) {
+                    this.products.set(codigoMayusculas, {
+                      codigo: codigoMayusculas,
+                      nombre: productData.name,
+                      categoria: productData.category,
+                      bulto: productData.bulk,
+                      precio: productData.prices[clientePriceList] || productData.prices.D || 0,
+                      precios: productData.prices,
+                      metadata: { lastUpdate: Date.now(), estado: 'activo' }
+                    });
+                  }
                 }
               } catch (error) {
                 console.warn(`[ProductManager] Error al procesar ${codigo}:`, error);
