@@ -8,7 +8,7 @@ import ImageLoader from './imageLoader.js';
 
 // --- Login por endpoint (Etapa 1) ---
 // Interruptor de convivencia: en false, vuelve al comportamiento anterior.
-const USAR_LOGIN_ENDPOINT = true;
+const USAR_LOGIN_ENDPOINT = false; // Cambiar a true para usar el endpoint de login
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
 
 async function autenticarEnEndpoint(clave) {
