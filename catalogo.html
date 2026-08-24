@@ -1767,26 +1767,19 @@
 
 
                                         
-                                        // Agregar precio si está disponible
-                                        if (producto && producto.precio) {
-                                             const bottomRowDiv = template.querySelector('.bottom-row');
-                                        
-                                             if (bottomRowDiv) {
-                                                  let precioElement = bottomRowDiv.querySelector('.price-tag');
-
-                                                  if (precioElement) {
-                                                       precioElement.textContent = ''; // Limpiar primero
-                                                  }
-                                                  
-                                                  if (!precioElement) {
-                                                       precioElement = document.createElement('span');
-                                                       precioElement.className = 'price-tag';
-                                                       bottomRowDiv.appendChild(precioElement);
-                                                  }
-                                                  
-                                                  precioElement.textContent = `$${producto.precio.toLocaleString('es-AR')}`;
+                                        // Precio unificado: unica fuente de verdad (js/precios.js)
+                                        const bottomRowDiv = template.querySelector('.bottom-row');
+                                        if (bottomRowDiv && window.Precios) {
+                                             let precioElement = bottomRowDiv.querySelector('.price-tag');
+                                             if (!precioElement) {
+                                                  precioElement = document.createElement('span');
+                                                  precioElement.className = 'price-tag';
+                                                  bottomRowDiv.appendChild(precioElement);
                                              }
-
+                                             // Limpiar marcas heredadas del template clonado
+                                             delete precioElement.dataset.processed;
+                                             delete precioElement.dataset.originalPrice;
+                                             window.Precios.pintarPrecio(precioElement, codigoMayus);
                                         }else {
                                              // Si el producto no existe, mostrar "$0.00"
                                              const bottomRowDiv = template.querySelector('.bottom-row');

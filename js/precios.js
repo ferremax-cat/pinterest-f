@@ -6,6 +6,67 @@
  * Todos llaman a estas funciones.
  */
 
+// --- Cliente en vista (solo vendedor) ---
+// Si el vendedor selecciona un cliente, los precios pasan a ser los de ese
+// cliente. Se guarda en sessionStorage para que las rutas que pintan despues
+// (scroll, busquedas) usen la lista correcta sin saber nada de esto.
+
+let permisosCache = null;
+
+async function cargarPermisos() {
+  if (permisosCache) return permisosCache;
+  const resp = await fetch('./json/clientes_permisos.json');
+  permisosCache = await resp.json();
+  return permisosCache;
+}
+
+export function getClienteVista() {
+  // Solo aplica para vendedor/admin: un cliente final ve siempre su lista
+  const rol = sessionStorage.getItem('authRol') || '';
+  if (rol === 'cliente_estandar') return null;
+
+  const raw = sessionStorage.getItem('clienteVista');
+  return raw ? JSON.parse(raw) : null;
+}
+
+/**
+ * Fija el cliente cuyos precios se muestran y repinta lo visible.
+ * @returns {Promise<object|null>} datos del cliente aplicado
+ */
+export async function setClienteVista(cuenta) {
+  const permisos = await cargarPermisos();
+  const datos = permisos[String(cuenta)];
+
+  if (!datos || !datos.priceList) {
+    console.warn('[Precios] Sin lista de precios para la cuenta', cuenta);
+    return null;
+  }
+
+  const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: datos.name || '' };
+  sessionStorage.setItem('clienteVista', JSON.stringify(info));
+  repintarTodos();
+  return info;
+}
+
+export function limpiarClienteVista() {
+  sessionStorage.removeItem('clienteVista');
+  repintarTodos();
+}
+
+/**
+ * Repinta todos los precios visibles con la lista vigente.
+ */
+export function repintarTodos() {
+  let n = 0;
+  document.querySelectorAll('.price-tag[data-sku]').forEach(tag => {
+    pintarPrecio(tag, tag.dataset.sku);
+    n++;
+  });
+  console.log('[Precios] Repintados', n, 'precios');
+  return n;
+}
+
+
 /**
  * Precio de lista del cliente activo.
  * Es el numero que manda: va al carrito, al pedido y a los calculos.
@@ -22,7 +83,9 @@ export function precioLista(sku) {
   const producto = pm.getProduct(codigo);
   if (!producto) return null;
 
-  const lista = pm.clientData?.priceList;
+  // El cliente en vista (elegido por el vendedor) tiene prioridad
+  const enVista = getClienteVista();
+  const lista = enVista ? enVista.lista : pm.clientData?.priceList;
 
   // Preferimos resolver desde las tres listas
   if (lista && producto.precios && producto.precios[lista] !== undefined) {
@@ -85,4 +148,6 @@ export function pintarPrecio(elemento, sku) {
 }
 
 // Disponible tambien sin modulos, para las rutas que estan en catalogo.html
-window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio };
+window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio,
+setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos  
+ };
