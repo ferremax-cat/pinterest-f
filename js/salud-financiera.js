@@ -46,41 +46,42 @@ const BarraSaludFinanciera = {
     // Mostrar la barra
     mostrar(datosCliente, modoCliente = false) {
         if (!this.barra) return;
-        
-        console.log('[Salud Financiera] Mostrando barra con datos:', datosCliente);
-        console.log('[Salud Financiera] Modo cliente:', modoCliente);
-    
-        // ⭐ Agregar/quitar clase modo-cliente
+
+        // Cancelar un ocultamiento pendiente: si no, su timeout
+        // apaga la barra que acabamos de mostrar
+        if (this._timerOcultar) {
+            clearTimeout(this._timerOcultar);
+            this._timerOcultar = null;
+        }
+
         if (modoCliente) {
             this.barra.classList.add('modo-cliente');
         } else {
             this.barra.classList.remove('modo-cliente');
         }
-        
-        // Actualizar datos
+
         this.actualizarDatos(datosCliente);
-        
-        // Mostrar barra
+
         this.barra.style.display = 'block';
         setTimeout(() => {
             this.barra.classList.add('visible');
         }, 10);
-        
-        // Agregar clase al body para ajustar otras barras
+
+        // La clase del body es lo que separa las dos barras.
+        // Sin ella quedan superpuestas.
         document.body.classList.add('salud-financiera-activa');
-        
+
         this.visible = true;
     },
     
     // Ocultar la barra
     ocultar() {
         if (!this.barra) return;
-        
-        console.log('[Salud Financiera] Ocultando barra');
-        
+
         this.barra.classList.remove('visible');
-        setTimeout(() => {
+        this._timerOcultar = setTimeout(() => {
             this.barra.style.display = 'none';
+            this._timerOcultar = null;
         }, 300);
         
         // Quitar clase del body
@@ -119,6 +120,14 @@ const BarraSaludFinanciera = {
             nombreElem.textContent = datos.nombre || '---';
         }
         
+        // Lista de precios vigente para este cliente
+        const listaElem = document.getElementById('cliente-lista');
+        if (listaElem) {
+            const enVista = window.Precios ? window.Precios.getClienteVista() : null;
+            listaElem.textContent = enVista ? `Lista ${enVista.lista}` : '';
+        }
+
+
         // PG Prom 3M
         const pgPromElem = document.getElementById('pg-prom');
         if (pgPromElem) {

@@ -74,6 +74,13 @@ class BusquedaClientes {
         if (this.barraInfo) {
             const estiloActual = window.getComputedStyle(this.barraInfo);
             this.barraInfoEstabaVisible = estiloActual.display !== 'none';
+
+            // Guardar el contenido: al cambiar de cliente la barra se limpia
+            // y se pierde el boton Limpiar, que es la salida al estado inicial
+            if (this.barraInfo.textContent.trim()) {
+                this.barraInfoHTML = this.barraInfo.innerHTML;
+            }
+
             console.log('[Búsqueda Clientes] Estado previo barra-info visible:', this.barraInfoEstabaVisible);
         }
 
@@ -430,7 +437,7 @@ class BusquedaClientes {
     /**
      * Seleccionar un cliente y mostrar su salud financiera
      */
-    seleccionarCliente(cuenta) {
+    async seleccionarCliente(cuenta) {
         console.log('[Búsqueda Clientes] Cliente seleccionado:', cuenta);
         
         const cliente = this.clientesData[cuenta];
@@ -451,6 +458,14 @@ class BusquedaClientes {
             ultOperacion: cliente.ultOperacion  // ⭐ AGREGAR
         };
         
+        // Aplicar la lista de precios ANTES de mostrar la barra,
+        // para que la etiqueta de lista tenga el dato disponible
+        const rol = sessionStorage.getItem('authRol') || '';
+        if (window.Precios && rol !== 'cliente_estandar') {
+            await window.Precios.setClienteVista(cuenta);
+        }
+
+
         // Mostrar barra de salud financiera
         if (window.BarraSaludFinanciera) {
             window.BarraSaludFinanciera.mostrar(datosFinancieros);
@@ -459,21 +474,18 @@ class BusquedaClientes {
             console.error('[Búsqueda Clientes] BarraSaludFinanciera no disponible');
         }
 
-        // Aplicar la lista de precios del cliente seleccionado.
-        // Solo vendedores y admin: el cliente final ve siempre la suya.
-        const rol = sessionStorage.getItem('authRol') || '';
-        if (window.Precios && rol !== 'cliente_estandar') {
-            window.Precios.setClienteVista(cuenta).then(info => {
-                if (info) {
-                    console.log('[Precios] Mostrando lista', info.lista, 'de', info.nombre);
-                }
-            });
-        }
+        
 
-        // Limpiar resultados y restaurar estado previo
-        const debeOcultar = !this.barraInfoEstabaVisible;
+         // Limpiar resultados y restaurar estado previo.
+        // Si hay un cliente seleccionado, la barra debe quedar visible
+        // aunque el estado capturado diga lo contrario: ese dato queda
+        // viejo cuando se cambia de cliente varias veces seguidas.
+        const hayClienteSeleccionado = window.Precios && window.Precios.getClienteVista();
+        const debeOcultar = !this.barraInfoEstabaVisible && !hayClienteSeleccionado;
         this.limpiarResultados(debeOcultar);
         console.log('[Búsqueda Clientes] Restaurando barra-info, ocultar:', debeOcultar);
+
+        
 
 
         // Limpiar input de búsqueda
@@ -484,6 +496,17 @@ class BusquedaClientes {
         // ⭐ NUEVO: Desactivar modo búsqueda de clientes automáticamente
         // Esto restaura la búsqueda de productos
         this.desactivar();
+
+        // Si hay cliente seleccionado, la barra de resultados debe volver:
+        // su boton Limpiar es la unica salida al estado inicial
+        if (hayClienteSeleccionado && this.barraInfoHTML) {
+            const barraInfo = document.getElementById('barra-info-contextual');
+            if (barraInfo && !barraInfo.textContent.trim()) {
+                barraInfo.innerHTML = this.barraInfoHTML;
+                barraInfo.classList.add('visible');
+                console.log('[Búsqueda Clientes] Barra de resultados restaurada');
+            }
+        }
         
         // ⭐ NUEVO: Dar foco al input para buscar productos inmediatamente
         if (this.searchInput) {
