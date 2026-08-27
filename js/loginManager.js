@@ -73,6 +73,13 @@ class LoginManager {
             // Al entrar, ningun cliente seleccionado: la lista es la del que se loguea
             sessionStorage.removeItem('clienteVista');
 
+            // Limpiar credenciales de la sesion anterior: si el endpoint
+            // esta apagado, no se sobrescriben y queda el rol viejo
+            sessionStorage.removeItem('authRol');
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('authCodigo');
+            sessionStorage.removeItem('authVence');
+
             // Autenticacion contra el endpoint: el servidor decide si la clave
             // es valida y cual es el rol. Los permisos siguen viniendo del JSON.
             if (USAR_LOGIN_ENDPOINT) {

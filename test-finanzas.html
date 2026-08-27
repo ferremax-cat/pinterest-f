@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Finanzas Ferremax</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; }
+    input { padding: 8px; margin-bottom: 10px; font-family: monospace; }
+    #url { width: 100%; }
+    button { padding: 10px 16px; margin: 6px 6px 6px 0; cursor: pointer; }
+    pre { background: #f4f4f4; padding: 14px; border-radius: 6px; white-space: pre-wrap; word-break: break-all; }
+    .ok { color: #0a0; font-weight: bold; }
+    .err { color: #c00; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Test de finanzas — Ferremax API</h2>
+
+  <label>URL del despliegue:</label><br>
+  <input id="url" placeholder="https://script.google.com/macros/s/.../exec"><br>
+
+  <label>Clave para entrar:</label><br>
+  <input id="clave" placeholder="1218">
+  <button onclick="login()">1. Login</button><br>
+
+  <label>Cuenta a consultar:</label><br>
+  <input id="cuenta" placeholder="20271">
+  <button onclick="consultar()">2. Consultar finanzas</button>
+
+  <pre id="salida">Primero login, despues consultar.</pre>
+
+<script>
+const salida = document.getElementById('salida');
+let token = null;
+
+function log(txt, clase) {
+  salida.innerHTML += `\n<span class="${clase || ''}">${txt}</span>`;
+}
+
+async function postear(cuerpo) {
+  const url = document.getElementById('url').value.trim();
+  if (!url.endsWith('/exec')) {
+    salida.textContent = '';
+    log('ERROR: la URL debe terminar en /exec', 'err');
+    return null;
+  }
+  const t0 = performance.now();
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(cuerpo)
+  });
+  const data = await resp.json();
+  data._ms = Math.round(performance.now() - t0);
+  return data;
+}
+
+async function login() {
+  salida.textContent = 'Entrando...';
+  const d = await postear({ accion: 'login', clave: document.getElementById('clave').value });
+  if (!d) return;
+  if (d.ok) {
+    token = d.token;
+    log(`\nLOGIN OK (${d._ms} ms) — ${d.nombre} · ${d.rol}`, 'ok');
+  } else {
+    log(`\nRECHAZADO: ${d.error}`, 'err');
+  }
+}
+
+async function consultar() {
+  if (!token) { salida.textContent = ''; log('Primero hace login', 'err'); return; }
+  salida.textContent = 'Consultando...';
+  const d = await postear({ accion: 'finanzas', token, cuenta: document.getElementById('cuenta').value });
+  if (!d) return;
+  log(`\n${d.ok ? 'OK' : 'ERROR'} (${d._ms} ms)`, d.ok ? 'ok' : 'err');
+  log(JSON.stringify(d, null, 2));
+  if (d.ok && d.disponible === undefined) {
+    log('\nNo vino "disponible" — correcto si el rol es cliente_estandar', 'ok');
+  }
+}
+</script>
+</body>
+</html>
