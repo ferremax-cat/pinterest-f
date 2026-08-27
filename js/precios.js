@@ -21,8 +21,12 @@ async function cargarPermisos() {
 }
 
 export function getClienteVista() {
-  // Solo aplica para vendedor/admin: un cliente final ve siempre su lista
-  const rol = sessionStorage.getItem('authRol') || '';
+  // El rol sale del token si existe; si no, de menuFuncionalidades.
+  // Asi funciona con o sin el login por endpoint.
+  let rol = sessionStorage.getItem('authRol');
+  if (!rol) {
+    rol = window.menuFuncionalidades?.usuarioActual?.rol || '';
+  }
   if (rol === 'cliente_estandar') return null;
 
   const raw = sessionStorage.getItem('clienteVista');
