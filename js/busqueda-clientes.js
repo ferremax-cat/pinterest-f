@@ -3,6 +3,30 @@
  * Permite a vendedores buscar clientes y ver su salud financiera
  */
 
+/**
+ * MÓDULO DE BÚSQUEDA DE CLIENTES
+ * Permite a vendedores buscar clientes y ver su salud financiera
+ */
+
+// --- Finanzas por endpoint (Etapa 2) ---
+// Interruptor de convivencia: en false, usa el JSON local como hasta ahora.
+const USAR_FINANZAS_ENDPOINT = false; // Cambiar a true para usar el endpoint de finanzas
+const URL_API_FIN = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+
+async function traerFinanzasDelEndpoint(cuenta) {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) return null;
+
+    const resp = await fetch(URL_API_FIN, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cuenta) })
+    });
+    const d = await resp.json();
+    return d.ok ? d : null;
+}
+
+
 class BusquedaClientes {
     constructor() {
         this.clientesData = null;
@@ -458,9 +482,13 @@ class BusquedaClientes {
             ultOperacion: cliente.ultOperacion  // ⭐ AGREGAR
         };
         
+        
+
         // Aplicar la lista de precios ANTES de mostrar la barra,
         // para que la etiqueta de lista tenga el dato disponible
-        const rol = sessionStorage.getItem('authRol') || '';
+                const rol = sessionStorage.getItem('authRol')
+            || window.menuFuncionalidades?.usuarioActual?.rol
+            || '';
         if (window.Precios && rol !== 'cliente_estandar') {
             await window.Precios.setClienteVista(cuenta);
         }
@@ -474,7 +502,35 @@ class BusquedaClientes {
             console.error('[Búsqueda Clientes] BarraSaludFinanciera no disponible');
         }
 
-        
+         // Pedir al endpoint SIN bloquear: la barra ya se mostro con los datos
+        // locales y se actualiza sola cuando llega la respuesta del servidor
+        if (USAR_FINANZAS_ENDPOINT && sessionStorage.getItem('authToken')) {
+            traerFinanzasDelEndpoint(cuenta)
+                .then(d => {
+                    if (!d) return;
+
+                    const actualizados = {
+                        nombre: d.nombre,
+                        pgProm3M: d.pgProm3M,
+                        comproMes: d.comproMes,
+                        saldoTotal: d.saldoTotal,
+                        pagoMes: d.pagoMes,
+                        cupoMes: d.cupoMes,
+                        ultOperacion: d.ultOperacion,
+                        disponible: d.disponible,
+                        esRevendedor: d.esRevendedor
+                    };
+
+                    // Guardar el disponible para el semaforo del carrito
+                    sessionStorage.setItem('disponibleCliente', String(d.disponible ?? ''));
+
+                    if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
+                        window.BarraSaludFinanciera.actualizarDatos(actualizados);
+                    }
+                    console.log('[Finanzas] Actualizado desde el endpoint, disponible:', d.disponible);
+                })
+                .catch(err => console.warn('[Finanzas] Endpoint no disponible:', err));
+        }
 
          // Limpiar resultados y restaurar estado previo.
         // Si hay un cliente seleccionado, la barra debe quedar visible
@@ -505,9 +561,32 @@ class BusquedaClientes {
                 barraInfo.innerHTML = this.barraInfoHTML;
                 barraInfo.classList.add('visible');
                 console.log('[Búsqueda Clientes] Barra de resultados restaurada');
+
+                
+                // El innerHTML no conserva los manejadores: reconectar el
+                // boton Limpiar, que resetea a la pantalla inicial
+                const btnLimpiar = document.getElementById('boton-limpiar-busqueda');
+                if (btnLimpiar) {
+                    btnLimpiar.addEventListener('click', () => {
+                        const bi = document.getElementById('barra-info-contextual');
+                        if (bi) {
+                            bi.classList.remove('visible');
+                            document.body.classList.remove('barra-visible');
+                        }
+                        localStorage.setItem('setFocusOnLoad', 'true');
+                        setTimeout(() => window.location.reload(), 50);
+                    });
+                    console.log('[Búsqueda Clientes] Boton Limpiar reconectado');
+                }
             }
         }
         
+        // Repintar despues de restaurar la galeria: setClienteVista repinta
+        // cuando todavia estan en pantalla los resultados de clientes
+        if (window.Precios) {
+            setTimeout(() => window.Precios.repintarTodos(), 100);
+        }
+
         // ⭐ NUEVO: Dar foco al input para buscar productos inmediatamente
         if (this.searchInput) {
             this.searchInput.focus();
