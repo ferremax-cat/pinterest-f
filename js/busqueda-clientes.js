@@ -561,6 +561,23 @@ class BusquedaClientes {
                 barraInfo.innerHTML = this.barraInfoHTML;
                 barraInfo.classList.add('visible');
                 console.log('[Búsqueda Clientes] Barra de resultados restaurada');
+
+                
+                // El innerHTML no conserva los manejadores: reconectar el
+                // boton Limpiar, que resetea a la pantalla inicial
+                const btnLimpiar = document.getElementById('boton-limpiar-busqueda');
+                if (btnLimpiar) {
+                    btnLimpiar.addEventListener('click', () => {
+                        const bi = document.getElementById('barra-info-contextual');
+                        if (bi) {
+                            bi.classList.remove('visible');
+                            document.body.classList.remove('barra-visible');
+                        }
+                        localStorage.setItem('setFocusOnLoad', 'true');
+                        setTimeout(() => window.location.reload(), 50);
+                    });
+                    console.log('[Búsqueda Clientes] Boton Limpiar reconectado');
+                }
             }
         }
         
