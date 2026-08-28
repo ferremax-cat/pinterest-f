@@ -148,6 +148,12 @@ export function pintarPrecio(elemento, sku) {
   elemento.textContent = formatearPrecio(precioMostrado(sku));
   elemento.dataset.precioLista = base;
   elemento.dataset.sku = sku;
+  // Marcar como procesado para que el sistema viejo de margenes no lo
+  // sobrescriba: precioMostrado ya aplica P.V cuando corresponde
+  elemento.dataset.processed = 'true';
+    // Clase del modo: el CSS pinta de naranja cuando esta en P.V
+  const modo = localStorage.getItem('precioModo') || 'lista';
+  elemento.className = 'price-tag ' + modo;
   return true;
 }
 
