@@ -2596,6 +2596,15 @@
                }
 
                function recalculateAllVisiblePrices() {
+                    
+                    // El precio lo resuelve js/precios.js, que es la unica
+                    // fuente. Las rutas viejas leian el precio del DOM y
+                    // reinflaban valores ya modificados.
+                    if (window.Precios) {
+                         window.Precios.repintarTodos();
+                         return;
+                    }
+
                     const modoActual = localStorage.getItem('precioModo') || 'lista';
                     const margenActual = parseFloat(localStorage.getItem('margenCliente') || '0');
                     
