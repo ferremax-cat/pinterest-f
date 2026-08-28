@@ -298,9 +298,9 @@ nav .iconos img{
      justify-content: space-between;
      
      /* VALORES ACTUALIZADOS */
-     width: 230px;                    /* Era fit-content */
+     width: calc(100% - 20px);        /* Era 230px fijo */
      max-width: 92%;                  /* Era 85% */
-     min-width: 200px;                /* Era 200px */
+     min-width: 0;                    /* Era 200px: desbordaba con muchas columnas */
      margin-left: 2%;                 /* Era 5% */
      padding: 0 4px;                  /* Era 0 8px */
      background-color: rgba(255, 255, 255, 0.9);

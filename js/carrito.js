@@ -161,7 +161,89 @@ export function carritosAbiertos() {
   return res;
 }
 
+// ---------- interfaz: icono en la tarjeta ----------
+
+const SVG_CARRITO = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+  <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+</svg>`;
+
+export function ponerIcono(contenedor, sku) {
+  if (!contenedor || !sku) return;
+
+  let btn = contenedor.querySelector('.btn-carrito');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.className = 'btn-carrito';
+    btn.type = 'button';
+        // Insertar antes del precio, no al final del contenedor
+    const refPrecio = contenedor.querySelector('.price-tag');
+    if (refPrecio) {
+      contenedor.insertBefore(btn, refPrecio);
+    } else {
+      contenedor.appendChild(btn);
+    }
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      abrirCampoCantidad(btn, btn.dataset.sku);
+    });
+  }
+
+  btn.dataset.sku = sku;
+  refrescarIcono(btn, sku);
+}
+
+function refrescarIcono(btn, sku) {
+  const cant = cantidadDe(sku);
+  btn.innerHTML = SVG_CARRITO + (cant ? `<span class="badge-carrito">${cant}</span>` : '');
+  btn.classList.toggle('con-items', cant > 0);
+  btn.title = cant ? `${cant} en el pedido` : 'Agregar al pedido';
+}
+
+function abrirCampoCantidad(btn, sku) {
+  document.querySelectorAll('.popover-cantidad').forEach(p => p.remove());
+
+  const actual = cantidadDe(sku);
+  const p = window.productManager?.getProduct(sku);
+
+  const pop = document.createElement('div');
+  pop.className = 'popover-cantidad';
+  pop.innerHTML = `
+    <input type="number" min="0" step="1" value="${actual || ''}" placeholder="0" class="input-cantidad">
+    <button type="button" class="btn-ok-cantidad">OK</button>
+    ${p?.bulto ? `<div class="nota-bulto">Bulto: ${p.bulto}</div>` : ''}
+  `;
+
+  btn.parentElement.appendChild(pop);
+
+  const input = pop.querySelector('.input-cantidad');
+  input.focus();
+  input.select();
+
+  const confirmar = () => {
+    const n = parseInt(input.value, 10);
+    if (!n || n <= 0) { quitar(sku); } else { agregar(sku, n); }
+    refrescarIcono(btn, sku);
+    pop.remove();
+  };
+
+  pop.querySelector('.btn-ok-cantidad').addEventListener('click', confirmar);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') confirmar();
+    if (e.key === 'Escape') pop.remove();
+  });
+
+  setTimeout(() => {
+    document.addEventListener('click', function cerrar(ev) {
+      if (!pop.contains(ev.target) && !btn.contains(ev.target)) {
+        pop.remove();
+        document.removeEventListener('click', cerrar);
+      }
+    });
+  }, 10);
+}
+
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar,
-  cantidadDe, cantidadItems, detalle, total, carritosAbiertos
+  cantidadDe, cantidadItems, detalle, total, carritosAbiertos, ponerIcono
 };

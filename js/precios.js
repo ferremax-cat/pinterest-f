@@ -154,10 +154,52 @@ export function pintarPrecio(elemento, sku) {
     // Clase del modo: el CSS pinta de naranja cuando esta en P.V
   const modo = localStorage.getItem('precioModo') || 'lista';
   elemento.className = 'price-tag ' + modo;
+
+  // Icono del carrito: se coloca junto al precio, asi aparece en todas
+  // las rutas de render sin tocar cada una
+  if (window.Carrito) {
+    window.Carrito.ponerIcono(elemento.parentElement, sku);
+  }
+
+    // Anclar la pildora al borde inferior de la imagen: el contenedor puede
+  // ser mas alto que la imagen y el valor fijo la dejaba flotando
+  const fila = elemento.parentElement;
+  const img = fila?.parentElement?.querySelector('img');
+  if (fila && img && img.offsetHeight) {
+    fila.style.bottom = 'auto';
+    fila.style.top = (img.offsetHeight - fila.offsetHeight - 10) + 'px';
+  }
+
   return true;
 }
 
+/**
+ * Reubica las pildoras al borde inferior de su imagen.
+ * Hace falta recalcular: al cambiar la cantidad de columnas, las imagenes
+ * cambian de alto y el valor anterior queda viejo.
+ */
+export function acomodarPildoras() {
+  document.querySelectorAll('.bottom-row').forEach(fila => {
+    const img = fila.parentElement?.querySelector('img');
+    if (!img || !img.offsetHeight) return;
+    fila.style.bottom = 'auto';
+    fila.style.top = (img.offsetHeight - fila.offsetHeight - 10) + 'px';
+  });
+}
+
+// Recalcular al redimensionar y al terminar de cargar cada imagen
+let tempAcomodar;
+window.addEventListener('resize', () => {
+  clearTimeout(tempAcomodar);
+  tempAcomodar = setTimeout(acomodarPildoras, 150);
+});
+
+document.addEventListener('load', (e) => {
+  if (e.target.tagName === 'IMG') acomodarPildoras();
+}, true);
+
 // Disponible tambien sin modulos, para las rutas que estan en catalogo.html
 window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio,
-setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos  
+setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos,
+  acomodarPildoras  
  };
