@@ -1469,7 +1469,7 @@ function displayNoResults(query) {
           console.log('[DEBUG] priceTag encontrado:', !!priceTag);
           console.log('[DEBUG] window.processNewPriceElements disponible:', !!window.processNewPriceElements);
           
-          if (priceTag && window.processNewPriceElements) {
+          if (priceTag && !window.Precios && window.processNewPriceElements) {
             console.log('[DEBUG] Llamando a processNewPriceElements para:', priceTag.textContent);
             console.log('[DEBUG] Estado del toggle antes de procesar:', localStorage.getItem('precioModo'));
      
