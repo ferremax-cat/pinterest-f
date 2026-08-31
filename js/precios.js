@@ -180,10 +180,18 @@ export function pintarPrecio(elemento, sku) {
  */
 export function acomodarPildoras() {
   document.querySelectorAll('.bottom-row').forEach(fila => {
-    const img = fila.parentElement?.querySelector('img');
-    if (!img || !img.offsetHeight) return;
+    const cont = fila.parentElement;
+    const img = cont?.querySelector('img');
+    if (!img || !img.offsetHeight || !cont.offsetHeight) return;
+
+    const propuesto = img.offsetHeight - fila.offsetHeight - 10;
+
+    // Descartar valores fuera del contenedor: en la busqueda la funcion
+    // corre antes de que el layout este listo y calcula posiciones absurdas
+    if (propuesto < 0 || propuesto > cont.offsetHeight) return;
+
     fila.style.bottom = 'auto';
-    fila.style.top = (img.offsetHeight - fila.offsetHeight - 10) + 'px';
+    fila.style.top = propuesto + 'px';
   });
 }
 

@@ -298,10 +298,10 @@ nav .iconos img{
      justify-content: space-between;
      
      /* VALORES ACTUALIZADOS */
-     width: calc(100% - 20px);        /* Era 230px fijo */
-     max-width: 92%;                  /* Era 85% */
+     width: calc(100% - 8px);
+     max-width: calc(100% - 8px);
      min-width: 0;                    /* Era 200px: desbordaba con muchas columnas */
-     margin-left: 2%;                 /* Era 5% */
+     margin-left: 4px;                /* Era 2%: valor fijo chico gana ancho util */
      padding: 0 4px;                  /* Era 0 8px */
      background-color: rgba(255, 255, 255, 0.9);
      border-radius: 20px;
@@ -319,18 +319,25 @@ nav .iconos img{
      color: #111;
      font-weight: 700;
      font-size: 0.9em;
+     min-width: 0;
+     flex-shrink: 1;
+     overflow: hidden;
 }
 
 /* AGREGAR DESPUÉS - Estilos para el precio */
 .container-img .bottom-row .price-tag {
      flex: 0 0 auto;
      min-width: 70px;                 /* Espacio para 8 caracteres */
-     max-width: 70px;
+     max-width: none;                 /* Era 70px: cortaba precios de 7 digitos */
      margin-left: 5px;
      font-size: 0.8em;
      color: var(--gris400);
      font-weight: 700;
      white-space: nowrap;
+     flex-shrink: 0;
+     white-space: nowrap;
+     width: auto;
+     
 }
 
 /* Agregar nuevo estilo para el precio */

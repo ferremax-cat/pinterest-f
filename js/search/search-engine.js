@@ -1464,6 +1464,8 @@ function displayNoResults(query) {
             if (tagPrecio) window.Precios.pintarPrecio(tagPrecio, item.code);
           }  
 
+          if (window.Precios) setTimeout(() => window.Precios.acomodarPildoras(), 100);
+
           // Procesar el precio del nuevo elemento si existe
           const priceTag = galleryItem.querySelector('.price-tag');
           console.log('[DEBUG] priceTag encontrado:', !!priceTag);
@@ -1696,9 +1698,9 @@ function displayNoResults(query) {
         }
        /* AGREGAR AQUÍ - Estilos optimizados para bottom-row */
         .container-img .bottom-row {
-            width: 240px !important;
-            max-width: 92% !important;
-            margin-left: 1% !important;
+            width: calc(100% - 8px) !important;
+            max-width: calc(100% - 8px) !important;
+            margin-left: 4px !important;
             padding: 0 4px !important;
             display: flex !important;
             justify-content: space-between !important;
@@ -1711,7 +1713,8 @@ function displayNoResults(query) {
         
         .gallery-container .container-img .bottom-row a:nth-child(1),
         .gallery-item .container-img .bottom-row a:nth-child(1) {
-            width: 140px !important;
+            width: auto !important;
+            max-width: 150px !important;
             padding-left: 2px !important;
             margin: 0px !important;           /* AGREGAR: eliminar todos los margins */
             margin-right: 0px !important;    /* AGREGAR: específicamente margin-right */
@@ -1721,13 +1724,13 @@ function displayNoResults(query) {
             align-self: flex-start !important;    /* AGREGAR: alineación flex-start */
             overflow: visible !important;
             text-overflow: clip !important;
-            white-space: normal !important;
+            white-space: nowrap !important;
             flex-shrink: 0 !important;
         }
         
         .container-img .bottom-row .price-tag {
             min-width: 70px !important;
-            max-width: 70px !important;
+            max-width: none !important;
             margin-left: 5px !important;
             font-size: 0.99em !important;
             flex-shrink: 0 !important;
