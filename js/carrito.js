@@ -243,7 +243,56 @@ function abrirCampoCantidad(btn, sku) {
   }, 10);
 }
 
+// ---------- boton flotante ----------
+
+const SVG_CARRITO_GRANDE = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+  <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+</svg>`;
+
+export function crearBotonFlotante() {
+  if (document.getElementById('fab-carrito')) return;
+
+  // Reutilizar el primer boton inferior, que quedo sin uso
+  const cont = document.querySelector('.btn-inferiores');
+  const existente = cont?.querySelector('a');
+
+  let btn;
+  if (existente) {
+    btn = existente;
+    btn.removeAttribute('href');
+  } else {
+    btn = document.createElement('button');
+    document.body.appendChild(btn);
+  }
+
+  btn.id = 'fab-carrito';
+  btn.className = 'fab-carrito';
+  btn.title = 'Ver pedido';
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.dispatchEvent(new CustomEvent('carrito:abrir'));
+  });
+
+  refrescarBotonFlotante();
+}
+
+export function refrescarBotonFlotante() {
+  const btn = document.getElementById('fab-carrito');
+  if (!btn) return;
+
+  const n = cantidadItems();
+  btn.innerHTML = SVG_CARRITO_GRANDE + (n ? `<span class="fab-badge">${n}</span>` : '');
+  btn.classList.toggle('vacio', n === 0);
+}
+
+// Mantener el contador al dia
+document.addEventListener('carrito:cambio', refrescarBotonFlotante);
+document.addEventListener('DOMContentLoaded', crearBotonFlotante);
+if (document.readyState !== 'loading') crearBotonFlotante();
+
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar,
-  cantidadDe, cantidadItems, detalle, total, carritosAbiertos, ponerIcono
+  cantidadDe, cantidadItems, detalle, total, carritosAbiertos, ponerIcono,
+  crearBotonFlotante, refrescarBotonFlotante
 };
