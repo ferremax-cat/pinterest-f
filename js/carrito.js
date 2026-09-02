@@ -83,13 +83,33 @@ export function agregar(sku, cantidad, cliente) {
   if (existente) {
     existente.cantidad = cant;
   } else {
+       
     const p = window.productManager?.getProduct(codigo);
+
+    // Guardar la imagen que ya cargo el catalogo: si el usuario busca otra
+    // cosa, la tarjeta desaparece y el carrito se queda sin la referencia
+    const img = document.querySelector(`.price-tag[data-sku="${codigo}"]`)
+      ?.closest('.container-img')?.querySelector('img')?.src || null;
+
+    // Respaldo del precio: el manager carga productos bajo demanda y puede
+    // no tenerlo mas adelante. El precio vigente se sigue pidiendo a Precios
+    const precioResp = window.Precios?.precioLista(codigo) ?? null;  
+
+    // Con que lista se calculo el respaldo: permite detectar despues si
+    // corresponde al cliente correcto antes de guardar el pedido
+    const listaResp = window.Precios?.getClienteVista()?.lista
+      || JSON.parse(localStorage.getItem('clientData') || '{}').priceList
+      || null;
+
     lineas.push({
       sku: codigo,
       cantidad: cant,
       orden: lineas.length,
       nombre: p?.nombre || '',
       bulto: p?.bulto || null,
+      img,
+      precioResp,
+      listaResp,
       agregado: Date.now()
     });
   }
@@ -133,7 +153,10 @@ export function detalle(cliente) {
   return leer(cliente)
     .sort((a, b) => a.orden - b.orden)
     .map(l => {
-      const precio = window.Precios?.precioLista(l.sku) ?? null;
+      // El precio vigente manda; el respaldo solo cubre el caso de que
+      // el producto ya no este en memoria
+      const vigente = window.Precios?.precioLista(l.sku);
+      const precio = vigente ?? l.precioResp ?? null;
       return {
         ...l,
         precio,

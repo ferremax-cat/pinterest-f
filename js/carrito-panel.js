@@ -54,12 +54,22 @@ export function abrir() {
   const cont = contenedor();
   cont.className = esVendedor() ? 'cp-fondo cp-centrado' : 'cp-fondo cp-lateral';
   cont.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
   dibujar();
 }
 
 export function cerrar() {
   const cont = document.getElementById('carrito-panel');
   if (cont) cont.style.display = 'none';
+  document.body.style.overflow = '';
+
+  // Foco en el buscador con el texto seleccionado: el usuario escribe
+  // su proxima busqueda sin tener que borrar lo anterior
+  const buscador = document.querySelector('input[placeholder*="Buscar en cat"]');
+  if (buscador) {
+    buscador.focus();
+    buscador.select();
+  }
 }
 
 function dibujar() {
@@ -174,7 +184,7 @@ function vistaCliente() {
 
   const filas = lineas.map(l => `
     <div class="cp-fila-cli" data-sku="${l.sku}">
-      <div class="cp-img" data-sku="${l.sku}"></div>
+    <div class="cp-img" data-sku="${l.sku}"${l.img ? ` style="background-image:url(${l.img})"` : ''}></div>
       <div class="cp-desc-cli">
         <p class="cp-nombre-cli">${l.nombre || l.sku}</p>
         <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}</p>
