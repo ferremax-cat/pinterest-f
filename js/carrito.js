@@ -182,11 +182,7 @@ export function ponerIcono(contenedor, sku) {
     } else {
       contenedor.appendChild(btn);
     }
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      abrirCampoCantidad(btn, btn.dataset.sku);
-    });
+    
   }
 
   btn.dataset.sku = sku;
@@ -291,8 +287,45 @@ document.addEventListener('carrito:cambio', refrescarBotonFlotante);
 document.addEventListener('DOMContentLoaded', crearBotonFlotante);
 if (document.readyState !== 'loading') crearBotonFlotante();
 
+/**
+ * Mueve una linea a la posicion de otra. El orden define el semaforo
+ * acumulado, asi que reordenar es decidir que entra en el cupo.
+ */
+export function reordenar(skuMovido, skuDestino, cliente) {
+  const lineas = leer(cliente).sort((a, b) => a.orden - b.orden);
+  const desde = lineas.findIndex(l => l.sku === skuMovido);
+  const hasta = lineas.findIndex(l => l.sku === skuDestino);
+  if (desde < 0 || hasta < 0) return;
+
+  const [m] = lineas.splice(desde, 1);
+  lineas.splice(hasta, 0, m);
+  lineas.forEach((l, i) => { l.orden = i; });
+
+  guardar(lineas, cliente);
+  return lineas;
+}
+
+// Un solo manejador para todos los iconos: sobrevive a que las tarjetas
+// se recreen, cosa que pasa en varias rutas de render
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-carrito');
+  if (!btn) return;
+  e.preventDefault();
+  e.stopPropagation();
+  abrirCampoCantidad(btn, btn.dataset.sku);
+});
+
+
+// Mantener los iconos del catalogo al dia cuando el carrito cambia
+// desde otro lado, por ejemplo el panel
+document.addEventListener('carrito:cambio', () => {
+  document.querySelectorAll('.btn-carrito').forEach(btn => {
+    if (btn.dataset.sku) refrescarIcono(btn, btn.dataset.sku);
+  });
+});
+
 window.Carrito = {
-  getClienteDestino, leer, agregar, quitar, vaciar,
+  getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
   cantidadDe, cantidadItems, detalle, total, carritosAbiertos, ponerIcono,
   crearBotonFlotante, refrescarBotonFlotante
 };

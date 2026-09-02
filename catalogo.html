@@ -2524,6 +2524,154 @@
                          border: 2px solid #e60023;
                     }
 
+                                        /* --- Carrito: panel --- */
+                    .cp-fondo {
+                         position: fixed;
+                         inset: 0;
+                         background: rgba(0,0,0,0.45);
+                         z-index: 9600;
+                         display: none;
+                    }
+                    .cp-centrado { align-items: center; justify-content: center; }
+                    .cp-lateral { align-items: stretch; justify-content: flex-end; }
+
+                    .cp-caja {
+                         background: #fff;
+                         border-radius: 12px;
+                         display: flex;
+                         flex-direction: column;
+                         max-height: 88vh;
+                         overflow: hidden;
+                         box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                    }
+                    .cp-centrado .cp-caja { width: 620px; max-width: 94vw; }
+                    .cp-lateral .cp-caja { width: 360px; max-width: 92vw; max-height: 100vh; border-radius: 0; }
+
+                    .cp-cab {
+                         padding: 13px 17px;
+                         border-bottom: 1px solid #e5e5e5;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;
+                    }
+                    .cp-titulo { margin: 0; font-size: 15px; font-weight: 600; }
+                    .cp-sub-titulo { margin: 2px 0 0; font-size: 12px; color: #777; }
+                    .cp-cerrar {
+                         background: none; border: none; font-size: 24px;
+                         line-height: 1; color: #777; cursor: pointer; padding: 0 4px;
+                    }
+
+                    .cp-cupo {
+                         padding: 12px 17px;
+                         border-bottom: 1px solid #e5e5e5;
+                         display: flex;
+                         align-items: baseline;
+                         justify-content: space-between;
+                    }
+                    .cp-cupo-rot { font-size: 13px; color: #666; }
+                    .cp-cupo-num { font-size: 21px; font-weight: 700; }
+
+                    .cp-lista { flex: 1; overflow-y: auto; padding: 2px 17px; }
+
+                    .cp-fila {
+                         display: grid;
+                         grid-template-columns: 3px minmax(0,1fr) 56px 92px 20px 20px;
+                         gap: 9px;
+                         align-items: center;
+                         padding: 10px 0;
+                         border-bottom: 1px solid #eee;
+                    }
+                    .cp-fila.cp-movible {
+                         background: rgba(255,148,4,0.12);
+                         outline: 1px dashed #ff9404;
+                         outline-offset: -2px;
+                         cursor: grab;
+                    }
+                    .cp-barra { height: 28px; border-radius: 2px; }
+                    .cp-desc { min-width: 0; }
+                    .cp-nombre { margin: 0; font-size: 13px; line-height: 1.3; }
+                    .cp-meta { margin: 1px 0 0; font-size: 11px; color: #999; }
+                    .cp-cant {
+                         width: 100%; height: 28px; text-align: center;
+                         font-size: 12px; border: 1px solid #ccc; border-radius: 5px;
+                    }
+                    .cp-sub { font-size: 13px; font-weight: 600; text-align: right; }
+                    .cp-menu, .cp-quitar {
+                         background: none; border: none; cursor: pointer;
+                         color: #888; padding: 0; line-height: 1;
+                    }
+                    .cp-menu { font-size: 17px; }
+                    .cp-quitar { font-size: 21px; }
+                    .cp-quitar:hover { color: #dc2626; }
+
+                    .cp-panel-menu {
+                         background: #f6f6f6;
+                         border-radius: 8px;
+                         padding: 9px 11px;
+                         margin: 5px 0 9px;
+                         display: flex;
+                         align-items: center;
+                         gap: 10px;
+                    }
+                    .cp-panel-menu button {
+                         height: 30px; font-size: 12px; padding: 0 13px;
+                         border: 1px solid #ccc; border-radius: 6px;
+                         background: #fff; cursor: pointer;
+                    }
+                    .cp-menu-nota { font-size: 11px; color: #999; }
+
+                    .cp-fila-cli {
+                         display: flex; gap: 10px; padding: 11px 0;
+                         border-bottom: 1px solid #eee;
+                    }
+                    .cp-img {
+                         width: 52px; height: 52px; border-radius: 8px;
+                         background: #f0f0f0 center/cover no-repeat; flex-shrink: 0;
+                    }
+                    .cp-desc-cli { flex: 1; min-width: 0; }
+                    .cp-nombre-cli { margin: 0; font-size: 13px; line-height: 1.3; }
+                    .cp-linea-cli {
+                         display: flex; align-items: center; gap: 8px; margin-top: 6px;
+                    }
+                    .cp-linea-cli .cp-cant { width: 52px; }
+                    .cp-unit { font-size: 11px; color: #777; }
+                    .cp-sub-cli { font-size: 13px; font-weight: 600; margin-left: auto; }
+
+                    .cp-pie {
+                         padding: 13px 17px;
+                         border-top: 1px solid #e5e5e5;
+                         background: #fafafa;
+                         display: flex;
+                         align-items: center;
+                         justify-content: space-between;
+                         gap: 10px;
+                         flex-wrap: wrap;
+                    }
+                    .cp-total-rot { font-size: 13px; color: #666; }
+                    .cp-total-num { font-size: 19px; font-weight: 700; margin-left: 9px; }
+                    .cp-acciones { display: flex; gap: 8px; }
+                    .cp-acciones button {
+                         height: 36px; padding: 0 16px; border-radius: 7px;
+                         border: 1px solid #ccc; background: #fff;
+                         cursor: pointer; font-size: 13px;
+                    }
+                    .cp-confirmar {
+                         background: #e60023 !important; color: #fff !important;
+                         border-color: #e60023 !important; font-weight: 600;
+                    }
+                    .cp-confirmar:disabled {
+                         background: #bbb !important; border-color: #bbb !important;
+                         cursor: not-allowed;
+                    }
+                    .cp-vacio { padding: 34px 17px; text-align: center; color: #888; font-size: 13px; }
+
+                                        .cp-destino { cursor: pointer; }
+                    .cp-destino:hover { background: rgba(255,148,4,0.15); }
+                    .cp-destino .cp-meta { color: #ff9404; font-weight: 600; }
+                    .cp-cancelar-mover {
+                         background: none; border: none; font-size: 21px;
+                         color: #888; cursor: pointer; padding: 0; line-height: 1;
+                    }
                     
                `;
                
@@ -3955,6 +4103,7 @@
      <!-- Nuevo modulo que controla precios -->
      <script type="module" src="js/precios.js"></script>
      <script type="module" src="js/carrito.js"></script>
+     <script type="module" src="js/carrito-panel.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->
