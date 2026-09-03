@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 5,
+    "margen": 6,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,1,13,51,5)"
+    "ultima_actualizacion": "Date(2026,8,2,15,59,36)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -15,7 +15,7 @@
     "nombre": "FERRETERIA RITA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,1,13,35,26)"
+    "ultima_actualizacion": "Date(2026,8,3,12,24,49)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -157,9 +157,9 @@
   },
   "20205": {
     "nombre": "CASA DAVID CORRALON MAT.de CON",
-    "margen": 40,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2025,10,8,9,58,31)"
+    "ultima_actualizacion": "Date(2026,8,2,9,36,2)"
   },
   "20118": {
     "nombre": "SANABRIA FERRETERIA",
@@ -235,9 +235,9 @@
   },
   "60150": {
     "nombre": "FERRETERIA ALVAREZ",
-    "margen": 35,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,30,11,21,4)"
+    "ultima_actualizacion": "Date(2026,8,3,10,56,47)"
   },
   "60217": {
     "nombre": "FERRETERIA VM",
@@ -303,7 +303,7 @@
     "nombre": "LAS ACACIAS CORRALON",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,1,15,55,40)"
+    "ultima_actualizacion": "Date(2026,8,3,10,14,22)"
   },
   "50825": {
     "nombre": "FERRETERIA V Y F",
@@ -405,7 +405,7 @@
     "nombre": "FERRETERIA MYM",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,7,25,13,13,50)"
+    "ultima_actualizacion": "Date(2026,8,2,17,28,51)"
   },
   "20236": {
     "nombre": "FERRETERIA S Y D",
@@ -555,7 +555,7 @@
     "nombre": "FERRETERIA CONTRERAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,1,15,6,38)"
+    "ultima_actualizacion": "Date(2026,8,3,17,4,35)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -591,13 +591,13 @@
     "nombre": "ROBERTO FERRIN",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,1,11,34,45)"
+    "ultima_actualizacion": "Date(2026,8,3,9,43,0)"
   },
   "1959": {
     "nombre": "JAIME GONZALEZ",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,6,2,15,34,49)"
+    "ultima_actualizacion": "Date(2026,8,3,12,43,8)"
   },
   "20291": {
     "nombre": "EL PROGRESO FERRETERIA",
@@ -814,5 +814,17 @@
     "margen": 50,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,7,31,15,8,40)"
+  },
+  "920": {
+    "nombre": "ESTERCITA FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,8,2,13,2,19)"
+  },
+  "20333": {
+    "nombre": "LINA FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,8,3,14,42,46)"
   }
 }
