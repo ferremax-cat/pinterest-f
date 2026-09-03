@@ -584,9 +584,9 @@
     "category": "8.GARRAFAS/ACCES.",
     "bulk": 4.0,
     "prices": {
-      "D": 28532,
-      "E": 30727,
-      "F": 26337
+      "D": 30244,
+      "E": 32571,
+      "F": 27918
     }
   },
   "ALI222": {
@@ -11449,6 +11449,16 @@
       "F": 56049
     }
   },
+  "BM6188": {
+    "name": "LLAVE P/RUEDA D/CAMION 24x27mmBREMEN",
+    "category": "8.LLAVE P/RUEDA BREMEN",
+    "bulk": 1.0,
+    "prices": {
+      "D": 38189,
+      "E": 41127,
+      "F": 35251
+    }
+  },
   "BM6190": {
     "name": "LLAVE P/RUEDA D/CAMION 27x33mmBREMEN",
     "category": "8.LLAVE P/RUEDA BREMEN",
@@ -11477,6 +11487,16 @@
       "D": 38189,
       "E": 41127,
       "F": 35251
+    }
+  },
+  "BM6193": {
+    "name": "BARRA D FUERZA P LLAVE CAMION BREMEN",
+    "category": "8.LLAVE P/RUEDA BREMEN",
+    "bulk": 1.0,
+    "prices": {
+      "D": 22484,
+      "E": 24213,
+      "F": 20754
     }
   },
   "BM6198": {
@@ -18054,9 +18074,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 99155,
-      "E": 103287,
-      "F": 99155
+      "D": 104113,
+      "E": 108451,
+      "F": 104113
     }
   },
   "CL00016000002": {
@@ -18064,9 +18084,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 158649,
-      "E": 165259,
-      "F": 158649
+      "D": 166581,
+      "E": 173522,
+      "F": 166581
     }
   },
   "CL00016000003": {
@@ -18074,9 +18094,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 224752,
-      "E": 234117,
-      "F": 224752
+      "D": 235990,
+      "E": 245823,
+      "F": 235990
     }
   },
   "CL00016000004": {
@@ -18084,9 +18104,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 290856,
-      "E": 302975,
-      "F": 290856
+      "D": 305399,
+      "E": 318124,
+      "F": 305399
     }
   },
   "CL00016000005": {
@@ -18094,23 +18114,13 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 1.0,
     "prices": {
-      "D": 358061,
-      "E": 372384,
-      "F": 343739
+      "D": 375965,
+      "E": 391003,
+      "F": 360926
     }
   },
   "CL00016000024": {
     "name": "TORNILLO  P/MORSA/BANCO N\u00ba2 BARBERO",
-    "category": "8.MORSA/ACCES.BARBERO",
-    "bulk": 6.0,
-    "prices": {
-      "D": 27543,
-      "E": 28644,
-      "F": 26441
-    }
-  },
-  "CL00016000025": {
-    "name": "TORNILLO  P/MORSA/BANCO N\u00ba3 BARBERO",
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
@@ -18119,14 +18129,24 @@
       "F": 27763
     }
   },
+  "CL00016000025": {
+    "name": "TORNILLO  P/MORSA/BANCO N\u00ba3 BARBERO",
+    "category": "8.MORSA/ACCES.BARBERO",
+    "bulk": 6.0,
+    "prices": {
+      "D": 30366,
+      "E": 31581,
+      "F": 29151
+    }
+  },
   "CL00016000026": {
     "name": "TORNILLO  P/MORSA/BANCO N\u00ba4 BARBERO",
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 38560,
-      "E": 40102,
-      "F": 37018
+      "D": 40488,
+      "E": 42108,
+      "F": 38869
     }
   },
   "CL00016000027": {
@@ -18134,9 +18154,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 45446,
-      "E": 47264,
-      "F": 43628
+      "D": 47718,
+      "E": 49627,
+      "F": 45809
     }
   },
   "CL00016000031": {
@@ -18144,9 +18164,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 13771,
-      "E": 14322,
-      "F": 13220
+      "D": 14460,
+      "E": 15038,
+      "F": 13881
     }
   },
   "CL00016000032": {
@@ -18154,9 +18174,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 24788,
-      "E": 25780,
-      "F": 23797
+      "D": 26028,
+      "E": 27069,
+      "F": 24987
     }
   },
   "CL00016000033": {
@@ -18164,9 +18184,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 38560,
-      "E": 40102,
-      "F": 37018
+      "D": 40488,
+      "E": 42108,
+      "F": 38869
     }
   },
   "CL00016000036": {
@@ -18174,9 +18194,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 20975,
-      "E": 21814,
-      "F": 20136
+      "D": 21690,
+      "E": 22557,
+      "F": 20822
     }
   },
   "CL00016000037": {
@@ -18184,9 +18204,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 23411,
-      "E": 24348,
-      "F": 22475
+      "D": 24582,
+      "E": 25565,
+      "F": 23599
     }
   },
   "CL00016000038": {
@@ -18194,9 +18214,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 33051,
-      "E": 34373,
-      "F": 31729
+      "D": 34704,
+      "E": 36092,
+      "F": 33316
     }
   },
   "CL00016000039": {
@@ -18204,9 +18224,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 37183,
-      "E": 38670,
-      "F": 35696
+      "D": 39042,
+      "E": 40604,
+      "F": 37480
     }
   },
   "CL00016000055": {
@@ -18214,9 +18234,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 151487,
-      "E": 157547,
-      "F": 145428
+      "D": 159062,
+      "E": 165424,
+      "F": 152699
     }
   },
   "CL0001600RES2": {
@@ -18224,9 +18244,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 6753,
-      "E": 7023,
-      "F": 6483
+      "D": 7091,
+      "E": 7374,
+      "F": 6807
     }
   },
   "CL0001600RES3": {
@@ -18234,9 +18254,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 7224,
-      "E": 7513,
-      "F": 6935
+      "D": 7586,
+      "E": 7889,
+      "F": 7282
     }
   },
   "CL0001600RES4": {
@@ -18244,9 +18264,9 @@
     "category": "8.MORSA/ACCES.BARBERO",
     "bulk": 6.0,
     "prices": {
-      "D": 8481,
-      "E": 8820,
-      "F": 8142
+      "D": 8905,
+      "E": 9261,
+      "F": 8549
     }
   },
   "CL00020000001": {
@@ -18824,9 +18844,9 @@
     "category": "9.SOLDADOR ELECTRICO",
     "bulk": 0.0,
     "prices": {
-      "D": 73421,
-      "E": 79069,
-      "F": 67773
+      "D": 84594,
+      "E": 91101,
+      "F": 78086
     }
   },
   "CL001010T250W": {
@@ -18834,9 +18854,9 @@
     "category": "9.SOLDADOR ELECTRICO",
     "bulk": 1.0,
     "prices": {
-      "D": 136140,
-      "E": 146612,
-      "F": 125667
+      "D": 156857,
+      "E": 168923,
+      "F": 144791
     }
   },
   "CL00121000001": {
@@ -18934,9 +18954,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 37170,
-      "E": 40029,
-      "F": 34311
+      "D": 41259,
+      "E": 44433,
+      "F": 38085
     }
   },
   "CL00130000002": {
@@ -18944,9 +18964,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 37170,
-      "E": 40029,
-      "F": 34311
+      "D": 47911,
+      "E": 51597,
+      "F": 44226
     }
   },
   "CL00130000003": {
@@ -18954,9 +18974,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 35368,
-      "E": 38088,
-      "F": 32647
+      "D": 39258,
+      "E": 42278,
+      "F": 36238
     }
   },
   "CL00130000005": {
@@ -18964,9 +18984,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 43163,
-      "E": 46484,
-      "F": 39843
+      "D": 47911,
+      "E": 51597,
+      "F": 44226
     }
   },
   "CL00130000015": {
@@ -18974,9 +18994,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 75221,
-      "E": 81007,
-      "F": 69435
+      "D": 83495,
+      "E": 89918,
+      "F": 77073
     }
   },
   "CL00130000016": {
@@ -18984,9 +19004,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 75221,
-      "E": 81007,
-      "F": 69435
+      "D": 83495,
+      "E": 89918,
+      "F": 77073
     }
   },
   "CL00130000017": {
@@ -18994,9 +19014,9 @@
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
     "prices": {
-      "D": 75221,
-      "E": 81007,
-      "F": 69435
+      "D": 83495,
+      "E": 89918,
+      "F": 77073
     }
   },
   "CON101": {
@@ -23074,9 +23094,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 175739,
-      "E": 189257,
-      "F": 155461
+      "D": 159237,
+      "E": 171486,
+      "F": 140863
     }
   },
   "DINGH": {
@@ -25244,9 +25264,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE003C": {
@@ -25254,9 +25274,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE003M": {
@@ -25264,9 +25284,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE003N": {
@@ -25274,9 +25294,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE003R": {
@@ -25284,9 +25304,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE003V": {
@@ -25294,9 +25314,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 331,
-      "E": 356,
-      "F": 305
+      "D": 346,
+      "E": 373,
+      "F": 320
     }
   },
   "DTE004B": {
@@ -25304,9 +25324,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE004C": {
@@ -25314,9 +25334,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE004M": {
@@ -25324,9 +25344,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE004N": {
@@ -25334,9 +25354,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE004R": {
@@ -25344,9 +25364,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE004V": {
@@ -25354,9 +25374,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 561,
-      "E": 604,
-      "F": 518
+      "D": 589,
+      "E": 635,
+      "F": 544
     }
   },
   "DTE005B": {
@@ -25364,9 +25384,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1028,
+      "E": 1107,
+      "F": 949
     }
   },
   "DTE005C": {
@@ -25374,9 +25394,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1028,
+      "E": 1107,
+      "F": 949
     }
   },
   "DTE005M": {
@@ -25384,9 +25404,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1043,
+      "E": 1123,
+      "F": 963
     }
   },
   "DTE005N": {
@@ -25394,9 +25414,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1028,
+      "E": 1107,
+      "F": 949
     }
   },
   "DTE005R": {
@@ -25404,9 +25424,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1028,
+      "E": 1107,
+      "F": 949
     }
   },
   "DTE005V": {
@@ -25414,9 +25434,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 979,
-      "E": 1054,
-      "F": 904
+      "D": 1028,
+      "E": 1107,
+      "F": 949
     }
   },
   "DTE006B": {
@@ -25424,9 +25444,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE006C": {
@@ -25434,9 +25454,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE006M": {
@@ -25444,9 +25464,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE006N": {
@@ -25454,9 +25474,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE006R": {
@@ -25464,9 +25484,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE006V": {
@@ -25474,9 +25494,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1500,
-      "E": 1615,
-      "F": 1384
+      "D": 1574,
+      "E": 1695,
+      "F": 1453
     }
   },
   "DTE007": {
@@ -25494,9 +25514,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 544,
-      "E": 586,
-      "F": 502
+      "D": 571,
+      "E": 615,
+      "F": 527
     }
   },
   "DTE009": {
@@ -25504,9 +25524,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 695,
-      "E": 748,
-      "F": 641
+      "D": 730,
+      "E": 786,
+      "F": 673
     }
   },
   "DTE010": {
@@ -25514,9 +25534,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1176,
-      "E": 1266,
-      "F": 1085
+      "D": 1235,
+      "E": 1330,
+      "F": 1140
     }
   },
   "DTE015": {
@@ -25524,9 +25544,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 926,
-      "E": 997,
-      "F": 854
+      "D": 972,
+      "E": 1046,
+      "F": 897
     }
   },
   "DTE016": {
@@ -25534,9 +25554,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1058,
-      "E": 1140,
-      "F": 977
+      "D": 1111,
+      "E": 1197,
+      "F": 1026
     }
   },
   "DTE017": {
@@ -25544,9 +25564,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1582,
-      "E": 1703,
-      "F": 1460
+      "D": 1661,
+      "E": 1789,
+      "F": 1533
     }
   },
   "DTE024": {
@@ -25574,9 +25594,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 2540,
-      "E": 2735,
-      "F": 2344
+      "D": 2666,
+      "E": 2871,
+      "F": 2461
     }
   },
   "DTE041": {
@@ -25584,9 +25604,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1245,
-      "E": 1341,
-      "F": 1149
+      "D": 1307,
+      "E": 1408,
+      "F": 1207
     }
   },
   "DTE042": {
@@ -25594,9 +25614,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 1484,
-      "E": 1598,
-      "F": 1370
+      "D": 1558,
+      "E": 1677,
+      "F": 1438
     }
   },
   "DTE043": {
@@ -25604,9 +25624,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 2178,
-      "E": 2346,
-      "F": 2011
+      "D": 2287,
+      "E": 2463,
+      "F": 2111
     }
   },
   "DTE044": {
@@ -25614,9 +25634,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 100.0,
     "prices": {
-      "D": 2828,
-      "E": 3045,
-      "F": 2610
+      "D": 2967,
+      "E": 3195,
+      "F": 2739
     }
   },
   "DTE053B": {
@@ -25624,9 +25644,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE053C": {
@@ -25634,9 +25654,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE053M": {
@@ -25644,9 +25664,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE053N": {
@@ -25654,9 +25674,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE053R": {
@@ -25664,9 +25684,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE053V": {
@@ -25674,9 +25694,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 569,
-      "E": 613,
-      "F": 525
+      "D": 598,
+      "E": 644,
+      "F": 552
     }
   },
   "DTE054B": {
@@ -25684,9 +25704,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE054C": {
@@ -25694,9 +25714,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE054M": {
@@ -25704,9 +25724,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE054N": {
@@ -25714,9 +25734,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE054R": {
@@ -25724,9 +25744,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE054V": {
@@ -25734,9 +25754,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 957,
-      "E": 1030,
-      "F": 883
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "DTE055B": {
@@ -25744,9 +25764,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE055C": {
@@ -25754,9 +25774,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE055M": {
@@ -25764,9 +25784,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE055N": {
@@ -25774,9 +25794,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE055R": {
@@ -25784,9 +25804,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE055V": {
@@ -25794,9 +25814,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 100.0,
     "prices": {
-      "D": 1419,
-      "E": 1529,
-      "F": 1310
+      "D": 1490,
+      "E": 1604,
+      "F": 1375
     }
   },
   "DTE056B": {
@@ -25864,9 +25884,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 0.0,
     "prices": {
-      "D": 844,
-      "E": 909,
-      "F": 779
+      "D": 886,
+      "E": 955,
+      "F": 818
     }
   },
   "DTE059": {
@@ -25874,9 +25894,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 200.0,
     "prices": {
-      "D": 1282,
-      "E": 1380,
-      "F": 1183
+      "D": 1346,
+      "E": 1449,
+      "F": 1242
     }
   },
   "DTE060": {
@@ -25884,9 +25904,9 @@
     "category": "9.CABLE BIP.BNCO NORMALIZ",
     "bulk": 100.0,
     "prices": {
-      "D": 2077,
-      "E": 2237,
-      "F": 1918
+      "D": 2181,
+      "E": 2349,
+      "F": 2013
     }
   },
   "DTE061": {
@@ -25894,9 +25914,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 1108,
-      "E": 1193,
-      "F": 1023
+      "D": 1163,
+      "E": 1253,
+      "F": 1074
     }
   },
   "DTE062": {
@@ -25904,9 +25924,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 100.0,
     "prices": {
-      "D": 1555,
-      "E": 1674,
-      "F": 1435
+      "D": 1632,
+      "E": 1758,
+      "F": 1507
     }
   },
   "DTE063": {
@@ -25914,9 +25934,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 200.0,
     "prices": {
-      "D": 2555,
-      "E": 2751,
-      "F": 2358
+      "D": 2682,
+      "E": 2889,
+      "F": 2476
     }
   },
   "DTE064": {
@@ -25924,9 +25944,9 @@
     "category": "9.CABLE T/T.IRAM NASELLO",
     "bulk": 0.0,
     "prices": {
-      "D": 3638,
-      "E": 3918,
-      "F": 3358
+      "D": 3820,
+      "E": 4114,
+      "F": 3526
     }
   },
   "DTE065": {
@@ -26404,9 +26424,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 0.0,
     "prices": {
-      "D": 239842,
-      "E": 258291,
-      "F": 221392
+      "D": 251827,
+      "E": 271198,
+      "F": 232455
     }
   },
   "DTE208": {
@@ -26414,9 +26434,9 @@
     "category": "9.LAMP.LED ALTA POTENCIA",
     "bulk": 1.0,
     "prices": {
-      "D": 3994,
-      "E": 4302,
-      "F": 3687
+      "D": 4057,
+      "E": 4369,
+      "F": 3744
     }
   },
   "DTE209": {
@@ -26424,9 +26444,9 @@
     "category": "9.LAMP.LED ALTA POTENCIA",
     "bulk": 20.0,
     "prices": {
-      "D": 5474,
-      "E": 5895,
-      "F": 5053
+      "D": 5563,
+      "E": 5991,
+      "F": 5135
     }
   },
   "DTE212": {
@@ -26444,9 +26464,9 @@
     "category": "9.LAMP.LED ALTA POTENCIA",
     "bulk": 20.0,
     "prices": {
-      "D": 2302,
-      "E": 2479,
-      "F": 2125
+      "D": 2396,
+      "E": 2581,
+      "F": 2212
     }
   },
   "DTE224": {
@@ -26474,9 +26494,9 @@
     "category": "9.LAMP.LED ALTA POTENCIA",
     "bulk": 20.0,
     "prices": {
-      "D": 7534,
-      "E": 8113,
-      "F": 6954
+      "D": 7634,
+      "E": 8221,
+      "F": 7047
     }
   },
   "DTE238": {
@@ -26554,9 +26574,9 @@
     "category": "9.CABLE BIP.BNCO W.FLEX",
     "bulk": 0.0,
     "prices": {
-      "D": 180140,
-      "E": 193997,
-      "F": 166283
+      "D": 189092,
+      "E": 203637,
+      "F": 174546
     }
   },
   "DTE271": {
@@ -27084,9 +27104,9 @@
     "category": "8.NAFTALINA",
     "bulk": 1.0,
     "prices": {
-      "D": 954,
-      "E": 1027,
-      "F": 880
+      "D": 1050,
+      "E": 1131,
+      "F": 969
     }
   },
   "DTF106AT": {
@@ -27754,9 +27774,9 @@
     "category": "8.LLANA DENTADA  AIKE",
     "bulk": 6.0,
     "prices": {
-      "D": 3107,
-      "E": 3346,
-      "F": 2868
+      "D": 3403,
+      "E": 3664,
+      "F": 3141
     }
   },
   "DTF428": {
@@ -27844,9 +27864,9 @@
     "category": "8.LLANA DENTADA ECO",
     "bulk": 8.0,
     "prices": {
-      "D": 3343,
-      "E": 3601,
-      "F": 3086
+      "D": 3654,
+      "E": 3935,
+      "F": 3373
     }
   },
   "DTF576": {
@@ -27854,9 +27874,9 @@
     "category": "8.LLANA DENTADA ECO",
     "bulk": 32.0,
     "prices": {
-      "D": 3343,
-      "E": 3601,
-      "F": 3086
+      "D": 3654,
+      "E": 3935,
+      "F": 3373
     }
   },
   "DTF577": {
@@ -27864,9 +27884,9 @@
     "category": "8.LLANA DENTADA ECO",
     "bulk": 32.0,
     "prices": {
-      "D": 3343,
-      "E": 3601,
-      "F": 3086
+      "D": 3654,
+      "E": 3935,
+      "F": 3373
     }
   },
   "DTF578": {
@@ -27874,9 +27894,9 @@
     "category": "8.LLANA DENTADA ECO",
     "bulk": 12.0,
     "prices": {
-      "D": 3343,
-      "E": 3601,
-      "F": 3086
+      "D": 3654,
+      "E": 3935,
+      "F": 3373
     }
   },
   "DTF592": {
@@ -27994,9 +28014,9 @@
     "category": "8.FRATACHO ABRASIVO",
     "bulk": 20.0,
     "prices": {
-      "D": 2308,
-      "E": 2485,
-      "F": 2130
+      "D": 2426,
+      "E": 2613,
+      "F": 2239
     }
   },
   "DTF677": {
@@ -28004,9 +28024,9 @@
     "category": "8.FRATACHO ABRASIVO",
     "bulk": 60.0,
     "prices": {
-      "D": 2308,
-      "E": 2485,
-      "F": 2130
+      "D": 2426,
+      "E": 2613,
+      "F": 2239
     }
   },
   "DTF690": {
@@ -28014,9 +28034,9 @@
     "category": "8.FRATACHO ABRASIVO",
     "bulk": 40.0,
     "prices": {
-      "D": 2308,
-      "E": 2485,
-      "F": 2130
+      "D": 2426,
+      "E": 2613,
+      "F": 2239
     }
   },
   "DTF700": {
@@ -29034,9 +29054,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 6.0,
     "prices": {
-      "D": 7620,
-      "E": 8206,
-      "F": 7034
+      "D": 4653,
+      "E": 5011,
+      "F": 4295
     }
   },
   "EA0202": {
@@ -29044,9 +29064,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 2.0,
     "prices": {
-      "D": 23030,
-      "E": 24801,
-      "F": 21258
+      "D": 15332,
+      "E": 16511,
+      "F": 14152
     }
   },
   "EA0203": {
@@ -29054,9 +29074,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 1.0,
     "prices": {
-      "D": 72656,
-      "E": 78245,
-      "F": 67067
+      "D": 57264,
+      "E": 61669,
+      "F": 52859
     }
   },
   "EA1001": {
@@ -29154,9 +29174,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 10.0,
     "prices": {
-      "D": 4195,
-      "E": 4518,
-      "F": 3872
+      "D": 7161,
+      "E": 7712,
+      "F": 6610
     }
   },
   "EA2410L": {
@@ -29164,9 +29184,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 10.0,
     "prices": {
-      "D": 8381,
-      "E": 9025,
-      "F": 7736
+      "D": 11718,
+      "E": 12619,
+      "F": 10816
     }
   },
   "EA2410R": {
@@ -29184,9 +29204,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 10.0,
     "prices": {
-      "D": 16762,
-      "E": 18051,
-      "F": 15472
+      "D": 14322,
+      "E": 15424,
+      "F": 13220
     }
   },
   "EA2420R": {
@@ -29204,9 +29224,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 10.0,
     "prices": {
-      "D": 28493,
-      "E": 30685,
-      "F": 26301
+      "D": 26040,
+      "E": 28044,
+      "F": 24037
     }
   },
   "EA2701": {
@@ -32024,9 +32044,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 5.0,
     "prices": {
-      "D": 1233,
-      "E": 1328,
-      "F": 1233
+      "D": 1319,
+      "E": 1421,
+      "F": 1319
     }
   },
   "ENE36350": {
@@ -32034,9 +32054,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 4.0,
     "prices": {
-      "D": 1241,
-      "E": 1337,
-      "F": 1241
+      "D": 1335,
+      "E": 1437,
+      "F": 1335
     }
   },
   "ENE9760": {
@@ -32044,9 +32064,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 48.0,
     "prices": {
-      "D": 7903,
-      "E": 8511,
-      "F": 7903
+      "D": 8496,
+      "E": 9150,
+      "F": 8496
     }
   },
   "ENE9800": {
@@ -32054,9 +32074,9 @@
     "category": "9.PILAS ENERGISER",
     "bulk": 4.0,
     "prices": {
-      "D": 1241,
-      "E": 1337,
-      "F": 1241
+      "D": 1335,
+      "E": 1437,
+      "F": 1335
     }
   },
   "EVE18890": {
@@ -32064,9 +32084,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 2.0,
     "prices": {
-      "D": 760,
-      "E": 818,
-      "F": 760
+      "D": 817,
+      "E": 880,
+      "F": 817
     }
   },
   "EVE21040": {
@@ -32074,9 +32094,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 4.0,
     "prices": {
-      "D": 760,
-      "E": 818,
-      "F": 760
+      "D": 817,
+      "E": 880,
+      "F": 817
     }
   },
   "EVE6210": {
@@ -32084,9 +32104,9 @@
     "category": "9.PILAS EVEREADY",
     "bulk": 24.0,
     "prices": {
-      "D": 4371,
-      "E": 4707,
-      "F": 4371
+      "D": 4699,
+      "E": 5060,
+      "F": 4699
     }
   },
   "EVEL101": {
@@ -32094,9 +32114,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 5019,
-      "E": 5405,
-      "F": 4633
+      "D": 5124,
+      "E": 5518,
+      "F": 4729
     }
   },
   "EVEL101B": {
@@ -32104,9 +32124,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 5019,
-      "E": 5405,
-      "F": 4633
+      "D": 5124,
+      "E": 5518,
+      "F": 4729
     }
   },
   "EVEL102N": {
@@ -32114,9 +32134,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 5963,
-      "E": 6421,
-      "F": 5504
+      "D": 6089,
+      "E": 6558,
+      "F": 5621
     }
   },
   "EVEL103N": {
@@ -32124,9 +32144,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 7585,
-      "E": 8169,
-      "F": 7002
+      "D": 7744,
+      "E": 8339,
+      "F": 7148
     }
   },
   "EVEL205": {
@@ -32134,9 +32154,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 15286,
-      "E": 16462,
-      "F": 14110
+      "D": 15606,
+      "E": 16806,
+      "F": 14405
     }
   },
   "EVEL210": {
@@ -32144,9 +32164,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 19136,
-      "E": 20608,
-      "F": 17664
+      "D": 19538,
+      "E": 21040,
+      "F": 18035
     }
   },
   "EVEL2100": {
@@ -32154,9 +32174,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 1.0,
     "prices": {
-      "D": 98454,
-      "E": 106027,
-      "F": 90880
+      "D": 100521,
+      "E": 108254,
+      "F": 92789
     }
   },
   "EVEL215": {
@@ -32164,9 +32184,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 25094,
-      "E": 27025,
-      "F": 23164
+      "D": 25622,
+      "E": 27593,
+      "F": 23651
     }
   },
   "EVEL220": {
@@ -32174,9 +32194,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 29472,
-      "E": 31739,
-      "F": 27205
+      "D": 30090,
+      "E": 32405,
+      "F": 27776
     }
   },
   "EVEL225": {
@@ -32184,9 +32204,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 34889,
-      "E": 37573,
-      "F": 32205
+      "D": 35622,
+      "E": 38362,
+      "F": 32882
     }
   },
   "EVEL230": {
@@ -32194,9 +32214,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 40475,
-      "E": 43588,
-      "F": 37361
+      "D": 41326,
+      "E": 44505,
+      "F": 38147
     }
   },
   "EVEL250": {
@@ -32204,9 +32224,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 59554,
-      "E": 64136,
-      "F": 54973
+      "D": 60805,
+      "E": 65482,
+      "F": 56128
     }
   },
   "EVEL502": {
@@ -32214,9 +32234,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 7120,
-      "E": 7668,
-      "F": 6573
+      "D": 7270,
+      "E": 7830,
+      "F": 6711
     }
   },
   "EVEL503": {
@@ -32224,9 +32244,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 9166,
-      "E": 9871,
-      "F": 8461
+      "D": 9360,
+      "E": 10080,
+      "F": 8640
     }
   },
   "EVEL505": {
@@ -32234,9 +32254,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 11735,
-      "E": 12637,
-      "F": 10832
+      "D": 11981,
+      "E": 12903,
+      "F": 11059
     }
   },
   "EVEL508": {
@@ -32244,9 +32264,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 24702,
-      "E": 26602,
-      "F": 22802
+      "D": 25221,
+      "E": 27161,
+      "F": 23281
     }
   },
   "EVEL510": {
@@ -32254,9 +32274,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 31560,
-      "E": 33987,
-      "F": 29132
+      "D": 32222,
+      "E": 34700,
+      "F": 29743
     }
   },
   "EVEL525": {
@@ -32264,9 +32284,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 16739,
-      "E": 18026,
-      "F": 15451
+      "D": 17091,
+      "E": 18405,
+      "F": 15776
     }
   },
   "EVEL526": {
@@ -32274,9 +32294,9 @@
     "category": "8.CINTA METRICA EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 20230,
-      "E": 21786,
-      "F": 18673
+      "D": 20654,
+      "E": 22243,
+      "F": 19065
     }
   },
   "EVELNAL100": {
@@ -32284,9 +32304,9 @@
     "category": "8.NIVEL EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 31281,
-      "E": 33688,
-      "F": 28875
+      "D": 31939,
+      "E": 34395,
+      "F": 29482
     }
   },
   "EVELNAL120": {
@@ -32294,9 +32314,9 @@
     "category": "8.NIVEL EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 35352,
-      "E": 38072,
-      "F": 32633
+      "D": 36096,
+      "E": 38872,
+      "F": 33319
     }
   },
   "EVELNAL30": {
@@ -32304,9 +32324,9 @@
     "category": "8.NIVEL EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 13783,
-      "E": 14843,
-      "F": 12723
+      "D": 14071,
+      "E": 15153,
+      "F": 12989
     }
   },
   "EVELNAL45": {
@@ -32314,9 +32334,9 @@
     "category": "8.NIVEL EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 19594,
-      "E": 21102,
-      "F": 18087
+      "D": 20005,
+      "E": 21544,
+      "F": 18467
     }
   },
   "EVELNAL60": {
@@ -32324,9 +32344,9 @@
     "category": "8.NIVEL EVEL",
     "bulk": 12.0,
     "prices": {
-      "D": 23536,
-      "E": 25346,
-      "F": 21725
+      "D": 24031,
+      "E": 25880,
+      "F": 22182
     }
   },
   "EVELNL1D": {
@@ -32334,9 +32354,9 @@
     "category": "8.NIVEL LASER EVEL",
     "bulk": 1.0,
     "prices": {
-      "D": 91759,
-      "E": 98817,
-      "F": 84701
+      "D": 93686,
+      "E": 100893,
+      "F": 86479
     }
   },
   "EVELNL3D": {
@@ -32344,9 +32364,9 @@
     "category": "8.NIVEL LASER EVEL",
     "bulk": 1.0,
     "prices": {
-      "D": 305866,
-      "E": 329395,
-      "F": 282338
+      "D": 312289,
+      "E": 336312,
+      "F": 288267
     }
   },
   "EVELTR065": {
@@ -32354,9 +32374,9 @@
     "category": "8.NIVEL LASER EVEL",
     "bulk": 1.0,
     "prices": {
-      "D": 16745,
-      "E": 18033,
-      "F": 15457
+      "D": 17098,
+      "E": 18413,
+      "F": 15783
     }
   },
   "EVO115CO": {
@@ -37934,9 +37954,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 1.0,
     "prices": {
-      "D": 5616,
-      "E": 6048,
-      "F": 5184
+      "D": 6740,
+      "E": 7258,
+      "F": 6221
     }
   },
   "FAMA302": {
@@ -37944,9 +37964,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 200.0,
     "prices": {
-      "D": 1326,
-      "E": 1428,
-      "F": 1224
+      "D": 1591,
+      "E": 1714,
+      "F": 1469
     }
   },
   "FAMA303": {
@@ -37954,9 +37974,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 50.0,
     "prices": {
-      "D": 2375,
-      "E": 2558,
-      "F": 2192
+      "D": 2850,
+      "E": 3069,
+      "F": 2631
     }
   },
   "FAMA304": {
@@ -37964,9 +37984,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 50.0,
     "prices": {
-      "D": 3850,
-      "E": 4147,
-      "F": 3554
+      "D": 4621,
+      "E": 4976,
+      "F": 4265
     }
   },
   "FAMA306": {
@@ -37974,9 +37994,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 50.0,
     "prices": {
-      "D": 6634,
-      "E": 7144,
-      "F": 6124
+      "D": 7961,
+      "E": 8573,
+      "F": 7349
     }
   },
   "FAMA308": {
@@ -37984,9 +38004,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 0.0,
     "prices": {
-      "D": 1101,
-      "E": 1185,
-      "F": 1016
+      "D": 1321,
+      "E": 1423,
+      "F": 1219
     }
   },
   "FAMA309": {
@@ -37994,9 +38014,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 50.0,
     "prices": {
-      "D": 1493,
-      "E": 1608,
-      "F": 1379
+      "D": 1792,
+      "E": 1930,
+      "F": 1654
     }
   },
   "FAMA310": {
@@ -38004,9 +38024,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
-      "D": 2043,
-      "E": 2201,
-      "F": 1886
+      "D": 2452,
+      "E": 2641,
+      "F": 2264
     }
   },
   "FAMA311": {
@@ -38014,9 +38034,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 50.0,
     "prices": {
-      "D": 3976,
-      "E": 4282,
-      "F": 3670
+      "D": 4771,
+      "E": 5138,
+      "F": 4404
     }
   },
   "FAMA312": {
@@ -38024,9 +38044,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 60.0,
     "prices": {
-      "D": 861,
-      "E": 927,
-      "F": 795
+      "D": 1033,
+      "E": 1113,
+      "F": 954
     }
   },
   "FAMA313": {
@@ -38034,9 +38054,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 35.0,
     "prices": {
-      "D": 1496,
-      "E": 1611,
-      "F": 1381
+      "D": 1795,
+      "E": 1933,
+      "F": 1657
     }
   },
   "FAMA314": {
@@ -38044,9 +38064,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
-      "D": 861,
-      "E": 927,
-      "F": 795
+      "D": 1033,
+      "E": 1113,
+      "F": 954
     }
   },
   "FAMA315": {
@@ -38054,9 +38074,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 800.0,
     "prices": {
-      "D": 122,
-      "E": 132,
-      "F": 113
+      "D": 147,
+      "E": 158,
+      "F": 135
     }
   },
   "FAMA316": {
@@ -38064,9 +38084,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 300.0,
     "prices": {
-      "D": 182,
-      "E": 196,
-      "F": 168
+      "D": 219,
+      "E": 236,
+      "F": 202
     }
   },
   "FAMA317": {
@@ -38074,9 +38094,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 600.0,
     "prices": {
-      "D": 163,
-      "E": 175,
-      "F": 150
+      "D": 195,
+      "E": 210,
+      "F": 180
     }
   },
   "FAMA318": {
@@ -38084,9 +38104,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 200.0,
     "prices": {
-      "D": 847,
-      "E": 912,
-      "F": 782
+      "D": 1016,
+      "E": 1095,
+      "F": 938
     }
   },
   "FAMA319": {
@@ -38094,9 +38114,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 150.0,
     "prices": {
-      "D": 586,
-      "E": 631,
-      "F": 541
+      "D": 704,
+      "E": 758,
+      "F": 649
     }
   },
   "FAMA321": {
@@ -38104,9 +38124,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 300.0,
     "prices": {
-      "D": 845,
-      "E": 910,
-      "F": 780
+      "D": 1015,
+      "E": 1093,
+      "F": 936
     }
   },
   "FAMA322": {
@@ -38114,9 +38134,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 600.0,
     "prices": {
-      "D": 449,
-      "E": 483,
-      "F": 414
+      "D": 538,
+      "E": 580,
+      "F": 497
     }
   },
   "FAMA324": {
@@ -38124,9 +38144,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
-      "D": 519,
-      "E": 559,
-      "F": 479
+      "D": 623,
+      "E": 671,
+      "F": 575
     }
   },
   "FAMA325": {
@@ -38134,9 +38154,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 100.0,
     "prices": {
-      "D": 488,
-      "E": 526,
-      "F": 451
+      "D": 586,
+      "E": 631,
+      "F": 541
     }
   },
   "FAMA326": {
@@ -38144,9 +38164,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 480.0,
     "prices": {
-      "D": 67,
-      "E": 72,
-      "F": 62
+      "D": 81,
+      "E": 87,
+      "F": 75
     }
   },
   "FAMA331": {
@@ -38154,9 +38174,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 30.0,
     "prices": {
-      "D": 2300,
-      "E": 2477,
-      "F": 2123
+      "D": 2760,
+      "E": 2973,
+      "F": 2548
     }
   },
   "FAMA334": {
@@ -38164,9 +38184,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 20.0,
     "prices": {
-      "D": 3268,
-      "E": 3519,
-      "F": 3016
+      "D": 3921,
+      "E": 4223,
+      "F": 3620
     }
   },
   "FAMA336": {
@@ -38174,9 +38194,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 15.0,
     "prices": {
-      "D": 4211,
-      "E": 4535,
-      "F": 3887
+      "D": 5053,
+      "E": 5442,
+      "F": 4665
     }
   },
   "FAMA337": {
@@ -38184,9 +38204,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 15.0,
     "prices": {
-      "D": 4211,
-      "E": 4535,
-      "F": 3887
+      "D": 5053,
+      "E": 5442,
+      "F": 4665
     }
   },
   "FAMA338": {
@@ -38194,9 +38214,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 5528,
-      "E": 5953,
-      "F": 5102
+      "D": 6633,
+      "E": 7143,
+      "F": 6123
     }
   },
   "FAMA340": {
@@ -38204,9 +38224,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 5528,
-      "E": 5953,
-      "F": 5102
+      "D": 6633,
+      "E": 7143,
+      "F": 6123
     }
   },
   "FAMA341": {
@@ -38214,9 +38234,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 5528,
-      "E": 5953,
-      "F": 5102
+      "D": 6633,
+      "E": 7143,
+      "F": 6123
     }
   },
   "FAMA342": {
@@ -38224,9 +38244,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 6173,
-      "E": 6648,
-      "F": 5698
+      "D": 7407,
+      "E": 7977,
+      "F": 6838
     }
   },
   "FAMA343": {
@@ -38234,9 +38254,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 6173,
-      "E": 6648,
-      "F": 5698
+      "D": 7407,
+      "E": 7977,
+      "F": 6838
     }
   },
   "FAMA344": {
@@ -38244,9 +38264,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 6562,
-      "E": 7067,
-      "F": 6057
+      "D": 7874,
+      "E": 8480,
+      "F": 7268
     }
   },
   "FAMA346": {
@@ -38254,9 +38274,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 6953,
-      "E": 7488,
-      "F": 6418
+      "D": 8343,
+      "E": 8985,
+      "F": 7702
     }
   },
   "FAMA348": {
@@ -38264,9 +38284,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 7036,
-      "E": 7577,
-      "F": 6495
+      "D": 8443,
+      "E": 9093,
+      "F": 7794
     }
   },
   "FAMA349": {
@@ -38274,9 +38294,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 7036,
-      "E": 7577,
-      "F": 6495
+      "D": 8443,
+      "E": 9093,
+      "F": 7794
     }
   },
   "FAMA350": {
@@ -38284,9 +38304,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 8041,
-      "E": 8659,
-      "F": 7422
+      "D": 9649,
+      "E": 10391,
+      "F": 8907
     }
   },
   "FAMA351": {
@@ -38294,9 +38314,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 11.0,
     "prices": {
-      "D": 8041,
-      "E": 8659,
-      "F": 7422
+      "D": 9649,
+      "E": 10391,
+      "F": 8907
     }
   },
   "FAMA354": {
@@ -38304,9 +38324,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 8378,
-      "E": 9022,
-      "F": 7733
+      "D": 10053,
+      "E": 10827,
+      "F": 9280
     }
   },
   "FAMA355": {
@@ -38314,9 +38334,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 10422,
-      "E": 11223,
-      "F": 9620
+      "D": 12506,
+      "E": 13468,
+      "F": 11544
     }
   },
   "FAMA358": {
@@ -38324,9 +38344,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 9.0,
     "prices": {
-      "D": 10726,
-      "E": 11551,
-      "F": 9901
+      "D": 12871,
+      "E": 13861,
+      "F": 11881
     }
   },
   "FAMA359": {
@@ -38334,9 +38354,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 9.0,
     "prices": {
-      "D": 10726,
-      "E": 11551,
-      "F": 9901
+      "D": 12871,
+      "E": 13861,
+      "F": 11881
     }
   },
   "FAMA362": {
@@ -38344,9 +38364,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 7491,
-      "E": 8067,
-      "F": 6914
+      "D": 8989,
+      "E": 9680,
+      "F": 8297
     }
   },
   "FAMA363": {
@@ -38354,9 +38374,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 12851,
-      "E": 13840,
-      "F": 11862
+      "D": 15421,
+      "E": 16608,
+      "F": 14235
     }
   },
   "FAMA364": {
@@ -38364,9 +38384,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 10.0,
     "prices": {
-      "D": 12851,
-      "E": 13840,
-      "F": 11862
+      "D": 15421,
+      "E": 16608,
+      "F": 14235
     }
   },
   "FAMA365": {
@@ -38374,9 +38394,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 20843,
-      "E": 22446,
-      "F": 19240
+      "D": 25012,
+      "E": 26936,
+      "F": 23088
     }
   },
   "FAMA366": {
@@ -38384,9 +38404,9 @@
     "category": "1.ACCES.PARA PILETA FAMA",
     "bulk": 8.0,
     "prices": {
-      "D": 20843,
-      "E": 22446,
-      "F": 19240
+      "D": 25012,
+      "E": 26936,
+      "F": 23088
     }
   },
   "FER50600": {
@@ -39554,9 +39574,9 @@
     "category": "1.CANILLAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4491,
-      "E": 4836,
-      "F": 4145
+      "D": 4698,
+      "E": 5059,
+      "F": 4337
     }
   },
   "FX1019": {
@@ -39564,9 +39584,9 @@
     "category": "1.CANILLAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3930,
-      "E": 4232,
-      "F": 3628
+      "D": 4261,
+      "E": 4588,
+      "F": 3933
     }
   },
   "FX1020": {
@@ -39574,9 +39594,9 @@
     "category": "1.CANILLAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2807,
-      "E": 3023,
-      "F": 2591
+      "D": 2786,
+      "E": 3001,
+      "F": 2572
     }
   },
   "FX1101": {
@@ -39784,9 +39804,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 147,
-      "E": 159,
-      "F": 136
+      "D": 162,
+      "E": 175,
+      "F": 150
     }
   },
   "FX1151": {
@@ -39794,9 +39814,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 270,
-      "E": 291,
-      "F": 249
+      "D": 284,
+      "E": 306,
+      "F": 262
     }
   },
   "FX1152V3": {
@@ -39804,9 +39824,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 147,
-      "E": 159,
-      "F": 136
+      "D": 162,
+      "E": 175,
+      "F": 150
     }
   },
   "FX1153": {
@@ -39814,9 +39834,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 170,
-      "E": 183,
-      "F": 157
+      "D": 184,
+      "E": 199,
+      "F": 170
     }
   },
   "FX1154": {
@@ -39824,9 +39844,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 100.0,
     "prices": {
-      "D": 325,
-      "E": 350,
-      "F": 300
+      "D": 300,
+      "E": 323,
+      "F": 277
     }
   },
   "FX1216024": {
@@ -39834,9 +39854,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 891,
-      "E": 959,
-      "F": 822
+      "D": 972,
+      "E": 1046,
+      "F": 897
     }
   },
   "FX1217": {
@@ -39844,9 +39864,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1061,
-      "E": 1142,
-      "F": 979
+      "D": 1150,
+      "E": 1238,
+      "F": 1061
     }
   },
   "FX1218025": {
@@ -39854,9 +39874,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 915,
-      "E": 985,
-      "F": 844
+      "D": 988,
+      "E": 1064,
+      "F": 912
     }
   },
   "FX1219": {
@@ -39864,9 +39884,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1246,
-      "E": 1342,
-      "F": 1150
+      "D": 1334,
+      "E": 1436,
+      "F": 1231
     }
   },
   "FX1220": {
@@ -39874,9 +39894,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 477,
-      "E": 514,
-      "F": 441
+      "D": 510,
+      "E": 549,
+      "F": 471
     }
   },
   "FX1221022": {
@@ -39884,9 +39904,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 712,
-      "E": 767,
-      "F": 658
+      "D": 761,
+      "E": 820,
+      "F": 702
     }
   },
   "FX1222": {
@@ -39894,9 +39914,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 810,
-      "E": 872,
-      "F": 747
+      "D": 874,
+      "E": 942,
+      "F": 807
     }
   },
   "FX1223": {
@@ -39904,9 +39924,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1064,
-      "E": 1146,
-      "F": 982
+      "D": 1139,
+      "E": 1227,
+      "F": 1051
     }
   },
   "FX1240": {
@@ -39984,9 +40004,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 597,
-      "E": 643,
-      "F": 551
+      "D": 639,
+      "E": 689,
+      "F": 590
     }
   },
   "FX1251030": {
@@ -39994,9 +40014,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 818,
-      "E": 881,
-      "F": 755
+      "D": 874,
+      "E": 942,
+      "F": 807
     }
   },
   "FX1252031": {
@@ -40004,9 +40024,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1150,
-      "E": 1238,
-      "F": 1061
+      "D": 1231,
+      "E": 1326,
+      "F": 1136
     }
   },
   "FX1253032": {
@@ -40014,9 +40034,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1863,
-      "E": 2006,
-      "F": 1719
+      "D": 2009,
+      "E": 2163,
+      "F": 1854
     }
   },
   "FX1270": {
@@ -40194,9 +40214,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 2807,
-      "E": 3023,
-      "F": 2591
+      "D": 2916,
+      "E": 3140,
+      "F": 2692
     }
   },
   "FX1320": {
@@ -40264,9 +40284,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1069,
-      "E": 1151,
-      "F": 987
+      "D": 1166,
+      "E": 1256,
+      "F": 1076
     }
   },
   "FX1328": {
@@ -40274,9 +40294,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 858,
-      "E": 924,
-      "F": 792
+      "D": 907,
+      "E": 977,
+      "F": 837
     }
   },
   "FX1329": {
@@ -40284,9 +40304,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1231,
-      "E": 1326,
-      "F": 1136
+      "D": 1328,
+      "E": 1430,
+      "F": 1226
     }
   },
   "FX1330": {
@@ -40294,9 +40314,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 878,
-      "E": 945,
-      "F": 810
+      "D": 960,
+      "E": 1034,
+      "F": 886
     }
   },
   "FX1331": {
@@ -40304,9 +40324,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1126,
-      "E": 1212,
-      "F": 1039
+      "D": 1215,
+      "E": 1308,
+      "F": 1121
     }
   },
   "FX1332": {
@@ -40314,9 +40334,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1117,
-      "E": 1203,
-      "F": 1031
+      "D": 1198,
+      "E": 1291,
+      "F": 1106
     }
   },
   "FX1333": {
@@ -40324,9 +40344,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1360,
-      "E": 1465,
-      "F": 1256
+      "D": 1458,
+      "E": 1570,
+      "F": 1346
     }
   },
   "FX1334": {
@@ -40334,9 +40354,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1304,
-      "E": 1404,
-      "F": 1203
+      "D": 1409,
+      "E": 1517,
+      "F": 1301
     }
   },
   "FX1335": {
@@ -40344,9 +40364,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1393,
-      "E": 1500,
-      "F": 1286
+      "D": 1506,
+      "E": 1622,
+      "F": 1390
     }
   },
   "FX1336": {
@@ -40354,9 +40374,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 680,
-      "E": 732,
-      "F": 628
+      "D": 729,
+      "E": 785,
+      "F": 673
     }
   },
   "FX1337040": {
@@ -40364,9 +40384,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 777,
-      "E": 837,
-      "F": 717
+      "D": 826,
+      "E": 889,
+      "F": 762
     }
   },
   "FX1338041": {
@@ -40384,9 +40404,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1717,
-      "E": 1849,
-      "F": 1585
+      "D": 1847,
+      "E": 1989,
+      "F": 1704
     }
   },
   "FX1410": {
@@ -40394,13 +40414,43 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 761,
-      "E": 820,
-      "F": 702
+      "D": 810,
+      "E": 872,
+      "F": 747
     }
   },
   "FX1411": {
     "name": "TOMAGOMA (TETON) MACHO BRNCE 1/4 FX",
+    "category": "2.ACCES.BRNCE P/GAS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 923,
+      "E": 994,
+      "F": 852
+    }
+  },
+  "FX1412057": {
+    "name": "TOMAGOMA (TETON) MACHO BRNCE 3/8 FX",
+    "category": "2.ACCES.BRNCE P/GAS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1393,
+      "E": 1500,
+      "F": 1286
+    }
+  },
+  "FX1413": {
+    "name": "TOMAGOMA (TETON) MACHO BRNCE 1/2 FX",
+    "category": "2.ACCES.BRNCE P/GAS",
+    "bulk": 10.0,
+    "prices": {
+      "D": 1652,
+      "E": 1779,
+      "F": 1525
+    }
+  },
+  "FX1414": {
+    "name": "TOMAGOMA (TETON) HEMBRA BRCE 1/8 FX",
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
@@ -40409,44 +40459,14 @@
       "F": 792
     }
   },
-  "FX1412057": {
-    "name": "TOMAGOMA (TETON) MACHO BRNCE 3/8 FX",
-    "category": "2.ACCES.BRNCE P/GAS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1190,
-      "E": 1282,
-      "F": 1099
-    }
-  },
-  "FX1413": {
-    "name": "TOMAGOMA (TETON) MACHO BRNCE 1/2 FX",
-    "category": "2.ACCES.BRNCE P/GAS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 1539,
-      "E": 1657,
-      "F": 1420
-    }
-  },
-  "FX1414": {
-    "name": "TOMAGOMA (TETON) HEMBRA BRCE 1/8 FX",
-    "category": "2.ACCES.BRNCE P/GAS",
-    "bulk": 10.0,
-    "prices": {
-      "D": 793,
-      "E": 854,
-      "F": 732
-    }
-  },
   "FX1415": {
     "name": "TOMAGOMA (TETON) HEMBRA BRCE 1/4 FX",
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1004,
-      "E": 1081,
-      "F": 927
+      "D": 1069,
+      "E": 1151,
+      "F": 987
     }
   },
   "FX1416": {
@@ -40454,9 +40474,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1296,
-      "E": 1395,
-      "F": 1196
+      "D": 1409,
+      "E": 1517,
+      "F": 1301
     }
   },
   "FX1417": {
@@ -40464,9 +40484,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1717,
-      "E": 1849,
-      "F": 1585
+      "D": 1863,
+      "E": 2006,
+      "F": 1719
     }
   },
   "FX1421": {
@@ -40474,9 +40494,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 892,
-      "E": 961,
-      "F": 824
+      "D": 955,
+      "E": 1029,
+      "F": 882
     }
   },
   "FX1422": {
@@ -40494,9 +40514,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 379,
-      "E": 408,
-      "F": 349
+      "D": 405,
+      "E": 436,
+      "F": 373
     }
   },
   "FX1431061": {
@@ -40504,9 +40524,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 437,
-      "E": 471,
-      "F": 403
+      "D": 469,
+      "E": 505,
+      "F": 433
     }
   },
   "FX1432": {
@@ -40524,9 +40544,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 607,
-      "E": 654,
-      "F": 560
+      "D": 656,
+      "E": 706,
+      "F": 605
     }
   },
   "FX1434": {
@@ -40534,9 +40554,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1061,
-      "E": 1142,
-      "F": 979
+      "D": 1150,
+      "E": 1238,
+      "F": 1061
     }
   },
   "FX1435064": {
@@ -40544,9 +40564,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 210,
-      "E": 226,
-      "F": 194
+      "D": 243,
+      "E": 261,
+      "F": 224
     }
   },
   "FX1436065": {
@@ -40554,9 +40574,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 285,
-      "E": 307,
-      "F": 263
+      "D": 340,
+      "E": 366,
+      "F": 314
     }
   },
   "FX1437": {
@@ -40564,9 +40584,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 351,
-      "E": 378,
-      "F": 324
+      "D": 421,
+      "E": 453,
+      "F": 388
     }
   },
   "FX1441": {
@@ -40594,9 +40614,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 779,
-      "E": 839,
-      "F": 719
+      "D": 842,
+      "E": 907,
+      "F": 777
     }
   },
   "FX144458": {
@@ -40604,9 +40624,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1482,
-      "E": 1596,
-      "F": 1368
+      "D": 1652,
+      "E": 1779,
+      "F": 1525
     }
   },
   "FX1452": {
@@ -40614,9 +40634,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 518,
-      "E": 558,
-      "F": 478
+      "D": 550,
+      "E": 593,
+      "F": 508
     }
   },
   "FX1453": {
@@ -40624,9 +40644,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 521,
-      "E": 561,
-      "F": 481
+      "D": 558,
+      "E": 601,
+      "F": 515
     }
   },
   "FX1454": {
@@ -40634,9 +40654,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 720,
-      "E": 776,
-      "F": 665
+      "D": 761,
+      "E": 820,
+      "F": 702
     }
   },
   "FX1455": {
@@ -40644,9 +40664,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1179,
-      "E": 1270,
-      "F": 1088
+      "D": 1247,
+      "E": 1343,
+      "F": 1151
     }
   },
   "FX1456": {
@@ -40654,9 +40674,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 526,
-      "E": 567,
-      "F": 486
+      "D": 567,
+      "E": 610,
+      "F": 523
     }
   },
   "FX1457": {
@@ -40664,9 +40684,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 542,
-      "E": 584,
-      "F": 501
+      "D": 583,
+      "E": 628,
+      "F": 538
     }
   },
   "FX1458": {
@@ -40674,9 +40694,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 785,
-      "E": 846,
-      "F": 725
+      "D": 842,
+      "E": 907,
+      "F": 777
     }
   },
   "FX1459": {
@@ -40684,9 +40704,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 10.0,
     "prices": {
-      "D": 1177,
-      "E": 1268,
-      "F": 1087
+      "D": 1263,
+      "E": 1360,
+      "F": 1166
     }
   },
   "FX1511": {
@@ -40974,9 +40994,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 1.0,
     "prices": {
-      "D": 19234,
-      "E": 20714,
-      "F": 17755
+      "D": 20862,
+      "E": 22467,
+      "F": 19257
     }
   },
   "FXFCGN4VAR-N": {
@@ -40984,9 +41004,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 1.0,
     "prices": {
-      "D": 19234,
-      "E": 20714,
-      "F": 17755
+      "D": 21454,
+      "E": 23104,
+      "F": 19803
     }
   },
   "FXTO2": {
@@ -43074,9 +43094,9 @@
     "category": "8.GUANTES MOTEADOS",
     "bulk": 12.0,
     "prices": {
-      "D": 652,
-      "E": 702,
-      "F": 607
+      "D": 719,
+      "E": 775,
+      "F": 669
     }
   },
   "GAMI1100FERC1": {
@@ -43084,9 +43104,9 @@
     "category": "8.GUANTES MOTEADOS",
     "bulk": 12.0,
     "prices": {
-      "D": 584,
-      "E": 629,
-      "F": 539
+      "D": 629,
+      "E": 678,
+      "F": 581
     }
   },
   "GAMIL1001HT9": {
@@ -43094,9 +43114,9 @@
     "category": "8.GUANTES TELA GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 1390,
-      "E": 1497,
-      "F": 1337
+      "D": 1681,
+      "E": 1810,
+      "F": 1616
     }
   },
   "GAMIN1002HT9": {
@@ -43104,9 +43124,9 @@
     "category": "8.GUANTES TELA GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 1198,
-      "E": 1291,
-      "F": 1152
+      "D": 1428,
+      "E": 1538,
+      "F": 1373
     }
   },
   "GAMIPU1001T9": {
@@ -43114,9 +43134,9 @@
     "category": "8.GUANTES TELA GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 920,
-      "E": 991,
-      "F": 885
+      "D": 1042,
+      "E": 1122,
+      "F": 1002
     }
   },
   "GBOC726": {
@@ -43789,6 +43809,26 @@
       "F": 1114
     }
   },
+  "GONI403650": {
+    "name": "LAMPARA DICR.GDE LED 12wt.FRI INTERELEC",
+    "category": "9.LAMPARA DICROICA/ACC.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 9272,
+      "E": 9986,
+      "F": 8559
+    }
+  },
+  "GONI403651": {
+    "name": "LAMPARA DICR.GDE LED 12wt.CAL INTERELEC",
+    "category": "9.LAMPARA DICROICA/ACC.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 9272,
+      "E": 9986,
+      "F": 8559
+    }
+  },
   "GONIM1601007": {
     "name": "LAMPARA LED GOTA 5wt.CALIDA TREFI",
     "category": "9.LAMP.LED CANDELA",
@@ -44074,9 +44114,9 @@
     "category": "9.CABLE UNIP.NORMALIZ.",
     "bulk": 1.0,
     "prices": {
-      "D": 60849,
-      "E": 65529,
-      "F": 56168
+      "D": 64011,
+      "E": 68935,
+      "F": 59087
     }
   },
   "GONT2050B": {
@@ -49594,9 +49634,9 @@
     "category": "8.TENAZA ARMADOR 3 PUNTO",
     "bulk": 6.0,
     "prices": {
-      "D": 21266,
-      "E": 23039,
-      "F": 21266
+      "D": 22737,
+      "E": 24632,
+      "F": 22737
     }
   },
   "JC4547": {
@@ -49604,9 +49644,9 @@
     "category": "8.TENAZA ARMADOR 3 PUNTO",
     "bulk": 6.0,
     "prices": {
-      "D": 26025,
-      "E": 28194,
-      "F": 26025
+      "D": 27825,
+      "E": 30144,
+      "F": 27825
     }
   },
   "JC4548": {
@@ -49614,9 +49654,9 @@
     "category": "8.TENAZA ARMADOR 3 PUNTO",
     "bulk": 6.0,
     "prices": {
-      "D": 21266,
-      "E": 23039,
-      "F": 21266
+      "D": 22737,
+      "E": 24632,
+      "F": 22737
     }
   },
   "JC4549": {
@@ -49624,9 +49664,9 @@
     "category": "8.TENAZA ARMADOR 3 PUNTO",
     "bulk": 6.0,
     "prices": {
-      "D": 26025,
-      "E": 28194,
-      "F": 26025
+      "D": 27825,
+      "E": 30144,
+      "F": 27825
     }
   },
   "JC460": {
@@ -49814,9 +49854,9 @@
     "category": "9.LLAVE DIYUNTOR SICA",
     "bulk": 1.0,
     "prices": {
-      "D": 54428,
-      "E": 58615,
-      "F": 50241
+      "D": 55517,
+      "E": 59787,
+      "F": 51246
     }
   },
   "JELD2x25J": {
@@ -49824,9 +49864,9 @@
     "category": "9.LLAVE DIYUNTOR SICA",
     "bulk": 1.0,
     "prices": {
-      "D": 47812,
-      "E": 51490,
-      "F": 44134
+      "D": 48768,
+      "E": 52520,
+      "F": 45017
     }
   },
   "JELD2x40J": {
@@ -49834,9 +49874,9 @@
     "category": "9.LLAVE DIYUNTOR SICA",
     "bulk": 1.0,
     "prices": {
-      "D": 47812,
-      "E": 51490,
-      "F": 44134
+      "D": 48768,
+      "E": 52520,
+      "F": 45017
     }
   },
   "JELTMB32J": {
@@ -49844,9 +49884,9 @@
     "category": "9.LLAVE TERMICA 2/JELUZ",
     "bulk": 6.0,
     "prices": {
-      "D": 8414,
-      "E": 9061,
-      "F": 7767
+      "D": 8582,
+      "E": 9242,
+      "F": 7922
     }
   },
   "JELTMB40J": {
@@ -49854,9 +49894,9 @@
     "category": "9.LLAVE TERMICA 2/JELUZ",
     "bulk": 6.0,
     "prices": {
-      "D": 9290,
-      "E": 10005,
-      "F": 8575
+      "D": 9476,
+      "E": 10205,
+      "F": 8747
     }
   },
   "JRCM070": {
@@ -49954,9 +49994,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 10.0,
     "prices": {
-      "D": 292903,
-      "E": 316335,
-      "F": 257754
+      "D": 301690,
+      "E": 325825,
+      "F": 265487
     }
   },
   "KCMTE60S": {
@@ -49964,9 +50004,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 10.0,
     "prices": {
-      "D": 315546,
-      "E": 340790,
-      "F": 277681
+      "D": 325013,
+      "E": 351014,
+      "F": 286011
     }
   },
   "KCMTE80S": {
@@ -49974,9 +50014,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 326202,
-      "E": 352298,
-      "F": 313154
+      "D": 335988,
+      "E": 362867,
+      "F": 322549
     }
   },
   "KCMTG110S": {
@@ -49984,9 +50024,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 0.0,
     "prices": {
-      "D": 375204,
-      "E": 405221,
-      "F": 315172
+      "D": 386460,
+      "E": 417377,
+      "F": 324627
     }
   },
   "KCMTG60S": {
@@ -49994,9 +50034,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 364830,
-      "E": 394016,
-      "F": 321050
+      "D": 375768,
+      "E": 405829,
+      "F": 330676
     }
   },
   "KCMTG90S": {
@@ -50004,9 +50044,9 @@
     "category": "1.CALEF.TERMOT/KASEMASTER",
     "bulk": 1.0,
     "prices": {
-      "D": 399461,
-      "E": 431418,
-      "F": 383483
+      "D": 411445,
+      "E": 444361,
+      "F": 394987
     }
   },
   "KCMVT16": {
@@ -50384,9 +50424,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 4324,
-      "E": 4490,
-      "F": 3991
+      "D": 4459,
+      "E": 4631,
+      "F": 4116
     }
   },
   "KM002": {
@@ -50394,9 +50434,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 6607,
-      "E": 6862,
-      "F": 6099
+      "D": 6957,
+      "E": 7225,
+      "F": 6422
     }
   },
   "KM003": {
@@ -50404,9 +50444,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 10292,
-      "E": 10688,
-      "F": 9501
+      "D": 10656,
+      "E": 11066,
+      "F": 9836
     }
   },
   "KM004": {
@@ -50414,9 +50454,9 @@
     "category": "7.KM305",
     "bulk": 2.0,
     "prices": {
-      "D": 29026,
-      "E": 30143,
-      "F": 26794
+      "D": 30025,
+      "E": 31180,
+      "F": 27715
     }
   },
   "KM009": {
@@ -50424,9 +50464,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 11274,
-      "E": 12142,
-      "F": 10407
+      "D": 11856,
+      "E": 12768,
+      "F": 10944
     }
   },
   "KM010": {
@@ -50434,9 +50474,9 @@
     "category": "7.KM305",
     "bulk": 2.0,
     "prices": {
-      "D": 28875,
-      "E": 31096,
-      "F": 26654
+      "D": 30320,
+      "E": 32652,
+      "F": 27988
     }
   },
   "KM011": {
@@ -50444,9 +50484,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 1310,
-      "E": 1410,
-      "F": 1209
+      "D": 1388,
+      "E": 1495,
+      "F": 1282
     }
   },
   "KM012": {
@@ -50454,9 +50494,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 1936,
-      "E": 2085,
-      "F": 1787
+      "D": 2030,
+      "E": 2186,
+      "F": 1873
     }
   },
   "KM013": {
@@ -50474,9 +50514,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 5810,
-      "E": 6257,
-      "F": 5363
+      "D": 6042,
+      "E": 6507,
+      "F": 5577
     }
   },
   "KM017": {
@@ -50494,9 +50534,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 14871,
-      "E": 16015,
-      "F": 13727
+      "D": 15588,
+      "E": 16787,
+      "F": 14389
     }
   },
   "KM019": {
@@ -50504,9 +50544,9 @@
     "category": "7.KM305",
     "bulk": 2.0,
     "prices": {
-      "D": 23955,
-      "E": 25797,
-      "F": 22112
+      "D": 24577,
+      "E": 26468,
+      "F": 22686
     }
   },
   "KM020": {
@@ -50514,9 +50554,9 @@
     "category": "7.KM305",
     "bulk": 1.0,
     "prices": {
-      "D": 68394,
-      "E": 73655,
-      "F": 63133
+      "D": 69724,
+      "E": 75087,
+      "F": 64361
     }
   },
   "KM021": {
@@ -50524,9 +50564,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 17190,
-      "E": 18513,
-      "F": 15868
+      "D": 18049,
+      "E": 19437,
+      "F": 16661
     }
   },
   "KM022": {
@@ -50574,9 +50614,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 10888,
-      "E": 11307,
-      "F": 10050
+      "D": 11230,
+      "E": 11662,
+      "F": 10366
     }
   },
   "KM032": {
@@ -50584,9 +50624,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 16865,
-      "E": 17514,
-      "F": 15568
+      "D": 17322,
+      "E": 17988,
+      "F": 15989
     }
   },
   "KM034": {
@@ -50594,9 +50634,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 10811,
-      "E": 11227,
-      "F": 9980
+      "D": 11004,
+      "E": 11427,
+      "F": 10157
     }
   },
   "KM035": {
@@ -50604,9 +50644,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 16689,
-      "E": 17331,
-      "F": 15405
+      "D": 16944,
+      "E": 17596,
+      "F": 15640
     }
   },
   "KM038": {
@@ -50614,9 +50654,9 @@
     "category": "7.KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 11997,
-      "E": 12459,
-      "F": 11074
+      "D": 11852,
+      "E": 12308,
+      "F": 10940
     }
   },
   "KM039": {
@@ -50624,9 +50664,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 18495,
-      "E": 19207,
-      "F": 17073
+      "D": 18467,
+      "E": 19178,
+      "F": 17047
     }
   },
   "KM058": {
@@ -50634,9 +50674,9 @@
     "category": "8.SUBCARROCERIA KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 10036,
-      "E": 10808,
-      "F": 9264
+      "D": 10543,
+      "E": 11354,
+      "F": 9732
     }
   },
   "KM060": {
@@ -50644,9 +50684,9 @@
     "category": "8.SUBCARROCERIA KM305",
     "bulk": 12.0,
     "prices": {
-      "D": 10478,
-      "E": 11284,
-      "F": 9672
+      "D": 11107,
+      "E": 11961,
+      "F": 10252
     }
   },
   "KM070": {
@@ -50654,9 +50694,9 @@
     "category": "7.KM305",
     "bulk": 7.0,
     "prices": {
-      "D": 5267,
-      "E": 5470,
-      "F": 4862
+      "D": 5583,
+      "E": 5798,
+      "F": 5154
     }
   },
   "KM071": {
@@ -50664,9 +50704,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 7973,
-      "E": 8280,
-      "F": 7360
+      "D": 8342,
+      "E": 8663,
+      "F": 7700
     }
   },
   "KM072": {
@@ -50684,9 +50724,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 5026,
-      "E": 5219,
-      "F": 4639
+      "D": 5328,
+      "E": 5533,
+      "F": 4918
     }
   },
   "KM079": {
@@ -50694,9 +50734,9 @@
     "category": "7.KM305",
     "bulk": 5.0,
     "prices": {
-      "D": 7465,
-      "E": 7752,
-      "F": 6891
+      "D": 7840,
+      "E": 8141,
+      "F": 7237
     }
   },
   "KM080": {
@@ -50704,9 +50744,9 @@
     "category": "7.KM305",
     "bulk": 3.0,
     "prices": {
-      "D": 11696,
-      "E": 12146,
-      "F": 10796
+      "D": 11771,
+      "E": 12224,
+      "F": 10866
     }
   },
   "KM082": {
@@ -50714,9 +50754,9 @@
     "category": "7.KM305",
     "bulk": 6.0,
     "prices": {
-      "D": 6564,
-      "E": 7069,
-      "F": 6059
+      "D": 6892,
+      "E": 7422,
+      "F": 6362
     }
   },
   "KOKN0.50": {
@@ -57394,9 +57434,9 @@
     "category": "9.Cj LUZ METAL.y ACC.",
     "bulk": 100.0,
     "prices": {
-      "D": 355,
-      "E": 382,
-      "F": 327
+      "D": 429,
+      "E": 462,
+      "F": 396
     }
   },
   "MAVCMO": {
@@ -57404,9 +57444,9 @@
     "category": "9.Cj LUZ METAL.y ACC.",
     "bulk": 120.0,
     "prices": {
-      "D": 355,
-      "E": 382,
-      "F": 327
+      "D": 429,
+      "E": 462,
+      "F": 396
     }
   },
   "MAVCMR": {
@@ -57414,9 +57454,9 @@
     "category": "9.Cj LUZ METAL.y ACC.",
     "bulk": 120.0,
     "prices": {
-      "D": 355,
-      "E": 382,
-      "F": 327
+      "D": 429,
+      "E": 462,
+      "F": 396
     }
   },
   "MAVKL14x7CA": {
@@ -57464,9 +57504,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 20.0,
     "prices": {
-      "D": 3512,
-      "E": 3783,
-      "F": 3242
+      "D": 3536,
+      "E": 3808,
+      "F": 3264
     }
   },
   "MAVPTGRAM09CB": {
@@ -57474,9 +57514,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACS",
     "bulk": 20.0,
     "prices": {
-      "D": 2622,
-      "E": 2824,
-      "F": 2420
+      "D": 2639,
+      "E": 2842,
+      "F": 2436
     }
   },
   "MAVPTGRAM10B": {
@@ -57484,9 +57524,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 20.0,
     "prices": {
-      "D": 2548,
-      "E": 2744,
-      "F": 2352
+      "D": 2564,
+      "E": 2762,
+      "F": 2367
     }
   },
   "MAVPTGRAM12B": {
@@ -57494,9 +57534,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 2078,
-      "E": 2237,
-      "F": 1918
+      "D": 2091,
+      "E": 2252,
+      "F": 1930
     }
   },
   "MAVPTTACHMP10": {
@@ -57504,9 +57544,9 @@
     "category": "9.PISTOLA TERMOELECTRICA",
     "bulk": 48.0,
     "prices": {
-      "D": 5711,
-      "E": 6150,
-      "F": 5271
+      "D": 5748,
+      "E": 6190,
+      "F": 5306
     }
   },
   "MAVPTTACHMP60": {
@@ -57514,9 +57554,9 @@
     "category": "9.PISTOLA TERMOELECTRICA",
     "bulk": 48.0,
     "prices": {
-      "D": 8590,
-      "E": 9251,
-      "F": 7929
+      "D": 8647,
+      "E": 9312,
+      "F": 7982
     }
   },
   "MAVTACAUTO": {
@@ -57524,9 +57564,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 10.0,
     "prices": {
-      "D": 3129,
-      "E": 3370,
-      "F": 2888
+      "D": 3150,
+      "E": 3392,
+      "F": 2907
     }
   },
   "MAVTACPLUS10": {
@@ -57534,9 +57574,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 150.0,
     "prices": {
-      "D": 776,
-      "E": 836,
-      "F": 716
+      "D": 792,
+      "E": 853,
+      "F": 731
     }
   },
   "MAVTACPLUS20": {
@@ -57544,9 +57584,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 100.0,
     "prices": {
-      "D": 1335,
-      "E": 1437,
-      "F": 1232
+      "D": 1361,
+      "E": 1466,
+      "F": 1256
     }
   },
   "MAVTACPLUS5": {
@@ -57554,9 +57594,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 200.0,
     "prices": {
-      "D": 509,
-      "E": 548,
-      "F": 470
+      "D": 519,
+      "E": 559,
+      "F": 479
     }
   },
   "MAVTERM2.4": {
@@ -57564,9 +57604,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 10934,
-      "E": 11775,
-      "F": 10093
+      "D": 11006,
+      "E": 11853,
+      "F": 10159
     }
   },
   "MAVTERM3.2": {
@@ -57574,9 +57614,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 11973,
-      "E": 12894,
-      "F": 11052
+      "D": 12052,
+      "E": 12979,
+      "F": 11125
     }
   },
   "MAVTERM4.8": {
@@ -57584,9 +57624,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 14200,
-      "E": 15292,
-      "F": 13107
+      "D": 14293,
+      "E": 15393,
+      "F": 13194
     }
   },
   "MAVTERM6.4": {
@@ -57594,9 +57634,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 15758,
-      "E": 16970,
-      "F": 14546
+      "D": 15862,
+      "E": 17082,
+      "F": 14642
     }
   },
   "MAVTERM8.0": {
@@ -57604,9 +57644,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 19791,
-      "E": 21313,
-      "F": 18268
+      "D": 19921,
+      "E": 21453,
+      "F": 18388
     }
   },
   "MAVTERM9.5": {
@@ -57614,9 +57654,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 8.0,
     "prices": {
-      "D": 21275,
-      "E": 22911,
-      "F": 19638
+      "D": 21415,
+      "E": 23062,
+      "F": 19768
     }
   },
   "MAVVAHA": {
@@ -57634,9 +57674,9 @@
     "category": "8.CALEFACCION",
     "bulk": 50.0,
     "prices": {
-      "D": 3201,
-      "E": 3447,
-      "F": 3078
+      "D": 3222,
+      "E": 3470,
+      "F": 3098
     }
   },
   "MAVZT-1001": {
@@ -67484,9 +67524,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 1003,
-      "E": 1080,
-      "F": 926
+      "D": 1033,
+      "E": 1113,
+      "F": 954
     }
   },
   "OR102": {
@@ -67494,9 +67534,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 2058,
-      "E": 2217,
-      "F": 1900
+      "D": 2120,
+      "E": 2283,
+      "F": 1957
     }
   },
   "OR1037": {
@@ -67514,9 +67554,9 @@
     "category": "1.REJA P/VENTILACION.OR",
     "bulk": 10.0,
     "prices": {
-      "D": 1641,
-      "E": 1768,
-      "F": 1515
+      "D": 1741,
+      "E": 1875,
+      "F": 1607
     }
   },
   "OR11": {
@@ -67524,9 +67564,9 @@
     "category": "1.FILTRO SOPAPA",
     "bulk": 12.0,
     "prices": {
-      "D": 679,
-      "E": 731,
-      "F": 626
+      "D": 713,
+      "E": 768,
+      "F": 658
     }
   },
   "OR118": {
@@ -67824,9 +67864,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 11091,
-      "E": 11883,
-      "F": 10299
+      "D": 12047,
+      "E": 12908,
+      "F": 11186
     }
   },
   "OR272A": {
@@ -67834,9 +67874,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 14342,
-      "E": 15366,
-      "F": 13317
+      "D": 15680,
+      "E": 16800,
+      "F": 14560
     }
   },
   "OR272B": {
@@ -67844,9 +67884,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 22565,
-      "E": 24176,
-      "F": 20953
+      "D": 24668,
+      "E": 26430,
+      "F": 22906
     }
   },
   "OR272C": {
@@ -67854,9 +67894,9 @@
     "category": "1.REJA.FUNDICION P/PISO",
     "bulk": 5.0,
     "prices": {
-      "D": 34230,
-      "E": 36675,
-      "F": 31785
+      "D": 37098,
+      "E": 39748,
+      "F": 34448
     }
   },
   "OR273": {
@@ -67904,9 +67944,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 5998,
-      "E": 6459,
-      "F": 5536
+      "D": 6298,
+      "E": 6782,
+      "F": 5813
     }
   },
   "OR34": {
@@ -67914,9 +67954,9 @@
     "category": "8.CINTA P/MONTAJE ACERO",
     "bulk": 1.0,
     "prices": {
-      "D": 2998,
-      "E": 3229,
-      "F": 2767
+      "D": 3148,
+      "E": 3390,
+      "F": 2906
     }
   },
   "OR365": {
@@ -67924,9 +67964,9 @@
     "category": "1.GRAMPA P/LAVATORIO",
     "bulk": 20.0,
     "prices": {
-      "D": 639,
-      "E": 688,
-      "F": 590
+      "D": 710,
+      "E": 764,
+      "F": 655
     }
   },
   "OR366": {
@@ -77694,9 +77734,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 389,
-      "E": 419,
-      "F": 359
+      "D": 428,
+      "E": 461,
+      "F": 395
     }
   },
   "ROS1402": {
@@ -77704,9 +77744,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 254,
-      "E": 274,
-      "F": 235
+      "D": 277,
+      "E": 299,
+      "F": 256
     }
   },
   "ROS1404": {
@@ -77714,9 +77754,9 @@
     "category": "2.ACCES.BRNCE P/GAS",
     "bulk": 200.0,
     "prices": {
-      "D": 250,
-      "E": 269,
-      "F": 231
+      "D": 275,
+      "E": 296,
+      "F": 254
     }
   },
   "ROS1420": {
@@ -77724,9 +77764,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 4606,
-      "E": 4960,
-      "F": 4252
+      "D": 5067,
+      "E": 5457,
+      "F": 4677
     }
   },
   "ROS1430": {
@@ -77734,9 +77774,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1529,
-      "E": 1646,
-      "F": 1411
+      "D": 1682,
+      "E": 1811,
+      "F": 1552
     }
   },
   "ROS1431": {
@@ -77744,9 +77784,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1582,
-      "E": 1704,
-      "F": 1460
+      "D": 1740,
+      "E": 1874,
+      "F": 1606
     }
   },
   "ROS1716": {
@@ -77854,9 +77894,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6248,
-      "E": 6729,
-      "F": 5767
+      "D": 6873,
+      "E": 7401,
+      "F": 6344
     }
   },
   "ROS2661": {
@@ -77864,9 +77904,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 3378,
-      "E": 3638,
-      "F": 3119
+      "D": 3716,
+      "E": 4002,
+      "F": 3430
     }
   },
   "ROS3604": {
@@ -77944,9 +77984,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 7034,
-      "E": 7575,
-      "F": 6763
+      "D": 8089,
+      "E": 8711,
+      "F": 7778
     }
   },
   "ROS4181": {
@@ -77954,9 +77994,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5478,
-      "E": 5900,
-      "F": 5057
+      "D": 6026,
+      "E": 6490,
+      "F": 5563
     }
   },
   "ROS4182": {
@@ -77964,9 +78004,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6229,
-      "E": 6709,
-      "F": 5990
+      "D": 7164,
+      "E": 7715,
+      "F": 6888
     }
   },
   "ROS4182-1": {
@@ -77974,9 +78014,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6229,
-      "E": 6709,
-      "F": 5990
+      "D": 7164,
+      "E": 7715,
+      "F": 6888
     }
   },
   "ROS4183": {
@@ -77984,9 +78024,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6709,
-      "E": 7226,
-      "F": 6193
+      "D": 7380,
+      "E": 7948,
+      "F": 6813
     }
   },
   "ROS4184": {
@@ -77994,9 +78034,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7238,
-      "E": 7795,
-      "F": 6681
+      "D": 7962,
+      "E": 8574,
+      "F": 7349
     }
   },
   "ROS4185": {
@@ -78004,9 +78044,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6270,
-      "E": 6753,
-      "F": 5788
+      "D": 6898,
+      "E": 7428,
+      "F": 6367
     }
   },
   "ROS4186": {
@@ -78014,9 +78054,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7380,
-      "E": 7948,
-      "F": 6812
+      "D": 8118,
+      "E": 8743,
+      "F": 7494
     }
   },
   "ROS4187": {
@@ -78024,9 +78064,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9038,
-      "E": 9733,
-      "F": 8343
+      "D": 9942,
+      "E": 10707,
+      "F": 9177
     }
   },
   "ROS4188": {
@@ -78034,9 +78074,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 10417,
-      "E": 11218,
-      "F": 9615
+      "D": 11458,
+      "E": 12340,
+      "F": 10577
     }
   },
   "ROS4189": {
@@ -78044,9 +78084,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4111,
-      "E": 4427,
-      "F": 3795
+      "D": 4522,
+      "E": 4870,
+      "F": 4174
     }
   },
   "ROS4190": {
@@ -78054,9 +78094,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6037,
-      "E": 6502,
-      "F": 5573
+      "D": 6641,
+      "E": 7152,
+      "F": 6130
     }
   },
   "ROS4191": {
@@ -78064,9 +78104,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6658,
-      "E": 7170,
-      "F": 6146
+      "D": 7323,
+      "E": 7887,
+      "F": 6760
     }
   },
   "ROS4192": {
@@ -78074,9 +78114,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7524,
-      "E": 8103,
-      "F": 6945
+      "D": 8276,
+      "E": 8913,
+      "F": 7640
     }
   },
   "ROS4193": {
@@ -78084,9 +78124,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6454,
-      "E": 6950,
-      "F": 5957
+      "D": 7099,
+      "E": 7646,
+      "F": 6553
     }
   },
   "ROS4194": {
@@ -78094,9 +78134,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7184,
-      "E": 7737,
-      "F": 6632
+      "D": 7903,
+      "E": 8511,
+      "F": 7295
     }
   },
   "ROS4195": {
@@ -78104,9 +78144,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5483,
-      "E": 5904,
-      "F": 5061
+      "D": 6031,
+      "E": 6495,
+      "F": 5567
     }
   },
   "ROS4196": {
@@ -78114,9 +78154,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4888,
-      "E": 5264,
-      "F": 4512
+      "D": 5377,
+      "E": 5791,
+      "F": 4964
     }
   },
   "ROS4197": {
@@ -78124,9 +78164,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4823,
-      "E": 5194,
-      "F": 4452
+      "D": 5305,
+      "E": 5713,
+      "F": 4897
     }
   },
   "ROS4198": {
@@ -78134,9 +78174,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7471,
-      "E": 8046,
-      "F": 6896
+      "D": 8218,
+      "E": 8850,
+      "F": 7586
     }
   },
   "ROS4199": {
@@ -78144,9 +78184,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7260,
-      "E": 7819,
-      "F": 6702
+      "D": 7986,
+      "E": 8601,
+      "F": 7372
     }
   },
   "ROS4200": {
@@ -78154,9 +78194,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6560,
-      "E": 7065,
-      "F": 6056
+      "D": 7216,
+      "E": 7772,
+      "F": 6661
     }
   },
   "ROS4202": {
@@ -78164,9 +78204,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7518,
-      "E": 8097,
-      "F": 6940
+      "D": 8270,
+      "E": 8907,
+      "F": 7634
     }
   },
   "ROS4203": {
@@ -78174,9 +78214,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6945,
-      "E": 7479,
-      "F": 6411
+      "D": 7639,
+      "E": 8227,
+      "F": 7052
     }
   },
   "ROS4204": {
@@ -78184,9 +78224,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6357,
-      "E": 6846,
-      "F": 5868
+      "D": 6993,
+      "E": 7531,
+      "F": 6455
     }
   },
   "ROS4205": {
@@ -78194,9 +78234,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6357,
-      "E": 6846,
-      "F": 5868
+      "D": 6993,
+      "E": 7531,
+      "F": 6455
     }
   },
   "ROS4206": {
@@ -78204,9 +78244,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5928,
-      "E": 6384,
-      "F": 5472
+      "D": 6521,
+      "E": 7023,
+      "F": 6019
     }
   },
   "ROS4207": {
@@ -78214,9 +78254,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5928,
-      "E": 6384,
-      "F": 5472
+      "D": 6521,
+      "E": 7023,
+      "F": 6019
     }
   },
   "ROS4208": {
@@ -78224,9 +78264,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 10615,
-      "E": 11431,
-      "F": 9798
+      "D": 11676,
+      "E": 12574,
+      "F": 10778
     }
   },
   "ROS4209": {
@@ -78234,9 +78274,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 10615,
-      "E": 11431,
-      "F": 9798
+      "D": 11676,
+      "E": 12574,
+      "F": 10778
     }
   },
   "ROS4210": {
@@ -78244,9 +78284,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8424,
-      "E": 9072,
-      "F": 7776
+      "D": 9266,
+      "E": 9979,
+      "F": 8553
     }
   },
   "ROS4211": {
@@ -78254,9 +78294,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8499,
-      "E": 9153,
-      "F": 7845
+      "D": 9349,
+      "E": 10068,
+      "F": 8630
     }
   },
   "ROS4212": {
@@ -78264,9 +78304,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7444,
-      "E": 8017,
-      "F": 6871
+      "D": 8188,
+      "E": 8818,
+      "F": 7558
     }
   },
   "ROS4213": {
@@ -78274,9 +78314,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7810,
-      "E": 8410,
-      "F": 7209
+      "D": 8591,
+      "E": 9251,
+      "F": 7930
     }
   },
   "ROS4214": {
@@ -78284,9 +78324,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6649,
-      "E": 7161,
-      "F": 6138
+      "D": 7314,
+      "E": 7877,
+      "F": 6752
     }
   },
   "ROS4215": {
@@ -78294,9 +78334,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7227,
-      "E": 7783,
-      "F": 6671
+      "D": 7950,
+      "E": 8562,
+      "F": 7339
     }
   },
   "ROS4216": {
@@ -78304,9 +78344,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5536,
-      "E": 5962,
-      "F": 5110
+      "D": 6090,
+      "E": 6558,
+      "F": 5621
     }
   },
   "ROS4217": {
@@ -78314,9 +78354,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6018,
-      "E": 6481,
-      "F": 5555
+      "D": 6620,
+      "E": 7129,
+      "F": 6110
     }
   },
   "ROS4218": {
@@ -78324,9 +78364,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 13734,
-      "E": 14791,
-      "F": 12678
+      "D": 15107,
+      "E": 16270,
+      "F": 13945
     }
   },
   "ROS4219": {
@@ -78334,9 +78374,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 10684,
-      "E": 11506,
-      "F": 9863
+      "D": 11753,
+      "E": 12657,
+      "F": 10849
     }
   },
   "ROS4220": {
@@ -78344,9 +78384,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 426,
-      "E": 458,
-      "F": 393
+      "D": 468,
+      "E": 504,
+      "F": 432
     }
   },
   "ROS4221": {
@@ -78354,9 +78394,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7762,
-      "E": 8359,
-      "F": 7165
+      "D": 8538,
+      "E": 9195,
+      "F": 7881
     }
   },
   "ROS4222": {
@@ -78364,9 +78404,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9402,
-      "E": 10126,
-      "F": 8679
+      "D": 10343,
+      "E": 11138,
+      "F": 9547
     }
   },
   "ROS4223": {
@@ -78374,9 +78414,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9402,
-      "E": 10126,
-      "F": 8679
+      "D": 10343,
+      "E": 11138,
+      "F": 9547
     }
   },
   "ROS4224": {
@@ -78384,9 +78424,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6365,
-      "E": 6855,
-      "F": 5876
+      "D": 7002,
+      "E": 7541,
+      "F": 6463
     }
   },
   "ROS4225": {
@@ -78394,9 +78434,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5219,
-      "E": 5620,
-      "F": 4817
+      "D": 5741,
+      "E": 6182,
+      "F": 5299
     }
   },
   "ROS4226": {
@@ -78404,9 +78444,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7811,
-      "E": 8411,
-      "F": 7210
+      "D": 8592,
+      "E": 9253,
+      "F": 7931
     }
   },
   "ROS4227": {
@@ -78444,9 +78484,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 805,
-      "E": 867,
-      "F": 743
+      "D": 885,
+      "E": 953,
+      "F": 817
     }
   },
   "ROS4231": {
@@ -78454,9 +78494,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4129,
-      "E": 4447,
-      "F": 3811
+      "D": 4542,
+      "E": 4891,
+      "F": 4193
     }
   },
   "ROS4231-2": {
@@ -78464,9 +78504,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 4129,
-      "E": 4447,
-      "F": 3811
+      "D": 4542,
+      "E": 4891,
+      "F": 4193
     }
   },
   "ROS4232": {
@@ -78474,9 +78514,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5258,
-      "E": 5662,
-      "F": 4853
+      "D": 5784,
+      "E": 6229,
+      "F": 5339
     }
   },
   "ROS4234": {
@@ -78484,9 +78524,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5408,
-      "E": 5824,
-      "F": 4992
+      "D": 5949,
+      "E": 6407,
+      "F": 5491
     }
   },
   "ROS4235": {
@@ -78494,9 +78534,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6775,
-      "E": 7296,
-      "F": 6254
+      "D": 7452,
+      "E": 8026,
+      "F": 6879
     }
   },
   "ROS4236": {
@@ -78504,9 +78544,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5189,
-      "E": 5588,
-      "F": 4790
+      "D": 5967,
+      "E": 6426,
+      "F": 5508
     }
   },
   "ROS4236-1": {
@@ -78514,9 +78554,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5189,
-      "E": 5588,
-      "F": 4790
+      "D": 5967,
+      "E": 6426,
+      "F": 5508
     }
   },
   "ROS4236-2": {
@@ -78524,9 +78564,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5344,
-      "E": 5756,
-      "F": 4933
+      "D": 6146,
+      "E": 6619,
+      "F": 5673
     }
   },
   "ROS4236-3": {
@@ -78534,9 +78574,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5344,
-      "E": 5756,
-      "F": 4933
+      "D": 6146,
+      "E": 6619,
+      "F": 5673
     }
   },
   "ROS4236-4": {
@@ -78544,9 +78584,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5418,
-      "E": 5835,
-      "F": 5001
+      "D": 6231,
+      "E": 6710,
+      "F": 5751
     }
   },
   "ROS4236-5": {
@@ -78554,9 +78594,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5418,
-      "E": 5835,
-      "F": 5001
+      "D": 6231,
+      "E": 6710,
+      "F": 5751
     }
   },
   "ROS4237": {
@@ -78564,9 +78604,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5402,
-      "E": 5817,
-      "F": 4986
+      "D": 6212,
+      "E": 6690,
+      "F": 5734
     }
   },
   "ROS4237-1": {
@@ -78574,9 +78614,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5402,
-      "E": 5817,
-      "F": 4986
+      "D": 6212,
+      "E": 6690,
+      "F": 5734
     }
   },
   "ROS4238": {
@@ -78584,9 +78624,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6271,
-      "E": 6753,
-      "F": 5788
+      "D": 6898,
+      "E": 7429,
+      "F": 6367
     }
   },
   "ROS4239": {
@@ -78594,9 +78634,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7681,
-      "E": 8271,
-      "F": 7090
+      "D": 8449,
+      "E": 9099,
+      "F": 7799
     }
   },
   "ROS4240": {
@@ -78604,9 +78644,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7379,
-      "E": 7946,
-      "F": 6811
+      "D": 8117,
+      "E": 8741,
+      "F": 7492
     }
   },
   "ROS4241": {
@@ -78614,9 +78654,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 9922,
-      "E": 10686,
-      "F": 9159
+      "D": 10915,
+      "E": 11754,
+      "F": 10075
     }
   },
   "ROS4242": {
@@ -78624,9 +78664,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5816,
-      "E": 6264,
-      "F": 5369
+      "D": 6398,
+      "E": 6890,
+      "F": 5906
     }
   },
   "ROS4243": {
@@ -78634,9 +78674,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6149,
-      "E": 6622,
-      "F": 5676
+      "D": 6764,
+      "E": 7284,
+      "F": 6244
     }
   },
   "ROS4244": {
@@ -78644,9 +78684,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 8882,
-      "E": 9565,
-      "F": 8199
+      "D": 9770,
+      "E": 10522,
+      "F": 9019
     }
   },
   "ROS4245": {
@@ -78654,9 +78694,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6454,
-      "E": 6950,
-      "F": 5957
+      "D": 7099,
+      "E": 7645,
+      "F": 6553
     }
   },
   "ROS4246": {
@@ -78664,9 +78704,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 5593,
-      "E": 6024,
-      "F": 5163
+      "D": 6153,
+      "E": 6626,
+      "F": 5680
     }
   },
   "ROS4247": {
@@ -78674,9 +78714,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6730,
-      "E": 7248,
-      "F": 6212
+      "D": 7740,
+      "E": 8335,
+      "F": 7144
     }
   },
   "ROS4247-1": {
@@ -78684,9 +78724,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6730,
-      "E": 7248,
-      "F": 6212
+      "D": 7740,
+      "E": 8335,
+      "F": 7144
     }
   },
   "ROS4248": {
@@ -78694,9 +78734,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5188,
-      "E": 5587,
-      "F": 4789
+      "D": 5966,
+      "E": 6425,
+      "F": 5507
     }
   },
   "ROS4248-1": {
@@ -78704,9 +78744,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5188,
-      "E": 5587,
-      "F": 4789
+      "D": 5966,
+      "E": 6425,
+      "F": 5507
     }
   },
   "ROS4249": {
@@ -78714,9 +78754,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5418,
-      "E": 5835,
-      "F": 5001
+      "D": 6231,
+      "E": 6710,
+      "F": 5751
     }
   },
   "ROS4249-1": {
@@ -78724,9 +78764,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5418,
-      "E": 5835,
-      "F": 5001
+      "D": 6231,
+      "E": 6710,
+      "F": 5751
     }
   },
   "ROS4260": {
@@ -78734,9 +78774,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 10.0,
     "prices": {
-      "D": 8518,
-      "E": 9173,
-      "F": 7862
+      "D": 9369,
+      "E": 10090,
+      "F": 8649
     }
   },
   "ROS4261": {
@@ -78744,9 +78784,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 10.0,
     "prices": {
-      "D": 4081,
-      "E": 4395,
-      "F": 3767
+      "D": 4489,
+      "E": 4834,
+      "F": 4143
     }
   },
   "ROS4284-1": {
@@ -78864,9 +78904,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 5316,
-      "E": 5725,
-      "F": 4907
+      "D": 6114,
+      "E": 6584,
+      "F": 5643
     }
   },
   "ROS4312": {
@@ -78874,9 +78914,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6117,
-      "E": 6588,
-      "F": 5647
+      "D": 7035,
+      "E": 7576,
+      "F": 6494
     }
   },
   "ROS4312-1": {
@@ -78884,9 +78924,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6117,
-      "E": 6588,
-      "F": 5647
+      "D": 7035,
+      "E": 7576,
+      "F": 6494
     }
   },
   "ROS4313": {
@@ -78894,9 +78934,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 6960,
-      "E": 7496,
-      "F": 6425
+      "D": 7656,
+      "E": 8245,
+      "F": 7067
     }
   },
   "ROS4315": {
@@ -78904,9 +78944,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 8267,
-      "E": 8903,
-      "F": 7631
+      "D": 9093,
+      "E": 9793,
+      "F": 8394
     }
   },
   "ROS4316": {
@@ -78914,9 +78954,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7462,
-      "E": 8036,
-      "F": 6888
+      "D": 8208,
+      "E": 8839,
+      "F": 7577
     }
   },
   "ROS4317": {
@@ -78924,9 +78964,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7538,
-      "E": 8118,
-      "F": 6958
+      "D": 8292,
+      "E": 8929,
+      "F": 7654
     }
   },
   "ROS4318": {
@@ -78934,9 +78974,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 7398,
-      "E": 7967,
-      "F": 6829
+      "D": 8138,
+      "E": 8764,
+      "F": 7512
     }
   },
   "ROS4319": {
@@ -78944,9 +78984,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7239,
-      "E": 7796,
-      "F": 6682
+      "D": 7963,
+      "E": 8576,
+      "F": 7350
     }
   },
   "ROS4320": {
@@ -78954,9 +78994,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 6612,
-      "E": 7120,
-      "F": 6103
+      "D": 7273,
+      "E": 7832,
+      "F": 6713
     }
   },
   "ROS4321": {
@@ -78964,9 +79004,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 8337,
-      "E": 8979,
-      "F": 7696
+      "D": 9171,
+      "E": 9877,
+      "F": 8466
     }
   },
   "ROS4322": {
@@ -78974,9 +79014,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 8111,
-      "E": 8735,
-      "F": 7487
+      "D": 8922,
+      "E": 9608,
+      "F": 8235
     }
   },
   "ROS4323": {
@@ -78984,9 +79024,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 9629,
-      "E": 10370,
-      "F": 8888
+      "D": 10592,
+      "E": 11407,
+      "F": 9777
     }
   },
   "ROS4324": {
@@ -78994,9 +79034,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 10568,
-      "E": 11381,
-      "F": 9755
+      "D": 11625,
+      "E": 12519,
+      "F": 10731
     }
   },
   "ROS4325": {
@@ -79004,9 +79044,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7720,
-      "E": 8314,
-      "F": 7126
+      "D": 8492,
+      "E": 9146,
+      "F": 7839
     }
   },
   "ROS4326": {
@@ -79014,9 +79054,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 7656,
-      "E": 8245,
-      "F": 7067
+      "D": 8422,
+      "E": 9070,
+      "F": 7774
     }
   },
   "ROS4327": {
@@ -79024,9 +79064,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 7392,
-      "E": 7961,
-      "F": 6823
+      "D": 8131,
+      "E": 8757,
+      "F": 7506
     }
   },
   "ROS4328": {
@@ -79034,9 +79074,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6709,
-      "E": 7226,
-      "F": 6193
+      "D": 7380,
+      "E": 7948,
+      "F": 6813
     }
   },
   "ROS4329": {
@@ -79044,9 +79084,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 7238,
-      "E": 7795,
-      "F": 6681
+      "D": 7962,
+      "E": 8575,
+      "F": 7350
     }
   },
   "ROS4331": {
@@ -79054,9 +79094,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6024,
-      "E": 6488,
-      "F": 5561
+      "D": 6928,
+      "E": 7461,
+      "F": 6395
     }
   },
   "ROS4331-1": {
@@ -79064,9 +79104,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6024,
-      "E": 6488,
-      "F": 5561
+      "D": 6928,
+      "E": 7461,
+      "F": 6395
     }
   },
   "ROS4332": {
@@ -79074,9 +79114,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6024,
-      "E": 6487,
-      "F": 5560
+      "D": 6927,
+      "E": 7460,
+      "F": 6394
     }
   },
   "ROS4332-1": {
@@ -79084,9 +79124,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6024,
-      "E": 6487,
-      "F": 5560
+      "D": 6927,
+      "E": 7460,
+      "F": 6394
     }
   },
   "ROS4333": {
@@ -79094,9 +79134,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7408,
-      "E": 7978,
-      "F": 6838
+      "D": 8149,
+      "E": 8776,
+      "F": 7522
     }
   },
   "ROS4334": {
@@ -79104,9 +79144,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 7416,
-      "E": 7987,
-      "F": 6846
+      "D": 8158,
+      "E": 8785,
+      "F": 7530
     }
   },
   "ROS4335": {
@@ -79114,9 +79154,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6290,
-      "E": 6774,
-      "F": 5806
+      "D": 7233,
+      "E": 7790,
+      "F": 6677
     }
   },
   "ROS4335-1": {
@@ -79124,9 +79164,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 6290,
-      "E": 6774,
-      "F": 5806
+      "D": 7233,
+      "E": 7790,
+      "F": 6677
     }
   },
   "ROS4338": {
@@ -79134,9 +79174,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 9509,
-      "E": 10241,
-      "F": 8778
+      "D": 10935,
+      "E": 11777,
+      "F": 10094
     }
   },
   "ROS4338-1": {
@@ -79144,9 +79184,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 9509,
-      "E": 10241,
-      "F": 8778
+      "D": 10936,
+      "E": 11777,
+      "F": 10095
     }
   },
   "ROS4339": {
@@ -79154,9 +79194,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 13258,
-      "E": 14278,
-      "F": 12238
+      "D": 15246,
+      "E": 16419,
+      "F": 14074
     }
   },
   "ROS4339-1": {
@@ -79164,9 +79204,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 13258,
-      "E": 14278,
-      "F": 12238
+      "D": 15246,
+      "E": 16419,
+      "F": 14074
     }
   },
   "ROS4360": {
@@ -79184,9 +79224,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 4790,
-      "E": 5159,
-      "F": 4422
+      "D": 5269,
+      "E": 5675,
+      "F": 4864
     }
   },
   "ROS4520": {
@@ -79194,9 +79234,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 7473,
-      "E": 8048,
-      "F": 6898
+      "D": 8220,
+      "E": 8853,
+      "F": 7588
     }
   },
   "ROS4522": {
@@ -79204,9 +79244,9 @@
     "category": "2.ACCES.BRNCE P/AGUA",
     "bulk": 10.0,
     "prices": {
-      "D": 9469,
-      "E": 10197,
-      "F": 8741
+      "D": 10416,
+      "E": 11217,
+      "F": 9615
     }
   },
   "ROS468": {
@@ -79214,9 +79254,9 @@
     "category": "5.REP.COCINA INYECTOR",
     "bulk": 10.0,
     "prices": {
-      "D": 790,
-      "E": 847,
-      "F": 734
+      "D": 869,
+      "E": 932,
+      "F": 807
     }
   },
   "ROS469": {
@@ -79224,9 +79264,9 @@
     "category": "5.REP.COCINA INYECTOR",
     "bulk": 100.0,
     "prices": {
-      "D": 790,
-      "E": 847,
-      "F": 734
+      "D": 869,
+      "E": 932,
+      "F": 807
     }
   },
   "ROS4920": {
@@ -79234,9 +79274,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 477,
-      "E": 514,
-      "F": 440
+      "D": 501,
+      "E": 540,
+      "F": 462
     }
   },
   "ROS4921": {
@@ -79244,9 +79284,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 20.0,
     "prices": {
-      "D": 743,
-      "E": 801,
-      "F": 686
+      "D": 781,
+      "E": 841,
+      "F": 721
     }
   },
   "ROS4922": {
@@ -79254,9 +79294,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 477,
-      "E": 514,
-      "F": 440
+      "D": 501,
+      "E": 540,
+      "F": 462
     }
   },
   "ROS4923": {
@@ -79264,9 +79304,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2669,
-      "E": 2874,
-      "F": 2463
+      "D": 2936,
+      "E": 3162,
+      "F": 2710
     }
   },
   "ROS4924": {
@@ -79294,9 +79334,9 @@
     "category": "1.REGULADOR y ACCES.P/GAS",
     "bulk": 1.0,
     "prices": {
-      "D": 20653,
-      "E": 22242,
-      "F": 19064
+      "D": 22718,
+      "E": 24466,
+      "F": 20971
     }
   },
   "ROS5012": {
@@ -79414,9 +79454,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 6.0,
     "prices": {
-      "D": 3978,
-      "E": 4284,
-      "F": 3672
+      "D": 4575,
+      "E": 4927,
+      "F": 4223
     }
   },
   "ROS6401": {
@@ -79424,9 +79464,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 6.0,
     "prices": {
-      "D": 3978,
-      "E": 4284,
-      "F": 3672
+      "D": 4575,
+      "E": 4927,
+      "F": 4223
     }
   },
   "ROS6402": {
@@ -79434,9 +79474,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 6.0,
     "prices": {
-      "D": 2887,
-      "E": 3109,
-      "F": 2665
+      "D": 3320,
+      "E": 3576,
+      "F": 3065
     }
   },
   "ROS6403": {
@@ -79444,9 +79484,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 6.0,
     "prices": {
-      "D": 2887,
-      "E": 3109,
-      "F": 2665
+      "D": 3320,
+      "E": 3576,
+      "F": 3065
     }
   },
   "ROS6701": {
@@ -79454,9 +79494,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 100.0,
     "prices": {
-      "D": 855,
-      "E": 920,
-      "F": 789
+      "D": 897,
+      "E": 966,
+      "F": 828
     }
   },
   "ROS6702": {
@@ -79464,9 +79504,9 @@
     "category": "1.GRIF.LATINA REPUESTOS",
     "bulk": 100.0,
     "prices": {
-      "D": 876,
-      "E": 944,
-      "F": 809
+      "D": 920,
+      "E": 991,
+      "F": 849
     }
   },
   "ROS6750": {
@@ -79594,9 +79634,9 @@
     "category": "1.CABEZALES y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 602477,
-      "E": 648822,
-      "F": 532961
+      "D": 682607,
+      "E": 735115,
+      "F": 603844
     }
   },
   "ROT08161": {
@@ -83039,6 +83079,36 @@
       "F": 40582
     }
   },
+  "SG2000SP/1": {
+    "name": "COJINETE P/TERR.ESTRELLA 1/2\"SANOGAS",
+    "category": "1.KIT.TERRAJA/PPN/ACCE SG",
+    "bulk": 1.0,
+    "prices": {
+      "D": 19287,
+      "E": 20770,
+      "F": 17803
+    }
+  },
+  "SG2000SP/2": {
+    "name": "COJINETE P/TERR.ESTRELLA 3/4\"SANOGAS",
+    "category": "1.KIT.TERRAJA/PPN/ACCE SG",
+    "bulk": 1.0,
+    "prices": {
+      "D": 19287,
+      "E": 20770,
+      "F": 17803
+    }
+  },
+  "SG2000SP/3": {
+    "name": "COJINETE P/TERR.ESTRELLA  1\" SANOGAS",
+    "category": "1.KIT.TERRAJA/PPN/ACCE SG",
+    "bulk": 1.0,
+    "prices": {
+      "D": 19287,
+      "E": 20770,
+      "F": 17803
+    }
+  },
   "SG2001/A": {
     "name": "TERRAJA INDIVID.REDONDA.1/2\"SANOGAS",
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
@@ -85404,9 +85474,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 68118,
-      "E": 73567,
-      "F": 62668
+      "D": 69942,
+      "E": 75538,
+      "F": 64347
     }
   },
   "TAM01": {
@@ -85414,9 +85484,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 87580,
-      "E": 94587,
-      "F": 80574
+      "D": 89405,
+      "E": 96557,
+      "F": 82252
     }
   },
   "TAM02": {
@@ -85424,43 +85494,13 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 124680,
-      "E": 134655,
-      "F": 114706
+      "D": 127113,
+      "E": 137282,
+      "F": 116944
     }
   },
   "TAM03": {
     "name": "TANQUE BICAPA   x1000Lts      T.A.M",
-    "category": "1.TANQUE AGUA/ACC.TAM",
-    "bulk": 1.0,
-    "prices": {
-      "D": 153266,
-      "E": 165527,
-      "F": 141004
-    }
-  },
-  "TAM04": {
-    "name": "TANQUE TRICAPA  x 300Lts      T.A.M",
-    "category": "1.TANQUE AGUA/ACC.TAM",
-    "bulk": 1.0,
-    "prices": {
-      "D": 80312,
-      "E": 86737,
-      "F": 73887
-    }
-  },
-  "TAM05": {
-    "name": "TANQUE TRICAPA  x 500Lts      T.A.M",
-    "category": "1.TANQUE AGUA/ACC.TAM",
-    "bulk": 1.0,
-    "prices": {
-      "D": 113824,
-      "E": 122930,
-      "F": 104718
-    }
-  },
-  "TAM06": {
-    "name": "TANQUE TRICAPA  x 800Lts      T.A.M",
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
@@ -85469,14 +85509,44 @@
       "F": 143802
     }
   },
+  "TAM04": {
+    "name": "TANQUE TRICAPA  x 300Lts      T.A.M",
+    "category": "1.TANQUE AGUA/ACC.TAM",
+    "bulk": 1.0,
+    "prices": {
+      "D": 82046,
+      "E": 88609,
+      "F": 75482
+    }
+  },
+  "TAM05": {
+    "name": "TANQUE TRICAPA  x 500Lts      T.A.M",
+    "category": "1.TANQUE AGUA/ACC.TAM",
+    "bulk": 1.0,
+    "prices": {
+      "D": 116135,
+      "E": 125426,
+      "F": 106844
+    }
+  },
+  "TAM06": {
+    "name": "TANQUE TRICAPA  x 800Lts      T.A.M",
+    "category": "1.TANQUE AGUA/ACC.TAM",
+    "bulk": 1.0,
+    "prices": {
+      "D": 159348,
+      "E": 172095,
+      "F": 146600
+    }
+  },
   "TAM07": {
     "name": "TANQUE TRICAPA  x1000Lts      T.A.M",
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 184892,
-      "E": 199683,
-      "F": 170101
+      "D": 188936,
+      "E": 204051,
+      "F": 173822
     }
   },
   "TAM08": {
@@ -85484,9 +85554,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 0.0,
     "prices": {
-      "D": 174492,
-      "E": 188451,
-      "F": 160532
+      "D": 177959,
+      "E": 192195,
+      "F": 163722
     }
   },
   "TAM09": {
@@ -85494,9 +85564,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 95391,
-      "E": 103022,
-      "F": 87759
+      "D": 97311,
+      "E": 105096,
+      "F": 89526
     }
   },
   "TAM10": {
@@ -85504,9 +85574,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 120359,
-      "E": 129988,
-      "F": 110730
+      "D": 122920,
+      "E": 132753,
+      "F": 113086
     }
   },
   "TAM11": {
@@ -85514,9 +85584,9 @@
     "category": "1.TANQUE AGUA/ACC.TAM",
     "bulk": 1.0,
     "prices": {
-      "D": 133469,
-      "E": 144146,
-      "F": 122791
+      "D": 136358,
+      "E": 147266,
+      "F": 125449
     }
   },
   "TAMTAPA": {
@@ -89824,9 +89894,9 @@
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
     "bulk": 200.0,
     "prices": {
-      "D": 32,
-      "E": 34,
-      "F": 29
+      "D": 33,
+      "E": 35,
+      "F": 30
     }
   },
   "TORIMP001735": {
