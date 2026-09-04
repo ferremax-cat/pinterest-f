@@ -15819,6 +15819,16 @@
       "F": 20120
     }
   },
+  "BM8879": {
+    "name": "SOLDADOR D PLASTICOS INAL 204Pz BREMEN",
+    "category": "8.SOLDADOR DE PLASTICOS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 61486,
+      "E": 66215,
+      "F": 56756
+    }
+  },
   "BMBEH06025": {
     "name": "BROCA DE EXPANSION 1/4\" ZINC BREMEN",
     "category": "8.BROCAS BREMEN",
@@ -18064,9 +18074,9 @@
     "category": "8.VARILLA P/SOLDAR y ACCE",
     "bulk": 54.0,
     "prices": {
-      "D": 1982,
-      "E": 2134,
-      "F": 1829
+      "D": 2014,
+      "E": 2169,
+      "F": 1859
     }
   },
   "CL00016000001": {
@@ -18654,9 +18664,9 @@
     "category": "8.DISCO FLAP TYROLIT",
     "bulk": 10.0,
     "prices": {
-      "D": 5020,
-      "E": 4581,
-      "F": 3927
+      "D": 5221,
+      "E": 4765,
+      "F": 4084
     }
   },
   "CL00074BRO2.5": {
@@ -18674,9 +18684,9 @@
     "category": "8.VARILLA P/SOLDAR y ACCE",
     "bulk": 17.0,
     "prices": {
-      "D": 4309,
-      "E": 4641,
-      "F": 3978
+      "D": 4338,
+      "E": 4671,
+      "F": 4004
     }
   },
   "CL00086000002": {
@@ -19017,6 +19027,16 @@
       "D": 83495,
       "E": 89918,
       "F": 77073
+    }
+  },
+  "CLT74055": {
+    "name": "CLORO GRANULADO D-L GRANEL x50Kg CLOROTEC",
+    "category": "1.ACCES.PARA PILETA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 272911,
+      "E": 293904,
+      "F": 258216
     }
   },
   "CON101": {
@@ -23234,9 +23254,9 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 12.0,
     "prices": {
-      "D": 3159,
-      "E": 3402,
-      "F": 2916
+      "D": 3507,
+      "E": 3777,
+      "F": 3237
     }
   },
   "DISEP-040": {
@@ -23244,9 +23264,9 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 1.0,
     "prices": {
-      "D": 9912,
-      "E": 10675,
-      "F": 9150
+      "D": 11102,
+      "E": 11956,
+      "F": 10248
     }
   },
   "DISEP-100": {
@@ -23254,9 +23274,69 @@
     "category": "7.ENDUIDO INT/EXTER.TELPL",
     "bulk": 1.0,
     "prices": {
-      "D": 24073,
-      "E": 25924,
-      "F": 22221
+      "D": 26721,
+      "E": 28776,
+      "F": 24665
+    }
+  },
+  "DISMAS-TJ07": {
+    "name": "MASILLA P PLACAS D YESO 7Kg TELPLAST",
+    "category": "7.MASILLA P/PLACAS YESO",
+    "bulk": 6.0,
+    "prices": {
+      "D": 9340,
+      "E": 10059,
+      "F": 9125
+    }
+  },
+  "DISMAS-TJ15": {
+    "name": "MASILLA P PLACAS D YESO 15K TELPLAST",
+    "category": "7.MASILLA P/PLACAS YESO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 21844,
+      "E": 23524,
+      "F": 21340
+    }
+  },
+  "DISMAS-TJ32": {
+    "name": "MASILLA P PLACAS D YESO 32K TELPLAST",
+    "category": "7.MASILLA P/PLACAS YESO",
+    "bulk": 1.0,
+    "prices": {
+      "D": 33301,
+      "E": 35863,
+      "F": 32532
+    }
+  },
+  "DISSA-B280": {
+    "name": "SILICONA ACETICA BLANCO 280gr TELPLAST",
+    "category": "8.SELLADOR SILICON.TELPLA",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3215,
+      "E": 3463,
+      "F": 2968
+    }
+  },
+  "DISSA-N280": {
+    "name": "SILICONA ACETICA NEGRO  280gr TELPLAST",
+    "category": "8.SELLADOR SILICON.TELPLA",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3215,
+      "E": 3463,
+      "F": 2968
+    }
+  },
+  "DISSA-T280": {
+    "name": "SILICONA ACETICA TRANSP 280gr TELPLAST",
+    "category": "8.SELLADOR SILICON.TELPLA",
+    "bulk": 12.0,
+    "prices": {
+      "D": 3215,
+      "E": 3463,
+      "F": 2968
     }
   },
   "DISSELLPIC01": {
@@ -23264,9 +23344,9 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 4568,
-      "E": 4920,
-      "F": 4217
+      "D": 4705,
+      "E": 5067,
+      "F": 4343
     }
   },
   "DISSELLPOL01": {
@@ -23274,9 +23354,9 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 7374,
-      "E": 7941,
-      "F": 6807
+      "D": 7595,
+      "E": 8180,
+      "F": 7011
     }
   },
   "DISSELLZIN01": {
@@ -23284,9 +23364,9 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 4203,
-      "E": 4526,
-      "F": 3879
+      "D": 4329,
+      "E": 4662,
+      "F": 3996
     }
   },
   "DISSG-C400": {
@@ -23294,9 +23374,19 @@
     "category": "8.SELLADOR SILICON.TELPLA",
     "bulk": 24.0,
     "prices": {
-      "D": 3812,
-      "E": 4105,
-      "F": 3519
+      "D": 3926,
+      "E": 4228,
+      "F": 3624
+    }
+  },
+  "DISSN-280": {
+    "name": "SILICONA ACETICA NEUTRA 280gr TELPLAST",
+    "category": "8.SELLADOR SILICON.TELPLA",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4631,
+      "E": 4987,
+      "F": 4275
     }
   },
   "DIST012801002": {
@@ -29180,13 +29270,13 @@
     }
   },
   "EA2410L": {
-    "name": "FIELTRO ASFALTICO (RUBEROI) 10mt EA",
+    "name": "FIELTRO ASFALTICO (RUBEROI) 10mt ECO",
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 10.0,
     "prices": {
-      "D": 11718,
-      "E": 12619,
-      "F": 10816
+      "D": 8877,
+      "E": 9560,
+      "F": 8194
     }
   },
   "EA2410R": {
@@ -41956,7 +42046,7 @@
     "prices": {
       "D": 163530,
       "E": 176110,
-      "F": 150951
+      "F": 144661
     }
   },
   "GAG211AR": {
@@ -41966,7 +42056,7 @@
     "prices": {
       "D": 196767,
       "E": 211903,
-      "F": 181631
+      "F": 166495
     }
   },
   "GAG213AR": {
@@ -43427,16 +43517,6 @@
       "D": 530350,
       "E": 571147,
       "F": 489554
-    }
-  },
-  "GLAIMET140/1/22": {
-    "name": "MAQ SOLDAR INVERTER MIG 140a ENERGY",
-    "category": "8.MAQ.SOLDAR MIG   ENERGY",
-    "bulk": 1.0,
-    "prices": {
-      "D": 178649,
-      "E": 192392,
-      "F": 164907
     }
   },
   "GLAMD815/1/220K": {
@@ -51054,9 +51134,9 @@
     "category": "7.AEROSOL 440BRILL.KUWAIT",
     "bulk": 12.0,
     "prices": {
-      "D": 5690,
-      "E": 5917,
-      "F": 5462
+      "D": 5861,
+      "E": 6095,
+      "F": 5626
     }
   },
   "KU000184": {
@@ -56804,9 +56884,9 @@
     "category": "8.BISAGRA P/MUEBLE",
     "bulk": 100.0,
     "prices": {
-      "D": 1359,
-      "E": 1464,
-      "F": 1254
+      "D": 1335,
+      "E": 1437,
+      "F": 1232
     }
   },
   "MASIV12523": {
@@ -66584,9 +66664,9 @@
     "category": "8.SEPARADOR P/CERAMICAS",
     "bulk": 10.0,
     "prices": {
-      "D": 4926,
-      "E": 5305,
-      "F": 4547
+      "D": 4927,
+      "E": 5306,
+      "F": 4548
     }
   },
   "MTEHCU": {
@@ -67060,13 +67140,13 @@
     }
   },
   "NEWCGTAG1K": {
-    "name": "CLORO GRANULAD.T/A GRANELx1 kg  NEWCLOR",
+    "name": "CLORO GRANULADO D-L BOLSA  x1 kg CLOROTEC",
     "category": "1.ACCES.PARA PILETA",
     "bulk": 50.0,
     "prices": {
-      "D": 9339,
-      "E": 10058,
-      "F": 9124
+      "D": 6627,
+      "E": 7137,
+      "F": 6474
     }
   },
   "NEWCP200g": {
@@ -67384,9 +67464,9 @@
     "category": "1.FUELLES Y CONEXION",
     "bulk": 0.0,
     "prices": {
-      "D": 728,
-      "E": 784,
-      "F": 672
+      "D": 816,
+      "E": 879,
+      "F": 753
     }
   },
   "OR005": {
@@ -67394,9 +67474,9 @@
     "category": "1.FUELLES Y CONEXION",
     "bulk": 0.0,
     "prices": {
-      "D": 763,
-      "E": 822,
-      "F": 704
+      "D": 852,
+      "E": 917,
+      "F": 786
     }
   },
   "OR007": {
@@ -67574,9 +67654,9 @@
     "category": "1.FUELLES y CONEXIONES",
     "bulk": 10.0,
     "prices": {
-      "D": 657,
-      "E": 707,
-      "F": 606
+      "D": 745,
+      "E": 803,
+      "F": 688
     }
   },
   "OR129": {
@@ -68247,6 +68327,16 @@
       "D": 3255,
       "E": 3505,
       "F": 3004
+    }
+  },
+  "OSGUANVAQREF": {
+    "name": "GUANTE CUERO VAQUETA ALTO IMPACTO AMARILLO",
+    "category": "8.GUANTES DE CUERO MAS",
+    "bulk": 12.0,
+    "prices": {
+      "D": 5918,
+      "E": 6373,
+      "F": 5463
     }
   },
   "PAB503": {
@@ -74319,36 +74409,6 @@
       "F": 6396
     }
   },
-  "QUI3033-00700": {
-    "name": "MASILLA P PLACAS D YESO 7Kg QUIMEX",
-    "category": "7.MASILLA P/PLACAS YESO",
-    "bulk": 6.0,
-    "prices": {
-      "D": 13305,
-      "E": 14329,
-      "F": 12998
-    }
-  },
-  "QUI3033-01700": {
-    "name": "MASILLA P PLACAS D YESO 17Kg QUIMEX",
-    "category": "7.MASILLA P/PLACAS YESO",
-    "bulk": 4.0,
-    "prices": {
-      "D": 26464,
-      "E": 28500,
-      "F": 25854
-    }
-  },
-  "QUI3033-03200": {
-    "name": "MASILLA P PLACAS D YESO 32Kg QUIMEX",
-    "category": "7.MASILLA P/PLACAS YESO",
-    "bulk": 2.0,
-    "prices": {
-      "D": 39896,
-      "E": 42965,
-      "F": 38975
-    }
-  },
   "QUI4003-00400": {
     "name": "MEMB IMP TECHEX \"P\" BCOx 4Lt QUIMEX",
     "category": "7.MEMB.IMPERM.ELASTOM.QUI",
@@ -76784,9 +76844,9 @@
     "category": "8.TANZA P/ALBA\u00d1IL GRILON",
     "bulk": 6.0,
     "prices": {
-      "D": 2807,
-      "E": 3023,
-      "F": 2591
+      "D": 2980,
+      "E": 3209,
+      "F": 2751
     }
   },
   "RODFTA80G6": {
@@ -79639,6 +79699,16 @@
       "F": 603844
     }
   },
+  "ROT02640": {
+    "name": "MEDIASOMBRA Ngra Ferr 5.5k 2.0 x50mt 80%",
+    "category": "8.TEJIDO MEDIASOM/POLY F",
+    "bulk": 1.0,
+    "prices": {
+      "D": 61851,
+      "E": 66609,
+      "F": 57094
+    }
+  },
   "ROT08161": {
     "name": "MALLA ELECTROSOL 25 x25 2.1mm 1mtx25mts GARDE",
     "category": "8.MALLA P/CONSTRUCCION",
@@ -79659,8 +79729,18 @@
       "F": 193535
     }
   },
+  "ROT72099": {
+    "name": "RAFIA CUBRECERCO V.OSC 70g 1.50x100mt",
+    "category": "8.TEJ.CUBRECERC.RafiaROTC",
+    "bulk": 1.0,
+    "prices": {
+      "D": 104844,
+      "E": 112909,
+      "F": 96779
+    }
+  },
   "ROT72100": {
-    "name": "RAFIA CUBRECERCO V.OSC 75g 1.85x100mt",
+    "name": "RAFIA CUBRECERCO V.OSC 70g 1.85x100mt",
     "category": "8.TEJ.CUBRECERC.RafiaROTC",
     "bulk": 1.0,
     "prices": {
@@ -79674,9 +79754,9 @@
     "category": "8.TEJ.CUBRECERC.RafiaROTC",
     "bulk": 1.0,
     "prices": {
-      "D": 121849,
-      "E": 131222,
-      "F": 112476
+      "D": 156303,
+      "E": 168327,
+      "F": 144280
     }
   },
   "ROT72102": {
@@ -80084,9 +80164,9 @@
     "category": "1.DUCHA ELECT.C/ACC.FAME",
     "bulk": 8.0,
     "prices": {
-      "D": 24271,
-      "E": 26138,
-      "F": 22404
+      "D": 25084,
+      "E": 27014,
+      "F": 23155
     }
   },
   "ROT95107": {
@@ -80094,9 +80174,9 @@
     "category": "1.DUCHA ELECT.C/ACC.FAME",
     "bulk": 4.0,
     "prices": {
-      "D": 49614,
-      "E": 53431,
-      "F": 45798
+      "D": 54639,
+      "E": 58842,
+      "F": 50436
     }
   },
   "ROT95109": {
@@ -83194,9 +83274,9 @@
     "category": "1.CANILLAS y AC.PVC",
     "bulk": 100.0,
     "prices": {
-      "D": 946,
-      "E": 1019,
-      "F": 873
+      "D": 1000,
+      "E": 1077,
+      "F": 923
     }
   },
   "SILC34": {
@@ -83204,9 +83284,9 @@
     "category": "1.CANILLAS y AC.PVC",
     "bulk": 100.0,
     "prices": {
-      "D": 972,
-      "E": 1047,
-      "F": 897
+      "D": 1023,
+      "E": 1102,
+      "F": 944
     }
   },
   "SIM18002": {
@@ -89539,6 +89619,16 @@
       "F": 24
     }
   },
+  "TORi001299": {
+    "name": "TORNILLO MECHA C/FREZ 10x2\"C/ALAS TORO",
+    "category": "6.TOR.P/MECHA FREZADA",
+    "bulk": 200.0,
+    "prices": {
+      "D": 65,
+      "E": 70,
+      "F": 60
+    }
+  },
   "TORIMP000090": {
     "name": "TORNILLO DRYWALL MET 6 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
@@ -89650,7 +89740,7 @@
     }
   },
   "TORIMP000839": {
-    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/2\" TORAR",
+    "name": "TORNILLO P/MECHA C/FREZ  8 x11/2\" TORAR",
     "category": "6.TOR.P/MECHA FREZADA",
     "bulk": 200.0,
     "prices": {
@@ -89820,7 +89910,7 @@
     }
   },
   "TORIMP001373": {
-    "name": "TORNILLO P/MECHA C/FREZ. 8 x11/4\" TORAR",
+    "name": "TORNILLO P/MECHA C/FREZ  8 x11/4\" TORAR",
     "category": "6.TOR.P/MECHA FREZADA",
     "bulk": 200.0,
     "prices": {
@@ -90599,16 +90689,6 @@
       "F": 983
     }
   },
-  "TUCP15N": {
-    "name": "PINCEL CERDA NEGRA V:1 N\u00ba15   TUCAN",
-    "category": "7.PINCEL TUCAN",
-    "bulk": 12.0,
-    "prices": {
-      "D": 1003,
-      "E": 1080,
-      "F": 926
-    }
-  },
   "TUCP20": {
     "name": "PINCEL CERDA BLNCA V:1 N\u00ba20   TUCAN",
     "category": "7.PINCEL TUCAN",
@@ -90627,16 +90707,6 @@
       "D": 1651,
       "E": 1779,
       "F": 1524
-    }
-  },
-  "TUCP25N": {
-    "name": "PINCEL CERDA NEGRA V:1 N\u00ba25   TUCAN",
-    "category": "7.PINCEL TUCAN",
-    "bulk": 12.0,
-    "prices": {
-      "D": 1592,
-      "E": 1715,
-      "F": 1470
     }
   },
   "TUCP30": {
@@ -91967,16 +92037,6 @@
       "D": 17831,
       "E": 19203,
       "F": 16459
-    }
-  },
-  "WESTMSNF20": {
-    "name": "MEDIASOMBRA Ngra Ferr 5.5k 2.0 x50mt WEST",
-    "category": "8.TEJIDO MEDIASOM/POLY F",
-    "bulk": 1.0,
-    "prices": {
-      "D": 77748,
-      "E": 83728,
-      "F": 71767
     }
   },
   "WESTMSVF20": {
