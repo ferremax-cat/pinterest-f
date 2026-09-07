@@ -1797,11 +1797,11 @@ body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .bar
 /* MOBILE: Modo vendedor COLAPSADO */
 @media screen and (max-width: 410px) {
     body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content:not(.expandido)) .barra-info-contextual {
-        top: 238px !important;
+        top: 270px !important;
     }
     
     /* MOBILE: Modo vendedor EXPANDIDO */
     body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .barra-salud-content.expandido) .barra-info-contextual {
-        top: 403px !important;
+        top: 445px !important;
     }
 }
