@@ -10,7 +10,7 @@
 
 // --- Finanzas por endpoint (Etapa 2) ---
 // Interruptor de convivencia: en false, usa el JSON local como hasta ahora.
-const USAR_FINANZAS_ENDPOINT = false; // Cambiar a true para usar el endpoint de finanzas
+const USAR_FINANZAS_ENDPOINT = true; // Cambiar a true para usar el endpoint de finanzas
 const URL_API_FIN = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
 
 async function traerFinanzasDelEndpoint(cuenta) {
@@ -523,6 +523,7 @@ class BusquedaClientes {
 
                     // Guardar el disponible para el semaforo del carrito
                     sessionStorage.setItem('disponibleCliente', String(d.disponible ?? ''));
+                    sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
 
                     if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
                         window.BarraSaludFinanciera.actualizarDatos(actualizados);

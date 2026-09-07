@@ -48,12 +48,15 @@ export async function setClienteVista(cuenta) {
 
   const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: datos.name || '' };
   sessionStorage.setItem('clienteVista', JSON.stringify(info));
+  // El disponible es de cada cliente: al cambiar hay que descartarlo
+  sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
   return info;
 }
 
 export function limpiarClienteVista() {
   sessionStorage.removeItem('clienteVista');
+  sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
 }
 

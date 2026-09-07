@@ -153,14 +153,25 @@ export function detalle(cliente) {
   return leer(cliente)
     .sort((a, b) => a.orden - b.orden)
     .map(l => {
-      // El precio vigente manda; el respaldo solo cubre el caso de que
-      // el producto ya no este en memoria
-      const vigente = window.Precios?.precioLista(l.sku);
-      const precio = vigente ?? l.precioResp ?? null;
+      const { base, aplicado } = preciosDeLinea(l);
+
+      if (aplicado === null) {
+        return { ...l, precioBase: null, precio: null, subtotal: null, descEfectivo: 0 };
+      }
+
+      const desc = Number(l.descuento) || 0;
+      const precio = Math.round(aplicado * (1 - desc / 100));
+
+      // Cuanto representa el precio final respecto del que le hubiera
+      // correspondido al cliente por su lista: es el numero que se controla
+      const descEfectivo = base ? (1 - precio / base) * 100 : 0;
+
       return {
         ...l,
+        precioBase: base,
         precio,
-        subtotal: precio !== null ? precio * l.cantidad : null
+        subtotal: precio * l.cantidad,
+        descEfectivo: Math.round(descEfectivo * 10) / 10
       };
     });
 }
@@ -347,8 +358,99 @@ document.addEventListener('carrito:cambio', () => {
   });
 });
 
+// ---------- ajustes de precio (solo vendedor) ----------
+
+/**
+ * Guarda el ajuste de una linea. El precio se sigue derivando: aca solo
+ * se registra COMO debe calcularse.
+ *
+ * @param {string} sku
+ * @param {object} ajuste  { mecanismo, lista, precioLibre, descuento, motivo, obsLibre }
+ *   mecanismo: 'lista_cliente' | 'otra_lista' | 'precio_libre'
+ */
+export function ajustarLinea(sku, ajuste, cliente) {
+  const codigo = String(sku).trim().toUpperCase();
+  const lineas = leer(cliente);
+  const l = lineas.find(x => x.sku === codigo);
+  if (!l) return null;
+
+  l.mecanismo = ajuste.mecanismo || 'lista_cliente';
+  l.listaForzada = ajuste.mecanismo === 'otra_lista' ? ajuste.lista : null;
+  l.precioLibre = ajuste.mecanismo === 'precio_libre' ? Number(ajuste.precioLibre) || null : null;
+  l.descuento = Number(ajuste.descuento) || 0;
+  l.motivo = ajuste.motivo || '';
+  l.obsLibre = ajuste.obsLibre || '';
+
+  guardar(lineas, cliente);
+  return l;
+}
+
+/**
+ * Precio de una linea segun su mecanismo, ANTES del descuento de linea.
+ * Devuelve tambien el precio que le hubiera correspondido al cliente,
+ * que es la referencia contra la que se mide el descuento efectivo.
+ */
+function preciosDeLinea(l) {
+  const base = window.Precios?.precioLista(l.sku) ?? l.precioResp ?? null;
+
+  if (l.mecanismo === 'precio_libre' && l.precioLibre) {
+    return { base, aplicado: l.precioLibre };
+  }
+
+  if (l.mecanismo === 'otra_lista' && l.listaForzada) {
+    const p = window.productManager?.getProduct(l.sku);
+    const otro = p?.precios?.[l.listaForzada];
+    return { base, aplicado: otro ?? base };
+  }
+
+  return { base, aplicado: base };
+}
+
+// ---------- ajuste del pedido ----------
+
+export function getAjustePedido(cliente) {
+  try {
+    const raw = localStorage.getItem(claveCarrito(cliente) + '::ajuste');
+    return raw ? JSON.parse(raw) : { descuento: 0, motivo: '', obsLibre: '' };
+  } catch (e) {
+    return { descuento: 0, motivo: '', obsLibre: '' };
+  }
+}
+
+export function setAjustePedido(ajuste, cliente) {
+  localStorage.setItem(claveCarrito(cliente) + '::ajuste', JSON.stringify({
+    descuento: Number(ajuste.descuento) || 0,
+    motivo: ajuste.motivo || '',
+    obsLibre: ajuste.obsLibre || ''
+  }));
+  document.dispatchEvent(new CustomEvent('carrito:cambio', {
+    detail: { cliente: cliente || getClienteDestino() }
+  }));
+}
+
+/**
+ * Totales con la cascada: primero los descuentos de linea, despues el
+ * descuento sobre el total. -5% y -10% dan 14,5%, no 15%.
+ */
+export function totales(cliente) {
+  const lineas = detalle(cliente);
+  const aj = getAjustePedido(cliente);
+
+  const bruto = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
+  const neto = Math.round(bruto * (1 - (aj.descuento || 0) / 100));
+
+  // Referencia: lo que hubiera costado a lista del cliente, sin ajustes
+  const aLista = lineas.reduce((a, l) => a + ((l.precioBase || 0) * l.cantidad), 0);
+  const descGlobal = aLista ? Math.round((1 - neto / aLista) * 1000) / 10 : 0;
+
+  return { bruto, neto, aLista, descGlobal, descuentoTotal: aj.descuento || 0 };
+}
+
+
+
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
-  cantidadDe, cantidadItems, detalle, total, carritosAbiertos, ponerIcono,
-  crearBotonFlotante, refrescarBotonFlotante
+  cantidadDe, cantidadItems, detalle, total, totales, carritosAbiertos,
+  ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
+  ajustarLinea, getAjustePedido, setAjustePedido
 };

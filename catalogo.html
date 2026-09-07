@@ -2620,6 +2620,33 @@
                     }
                     .cp-menu-nota { font-size: 11px; color: #999; }
 
+                                        .cp-panel-menu select, .cp-panel-menu input {
+                         height: 30px; font-size: 12px; border: 1px solid #ccc;
+                         border-radius: 5px; padding: 0 6px; background: #fff;
+                    }
+                    .cp-panel-menu { flex-wrap: wrap; }
+                    .cp-precio-libre { width: 84px; }
+                    .cp-ref { font-size: 11px; color: #999; }
+                    .cp-ajustado { color: #ff9404; font-weight: 600; }
+                    .cp-desc-total {
+                         display: flex; align-items: center; gap: 8px;
+                         flex-wrap: wrap; padding-bottom: 10px;
+                         border-bottom: 1px solid #eee; margin-bottom: 10px;
+                    }
+                    .cp-desc-total select {
+                         height: 30px; font-size: 12px; border: 1px solid #ccc;
+                         border-radius: 5px; padding: 0 6px; background: #fff;
+                    }
+                    .cp-pie {
+                         flex-direction: column; align-items: stretch;
+                    }
+                    .cp-pie-abajo {
+                         display: flex; align-items: center;
+                         justify-content: space-between; gap: 10px; flex-wrap: wrap;
+                    }
+                    .cp-ref-total { margin: 2px 0 0; font-size: 11px; color: #999; }
+                    .cp-ref-total b { color: #ff9404; }
+
                     .cp-fila-cli {
                          display: flex; gap: 10px; padding: 11px 0;
                          border-bottom: 1px solid #eee;
@@ -2665,7 +2692,25 @@
                     }
                     .cp-vacio { padding: 34px 17px; text-align: center; color: #888; font-size: 13px; }
 
-                                        .cp-destino { cursor: pointer; }
+                    .cp-cargando {
+                         padding: 44px 24px;
+                         text-align: center;
+                         color: #777;
+                         font-size: 13px;
+                    }
+                    .cp-cargando p { margin: 14px 0 0; }
+                    .cp-spinner {
+                         width: 26px;
+                         height: 26px;
+                         margin: 0 auto;
+                         border: 3px solid #e5e5e5;
+                         border-top-color: #e60023;
+                         border-radius: 50%;
+                         animation: cp-girar 0.8s linear infinite;
+                    }
+                    @keyframes cp-girar { to { transform: rotate(360deg); } }
+
+                    .cp-destino { cursor: pointer; }
                     .cp-destino:hover { background: rgba(255,148,4,0.15); }
                     .cp-destino .cp-meta { color: #ff9404; font-weight: 600; }
                     .cp-cancelar-mover {

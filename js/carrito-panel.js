@@ -16,6 +16,77 @@ const ROJO = '#dc2626';
 
 let moviendo = null;   // sku de la linea que se esta reubicando
 
+let config = null;
+
+async function cargarConfig() {
+  if (config) return config;
+
+  const token = sessionStorage.getItem('authToken');
+  if (!token) {
+    // Sin endpoint: valores por defecto para poder trabajar igual
+    config = { descuentosLinea: [5,7,10], descuentosTotal: [5,7,10],
+               descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
+               umbralBloqueo: 0, modoObservacion: true };
+    return config;
+  }
+
+  try {
+    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+    const r = await fetch(URL_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ accion: 'config', token })
+    });
+    const d = await r.json();
+    if (d.ok) config = d;
+  } catch (e) {
+    console.warn('[Carrito] No se pudo traer la configuracion:', e);
+  }
+
+  if (!config) {
+    config = { descuentosLinea: [5,7,10], descuentosTotal: [5,7,10],
+               descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
+               umbralBloqueo: 0, modoObservacion: true };
+  }
+  window.__cfgCheck = true;
+  return config;
+}
+
+
+/**
+ * Trae el disponible del cliente en vista. El panel no puede depender de
+ * que la seleccion de cliente lo haya guardado: puede haber fallado.
+ */
+async function asegurarDisponible() {
+  if (sessionStorage.getItem('disponibleCliente')) return true;
+
+  const token = sessionStorage.getItem('authToken');
+  const cli = window.Precios?.getClienteVista();
+    if (!token || !cli) {
+    console.log('[Carrito] asegurarDisponible corta — token:', !!token, 'cliente:', cli);
+    return false;
+  }
+
+  try {
+    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+    const r = await fetch(URL_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cli.cuenta) })
+    });
+    const d = await r.json();
+    if (d.ok && d.disponible !== undefined) {
+      sessionStorage.setItem('disponibleCliente', String(d.disponible));
+      sessionStorage.setItem('disponibleDeCuenta', String(cli.cuenta));
+      return true;
+    }
+  } catch (e) {
+    console.warn('[Carrito] No se pudo traer el disponible:', e);
+  }
+  console.log('[Carrito] asegurarDisponible: la respuesta no trajo disponible');
+  return false;
+}
+
 function esVendedor() {
   const rol = sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol
@@ -24,8 +95,15 @@ function esVendedor() {
 }
 
 function getDisponible() {
+  // El disponible se guarda junto con la cuenta a la que pertenece:
+  // asi nunca se usa el de un cliente para otro
   const v = sessionStorage.getItem('disponibleCliente');
-  return v ? Number(v) : null;
+  const de = sessionStorage.getItem('disponibleDeCuenta');
+  const cli = window.Precios?.getClienteVista();
+
+  if (v === null) return null;
+  if (cli && de && String(cli.cuenta) !== String(de)) return null;
+  return Number(v);
 }
 
 function colorAcumulado(acum, disponible) {
@@ -55,7 +133,32 @@ export function abrir() {
   cont.className = esVendedor() ? 'cp-fondo cp-centrado' : 'cp-fondo cp-lateral';
   cont.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  dibujar();
+
+  if (!esVendedor()) { dibujar(); return; }
+
+  // Carrito vacio: no hay semaforo que calcular, no hay que esperar nada
+  if (!window.Carrito.leer().length) { dibujar(); return; }
+
+  // Con el cupo y la configuracion ya cargados, abre sin esperar nada
+  if (sessionStorage.getItem('disponibleCliente') && config) {
+    console.log('[Carrito] camino rapido');
+    dibujar();
+    return;
+  }
+
+  console.log('[Carrito] camino lento — disponible:', !!sessionStorage.getItem('disponibleCliente'), 'config:', !!config);
+
+  // Sin el cupo no hay semaforo, y mostrar el panel a medias confunde:
+  // esperamos el dato con un aviso claro
+  cont.innerHTML = `
+    <div class="cp-caja">
+      <div class="cp-cargando">
+        <div class="cp-spinner"></div>
+        <p>Consultando el cupo del cliente...</p>
+      </div>
+    </div>`;
+
+  Promise.all([cargarConfig(), asegurarDisponible()]).then(() => dibujar());
 }
 
 export function cerrar() {
@@ -86,6 +189,8 @@ function vistaVendedor() {
   const disponible = getDisponible();
   const cliente = window.Precios?.getClienteVista();
   const total = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
+  const tot = window.Carrito.totales();
+  const aj = window.Carrito.getAjustePedido();  
 
   if (!lineas.length) return cajaVacia(cliente?.nombre || '');
 
@@ -132,7 +237,7 @@ function vistaVendedor() {
         <div class="cp-barra" style="background:${col}"></div>
         <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
-          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}</p>
+                    <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + '-' + l.descEfectivo + '%</span>' : ''}</p>
         </div>
         <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
         <span class="cp-sub" style="color:${col}">${l.subtotal !== null ? fmt(l.subtotal) : '--'}</span>
@@ -143,7 +248,11 @@ function vistaVendedor() {
 
   const exc = disponible !== null ? total - disponible : null;
 
-  const cabecera = disponible === null ? '' : `
+    const cabecera = disponible === null ? `
+    <div class="cp-cupo" style="background:#f4f4f4">
+      <span class="cp-cupo-rot">Consultando cupo del cliente...</span>
+      <span class="cp-cupo-num" style="color:#999">--</span>
+    </div>` : `
     <div class="cp-cupo" style="background:${exc > 0 ? 'rgba(220,38,38,.08)' : 'rgba(22,163,74,.08)'}">
       <span class="cp-cupo-rot">${exc > 0 ? 'Se pasa del cupo por' : 'Margen disponible'}</span>
       <span class="cp-cupo-num" style="color:${exc > 0 ? ROJO : VERDE}">${fmt(Math.abs(exc))}</span>
@@ -161,14 +270,32 @@ function vistaVendedor() {
       ${cabecera}
       <div class="cp-lista">${filas}</div>
       <div class="cp-pie">
-        <div>
-          <span class="cp-total-rot">Total</span>
-          <span class="cp-total-num">${fmt(total)}</span>
+        <div class="cp-desc-total">
+          <span class="cp-total-rot">Sobre el total</span>
+          <select class="cp-desc-pedido">
+            <option value="0">Sin descuento</option>
+            ${(config?.descuentosTotal || [5,7,10]).map(d =>
+              `<option value="${d}" ${tot.descuentoTotal === d ? 'selected' : ''}>-${d}%</option>`).join('')}
+          </select>
+          <select class="cp-obs-pedido">
+            <option value="">Sin observación</option>
+            ${(config?.observaciones || []).map(o =>
+              `<option value="${o}" ${aj.motivo === o ? 'selected' : ''}>${o}</option>`).join('')}
+          </select>
         </div>
-        <div class="cp-acciones">
-          <button class="cp-vaciar">Vaciar</button>
-          <button class="cp-seguir">Seguir después</button>
-          <button class="cp-confirmar" ${hayRojo ? 'disabled title="Hay artículos fuera del cupo"' : ''}>Confirmar pedido</button>
+        <div class="cp-pie-abajo">
+          <div>
+            <div>
+              <span class="cp-total-rot">Total</span>
+              <span class="cp-total-num">${fmt(tot.neto)}</span>
+            </div>
+            ${tot.descGlobal > 0 ? `<p class="cp-ref-total">a lista ${fmt(tot.aLista)} · <b>-${tot.descGlobal}% efectivo</b></p>` : ''}
+          </div>
+          <div class="cp-acciones">
+            <button class="cp-vaciar">Vaciar</button>
+            <button class="cp-seguir">Seguir después</button>
+            <button class="cp-confirmar" ${hayRojo ? 'disabled title="Hay artículos fuera del cupo"' : ''}>Confirmar pedido</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -179,6 +306,7 @@ function vistaVendedor() {
 function vistaCliente() {
   const lineas = window.Carrito.detalle();
   const total = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
+  
 
   if (!lineas.length) return cajaVacia('');
 
@@ -296,7 +424,19 @@ function conectar(cont) {
     dibujar();
   });
 
-  cont.querySelector('.cp-seguir')?.addEventListener('click', cerrar);    
+  cont.querySelector('.cp-seguir')?.addEventListener('click', cerrar);  
+  
+    cont.querySelector('.cp-desc-pedido')?.addEventListener('change', (e) => {
+    const aj = window.Carrito.getAjustePedido();
+    window.Carrito.setAjustePedido({ ...aj, descuento: e.target.value });
+    dibujar();
+  });
+
+  cont.querySelector('.cp-obs-pedido')?.addEventListener('change', (e) => {
+    const aj = window.Carrito.getAjustePedido();
+    window.Carrito.setAjustePedido({ ...aj, motivo: e.target.value });
+    dibujar();
+  });
 }
 
 function abrirMenu(btn) {
@@ -304,12 +444,80 @@ function abrirMenu(btn) {
 
   const fila = btn.closest('.cp-fila');
   const sku = btn.dataset.sku;
+  const l = window.Carrito.detalle().find(x => x.sku === sku);
+  if (!l) return;
+
+  const cfg = config || { descuentosLinea: [5,7,10], observaciones: [] };
+  const cli = window.Precios?.getClienteVista();
+  const listaCli = cli?.lista || '';
+
+  const mec = l.mecanismo || 'lista_cliente';  
+
+  // Un solo desplegable: las tres listas mas precio especial
+  const valorSel = mec === 'precio_libre' ? 'libre'
+                 : (l.listaForzada || listaCli);
+
+  const opcListas = ['D','E','F'].map(x =>
+    `<option value="${x}" ${valorSel === x ? 'selected' : ''}>Lista ${x}${x === listaCli ? ' (cliente)' : ''}</option>`
+  ).join('') +
+  `<option value="libre" ${valorSel === 'libre' ? 'selected' : ''}>Precio especial</option>`;
+
+  const opcDesc = cfg.descuentosLinea.map(d =>
+    `<option value="${d}" ${Number(l.descuento) === d ? 'selected' : ''}>-${d}%</option>`
+  ).join('');
+
+  const opcObs = cfg.observaciones.map(o =>
+    `<option value="${o}" ${l.motivo === o ? 'selected' : ''}>${o}</option>`
+  ).join('');
+
+  
+
   const pan = document.createElement('div');
   pan.className = 'cp-panel-menu';
   pan.innerHTML = `
+    
+    <select class="cp-lista" data-sku="${sku}">${opcListas}</select>
+    <input type="number" class="cp-precio-libre" data-sku="${sku}" placeholder="Precio"
+           value="${l.precioLibre || ''}" style="display:${mec === 'precio_libre' ? '' : 'none'}">
+    <select class="cp-desc-linea" data-sku="${sku}">
+      <option value="0">Sin descuento</option>${opcDesc}
+    </select>
+    <select class="cp-obs-linea" data-sku="${sku}">
+      <option value="">Sin observación</option>${opcObs}
+    </select>
     <button class="cp-mover" data-sku="${sku}">Mover</button>
-    <span class="cp-menu-nota">Los ajustes de precio llegan en la próxima entrega</span>`;
+    <span class="cp-ref">a lista ${fmt(l.precioBase || 0)}${l.descEfectivo ? ' · <b style="color:#ff9404">-' + l.descEfectivo + '% efectivo</b>' : ''}</span>`;
+
   fila.insertAdjacentElement('afterend', pan);
+
+    const aplicar = () => {
+    const sel = pan.querySelector('.cp-lista').value;
+    const esLibre = sel === 'libre';
+
+    window.Carrito.ajustarLinea(sku, {
+      mecanismo: esLibre ? 'precio_libre' : (sel === listaCli ? 'lista_cliente' : 'otra_lista'),
+      lista: esLibre ? null : sel,
+      precioLibre: pan.querySelector('.cp-precio-libre').value,
+      descuento: pan.querySelector('.cp-desc-linea').value,
+      motivo: pan.querySelector('.cp-obs-linea').value
+    });
+    dibujar();
+  };
+
+  pan.querySelector('.cp-lista').addEventListener('change', (e) => {
+    const esLibre = e.target.value === 'libre';
+    pan.querySelector('.cp-precio-libre').style.display = esLibre ? '' : 'none';
+    if (!esLibre) aplicar();
+  });
+  pan.querySelector('.cp-precio-libre').addEventListener('change', aplicar);
+  pan.querySelector('.cp-desc-linea').addEventListener('change', aplicar);
+  pan.querySelector('.cp-obs-linea').addEventListener('change', aplicar);
+
+  
+  
+  pan.querySelector('.cp-precio-libre').addEventListener('change', aplicar);
+  pan.querySelector('.cp-desc-linea').addEventListener('change', aplicar);
+  pan.querySelector('.cp-obs-linea').addEventListener('change', aplicar);
 
   pan.querySelector('.cp-mover').addEventListener('click', () => {
     moviendo = sku;
@@ -338,5 +546,7 @@ function mostrarResumen() {
 
 document.addEventListener('carrito:abrir', abrir);
 document.addEventListener('carrito:cambio', dibujar);
+// Intentar varias veces: el rol tarda en estar disponible al cargar
+[500, 1500, 3000].forEach(ms => setTimeout(() => { if (!config && esVendedor()) cargarConfig(); }, ms));
 
 window.CarritoPanel = { abrir, cerrar };
