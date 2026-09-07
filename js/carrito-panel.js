@@ -198,7 +198,10 @@ function vistaVendedor() {
   let hayRojo = false;
 
   const filas = lineas.map((l, i) => {
-    acum += l.subtotal || 0;
+        // El acumulado se mide sobre el neto: si hay descuento de total,
+    // los renglones tienen que reflejarlo
+    const factor = tot.bruto ? tot.neto / tot.bruto : 1;
+    acum += (l.subtotal || 0) * factor;
     const c = colorAcumulado(acum, disponible);
     if (c === ROJO) hayRojo = true;
     const col = c || 'inherit';
@@ -237,7 +240,7 @@ function vistaVendedor() {
         <div class="cp-barra" style="background:${col}"></div>
         <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
-                    <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + '-' + l.descEfectivo + '%</span>' : ''}</p>
+          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : ''}</p>
         </div>
         <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
         <span class="cp-sub" style="color:${col}">${l.subtotal !== null ? fmt(l.subtotal) : '--'}</span>
@@ -246,7 +249,8 @@ function vistaVendedor() {
       </div>`;
   }).join('');
 
-  const exc = disponible !== null ? total - disponible : null;
+  // El excedente se mide contra el total NETO, ya con el descuento aplicado
+  const exc = disponible !== null ? tot.neto - disponible : null;
 
     const cabecera = disponible === null ? `
     <div class="cp-cupo" style="background:#f4f4f4">
@@ -289,7 +293,7 @@ function vistaVendedor() {
               <span class="cp-total-rot">Total</span>
               <span class="cp-total-num">${fmt(tot.neto)}</span>
             </div>
-            ${tot.descGlobal > 0 ? `<p class="cp-ref-total">a lista ${fmt(tot.aLista)} · <b>-${tot.descGlobal}% efectivo</b></p>` : ''}
+            ${tot.descGlobal !== 0 ? `<p class="cp-ref-total">de lista ${fmt(tot.aLista)} · <b>${tot.descGlobal > 0 ? '-' : '+'}${Math.abs(tot.descGlobal)}% efectivo</b></p>` : ''}
           </div>
           <div class="cp-acciones">
             <button class="cp-vaciar">Vaciar</button>
@@ -367,13 +371,17 @@ function cajaVacia(nombre) {
 function conectar(cont) {
   cont.querySelector('.cp-cerrar')?.addEventListener('click', cerrar);
 
-  cont.querySelectorAll('.cp-cant').forEach(inp => {
+    cont.querySelectorAll('.cp-cant').forEach(inp => {
     inp.addEventListener('change', () => {
       const n = parseInt(inp.value, 10);
       if (!n || n <= 0) window.Carrito.quitar(inp.dataset.sku);
       else window.Carrito.agregar(inp.dataset.sku, n);
       dibujar();
     });
+
+    // Seleccionar al entrar: se escribe la cantidad nueva sin borrar
+    inp.addEventListener('focus', () => inp.select());
+    inp.addEventListener('click', () => inp.select());
   });
 
   cont.querySelectorAll('.cp-quitar').forEach(b => {
@@ -462,13 +470,11 @@ function abrirMenu(btn) {
   ).join('') +
   `<option value="libre" ${valorSel === 'libre' ? 'selected' : ''}>Precio especial</option>`;
 
-  const opcDesc = cfg.descuentosLinea.map(d =>
+    const opcDesc = (cfg.descuentosLinea || []).map(d =>
     `<option value="${d}" ${Number(l.descuento) === d ? 'selected' : ''}>-${d}%</option>`
   ).join('');
 
-  const opcObs = cfg.observaciones.map(o =>
-    `<option value="${o}" ${l.motivo === o ? 'selected' : ''}>${o}</option>`
-  ).join('');
+ 
 
   
 
@@ -478,17 +484,26 @@ function abrirMenu(btn) {
     
     <select class="cp-lista" data-sku="${sku}">${opcListas}</select>
     <input type="number" class="cp-precio-libre" data-sku="${sku}" placeholder="Precio"
-           value="${l.precioLibre || ''}" style="display:${mec === 'precio_libre' ? '' : 'none'}">
+    value="${l.precioLibre || ''}" style="display:${mec === 'precio_libre' ? '' : 'none'}">
+    <button class="cp-ok-precio" title="Confirmar precio" style="display:${mec === 'precio_libre' ? '' : 'none'}">&#10003;</button>
     <select class="cp-desc-linea" data-sku="${sku}">
       <option value="0">Sin descuento</option>${opcDesc}
     </select>
-    <select class="cp-obs-linea" data-sku="${sku}">
-      <option value="">Sin observación</option>${opcObs}
-    </select>
+    
     <button class="cp-mover" data-sku="${sku}">Mover</button>
-    <span class="cp-ref">a lista ${fmt(l.precioBase || 0)}${l.descEfectivo ? ' · <b style="color:#ff9404">-' + l.descEfectivo + '% efectivo</b>' : ''}</span>`;
-
+    <span class="cp-ref">de lista ${fmt(l.precioBase || 0)}${l.descEfectivo ? ' · <b style="color:#ff9404">' + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '% efectivo</b>' : ''}</span>`;
   fila.insertAdjacentElement('afterend', pan);
+
+    // Si el panel queda fuera de la vista, traerlo: en pantallas chicas
+  // se abre debajo del borde y parece que no paso nada
+  pan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Si ya hay precio especial, dejarlo seleccionado para reescribir directo
+  const inpPrecio = pan.querySelector('.cp-precio-libre');
+  if (mec === 'precio_libre' && inpPrecio.value) {
+    inpPrecio.focus();
+    inpPrecio.select();
+  }
 
     const aplicar = () => {
     const sel = pan.querySelector('.cp-lista').value;
@@ -499,25 +514,32 @@ function abrirMenu(btn) {
       lista: esLibre ? null : sel,
       precioLibre: pan.querySelector('.cp-precio-libre').value,
       descuento: pan.querySelector('.cp-desc-linea').value,
-      motivo: pan.querySelector('.cp-obs-linea').value
+      
     });
     dibujar();
   };
 
-  pan.querySelector('.cp-lista').addEventListener('change', (e) => {
+    pan.querySelector('.cp-lista').addEventListener('change', (e) => {
     const esLibre = e.target.value === 'libre';
     pan.querySelector('.cp-precio-libre').style.display = esLibre ? '' : 'none';
-    if (!esLibre) aplicar();
+    pan.querySelector('.cp-ok-precio').style.display = esLibre ? '' : 'none';
+    if (esLibre) {
+      pan.querySelector('.cp-precio-libre').focus();
+      pan.querySelector('.cp-precio-libre').select();
+    } else {
+      aplicar();
+    }
   });
-  pan.querySelector('.cp-precio-libre').addEventListener('change', aplicar);
-  pan.querySelector('.cp-desc-linea').addEventListener('change', aplicar);
-  pan.querySelector('.cp-obs-linea').addEventListener('change', aplicar);
 
-  
-  
   pan.querySelector('.cp-precio-libre').addEventListener('change', aplicar);
+
+  pan.querySelector('.cp-precio-libre').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') aplicar();
+  });
+
+  pan.querySelector('.cp-ok-precio').addEventListener('click', aplicar);
+
   pan.querySelector('.cp-desc-linea').addEventListener('change', aplicar);
-  pan.querySelector('.cp-obs-linea').addEventListener('change', aplicar);
 
   pan.querySelector('.cp-mover').addEventListener('click', () => {
     moviendo = sku;

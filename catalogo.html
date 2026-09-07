@@ -2620,12 +2620,24 @@
                     }
                     .cp-menu-nota { font-size: 11px; color: #999; }
 
-                                        .cp-panel-menu select, .cp-panel-menu input {
+                    .cp-panel-menu select, .cp-panel-menu input {
                          height: 30px; font-size: 12px; border: 1px solid #ccc;
                          border-radius: 5px; padding: 0 6px; background: #fff;
+                         width: auto;
+                         flex: 0 0 auto;
                     }
                     .cp-panel-menu { flex-wrap: wrap; }
-                    .cp-precio-libre { width: 84px; }
+                    .cp-precio-libre { width: 90px !important; flex: 0 0 auto; }
+                    .cp-ok-precio {
+                         width: 32px !important;
+                         padding: 0 !important;
+                         color: #16a34a;
+                         font-size: 16px;
+                         font-weight: 700;
+                         border-color: #16a34a !important;
+                    }
+                    .cp-ok-precio:hover { background: #16a34a !important; color: #fff; }
+                    
                     .cp-ref { font-size: 11px; color: #999; }
                     .cp-ajustado { color: #ff9404; font-weight: 600; }
                     .cp-desc-total {
@@ -2637,6 +2649,10 @@
                          height: 30px; font-size: 12px; border: 1px solid #ccc;
                          border-radius: 5px; padding: 0 6px; background: #fff;
                     }
+                    .cp-obs-pedido {
+                         max-width: 120px;
+                         text-overflow: ellipsis;
+                    }     
                     .cp-pie {
                          flex-direction: column; align-items: stretch;
                     }
@@ -2716,6 +2732,24 @@
                     .cp-cancelar-mover {
                          background: none; border: none; font-size: 21px;
                          color: #888; cursor: pointer; padding: 0; line-height: 1;
+                    }
+
+                    @media (max-width: 560px) {
+                         .cp-ref {
+                              margin-top: 0;
+                              align-self: center;
+                         }
+                         select.cp-lista { max-width: 96px; }
+                         .cp-mover { padding: 0 8px !important; }
+                         .cp-panel-menu { gap: 4px; }
+
+                         .cp-fila {
+                              grid-template-columns: 3px minmax(0,1fr) 46px 78px 18px 18px;
+                              gap: 6px;
+                         }
+                         .cp-nombre { font-size: 12px; }
+                         .cp-meta { font-size: 10px; }
+                         .cp-sub { font-size: 12px; }
                     }
                     
                `;
