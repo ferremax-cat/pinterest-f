@@ -298,10 +298,10 @@ nav .iconos img{
      justify-content: space-between;
      
      /* VALORES ACTUALIZADOS */
-     width: 230px;                    /* Era fit-content */
-     max-width: 92%;                  /* Era 85% */
-     min-width: 200px;                /* Era 200px */
-     margin-left: 2%;                 /* Era 5% */
+     width: calc(100% - 8px);         /* Era 230px fijo */
+     max-width: calc(100% - 8px);     /* Era 92%: no alcanzaba con decimales */
+     min-width: 0;                    /* Era 200px: no entra en pantallas chicas */
+     margin-left: 4px;                /* Era 2%: en tarjetas chicas desplazaba de mas */
      padding: 0 4px;                  /* Era 0 8px */
      background-color: rgba(255, 255, 255, 0.9);
      border-radius: 20px;
@@ -310,11 +310,12 @@ nav .iconos img{
 
 /* AGREGAR DESPUÉS - Estilos para el enlace del código */
 .container-img .bottom-row a:nth-child(1) {
-     flex: 0 0 auto;
-     width: 100px;                    /* Ancho fijo para código */
-     padding-left: 2px;               /* Mínimo padding izquierdo */
-     overflow: hidden;
-     text-overflow: ellipsis;
+     flex: 0 1 auto;                  /* Era 0 0 auto: ahora puede ceder */
+     width: auto;                     /* Era 100px fijo */
+     min-width: 0;
+     padding-left: 2px;
+     overflow: visible;               /* Era hidden: cortaba el codigo */
+     text-overflow: clip;             /* Era ellipsis: no perder informacion */
      white-space: nowrap;
      color: #111;
      font-weight: 700;
@@ -325,7 +326,7 @@ nav .iconos img{
 .container-img .bottom-row .price-tag {
      flex: 0 0 auto;
      min-width: 70px;                 /* Espacio para 8 caracteres */
-     max-width: 70px;
+     max-width: none;                 /* Era 70px: cortaba precios con decimales */
      margin-left: 5px;
      font-size: 0.8em;
      color: var(--gris400);
@@ -343,6 +344,23 @@ nav .iconos img{
      white-space: nowrap;
 }
 
+/* Agregar nuevo estilo para el precio */
+.container-img .bottom-row .price-tag {
+     flex: 0 0 auto;
+     color: var(--gris400); /* Usando la variable de color existente */
+     font-weight: 700;
+     font-size: 0.9em;
+     margin-left: 8px; /* Empuja el precio hacia la derecha */
+     white-space: nowrap;
+}
+
+/* Centavos mas chicos: del mismo tamano el precio se lee mas caro */
+.price-tag .centavos {
+     font-size: 0.70em;
+     opacity: 0.80;
+     position: relative;
+     top: -6px;
+}
 
 .container-img .bottom-row a{
      background: transparent;    /* Fondo transparente para el enlace */
@@ -510,14 +528,14 @@ nav .iconos img{
 /* iPads */
 @media screen and (max-width: 1024px) {
      .container-img .bottom-row {
-         max-width: 75%;
+         max-width: calc(100% - 8px);
          padding: 0 6px;
          gap: 2px;
      }
 
      .container-img .bottom-row a {
           font-size: 0.85em;
-          max-width: 65%;        /* Limita el ancho del código */
+          max-width: none;       /* Era 65%: cortaba los codigos largos */
           overflow: hidden;
           text-overflow: ellipsis;
       }
@@ -559,6 +577,7 @@ nav .iconos img{
      body {
          padding-top: 140px; /* Aumentado */
          width: 75%;
+         min-width: 0
      }
  
      nav {
@@ -630,14 +649,17 @@ nav .iconos img{
 
      .container-img .bottom-row {
           padding: 0 6px;         /* Reduce el padding en móviles */
-          gap: 4px;              /* Reduce el espacio entre elementos en móviles */
+          gap: 8px;              /* Reduce el espacio entre elementos en móviles */
           height: 35px;          /* Reduce la altura en móviles */
 
       }
   
-      .container-img .bottom-row a,
+      .container-img .bottom-row a {
+          font-size: 0.8em;
+      }
+
       .container-img .bottom-row .price-tag {
-          font-size: 0.8em;      /* Reduce el tamaño de fuente */
+          font-size: 0.7em;      /* Menor que el codigo: con decimales ocupa mucho */
       }
 
 
@@ -773,7 +795,7 @@ nav .iconos img{
 /* Media query para pantallas menores a 638px */
 @media screen and (max-width: 638px) {
      .container-img .bottom-row {
-         min-width: 150px;       /* Reduce el ancho mínimo */
+         min-width: 0;           /* Era 150px: impedia que la pildora se adapte */
          width: 80%;             /* Limita el ancho al 80% del contenedor */
          padding: 0 8px;         /* Reduce el padding */
          gap: 4px;              /* Reduce el espacio entre elementos */
@@ -1787,6 +1809,28 @@ body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .bar
     }
 }
 
+
+/* Pantallas chicas: el precio con decimales se lleva dos tercios de la
+   pildora y deja al codigo sin lugar. Cede tamano para que entren los dos. */
+@media screen and (max-width: 420px) {
+     .container-img .bottom-row .price-tag {
+          font-size: 13px !important;
+          padding: 3px 6px !important;
+     }
+
+     .container-img .bottom-row a:nth-child(1) {
+          font-size: 10px !important;
+     }
+}
+
+/* Pantallas chicas: el precio con decimales ocupa mucho y deja al codigo
+   sin lugar. El tamano del codigo lo ajusta acomodarPildoras si no entra. */
+@media screen and (max-width: 420px) {
+     .container-img .bottom-row .price-tag {
+          font-size: 13px !important;
+          padding: 3px 6px !important;
+     }
+}
 
 /* Reglas de posicion fija: reemplazadas por el calculo en salud-financiera.js,
    que mide el alto real de la barra y funciona en cualquier resolucion */
