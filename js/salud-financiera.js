@@ -70,6 +70,7 @@ const BarraSaludFinanciera = {
         // La clase del body es lo que separa las dos barras.
         // Sin ella quedan superpuestas.
         document.body.classList.add('salud-financiera-activa');
+        setTimeout(acomodarBarraInfo, 50);
 
         this.visible = true;
     },
@@ -86,6 +87,7 @@ const BarraSaludFinanciera = {
         
         // Quitar clase del body
         document.body.classList.remove('salud-financiera-activa');
+        setTimeout(acomodarBarraInfo, 50);
         
         this.visible = false;
         
@@ -110,6 +112,8 @@ const BarraSaludFinanciera = {
             const btnTexto = document.getElementById('btn-expandir-texto');
             if (btnTexto) btnTexto.textContent = '▼';
         }
+
+        setTimeout(acomodarBarraInfo, 350);
     },
     
     // Actualizar datos en la barra
@@ -218,6 +222,38 @@ const BarraSaludFinanciera = {
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     BarraSaludFinanciera.init();
+});
+
+/**
+ * Ubica la barra de info justo debajo de la financiera, midiendo su alto
+ * real. Los valores fijos por resolucion fallan en cada celular distinto.
+ */
+function acomodarBarraInfo() {
+    const sal = document.getElementById('barra-salud-financiera');
+    const inf = document.getElementById('barra-info-contextual');
+    if (!inf) return;
+
+    if (!sal || sal.style.display === 'none' || !sal.offsetHeight) {
+        inf.style.top = '';
+        return;
+    }
+
+    // Medir el desfase entre el valor de top y donde aparece realmente:
+    // la barra puede tener margen propio
+    const topActual = parseFloat(getComputedStyle(inf).top) || 0;
+    const desfase = inf.getBoundingClientRect().top - topActual;
+
+    const fin = sal.getBoundingClientRect().bottom;
+    inf.style.setProperty('top', (fin + 0) + 'px', 'important');
+}
+
+window.acomodarBarraInfo = acomodarBarraInfo;
+
+
+let tempBarra;
+window.addEventListener('resize', () => {
+    clearTimeout(tempBarra);
+    tempBarra = setTimeout(acomodarBarraInfo, 150);
 });
 
 // Exponer globalmente para uso desde otros scripts
