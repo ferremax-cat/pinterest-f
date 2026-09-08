@@ -8,7 +8,7 @@
  * El precio se pide siempre a js/precios.js. Este modulo solo dibuja.
  */
 
-const fmt = n => '$' + Math.round(n).toLocaleString('es-AR');
+const fmt = n => '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 2 });
 
 const VERDE = '#16a34a';
 const NARANJA = '#ff9404';

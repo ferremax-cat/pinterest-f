@@ -160,7 +160,9 @@ export function detalle(cliente) {
       }
 
       const desc = Number(l.descuento) || 0;
-      const precio = Math.round(aplicado * (1 - desc / 100));
+            // Dos decimales: el sistema de facturacion calcula el unitario
+      // con descuento y despues multiplica
+      const precio = Math.round(aplicado * (1 - desc / 100) * 100) / 100;
 
       // Cuanto representa el precio final respecto del que le hubiera
       // correspondido al cliente por su lista: es el numero que se controla
