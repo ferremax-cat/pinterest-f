@@ -1578,7 +1578,7 @@ function displayNoResults(query) {
       // Función auxiliar para formatear precios
       function formatPrice(price) {
         if (typeof price !== 'number') return price;
-        return price.toLocaleString('es-AR');
+        return price.toLocaleString('es-AR', { maximumFractionDigits: 2 });
       }
     
     // Cargar detalles completos de un ítem
@@ -1696,8 +1696,8 @@ function displayNoResults(query) {
         }
        /* AGREGAR AQUÍ - Estilos optimizados para bottom-row */
         .container-img .bottom-row {
-            width: 240px !important;
-            max-width: 92% !important;
+            width: calc(100% - 8px) !important
+            max-width: calc(100% - 8px) !important;
             margin-left: 1% !important;
             padding: 0 4px !important;
             display: flex !important;
@@ -1721,13 +1721,13 @@ function displayNoResults(query) {
             align-self: flex-start !important;    /* AGREGAR: alineación flex-start */
             overflow: visible !important;
             text-overflow: clip !important;
-            white-space: normal !important;
+            white-space: nowrap !important;
             flex-shrink: 0 !important;
         }
         
         .container-img .bottom-row .price-tag {
             min-width: 70px !important;
-            max-width: 70px !important;
+            max-width: none !important;
             margin-left: 5px !important;
             font-size: 0.99em !important;
             flex-shrink: 0 !important;

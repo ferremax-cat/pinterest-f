@@ -147,12 +147,10 @@ def process_product_row(result, row):
     """Procesa una fila de productos desde Google Sheets"""
     codigo = str(row['c'][0]['v'])
 
-    #24-3
-    # Truncar los precios para eliminar los decimales
-    precio_d = int(row['c'][4]['v']) if row['c'][4] and isinstance(row['c'][4]['v'], (int, float)) else 0
-    precio_e = int(row['c'][5]['v']) if row['c'][5] and isinstance(row['c'][5]['v'], (int, float)) else 0
-    precio_f = int(row['c'][6]['v']) if row['c'][6] and isinstance(row['c'][6]['v'], (int, float)) else 0
-    #24-3
+    # Conservar dos decimales, igual que en process_products
+    precio_d = round(float(row['c'][4]['v']), 2) if row['c'][4] and isinstance(row['c'][4]['v'], (int, float)) else 0
+    precio_e = round(float(row['c'][5]['v']), 2) if row['c'][5] and isinstance(row['c'][5]['v'], (int, float)) else 0
+    precio_f = round(float(row['c'][6]['v']), 2) if row['c'][6] and isinstance(row['c'][6]['v'], (int, float)) else 0
 
     result[codigo] = {
         'name': row['c'][1]['v'] if row['c'][1] else '',
@@ -372,12 +370,11 @@ def process_products(df):
     products = {}
     for _, row in df.iterrows():
 
-        #24-3
-        # Truncar los precios para eliminar los decimales
-        precio_d = int(row['P_LISTA_D']) if isinstance(row['P_LISTA_D'], (int, float)) else 0
-        precio_e = int(row['P_LISTA_E']) if isinstance(row['P_LISTA_E'], (int, float)) else 0
-        precio_f = int(row['P_LISTA_F']) if isinstance(row['P_LISTA_F'], (int, float)) else 0
-        #24-3
+        # Conservar dos decimales: el sistema de facturacion los usa y
+        # truncarlos hacia diferencias en los importes de los pedidos
+        precio_d = round(float(row['P_LISTA_D']), 2) if isinstance(row['P_LISTA_D'], (int, float)) else 0
+        precio_e = round(float(row['P_LISTA_E']), 2) if isinstance(row['P_LISTA_E'], (int, float)) else 0
+        precio_f = round(float(row['P_LISTA_F']), 2) if isinstance(row['P_LISTA_F'], (int, float)) else 0
 
         products[row['CODIGO']] = {
             'name': row['ARTICULO'],
