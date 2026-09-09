@@ -449,10 +449,16 @@ function conectar(cont) {
 }
 
 function abrirMenu(btn) {
-  document.querySelectorAll('.cp-panel-menu').forEach(p => p.remove());
-
   const fila = btn.closest('.cp-fila');
   const sku = btn.dataset.sku;
+
+  // Si el menu de esta linea ya esta abierto, cerrarlo
+  const siguiente = fila.nextElementSibling;
+  const yaAbierto = siguiente && siguiente.classList.contains('cp-panel-menu');
+
+  document.querySelectorAll('.cp-panel-menu').forEach(p => p.remove());
+  if (yaAbierto) return;
+
   const l = window.Carrito.detalle().find(x => x.sku === sku);
   if (!l) return;
 

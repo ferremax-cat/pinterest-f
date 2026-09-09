@@ -199,26 +199,23 @@ export function carritosAbiertos() {
 
 // ---------- interfaz: icono en la tarjeta ----------
 
-const SVG_CARRITO = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+const SVG_CARRITO = `<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
   <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 </svg>`;
 
 export function ponerIcono(contenedor, sku) {
   if (!contenedor || !sku) return;
 
-  let btn = contenedor.querySelector('.btn-carrito');
+  // El icono vive sobre la imagen, no en la pildora: hay que buscarlo
+  // en el mismo lugar donde se crea, si no se duplica en cada repintado
+  const sobreImagen = contenedor.parentElement || contenedor;
+  let btn = sobreImagen.querySelector(':scope > .btn-carrito');
+
   if (!btn) {
     btn = document.createElement('button');
     btn.className = 'btn-carrito';
     btn.type = 'button';
-        // Insertar antes del precio, no al final del contenedor
-    const refPrecio = contenedor.querySelector('.price-tag');
-    if (refPrecio) {
-      contenedor.insertBefore(btn, refPrecio);
-    } else {
-      contenedor.appendChild(btn);
-    }
-    
+    sobreImagen.appendChild(btn);
   }
 
   btn.dataset.sku = sku;
@@ -247,6 +244,8 @@ function abrirCampoCantidad(btn, sku) {
   `;
 
   btn.parentElement.appendChild(pop);
+    // El teclado del celular tapa la mitad inferior: traer el campo a la vista
+  setTimeout(() => pop.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
 
   const input = pop.querySelector('.input-cantidad');
   input.focus();
@@ -272,7 +271,7 @@ function abrirCampoCantidad(btn, sku) {
         document.removeEventListener('click', cerrar);
       }
     });
-  }, 10);
+  }, 500);
 }
 
 // ---------- boton flotante ----------
