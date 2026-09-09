@@ -14,6 +14,7 @@ const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_
 async function autenticarEnEndpoint(clave) {
     const resp = await fetch(URL_API, {
         method: 'POST',
+        cache: 'no-store',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ accion: 'login', clave: String(clave).trim() })
     });
@@ -85,6 +86,7 @@ class LoginManager {
             if (USAR_LOGIN_ENDPOINT) {
                 try {
                     const auth = await autenticarEnEndpoint(inputClave);
+                    
 
                     if (!auth.ok) {
                         console.log('Login rechazado por el endpoint:', auth.error);

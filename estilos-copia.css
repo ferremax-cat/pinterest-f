@@ -298,17 +298,10 @@ nav .iconos img{
      justify-content: space-between;
      
      /* VALORES ACTUALIZADOS */
-<<<<<<< HEAD
-     width: calc(100% - 8px);
-     max-width: calc(100% - 8px);
-     min-width: 0;                    /* Era 200px: desbordaba con muchas columnas */
-     margin-left: 4px;                /* Era 2%: valor fijo chico gana ancho util */
-=======
      width: calc(100% - 8px);         /* Era 230px fijo */
      max-width: calc(100% - 8px);     /* Era 92%: no alcanzaba con decimales */
      min-width: 0;                    /* Era 200px: no entra en pantallas chicas */
      margin-left: 4px;                /* Era 2%: en tarjetas chicas desplazaba de mas */
->>>>>>> main
      padding: 0 4px;                  /* Era 0 8px */
      background-color: rgba(255, 255, 255, 0.9);
      border-radius: 20px;
@@ -336,11 +329,7 @@ nav .iconos img{
 .container-img .bottom-row .price-tag {
      flex: 0 0 auto;
      min-width: 70px;                 /* Espacio para 8 caracteres */
-<<<<<<< HEAD
-     max-width: none;                 /* Era 70px: cortaba precios de 7 digitos */
-=======
      max-width: none;                 /* Era 70px: cortaba precios con decimales */
->>>>>>> main
      margin-left: 5px;
      font-size: 0.8em;
      color: var(--gris400);

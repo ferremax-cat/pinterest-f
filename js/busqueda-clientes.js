@@ -19,6 +19,7 @@ async function traerFinanzasDelEndpoint(cuenta) {
 
     const resp = await fetch(URL_API_FIN, {
         method: 'POST',
+        cache: 'no-store',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cuenta) })
     });

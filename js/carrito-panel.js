@@ -34,6 +34,7 @@ async function cargarConfig() {
     const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
     const r = await fetch(URL_API, {
       method: 'POST',
+      cache: 'no-store',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ accion: 'config', token })
     });
@@ -297,7 +298,7 @@ function vistaVendedor() {
           </div>
           <div class="cp-acciones">
             <button class="cp-vaciar">Vaciar</button>
-            <button class="cp-seguir">Seguir después</button>
+            <button class="cp-seguir">Volver al catálogo</button>
             <button class="cp-confirmar" ${hayRojo ? 'disabled title="Hay artículos fuera del cupo"' : ''}>Confirmar pedido</button>
           </div>
         </div>
