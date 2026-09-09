@@ -179,8 +179,19 @@ export function cerrar() {
 function dibujar() {
   const cont = document.getElementById('carrito-panel');
   if (!cont || cont.style.display === 'none') return;
+
+  // Conservar la posicion: al redibujar se perdia y el usuario tenia
+  // que volver a buscar donde estaba
+  const lista = cont.querySelector('.cp-lista');
+  const scroll = lista ? lista.scrollTop : 0;
+
   cont.innerHTML = esVendedor() ? vistaVendedor() : vistaCliente();
   conectar(cont);
+
+  const listaNueva = cont.querySelector('.cp-lista');
+  if (listaNueva && scroll) listaNueva.scrollTop = scroll;
+
+  ajustarAltura();
 }
 
 // ---------- vista del vendedor ----------
@@ -571,11 +582,31 @@ function mostrarResumen() {
   );
 }
 
+
+/**
+ * Ajusta el alto del panel a la altura visible real. En los celulares las
+ * barras del navegador tapan el pie y ni vh ni dvh lo resuelven del todo.
+ */
+function ajustarAltura() {
+  const caja = document.querySelector('#carrito-panel .cp-caja');
+  if (!caja) return;
+
+  // Reservar espacio para la barra del navegador: en algunos celulares
+  // ni innerHeight ni visualViewport la descuentan
+  const alto = (window.visualViewport?.height || window.innerHeight) - 60;
+  caja.style.setProperty('height', window.innerHeight + 'px', 'important');
+  caja.style.setProperty('max-height', window.innerHeight + 'px', 'important');
+}
+
 // ---------- enganche ----------
 
 document.addEventListener('carrito:abrir', abrir);
 document.addEventListener('carrito:cambio', dibujar);
 // Intentar varias veces: el rol tarda en estar disponible al cargar
 [500, 1500, 3000].forEach(ms => setTimeout(() => { if (!config && esVendedor()) cargarConfig(); }, ms));
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('carrito-panel')?.style.display === 'flex') ajustarAltura();
+});
 
 window.CarritoPanel = { abrir, cerrar };
