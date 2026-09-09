@@ -133,7 +133,7 @@ export function precioMostrado(sku) {
  */
 export function formatearPrecio(valor) {
   if (valor === null || valor === undefined) return '';
-  return `$${valor.toLocaleString('es-AR')}`;
+  return `$${valor.toLocaleString('es-AR', { maximumFractionDigits: 2 })}`;
 }
 
 /**
@@ -148,7 +148,16 @@ export function pintarPrecio(elemento, sku) {
     return false;
   }
 
-  elemento.textContent = formatearPrecio(precioMostrado(sku));
+    // Los centavos mas chicos: si van del mismo tamano, el precio se lee
+  // como si fuera mucho mas caro de lo que es
+  const txt = formatearPrecio(precioMostrado(sku));
+  const coma = txt.lastIndexOf(',');
+  if (coma > -1) {
+    elemento.innerHTML = txt.slice(0, coma) +
+      '<span class="centavos">' + txt.slice(coma + 1) + '</span>';
+  } else {
+    elemento.textContent = txt;
+  }
   elemento.dataset.precioLista = base;
   elemento.dataset.sku = sku;
   // Marcar como procesado para que el sistema viejo de margenes no lo
@@ -158,39 +167,61 @@ export function pintarPrecio(elemento, sku) {
   const modo = localStorage.getItem('precioModo') || 'lista';
   elemento.className = 'price-tag ' + modo;
 
-  // Icono del carrito: se coloca junto al precio, asi aparece en todas
+   // Icono del carrito: se coloca junto al precio, asi aparece en todas
   // las rutas de render sin tocar cada una
   if (window.Carrito) {
     window.Carrito.ponerIcono(elemento.parentElement, sku);
   }
 
-    // Anclar la pildora al borde inferior de la imagen: el contenedor puede
-  // ser mas alto que la imagen y el valor fijo la dejaba flotando
-  const fila = elemento.parentElement;
-  const img = fila?.parentElement?.querySelector('img');
-  if (fila && img && img.offsetHeight) {
-    fila.style.bottom = 'auto';
-    fila.style.top = (img.offsetHeight - fila.offsetHeight - 10) + 'px';
-  }
 
+  // El ancho de la pildora esta definido en cuatro archivos con reglas
+  // que se pisan entre si. Se calcula aca sobre el contenedor real.
+  const fila = elemento.parentElement;
+  const cont = fila?.parentElement;
+    if (fila && cont && cont.offsetWidth) {
+    fila.style.setProperty('min-width', '0', 'important');
+    fila.style.setProperty('max-width', 'none', 'important');
+    fila.style.setProperty('width', (cont.offsetWidth - 8) + 'px', 'important');
+    fila.style.setProperty('margin-left', '4px', 'important');
+  }
   return true;
 }
 
 /**
- * Reubica las pildoras al borde inferior de su imagen.
- * Hace falta recalcular: al cambiar la cantidad de columnas, las imagenes
- * cambian de alto y el valor anterior queda viejo.
+ * Ancla la pildora al borde inferior de la imagen y le da el ancho del
+ * contenedor. Los valores fijos del CSS fallan segun la cantidad de columnas.
  */
 export function acomodarPildoras() {
   document.querySelectorAll('.bottom-row').forEach(fila => {
     const cont = fila.parentElement;
-    const img = cont?.querySelector('img');
-    if (!img || !img.offsetHeight || !cont.offsetHeight) return;
+    if (!cont || !cont.offsetWidth) return;
 
-    const propuesto = img.offsetHeight - fila.offsetHeight - 10;
+    fila.style.setProperty('min-width', '0', 'important');
+    fila.style.setProperty('max-width', 'none', 'important');
+    fila.style.setProperty('width', (cont.offsetWidth - 8) + 'px', 'important');
+    fila.style.setProperty('margin-left', '4px', 'important');
+
+        // Achicar el codigo solo si no entra: los normales conservan su tamano
+    const cod = fila.querySelector('a');
+    const precio = fila.querySelector('.price-tag');
+    if (cod && precio) {
+      cod.style.fontSize = '';
+      const disponible = fila.offsetWidth - precio.offsetWidth - 10;
+
+      let tam = parseFloat(getComputedStyle(cod).fontSize);
+      const minimo = 9.5;
+      while (cod.scrollWidth > disponible && tam > minimo) {
+        tam -= 0.5;
+        cod.style.setProperty('font-size', tam + 'px', 'important');
+      }
+    }
+
+    const img = cont.querySelector('img');
+    if (!img || !img.offsetHeight || !cont.offsetHeight) return;
 
     // Descartar valores fuera del contenedor: en la busqueda la funcion
     // corre antes de que el layout este listo y calcula posiciones absurdas
+    const propuesto = img.offsetHeight - fila.offsetHeight - 10;
     if (propuesto < 0 || propuesto > cont.offsetHeight) return;
 
     fila.style.bottom = 'auto';
@@ -198,7 +229,6 @@ export function acomodarPildoras() {
   });
 }
 
-// Recalcular al redimensionar y al terminar de cargar cada imagen
 let tempAcomodar;
 window.addEventListener('resize', () => {
   clearTimeout(tempAcomodar);
@@ -209,8 +239,8 @@ document.addEventListener('load', (e) => {
   if (e.target.tagName === 'IMG') acomodarPildoras();
 }, true);
 
+
 // Disponible tambien sin modulos, para las rutas que estan en catalogo.html
 window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio,
-setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos,
-  acomodarPildoras  
+setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos, acomodarPildoras  
  };

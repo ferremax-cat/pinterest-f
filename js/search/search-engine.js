@@ -1580,7 +1580,7 @@ function displayNoResults(query) {
       // Función auxiliar para formatear precios
       function formatPrice(price) {
         if (typeof price !== 'number') return price;
-        return price.toLocaleString('es-AR');
+        return price.toLocaleString('es-AR', { maximumFractionDigits: 2 });
       }
     
     // Cargar detalles completos de un ítem
