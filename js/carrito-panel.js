@@ -407,7 +407,7 @@ function conectar(cont) {
     if (confirm('¿Vaciar el pedido?')) { window.Carrito.vaciar(); dibujar(); }
   });
 
-  cont.querySelector('.cp-confirmar')?.addEventListener('click', mostrarResumen);
+  cont.querySelector('.cp-confirmar')?.addEventListener('click', confirmarPedido);
 
   // Menu de tres puntos: por ahora solo Mover y Quitar
   cont.querySelectorAll('.cp-menu').forEach(b => {
@@ -565,21 +565,128 @@ function abrirMenu(btn) {
   });
 }
 
-function mostrarResumen() {
-  const lineas = window.Carrito.detalle();
-  const cliente = window.Precios?.getClienteVista();
-  const total = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
+function nuevoId() {
+  if (crypto?.randomUUID) return crypto.randomUUID();
+  return 'PED-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+}
 
-  const txt = lineas.map((l, i) =>
-    `${i + 1}. ${l.sku} · ${l.nombre}\n   ${l.cantidad} x ${fmt(l.precio || 0)} = ${fmt(l.subtotal || 0)}`
-  ).join('\n');
+/**
+ * Aviso dentro del panel: los del navegador muestran la direccion del
+ * sitio y quedan mal.
+ */
+function avisar(texto, tipo) {
+  const cont = document.getElementById('carrito-panel');
+  if (!cont) return;
 
-  alert(
-    `RESUMEN DEL PEDIDO\n` +
-    (cliente ? `Cliente: ${cliente.nombre} (${cliente.cuenta}) · Lista ${cliente.lista}\n` : '') +
-    `\n${txt}\n\nTOTAL: ${fmt(total)}\n\n` +
-    `(Todavia no se guarda: eso llega en la proxima etapa)`
-  );
+  document.querySelectorAll('.cp-aviso').forEach(a => a.remove());
+
+  const av = document.createElement('div');
+  av.className = 'cp-aviso ' + (tipo === 'error' ? 'cp-aviso-error' : '');
+  av.textContent = texto;
+  cont.querySelector('.cp-caja')?.appendChild(av);
+
+  setTimeout(() => av.remove(), 3000);
+}
+
+async function confirmarPedido() {
+  const btn = document.querySelector('.cp-confirmar');
+  if (!btn || btn.disabled) return;
+
+  const cli = window.Precios?.getClienteVista();
+  const esVend = esVendedor();
+
+  // Sin cliente elegido el pedido no tiene destinatario
+  if (esVend && !cli) {
+    avisar('Elegí un cliente antes de confirmar el pedido.', 'error');
+    return;
+  }
+
+  const textoOriginal = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  try {
+    const d = await window.Carrito.detalleVerificado();
+
+    if (!d.ok) {
+      avisar('Faltan precios de ' + (d.skus || []).join(', ') + '. Probá de nuevo en unos segundos.', 'error');
+      return;
+    }
+
+    const t = window.Carrito.totales();
+    const aj = window.Carrito.getAjustePedido();
+    const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
+
+    const pedido = {
+      id: nuevoId(),
+      cliente: esVend ? cli.cuenta : String(cd.account || ''),
+      lista: d.lista,
+      canal: 'app',
+      totalBruto: t.bruto,
+      descuentoTotal: t.descuentoTotal,
+      totalNeto: t.neto,
+      descEfectivoGlobal: t.descGlobal,
+      motivo: aj.motivo,
+      obsLibre: aj.obsLibre,
+      lineas: d.lineas.map(l => ({
+        sku: l.sku,
+        nombre: l.nombre,
+        cantidad: l.cantidad,
+        listaAplicada: l.listaForzada || d.lista,
+        mecanismo: l.mecanismo || 'lista_cliente',
+        precioBase: l.precioBase,
+        precio: l.precio,
+        descEfectivo: l.descEfectivo,
+        subtotal: l.subtotal
+      }))
+    };
+
+    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+    const r = await fetch(URL_API, {
+      method: 'POST',
+      cache: 'no-store',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        accion: 'guardar_pedido',
+        token: sessionStorage.getItem('authToken'),
+        pedido
+      })
+    });
+
+    const resp = await r.json();
+
+    if (!resp.ok) {
+      avisar('No se pudo guardar: ' + (resp.error || 'error desconocido'), 'error');
+      return;
+    }
+
+        const totalConfirmado = t.neto;
+    const nombreCli = cli ? cli.nombre : (cd.name || '');
+
+    window.Carrito.vaciar();
+    window.Carrito.setAjustePedido({ descuento: 0, motivo: '', obsLibre: '' });
+
+    const cont = document.getElementById('carrito-panel');
+    cont.innerHTML = `
+      <div class="cp-caja">
+        <div class="cp-exito">
+          <div class="cp-check">&#10003;</div>
+          <p class="cp-exito-tit">Pedido confirmado</p>
+          <p class="cp-exito-num">N° ${resp.numero}</p>
+          <p class="cp-exito-det">${nombreCli}</p>
+          <p class="cp-exito-total">${fmt(totalConfirmado)}</p>
+          <button class="cp-cerrar-exito">Listo</button>
+        </div>
+      </div>`;
+    cont.querySelector('.cp-cerrar-exito').addEventListener('click', cerrar);
+
+  } catch (err) {
+    console.error('[Carrito] Error al confirmar:', err);
+        avisar('No se pudo guardar el pedido. Revisá la conexión.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+  }
 }
 
 

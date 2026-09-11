@@ -172,7 +172,7 @@ export function detalle(cliente) {
         ...l,
         precioBase: base,
         precio,
-        subtotal: precio * l.cantidad,
+        subtotal: Math.round(precio * l.cantidad * 100) / 100,
         descEfectivo: Math.round(descEfectivo * 10) / 10
       };
     });
@@ -437,21 +437,71 @@ export function totales(cliente) {
   const lineas = detalle(cliente);
   const aj = getAjustePedido(cliente);
 
-  const bruto = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
-  const neto = Math.round(bruto * (1 - (aj.descuento || 0) / 100));
+  const bruto = Math.round(lineas.reduce((a, l) => a + (l.subtotal || 0), 0) * 100) / 100;
+  const neto = Math.round(bruto * (1 - (aj.descuento || 0) / 100) * 100) / 100;
 
   // Referencia: lo que hubiera costado a lista del cliente, sin ajustes
-  const aLista = lineas.reduce((a, l) => a + ((l.precioBase || 0) * l.cantidad), 0);
+  const aLista = Math.round(lineas.reduce((a, l) => a + ((l.precioBase || 0) * l.cantidad), 0) * 100) / 100;
   const descGlobal = aLista ? Math.round((1 - neto / aLista) * 1000) / 10 : 0;
 
   return { bruto, neto, aLista, descGlobal, descuentoTotal: aj.descuento || 0 };
 }
 
+/**
+ * Fuerza que todos los productos del carrito esten en memoria con la lista
+ * del cliente actual, y devuelve el detalle con precios verificados.
+ *
+ * CRITICO: sin esto, un producto que salio de memoria usaria su precio de
+ * respaldo, que puede haberse calculado con la lista de otro cliente.
+ */
+export async function detalleVerificado(cliente) {
+  const lineas = leer(cliente);
+  if (!lineas.length) return { ok: true, lineas: [] };
 
+  const listaActual = window.Precios?.getClienteVista()?.lista
+    || JSON.parse(localStorage.getItem('clientData') || '{}').priceList
+    || null;
+
+  // Traer a memoria los que falten, con la lista del cliente actual
+  const faltantes = lineas
+    .map(l => l.sku)
+    .filter(sku => !window.productManager?.getProduct(sku));
+
+  if (faltantes.length && window.productManagerInstance?.loadSpecificProducts) {
+    try {
+      await window.productManagerInstance.loadSpecificProducts(faltantes);
+    } catch (e) {
+      console.warn('[Carrito] No se pudieron cargar todos los productos:', e);
+    }
+  }
+
+  // Verificar uno por uno: ninguno puede quedar sin precio confirmado
+  const sinPrecio = [];
+  const conListaVieja = [];
+
+  lineas.forEach(l => {
+    const p = window.productManager?.getProduct(l.sku);
+    if (!p) { sinPrecio.push(l.sku); return; }
+    if (l.listaResp && listaActual && l.listaResp !== listaActual) {
+      conListaVieja.push(l.sku);
+    }
+  });
+
+  if (sinPrecio.length) {
+    return { ok: false, error: 'sin_precio', skus: sinPrecio };
+  }
+
+  return {
+    ok: true,
+    lineas: detalle(cliente),
+    lista: listaActual,
+    advertencias: conListaVieja
+  };
+}
 
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
-  cantidadDe, cantidadItems, detalle, total, totales, carritosAbiertos,
+  cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, getAjustePedido, setAjustePedido
 };
