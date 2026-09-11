@@ -535,9 +535,9 @@
   },
   "5625": {
     "nombre": "CHRISTIAN SEQUEIRA",
-    "margen": 40,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,11,12,13,10)"
+    "ultima_actualizacion": "Date(2026,8,11,14,55,41)"
   },
   "50607": {
     "nombre": "LA BOTICA FERRETERIA",
@@ -832,5 +832,11 @@
     "margen": 34,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,8,10,23,6,13)"
+  },
+  "20180": {
+    "nombre": "R.R FERRETERIA",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,8,11,17,1,45)"
   }
 }
