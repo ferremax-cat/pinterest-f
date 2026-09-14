@@ -229,22 +229,37 @@ document.addEventListener('DOMContentLoaded', () => {
  * real. Los valores fijos por resolucion fallan en cada celular distinto.
  */
 function acomodarBarraInfo() {
+    const nav = document.querySelector('nav');
     const sal = document.getElementById('barra-salud-financiera');
     const inf = document.getElementById('barra-info-contextual');
-    if (!inf) return;
+    const gal = document.querySelector('.gallery-container');
 
-    if (!sal || sal.style.display === 'none' || !sal.offsetHeight) {
-        inf.style.top = '';
-        return;
+    const salVisible = sal && sal.offsetHeight && sal.style.display !== 'none';
+    const infVisible = inf && getComputedStyle(inf).display !== 'none' && inf.offsetHeight;
+
+    // Todo se apila desde el final del buscador, en orden
+    let y = nav ? nav.getBoundingClientRect().bottom : 0;
+
+    if (salVisible) {
+        sal.style.setProperty('top', y + 'px', 'important');
+        y += sal.offsetHeight;
     }
 
-    // Medir el desfase entre el valor de top y donde aparece realmente:
-    // la barra puede tener margen propio
-    const topActual = parseFloat(getComputedStyle(inf).top) || 0;
-    const desfase = inf.getBoundingClientRect().top - topActual;
+    if (infVisible) {
+        inf.style.setProperty('top', (y - 2) + 'px', 'important');
+        y += inf.offsetHeight - 2;
+    }
 
-    const fin = sal.getBoundingClientRect().bottom;
-    inf.style.setProperty('top', (fin + 0) + 'px', 'important');
+    // El catalogo arranca debajo de todo, descontando su margen propio
+    if (salVisible || infVisible) {
+        // Anular el margen propio de la galeria: el espacio lo maneja
+        // este calculo, y sumar los dos deja un hueco
+        if (gal) gal.style.setProperty('margin-top', '0', 'important');
+        document.body.style.setProperty('padding-top', (y + 8) + 'px', 'important');
+    } else {
+        if (gal) gal.style.removeProperty('margin-top');
+        document.body.style.removeProperty('padding-top');
+    }
 }
 
 window.acomodarBarraInfo = acomodarBarraInfo;
@@ -294,5 +309,13 @@ window.testSaludFinanciera = function(estado = 'verde') {
     
     console.log(`[TEST] Mostrando barra en estado: ${estado}`);
 };
+
+// La barra de info aparece y desaparece con las busquedas: acomodar
+// cuando eso pasa, no solo al mostrar u ocultar la financiera
+const obsBarras = new MutationObserver(() => acomodarBarraInfo());
+document.addEventListener('DOMContentLoaded', () => {
+    const inf = document.getElementById('barra-info-contextual');
+    if (inf) obsBarras.observe(inf, { attributes: true, attributeFilter: ['class', 'style'] });
+});
 
 console.log('[Salud Financiera] Script cargado. Usa testSaludFinanciera("verde|amarillo|rojo") para probar.');
