@@ -1608,6 +1608,32 @@ body:not(.salud-financiera-activa) .barra-info-contextual {
     font-weight: 600;
 }
 
+/* Barra compacta: solo nombre y cupo a la vista, el resto al desplegar */
+.barra-salud-financiera .cliente-info {
+     display: flex !important;
+     align-items: center;
+     justify-content: space-between;
+     gap: 10px;
+     width: 100%;
+     flex-wrap: nowrap !important;
+}
+.barra-salud-financiera .cliente-nombre {
+     min-width: 0;
+     flex: 0 1 auto;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     white-space: nowrap;
+}
+.barra-salud-financiera .cliente-info .dato-item {
+     flex: 0 0 auto;
+     white-space: nowrap;
+}
+
+.barra-salud-financiera .cliente-info::after {
+     display: none !important;
+}
+
+
 /* ========================================
    BARRA-INFO: Ajustes según estado modo cliente
    ======================================== */
@@ -1836,6 +1862,34 @@ body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .bar
      .container-img .bottom-row .price-tag {
           font-size: 13px !important;
           padding: 3px 6px !important;
+     }
+}
+
+@media screen and (max-width: 375px) {
+     nav {
+          flex-wrap: wrap;
+          gap: 0;
+     }
+     nav > .img-logo,
+     nav > .btn,
+     nav > .price-toggle-container,
+     nav > .iconos {
+          order: 1;
+     }
+     nav > .input-container {
+          order: 2;
+          width: 100% !important;
+          flex: 0 0 100% !important;
+     }
+     nav > .btn {
+          min-width: 0 !important;
+          padding: 0 10px !important;
+     }
+     nav > .iconos {
+          margin-left: 0 !important;
+     }
+     nav > .price-toggle-container {
+          margin: 0 2px !important;
      }
 }
 

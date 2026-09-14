@@ -42,36 +42,31 @@
           <div class="barra-salud-content">
                <div class="cliente-info">
                     <div class="cliente-nombre">
-                         💰 <span id="cliente-nombre">---</span>
+                         <span id="cliente-nombre">---</span>
                          <span id="cliente-lista" class="cliente-lista"></span>
                     </div>
-                    
-                    <!-- Cupo (siempre visible) -->
+
+                    <!-- Cupo: el otro dato que se consulta siempre -->
                     <div class="dato-item">
                          <span class="dato-label">Cupo:</span>
                          <span class="cupo-valor cupo-verde" id="cupo-valor">$0</span>
                     </div>
-                    
-                    <!-- Datos principales (ocultos en móvil colapsado) -->
-                    <div class="cliente-datos">
-                         <div class="dato-item">
-                              <span class="dato-label">PG Prom 3M:</span>
-                              <span class="dato-valor" id="pg-prom">$0</span>
-                         </div>
-                         <div class="dato-item">
-                              <span class="dato-label">Compró este mes:</span>
-                              <span class="dato-valor" id="compro">$0</span>
-                         </div>
-                    </div>
                </div>
-               
-               <!-- Botón expandir (solo móvil) -->
+
                <button class="boton-expandir" id="btn-expandir-salud">
                     <span id="btn-expandir-texto">▼</span>
                </button>
-               
-               <!-- Datos expandidos (ocultos por defecto en móvil) -->
+
+               <!-- El resto queda en el detalle, que se abre a demanda -->
                <div class="datos-expandidos" id="datos-expandidos">
+                    <div class="dato-row">
+                         <span class="dato-label">PG Prom 3M:</span>
+                         <span class="dato-valor" id="pg-prom">$0</span>
+                    </div>
+                    <div class="dato-row">
+                         <span class="dato-label">Compró este mes:</span>
+                         <span class="dato-valor" id="compro">$0</span>
+                    </div>
                     <div class="dato-row">
                          <span class="dato-label">Saldo Total:</span>
                          <span class="dato-valor" id="saldo-total">$0</span>
@@ -80,7 +75,6 @@
                          <span class="dato-label">Pago este mes:</span>
                          <span class="dato-valor" id="pago-mes">$0</span>
                     </div>
-                    <!-- ⭐ NUEVA FILA ⭐ -->
                     <div class="dato-row">
                          <span class="dato-label">Última operación:</span>
                          <span class="dato-valor" id="ult-operacion">--/--/----</span>
@@ -2408,6 +2402,16 @@
                          padding: 0 2px;            /* Padding mínimo */
                          box-sizing: content-box;   /* No incluir padding en el ancho */
                          overflow: visible;         /* Permitir que el contenido sea visible */
+                    }
+
+                       /* Pantallas muy angostas: recortar para que los controles
+                       entren en la primera linea junto al logo */
+                       
+                    @media screen and (max-width: 375px) {
+                         #marginInput {
+                              width: 42px !important;
+                              min-width: 42px !important;
+                         }
                     }
                     
                     #marginSaveBtn {
