@@ -1893,6 +1893,21 @@ body.salud-financiera-activa:has(.barra-salud-financiera:not(.modo-cliente) .bar
      }
 }
 
+/* Lista de precios: distintivo suave, como el resto de las etiquetas */
+.barra-salud-financiera .cliente-lista {
+     display: inline-block;
+     background: rgba(255, 193, 7, 0.2);
+     color: #ffc107;
+     padding: 2px 8px;
+     border-radius: 10px;
+     font-size: 12px;
+     font-weight: 600;
+     margin-left: 6px;
+     flex-shrink: 0;
+     white-space: nowrap;
+}
+
+
 /* Evitar que el tiron hacia abajo recargue la pagina en el celular */
 html, body {
      overscroll-behavior-y: contain;
