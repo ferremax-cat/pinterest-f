@@ -2454,7 +2454,7 @@
                     }
 
                     /* --- Carrito: icono en la tarjeta --- */
-                                        .btn-carrito {
+                    .btn-carrito {
                          position: absolute;
                          top: 8px;
                          right: 8px;
@@ -2463,8 +2463,8 @@
                          color: #fff;
                          border: none;
                          border-radius: 50%;
-                         width: 28px;
-                         height: 28px;
+                         width: 34px;
+                         height: 34px;
                          display: inline-flex;
                          align-items: center;
                          justify-content: center;
@@ -2474,6 +2474,12 @@
                     }
                     .btn-carrito:hover { background: #333; }
                     .btn-carrito.con-items { background: #e60023; }
+
+                    .btn-carrito::before {
+                         content: '';
+                         position: absolute;
+                         inset: -8px;
+                    }
 
                     .badge-carrito {
                          position: absolute;
