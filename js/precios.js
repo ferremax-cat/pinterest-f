@@ -51,6 +51,7 @@ export async function setClienteVista(cuenta) {
   // El disponible es de cada cliente: al cambiar hay que descartarlo
   sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
+  window.Carrito?.refrescarBotonFlotante();
   return info;
 }
 

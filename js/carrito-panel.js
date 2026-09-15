@@ -716,4 +716,18 @@ window.addEventListener('resize', () => {
   if (document.getElementById('carrito-panel')?.style.display === 'flex') ajustarAltura();
 });
 
+// Aviso cuando se intenta cargar sin cliente elegido
+document.addEventListener('carrito:sin-cliente', () => {
+  document.querySelectorAll('.aviso-sin-cliente').forEach(a => a.remove());
+  const av = document.createElement('div');
+  av.className = 'aviso-sin-cliente';
+  av.textContent = 'Elegí un cliente antes de cargar productos';
+  av.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
+      'bottom:80px;background:#dc2626;color:#fff;padding:12px 18px;' +
+      'border-radius:8px;font-size:13px;z-index:99999;text-align:center;' +
+      'box-shadow:0 4px 14px rgba(0,0,0,.3)';
+  document.body.appendChild(av);
+  setTimeout(() => av.remove(), 3000);
+});
+
 window.CarritoPanel = { abrir, cerrar };

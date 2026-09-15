@@ -719,7 +719,38 @@ class BusquedaClientes {
             console.log('[Búsqueda Clientes] X original restaurado');
         }
     }
+
+    
+    
 }
+
+/**
+ * Restaurar el cliente en vista despues de una recarga. El dato queda en
+ * la sesion, pero sin esto la barra no vuelve y el estado queda a medias.
+ */
+async function restaurarClienteEnVista() {
+    const guardado = sessionStorage.getItem('clienteVista');
+    if (!guardado) return;
+
+    let cli;
+    try { cli = JSON.parse(guardado); } catch (e) { return; }
+    if (!cli?.cuenta) return;
+
+    // Esperar a que la instancia tenga los clientes cargados
+    let intentos = 0;
+    while (!window.busquedaClientes?.clientesData && intentos < 25) {
+        await new Promise(r => setTimeout(r, 200));
+        intentos++;
+    }
+
+    const inst = window.busquedaClientes;
+    if (!inst?.clientesData?.[cli.cuenta]) return;
+
+    await inst.seleccionarCliente(cli.cuenta);
+    console.log('[Búsqueda Clientes] Cliente restaurado tras recarga:', cli.cuenta);
+}
+
+setTimeout(restaurarClienteEnVista, 1500);
 
 // Crear instancia global
 window.busquedaClientes = new BusquedaClientes();

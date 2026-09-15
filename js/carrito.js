@@ -13,6 +13,19 @@ const PREFIJO = 'carrito::';
 
 // ---------- identidad ----------
 
+/**
+ * El vendedor necesita un cliente elegido: sin eso el pedido no tiene
+ * destinatario y los precios que se muestran no son los de nadie.
+ */
+function faltaCliente() {
+  const rol = sessionStorage.getItem('authRol')
+      || window.menuFuncionalidades?.usuarioActual?.rol
+      || '';
+  if (rol === 'cliente_estandar') return false;
+  return !window.Precios?.getClienteVista();
+}
+
+
 function getOperador() {
   const u = window.menuFuncionalidades?.usuarioActual;
   return String(u?.clave || 'anonimo');
@@ -73,6 +86,12 @@ function guardar(lineas, cliente) {
 // ---------- operaciones ----------
 
 export function agregar(sku, cantidad, cliente) {
+
+  if (faltaCliente()) {
+    document.dispatchEvent(new CustomEvent('carrito:sin-cliente'));
+    return null;
+  }
+
   const codigo = String(sku).trim().toUpperCase();
   const cant = Number(cantidad);
   if (!codigo || !cant || cant <= 0) return null;
@@ -211,6 +230,12 @@ export function ponerIcono(contenedor, sku) {
   const sobreImagen = contenedor.parentElement || contenedor;
   let btn = sobreImagen.querySelector(':scope > .btn-carrito');
 
+  // Sin cliente elegido no se puede cargar nada: el icono no va
+  if (faltaCliente()) {
+    if (btn) btn.remove();
+    return;
+  }
+
   if (!btn) {
     btn = document.createElement('button');
     btn.className = 'btn-carrito';
@@ -287,6 +312,10 @@ export function crearBotonFlotante() {
   const cont = document.querySelector('.btn-inferiores');
   const existente = cont?.querySelector('a');
 
+    // El segundo boton inferior no se usa: sacarlo libera espacio
+  const segundo = cont?.querySelectorAll('a')[1];
+  if (segundo) segundo.remove();
+
   let btn;
   if (existente) {
     btn = existente;
@@ -309,8 +338,18 @@ export function crearBotonFlotante() {
 }
 
 export function refrescarBotonFlotante() {
+
+
+
   const btn = document.getElementById('fab-carrito');
   if (!btn) return;
+
+  // Ocultar el boton flotante mientras no haya cliente elegido
+  if (faltaCliente()) {
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = '';
 
   const n = cantidadItems();
   btn.innerHTML = SVG_CARRITO_GRANDE + (n ? `<span class="fab-badge">${n}</span>` : '');
