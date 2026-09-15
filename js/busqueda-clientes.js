@@ -490,7 +490,19 @@ class BusquedaClientes {
             || window.menuFuncionalidades?.usuarioActual?.rol
             || '';
         if (window.Precios && rol !== 'cliente_estandar') {
-            await window.Precios.setClienteVista(cuenta);
+            const aplicado = await window.Precios.setClienteVista(cuenta);
+            if (!aplicado) {
+                const av = document.createElement('div');
+                av.textContent = 'El cliente ' + cuenta + ' no tiene lista de precios asignada';
+                av.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
+                    'bottom:80px;background:#dc2626;color:#fff;padding:12px 18px;' +
+                    'border-radius:8px;font-size:13px;z-index:99999;max-width:90vw;' +
+                    'text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.3)';
+                document.body.appendChild(av);
+                setTimeout(() => av.remove(), 3000);
+                console.warn('[Búsqueda Clientes] Cliente sin lista de precios:', cuenta);
+                return;
+            }
         }
 
 
