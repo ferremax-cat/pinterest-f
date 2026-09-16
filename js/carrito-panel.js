@@ -287,7 +287,7 @@ function vistaVendedor() {
       <div class="cp-lista">${filas}</div>
       <div class="cp-pie">
         <div class="cp-desc-total">
-          <span class="cp-total-rot">Sobre el total</span>
+          <span class="cp-total-rot">Al total</span>
           <select class="cp-desc-pedido">
             <option value="0">Sin descuento</option>
             ${(config?.descuentosTotal || [5,7,10]).map(d =>
