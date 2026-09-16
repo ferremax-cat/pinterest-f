@@ -18,6 +18,8 @@ const PREFIJO = 'carrito::';
  * destinatario y los precios que se muestran no son los de nadie.
  */
 function faltaCliente() {
+
+  if (sessionStorage.getItem('authDegradado') === '1') return true;  
   const rol = sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol
       || '';
@@ -537,6 +539,26 @@ export async function detalleVerificado(cliente) {
     advertencias: conListaVieja
   };
 }
+
+// Aviso permanente cuando el sistema de pedidos no responde: el vendedor
+// tiene que saberlo antes de empezar a trabajar, no al confirmar
+function avisarSinServicio() {
+  const rol = sessionStorage.getItem('authRol')
+      || window.menuFuncionalidades?.usuarioActual?.rol
+      || '';
+  if (rol === 'cliente_estandar') return;
+  if (sessionStorage.getItem('authDegradado') !== '1') return;
+  if (document.getElementById('franja-sin-servicio')) return;
+
+  const f = document.createElement('div');
+  f.id = 'franja-sin-servicio';
+  f.textContent = 'Sistema de pedidos no disponible — solo consulta de precios';
+  f.style.cssText = 'position:fixed;left:0;right:0;bottom:0;background:#dc2626;' +
+      'color:#fff;padding:8px 14px;font-size:12px;text-align:center;z-index:9998';
+  document.body.appendChild(f);
+}
+
+setTimeout(avisarSinServicio, 2000);
 
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,

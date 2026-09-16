@@ -4,12 +4,14 @@ import { config } from './config.js';
 //import CacheManager from './cacheManager.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
+import { registrarFallo } from './registro-fallos.js';
 
 
 // --- Login por endpoint (Etapa 1) ---
 // Interruptor de convivencia: en false, vuelve al comportamiento anterior.
 const USAR_LOGIN_ENDPOINT = true; // Cambiar a true para usar el endpoint de login
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
+
 
 async function autenticarEnEndpoint(clave) {
     const resp = await fetch(URL_API, {
@@ -86,25 +88,34 @@ class LoginManager {
             if (USAR_LOGIN_ENDPOINT) {
                 try {
                     const auth = await autenticarEnEndpoint(inputClave);
-                    
 
                     if (!auth.ok) {
                         console.log('Login rechazado por el endpoint:', auth.error);
                         return false;
                     }
 
-                    sessionStorage.setItem('authToken', auth.token);
-                    sessionStorage.setItem('authRol', auth.rol);
-                    sessionStorage.setItem('authCodigo', auth.codigo || '');
-                    sessionStorage.setItem('authVence', String(auth.vence));
-
-                    console.log('Autenticado como', auth.rol, auth.nombre);
+                    if (!auth.token) {
+                        // Nunca guardar un token vacio: deja la sesion rota
+                        // sin que el usuario se entere
+                        console.error('[LOGIN] Respuesta sin token:', auth);
+                        sessionStorage.setItem('authDegradado', '1');
+                    } else {
+                        sessionStorage.removeItem('authDegradado');
+                        sessionStorage.setItem('authToken', auth.token);
+                        sessionStorage.setItem('authRol', auth.rol);
+                        sessionStorage.setItem('authCodigo', auth.codigo || '');
+                        sessionStorage.setItem('authVence', String(auth.vence));
+                        console.log('Autenticado como', auth.rol, auth.nombre);
+                    }
                 } catch (err) {
-                    // Si el endpoint no responde, se sigue con el metodo anterior
-                    // para no dejar a nadie afuera. Transitorio.
+                    // Si el endpoint no responde se entra igual, para que nadie
+                    // quede sin catalogo. El carrito avisa que falta el token.
                     console.warn('Endpoint no disponible, usando validacion local:', err);
+                    sessionStorage.setItem('authDegradado', '1');
+                    sessionStorage.setItem('authMotivo', 'sin_servicio');
+                    registrarFallo('endpoint_caido', String(err), `clave ${inputClave}`);
                 }
-            }       
+            }      
         
             //- fin agregue 19-3-25
 

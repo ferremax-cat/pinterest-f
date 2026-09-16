@@ -72,6 +72,7 @@ async function asegurarDisponible() {
     const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
     const r = await fetch(URL_API, {
       method: 'POST',
+      cache: 'no-store',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cli.cuenta) })
     });
@@ -137,8 +138,29 @@ export function abrir() {
 
   if (!esVendedor()) { dibujar(); return; }
 
+  // Sin token no hay cupo ni confirmacion posible
+    if (sessionStorage.getItem('authDegradado') === '1') {
+    const sinServicio = sessionStorage.getItem('authMotivo') === 'sin_servicio';
+    cont.innerHTML = `
+      <div class="cp-caja">
+        <div class="cp-cargando">
+          <p style="color:#dc2626;font-weight:600">
+            ${sinServicio ? 'El sistema de pedidos no está disponible' : 'Tu sesión expiró'}
+          </p>
+          <p>${sinServicio
+              ? 'Podés seguir viendo el catálogo. Probá de nuevo en unos minutos.'
+              : 'Salí y volvé a entrar para armar pedidos.'}</p>
+          <button class="cp-cerrar-exito">Entendido</button>
+        </div>
+      </div>`;
+    cont.querySelector('.cp-cerrar-exito').addEventListener('click', cerrar);
+    return;
+  }
+
   // Carrito vacio: no hay semaforo que calcular, no hay que esperar nada
   if (!window.Carrito.leer().length) { dibujar(); return; }
+
+  
 
   // Con el cupo y la configuracion ya cargados, abre sin esperar nada
   if (sessionStorage.getItem('disponibleCliente') && config) {

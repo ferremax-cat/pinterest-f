@@ -534,9 +534,12 @@ class BusquedaClientes {
                         esRevendedor: d.esRevendedor
                     };
 
-                    // Guardar el disponible para el semaforo del carrito
-                    sessionStorage.setItem('disponibleCliente', String(d.disponible ?? ''));
-                    sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
+                    // Solo guardar si el dato llego: si no, dejar vacio para
+                    // que el panel vuelva a intentarlo
+                    if (d.disponible !== undefined && d.disponible !== null) {
+                        sessionStorage.setItem('disponibleCliente', String(d.disponible));
+                        sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
+                    }
 
                     if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
                         window.BarraSaludFinanciera.actualizarDatos(actualizados);
