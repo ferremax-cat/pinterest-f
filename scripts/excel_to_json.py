@@ -343,22 +343,19 @@ def process_promotion_row(result, row):
     """Procesa una fila de promociones desde Google Sheets"""
     codigo = str(row['c'][0]['v'])
 
-    #24-3
+    
     # Truncar el precio para eliminar los decimales
     precio = 0
     if row['c'][2] and isinstance(row['c'][2]['v'], (int, float)):
-        precio = int(row['c'][2]['v'])
-    #24-3
-
+        precio = round(float(row['c'][2]['v']), 2)
 
     if 'promotions' not in result:
         result['promotions'] = {}
     result['promotions'][codigo] = {
         'tipoLista': row['c'][1]['v'] if row['c'][1] else '',
         'precio': precio,
-        #24-3 'precio': row['c'][2]['v'] if row['c'][2] else 0,
         'vigencia': row['c'][3]['v'] if row['c'][3] else '',
-        'grupos': str(row['c'][4]['v']).split(',') if row['c'][4] else []
+        'grupos': [g.strip() for g in str(row['c'][4]['v']).split('.') if g.strip()] if row['c'][4] else []
     }
 
 # Mantener todas las funciones existentes de procesamiento local
@@ -444,7 +441,7 @@ def process_groups():
             groups_data = {"groups": {}}
             for _, row in df.iterrows():
                 group_name = row['NOMBRE_GRUPO']
-                clients = str(row['CLIENTES']).split(',')
+                clients = [c.strip() for c in str(row['CLIENTES']).split('.') if c.strip()]
                 groups_data["groups"][group_name] = clients
                 
             # Guardar JSON
@@ -471,19 +468,22 @@ def process_promotions():
         for _, row in df.iterrows():
             code = row['CODIGO_PRODUCTO']
 
-             #24-3   
+              
              # Truncar el precio para eliminar los decimales
             precio = 0
             if isinstance(row['PRECIO_ESPECIAL'], (int, float)):
-                precio = int(row['PRECIO_ESPECIAL'])
-            #24-3
+                precio = round(float(row['PRECIO_ESPECIAL']), 2)
+
+            cantidad_minima = 1
+            if isinstance(row.get('CANTIDAD_MINIMA'), (int, float)):
+                cantidad_minima = int(row['CANTIDAD_MINIMA'])
 
             promotions_data["promotions"][code] = {
                 "tipoLista": row['TIPO_LISTA'],
                 "precio": precio,
-                #24-3 "precio": row['PRECIO_ESPECIAL'],
+                "cantidadMinima": cantidad_minima,
                 "vigencia": row['VIGENCIA_HASTA'],
-                "grupos": row['GRUPOS'].split(',')
+                "grupos": [g.strip() for g in str(row['GRUPOS']).split('.') if g.strip()]
             }
             
         # Guardar JSON
