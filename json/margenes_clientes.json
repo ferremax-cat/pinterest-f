@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 50,
+    "margen": 5,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,15,12,47,27)"
+    "ultima_actualizacion": "Date(2026,8,17,10,36,9)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,11,12,52,22)"
+    "ultima_actualizacion": "Date(2026,8,16,14,52,45)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -81,7 +81,7 @@
     "nombre": "J.R. FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,10,15,48,52)"
+    "ultima_actualizacion": "Date(2026,8,17,12,13,8)"
   },
   "20310": {
     "nombre": "AMANDA FERRETERIA",
@@ -153,7 +153,7 @@
     "nombre": "LEOPARDI FERRETERIA",
     "margen": 55,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,14,11,46,1)"
+    "ultima_actualizacion": "Date(2026,8,16,15,3,13)"
   },
   "20205": {
     "nombre": "CASA DAVID CORRALON MAT.de CON",
@@ -325,9 +325,9 @@
   },
   "50224": {
     "nombre": "JUANCHI CORDERO FERRETERIA",
-    "margen": 60,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,0,13,9,27,52)"
+    "ultima_actualizacion": "Date(2026,8,16,14,52,22)"
   },
   "60286": {
     "nombre": "FERRETERIA CASERES",
@@ -495,7 +495,7 @@
     "nombre": "FERRETERIA FERREMIX",
     "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,7,12,2,35)"
+    "ultima_actualizacion": "Date(2026,8,15,16,12,14)"
   },
   "20106": {
     "nombre": "LA PAZ CORRALON MAT.",
@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 40,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,15,14,27,4)"
+    "ultima_actualizacion": "Date(2026,8,17,12,45,43)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -673,9 +673,9 @@
   },
   "20267": {
     "nombre": "FERRETERIA VIGO",
-    "margen": 0,
+    "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,10,17,25,36)"
+    "ultima_actualizacion": "Date(2026,8,15,15,42,4)"
   },
   "61012": {
     "nombre": "EL TREBOL FERRETERIA",
@@ -813,7 +813,7 @@
     "nombre": "FERRETERIA L y C",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,14,17,26,5)"
+    "ultima_actualizacion": "Date(2026,8,15,18,27,28)"
   },
   "920": {
     "nombre": "ESTERCITA FERRETERIA",
@@ -844,5 +844,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,8,11,17,54,49)"
+  },
+  "61007": {
+    "nombre": "LOS PRIMOS FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,8,17,7,46,51)"
   }
 }
