@@ -175,6 +175,35 @@ export function pintarPrecio(elemento, sku) {
   }
 
 
+    // Cinta de promocion: el precio de la pildora sigue siendo el de lista,
+  // la cinta avisa que hay un precio especial por cantidad
+  if (window.Promos) {
+    const fila2 = elemento.parentElement;
+    const cont2 = fila2?.parentElement;
+    const promo = window.Promos.promoDe(sku);
+
+    let cinta = cont2?.querySelector(':scope > .cinta-promo');
+    
+
+        if (promo && cont2) {
+      if (!cinta) {
+        cinta = document.createElement('div');
+        cinta.className = 'cinta-promo';
+        cinta.style.cssText = 'position:absolute !important;top:18px !important;' +
+          'left:0 !important;width:auto !important;height:auto !important;' +
+          'z-index:20 !important;background:#639922 !important;color:#fff !important;' +
+          'font-size:11px !important;font-weight:600 !important;' +
+          'padding:3px 10px 3px 8px !important;border-radius:0 12px 12px 0 !important;' +
+          'box-shadow:0 1px 4px rgba(0,0,0,.3) !important;margin:0 !important;';
+        cont2.appendChild(cinta);
+      }
+      // Actualizar siempre: la cantidad minima puede cambiar segun el cliente
+      cinta.textContent = `Promo desde ${promo.cantidadMinima} u.`;
+    } else {
+      cinta?.remove();
+    }
+  }
+
   // El ancho de la pildora esta definido en cuatro archivos con reglas
   // que se pisan entre si. Se calcula aca sobre el contenedor real.
   const fila = elemento.parentElement;
@@ -227,6 +256,7 @@ export function acomodarPildoras() {
 
     fila.style.bottom = 'auto';
     fila.style.top = propuesto + 'px';
+    
   });
 }
 
