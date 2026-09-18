@@ -272,9 +272,9 @@ function vistaVendedor() {
     return `
       <div class="cp-fila" data-i="${i}" data-sku="${l.sku}">
         <div class="cp-barra" style="background:${col}"></div>
-        <div class="cp-desc">
+          <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
-          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : ''}</p>
+          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}</p>
         </div>
         <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
         <span class="cp-sub" style="color:${col}">${l.subtotal !== null ? fmt(l.subtotal) : '--'}</span>
@@ -320,6 +320,7 @@ function vistaVendedor() {
             ${(config?.observaciones || []).map(o =>
               `<option value="${o}" ${aj.motivo === o ? 'selected' : ''}>${o}</option>`).join('')}
           </select>
+          ${tot.enPromo ? `<span class="cp-nota-promo">${fmt(tot.enPromo)} en promoción, sin descuento</span>` : ''}
         </div>
         <div class="cp-pie-abajo">
           <div>
@@ -353,7 +354,7 @@ function vistaCliente() {
     <div class="cp-img" data-sku="${l.sku}"${l.img ? ` style="background-image:url(${l.img})"` : ''}></div>
       <div class="cp-desc-cli">
         <p class="cp-nombre-cli">${l.nombre || l.sku}</p>
-        <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}</p>
+        <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : ''}</p>
         <div class="cp-linea-cli">
           <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
           <span class="cp-unit">${l.precio !== null ? fmt(l.precio) : '--'} c/u</span>
@@ -494,6 +495,22 @@ function abrirMenu(btn) {
 
   const l = window.Carrito.detalle().find(x => x.sku === sku);
   if (!l) return;
+
+  // Las lineas en promocion tienen precio cerrado: solo se puede mover o quitar
+  if (l.enPromo) {
+    const pan = document.createElement('div');
+    pan.className = 'cp-panel-menu';
+    pan.innerHTML = `
+      <span class="cp-ref">Precio de promoción: no admite ajustes</span>
+      <button class="cp-mover" data-sku="${sku}">Mover</button>`;
+    fila.insertAdjacentElement('afterend', pan);
+    pan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    pan.querySelector('.cp-mover').addEventListener('click', () => {
+      moviendo = sku;
+      dibujar();
+    });
+    return;
+  }
 
   const cfg = config || { descuentosLinea: [5,7,10], observaciones: [] };
   const cli = window.Precios?.getClienteVista();
