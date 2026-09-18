@@ -264,17 +264,52 @@ function abrirCampoCantidad(btn, sku) {
 
   const pop = document.createElement('div');
   pop.className = 'popover-cantidad';
+  const promo = window.Promos?.promoDe(sku);
+
   pop.innerHTML = `
     <input type="number" min="0" step="1" value="${actual || ''}" placeholder="0" class="input-cantidad">
     <button type="button" class="btn-ok-cantidad">OK</button>
+    <div class="aviso-promo"></div>
     ${p?.bulto ? `<div class="nota-bulto">Bulto: ${p.bulto}</div>` : ''}
   `;
 
   btn.parentElement.appendChild(pop);
-    // El teclado del celular tapa la mitad inferior: traer el campo a la vista
+
+  // El z-index del CSS queda pisado por otras reglas del contenedor
+  pop.style.setProperty('z-index', '9000', 'important');
+
+  // El teclado del celular tapa la mitad inferior: traer el campo a la vista
   setTimeout(() => pop.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
 
   const input = pop.querySelector('.input-cantidad');
+
+    // Aviso del ahorro: se actualiza mientras escribe, para que vea cuanto
+  // le falta llegar al precio promocional
+  const avisoPromo = pop.querySelector('.aviso-promo');
+
+    function refrescarAviso() {
+    if (!promo || !avisoPromo) return;
+
+    const n = parseInt(input.value, 10) || 0;
+    const lista = window.Precios?.precioLista(sku) || 0;
+    const fmt = window.Precios.formatearPrecio;
+
+    if (n >= promo.cantidadMinima) {
+      const ahorro = (lista - promo.precio) * n;
+      avisoPromo.innerHTML =
+        `<b class="precio-promo">${fmt(promo.precio)}</b> c/u` +
+        `<span class="linea-ahorro">Ahorrás ${fmt(ahorro)}</span>`;
+      avisoPromo.className = 'aviso-promo activa';
+    } else {
+      avisoPromo.innerHTML =
+        `x${promo.cantidadMinima} u. → <b class="precio-promo">${fmt(promo.precio)}</b> c/u`;
+      avisoPromo.className = 'aviso-promo';
+    }
+  }
+
+  input.addEventListener('input', refrescarAviso);
+  refrescarAviso();
+
   input.focus();
   input.select();
 
@@ -543,12 +578,15 @@ export async function detalleVerificado(cliente) {
 // Aviso permanente cuando el sistema de pedidos no responde: el vendedor
 // tiene que saberlo antes de empezar a trabajar, no al confirmar
 function avisarSinServicio() {
-  const rol = sessionStorage.getItem('authRol')
-      || window.menuFuncionalidades?.usuarioActual?.rol
-      || '';
-  if (rol === 'cliente_estandar') return;
-  if (sessionStorage.getItem('authDegradado') !== '1') return;
-  if (document.getElementById('franja-sin-servicio')) return;
+ 
+  const franja = document.getElementById('franja-sin-servicio');
+
+  // Si el servicio volvio, sacar la franja que haya quedado
+  if (sessionStorage.getItem('authDegradado') !== '1') {
+    franja?.remove();
+    return;
+  }
+  if (franja) return;
 
   const f = document.createElement('div');
   f.id = 'franja-sin-servicio';

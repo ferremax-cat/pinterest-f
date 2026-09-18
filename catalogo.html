@@ -2505,7 +2505,7 @@
                          position: absolute; bottom: 38px; right: 0; background: #fff;
                          border: 1px solid #ddd; border-radius: 8px; padding: 8px;
                          box-shadow: 0 4px 14px rgba(0,0,0,0.18); z-index: 9000;
-                         display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 145px;
+                         display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 165px;
                     }
 
                     .input-cantidad {
@@ -2519,6 +2519,36 @@
                     }
 
                     .nota-bulto { width: 100%; font-size: 10px; color: #777; text-align: center; }
+
+                    .aviso-promo {
+                         display: block !important;
+                         width: 100%;
+                         font-size: 13px;
+                         line-height: 1.3;
+                         color: #4d7a1a;
+                         margin-top: 0;
+                         white-space: nowrap;
+                         margin-left: -10px;
+                    }
+                    .aviso-promo.activa {
+                         color: #fff;
+                         background: #639922;
+                         border-radius: 5px;
+                         padding: 3px 5px;
+                         font-weight: 600;
+                    }
+                    .aviso-promo:empty { display: none; }
+                    .aviso-promo .linea-precio,
+                    .aviso-promo .linea-ahorro {
+                         display: block !important;
+                         width: 100%;
+                         margin-top: 3px;
+                         font-weight: 400;
+                    }
+                    .aviso-promo .precio-promo {
+                         font-weight: 700;
+                         font-size: 14px;
+                    }
 
                     /* --- Carrito: boton flotante --- */
                     .fab-carrito {
