@@ -11,6 +11,21 @@
 
 const PREFIJO = 'carrito::';
 
+
+
+// Mapa de imagenes: se carga una vez y sirve para los productos que se
+// agregan sin haber pasado por una tarjeta del catalogo
+let mapaImagenes = null;
+
+(async () => {
+  try {
+    const r = await fetch('./json/catalogo_imagenes.json');
+    mapaImagenes = (await r.json()).images || {};
+  } catch (e) {
+    mapaImagenes = {};
+  }
+})();
+
 // ---------- identidad ----------
 
 /**
@@ -109,8 +124,14 @@ export function agregar(sku, cantidad, cliente) {
 
     // Guardar la imagen que ya cargo el catalogo: si el usuario busca otra
     // cosa, la tarjeta desaparece y el carrito se queda sin la referencia
-    const img = document.querySelector(`.price-tag[data-sku="${codigo}"]`)
+        // Primero la del catalogo si esta en pantalla; si no, el mapa de imagenes
+        // Primero la del catalogo si esta en pantalla; si no, el mapa de imagenes
+    let img = document.querySelector(`.price-tag[data-sku="${codigo}"]`)
       ?.closest('.container-img')?.querySelector('img')?.src || null;
+
+    if (!img && mapaImagenes?.[codigo]) {
+      img = `https://lh3.googleusercontent.com/d/${mapaImagenes[codigo]}`;
+    }
 
     // Respaldo del precio: el manager carga productos bajo demanda y puede
     // no tenerlo mas adelante. El precio vigente se sigue pidiendo a Precios

@@ -2856,6 +2856,41 @@
                     }
                     .cp-aviso-error { background: #dc2626; }
                     .cp-caja { position: relative; }
+
+
+                                        .pp-caja {
+                         background: #fff; border-radius: 12px; width: 420px;
+                         max-width: 94vw; max-height: 80vh; overflow: hidden;
+                         display: flex; flex-direction: column;
+                         box-shadow: 0 8px 32px rgba(0,0,0,.3);
+                    }
+                    .pp-cab {
+                         padding: 13px 16px; border-bottom: 1px solid #e5e5e5;
+                         display: flex; align-items: center; justify-content: space-between;
+                    }
+                    .pp-titulo { margin: 0; font-size: 15px; font-weight: 600; }
+                    .pp-sub { margin: 2px 0 0; font-size: 12px; color: #777; }
+                    .pp-cerrar {
+                         background: none; border: none; font-size: 24px;
+                         color: #777; cursor: pointer; padding: 0 4px; line-height: 1;
+                    }
+                    .pp-lista { overflow-y: auto; padding: 0 16px; }
+                    .pp-fila {
+                         display: flex; align-items: center; gap: 10px;
+                         padding: 11px 0; border-bottom: 1px solid #eee;
+                    }
+                    .pp-desc { flex: 1; min-width: 0; }
+                    .pp-nombre { margin: 0; font-size: 13px; line-height: 1.3; }
+                    .pp-meta { margin: 1px 0 0; font-size: 11px; color: #999; }
+                    .pp-precio { margin: 4px 0 0; font-size: 12px; color: #639922; }
+                    .pp-lista-tachada, .pp-lista { }
+                    .pp-precio .pp-lista { color: #999; margin-left: 6px; }
+                    .pp-add {
+                         width: 32px; height: 32px; border-radius: 50%;
+                         background: #1a1a1a; color: #fff; border: none;
+                         font-size: 16px; cursor: pointer; flex-shrink: 0;
+                    }
+                    .pp-add.pp-cargado { background: #e60023; font-size: 12px; font-weight: 700; }
                     
                `;
                
@@ -4290,6 +4325,7 @@
      <script type="module" src="js/carrito-panel.js"></script>
      <script type="module" src="js/registro-fallos.js"></script>
      <script type="module" src="js/promociones.js"></script>
+     <script type="module" src="js/promo-panel.js"></script>
 
      <!--<script type="module" src="./js/search/search-integration-enhanced.js"></script>-->
      <!--<script type="module" src="./js/search/search-diagnostics.js"></script>-->
