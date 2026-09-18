@@ -180,8 +180,25 @@ export function detalle(cliente) {
         return { ...l, precioBase: null, precio: null, subtotal: null, descEfectivo: 0 };
       }
 
+      // La promocion manda sobre cualquier ajuste: es un precio cerrado
+      const promo = window.Promos?.promoDe(l.sku);
+      const enPromo = !!promo && l.cantidad >= promo.cantidadMinima;
+
+      if (enPromo) {
+        const precio = promo.precio;
+        return {
+          ...l,
+          precioBase: base,
+          precio,
+          subtotal: Math.round(precio * l.cantidad * 100) / 100,
+          descEfectivo: base ? Math.round((1 - precio / base) * 1000) / 10 : 0,
+          enPromo: true,
+          cantidadMinima: promo.cantidadMinima
+        };
+      }
+
       const desc = Number(l.descuento) || 0;
-            // Dos decimales: el sistema de facturacion calcula el unitario
+      // Dos decimales: el sistema de facturacion calcula el unitario
       // con descuento y despues multiplica
       const precio = Math.round(aplicado * (1 - desc / 100) * 100) / 100;
 
@@ -514,13 +531,20 @@ export function totales(cliente) {
   const aj = getAjustePedido(cliente);
 
   const bruto = Math.round(lineas.reduce((a, l) => a + (l.subtotal || 0), 0) * 100) / 100;
-  const neto = Math.round(bruto * (1 - (aj.descuento || 0) / 100) * 100) / 100;
+
+  // Las lineas en promocion no admiten descuento: el porcentaje se aplica
+  // solo sobre el resto del pedido
+  const enPromo = Math.round(lineas.filter(l => l.enPromo)
+    .reduce((a, l) => a + (l.subtotal || 0), 0) * 100) / 100;
+  const descontable = bruto - enPromo;
+
+  const neto = Math.round((enPromo + descontable * (1 - (aj.descuento || 0) / 100)) * 100) / 100;
 
   // Referencia: lo que hubiera costado a lista del cliente, sin ajustes
   const aLista = Math.round(lineas.reduce((a, l) => a + ((l.precioBase || 0) * l.cantidad), 0) * 100) / 100;
   const descGlobal = aLista ? Math.round((1 - neto / aLista) * 1000) / 10 : 0;
 
-  return { bruto, neto, aLista, descGlobal, descuentoTotal: aj.descuento || 0 };
+  return { bruto, neto, aLista, descGlobal, descuentoTotal: aj.descuento || 0, enPromo };
 }
 
 /**
