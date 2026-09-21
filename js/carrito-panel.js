@@ -18,7 +18,7 @@ let moviendo = null;   // sku de la linea que se esta reubicando
 
 let config = null;
 
-async function cargarConfig() {
+async function cargarConfigInterna() {
   if (config) return config;
 
   const token = sessionStorage.getItem('authToken');
@@ -46,6 +46,18 @@ async function cargarConfig() {
   return config;
 }
 
+
+// Si ya hay una consulta en curso, esperarla: los reintentos programados
+// al cargar la pagina lanzaban varias iguales al mismo tiempo
+let configEnCurso = null;
+
+async function cargarConfig() {
+  if (config) return config;
+  if (!configEnCurso) {
+    configEnCurso = cargarConfigInterna().finally(() => { configEnCurso = null; });
+  }
+  return configEnCurso;
+}
 
 /**
  * Trae el disponible del cliente en vista. El panel no puede depender de
@@ -210,7 +222,9 @@ function vistaVendedor() {
   const cliente = window.Precios?.getClienteVista();
   const total = lineas.reduce((a, l) => a + (l.subtotal || 0), 0);
   const tot = window.Carrito.totales();
-  const aj = window.Carrito.getAjustePedido();  
+  const aj = window.Carrito.getAjustePedido(); 
+    // En una revision, marcar lo que el cliente no habia pedido
+  const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null; 
 
   if (!lineas.length) return cajaVacia(cliente?.nombre || '');
 
@@ -260,7 +274,7 @@ function vistaVendedor() {
         <div class="cp-barra" style="background:${col}"></div>
           <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
-          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}</p>
+          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}${l.cantVendedor ? ' · <span class="cp-previa">vos tenías ' + l.cantVendedor + '</span>' : ''}${origenSkus && !origenSkus.includes(l.sku) ? ' · <span class="cp-previa">agregado por vos</span>' : ''}</p>
         </div>
         <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
         <span class="cp-sub" style="color:${col}">${l.subtotal !== null ? fmt(l.subtotal) : '--'}</span>
@@ -652,6 +666,8 @@ async function confirmarPedido() {
       cliente: esVend ? cli.cuenta : String(cd.account || ''),
       lista: d.lista,
       canal: 'app',
+      idOrigen: window.Carrito.getOrigen() || '',
+      revision: window.Carrito.getOrigen() ? 1 : 0,
       totalBruto: t.bruto,
       descuentoTotal: t.descuentoTotal,
       totalNeto: t.neto,
@@ -690,6 +706,8 @@ async function confirmarPedido() {
     const nombreCli = cli ? cli.nombre : (cd.name || '');
 
     window.Carrito.vaciar();
+    // El pedido revisado deja de figurar como pendiente
+    window.Revision?.consultarPendientes();
     window.Carrito.setAjustePedido({ descuento: 0, motivo: '', obsLibre: '' });
 
     const cont = document.getElementById('carrito-panel');

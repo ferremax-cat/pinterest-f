@@ -170,6 +170,8 @@ export function quitar(sku, cliente) {
 
 export function vaciar(cliente) {
   localStorage.removeItem(claveCarrito(cliente));
+  localStorage.removeItem(claveCarrito(cliente) + '::origen');
+  localStorage.removeItem(claveCarrito(cliente) + '::origenSkus');
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
     detail: { cliente: cliente || getClienteDestino(), lineas: [] }
   }));
@@ -691,9 +693,53 @@ async function reintentarConexion() {
 
 setTimeout(avisarSinServicio, 2000);
 
+// ---------- revision de pedidos ----------
+
+/**
+ * Pedido del cliente que se esta revisando en este carrito, si lo hay.
+ * Al confirmar, la revision queda vinculada a ese pedido.
+ */
+export function getOrigen(cliente) {
+  return localStorage.getItem(claveCarrito(cliente) + '::origen') || '';
+}
+
+export function setOrigen(id, skus, cliente) {
+  const k = claveCarrito(cliente) + '::origen';
+  if (id) {
+    localStorage.setItem(k, id);
+    localStorage.setItem(k + 'Skus', JSON.stringify(skus || []));
+  } else {
+    localStorage.removeItem(k);
+    localStorage.removeItem(k + 'Skus');
+  }
+}
+
+/** Articulos que traia el pedido del cliente que se esta revisando. */
+export function getOrigenSkus(cliente) {
+  try {
+    return JSON.parse(localStorage.getItem(claveCarrito(cliente) + '::origenSkus') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+/**
+ * El vendedor ya tenia este articulo cargado: queda la cantidad del cliente
+ * y se recuerda la anterior, para mostrarle la diferencia.
+ */
+export function marcarPrevia(sku, cantidadPrevia, cliente) {
+  const codigo = String(sku).trim().toUpperCase();
+  const lineas = leer(cliente);
+  const l = lineas.find(x => x.sku === codigo);
+  if (!l) return;
+  l.cantVendedor = cantidadPrevia;
+  guardar(lineas, cliente);
+}
+
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
-  ajustarLinea, getAjustePedido, setAjustePedido
+  ajustarLinea, getAjustePedido, setAjustePedido,
+  getOrigen, setOrigen, marcarPrevia, getOrigenSkus
 };

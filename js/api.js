@@ -15,7 +15,7 @@ function esperar(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
 
-export async function llamarApi(payload, reintentos = 2) {
+async function llamarApiDirecto(payload, reintentos = 2) {
   let ultimoError;
 
   for (let i = 0; i <= reintentos; i++) {
@@ -30,7 +30,13 @@ export async function llamarApi(payload, reintentos = 2) {
       const texto = await r.text();
 
       // La falla pasajera de Google llega como pagina web, no como datos
-      if (texto.trim().startsWith('<')) throw new Error('respuesta_html');
+      if (texto.trim().startsWith('<')) {
+        // Guardar el titulo de la pagina: distingue una caida de Google de
+        // un error en el propio script, que tambien llega como pagina web
+        const titulo = (texto.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '';
+        console.warn('[Api] respuesta HTML:', titulo.trim(), '|', texto.slice(0, 300));
+        throw new Error('respuesta_html: ' + titulo.trim());
+      }
 
       return JSON.parse(texto);
 
@@ -45,6 +51,16 @@ export async function llamarApi(payload, reintentos = 2) {
   }
 
   throw ultimoError;
+}
+
+// Las consultas salen de a una: cuando llegaban varias juntas al servidor,
+// Google rechazaba alguna con su pagina de error
+let cola = Promise.resolve();
+
+export function llamarApi(payload, reintentos = 2) {
+  const tarea = cola.then(() => llamarApiDirecto(payload, reintentos));
+  cola = tarea.catch(() => {});
+  return tarea;
 }
 
 window.Api = { llamar: llamarApi, URL: URL_API };
