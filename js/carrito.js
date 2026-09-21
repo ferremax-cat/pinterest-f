@@ -620,13 +620,13 @@ export async function detalleVerificado(cliente) {
   };
 }
 
-// Aviso permanente cuando el sistema de pedidos no responde: el vendedor
-// tiene que saberlo antes de empezar a trabajar, no al confirmar
+let intentosReconexion = 0;
+
+// Aviso permanente cuando el sistema de pedidos no responde, con opcion
+// de reintentar sin tener que salir y volver a entrar
 function avisarSinServicio() {
- 
   const franja = document.getElementById('franja-sin-servicio');
 
-  // Si el servicio volvio, sacar la franja que haya quedado
   if (sessionStorage.getItem('authDegradado') !== '1') {
     franja?.remove();
     return;
@@ -635,10 +635,58 @@ function avisarSinServicio() {
 
   const f = document.createElement('div');
   f.id = 'franja-sin-servicio';
-  f.textContent = 'Sistema de pedidos no disponible — solo consulta de precios';
   f.style.cssText = 'position:fixed;left:0;right:0;bottom:0;background:#dc2626;' +
-      'color:#fff;padding:8px 14px;font-size:12px;text-align:center;z-index:9998';
+      'color:#fff;padding:8px 14px;font-size:12px;text-align:center;z-index:9998;' +
+      'display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;';
+  f.innerHTML = `
+    <span id="franja-texto">Sistema de pedidos no disponible — solo consulta de precios</span>
+    <button id="franja-reintentar" style="background:#fff;color:#dc2626;border:none;
+      border-radius:5px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;">
+      Reintentar
+    </button>`;
   document.body.appendChild(f);
+
+  f.querySelector('#franja-reintentar').addEventListener('click', reintentarConexion);
+}
+
+async function reintentarConexion() {
+  const btn = document.getElementById('franja-reintentar');
+  const txt = document.getElementById('franja-texto');
+  const clave = window.menuFuncionalidades?.usuarioActual?.clave;
+  if (!btn || !clave) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Conectando...';
+
+  try {
+    const auth = await window.Api.llamar({ accion: 'login', clave: String(clave) });
+
+    if (!auth.ok || !auth.token) throw new Error(auth.error || 'sin token');
+
+    // Conexion recuperada: guardar la sesion y habilitar el carrito
+    sessionStorage.setItem('authToken', auth.token);
+    sessionStorage.setItem('authRol', auth.rol);
+    sessionStorage.setItem('authCodigo', auth.codigo || '');
+    sessionStorage.setItem('authVence', String(auth.vence));
+    sessionStorage.removeItem('authDegradado');
+    sessionStorage.removeItem('authMotivo');
+    intentosReconexion = 0;
+
+    document.getElementById('franja-sin-servicio')?.remove();
+    window.Precios?.repintarTodos();
+    refrescarBotonFlotante();
+
+  } catch (e) {
+    intentosReconexion++;
+    btn.disabled = false;
+    btn.textContent = 'Reintentar';
+
+    if (intentosReconexion >= 2) {
+      txt.textContent = 'El sistema sigue sin responder. Esperá unos minutos y volvé a intentar.';
+    } else {
+      txt.textContent = 'No se pudo conectar. Probá de nuevo.';
+    }
+  }
 }
 
 setTimeout(avisarSinServicio, 2000);

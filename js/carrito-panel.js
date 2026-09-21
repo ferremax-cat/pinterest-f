@@ -30,15 +30,8 @@ async function cargarConfig() {
     return config;
   }
 
-  try {
-    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-    const r = await fetch(URL_API, {
-      method: 'POST',
-      cache: 'no-store',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ accion: 'config', token })
-    });
-    const d = await r.json();
+    try {
+    const d = await window.Api.llamar({ accion: 'config', token });
     if (d.ok) config = d;
   } catch (e) {
     console.warn('[Carrito] No se pudo traer la configuracion:', e);
@@ -68,15 +61,8 @@ async function asegurarDisponible() {
     return false;
   }
 
-  try {
-    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-    const r = await fetch(URL_API, {
-      method: 'POST',
-      cache: 'no-store',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cli.cuenta) })
-    });
-    const d = await r.json();
+    try {
+    const d = await window.Api.llamar({ accion: 'finanzas', token, cuenta: String(cli.cuenta) });
     if (d.ok && d.disponible !== undefined) {
       sessionStorage.setItem('disponibleCliente', String(d.disponible));
       sessionStorage.setItem('disponibleDeCuenta', String(cli.cuenta));
@@ -628,6 +614,8 @@ function avisar(texto, tipo) {
 }
 
 async function confirmarPedido() {
+
+  window.__t0 = performance.now();
   const btn = document.querySelector('.cp-confirmar');
   if (!btn || btn.disabled) return;
 
@@ -646,6 +634,9 @@ async function confirmarPedido() {
 
   try {
     const d = await window.Carrito.detalleVerificado();
+
+    console.log('[Tiempos] verificación:', Math.round(performance.now() - window.__t0), 'ms');
+    console.log('[Pedido] líneas:', d.lineas.map(l => ({ sku: l.sku, mecanismo: l.mecanismo, listaForzada: l.listaForzada, descuento: l.descuento, precioLibre: l.precioLibre, precioBase: l.precioBase, precio: l.precio })));
 
     if (!d.ok) {
       avisar('Faltan precios de ' + (d.skus || []).join(', ') + '. Probá de nuevo en unos segundos.', 'error');
@@ -672,7 +663,8 @@ async function confirmarPedido() {
         nombre: l.nombre,
         cantidad: l.cantidad,
         listaAplicada: l.listaForzada || d.lista,
-        mecanismo: l.mecanismo || 'lista_cliente',
+        // Registrar la promocion: sin esto el precio rebajado queda sin motivo
+        mecanismo: l.enPromo ? 'promocion' : (l.mecanismo || 'lista_cliente'),
         precioBase: l.precioBase,
         precio: l.precio,
         descEfectivo: l.descEfectivo,
@@ -680,19 +672,14 @@ async function confirmarPedido() {
       }))
     };
 
-    const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-    const r = await fetch(URL_API, {
-      method: 'POST',
-      cache: 'no-store',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        accion: 'guardar_pedido',
-        token: sessionStorage.getItem('authToken'),
-        pedido
-      })
+    const resp = await window.Api.llamar({
+      accion: 'guardar_pedido',
+      token: sessionStorage.getItem('authToken'),
+      pedido
     });
 
-    const resp = await r.json();
+    console.log('[Tiempos] total con guardado:', Math.round(performance.now() - window.__t0), 'ms');
+    console.log('[Pedido] respuesta del servidor:', resp);
 
     if (!resp.ok) {
       avisar('No se pudo guardar: ' + (resp.error || 'error desconocido'), 'error');

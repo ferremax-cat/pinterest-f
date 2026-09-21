@@ -5,6 +5,7 @@ import { config } from './config.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
 import { registrarFallo } from './registro-fallos.js';
+import { llamarApi } from './api.js';
 
 
 // --- Login por endpoint (Etapa 1) ---
@@ -14,13 +15,7 @@ const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_
 
 
 async function autenticarEnEndpoint(clave) {
-    const resp = await fetch(URL_API, {
-        method: 'POST',
-        cache: 'no-store',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ accion: 'login', clave: String(clave).trim() })
-    });
-    return await resp.json();
+    return await llamarApi({ accion: 'login', clave: String(clave).trim() });
 }
 
 /**

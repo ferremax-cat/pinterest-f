@@ -17,13 +17,7 @@ async function traerFinanzasDelEndpoint(cuenta) {
     const token = sessionStorage.getItem('authToken');
     if (!token) return null;
 
-    const resp = await fetch(URL_API_FIN, {
-        method: 'POST',
-        cache: 'no-store',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cuenta) })
-    });
-    const d = await resp.json();
+    const d = await window.Api.llamar({ accion: 'finanzas', token, cuenta: String(cuenta) });
     return d.ok ? d : null;
 }
 
