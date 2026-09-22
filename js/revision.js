@@ -24,6 +24,8 @@ function fmt(n) {
 }
 
 export async function consultarPendientes() {
+
+  const t0 = performance.now();
   if (!esVendedor() || !sessionStorage.getItem('authToken')) {
     pendientes = [];
     pintarIcono();
@@ -45,6 +47,7 @@ export async function consultarPendientes() {
       setTimeout(consultarPendientes, 30000);
     }
   }
+  console.log('[Revision] pendientes en', Math.round(performance.now() - t0), 'ms —', pendientes.length, 'pedidos');
   pintarIcono();
 }
 
@@ -115,7 +118,7 @@ function abrirPanel() {
   document.getElementById('panel-revision')?.remove();
 
   if (!pendientes.length) return;
-  
+
   const cont = document.createElement('div');
   cont.id = 'panel-revision';
   cont.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);' +
@@ -193,6 +196,6 @@ async function revisar(id, boton) {
 
 // Consultar despues de que la app termino de cargar, para no coincidir
 // con las demas consultas del inicio
-setTimeout(() => { if (esVendedor()) pintarIconoVacio(); }, 2000);
+setTimeout(consultarPendientes, 3000);
 
 window.Revision = { consultarPendientes, abrirPanel };
