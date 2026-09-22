@@ -8,44 +8,50 @@
  */
 
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-
-const ESPERAS = [1500, 3000];
+const ESPERAS = [2000, 4000, 6000];
 
 function esperar(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
 
-async function llamarApiDirecto(payload, reintentos = 2) {
+const TIEMPO_MAXIMO = 8000;
+
+async function llamarApiDirecto(payload, reintentos = 3) {
   let ultimoError;
 
   for (let i = 0; i <= reintentos; i++) {
+    // Si Google no responde en 8 segundos, cortar y reintentar: una falla
+    // lenta hacia esperar un minuto antes de volver a probar
+    const control = new AbortController();
+    const corte = setTimeout(() => control.abort(), TIEMPO_MAXIMO);
+
     try {
       const r = await fetch(URL_API, {
         method: 'POST',
         cache: 'no-store',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: control.signal
       });
 
       const texto = await r.text();
+      clearTimeout(corte);
 
-      // La falla pasajera de Google llega como pagina web, no como datos
       if (texto.trim().startsWith('<')) {
-        // Guardar el titulo de la pagina: distingue una caida de Google de
-        // un error en el propio script, que tambien llega como pagina web
         const titulo = (texto.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '';
-        console.warn('[Api] respuesta HTML:', titulo.trim(), '|', texto.slice(0, 300));
+        console.warn('[Api] respuesta HTML:', titulo.trim());
         throw new Error('respuesta_html: ' + titulo.trim());
       }
 
       return JSON.parse(texto);
 
     } catch (e) {
-      ultimoError = e;
+      clearTimeout(corte);
+      ultimoError = e.name === 'AbortError' ? new Error('tiempo_agotado') : e;
       if (i < reintentos) {
-        console.warn(`[Api] ${payload.accion}: intento ${i + 1} fallido, reintentando`);
-        window.RegistroFallos?.registrarFallo(`reintento_${payload.accion}`, `intento ${i + 1}: ${e.message}`);
-        await esperar(ESPERAS[i] || 3000);
+        console.warn(`[Api] ${payload.accion}: intento ${i + 1} fallido (${ultimoError.message}), reintentando`);
+        window.RegistroFallos?.registrarFallo(`reintento_${payload.accion}`, `intento ${i + 1}: ${ultimoError.message}`);
+        await esperar(ESPERAS[i] || 4000);
       }
     }
   }

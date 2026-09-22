@@ -30,9 +30,22 @@ async function cargarConfigInterna() {
     return config;
   }
 
-    try {
+  // Guardada mientras dura la sesion: se pide una vez al entrar y cualquier
+  // cambio en la planilla llega la proxima vez que el vendedor inicia sesion
+  try {
+    const guardada = sessionStorage.getItem('configCarrito');
+    if (guardada) {
+      config = JSON.parse(guardada);
+      return config;
+    }
+  } catch (e) {}
+
+  try {
     const d = await window.Api.llamar({ accion: 'config', token });
-    if (d.ok) config = d;
+    if (d.ok) {
+      config = d;
+      sessionStorage.setItem('configCarrito', JSON.stringify(d));
+    }
   } catch (e) {
     console.warn('[Carrito] No se pudo traer la configuracion:', e);
   }
@@ -661,6 +674,12 @@ async function confirmarPedido() {
     const aj = window.Carrito.getAjustePedido();
     const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
 
+    // En una revision, registrar de donde vino cada linea
+    const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null;
+    const origenDe = (l) => !origenSkus ? ''
+      : !origenSkus.includes(l.sku) ? 'vendedor'
+      : (l.cantVendedor ? 'ambos' : 'cliente');
+
     const pedido = {
       id: nuevoId(),
       cliente: esVend ? cli.cuenta : String(cd.account || ''),
@@ -684,7 +703,8 @@ async function confirmarPedido() {
         precioBase: l.precioBase,
         precio: l.precio,
         descEfectivo: l.descEfectivo,
-        subtotal: l.subtotal
+        subtotal: l.subtotal,
+        origenLinea: origenDe(l)
       }))
     };
 

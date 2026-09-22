@@ -80,9 +80,42 @@ function pintarIcono() {
       justify-content:center;">${pendientes.length}</span>`;
 }
 
+/**
+ * El icono aparece sin consultar nada: la lista se pide recien al abrirlo.
+ * Asi no se suma una consulta al entrar que muchas veces no se usa.
+ */
+function pintarIconoVacio() {
+  if (document.getElementById('btn-revision')) return;
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'btn-revision';
+  btn.type = 'button';
+  btn.title = 'Pedidos de clientes para revisar';
+  btn.style.cssText = 'position:relative;width:32px;height:32px;border-radius:50%;' +
+    'background:#2563eb;color:#fff;border:none;display:inline-flex;' +
+    'align-items:center;justify-content:center;cursor:pointer;padding:0;' +
+    'margin:0 4px;flex-shrink:0;';
+  btn.innerHTML = SVG_BANDEJA;
+
+  const iconos = nav.querySelector('.iconos');
+  if (iconos) nav.insertBefore(btn, iconos);
+  else nav.appendChild(btn);
+
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    await consultarPendientes();
+    btn.disabled = false;
+    abrirPanel();
+  });
+}
+
 function abrirPanel() {
   document.getElementById('panel-revision')?.remove();
 
+  if (!pendientes.length) return;
+  
   const cont = document.createElement('div');
   cont.id = 'panel-revision';
   cont.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);' +
@@ -160,6 +193,6 @@ async function revisar(id, boton) {
 
 // Consultar despues de que la app termino de cargar, para no coincidir
 // con las demas consultas del inicio
-setTimeout(consultarPendientes, 4000);
+setTimeout(() => { if (esVendedor()) pintarIconoVacio(); }, 2000);
 
 window.Revision = { consultarPendientes, abrirPanel };
