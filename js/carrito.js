@@ -693,6 +693,12 @@ async function reintentarConexion() {
 
 setTimeout(avisarSinServicio, 2000);
 
+// Si el login entro sin token, reintentarlo una vez en segundo plano:
+// el usuario ya esta navegando y no espera nada
+setTimeout(() => {
+  if (sessionStorage.getItem('authDegradado') === '1') reintentarConexion();
+}, 12000);
+
 // ---------- revision de pedidos ----------
 
 /**

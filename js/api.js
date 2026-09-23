@@ -16,14 +16,14 @@ function esperar(ms) {
 
 const TIEMPO_MAXIMO = 8000;
 
-async function llamarApiDirecto(payload, reintentos = 3) {
+async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO) {
   let ultimoError;
 
   for (let i = 0; i <= reintentos; i++) {
     // Si Google no responde en 8 segundos, cortar y reintentar: una falla
     // lenta hacia esperar un minuto antes de volver a probar
     const control = new AbortController();
-    const corte = setTimeout(() => control.abort(), TIEMPO_MAXIMO);
+    const corte = setTimeout(() => control.abort(), margen);
 
     try {
       const r = await fetch(URL_API, {
@@ -63,8 +63,8 @@ async function llamarApiDirecto(payload, reintentos = 3) {
 // Google rechazaba alguna con su pagina de error
 let cola = Promise.resolve();
 
-export function llamarApi(payload, reintentos = 2) {
-  const tarea = cola.then(() => llamarApiDirecto(payload, reintentos));
+export function llamarApi(payload, reintentos = 3, margen) {
+  const tarea = cola.then(() => llamarApiDirecto(payload, reintentos, margen));
   cola = tarea.catch(() => {});
   return tarea;
 }
