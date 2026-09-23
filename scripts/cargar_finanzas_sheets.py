@@ -7,6 +7,7 @@ Se ejecuta despues del script que genera el JSON desde el Excel.
 
 import json
 import sys
+import requests
 from pathlib import Path
 
 import gspread
@@ -100,6 +101,19 @@ def main():
     hoja.format('A1:J1', {'textFormat': {'bold': True}})
 
     print(f'Escritas {len(filas)} filas en la hoja "{HOJA}"')
+    
+
+    # Limpiar la cache del servidor: sin esto sigue sirviendo los datos
+    # de ayer durante una hora, incluido el cupo del semaforo
+    URL_API = ('https://script.google.com/macros/s/'
+               'AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec')
+    try:
+        r = requests.get(URL_API + '?accion=limpiar_cache_fin', timeout=30)
+        print('Cache del servidor limpiada:', r.text[:80])
+    except Exception as e:
+        print('AVISO: no se pudo limpiar la cache del servidor:', e)
+        print('Abri la URL a mano o volve a correr el script')
+
     print('OK')
     print('=' * 60)
 
