@@ -412,6 +412,7 @@ export function crearBotonFlotante() {
   });
 
   refrescarBotonFlotante();
+  setTimeout(refrescarBotonFlotante, 1500);
 }
 
 export function refrescarBotonFlotante() {

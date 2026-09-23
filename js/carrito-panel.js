@@ -346,7 +346,7 @@ function vistaVendedor() {
           <div class="cp-acciones">
             <button class="cp-vaciar">Vaciar</button>
             <button class="cp-seguir">Volver al catálogo</button>
-            <button class="cp-confirmar" ${hayRojo ? 'disabled title="Hay artículos fuera del cupo"' : ''}>Confirmar pedido</button>
+            <button class="cp-confirmar">Confirmar pedido</button>
           </div>
         </div>
       </div>
