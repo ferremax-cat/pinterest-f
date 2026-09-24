@@ -177,7 +177,7 @@ export function pintarPrecio(elemento, sku) {
 
     // Cinta de promocion: el precio de la pildora sigue siendo el de lista,
   // la cinta avisa que hay un precio especial por cantidad
-  if (window.Promos) {
+  if (window.Promos && window.Carrito?.carritoHabilitado()) {
     const fila2 = elemento.parentElement;
     const cont2 = fila2?.parentElement;
     const promo = window.Promos.promoDe(sku);
@@ -258,6 +258,16 @@ export function acomodarPildoras() {
     fila.style.top = propuesto + 'px';
     
   });
+
+    // Segundo pase: al repintar precios la pildora cambia de alto y el top
+  // calculado antes queda corto. Sin esto la pildora se pega al borde.
+  if (!acomodarPildoras._reintento) {
+    acomodarPildoras._reintento = true;
+    setTimeout(() => {
+      acomodarPildoras._reintento = false;
+      acomodarPildoras();
+    }, 250);
+  }
 }
 
 let tempAcomodar;

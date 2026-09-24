@@ -11,7 +11,18 @@
 
 const PREFIJO = 'carrito::';
 
+// Prueba con vendedores: mientras este en true, los clientes ven el catalogo
+// como hasta ahora, sin carrito ni promociones. Pasar a false para habilitar
+// el carrito a todos.
+const SOLO_VENDEDORES = true;
 
+/** El carrito esta disponible para quien esta usando la app. */
+export function carritoHabilitado() {
+  if (!SOLO_VENDEDORES) return true;
+  const rol = sessionStorage.getItem('authRol')
+      || window.menuFuncionalidades?.usuarioActual?.rol || '';
+  return rol !== '' && rol !== 'cliente_estandar';
+}
 
 // Mapa de imagenes: se carga una vez y sirve para los productos que se
 // agregan sin haber pasado por una tarjeta del catalogo
@@ -33,6 +44,8 @@ let mapaImagenes = null;
  * destinatario y los precios que se muestran no son los de nadie.
  */
 function faltaCliente() {
+
+  if (!carritoHabilitado()) return true;
 
   if (sessionStorage.getItem('authDegradado') === '1') return true;  
   const rol = sessionStorage.getItem('authRol')
@@ -383,6 +396,9 @@ const SVG_CARRITO_GRANDE = `<svg viewBox="0 0 24 24" width="24" height="24" fill
 </svg>`;
 
 export function crearBotonFlotante() {
+
+  if (!carritoHabilitado()) return;
+
   if (document.getElementById('fab-carrito')) return;
 
   // Reutilizar el primer boton inferior, que quedo sin uso
@@ -748,5 +764,5 @@ window.Carrito = {
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, getAjustePedido, setAjustePedido,
-  getOrigen, setOrigen, marcarPrevia, getOrigenSkus
+  getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado
 };

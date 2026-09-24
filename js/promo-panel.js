@@ -15,6 +15,12 @@ function fmt(n) {
 }
 
 function crearIcono() {
+
+  if (!window.Carrito?.carritoHabilitado()) {
+    document.getElementById('btn-promos')?.remove();
+    return;
+  }
+
   const activas = window.Promos?.promosActivas() || [];
   let btn = document.getElementById('btn-promos');
 

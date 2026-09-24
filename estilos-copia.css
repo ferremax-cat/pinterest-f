@@ -365,8 +365,7 @@ nav .iconos img{
 .price-tag .centavos {
      font-size: 0.70em;
      opacity: 0.80;
-     position: relative;
-     top: -6px;
+     vertical-align: super;
 }
 
 .container-img .bottom-row a{
