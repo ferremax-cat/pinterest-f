@@ -397,7 +397,17 @@ const SVG_CARRITO_GRANDE = `<svg viewBox="0 0 24 24" width="24" height="24" fill
 
 export function crearBotonFlotante() {
 
-  if (!carritoHabilitado()) return;
+    // El rol puede no estar listo todavia: reintentar antes de descartar,
+  // porque esta funcion tambien reemplaza los botones viejos
+  if (!carritoHabilitado()) {
+    const rolListo = sessionStorage.getItem('authRol')
+        || window.menuFuncionalidades?.usuarioActual?.rol;
+    if (!rolListo && (crearBotonFlotante._intentos || 0) < 5) {
+      crearBotonFlotante._intentos = (crearBotonFlotante._intentos || 0) + 1;
+      setTimeout(crearBotonFlotante, 800);
+    }
+    return;
+  }
 
   if (document.getElementById('fab-carrito')) return;
 
