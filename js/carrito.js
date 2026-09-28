@@ -18,6 +18,15 @@ const SOLO_VENDEDORES = true;
 
 /** El carrito esta disponible para quien esta usando la app. */
 export function carritoHabilitado() {
+
+  // Consumidor final y deposito son cuentas internas: nunca arman pedidos
+  const propia = window.menuFuncionalidades?.usuarioActual?.numero_cuenta
+      || window.menuFuncionalidades?.usuarioActual?.clave || '';
+  if (['1', '3'].includes(String(propia).trim())) return false;
+
+  const enVista = window.Precios?.getClienteVista();
+  if (enVista && ['1', '3'].includes(String(enVista.cuenta).trim())) return false;
+
   if (!SOLO_VENDEDORES) return true;
   const rol = sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol || '';
