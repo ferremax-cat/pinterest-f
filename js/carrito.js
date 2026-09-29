@@ -229,9 +229,9 @@ export function getPendiente(cliente) {
   }
 }
 
-export function setPendiente(id, cliente) {
+export function setPendiente(pedido, cliente) {
   localStorage.setItem(claveCarrito(cliente) + '::pendiente',
-    JSON.stringify({ id, desde: Date.now() }));
+    JSON.stringify({ id: pedido.id, desde: Date.now(), pedido }));
 }
 
 export function borrarPendiente(cliente) {

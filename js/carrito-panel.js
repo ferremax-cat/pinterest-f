@@ -210,6 +210,14 @@ export function cerrar() {
 }
 
 function dibujar() {
+
+  const pend = window.Carrito?.getPendiente?.();
+  if (pend) {
+    dibujarPendiente(pend);
+    return;
+  }
+
+
   const cont = document.getElementById('carrito-panel');
   if (!cont || cont.style.display === 'none') return;
 
@@ -622,6 +630,47 @@ function nuevoId() {
   return 'PED-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
 }
 
+
+
+// Motivo que se muestra en la vista de confirmacion pendiente
+let motivoPendiente = '';
+
+// Errores con los que el servidor rechaza el pedido antes de escribir nada
+const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
+  'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado'];
+
+/**
+ * Vista del carrito mientras no se sabe si el pedido se guardo: no permite
+ * editar, solo reintentar con el mismo pedido o cerrar el panel.
+ */
+function dibujarPendiente(pend) {
+  const cont = document.getElementById('carrito-panel');
+  if (!cont) return;
+
+  // Los ultimos caracteres son los que distinguen un pedido de otro
+  const idCorto = String(pend.id).slice(-8);
+  const hora = new Date(pend.desde).toLocaleTimeString('es-AR',
+    { hour: '2-digit', minute: '2-digit' });
+  const texto = motivoPendiente
+    || 'No pudimos confirmar si el pedido se guardó. Tocá Reintentar: si ya estaba guardado, no se va a duplicar.';
+
+  cont.innerHTML = `
+    <div class="cp-caja">
+      <div class="cp-exito">
+        <div class="cp-check" style="background:#ff9404">!</div>
+        <p class="cp-exito-tit">Confirmación pendiente</p>
+        <p class="cp-exito-det">${texto}</p>
+        <p class="cp-exito-det">Pedido ${idCorto} · ${hora}</p>
+        <button class="cp-reintentar cp-cerrar-exito">Reintentar confirmación</button>
+        <button class="cp-pend-cerrar" style="display:block;margin:10px auto 0;background:none;border:none;text-decoration:underline;cursor:pointer">Cerrar</button>
+      </div>
+    </div>`;
+
+  cont.querySelector('.cp-reintentar').addEventListener('click', confirmarPedido);
+  cont.querySelector('.cp-pend-cerrar').addEventListener('click', cerrar);
+}
+
+
 /**
  * Aviso dentro del panel: los del navegador muestran la direccion del
  * sitio y quedan mal.
@@ -643,7 +692,7 @@ function avisar(texto, tipo) {
 async function confirmarPedido() {
 
   window.__t0 = performance.now();
-  const btn = document.querySelector('.cp-confirmar');
+  const btn = document.querySelector('.cp-confirmar, .cp-reintentar');
   if (!btn || btn.disabled) return;
 
   const cli = window.Precios?.getClienteVista();
@@ -660,71 +709,110 @@ async function confirmarPedido() {
   btn.textContent = 'Guardando...';
 
   try {
-    const d = await window.Carrito.detalleVerificado();
+    // Con una confirmacion pendiente se reenvia exactamente el mismo pedido,
+    // con el mismo id: el servidor lo reconoce y no lo duplica
+    const pend = window.Carrito.getPendiente();
+    const esReintento = !!(pend && pend.pedido);
+    let pedido;
 
-    console.log('[Tiempos] verificación:', Math.round(performance.now() - window.__t0), 'ms');
-    console.log('[Pedido] líneas:', d.lineas.map(l => ({ sku: l.sku, mecanismo: l.mecanismo, listaForzada: l.listaForzada, descuento: l.descuento, precioLibre: l.precioLibre, precioBase: l.precioBase, precio: l.precio })));
+    if (esReintento) {
+      pedido = pend.pedido;
+    } else {
+      const d = await window.Carrito.detalleVerificado();
 
-    if (!d.ok) {
-      avisar('Faltan precios de ' + (d.skus || []).join(', ') + '. Probá de nuevo en unos segundos.', 'error');
-      return;
+      console.log('[Tiempos] verificación:', Math.round(performance.now() - window.__t0), 'ms');
+      console.log('[Pedido] líneas:', d.lineas.map(l => ({ sku: l.sku, mecanismo: l.mecanismo, listaForzada: l.listaForzada, descuento: l.descuento, precioLibre: l.precioLibre, precioBase: l.precioBase, precio: l.precio })));
+
+      if (!d.ok) {
+        avisar('Faltan precios de ' + (d.skus || []).join(', ') + '. Probá de nuevo en unos segundos.', 'error');
+        return;
+      }
+
+      const t = window.Carrito.totales();
+      const aj = window.Carrito.getAjustePedido();
+      const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
+
+      // En una revision, registrar de donde vino cada linea
+      const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null;
+      const origenDe = (l) => !origenSkus ? ''
+        : !origenSkus.includes(l.sku) ? 'vendedor'
+        : (l.cantVendedor ? 'ambos' : 'cliente');
+
+      pedido = {
+        id: nuevoId(),
+        cliente: esVend ? cli.cuenta : String(cd.account || ''),
+        lista: d.lista,
+        canal: 'app',
+        idOrigen: window.Carrito.getOrigen() || '',
+        revision: window.Carrito.getOrigen() ? 1 : 0,
+        totalBruto: t.bruto,
+        descuentoTotal: t.descuentoTotal,
+        totalNeto: t.neto,
+        descEfectivoGlobal: t.descGlobal,
+        motivo: aj.motivo,
+        obsLibre: aj.obsLibre,
+        lineas: d.lineas.map(l => ({
+          sku: l.sku,
+          nombre: l.nombre,
+          cantidad: l.cantidad,
+          listaAplicada: l.listaForzada || d.lista,
+          // Registrar la promocion: sin esto el precio rebajado queda sin motivo
+          mecanismo: l.enPromo ? 'promocion' : (l.mecanismo || 'lista_cliente'),
+          precioBase: l.precioBase,
+          precio: l.precio,
+          descEfectivo: l.descEfectivo,
+          subtotal: l.subtotal,
+          origenLinea: origenDe(l)
+        }))
+      };
+
+      // Registrar el intento antes de enviarlo: si la respuesta no llega,
+      // el carrito queda bloqueado con este mismo pedido
+      window.Carrito.setPendiente(pedido);
     }
 
-    const t = window.Carrito.totales();
-    const aj = window.Carrito.getAjustePedido();
-    const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
-
-    // En una revision, registrar de donde vino cada linea
-    const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null;
-    const origenDe = (l) => !origenSkus ? ''
-      : !origenSkus.includes(l.sku) ? 'vendedor'
-      : (l.cantVendedor ? 'ambos' : 'cliente');
-
-    const pedido = {
-      id: nuevoId(),
-      cliente: esVend ? cli.cuenta : String(cd.account || ''),
-      lista: d.lista,
-      canal: 'app',
-      idOrigen: window.Carrito.getOrigen() || '',
-      revision: window.Carrito.getOrigen() ? 1 : 0,
-      totalBruto: t.bruto,
-      descuentoTotal: t.descuentoTotal,
-      totalNeto: t.neto,
-      descEfectivoGlobal: t.descGlobal,
-      motivo: aj.motivo,
-      obsLibre: aj.obsLibre,
-      lineas: d.lineas.map(l => ({
-        sku: l.sku,
-        nombre: l.nombre,
-        cantidad: l.cantidad,
-        listaAplicada: l.listaForzada || d.lista,
-        // Registrar la promocion: sin esto el precio rebajado queda sin motivo
-        mecanismo: l.enPromo ? 'promocion' : (l.mecanismo || 'lista_cliente'),
-        precioBase: l.precioBase,
-        precio: l.precio,
-        descEfectivo: l.descEfectivo,
-        subtotal: l.subtotal,
-        origenLinea: origenDe(l)
-      }))
-    };
-
-    const resp = await window.Api.llamar({
-      accion: 'guardar_pedido',
-      token: sessionStorage.getItem('authToken'),
-      pedido
-    });
+    let resp;
+    try {
+      // Guardar tarda mas que una consulta: 20 s por intento y 2 reintentos
+      resp = await window.Api.llamar({
+        accion: 'guardar_pedido',
+        token: sessionStorage.getItem('authToken'),
+        pedido
+      }, 2, 20000);
+    } catch (e) {
+      // Sin respuesta: no se sabe si se guardo
+      console.error('[Carrito] Sin respuesta al guardar:', e);
+      motivoPendiente = '';
+      dibujar();
+      return;
+    }
 
     console.log('[Tiempos] total con guardado:', Math.round(performance.now() - window.__t0), 'ms');
     console.log('[Pedido] respuesta del servidor:', resp);
 
     if (!resp.ok) {
-      avisar('No se pudo guardar: ' + (resp.error || 'error desconocido'), 'error');
+      // Rechazado antes de escribir y sin intentos previos: no se guardo nada
+      if (!esReintento && RECHAZOS_PREVIOS.includes(resp.error)) {
+        window.Carrito.borrarPendiente();
+        avisar('No se pudo guardar: ' + resp.error, 'error');
+        return;
+      }
+      // En cualquier otro caso la duda sigue: el carrito queda bloqueado
+      motivoPendiente = resp.error === 'token_invalido'
+        ? 'Tu sesión venció. Volvé a iniciar sesión y tocá Reintentar.'
+        : resp.error === 'id_con_otro_contenido'
+          ? 'Este pedido figura guardado (N° ' + resp.numero + ') con otro contenido. Consultá con la oficina antes de continuar.'
+          : 'El servidor respondió con un error (' + resp.error + '). Tocá Reintentar en unos minutos.';
+      dibujar();
       return;
     }
 
-        const totalConfirmado = t.neto;
-    const nombreCli = cli ? cli.nombre : (cd.name || '');
+    // Guardado confirmado (nuevo o ya existente)
+    const totalConfirmado = pedido.totalNeto;
+    const nombreCli = cli ? cli.nombre
+      : (JSON.parse(localStorage.getItem('clientData') || '{}').name || '');
 
+    motivoPendiente = '';
     window.Carrito.vaciar();
     // El pedido revisado deja de figurar como pendiente
     window.Revision?.consultarPendientes();
@@ -746,7 +834,11 @@ async function confirmarPedido() {
 
   } catch (err) {
     console.error('[Carrito] Error al confirmar:', err);
-        avisar('No se pudo guardar el pedido. Revisá la conexión.', 'error');
+    if (window.Carrito.getPendiente()) {
+      dibujar();
+    } else {
+      avisar('No se pudo guardar el pedido. Revisá la conexión.', 'error');
+    }
   } finally {
     btn.disabled = false;
     btn.textContent = textoOriginal;
