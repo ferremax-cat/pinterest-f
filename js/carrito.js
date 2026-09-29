@@ -110,6 +110,12 @@ export function leer(cliente) {
 }
 
 function guardar(lineas, cliente) {
+
+  if (getPendiente(cliente)) {
+    avisarBloqueado(cliente);
+    return false;
+  }
+
   try {
     localStorage.setItem(claveCarrito(cliente), JSON.stringify(lineas));
     document.dispatchEvent(new CustomEvent('carrito:cambio', {
@@ -128,6 +134,13 @@ export function agregar(sku, cantidad, cliente) {
 
   if (faltaCliente()) {
     document.dispatchEvent(new CustomEvent('carrito:sin-cliente'));
+    return null;
+  }
+
+
+  
+  if (getPendiente(cliente)) {
+    avisarBloqueado(cliente);
     return null;
   }
 
@@ -194,8 +207,41 @@ export function vaciar(cliente) {
   localStorage.removeItem(claveCarrito(cliente));
   localStorage.removeItem(claveCarrito(cliente) + '::origen');
   localStorage.removeItem(claveCarrito(cliente) + '::origenSkus');
+  localStorage.removeItem(claveCarrito(cliente) + '::pendiente');
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
     detail: { cliente: cliente || getClienteDestino(), lineas: [] }
+  }));
+}
+
+
+
+// ---------- confirmacion pendiente ----------
+// Si no se pudo confirmar el guardado de un pedido, su id queda registrado
+// aca y el carrito se bloquea hasta que el servidor responda: asi cualquier
+// reintento viaja con el mismo id y el pedido nunca se duplica
+
+export function getPendiente(cliente) {
+  try {
+    const raw = localStorage.getItem(claveCarrito(cliente) + '::pendiente');
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+export function setPendiente(id, cliente) {
+  localStorage.setItem(claveCarrito(cliente) + '::pendiente',
+    JSON.stringify({ id, desde: Date.now() }));
+}
+
+export function borrarPendiente(cliente) {
+  localStorage.removeItem(claveCarrito(cliente) + '::pendiente');
+}
+
+function avisarBloqueado(cliente) {
+  console.warn('[Carrito] Bloqueado: hay un pedido con confirmacion pendiente');
+  document.dispatchEvent(new CustomEvent('carrito:bloqueado', {
+    detail: { cliente: cliente || getClienteDestino() }
   }));
 }
 
@@ -274,6 +320,11 @@ export function carritosAbiertos() {
     const k = localStorage.key(i);
     if (!k || !k.startsWith(mio)) continue;
     const cliente = k.slice(mio.length);
+
+    // Las claves auxiliares (::origen, ::origenSkus, ::ajuste, ::pendiente)
+    // no son carritos
+    if (cliente.includes('::')) continue;
+
     const lineas = leer(cliente);
     if (lineas.length) res.push({ cliente, items: lineas.length });
   }
@@ -571,6 +622,13 @@ export function getAjustePedido(cliente) {
 }
 
 export function setAjustePedido(ajuste, cliente) {
+
+  if (getPendiente(cliente)) {
+    avisarBloqueado(cliente);
+    return;
+  }
+
+
   localStorage.setItem(claveCarrito(cliente) + '::ajuste', JSON.stringify({
     descuento: Number(ajuste.descuento) || 0,
     motivo: ajuste.motivo || '',
@@ -783,5 +841,6 @@ window.Carrito = {
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, getAjustePedido, setAjustePedido,
-  getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado
+  getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado,
+  getPendiente, setPendiente, borrarPendiente,
 };
