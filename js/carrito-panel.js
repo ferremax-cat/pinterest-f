@@ -886,4 +886,21 @@ document.addEventListener('carrito:sin-cliente', () => {
   setTimeout(() => av.remove(), 3000);
 });
 
+
+// Aviso cuando se intenta modificar un carrito con confirmacion pendiente
+document.addEventListener('carrito:bloqueado', () => {
+  document.querySelectorAll('.aviso-bloqueado').forEach(a => a.remove());
+  const av = document.createElement('div');
+  av.className = 'aviso-bloqueado';
+  av.textContent = 'Este cliente tiene un pedido sin confirmar. Tocá acá para abrir el carrito y reintentar.';
+  av.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
+      'bottom:80px;background:#ff9404;color:#fff;padding:12px 18px;' +
+      'border-radius:8px;font-size:13px;z-index:99999;text-align:center;' +
+      'box-shadow:0 4px 14px rgba(0,0,0,.3);cursor:pointer;max-width:90vw';
+  av.addEventListener('click', () => { av.remove(); abrir(); });
+  document.body.appendChild(av);
+  setTimeout(() => av.remove(), 5000);
+});
+
+
 window.CarritoPanel = { abrir, cerrar };
