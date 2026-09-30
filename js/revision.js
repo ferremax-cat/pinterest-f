@@ -16,7 +16,7 @@ const SVG_BANDEJA = `<svg viewBox="0 0 24 24" width="17" height="17" fill="curre
 function esVendedor() {
   const rol = sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol || '';
-  return rol && rol !== 'cliente_estandar';
+  return window.Carrito.puedePedir() && rol !== 'cliente_estandar';
 }
 
 function fmt(n) {

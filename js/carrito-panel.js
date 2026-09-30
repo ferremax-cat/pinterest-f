@@ -104,7 +104,9 @@ function esVendedor() {
   const rol = sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol
       || '';
-  return rol !== 'cliente_estandar';
+  // Sin rol todavia se mantiene como antes; con rol, solo los que piden
+  if (rol === 'cliente_estandar') return false;
+  return rol === '' || window.Carrito.puedePedir();
 }
 
 function getDisponible() {
@@ -637,7 +639,8 @@ let motivoPendiente = '';
 
 // Errores con los que el servidor rechaza el pedido antes de escribir nada
 const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
-  'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado'];
+  'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado',
+  'rol_sin_permiso'];
 
 /**
  * Vista del carrito mientras no se sabe si el pedido se guardo: no permite

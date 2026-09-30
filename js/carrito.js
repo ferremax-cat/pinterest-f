@@ -27,10 +27,9 @@ export function carritoHabilitado() {
   const enVista = window.Precios?.getClienteVista();
   if (enVista && ['1', '3'].includes(String(enVista.cuenta).trim())) return false;
 
+  if (!puedePedir()) return false;
   if (!SOLO_VENDEDORES) return true;
-  const rol = sessionStorage.getItem('authRol')
-      || window.menuFuncionalidades?.usuarioActual?.rol || '';
-  return rol !== '' && rol !== 'cliente_estandar';
+  return getRol() !== 'cliente_estandar';
 }
 
 // Mapa de imagenes: se carga una vez y sirve para los productos que se
@@ -74,6 +73,14 @@ function getRol() {
   return sessionStorage.getItem('authRol')
       || window.menuFuncionalidades?.usuarioActual?.rol
       || '';
+}
+
+// "oficina" ve el catalogo e imprime, pero no arma pedidos
+const ROLES_CON_PEDIDO = ['admin', 'vendedor_estandar', 'cliente_estandar'];
+
+/** Quien esta usando la app puede armar pedidos. */
+export function puedePedir() {
+  return ROLES_CON_PEDIDO.includes(getRol());
 }
 
 /**
@@ -841,6 +848,6 @@ window.Carrito = {
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, getAjustePedido, setAjustePedido,
-  getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado,
+  getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,
   getPendiente, setPendiente, borrarPendiente,
 };
