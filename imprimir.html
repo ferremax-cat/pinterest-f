@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferremax - Impresión de pedidos</title>
+    <link rel="stylesheet" href="css/imprimir.css">
+    <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header class="im-cab">
+        <div class="im-cab-izq">
+            <img src="./img/logo-ferremax.png" alt="Ferremax" class="im-logo">
+            <h1>Impresión<span class="im-solo-ancho"> de pedidos</span></h1>
+        </div>
+        <div class="im-cab-der">
+            <span id="im-usuario"></span>
+            <a href="catalogo.html">← <span class="im-solo-ancho">Volver al </span>catálogo</a>
+        </div>
+    </header>
+
+    <main class="im-principal">
+
+        <!-- Sin sesion o sin permiso -->
+        <div id="im-aviso" class="im-aviso" hidden>
+            <p id="im-aviso-texto"></p>
+            <a href="login.html" class="im-boton">Ir al inicio de sesión</a>
+        </div>
+
+        <section id="im-bandeja" hidden>
+
+            <nav class="im-pestanas">
+                <button type="button" class="im-pestana activa" data-modo="pendientes">Pendientes</button>
+                <button type="button" class="im-pestana" data-modo="impresos">Impresos</button>
+            </nav>
+
+            <div class="im-barra">
+                <label class="im-todos">
+                    <input type="checkbox" id="im-todos">
+                    Seleccionar todos
+                </label>
+                <span id="im-contador" class="im-contador">0 seleccionados</span>
+
+                <div id="im-fechas" class="im-fechas" hidden>
+                    <label>Pedidos desde <input type="date" id="im-desde"></label>
+                    <label>hasta <input type="date" id="im-hasta"></label>
+                </div>
+
+                <button type="button" id="im-imprimir" class="im-boton" disabled>Imprimir seleccionados</button>
+            </div>
+
+            <div class="im-tabla-cont">
+                <table class="im-tabla">
+                    <thead id="im-thead"></thead>
+                    <tbody id="im-tbody"></tbody>
+                </table>
+                <div id="im-estado" class="im-estado" hidden></div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- api.js primero: define window.Api antes de que lo use la bandeja -->
+    <script type="module" src="js/api.js"></script>
+    <script type="module" src="js/imprimir.js"></script>
+
+</body>
+</html>
