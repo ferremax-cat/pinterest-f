@@ -1,0 +1,506 @@
+/* HOJAS IMPRESAS DE PEDIDOS
+ * A4 vertical, pensado para blanco y negro: todo se distingue con texto,
+ * negrita y recuadros. Las alturas (--ih-*) las fija js/imprimir-hojas.js,
+ * que pagina con esos mismos valores.
+ */
+
+@page {
+  size: A4 portrait;
+  margin: 7mm;
+}
+
+/* ---------- contenedor ---------- */
+
+/* En pantalla queda fuera de la vista, no oculto: asi el navegador carga
+   y decodifica las fotos antes de abrir el dialogo */
+#ih-hojas {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 196mm;
+  pointer-events: none;
+  background: #fff;
+  color: #000;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 8pt;
+  line-height: 1.2;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+#ih-hojas * { box-sizing: border-box; }
+
+@media print {
+  body { background: #fff !important; padding: 0 !important; }
+  body > *:not(#ih-hojas) { display: none !important; }
+
+  #ih-hojas {
+    position: static;
+    left: auto;
+    width: auto;
+  }
+}
+
+/* ---------- hoja ---------- */
+
+.ih-hoja {
+  display: flex;
+  flex-direction: column;
+  height: var(--ih-hoja);
+  overflow: hidden;
+  break-after: page;
+  page-break-after: always;
+}
+
+.ih-hoja:last-child {
+  break-after: auto;
+  page-break-after: auto;
+}
+
+.ih-hoja > * { flex: none; }
+
+.ih-pie {
+  height: var(--ih-pie);
+  margin-top: auto;
+  padding-top: 1.5mm;
+  border-top: .2mm solid #000;
+  font-size: 7pt;
+  text-align: right;
+}
+
+/* ---------- cabeceras ---------- */
+
+.ih-cab-prep,
+.ih-cab-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  overflow: hidden;
+  border-bottom: .5mm solid #000;
+}
+
+.ih-cab-prep { height: var(--ih-cab-prep); }
+.ih-cab-fact { height: var(--ih-cab-fact); }
+
+.ih-cab-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ih-titulo {
+  font-size: 14pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.ih-titulo small {
+  font-size: 8pt;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.ih-numero {
+  padding: .5mm 3mm;
+  border: .6mm solid #000;
+  font-size: 18pt;
+  font-weight: 800;
+}
+
+.ih-cliente {
+  font-size: 13pt;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ih-lista {
+  padding: 0 1.5mm;
+  border: .3mm solid #000;
+  font-size: 10pt;
+}
+
+.ih-datos {
+  display: flex;
+  gap: 6mm;
+  font-size: 9pt;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ih-datos-obs {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ih-instr {
+  margin-top: auto;
+  padding: .8mm 0 1mm;
+  border-top: .2mm solid #000;
+  font-size: 7.5pt;
+  font-style: italic;
+}
+
+.ih-obs {
+  height: var(--ih-obs);
+  margin-top: 1.5mm;
+  padding: 1.2mm 2mm;
+  border: .8mm solid #000;
+  font-size: 9pt;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.ih-obs b { margin-right: 2mm; }
+
+.ih-cab-cont {
+  height: var(--ih-cab-cont);
+  display: flex;
+  align-items: center;
+  gap: 1.5mm;
+  border-bottom: .5mm solid #000;
+  font-size: 9pt;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ih-cab-cont span { font-style: italic; }
+
+/* ---------- preparacion: pisos y renglones ---------- */
+
+.ih-franja {
+  height: var(--ih-franja);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3mm;
+  background: #000;
+  color: #fff;
+  font-size: 10pt;
+  letter-spacing: .05em;
+}
+
+.ih-grilla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  column-gap: 3mm;
+}
+
+.ih-item {
+  display: grid;
+  grid-template-columns: 5mm 13mm minmax(0, 1fr) 13mm 7mm 11mm;
+  column-gap: 1.2mm;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  border-bottom: .2mm solid #888;
+}
+
+/* Cambio de prefijo de codigo */
+.ih-item.ih-grupo { border-top: .8mm solid #000; }
+
+.ih-ord {
+  font-size: 8pt;
+  font-weight: 700;
+  text-align: center;
+}
+
+.ih-foto {
+  width: 13mm;
+  height: 13mm;
+  object-fit: contain;
+  filter: grayscale(1) contrast(1.35);
+}
+
+.ih-sinfoto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5mm;
+  background: #ddd;
+  border: .2mm solid #888;
+  font-size: 5.5pt;
+  font-weight: 700;
+  text-align: center;
+  word-break: break-all;
+  filter: none;
+}
+
+.ih-texto {
+  display: flex;
+  flex-direction: column;
+  gap: .3mm;
+  min-width: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.ih-cod {
+  font-size: 9.5pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dos renglones como maximo, con alto fijo: -webkit-line-clamp no se
+   respeta siempre al imprimir y una descripcion larga desbordaba el renglon */
+.ih-desc {
+  flex: none;
+  display: block;
+  font-size: 7pt;
+  line-height: 1.2;
+  max-height: 2.4em;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.ih-reemp {
+  font-size: 6.5pt;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ih-cant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ih-cant b {
+  font-size: 15pt;
+  line-height: 1;
+}
+
+.ih-cant small {
+  margin-top: .5mm;
+  font-size: 6pt;
+  line-height: 1.1;
+  max-height: 2.2em;
+  overflow: hidden;
+}
+
+.ih-ok,
+.ih-real {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4mm;
+  font-size: 5.5pt;
+  font-weight: 700;
+}
+
+.ih-ok i,
+.ih-real i {
+  display: block;
+  border: .4mm solid #000;
+}
+
+.ih-ok i { width: 6mm; height: 6mm; }
+.ih-real i { width: 11mm; height: 7mm; }
+
+/* ---------- firmas ---------- */
+
+.ih-firmas {
+  height: var(--ih-firmas);
+  display: flex;
+  flex-direction: column;
+  gap: 2mm;
+  padding-top: 3mm;
+}
+
+.ih-firmas-fila {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1.5mm;
+  flex: 1;
+}
+
+.ih-caja {
+  position: relative;
+  border: .4mm solid #000;
+  padding: .8mm 1.2mm;
+  font-size: 6.5pt;
+  font-weight: 700;
+}
+
+.ih-caja-ancha { flex: 1; }
+
+.ih-firmas-fact {
+  height: var(--ih-firmas-fact);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2mm;
+  padding-top: 2mm;
+}
+
+/* ---------- facturacion ---------- */
+
+.ih-separador {
+  height: var(--ih-separador);
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+.ih-separador::before,
+.ih-separador::after {
+  content: "";
+  flex: 1;
+  border-top: .4mm dashed #000;
+}
+
+.ih-tabla {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 7.5pt;
+}
+
+/* Codigo: 14 caracteres por renglon (COD_POR_RENGLON en el JS) */
+.ih-tabla col.c-n { width: 7mm; }
+.ih-tabla col.c-cod { width: 30mm; }
+.ih-tabla col.c-cant { width: 12mm; }
+.ih-tabla col.c-pu { width: 21mm; }
+.ih-tabla col.c-sub { width: 23mm; }
+.ih-tabla col.c-tipo { width: 28mm; }
+
+.ih-tabla tr { height: var(--ih-fila-fact); }
+
+.ih-tabla th,
+.ih-tabla td {
+  padding: 0 1mm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.ih-tabla th {
+  border-bottom: .4mm solid #000;
+  font-size: 7pt;
+  text-transform: uppercase;
+}
+
+.ih-tabla td { border-bottom: .2mm solid #bbb; }
+
+.ih-tabla .ih-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ih-n { text-align: center !important; }
+
+/* El codigo nunca se corta: si no entra, sigue en otro renglon (la fila
+   ya tiene el alto que le asigno el paginado) */
+.ih-tabla td.ih-tcod {
+  font-size: 7pt;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: normal;
+  word-break: break-all;
+  text-overflow: clip;
+}
+
+.ih-tipo {
+  padding: 0 1mm;
+  border: .3mm solid #000;
+  font-size: 6.5pt;
+  font-weight: 700;
+}
+
+.ih-totales {
+  height: var(--ih-totales);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: .6mm;
+  font-size: 8.5pt;
+}
+
+.ih-totales > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 6mm;
+  width: 120mm;
+}
+
+.ih-totales b { font-variant-numeric: tabular-nums; }
+
+.ih-totales .ih-neto {
+  margin-top: .5mm;
+  padding: .8mm 2mm;
+  border: .6mm solid #000;
+  font-size: 11pt;
+  font-weight: 800;
+}
+
+/* ---------- aviso de progreso (solo pantalla) ---------- */
+
+#ih-aviso {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, .45);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.ih-aviso-caja {
+  width: 100%;
+  max-width: 400px;
+  padding: 22px 22px 18px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+  text-align: center;
+}
+
+.ih-aviso-texto {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #1f2937;
+}
+
+.ih-aviso-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ih-aviso-botones:not(:empty) { margin-top: 18px; }
+
+.ih-btn {
+  padding: 9px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f2937;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ih-btn-principal {
+  border-color: #e60023;
+  background: #e60023;
+  color: #fff;
+}
+
+.ih-btn-principal:hover { background: #c5001d; }

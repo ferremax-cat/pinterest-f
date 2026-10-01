@@ -9,6 +9,8 @@
  * servidor con window.Api.llamar, igual que el catalogo.
  */
 
+import { precargar, imprimir as imprimirHojas } from './imprimir-hojas.js';
+
 // Oficina imprime aunque no arme pedidos: no sirve Carrito.puedePedir()
 const ROLES_IMPRESION = ['admin', 'vendedor_estandar', 'oficina'];
 
@@ -19,6 +21,10 @@ const ZONA = 'America/Argentina/Buenos_Aires';
 let modo = 'pendientes';
 let pedidos = [];
 const seleccion = new Set();
+
+// Pedidos tal como llegan del servidor (id -> pedido): las hojas impresas
+// necesitan las lineas y los totales, que la tabla no guarda
+let crudos = new Map();
 
 // Cada consulta lleva un numero: si el usuario cambia de pestaña antes de
 // que llegue la respuesta, la vieja se descarta
@@ -35,7 +41,7 @@ function esc(s) {
 }
 
 function fmtPesos(n) {
-  return '$' + Number(n || 0).toLocaleString('es-AR', { maximumFractionDigits: 2 });
+  return '$' + Number(n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function fmtFechaHora(iso) {
@@ -113,6 +119,7 @@ async function consultar() {
   const n = ++consultaActual;
 
   pedidos = [];
+  crudos = new Map();
   seleccion.clear();
   dibujar();
 
@@ -161,7 +168,11 @@ async function consultar() {
   }
 
   pedidos = (d.pedidos || []).map(aFila);
+  crudos = new Map((d.pedidos || []).map(p => [String(p.id), p]));
   dibujar();
+
+  // Fotos y productos en segundo plano: no se espera
+  if (modo === 'pendientes') precargar(d.pedidos || []);
   mostrarEstado(pedidos.length ? '' :
     modo === 'pendientes' ? 'No hay pedidos pendientes de imprimir.'
                           : 'No hay pedidos impresos en esas fechas.');
@@ -265,6 +276,7 @@ function configurarEventos() {
     // Las ids en el orden de la tabla, no en el orden en que se marcaron
     const ids = pedidos.map(p => p.id).filter(id => seleccion.has(id));
     console.log('[Imprimir] seleccionados:', ids);
+    imprimirHojas(ids.map(id => crudos.get(id)));
   });
 }
 

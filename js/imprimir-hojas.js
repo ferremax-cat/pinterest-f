@@ -1,0 +1,710 @@
+/**
+ * HOJAS IMPRESAS DE PEDIDOS
+ *
+ * Arma, para cada pedido elegido en la bandeja, la hoja de preparacion
+ * (deposito, sin precios, separada por piso) y la hoja de facturacion
+ * (uso interno), y abre el dialogo de impresion del navegador.
+ *
+ * Rendimiento: todas las alturas son fijas en mm, asi que el paginado se
+ * calcula con sumas, sin medir nada en pantalla. Las fotos se piden una vez
+ * por producto, en miniatura, y se precargan mientras se usa la bandeja.
+ */
+
+const TAMANO_TANDA = 10;
+const ESPERA_FOTOS_MS = 4000;      // limite total de descarga de fotos
+const ESPERA_DIBUJO_MS = 2000;     // limite para que las <img> insertadas se carguen y decodifiquen
+const DESCARGAS_SIMULTANEAS = 8;
+
+// Preparacion y facturacion en una sola hoja solo si sobra este margen
+const MARGEN_HOJA_UNICA = 0.92;
+
+const PISO_PB = 'PLANTA BAJA';
+const PISO_1 = '1ER PISO';
+const PISO_SIN = 'SIN UBICACIÓN';
+const ORDEN_PISOS = [PISO_PB, PISO_1, PISO_SIN];
+
+// Excepciones por prefijo de codigo: se revisan antes que la categoria
+const EXCEPCIONES_PISO = [
+  { prefijo: 'CRE', piso: PISO_1 },
+];
+
+// Alturas en mm: unica fuente. Se pasan al CSS como variables --ih-*
+const MM = {
+  hoja: 280, cabPrep: 34, obs: 14, cabCont: 9, franja: 7, fila: 19,
+  firmas: 40, pie: 6, cabFact: 26, filaFact: 5.5, totales: 26,
+  firmasFact: 14, separador: 8
+};
+
+// Caracteres de codigo que entran en un renglon de la columna Codigo de
+// facturacion (calculado con las letras mas anchas). Un codigo mas largo
+// pasa a otro renglon y la linea ocupa el doble de alto en el paginado
+const COD_POR_RENGLON = 14;
+
+const ZONA = 'America/Argentina/Buenos_Aires';
+const COLLATOR = new Intl.Collator('es', { numeric: true });
+
+// ---------- formato ----------
+// Repetidas de imprimir.js para no crear una importacion circular
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function fmtPesos(n) {
+  return '$' + Number(n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtNum(n) {
+  return Number(n || 0).toLocaleString('es-AR', { maximumFractionDigits: 2 });
+}
+
+function fmtFechaHora(iso) {
+  if (!iso) return '—';
+  const f = new Date(iso);
+  if (isNaN(f)) return '—';
+  return f.toLocaleString('es-AR', {
+    timeZone: ZONA, day: '2-digit', month: '2-digit', year: 'numeric',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+const esperar = ms => new Promise(r => setTimeout(r, ms));
+
+const normSku = sku => String(sku ?? '').trim().toUpperCase();
+
+// ---------- datos ----------
+
+let datos = null;
+let datosPromesa = null;
+
+async function leerJson(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  return r.json();
+}
+
+/**
+ * Productos, mapa de imagenes y clientes, una sola vez. Sin productos no
+ * hay pisos, asi que ese es obligatorio; los otros dos tienen respaldo.
+ */
+function cargarDatos() {
+  if (!datosPromesa) {
+    datosPromesa = Promise.all([
+      leerJson('./json/productos.json'),
+      leerJson('./json/catalogo_imagenes.json').then(j => j.images || {}).catch(() => ({})),
+      leerJson('./json/clientes_permisos.json').catch(() => ({}))
+    ]).then(([productos, imagenes, clientes]) => {
+      datos = { productos, imagenes, clientes };
+      return datos;
+    }).catch(e => {
+      datosPromesa = null;   // permitir reintentar
+      throw e;
+    });
+  }
+  return datosPromesa;
+}
+
+function skusDe(pedidos) {
+  const skus = new Set();
+  pedidos.forEach(p => (p.lineas || []).forEach(l => {
+    const sku = normSku(l.sku);
+    if (sku) skus.add(sku);
+  }));
+  return [...skus];
+}
+
+// ---------- fotos ----------
+// Una descarga por producto, compartida entre la precarga y la impresion
+
+const fotos = new Map();   // sku -> { estado, src, promesa, resolver }
+let cola = [];
+let activas = 0;
+const medicion = { descargadas: 0, sinSufijo: 0, fallidas: 0 };
+
+// Mismo mecanismo que el carrito, con el sufijo de miniatura que ya usa
+// carrito-panel.js
+function urlFoto(id, miniatura) {
+  return `https://lh3.googleusercontent.com/d/${id}` + (miniatura ? '=w120' : '');
+}
+
+function probar(src) {
+  return new Promise((ok, mal) => {
+    const img = new Image();
+    img.onload = () => ok(src);
+    img.onerror = mal;
+    img.src = src;
+  });
+}
+
+function bajar(sku) {
+  const f = fotos.get(sku);
+  const id = datos.imagenes[sku];
+  f.estado = 'bajando';
+  activas++;
+
+  probar(urlFoto(id, true))
+    .catch(() => probar(urlFoto(id, false)).then(src => { medicion.sinSufijo++; return src; }))
+    .then(
+      src => { f.estado = 'ok'; f.src = src; medicion.descargadas++; },
+      () => { f.estado = 'error'; medicion.fallidas++; }
+    )
+    .finally(() => {
+      activas--;
+      f.resolver();
+      bombear();
+    });
+}
+
+function bombear() {
+  while (activas < DESCARGAS_SIMULTANEAS && cola.length) bajar(cola.shift());
+}
+
+/** Encola los sku con foto. Con prioridad, los que esperan pasan al frente. */
+function encolar(skus, prioridad) {
+  const adelante = [];
+  skus.forEach(sku => {
+    if (!datos.imagenes[sku]) return;
+    let f = fotos.get(sku);
+    if (!f) {
+      f = { estado: 'cola' };
+      f.promesa = new Promise(r => { f.resolver = r; });
+      fotos.set(sku, f);
+      (prioridad ? adelante : cola).push(sku);
+    } else if (prioridad && f.estado === 'cola') {
+      adelante.push(sku);
+    }
+  });
+
+  if (adelante.length) {
+    const set = new Set(adelante);
+    cola = adelante.concat(cola.filter(s => !set.has(s)));
+  }
+  bombear();
+}
+
+/** Precarga en segundo plano: no se espera ni bloquea la bandeja. */
+export function precargar(pedidos) {
+  cargarDatos().then(() => {
+    const skus = skusDe(pedidos);
+    encolar(skus, false);
+    console.log(`[Hojas] Precarga: ${skus.length} productos de ${pedidos.length} pedidos`);
+  }).catch(e => console.warn('[Hojas] Precarga sin datos:', e));
+}
+
+// ---------- piso, orden y bulto ----------
+
+function pisoDe(sku, categoria) {
+  const exc = EXCEPCIONES_PISO.find(e => sku.startsWith(e.prefijo));
+  if (exc) return exc.piso;
+
+  // El numero antes del punto: "8.ALAMBRE..." -> 8
+  const n = parseInt(String(categoria ?? '').trim(), 10);
+  if (n >= 1 && n <= 5) return PISO_1;
+  if (n >= 6 && n <= 9) return PISO_PB;
+  return PISO_SIN;
+}
+
+/** Letras iniciales del codigo, antes del primer numero. */
+const prefijoDe = sku => (sku.match(/^[^0-9]*/) || [''])[0];
+
+function textoBulto(cant, bulk) {
+  if (!bulk || bulk <= 1 || !cant) return '';
+  if (cant < bulk) return `bulto x${fmtNum(bulk)}`;
+  const n = Math.floor(cant / bulk);
+  const resto = Math.round((cant - n * bulk) * 100) / 100;
+  return `${n} ${n === 1 ? 'bulto' : 'bultos'}` + (resto ? ` + ${fmtNum(resto)} u.` : '');
+}
+
+function tipoDe(l) {
+  switch (l.mecanismo) {
+    case 'promocion': return 'PROMO';
+    case 'precio_libre': return 'PRECIO ESPECIAL';
+    case 'otra_lista': return ('LISTA ' + String(l.listaAplicada ?? '').trim().toUpperCase()).trim();
+    default: return '';
+  }
+}
+
+// ---------- paginado ----------
+
+/**
+ * Reparte los pisos en hojas. Cada piso abre con su franja y sigue con
+ * renglones de dos columnas; si no entra, continua en la hoja siguiente.
+ */
+function paginarPrep(pisos, conObs) {
+  const hojas = [];
+  const nueva = primera => {
+    const h = {
+      primera, bloques: [], firmas: false,
+      usado: (primera ? MM.cabPrep + (conObs ? MM.obs : 0) : MM.cabCont) + MM.pie
+    };
+    hojas.push(h);
+    return h;
+  };
+
+  let hoja = nueva(true);
+
+  pisos.forEach(piso => {
+    let i = 0;
+    let continua = false;
+    while (i < piso.items.length) {
+      const filas = Math.floor((MM.hoja - hoja.usado - MM.franja) / MM.fila);
+      if (filas < 1) { hoja = nueva(false); continue; }
+
+      const k = Math.min(piso.items.length - i, filas * 2);
+      const usadas = Math.ceil(k / 2);
+      hoja.bloques.push({ tipo: 'franja', piso: piso.nombre, total: piso.items.length, continua });
+      hoja.bloques.push({ tipo: 'grilla', filas: usadas, items: piso.items.slice(i, i + k) });
+      hoja.usado += MM.franja + usadas * MM.fila;
+
+      i += k;
+      continua = true;
+      if (i < piso.items.length) hoja = nueva(false);
+    }
+  });
+
+  if (MM.hoja - hoja.usado < MM.firmas) hoja = nueva(false);
+  hoja.firmas = true;
+  hoja.usado += MM.firmas;
+  return hojas;
+}
+
+/** Renglones que ocupa una linea en facturacion: el codigo va completo. */
+const renglonesFact = it => Math.max(1, Math.ceil(it.sku.length / COD_POR_RENGLON));
+
+/** Hojas de facturacion: totales y firmas al final de la ultima. */
+function paginarFact(lineas) {
+  const hojas = [];
+  const cierre = MM.totales + MM.firmasFact;
+  let i = 0;
+  let primera = true;
+
+  for (;;) {
+    // El encabezado de la tabla ocupa un renglon
+    const libre = MM.hoja - (primera ? MM.cabFact : MM.cabCont) - MM.pie - MM.filaFact;
+
+    let alto = 0;
+    let j = i;
+    while (j < lineas.length && alto + renglonesFact(lineas[j]) * MM.filaFact <= libre) {
+      alto += renglonesFact(lineas[j]) * MM.filaFact;
+      j++;
+    }
+
+    // Entraron todas y tambien el cierre
+    if (j === lineas.length && alto + cierre <= libre) {
+      hojas.push({ primera, desde: i, hasta: j, cierre: true });
+      return hojas;
+    }
+
+    // Si entraron todas pero no el cierre, el cierre va solo en la siguiente
+    hojas.push({ primera, desde: i, hasta: j, cierre: false });
+    i = j;
+    primera = false;
+  }
+}
+
+// ---------- armado: preparacion ----------
+
+function htmlFoto(sku) {
+  const f = fotos.get(sku);
+  if (f?.estado === 'ok') return `<img class="ih-foto" src="${esc(f.src)}" alt="">`;
+  return `<span class="ih-foto ih-sinfoto">${esc(sku)}</span>`;
+}
+
+function htmlItem(it, grupo) {
+  const bulto = textoBulto(it.cantidad, it.bulk);
+  return `
+    <div class="ih-item${grupo ? ' ih-grupo' : ''}">
+      <span class="ih-ord">${it.n}</span>
+      ${htmlFoto(it.sku)}
+      <div class="ih-texto">
+        <b class="ih-cod">${esc(it.sku)}</b>
+        <span class="ih-desc">${esc(it.nombre)}</span>
+        <span class="ih-reemp">Reemp.: ..................</span>
+      </div>
+      <div class="ih-cant"><b>${fmtNum(it.cantidad)}</b>${bulto ? `<small>${esc(bulto)}</small>` : ''}</div>
+      <div class="ih-ok"><span>OK</span><i></i></div>
+      <div class="ih-real"><span>REAL</span><i></i></div>
+    </div>`;
+}
+
+function htmlGrilla(b) {
+  // Columna izquierda completa y despues la derecha: la divisoria de
+  // prefijo no va en el primer renglon de cada columna
+  const items = b.items.map((it, i) =>
+    htmlItem(it, it.nuevoGrupo && i !== 0 && i !== b.filas)).join('');
+  return `<div class="ih-grilla" style="grid-template-rows:repeat(${b.filas},var(--ih-fila))">${items}</div>`;
+}
+
+function htmlFranja(b) {
+  return `<div class="ih-franja"><b>${esc(b.piso)}</b>
+    <span>${b.total} ${b.total === 1 ? 'línea' : 'líneas'}${b.continua ? ' · continúa' : ''}</span></div>`;
+}
+
+function htmlCabPrep(c, lineas) {
+  return `
+    <header class="ih-cab-prep">
+      <div class="ih-cab-fila">
+        <span class="ih-titulo">Hoja de preparación</span>
+        <span class="ih-numero">N° ${esc(c.numero)}</span>
+      </div>
+      <div class="ih-cliente">${esc(c.cuenta)} · ${esc(c.nombre)}</div>
+      <div class="ih-datos">
+        <span><b>Fecha:</b> ${esc(c.fecha)}</span>
+        <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>
+        <span><b>Líneas:</b> ${lineas}</span>
+      </div>
+      <div class="ih-instr">OK: tildar si sale completa · REAL: cantidad entregada si falta · Reemp.: código entregado si se cambia de marca</div>
+    </header>
+    ${c.obs ? `<div class="ih-obs"><b>OBSERVACIONES</b> ${esc(c.obs)}</div>` : ''}`;
+}
+
+function htmlCabCont(titulo, c) {
+  return `<header class="ih-cab-cont"><b>${titulo}</b> · N° ${esc(c.numero)} · ${esc(c.cuenta)} · ${esc(c.nombre)} <span>(continuación)</span></header>`;
+}
+
+const FIRMAS_PREP = ['PREPARÓ', 'UBICACIÓN', 'CONTROLÓ', 'HORA', 'BULTOS', 'CAÑOS', 'BALDE / OTROS'];
+
+function htmlFirmasPrep() {
+  return `
+    <div class="ih-firmas">
+      <div class="ih-firmas-fila">${FIRMAS_PREP.map(t => `<div class="ih-caja"><span>${t}</span></div>`).join('')}</div>
+      <div class="ih-caja ih-caja-ancha"><span>NOTAS PARA FACTURACIÓN</span></div>
+    </div>`;
+}
+
+function htmlPie(c, k, total) {
+  return `<footer class="ih-pie">Pedido N° ${esc(c.numero)} · ${esc(c.nombre)} · Hoja ${k} de ${total}</footer>`;
+}
+
+// ---------- armado: facturacion ----------
+
+function htmlCabFact(c) {
+  return `
+    <header class="ih-cab-fact">
+      <div class="ih-cab-fila">
+        <span class="ih-titulo">Facturación <small>uso interno</small></span>
+        <span class="ih-numero">N° ${esc(c.numero)}</span>
+      </div>
+      <div class="ih-cliente">${esc(c.cuenta)} · ${esc(c.nombre)}${c.lista ? ` · <span class="ih-lista">LISTA ${esc(c.lista)}</span>` : ''}</div>
+      <div class="ih-datos">
+        <span><b>Fecha:</b> ${esc(c.fecha)}</span>
+        <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>
+        ${c.obs ? `<span class="ih-datos-obs"><b>Obs.:</b> ${esc(c.obs)}</span>` : ''}
+      </div>
+    </header>`;
+}
+
+function htmlTablaFact(lineas) {
+  const filas = lineas.map(it => {
+    const l = it.linea;
+    const tipo = tipoDe(l);
+    const renglones = renglonesFact(it);
+    // Alto fijo segun los renglones del codigo: el mismo que usa el paginado
+    return `<tr${renglones > 1 ? ` style="height:calc(var(--ih-fila-fact) * ${renglones})"` : ''}>
+      <td class="ih-n">${it.n}</td>
+      <td class="ih-tcod">${esc(it.sku)}</td>
+      <td class="ih-num">${fmtNum(it.cantidad)}</td>
+      <td>${esc(it.nombre)}</td>
+      <td class="ih-num">${fmtPesos(l.precioUnitario)}</td>
+      <td class="ih-num">${fmtPesos(l.subtotal)}</td>
+      <td>${tipo ? `<span class="ih-tipo">${esc(tipo)}</span>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <table class="ih-tabla">
+      <colgroup><col class="c-n"><col class="c-cod"><col class="c-cant"><col>
+        <col class="c-pu"><col class="c-sub"><col class="c-tipo"></colgroup>
+      <thead><tr><th>N°</th><th>Código</th><th class="ih-num">Cant.</th><th>Descripción</th>
+        <th class="ih-num">P. unit.</th><th class="ih-num">Subtotal</th><th>Tipo</th></tr></thead>
+      <tbody>${filas}</tbody>
+    </table>`;
+}
+
+function htmlCierreFact(t) {
+  const desc = t.pct || t.descuento
+    ? `Descuento sobre el total (${fmtNum(t.pct)} %, no alcanza a las promociones)`
+    : 'Descuento sobre el total';
+  return `
+    <div class="ih-totales">
+      <div><span>Total bruto</span><b>${fmtPesos(t.bruto)}</b></div>
+      <div><span>Líneas en promoción</span><b>${fmtPesos(t.promo)}</b></div>
+      <div><span>${desc}</span><b>${t.descuento ? '−' + fmtPesos(t.descuento) : '—'}</b></div>
+      <div class="ih-neto"><span>TOTAL NETO</span><b>${fmtPesos(t.neto)}</b></div>
+    </div>
+    <div class="ih-firmas-fact">
+      <div class="ih-caja"><span>FACTURÓ</span></div>
+      <div class="ih-caja"><span>N° DE FACTURA</span></div>
+      <div class="ih-caja"><span>FECHA</span></div>
+    </div>`;
+}
+
+function htmlBloqueFact(h, c, lineas, totales) {
+  return (h.primera ? htmlCabFact(c) : htmlCabCont('Facturación', c)) +
+    (h.hasta > h.desde ? htmlTablaFact(lineas.slice(h.desde, h.hasta)) : '') +
+    (h.cierre ? htmlCierreFact(totales) : '');
+}
+
+// ---------- armado de un pedido ----------
+
+function armarPedido(p) {
+  const c = {
+    numero: p.numero || '—',
+    fecha: fmtFechaHora(p.fecha),
+    cuenta: p.cliente ?? '',
+    // El servidor puede mandar el nombre cortado: se prefiere el del padron
+    nombre: datos.clientes[String(p.cliente ?? '').trim()]?.name || p.nombreCliente || '',
+    vendedor: p.vendedor || '—',
+    lista: String(p.lista ?? '').trim(),
+    obs: [p.motivo, p.obsLibre].map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
+  };
+
+  // Numero de orden: posicion en el pedido original, el mismo en las dos hojas
+  const lineas = [...(p.lineas || [])]
+    .sort((a, b) => (Number(a.orden) || 0) - (Number(b.orden) || 0))
+    .map((l, i) => {
+      const sku = normSku(l.sku);
+      const prod = datos.productos[sku];
+      return {
+        n: i + 1,
+        sku,
+        nombre: l.nombre || prod?.name || '',
+        cantidad: Number(l.cantidad) || 0,
+        bulk: Number(prod?.bulk) || 0,
+        piso: pisoDe(sku, prod?.category),
+        prefijo: prefijoDe(sku),
+        linea: l
+      };
+    });
+
+  const pisos = ORDEN_PISOS.map(nombre => {
+    const items = lineas.filter(it => it.piso === nombre)
+      .sort((a, b) => COLLATOR.compare(a.prefijo, b.prefijo) || COLLATOR.compare(a.sku, b.sku));
+    items.forEach((it, i) => { it.nuevoGrupo = i > 0 && it.prefijo !== items[i - 1].prefijo; });
+    return { nombre, items };
+  }).filter(pi => pi.items.length);
+
+  const sumaSub = lineas.reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0);
+  const bruto = Number(p.totalBruto) || sumaSub;
+  const neto = p.totalNeto != null && p.totalNeto !== '' ? Number(p.totalNeto) || 0 : bruto;
+  const totales = {
+    bruto,
+    neto,
+    promo: lineas.filter(it => it.linea.mecanismo === 'promocion')
+      .reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0),
+    pct: Number(p.descTotalPct) || 0,
+    // Igual a lo que guardo el servidor
+    descuento: Math.round((bruto - neto) * 100) / 100
+  };
+
+  const hojasPrep = paginarPrep(pisos, !!c.obs);
+  const ultima = hojasPrep[hojasPrep.length - 1];
+  const altoFact = MM.cabFact + MM.filaFact +
+    lineas.reduce((a, it) => a + renglonesFact(it) * MM.filaFact, 0) +
+    MM.totales + MM.firmasFact;
+  const unica = hojasPrep.length === 1 &&
+    ultima.usado + MM.separador + altoFact <= MM.hoja * MARGEN_HOJA_UNICA;
+
+  const hojasFact = unica ? [] : paginarFact(lineas);
+  const total = hojasPrep.length + hojasFact.length;
+
+  let html = '';
+  hojasPrep.forEach((h, i) => {
+    let cuerpo = h.primera ? htmlCabPrep(c, lineas.length) : htmlCabCont('Hoja de preparación', c);
+    h.bloques.forEach(b => { cuerpo += b.tipo === 'franja' ? htmlFranja(b) : htmlGrilla(b); });
+    if (h.firmas) cuerpo += htmlFirmasPrep();
+    if (unica) {
+      cuerpo += '<div class="ih-separador">FACTURACIÓN · uso interno</div>' +
+        htmlBloqueFact({ primera: true, desde: 0, hasta: lineas.length, cierre: true }, c, lineas, totales);
+    }
+    html += `<section class="ih-hoja">${cuerpo}${htmlPie(c, i + 1, total)}</section>`;
+  });
+
+  hojasFact.forEach((h, i) => {
+    html += `<section class="ih-hoja">${htmlBloqueFact(h, c, lineas, totales)}` +
+      `${htmlPie(c, hojasPrep.length + i + 1, total)}</section>`;
+  });
+
+  return { html, hojas: total, lineas: lineas.length };
+}
+
+// ---------- pantalla: contenedor y aviso ----------
+
+function contenedor() {
+  let cont = document.getElementById('ih-hojas');
+  if (!cont) {
+    cont = document.createElement('div');
+    cont.id = 'ih-hojas';
+    cont.setAttribute('aria-hidden', 'true');
+    // Las alturas del paginado, para que el CSS use exactamente las mismas
+    Object.entries(MM).forEach(([k, v]) => {
+      cont.style.setProperty('--ih-' + k.replace(/[A-Z]/g, m => '-' + m.toLowerCase()), v + 'mm');
+    });
+    document.body.appendChild(cont);
+  }
+  return cont;
+}
+
+function mostrarAviso(texto, botones) {
+  let av = document.getElementById('ih-aviso');
+  if (!av) {
+    av = document.createElement('div');
+    av.id = 'ih-aviso';
+    av.innerHTML = `
+      <div class="ih-aviso-caja">
+        <p class="ih-aviso-texto"></p>
+        <div class="ih-aviso-botones"></div>
+      </div>`;
+    document.body.appendChild(av);
+  }
+  av.hidden = false;
+  av.querySelector('.ih-aviso-texto').textContent = texto;
+
+  const cont = av.querySelector('.ih-aviso-botones');
+  cont.innerHTML = '';
+  (botones || []).forEach(b => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ih-btn' + (b.principal ? ' ih-btn-principal' : '');
+    btn.textContent = b.texto;
+    btn.addEventListener('click', b.accion);
+    cont.appendChild(btn);
+  });
+}
+
+function cerrar() {
+  const av = document.getElementById('ih-aviso');
+  if (av) av.hidden = true;
+  const cont = document.getElementById('ih-hojas');
+  if (cont) cont.innerHTML = '';
+  tandas = [];
+}
+
+/**
+ * Aunque esten en cache, Chrome puede abrir la impresion antes de dibujar
+ * las imagenes y salir en blanco: se espera que carguen y se decodifiquen.
+ */
+function esperarDibujo() {
+  const imgs = [...contenedor().querySelectorAll('img')];
+  const listas = Promise.allSettled(imgs.map(img =>
+    (img.complete ? Promise.resolve() : new Promise(r => {
+      img.addEventListener('load', r, { once: true });
+      img.addEventListener('error', r, { once: true });
+    })).then(() => img.decode().catch(() => {}))
+  )).then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+
+  return Promise.race([listas, esperar(ESPERA_DIBUJO_MS)]);
+}
+
+// ---------- tandas ----------
+
+let tandas = [];
+let tandaActual = 0;
+let trabajando = false;
+
+/** Arma e imprime los pedidos elegidos, en tandas de TAMANO_TANDA. */
+export function imprimir(pedidos) {
+  pedidos = (pedidos || []).filter(Boolean);
+  if (!pedidos.length || trabajando) return;
+
+  tandas = [];
+  for (let i = 0; i < pedidos.length; i += TAMANO_TANDA) {
+    tandas.push(pedidos.slice(i, i + TAMANO_TANDA));
+  }
+  tandaActual = 0;
+  prepararTanda();
+}
+
+async function prepararTanda() {
+  trabajando = true;
+  const total = tandas.length;
+  const peds = tandas[tandaActual];
+  const etiqueta = total > 1 ? `Tanda ${tandaActual + 1} de ${total}` : 'Impresión';
+
+  mostrarAviso(`${etiqueta} · cargando datos…`);
+  const t0 = performance.now();
+
+  try {
+    await cargarDatos();
+  } catch (e) {
+    console.error('[Hojas] No se pudieron cargar los datos:', e);
+    trabajando = false;
+    mostrarAviso('No se pudieron cargar los datos de productos.', [
+      { texto: 'Reintentar', principal: true, accion: prepararTanda },
+      { texto: 'Cancelar', accion: cerrar }
+    ]);
+    return;
+  }
+  const t1 = performance.now();
+
+  // Fotos de la tanda al frente de la cola, con limite de espera
+  const skus = skusDe(peds);
+  const conFoto = skus.filter(s => datos.imagenes[s]);
+  const yaEnCache = conFoto.filter(s => fotos.get(s)?.estado === 'ok').length;
+  const antes = { ...medicion };
+  encolar(conFoto, true);
+
+  let esperando = true;
+  let listas = 0;
+  const promesas = conFoto.map(s => fotos.get(s).promesa);
+  const avance = () => {
+    if (esperando) mostrarAviso(`${etiqueta} · preparando fotos ${listas} de ${conFoto.length}…`);
+  };
+  promesas.forEach(pr => pr.then(() => { listas++; avance(); }));
+  avance();
+
+  await Promise.race([Promise.all(promesas), esperar(ESPERA_FOTOS_MS)]);
+  esperando = false;
+  const t2 = performance.now();
+
+  mostrarAviso(`${etiqueta} · armando hojas…`);
+  let html = '';
+  let hojas = 0;
+  let lineas = 0;
+  peds.forEach(p => {
+    const r = armarPedido(p);
+    html += r.html;
+    hojas += r.hojas;
+    lineas += r.lineas;
+  });
+  contenedor().innerHTML = html;
+  const t3 = performance.now();
+
+  await esperarDibujo();
+  const t4 = performance.now();
+
+  const sinFoto = skus.length - conFoto.filter(s => fotos.get(s)?.estado === 'ok').length;
+  const ms = x => Math.round(x) + ' ms';
+  console.log(`[Hojas] ${etiqueta}: ${peds.length} pedidos, ${lineas} líneas, ${hojas} hojas` +
+    ` · datos ${ms(t1 - t0)} · espera fotos ${ms(t2 - t1)} · armado ${ms(t3 - t2)}` +
+    ` · dibujo ${ms(t4 - t3)} · total ${ms(t4 - t0)}` +
+    ` · fotos: ${medicion.descargadas - antes.descargadas} descargadas` +
+    ` (${medicion.sinSufijo - antes.sinSufijo} sin sufijo), ${sinFoto} sin foto, ${yaEnCache} ya en caché`);
+
+  trabajando = false;
+  mostrarAviso(`${etiqueta} · abriendo el diálogo de impresión…`);
+  window.print();
+  despuesDeImprimir();
+}
+
+/** Se llama al volver de print(): el dialogo ya se cerro. */
+function despuesDeImprimir() {
+  const total = tandas.length;
+  const n = tandaActual + 1;
+  const repetir = { texto: 'Repetir', accion: () => { window.print(); } };
+
+  if (n < total) {
+    mostrarAviso(`Tanda ${n} de ${total} enviada a imprimir.`, [
+      { texto: `Imprimir tanda ${n + 1}`, principal: true, accion: () => { tandaActual++; prepararTanda(); } },
+      repetir,
+      { texto: 'Cancelar', accion: cerrar }
+    ]);
+  } else {
+    mostrarAviso(total > 1 ? `Tanda ${total} de ${total} enviada. Listo.` : 'Pedidos enviados a imprimir.', [
+      { texto: 'Cerrar', principal: true, accion: cerrar },
+      repetir
+    ]);
+  }
+}
