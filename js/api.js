@@ -14,14 +14,20 @@ function esperar(ms) {
   return new Promise(r => setTimeout(r, ms));
 }
 
-const TIEMPO_MAXIMO = 8000;
+const TIEMPO_MAXIMO = 15000;
+
+// Tras un tiempo agotado se permite un solo reintento mas por esa causa:
+// el servidor suele haber respondido y es Google el que demora la entrega,
+// asi que cortar y repetir solo duplica el trabajo
+const REINTENTOS_POR_TIEMPO = 1;
 
 async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO) {
   let ultimoError;
+  let tiemposAgotados = 0;
 
   for (let i = 0; i <= reintentos; i++) {
-    // Si Google no responde en 8 segundos, cortar y reintentar: una falla
-    // lenta hacia esperar un minuto antes de volver a probar
+    // Si Google no responde en 15 segundos, cortar: una falla lenta hacia
+    // esperar un minuto antes de volver a probar
     const control = new AbortController();
     const corte = setTimeout(() => control.abort(), margen);
 
@@ -47,7 +53,13 @@ async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO)
 
     } catch (e) {
       clearTimeout(corte);
-      ultimoError = e.name === 'AbortError' ? new Error('tiempo_agotado') : e;
+      const porTiempo = e.name === 'AbortError';
+      ultimoError = porTiempo ? new Error('tiempo_agotado') : e;
+      if (porTiempo) tiemposAgotados++;
+
+      // Las demas fallas (pagina HTML de error, red) usan todos los reintentos
+      if (tiemposAgotados > REINTENTOS_POR_TIEMPO) break;
+
       if (i < reintentos) {
         console.warn(`[Api] ${payload.accion}: intento ${i + 1} fallido (${ultimoError.message}), reintentando`);
         window.RegistroFallos?.registrarFallo(`reintento_${payload.accion}`, `intento ${i + 1}: ${ultimoError.message}`);

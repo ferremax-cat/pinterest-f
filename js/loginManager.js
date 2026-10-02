@@ -13,12 +13,15 @@ import { llamarApi } from './api.js';
 const USAR_LOGIN_ENDPOINT = true; // Cambiar a true para usar el endpoint de login
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
 /**
- * Un solo intento con 3 segundos de margen: si Google esta frenando, el
- * usuario entra igual con la validacion local y el token se pide despues.
- * El token sigue siendo obligatorio para el cupo y para guardar pedidos.
+ * Un solo intento con 12 segundos de margen: aunque el servidor responda en
+ * 2-3 segundos, Google puede demorar 5-8 en entregar la respuesta, y con
+ * menos margen el login caia en modo degradado con el servidor funcionando.
+ * Si aun asi no llega, el usuario entra igual con la validacion local y el
+ * token se pide despues. El token sigue siendo obligatorio para el cupo y
+ * para guardar pedidos.
  */
 async function autenticarEnEndpoint(clave) {
-    return await llamarApi({ accion: 'login', clave: String(clave).trim() }, 0, 3000);
+    return await llamarApi({ accion: 'login', clave: String(clave).trim() }, 0, 12000);
 }
 
 /**
