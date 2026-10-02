@@ -64,9 +64,10 @@ function fmtFechaHora(iso) {
   if (!iso) return '—';
   const f = new Date(iso);
   if (isNaN(f)) return '—';
+  // hourCycle h23: siempre 24 horas ("17:42"), nunca "05:42 p. m."
   return f.toLocaleString('es-AR', {
     timeZone: ZONA, day: '2-digit', month: '2-digit', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
   });
 }
 
@@ -85,6 +86,28 @@ async function leerJson(url) {
   return r.json();
 }
 
+let clientes = null;
+let clientesPromesa = null;
+
+/**
+ * Padron de clientes (cuenta -> { name, ... }), una sola vez. Lo usa
+ * tambien la bandeja para mostrar el nombre completo: el del servidor
+ * puede llegar cortado. Si falla, devuelve un padron vacio y el proximo
+ * pedido lo vuelve a intentar.
+ */
+export function cargarClientes() {
+  if (!clientesPromesa) {
+    clientesPromesa = leerJson('./json/clientes_permisos.json')
+      .catch(() => { clientesPromesa = null; return {}; })
+      .then(c => (clientes = c));
+  }
+  return clientesPromesa;
+}
+
+/** Nombre completo del padron, con el del servidor como respaldo. */
+const nombreCliente = p =>
+  clientes?.[String(p.cliente ?? '').trim()]?.name || p.nombreCliente || '';
+
 /**
  * Productos, mapa de imagenes y clientes, una sola vez. Sin productos no
  * hay pisos, asi que ese es obligatorio; los otros dos tienen respaldo.
@@ -94,7 +117,7 @@ function cargarDatos() {
     datosPromesa = Promise.all([
       leerJson('./json/productos.json'),
       leerJson('./json/catalogo_imagenes.json').then(j => j.images || {}).catch(() => ({})),
-      leerJson('./json/clientes_permisos.json').catch(() => ({}))
+      cargarClientes()
     ]).then(([productos, imagenes, clientes]) => {
       datos = { productos, imagenes, clientes };
       return datos;
@@ -368,7 +391,7 @@ function htmlReimp(p) {
     const fecha = f.toLocaleDateString('es-AR',
       { timeZone: ZONA, day: '2-digit', month: '2-digit', year: 'numeric' });
     const hora = f.toLocaleTimeString('es-AR',
-      { timeZone: ZONA, hour: '2-digit', minute: '2-digit', hour12: false });
+      { timeZone: ZONA, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
     texto = `impreso originalmente el ${fecha} a las ${hora}`;
   } else {
     texto = 'fecha de impresión original desconocida';
@@ -473,7 +496,7 @@ function armarPedido(p, reimpresion) {
     fecha: fmtFechaHora(p.fecha),
     cuenta: p.cliente ?? '',
     // El servidor puede mandar el nombre cortado: se prefiere el del padron
-    nombre: datos.clientes[String(p.cliente ?? '').trim()]?.name || p.nombreCliente || '',
+    nombre: nombreCliente(p),
     vendedor: p.vendedor || '—',
     lista: String(p.lista ?? '').trim(),
     obs: [p.motivo, p.obsLibre].map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
@@ -567,8 +590,12 @@ function contenedor() {
   return cont;
 }
 
-/** detalleHtml (opcional) va debajo del texto: ya tiene que venir escapado. */
-function mostrarAviso(texto, botones, detalleHtml) {
+/**
+ * detalleHtml (opcional) va debajo del texto: ya tiene que venir escapado.
+ * clase (opcional) se agrega a la caja, por ejemplo para mostrar el texto
+ * como titulo de una pregunta.
+ */
+function mostrarAviso(texto, botones, detalleHtml, clase) {
   let av = document.getElementById('ih-aviso');
   if (!av) {
     av = document.createElement('div');
@@ -582,6 +609,7 @@ function mostrarAviso(texto, botones, detalleHtml) {
     document.body.appendChild(av);
   }
   av.hidden = false;
+  av.querySelector('.ih-aviso-caja').className = 'ih-aviso-caja' + (clase ? ' ' + clase : '');
   av.querySelector('.ih-aviso-texto').textContent = texto;
   av.querySelector('.ih-aviso-detalle').innerHTML = detalleHtml || '';
 
@@ -718,10 +746,143 @@ async function prepararTanda() {
     ` · fotos: ${medicion.descargadas - antes.descargadas} descargadas` +
     ` (${medicion.sinSufijo - antes.sinSufijo} sin sufijo), ${sinFoto} sin foto, ${yaEnCache} ya en caché`);
 
+  registrarEImprimir();
+}
+
+const idsTanda = () => tandas[tandaActual].map(p => String(p.id));
+
+function llamarIntento(ids, anular) {
+  return window.Api.llamar({
+    accion: 'intento_impresion',
+    token: sessionStorage.getItem('authToken'),
+    ids,
+    ...(anular ? { modo: 'anular' } : {})
+  }, 2, 20000);
+}
+
+/**
+ * Antes de abrir el dialogo se registra el intento en el servidor: si la
+ * confirmacion nunca llega, el pedido queda a la vista en la bandeja como
+ * "impresion sin confirmar". Si no se puede registrar, no se imprime.
+ * Las reimpresiones no registran nada.
+ */
+async function registrarEImprimir() {
+  const total = tandas.length;
+  const n = tandaActual + 1;
+  const etiqueta = total > 1 ? `Tanda ${n} de ${total}` : 'Impresión';
+
+  if (!opciones.reimpresion) {
+    trabajando = true;
+    const ids = idsTanda();
+    mostrarAviso(`${etiqueta} · registrando la impresión…`);
+    const t0 = performance.now();
+
+    let d = null;
+    try {
+      d = await llamarIntento(ids, false);
+    } catch (e) {
+      console.error('[Hojas] Sin respuesta al registrar el intento:', e);
+    }
+
+    if (!d?.ok) {
+      trabajando = false;
+      if (d) console.warn('[Hojas] Error al registrar el intento:', d.error);
+      mostrarAviso(d?.error === 'token_invalido'
+        ? 'Tu sesión venció. Volvé a iniciar sesión: no se imprimió nada.'
+        : 'No se pudo registrar la impresión, así que no se imprimió nada (' +
+          (d ? `el servidor respondió con un error: ${d.error}` : 'no hay conexión con el servidor') + ').',
+        [
+          { texto: 'Reintentar', principal: true, accion: registrarEImprimir },
+          { texto: 'Cancelar', accion: cerrar }
+        ]);
+      return;
+    }
+
+    const yaImpresos = Number(d.yaImpresos) || 0;
+    const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
+    console.log(`[Hojas] Intento tanda ${n}/${total}: registrados ${Number(d.registrados) || 0}` +
+      ` · ya impresos ${yaImpresos} · no encontrados ${noEncontrados.length}` +
+      ` · ${Math.round(performance.now() - t0)} ms`);
+
+    // Otra persona los imprimio mientras la bandeja estaba abierta: no se
+    // imprime la tanda y se anula lo registrado (el servidor no toca los
+    // ya impresos)
+    if (yaImpresos > 0) {
+      mostrarAviso('Anulando el registro de impresión…');
+      let anulado = false;
+      try {
+        anulado = !!(await llamarIntento(ids, true))?.ok;
+      } catch (e) {
+        console.error('[Hojas] Sin respuesta al anular el intento:', e);
+      }
+      trabajando = false;
+      mostrarAviso((yaImpresos === 1
+        ? '1 pedido ya fue impreso por otra persona mientras tenías la bandeja abierta.'
+        : `${yaImpresos} pedidos ya fueron impresos por otra persona mientras tenías la bandeja abierta.`) +
+        ' Actualizá la bandeja y volvé a seleccionar.',
+        [{ texto: 'Actualizar bandeja', principal: true, accion: cerrar }],
+        anulado ? '' : '<p class="ih-aviso-lista">No se pudo anular el registro: algunos pedidos ' +
+          'pueden aparecer como «impresión sin confirmar»; se resuelven desde la bandeja.</p>');
+      return;
+    }
+  }
+
   trabajando = false;
   mostrarAviso(`${etiqueta} · abriendo el diálogo de impresión…`);
   imprimirConTitulo();
   despuesDeImprimir();
+}
+
+/** "No se imprimio": se borra el intento registrado de la tanda. */
+async function anularIntento() {
+  const ids = idsTanda();
+  mostrarAviso('Anulando el registro de impresión…');
+
+  let d = null;
+  try {
+    d = await llamarIntento(ids, true);
+  } catch (e) {
+    console.error('[Hojas] Sin respuesta al anular el intento:', e);
+  }
+
+  if (d?.ok) {
+    console.log(`[Hojas] Intento anulado: ${Number(d.registrados) || 0} pedidos`);
+    cerrar();
+    return;
+  }
+
+  if (d) console.warn('[Hojas] Error al anular el intento:', d.error);
+  const texto = 'No se pudo anular el registro de impresión. Estos pedidos van a aparecer como ' +
+    '«impresión sin confirmar»; se pueden resolver desde la bandeja.';
+  mostrarAviso(d?.error === 'token_invalido' ? 'Tu sesión venció. ' + texto : texto,
+    [{ texto: 'Cerrar', principal: true, accion: cerrar }]);
+}
+
+/**
+ * Pedido con impresion sin confirmar: si alguien verifico que las hojas
+ * estan en el deposito, pasa a Impresos sin volver a imprimirse. Se marca
+ * con el mismo circuito que una tanda de un solo pedido.
+ */
+export function confirmarExistentes(pedido, opc = {}) {
+  if (!pedido || trabajando) return;
+
+  opciones = opc;
+  tandas = [[pedido]];
+  tandaActual = 0;
+
+  const por = String(pedido.intentoPor ?? '').trim();
+  const lineas = Number(pedido.cantLineas) || 0;
+  const ficha = `${esc(nombreCliente(pedido))} · ${plural(lineas, 'línea', 'líneas')}` +
+    ` · Intento: ${esc(fmtFechaHora(pedido.intentoImpresion))}${por ? ` (${esc(por)})` : ''}`;
+
+  mostrarAviso(`¿Las hojas del pedido N° ${pedido.numero || '—'} están en el depósito?`, [
+    { texto: 'Cancelar', accion: cerrar },
+    { texto: 'Sí, las hojas existen', principal: true, accion: () => marcarTanda(false) }
+  ],
+  '<p class="ih-aviso-explica">Si confirmás, el pedido pasa a Impresos sin volver a imprimirse. ' +
+    'Hacelo solo si alguien verificó que las hojas existen; si no aparecen, usá Imprimir de nuevo.</p>' +
+    `<div class="ih-aviso-ficha">${ficha}</div>`,
+  'ih-aviso-pregunta');
 }
 
 /**
@@ -783,7 +944,7 @@ function despuesDeImprimir() {
   mostrarAviso((prefijo ? prefijo + ' · ' : '') + '¿Las hojas salieron bien?', [
     { texto: 'Sí, marcar como impresos', principal: true, accion: () => marcarTanda(false) },
     { texto: 'No, repetir la impresión', accion: () => { imprimirConTitulo(); despuesDeImprimir(); } },
-    { texto: 'Cancelar', accion: cerrar }
+    { texto: 'No se imprimió', accion: anularIntento }
   ]);
 }
 
@@ -823,7 +984,7 @@ async function marcarTanda(esReintento) {
   if (!d.ok) {
     console.warn('[Hojas] Error al marcar:', d.error);
     mostrarAviso(d.error === 'token_invalido'
-      ? 'Tu sesión venció. Volvé a iniciar sesión: los pedidos de esta tanda siguen en Pendientes.'
+      ? 'Tu sesión venció. Volvé a iniciar sesión: los pedidos siguen en Pendientes.'
       : `El servidor respondió con un error (${d.error}). Las hojas ya están impresas, no hace falta repetirlas.`,
       [reintentar, cancelar]);
     return;

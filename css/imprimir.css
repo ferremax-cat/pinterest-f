@@ -254,6 +254,27 @@ body {
   white-space: nowrap;
 }
 
+/* Computadora: con las dos columnas de Impresos la tabla tiene que entrar
+   en 1280 px sin desplazamiento. Los textos largos pasan de renglon y las
+   fechas, numeros e importes quedan en una sola linea */
+@media (min-width: 768px) {
+  .im-tabla th,
+  .im-tabla td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .im-tabla td.c-cliente,
+  .im-tabla td.c-vendedor,
+  .im-tabla td.c-impreso-por {
+    white-space: normal;
+    overflow-wrap: break-word;
+    min-width: 6em;
+  }
+
+  .im-tabla td.c-cliente { min-width: 10em; }
+}
+
 .im-tabla tbody tr { cursor: pointer; }
 
 .im-tabla tbody tr:nth-child(even) { background: #fafafa; }
@@ -301,6 +322,124 @@ body {
   padding: 32px;
   color: var(--texto-suave);
   text-align: center;
+}
+
+/* ---------- impresion sin confirmar ---------- */
+
+.im-sinconf {
+  margin: 16px 0 4px;
+  padding: 14px 16px;
+  background: #fff7ed;
+  border: 1.5px solid #ff9404;
+  border-radius: var(--radio);
+}
+
+.im-sc-cab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff9404;
+}
+
+.im-sc-cab svg { flex-shrink: 0; }
+
+.im-sc-cab h2 {
+  margin: 0;
+  color: var(--texto);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.im-sc-texto {
+  margin: 4px 0 12px;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.im-sc-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.im-sc-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 14px;
+  background: #fff;
+  border-left: 4px solid #ff9404;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+.im-sc-info { min-width: 0; }
+
+.im-sc-datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin: 0;
+}
+
+.im-sc-numero { color: #111; }
+
+.im-sc-cliente {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.im-sc-meta {
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+
+.im-sc-intento {
+  margin: 4px 0 0;
+  color: #9a3412;
+  font-size: 13px;
+}
+
+.im-sc-botones {
+  display: flex;
+  gap: 8px;
+}
+
+.im-sc-existen,
+.im-sc-imprimir {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Discreto: confirmar sin reimprimir tiene que ser una decision pensada */
+.im-sc-existen {
+  border: 1.5px solid var(--texto);
+  background: #fff;
+  color: var(--texto);
+}
+
+.im-sc-existen:hover { background: #f3f4f6; }
+
+.im-sc-imprimir {
+  border: 1.5px solid var(--rojo);
+  background: var(--rojo);
+  color: #fff;
+}
+
+.im-sc-imprimir:hover { background: var(--rojo-hover); }
+
+.im-titulo-lista {
+  margin: 20px 0 0;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 /* ---------- celular ---------- */
@@ -391,6 +530,28 @@ body {
     width: 20px;
     height: 20px;
   }
+
+  /* Impresion sin confirmar: todo apilado, botones a la par */
+  .im-sinconf {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  .im-sc-tarjeta {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 12px;
+  }
+
+  .im-sc-datos { gap: 2px 8px; }
+
+  .im-sc-botones > button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 10px 6px;
+    white-space: normal;
+  }
+
+  .im-titulo-lista { margin-top: 16px; }
 
   /* Boton fijo al pie, a todo el ancho */
   #im-imprimir {

@@ -569,6 +569,7 @@ function doPost(e) {
     if (accion === 'pedido_detalle')     return accionPedidoDetalle(body);
     if (accion === 'pedidos_para_imprimir') return accionPedidosParaImprimir(body);
     if (accion === 'marcar_impresos') return accionMarcarImpresos(body);
+    if (accion === 'intento_impresion') return accionIntentoImpresion(body);
 
     return responder({ ok: false, error: 'accion_desconocida' });
   } catch (err) {
@@ -583,7 +584,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v21-numero-pedido' });
+      return responder({ ok: true, version: 'v22-intento-impresion' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -682,7 +683,8 @@ function accionPedidosParaImprimir(body) {
     descPct: c('desc_total_pct'), neto: c('total_neto'), motivo: c('motivo_obs'),
     obs: c('obs_libre'), origen: c('id_pedido_origen'), revision: c('revision'), lista: c('lista'),
     impreso: c('impreso'), fechaImp: c('fecha_impresion'), impresoPor: c('impreso_por'),
-    rolCreador: c('rol_creador'), numero: c('numero')
+    rolCreador: c('rol_creador'), numero: c('numero'),
+    intento: c('intento_impresion'), intentoPor: c('intento_por')
   };
   if (I.impreso < 0 || I.fechaImp < 0 || I.rolCreador < 0) {
     return responder({ ok: false, error: 'faltan_columnas' });
@@ -748,7 +750,9 @@ function accionPedidosParaImprimir(body) {
       revision: Number(f[I.revision]) || 0,
       lista: String(f[I.lista] || ''),
       fechaImpresion: f[I.fechaImp] instanceof Date ? f[I.fechaImp].toISOString() : '',
-      impresoPor: nombreUsuario(f[I.impresoPor])
+      impresoPor: nombreUsuario(f[I.impresoPor]),
+      intentoImpresion: (I.intento >= 0 && f[I.intento] instanceof Date) ? f[I.intento].toISOString() : '',
+      intentoPor: I.intentoPor >= 0 ? nombreUsuario(f[I.intentoPor]) : ''
     });
   }
 
@@ -894,4 +898,73 @@ function siguienteNumeroPedido(hCab) {
 function reiniciarNumeracionPedidos() {
   PropertiesService.getScriptProperties().setProperty('ultimo_numero_pedido', '0');
   Logger.log('Numeracion de pedidos reiniciada');
+}
+
+
+/**
+ * Registra o anula el intento de impresion de pedidos. Se registra antes de
+ * abrir el dialogo de impresion: si la confirmacion nunca llega, el pedido
+ * queda a la vista como "impresion sin confirmar" en lugar de depender de la
+ * memoria de alguien. Se anula cuando la persona indica que no se imprimio.
+ * Nunca toca pedidos ya marcados como impresos.
+ */
+function accionIntentoImpresion(body) {
+  const p = verificarToken(body.token);
+  if (!p) return responder({ ok: false, error: 'token_invalido' });
+  const rol = String(p.rol || '').trim();
+  if (!ROLES_IMPRIMIR.includes(rol)) return responder({ ok: false, error: 'rol_sin_permiso' });
+
+  const anular = body.modo === 'anular';
+  const ids = Array.isArray(body.ids)
+    ? body.ids.map(x => String(x).trim()).filter(Boolean) : [];
+  if (!ids.length) return responder({ ok: false, error: 'sin_ids' });
+  const buscados = new Set(ids);
+  const verTodos = ROLES_VER_TODOS.includes(rol);
+
+  const ss = SpreadsheetApp.openById(PLANILLA_ID);
+  const h = ss.getSheetByName('pedidos_cabecera');
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+
+    const v = h.getDataRange().getValues();
+    const enc = v[0].map(x => String(x).trim());
+    const cId = enc.indexOf('id_pedido');
+    const cCli = enc.indexOf('cliente');
+    const cImp = enc.indexOf('impreso');
+    const cInt = enc.indexOf('intento_impresion');
+    const cPor = enc.indexOf('intento_por');
+    if (cImp < 0 || cInt < 0 || cPor !== cInt + 1) {
+      return responder({ ok: false, error: 'faltan_columnas' });
+    }
+
+    const ahora = new Date();
+    const valores = anular ? ['', ''] : [ahora, String(p.usr || '')];
+    let registrados = 0, yaImpresos = 0;
+
+    for (let i = 1; i < v.length; i++) {
+      const id = String(v[i][cId]).trim();
+      if (!buscados.has(id)) continue;
+      buscados.delete(id);
+
+      if (!verTodos) {
+        const d = getFinanzasCliente(String(v[i][cCli]).trim());
+        if (!d || d.vendedor !== p.cod) continue;
+      }
+      if (String(v[i][cImp] || '').trim().toUpperCase() === 'SI') {
+        yaImpresos++;
+        continue;
+      }
+      h.getRange(i + 1, cInt + 1, 1, 2).setValues([valores]);
+      registrados++;
+    }
+
+    return responder({ ok: true, registrados, yaImpresos, noEncontrados: Array.from(buscados) });
+
+  } catch (err) {
+    return responder({ ok: false, error: String(err) });
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
 }

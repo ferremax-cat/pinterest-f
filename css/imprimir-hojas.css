@@ -529,6 +529,30 @@
   font-size: 13px;
 }
 
+/* Pregunta con titulo (confirmar que las hojas existen) */
+.ih-aviso-pregunta .ih-aviso-texto {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ih-aviso-explica {
+  margin: 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ih-aviso-ficha {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  color: #1f2937;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
 .ih-aviso-botones {
   display: flex;
   flex-wrap: wrap;
@@ -557,3 +581,15 @@
 }
 
 .ih-btn-principal:hover { background: #c5001d; }
+
+/* Celular: botones a todo el ancho, uno debajo del otro */
+@media (max-width: 767.98px) {
+  .ih-aviso-caja { padding: 18px; }
+
+  .ih-aviso-botones { flex-direction: column; }
+
+  .ih-aviso-botones .ih-btn {
+    width: 100%;
+    padding: 12px 16px;
+  }
+}
