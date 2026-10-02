@@ -32,7 +32,7 @@ const EXCEPCIONES_PISO = [
 const MM = {
   hoja: 280, cabPrep: 34, obs: 14, cabCont: 9, franja: 7, fila: 19,
   firmas: 40, pie: 6, cabFact: 26, filaFact: 5.5, totales: 26,
-  firmasFact: 14, separador: 8
+  firmasFact: 14, separador: 8, reimp: 9
 };
 
 // Caracteres de codigo que entran en un renglon de la columna Codigo de
@@ -232,13 +232,13 @@ function tipoDe(l) {
  * Reparte los pisos en hojas. Cada piso abre con su franja y sigue con
  * renglones de dos columnas; si no entra, continua en la hoja siguiente.
  */
-function paginarPrep(pisos, conObs) {
+function paginarPrep(pisos, conObs, conReimp) {
   const hojas = [];
   const nueva = primera => {
-    const h = {
-      primera, bloques: [], firmas: false,
-      usado: (primera ? MM.cabPrep + (conObs ? MM.obs : 0) : MM.cabCont) + MM.pie
-    };
+    const cab = primera
+      ? MM.cabPrep + (conObs ? MM.obs : 0) + (conReimp ? MM.reimp : 0)
+      : MM.cabCont;
+    const h = { primera, bloques: [], firmas: false, usado: cab + MM.pie };
     hojas.push(h);
     return h;
   };
@@ -360,6 +360,24 @@ function htmlCabPrep(c, lineas) {
     ${c.obs ? `<div class="ih-obs"><b>OBSERVACIONES</b> ${esc(c.obs)}</div>` : ''}`;
 }
 
+/** Franja de las hojas reimpresas, con la impresion original. */
+function htmlReimp(p) {
+  const f = p.fechaImpresion ? new Date(p.fechaImpresion) : null;
+  let texto;
+  if (f && !isNaN(f)) {
+    const fecha = f.toLocaleDateString('es-AR',
+      { timeZone: ZONA, day: '2-digit', month: '2-digit', year: 'numeric' });
+    const hora = f.toLocaleTimeString('es-AR',
+      { timeZone: ZONA, hour: '2-digit', minute: '2-digit', hour12: false });
+    texto = `impreso originalmente el ${fecha} a las ${hora}`;
+  } else {
+    texto = 'fecha de impresión original desconocida';
+  }
+  const por = String(p.impresoPor ?? '').trim();
+  if (por) texto += ` por ${por}`;
+  return `<div class="ih-reimp"><b>REIMPRESIÓN</b> · ${esc(texto)}</div>`;
+}
+
 function htmlCabCont(titulo, c) {
   return `<header class="ih-cab-cont"><b>${titulo}</b> · N° ${esc(c.numero)} · ${esc(c.cuenta)} · ${esc(c.nombre)} <span>(continuación)</span></header>`;
 }
@@ -449,7 +467,7 @@ function htmlBloqueFact(h, c, lineas, totales) {
 
 // ---------- armado de un pedido ----------
 
-function armarPedido(p) {
+function armarPedido(p, reimpresion) {
   const c = {
     numero: p.numero || '—',
     fecha: fmtFechaHora(p.fecha),
@@ -499,7 +517,7 @@ function armarPedido(p) {
     descuento: Math.round((bruto - neto) * 100) / 100
   };
 
-  const hojasPrep = paginarPrep(pisos, !!c.obs);
+  const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion);
   const ultima = hojasPrep[hojasPrep.length - 1];
   const altoFact = MM.cabFact + MM.filaFact +
     lineas.reduce((a, it) => a + renglonesFact(it) * MM.filaFact, 0) +
@@ -512,7 +530,9 @@ function armarPedido(p) {
 
   let html = '';
   hojasPrep.forEach((h, i) => {
-    let cuerpo = h.primera ? htmlCabPrep(c, lineas.length) : htmlCabCont('Hoja de preparación', c);
+    let cuerpo = h.primera
+      ? htmlCabPrep(c, lineas.length) + (reimpresion ? htmlReimp(p) : '')
+      : htmlCabCont('Hoja de preparación', c);
     h.bloques.forEach(b => { cuerpo += b.tipo === 'franja' ? htmlFranja(b) : htmlGrilla(b); });
     if (h.firmas) cuerpo += htmlFirmasPrep();
     if (unica) {
@@ -547,7 +567,8 @@ function contenedor() {
   return cont;
 }
 
-function mostrarAviso(texto, botones) {
+/** detalleHtml (opcional) va debajo del texto: ya tiene que venir escapado. */
+function mostrarAviso(texto, botones, detalleHtml) {
   let av = document.getElementById('ih-aviso');
   if (!av) {
     av = document.createElement('div');
@@ -555,12 +576,14 @@ function mostrarAviso(texto, botones) {
     av.innerHTML = `
       <div class="ih-aviso-caja">
         <p class="ih-aviso-texto"></p>
+        <div class="ih-aviso-detalle"></div>
         <div class="ih-aviso-botones"></div>
       </div>`;
     document.body.appendChild(av);
   }
   av.hidden = false;
   av.querySelector('.ih-aviso-texto').textContent = texto;
+  av.querySelector('.ih-aviso-detalle').innerHTML = detalleHtml || '';
 
   const cont = av.querySelector('.ih-aviso-botones');
   cont.innerHTML = '';
@@ -580,6 +603,13 @@ function cerrar() {
   const cont = document.getElementById('ih-hojas');
   if (cont) cont.innerHTML = '';
   tandas = [];
+  // Respaldo por si el navegador no avisó el cierre del dialogo
+  restaurarTitulo();
+
+  // Al terminar o cancelar: la bandeja se actualiza con lo que se marco
+  const alTerminar = opciones.alTerminar;
+  opciones = {};
+  alTerminar?.();
 }
 
 /**
@@ -604,11 +634,16 @@ let tandas = [];
 let tandaActual = 0;
 let trabajando = false;
 
+// reimpresion: hojas con la franja REIMPRESION y sin marcar nada
+// alTerminar: se llama al cerrar, haya terminado o se haya cancelado
+let opciones = {};
+
 /** Arma e imprime los pedidos elegidos, en tandas de TAMANO_TANDA. */
-export function imprimir(pedidos) {
+export function imprimir(pedidos, opc = {}) {
   pedidos = (pedidos || []).filter(Boolean);
   if (!pedidos.length || trabajando) return;
 
+  opciones = opc;
   tandas = [];
   for (let i = 0; i < pedidos.length; i += TAMANO_TANDA) {
     tandas.push(pedidos.slice(i, i + TAMANO_TANDA));
@@ -664,7 +699,7 @@ async function prepararTanda() {
   let hojas = 0;
   let lineas = 0;
   peds.forEach(p => {
-    const r = armarPedido(p);
+    const r = armarPedido(p, !!opciones.reimpresion);
     html += r.html;
     hojas += r.hojas;
     lineas += r.lineas;
@@ -685,26 +720,153 @@ async function prepararTanda() {
 
   trabajando = false;
   mostrarAviso(`${etiqueta} · abriendo el diálogo de impresión…`);
-  window.print();
+  imprimirConTitulo();
   despuesDeImprimir();
 }
+
+/**
+ * "Guardar como PDF" propone el titulo de la pagina como nombre de archivo:
+ * mientras dura el dialogo, el titulo lleva la fecha y hora de Argentina.
+ */
+let tituloOriginal = null;
+
+function restaurarTitulo() {
+  if (tituloOriginal === null) return;
+  document.title = tituloOriginal;
+  tituloOriginal = null;
+}
+
+function imprimirConTitulo() {
+  const partes = Object.fromEntries(new Intl.DateTimeFormat('es-AR', {
+    timeZone: ZONA, day: 'numeric', month: 'numeric', year: '2-digit',
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+  }).formatToParts(new Date()).map(p => [p.type, p.value]));
+
+  restaurarTitulo();
+  tituloOriginal = document.title;
+  document.title = 'Ferremax - Impresión de pedidos_' +
+    `${partes.day}_${partes.month}_${partes.year}_${partes.hour}_${partes.minute}`;
+
+  // Se restaura al cerrar el dialogo y no al volver de print(): en algunos
+  // navegadores (Chrome en Android) print() vuelve antes de generar el PDF.
+  // once: true, para que no se acumulen al repetir la impresion
+  window.addEventListener('afterprint', restaurarTitulo, { once: true });
+  window.print();
+}
+
+const siguienteTanda = () => { tandaActual++; prepararTanda(); };
 
 /** Se llama al volver de print(): el dialogo ya se cerro. */
 function despuesDeImprimir() {
   const total = tandas.length;
   const n = tandaActual + 1;
-  const repetir = { texto: 'Repetir', accion: () => { window.print(); } };
+  const prefijo = total > 1 ? `Tanda ${n} de ${total}` : '';
 
-  if (n < total) {
-    mostrarAviso(`Tanda ${n} de ${total} enviada a imprimir.`, [
-      { texto: `Imprimir tanda ${n + 1}`, principal: true, accion: () => { tandaActual++; prepararTanda(); } },
-      repetir,
-      { texto: 'Cancelar', accion: cerrar }
-    ]);
-  } else {
-    mostrarAviso(total > 1 ? `Tanda ${total} de ${total} enviada. Listo.` : 'Pedidos enviados a imprimir.', [
-      { texto: 'Cerrar', principal: true, accion: cerrar },
-      repetir
-    ]);
+  // Reimpresion: no se pregunta ni se marca nada
+  if (opciones.reimpresion) {
+    const repetir = { texto: 'Repetir', accion: imprimirConTitulo };
+    if (n < total) {
+      mostrarAviso(`${prefijo} reimpresa.`, [
+        { texto: `Imprimir tanda ${n + 1}`, principal: true, accion: siguienteTanda },
+        repetir,
+        { texto: 'Cancelar', accion: cerrar }
+      ]);
+    } else {
+      mostrarAviso(total > 1 ? `${prefijo} reimpresa. Listo.` : 'Pedidos reimpresos.', [
+        { texto: 'Cerrar', principal: true, accion: cerrar },
+        repetir
+      ]);
+    }
+    return;
   }
+
+  mostrarAviso((prefijo ? prefijo + ' · ' : '') + '¿Las hojas salieron bien?', [
+    { texto: 'Sí, marcar como impresos', principal: true, accion: () => marcarTanda(false) },
+    { texto: 'No, repetir la impresión', accion: () => { imprimirConTitulo(); despuesDeImprimir(); } },
+    { texto: 'Cancelar', accion: cerrar }
+  ]);
+}
+
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+
+/**
+ * Marca la tanda actual en el servidor. Repetirlo es seguro: el servidor
+ * no cambia la fecha de un pedido ya marcado.
+ */
+async function marcarTanda(esReintento) {
+  const peds = tandas[tandaActual];
+  const ids = peds.map(p => String(p.id));
+  const total = tandas.length;
+  const n = tandaActual + 1;
+
+  const reintentar = { texto: 'Reintentar marcar', principal: true, accion: () => marcarTanda(true) };
+  const cancelar = { texto: 'Cancelar', accion: cerrar };
+
+  // Sin botones mientras tanto: no se puede tocar dos veces
+  mostrarAviso(`Marcando ${plural(ids.length, 'pedido como impreso', 'pedidos como impresos')}…`);
+  const t0 = performance.now();
+
+  let d;
+  try {
+    d = await window.Api.llamar({
+      accion: 'marcar_impresos',
+      token: sessionStorage.getItem('authToken'),
+      ids
+    }, 2, 20000);
+  } catch (e) {
+    console.error('[Hojas] Sin respuesta al marcar:', e);
+    mostrarAviso('No se pudo marcar como impresos: no hay conexión con el servidor. ' +
+      'Las hojas ya están impresas, no hace falta repetirlas.', [reintentar, cancelar]);
+    return;
+  }
+
+  if (!d.ok) {
+    console.warn('[Hojas] Error al marcar:', d.error);
+    mostrarAviso(d.error === 'token_invalido'
+      ? 'Tu sesión venció. Volvé a iniciar sesión: los pedidos de esta tanda siguen en Pendientes.'
+      : `El servidor respondió con un error (${d.error}). Las hojas ya están impresas, no hace falta repetirlas.`,
+      [reintentar, cancelar]);
+    return;
+  }
+
+  const marcados = Number(d.marcados) || 0;
+  const yaMarcados = Number(d.yaMarcados) || 0;
+  const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
+
+  console.log(`[Hojas] Marcado tanda ${n}/${total}: ${ids.length} pedidos en ` +
+    `${Math.round(performance.now() - t0)} ms · marcados ${marcados} · ya marcados ${yaMarcados}` +
+    ` · no encontrados ${noEncontrados.length}${esReintento ? ' · reintento' : ''}`);
+
+  let texto;
+  let detalle = '';
+
+  if (esReintento) {
+    // Los ya marcados casi seguro los marco el intento anterior, cuya
+    // respuesta no llego: cuentan como marcados y sin alarma
+    texto = plural(marcados + yaMarcados, 'pedido marcado como impreso', 'pedidos marcados como impresos') +
+      (yaMarcados ? ' (algunos ya habían quedado marcados en el intento anterior).' : '.');
+  } else {
+    texto = plural(marcados, 'pedido marcado como impreso', 'pedidos marcados como impresos') + '.';
+    if (yaMarcados) {
+      detalle += `<div class="ih-aviso-atencion"><b>ATENCIÓN</b>
+        ${yaMarcados === 1 ? '1 pedido ya había sido marcado' : `${yaMarcados} pedidos ya habían sido marcados`}
+        por otra persona. Revisá que no se preparen dos veces.</div>`;
+    }
+  }
+
+  if (noEncontrados.length) {
+    const numeros = noEncontrados.map(id => {
+      const p = peds.find(x => String(x.id) === String(id));
+      return p?.numero ? `N° ${p.numero}` : String(id);
+    });
+    detalle += `<p class="ih-aviso-lista">No se encontraron en el servidor: ${esc(numeros.join(', '))}</p>`;
+  }
+
+  if (total > 1) texto = `Tanda ${n} de ${total}: ${texto}`;
+
+  // Recien despues de marcar se pasa a la tanda siguiente
+  mostrarAviso(texto, n < total
+    ? [{ texto: `Imprimir tanda ${n + 1}`, principal: true, accion: siguienteTanda }, cancelar]
+    : [{ texto: 'Cerrar', principal: true, accion: cerrar }],
+    detalle);
 }

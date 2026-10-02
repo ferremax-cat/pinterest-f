@@ -245,6 +245,7 @@ function cambiarModo(nuevo) {
     b.classList.toggle('activa', b.dataset.modo === modo);
   });
   $('im-fechas').hidden = modo !== 'impresos';
+  $('im-imprimir').textContent = modo === 'impresos' ? 'Reimprimir seleccionados' : 'Imprimir seleccionados';
   consultar();
 }
 
@@ -276,7 +277,12 @@ function configurarEventos() {
     // Las ids en el orden de la tabla, no en el orden en que se marcaron
     const ids = pedidos.map(p => p.id).filter(id => seleccion.has(id));
     console.log('[Imprimir] seleccionados:', ids);
-    imprimirHojas(ids.map(id => crudos.get(id)));
+    const reimpresion = modo === 'impresos';
+    imprimirHojas(ids.map(id => crudos.get(id)), {
+      reimpresion,
+      // Al terminar o cancelar, los marcados pasan a Impresos
+      alTerminar: reimpresion ? null : () => consultar()
+    });
   });
 }
 

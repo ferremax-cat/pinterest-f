@@ -157,6 +157,29 @@
 
 .ih-obs b { margin-right: 2mm; }
 
+/* Reimpresion: borde doble grueso, distinto de las franjas negras de piso */
+.ih-reimp {
+  /* El margen entra en el alto que reserva el paginado */
+  height: calc(var(--ih-reimp) - 1.5mm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5mm;
+  padding: 0 3mm;
+  border: 1.2mm double #000;
+  background: #fff;
+  font-size: 10.5pt;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ih-reimp b {
+  margin-right: 1.5mm;
+  font-size: 12pt;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
 .ih-cab-cont {
   height: var(--ih-cab-cont);
   display: flex;
@@ -474,6 +497,36 @@
   font-size: 15px;
   line-height: 1.45;
   color: #1f2937;
+}
+
+.ih-aviso-detalle:empty { display: none; }
+
+.ih-aviso-detalle {
+  margin-top: 14px;
+  text-align: left;
+}
+
+.ih-aviso-atencion {
+  padding: 12px 14px;
+  border: 3px solid #e60023;
+  border-radius: 8px;
+  background: #fff1f2;
+  color: #1f2937;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ih-aviso-atencion b {
+  display: block;
+  margin-bottom: 2px;
+  color: #e60023;
+  letter-spacing: .05em;
+}
+
+.ih-aviso-lista {
+  margin: 10px 0 0;
+  color: #4b5563;
+  font-size: 13px;
 }
 
 .ih-aviso-botones {
