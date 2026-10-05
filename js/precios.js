@@ -48,12 +48,16 @@ export async function setClienteVista(cuenta) {
 
   const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: datos.name || '' };
   sessionStorage.setItem('clienteVista', JSON.stringify(info));
+  // El disponible es de cada cliente: al cambiar hay que descartarlo
+  sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
+  window.Carrito?.refrescarBotonFlotante();
   return info;
 }
 
 export function limpiarClienteVista() {
   sessionStorage.removeItem('clienteVista');
+  sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
 }
 
@@ -164,6 +168,42 @@ export function pintarPrecio(elemento, sku) {
   const modo = localStorage.getItem('precioModo') || 'lista';
   elemento.className = 'price-tag ' + modo;
 
+   // Icono del carrito: se coloca junto al precio, asi aparece en todas
+  // las rutas de render sin tocar cada una
+  if (window.Carrito) {
+    window.Carrito.ponerIcono(elemento.parentElement, sku);
+  }
+
+
+    // Cinta de promocion: el precio de la pildora sigue siendo el de lista,
+  // la cinta avisa que hay un precio especial por cantidad
+  if (window.Promos && window.Carrito?.carritoHabilitado()) {
+    const fila2 = elemento.parentElement;
+    const cont2 = fila2?.parentElement;
+    const promo = window.Promos.promoDe(sku);
+
+    let cinta = cont2?.querySelector(':scope > .cinta-promo');
+    
+
+        if (promo && cont2) {
+      if (!cinta) {
+        cinta = document.createElement('div');
+        cinta.className = 'cinta-promo';
+        cinta.style.cssText = 'position:absolute !important;top:18px !important;' +
+          'left:0 !important;width:auto !important;height:auto !important;' +
+          'z-index:20 !important;background:#639922 !important;color:#fff !important;' +
+          'font-size:11px !important;font-weight:600 !important;' +
+          'padding:3px 10px 3px 8px !important;border-radius:0 12px 12px 0 !important;' +
+          'box-shadow:0 1px 4px rgba(0,0,0,.3) !important;margin:0 !important;';
+        cont2.appendChild(cinta);
+      }
+      // Actualizar siempre: la cantidad minima puede cambiar segun el cliente
+      cinta.textContent = `Promo desde ${promo.cantidadMinima} u.`;
+    } else {
+      cinta?.remove();
+    }
+  }
+
   // El ancho de la pildora esta definido en cuatro archivos con reglas
   // que se pisan entre si. Se calcula aca sobre el contenedor real.
   const fila = elemento.parentElement;
@@ -207,14 +247,27 @@ export function acomodarPildoras() {
     }
 
     const img = cont.querySelector('img');
-    if (!img || !img.offsetHeight) return;
+    if (!img || !img.offsetHeight || !cont.offsetHeight) return;
 
+    // Descartar valores fuera del contenedor: en la busqueda la funcion
+    // corre antes de que el layout este listo y calcula posiciones absurdas
     const propuesto = img.offsetHeight - fila.offsetHeight - 10;
     if (propuesto < 0 || propuesto > cont.offsetHeight) return;
 
     fila.style.bottom = 'auto';
     fila.style.top = propuesto + 'px';
+    
   });
+
+    // Segundo pase: al repintar precios la pildora cambia de alto y el top
+  // calculado antes queda corto. Sin esto la pildora se pega al borde.
+  if (!acomodarPildoras._reintento) {
+    acomodarPildoras._reintento = true;
+    setTimeout(() => {
+      acomodarPildoras._reintento = false;
+      acomodarPildoras();
+    }, 250);
+  }
 }
 
 let tempAcomodar;

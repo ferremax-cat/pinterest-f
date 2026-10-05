@@ -10,19 +10,13 @@
 
 // --- Finanzas por endpoint (Etapa 2) ---
 // Interruptor de convivencia: en false, usa el JSON local como hasta ahora.
-const USAR_FINANZAS_ENDPOINT = false; // Cambiar a true para usar el endpoint de finanzas
-const URL_API_FIN = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-
+const USAR_FINANZAS_ENDPOINT = true; // Cambiar a true para usar el endpoint de finanzas
+const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
 async function traerFinanzasDelEndpoint(cuenta) {
     const token = sessionStorage.getItem('authToken');
     if (!token) return null;
 
-    const resp = await fetch(URL_API_FIN, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ accion: 'finanzas', token, cuenta: String(cuenta) })
-    });
-    const d = await resp.json();
+    const d = await window.Api.llamar({ accion: 'finanzas', token, cuenta: String(cuenta) });
     return d.ok ? d : null;
 }
 
@@ -533,8 +527,12 @@ class BusquedaClientes {
                         esRevendedor: d.esRevendedor
                     };
 
-                    // Guardar el disponible para el semaforo del carrito
-                    sessionStorage.setItem('disponibleCliente', String(d.disponible ?? ''));
+                    // Solo guardar si el dato llego: si no, dejar vacio para
+                    // que el panel vuelva a intentarlo
+                    if (d.disponible !== undefined && d.disponible !== null) {
+                        sessionStorage.setItem('disponibleCliente', String(d.disponible));
+                        sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
+                    }
 
                     if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
                         window.BarraSaludFinanciera.actualizarDatos(actualizados);
@@ -717,7 +715,38 @@ class BusquedaClientes {
             console.log('[Búsqueda Clientes] X original restaurado');
         }
     }
+
+    
+    
 }
+
+/**
+ * Restaurar el cliente en vista despues de una recarga. El dato queda en
+ * la sesion, pero sin esto la barra no vuelve y el estado queda a medias.
+ */
+async function restaurarClienteEnVista() {
+    const guardado = sessionStorage.getItem('clienteVista');
+    if (!guardado) return;
+
+    let cli;
+    try { cli = JSON.parse(guardado); } catch (e) { return; }
+    if (!cli?.cuenta) return;
+
+    // Esperar a que la instancia tenga los clientes cargados
+    let intentos = 0;
+    while (!window.busquedaClientes?.clientesData && intentos < 25) {
+        await new Promise(r => setTimeout(r, 200));
+        intentos++;
+    }
+
+    const inst = window.busquedaClientes;
+    if (!inst?.clientesData?.[cli.cuenta]) return;
+
+    await inst.seleccionarCliente(cli.cuenta);
+    console.log('[Búsqueda Clientes] Cliente restaurado tras recarga:', cli.cuenta);
+}
+
+setTimeout(restaurarClienteEnVista, 1500);
 
 // Crear instancia global
 window.busquedaClientes = new BusquedaClientes();

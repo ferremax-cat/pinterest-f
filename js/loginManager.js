@@ -4,20 +4,24 @@ import { config } from './config.js';
 //import CacheManager from './cacheManager.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
+import { registrarFallo } from './registro-fallos.js';
+import { llamarApi } from './api.js';
 
 
 // --- Login por endpoint (Etapa 1) ---
 // Interruptor de convivencia: en false, vuelve al comportamiento anterior.
-const USAR_LOGIN_ENDPOINT = false; // Cambiar a true para usar el endpoint de login
+const USAR_LOGIN_ENDPOINT = true; // Cambiar a true para usar el endpoint de login
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-
+/**
+ * Un solo intento con 12 segundos de margen: aunque el servidor responda en
+ * 2-3 segundos, Google puede demorar 5-8 en entregar la respuesta, y con
+ * menos margen el login caia en modo degradado con el servidor funcionando.
+ * Si aun asi no llega, el usuario entra igual con la validacion local y el
+ * token se pide despues. El token sigue siendo obligatorio para el cupo y
+ * para guardar pedidos.
+ */
 async function autenticarEnEndpoint(clave) {
-    const resp = await fetch(URL_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ accion: 'login', clave: String(clave).trim() })
-    });
-    return await resp.json();
+    return await llamarApi({ accion: 'login', clave: String(clave).trim() }, 0, 12000);
 }
 
 /**
@@ -91,18 +95,28 @@ class LoginManager {
                         return false;
                     }
 
-                    sessionStorage.setItem('authToken', auth.token);
-                    sessionStorage.setItem('authRol', auth.rol);
-                    sessionStorage.setItem('authCodigo', auth.codigo || '');
-                    sessionStorage.setItem('authVence', String(auth.vence));
-
-                    console.log('Autenticado como', auth.rol, auth.nombre);
+                    if (!auth.token) {
+                        // Nunca guardar un token vacio: deja la sesion rota
+                        // sin que el usuario se entere
+                        console.error('[LOGIN] Respuesta sin token:', auth);
+                        sessionStorage.setItem('authDegradado', '1');
+                    } else {
+                        sessionStorage.removeItem('authDegradado');
+                        sessionStorage.setItem('authToken', auth.token);
+                        sessionStorage.setItem('authRol', auth.rol);
+                        sessionStorage.setItem('authCodigo', auth.codigo || '');
+                        sessionStorage.setItem('authVence', String(auth.vence));
+                        console.log('Autenticado como', auth.rol, auth.nombre);
+                    }
                 } catch (err) {
-                    // Si el endpoint no responde, se sigue con el metodo anterior
-                    // para no dejar a nadie afuera. Transitorio.
+                    // Si el endpoint no responde se entra igual, para que nadie
+                    // quede sin catalogo. El carrito avisa que falta el token.
                     console.warn('Endpoint no disponible, usando validacion local:', err);
+                    sessionStorage.setItem('authDegradado', '1');
+                    sessionStorage.setItem('authMotivo', 'sin_servicio');
+                    registrarFallo('endpoint_caido', String(err), `clave ${inputClave}`);
                 }
-            }       
+            }      
         
             //- fin agregue 19-3-25
 

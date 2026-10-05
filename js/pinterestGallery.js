@@ -103,7 +103,7 @@
     .container-img .bottom-row {
       bottom: 80px !important;
       position: absolute !important;
-      margin-left: 5% !important;
+      margin-left: 4px !important;
     }
   `;
   document.head.appendChild(styleEl);
@@ -151,10 +151,10 @@
     
     uniqueBottomRows.forEach(el => {
       // Aplicar varios estilos para asegurar que funciona
-      el.style.cssText += 'bottom: 80px !important; position: absolute !important; margin-left: 5% !important;';
+      el.style.cssText += 'position: absolute !important; margin-left: 4px !important;';
       
       // También establecer el atributo directamente
-      el.setAttribute('style', el.getAttribute('style') + '; bottom: 80px !important; position: absolute !important; margin-left: 5% !important;');
+      el.setAttribute('style', el.getAttribute('style') + '; position: absolute !important; margin-left: 4px !important;');
     });
   }
   
