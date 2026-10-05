@@ -286,6 +286,12 @@ class FuncionalidadesMenu {
                 console.log('🛒 Hacer pedido');
                 // TODO: Implementar
                 break;
+            case 'imprimir_pedidos':
+                console.log('🖨️ Abrir bandeja de impresión');
+                // En la misma pestaña: la sesión (token y rol) vive en
+                // sessionStorage, que no se comparte con una pestaña nueva
+                window.location.href = 'imprimir.html';
+                break;
             default:
                 console.log(`ℹ️ Funcionalidad ${funcionalidad.id} aún no implementada`);
         }

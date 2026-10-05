@@ -128,7 +128,7 @@ const BarraSaludFinanciera = {
         const listaElem = document.getElementById('cliente-lista');
         if (listaElem) {
             const enVista = window.Precios ? window.Precios.getClienteVista() : null;
-            listaElem.textContent = enVista ? `Lista ${enVista.lista}` : '';
+            listaElem.textContent = enVista ? enVista.lista : '';
         }
 
 

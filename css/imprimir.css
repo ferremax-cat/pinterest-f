@@ -1,0 +1,712 @@
+/* BANDEJA DE IMPRESION
+ * Escritorio (oficina): tabla. Celular (vendedores): cada fila es una
+ * tarjeta, armada solo con CSS sobre las mismas filas de la tabla.
+ */
+
+:root {
+  --rojo: #e60023;
+  --rojo-hover: #c5001d;
+  --rojo-claro: #fff1f2;
+  --texto: #1f2937;
+  --texto-suave: #6b7280;
+  --borde: #e5e7eb;
+  --fondo: #f3f4f6;
+  --radio: 8px;
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 14px;
+  color: var(--texto);
+  background: var(--fondo);
+}
+
+/* Textos que solo van en una de las dos presentaciones */
+.im-solo-cel { display: none; }
+
+/* ---------- encabezado ---------- */
+
+.im-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 32px;
+  background: #fff;
+  border-bottom: 3px solid var(--rojo);
+}
+
+.im-cab-izq {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.im-logo { height: 32px; flex-shrink: 0; }
+
+.im-cab h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.im-cab-der {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#im-usuario {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--fondo);
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+
+#im-usuario:empty { display: none; }
+
+.im-cab-der a {
+  color: var(--rojo);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.im-cab-der a:hover { text-decoration: underline; }
+
+.im-principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 32px 32px;
+}
+
+/* ---------- aviso de sesion ---------- */
+
+.im-aviso {
+  max-width: 460px;
+  margin: 80px auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: var(--radio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  text-align: center;
+}
+
+.im-aviso p {
+  margin: 0 0 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ---------- botones ---------- */
+
+.im-boton {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: var(--rojo);
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.im-boton:hover { background: var(--rojo-hover); }
+
+.im-boton:disabled {
+  background: #d1d5db;
+  color: var(--texto-suave);
+  cursor: not-allowed;
+}
+
+.im-reintentar {
+  margin-left: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--rojo);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--rojo);
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- pestañas ---------- */
+
+.im-pestanas {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.im-pestana {
+  padding: 10px 24px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: var(--texto-suave);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.im-pestana:hover { color: var(--texto); }
+
+.im-pestana.activa {
+  color: var(--rojo);
+  border-bottom-color: var(--rojo);
+}
+
+/* ---------- barra de seleccion y fechas ---------- */
+
+.im-barra {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 0;
+}
+
+.im-todos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.im-todos input,
+.im-check {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--rojo);
+}
+
+.im-contador { color: var(--texto-suave); }
+
+.im-fechas {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.im-fechas label { color: var(--texto-suave); }
+
+.im-fechas input {
+  margin-left: 6px;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+}
+
+#im-imprimir { margin-left: auto; }
+
+/* ---------- tabla (escritorio) ---------- */
+
+.im-tabla-cont {
+  background: #fff;
+  border-radius: var(--radio);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+}
+
+.im-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.im-tabla th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 11px 14px;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--borde);
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+}
+
+.im-tabla td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+/* Computadora: con las dos columnas de Impresos la tabla tiene que entrar
+   en 1280 px sin desplazamiento. Los textos largos pasan de renglon y las
+   fechas, numeros e importes quedan en una sola linea */
+@media (min-width: 768px) {
+  .im-tabla th,
+  .im-tabla td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .im-tabla td.c-cliente,
+  .im-tabla td.c-vendedor,
+  .im-tabla td.c-impreso-por {
+    white-space: normal;
+    overflow-wrap: break-word;
+    min-width: 6em;
+  }
+
+  .im-tabla td.c-cliente { min-width: 10em; }
+}
+
+.im-tabla tbody tr { cursor: pointer; }
+
+.im-tabla tbody tr:nth-child(even) { background: #fafafa; }
+
+.im-tabla tbody tr:hover { background: #f5f5f5; }
+
+.im-tabla tbody tr.seleccionado { background: var(--rojo-claro); }
+
+/* Barra roja a la izquierda de la fila elegida */
+.im-tabla tbody tr.seleccionado td:first-child {
+  box-shadow: inset 3px 0 var(--rojo);
+}
+
+.im-tabla .im-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.im-tabla td.c-numero {
+  font-weight: 700;
+  color: #111;
+}
+
+.im-tabla td.c-cliente { font-weight: 500; }
+
+.im-tabla td.c-total {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+}
+
+.im-tabla td.c-impreso,
+.im-tabla td.c-impreso-por,
+.im-tabla td.c-fecha { color: #4b5563; }
+
+.im-col-check {
+  width: 40px;
+  text-align: center !important;
+}
+
+/* El clic lo maneja la fila entera */
+.im-check { pointer-events: none; }
+
+.im-estado {
+  padding: 32px;
+  color: var(--texto-suave);
+  text-align: center;
+}
+
+/* ---------- impresion sin confirmar ---------- */
+
+.im-sinconf {
+  margin: 16px 0 4px;
+  padding: 14px 16px;
+  background: #fff7ed;
+  border: 1.5px solid #ff9404;
+  border-radius: var(--radio);
+}
+
+.im-sc-cab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ff9404;
+}
+
+.im-sc-cab svg { flex-shrink: 0; }
+
+.im-sc-cab h2 {
+  margin: 0;
+  color: var(--texto);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.im-sc-texto {
+  margin: 4px 0 12px;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.im-sc-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.im-sc-tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 14px;
+  background: #fff;
+  border-left: 4px solid #ff9404;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+.im-sc-info { min-width: 0; }
+
+.im-sc-datos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  margin: 0;
+}
+
+.im-sc-numero { color: #111; }
+
+.im-sc-cliente {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.im-sc-meta {
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+
+.im-sc-intento {
+  margin: 4px 0 0;
+  color: #9a3412;
+  font-size: 13px;
+}
+
+.im-sc-botones {
+  display: flex;
+  gap: 8px;
+}
+
+.im-sc-existen,
+.im-sc-imprimir {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Discreto: confirmar sin reimprimir tiene que ser una decision pensada */
+.im-sc-existen {
+  border: 1.5px solid var(--texto);
+  background: #fff;
+  color: var(--texto);
+}
+
+.im-sc-existen:hover { background: #f3f4f6; }
+
+.im-sc-imprimir {
+  border: 1.5px solid var(--rojo);
+  background: var(--rojo);
+  color: #fff;
+}
+
+.im-sc-imprimir:hover { background: var(--rojo-hover); }
+
+.im-titulo-lista {
+  margin: 20px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ---------- celular ---------- */
+
+@media (max-width: 767.98px) {
+
+  body { overflow-x: hidden; }
+
+  .im-solo-ancho { display: none; }
+  .im-solo-cel { display: inline; }
+
+  /* Encabezado: logo, titulo y volver en una linea; el usuario debajo */
+  .im-cab {
+    flex-wrap: wrap;
+    gap: 2px 12px;
+    padding: 8px 16px;
+  }
+
+  .im-cab-izq { gap: 10px; }
+  .im-logo { height: 24px; }
+  .im-cab h1 { font-size: 17px; }
+
+  .im-cab-der { display: contents; }
+
+  .im-cab-der a { margin-left: auto; }
+
+  #im-usuario {
+    order: 3;
+    width: 100%;
+    padding: 0;
+    background: none;
+    font-size: 12px;
+  }
+
+  /* Espacio abajo para que el boton fijo no tape la ultima tarjeta */
+  .im-principal {
+    padding: 0 12px calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .im-pestanas {
+    gap: 0;
+    margin: 0 -12px;
+    background: #fff;
+  }
+
+  .im-pestana {
+    flex: 1;
+    padding: 13px 8px;
+    text-align: center;
+  }
+
+  /* Seleccionar todos y contador en un renglon, las fechas debajo */
+  .im-barra {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 12px 0;
+  }
+
+  .im-contador { margin-left: auto; }
+
+  .im-fechas {
+    order: 3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .im-fechas label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    font-size: 12px;
+  }
+
+  .im-fechas input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .im-todos input,
+  .im-check {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Impresion sin confirmar: todo apilado, botones a la par */
+  .im-sinconf {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  .im-sc-tarjeta {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 12px;
+  }
+
+  .im-sc-datos { gap: 2px 8px; }
+
+  .im-sc-botones > button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 10px 6px;
+    white-space: normal;
+  }
+
+  .im-titulo-lista { margin-top: 16px; }
+
+  /* Boton fijo al pie, a todo el ancho */
+  #im-imprimir {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    margin: 0;
+    padding: 15px 16px calc(15px + env(safe-area-inset-bottom, 0px));
+    border-radius: 0;
+    font-size: 16px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, .15);
+  }
+
+  #im-imprimir:disabled { background: #d1d5db; }
+
+  /* La tabla deja de ser tabla: cada fila es una tarjeta */
+  .im-tabla-cont {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .im-tabla,
+  .im-tabla tbody { display: block; }
+
+  .im-tabla thead { display: none; }
+
+  .im-tabla tbody tr,
+  .im-tabla tbody tr:nth-child(even),
+  .im-tabla tbody tr:hover {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "chk num  fecha"
+      ".   cli  lin"
+      ".   cta  tot"
+      ".   ven  tot";
+    gap: 3px 10px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1.5px solid transparent;
+    border-radius: var(--radio);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+  }
+
+  .im-tabla tbody tr.seleccionado {
+    background: var(--rojo-claro);
+    border-color: var(--rojo);
+  }
+
+  .im-tabla tbody tr.seleccionado td:first-child { box-shadow: none; }
+
+  .im-tabla td {
+    display: block;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    white-space: normal;
+    text-align: left;
+  }
+
+  .im-col-check {
+    grid-area: chk;
+    width: auto;
+    align-self: center;
+  }
+
+  .im-tabla td.c-numero {
+    grid-area: num;
+    align-self: center;
+    font-size: 15px;
+  }
+
+  .im-tabla td.c-numero::before {
+    content: "N° ";
+    font-weight: 400;
+    color: var(--texto-suave);
+  }
+
+  .im-tabla td.c-fecha {
+    grid-area: fecha;
+    align-self: center;
+    text-align: right;
+    font-size: 12px;
+    color: var(--texto-suave);
+  }
+
+  .im-tabla td.c-cliente {
+    grid-area: cli;
+    margin-top: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .im-tabla td.c-lineas {
+    grid-area: lin;
+    align-self: end;
+    text-align: right;
+    font-size: 13px;
+    color: var(--texto-suave);
+  }
+
+  /* text-align pisa al de .im-num, que en escritorio alinea la cuenta a la derecha */
+  .im-tabla td.c-cuenta,
+  .im-tabla td.c-vendedor {
+    text-align: left;
+    font-size: 13px;
+    color: var(--texto-suave);
+    overflow-wrap: anywhere;
+  }
+
+  .im-tabla td.c-cuenta { grid-area: cta; }
+  .im-tabla td.c-vendedor { grid-area: ven; }
+
+  .im-tabla td.c-cuenta::before { content: "Cuenta "; }
+  .im-tabla td.c-vendedor::before { content: "Vendedor "; }
+
+  .im-tabla td.c-total {
+    grid-area: tot;
+    align-self: center;
+    text-align: right;
+    font-size: 16px;
+  }
+
+  /* Solo en Impresos: se ubican en una fila extra que no existe en Pendientes */
+  .im-tabla td.c-impreso,
+  .im-tabla td.c-impreso-por {
+    grid-row: 5;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--borde);
+    font-size: 12px;
+    color: var(--texto-suave);
+  }
+
+  .im-tabla td.c-impreso { grid-column: 2; }
+
+  .im-tabla td.c-impreso-por {
+    grid-column: 3;
+    text-align: right;
+  }
+
+  .im-tabla td.c-impreso::before { content: "Impreso "; }
+  .im-tabla td.c-impreso-por::before { content: "por "; }
+
+  .im-estado {
+    background: #fff;
+    border-radius: var(--radio);
+  }
+}
