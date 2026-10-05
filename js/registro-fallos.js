@@ -28,7 +28,9 @@ function usuarioActual() {
     const rol = sessionStorage.getItem('authRol') || '';
     const codigo = sessionStorage.getItem('authCodigo') || '';
     if (!cd.account && !rol && !codigo) return 'sin identificar';
-    return `${cd.account || '?'} ${cd.name || ''} (${rol})` + (codigo ? ` · ${codigo}` : '');
+    // Sin rol (por ejemplo, si el login fallo) no van los parentesis vacios
+    return `${cd.account || '?'} ${cd.name || ''}`.trim() + (rol ? ` (${rol})` : '') +
+      (codigo ? ` · ${codigo}` : '');
   } catch (e) {
     return 'sin identificar';
   }
