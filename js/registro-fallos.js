@@ -14,13 +14,37 @@ const CAMPO_DETALLE = 'entry.1115975132';
 // No repetir el mismo fallo en la misma sesion: alcanza con saber que paso
 const yaRegistrados = new Set();
 
-export function registrarFallo(motivo, detalle, usuarioForzado) {
-  if (yaRegistrados.has(motivo)) return;
-  yaRegistrados.add(motivo);
-
+/**
+ * Usuario para el registro. El menu de funcionalidades solo existe en el
+ * catalogo (y aparece un segundo despues de cargar): en las demas paginas
+ * se arma con lo que deja el login.
+ */
+function usuarioActual() {
   const u = window.menuFuncionalidades?.usuarioActual;
-  const usuario = usuarioForzado
-    || (u ? `${u.clave} ${u.nombre || ''} (${u.rol || ''})` : 'sin identificar');
+  if (u) return `${u.clave} ${u.nombre || ''} (${u.rol || ''})`;
+
+  try {
+    const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
+    const rol = sessionStorage.getItem('authRol') || '';
+    const codigo = sessionStorage.getItem('authCodigo') || '';
+    if (!cd.account && !rol && !codigo) return 'sin identificar';
+    return `${cd.account || '?'} ${cd.name || ''} (${rol})` + (codigo ? ` · ${codigo}` : '');
+  } catch (e) {
+    return 'sin identificar';
+  }
+}
+
+/**
+ * opciones.repetir: registrar aunque el mismo motivo ya se haya registrado
+ * en esta sesion (por ejemplo, cada llamada lenta cuenta para la medicion).
+ */
+export function registrarFallo(motivo, detalle, usuarioForzado, opciones = {}) {
+  if (!opciones.repetir) {
+    if (yaRegistrados.has(motivo)) return;
+    yaRegistrados.add(motivo);
+  }
+
+  const usuario = usuarioForzado || usuarioActual();
 
   const datos = new FormData();
   datos.append(CAMPO_USUARIO, usuario);
