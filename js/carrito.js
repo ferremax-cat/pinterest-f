@@ -742,7 +742,7 @@ function avisarSinServicio() {
       'color:#fff;padding:8px 14px;font-size:12px;text-align:center;z-index:9998;' +
       'display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;';
   f.innerHTML = `
-    <span id="franja-texto">Sistema de pedidos no disponible — solo consulta de precios</span>
+    <span id="franja-texto">Sistema de pedidos e impresión no disponible — solo consulta de precios</span>
     <button id="franja-reintentar" style="background:#fff;color:#dc2626;border:none;
       border-radius:5px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;">
       Reintentar

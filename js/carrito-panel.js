@@ -13,6 +13,7 @@ const fmt = n => '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 2 });
 const VERDE = '#16a34a';
 const NARANJA = '#ff9404';
 const ROJO = '#dc2626';
+const SIN_CUPO = '#d1d5db';   // barra de las lineas cuando no hay semaforo
 
 let moviendo = null;   // sku de la linea que se esta reubicando
 
@@ -75,15 +76,18 @@ async function cargarConfig() {
 /**
  * Trae el disponible del cliente en vista. El panel no puede depender de
  * que la seleccion de cliente lo haya guardado: puede haber fallado.
+ * Devuelve 'ok', 'fallo' (sin respuesta o con error) o 'sin_datos' (no hay
+ * token o cliente elegido: no se consulto).
  */
 async function asegurarDisponible() {
-  if (sessionStorage.getItem('disponibleCliente')) return true;
+  // Solo sirve el disponible de este mismo cliente
+  if (getDisponible() !== null) return 'ok';
 
   const token = sessionStorage.getItem('authToken');
   const cli = window.Precios?.getClienteVista();
     if (!token || !cli) {
     console.log('[Carrito] asegurarDisponible corta — token:', !!token, 'cliente:', cli);
-    return false;
+    return 'sin_datos';
   }
 
     try {
@@ -91,13 +95,47 @@ async function asegurarDisponible() {
     if (d.ok && d.disponible !== undefined) {
       sessionStorage.setItem('disponibleCliente', String(d.disponible));
       sessionStorage.setItem('disponibleDeCuenta', String(cli.cuenta));
-      return true;
+      return 'ok';
     }
+    console.warn('[Carrito] La consulta del cupo no trajo disponible:', d.error || d);
   } catch (e) {
     console.warn('[Carrito] No se pudo traer el disponible:', e);
   }
-  console.log('[Carrito] asegurarDisponible: la respuesta no trajo disponible');
-  return false;
+  return 'fallo';
+}
+
+// ---------- falla de la consulta del cupo ----------
+// La falla se recuerda por cuenta: al cerrar y abrir el panel el aviso
+// sigue, sin volver a consultar sola. Solo "Reintentar" consulta de nuevo.
+
+let consultandoCupo = false;
+// Cuenta para la que ya se arranco una consulta sin pedido del usuario:
+// evita repetirla en cada redibujo si no hay token o cliente
+let consultaAutoDe = null;
+
+function cupoFallido() {
+  const cli = window.Precios?.getClienteVista();
+  return !!cli && sessionStorage.getItem('cupoFallidoDe') === String(cli.cuenta);
+}
+
+/**
+ * Unica forma de consultar el cupo: guarda o borra la falla y redibuja.
+ * mostrarConsultando: redibujar al empezar, para que el boton Reintentar
+ * pase a "Consultando…" (no se usa al abrir, donde ya hay un spinner).
+ */
+async function pedirCupo(mostrarConsultando) {
+  if (consultandoCupo) return;
+  consultandoCupo = true;
+  if (mostrarConsultando) dibujar();
+
+  const cli = window.Precios?.getClienteVista();
+  const r = await asegurarDisponible();
+  consultandoCupo = false;
+
+  if (cli && r === 'fallo') sessionStorage.setItem('cupoFallidoDe', String(cli.cuenta));
+  if (r === 'ok') sessionStorage.removeItem('cupoFallidoDe');
+
+  dibujar();
 }
 
 function esVendedor() {
@@ -176,9 +214,18 @@ export function abrir() {
   
 
   // Con el cupo y la configuracion ya cargados, abre sin esperar nada
-  if (sessionStorage.getItem('disponibleCliente') && config) {
+  if (getDisponible() !== null && config) {
     console.log('[Carrito] camino rapido');
     dibujar();
+    return;
+  }
+
+  // La consulta del cupo ya fallo para este cliente: se abre con el aviso
+  // y no se vuelve a consultar sola (para eso esta el boton Reintentar)
+  if (cupoFallido()) {
+    console.log('[Carrito] cupo no disponible: abre con el aviso');
+    if (config) dibujar();
+    else cargarConfig().then(() => dibujar());
     return;
   }
 
@@ -194,7 +241,7 @@ export function abrir() {
       </div>
     </div>`;
 
-  Promise.all([cargarConfig(), asegurarDisponible()]).then(() => dibujar());
+  Promise.all([cargarConfig(), pedirCupo()]).then(() => dibujar());
 }
 
 export function cerrar() {
@@ -262,11 +309,14 @@ function vistaVendedor() {
     const c = colorAcumulado(acum, disponible);
     if (c === ROJO) hayRojo = true;
     const col = c || 'inherit';
+    // Sin cupo no hay semaforo: barra gris, nunca un color que sugiera
+    // que la linea entra en el credito
+    const barra = c || SIN_CUPO;
 
     if (moviendo && moviendo !== l.sku) {
       return `
         <div class="cp-fila cp-destino" data-destino="${l.sku}">
-          <div class="cp-barra" style="background:${col}"></div>
+          <div class="cp-barra" style="background:${barra}"></div>
           <div class="cp-desc">
             <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
             <p class="cp-meta">Colocar aquí</p>
@@ -280,7 +330,7 @@ function vistaVendedor() {
     if (moviendo === l.sku) {
       return `
         <div class="cp-fila cp-movible">
-          <div class="cp-barra" style="background:${col}"></div>
+          <div class="cp-barra" style="background:${barra}"></div>
           <div class="cp-desc">
             <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
             <p class="cp-meta">Elegí dónde colocarlo</p>
@@ -294,7 +344,7 @@ function vistaVendedor() {
 
     return `
       <div class="cp-fila" data-i="${i}" data-sku="${l.sku}">
-        <div class="cp-barra" style="background:${col}"></div>
+        <div class="cp-barra" style="background:${barra}"></div>
           <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
           <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}${l.cantVendedor ? ' · <span class="cp-previa">vos tenías ' + l.cantVendedor + '</span>' : ''}${origenSkus && !origenSkus.includes(l.sku) ? ' · <span class="cp-previa">agregado por vos</span>' : ''}</p>
@@ -309,7 +359,25 @@ function vistaVendedor() {
   // El excedente se mide contra el total NETO, ya con el descuento aplicado
   const exc = disponible !== null ? tot.neto - disponible : null;
 
-    const cabecera = disponible === null ? `
+  // Sin cupo: o fallo la consulta (aviso con Reintentar) o se esta
+  // consultando. En ese ultimo caso, si nadie lo pidio todavia para este
+  // cliente, se consulta una sola vez
+  if (disponible === null && !cupoFallido() && !consultandoCupo) {
+    const cuenta = String(cliente?.cuenta ?? '');
+    if (consultaAutoDe !== cuenta) {
+      consultaAutoDe = cuenta;
+      setTimeout(() => pedirCupo(), 0);
+    }
+  }
+
+    const cabecera = disponible === null && cupoFallido() ? `
+    <div class="cp-cupo" style="background:#fff7ed;border-left:4px solid ${NARANJA};align-items:center;gap:12px">
+      <span class="cp-cupo-rot" style="color:#1f2937;line-height:1.4">No se pudo consultar el cupo del cliente.
+        El semáforo no está disponible: revisá el crédito antes de confirmar.</span>
+      <button class="cp-cupo-reintentar" ${consultandoCupo ? 'disabled' : ''}
+        style="flex-shrink:0;padding:6px 12px;border:1px solid ${ROJO};border-radius:6px;background:#fff;
+        color:${ROJO};font-size:13px;font-weight:600;cursor:pointer">${consultandoCupo ? 'Consultando…' : 'Reintentar'}</button>
+    </div>` : disponible === null ? `
     <div class="cp-cupo" style="background:#f4f4f4">
       <span class="cp-cupo-rot">Consultando cupo del cliente...</span>
       <span class="cp-cupo-num" style="color:#999">--</span>
@@ -428,6 +496,9 @@ function cajaVacia(nombre) {
 
 function conectar(cont) {
   cont.querySelector('.cp-cerrar')?.addEventListener('click', cerrar);
+
+  // Volver a consultar el cupo despues de una falla
+  cont.querySelector('.cp-cupo-reintentar')?.addEventListener('click', () => pedirCupo(true));
 
     cont.querySelectorAll('.cp-cant').forEach(inp => {
     inp.addEventListener('change', () => {
