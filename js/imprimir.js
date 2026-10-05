@@ -353,7 +353,10 @@ function configurarEventos() {
 
     const alTerminar = () => consultar();
     if (btn.classList.contains('im-sc-existen')) confirmarExistentes(crudo, { alTerminar });
-    else if (btn.classList.contains('im-sc-imprimir')) imprimirHojas([crudo], { alTerminar });
+    // Imprimir de nuevo reemplaza el intento anterior, aunque sea de otra persona
+    else if (btn.classList.contains('im-sc-imprimir')) {
+      imprimirHojas([crudo], { alTerminar, reemplazarIntento: true });
+    }
   });
 
   $('im-estado').addEventListener('click', e => {

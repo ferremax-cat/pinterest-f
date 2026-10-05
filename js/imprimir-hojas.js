@@ -758,12 +758,14 @@ async function prepararTanda() {
 
 const idsTanda = () => tandas[tandaActual].map(p => String(p.id));
 
-function llamarIntento(ids, anular) {
+/** reemplazar: pisar el intento de otra persona (solo "Imprimir de nuevo"). */
+function llamarIntento(ids, anular, reemplazar) {
   return window.Api.llamar({
     accion: 'intento_impresion',
     token: sessionStorage.getItem('authToken'),
     ids,
-    ...(anular ? { modo: 'anular' } : {})
+    ...(anular ? { modo: 'anular' } : {}),
+    ...(reemplazar && !anular ? { reemplazar: true } : {})
   }, 2, 20000);
 }
 
@@ -784,9 +786,13 @@ async function registrarEImprimir() {
     mostrarAviso(`${etiqueta} · registrando la impresión…`);
     const t0 = performance.now();
 
+    // Solo "Imprimir de nuevo" reemplaza el intento de otra persona, y solo
+    // en la primera registracion: despues el intento ya es propio
+    const reemplazar = !!opciones.reemplazarIntento;
+
     let d = null;
     try {
-      d = await llamarIntento(ids, false);
+      d = await llamarIntento(ids, false, reemplazar);
     } catch (e) {
       console.error('[Hojas] Sin respuesta al registrar el intento:', e);
     }
@@ -805,16 +811,19 @@ async function registrarEImprimir() {
       return;
     }
 
+    opciones.reemplazarIntento = false;
+
     const yaImpresos = Number(d.yaImpresos) || 0;
+    const deOtro = Number(d.deOtro) || 0;
     const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
     console.log(`[Hojas] Intento tanda ${n}/${total}: registrados ${Number(d.registrados) || 0}` +
-      ` · ya impresos ${yaImpresos} · no encontrados ${noEncontrados.length}` +
-      ` · ${Math.round(performance.now() - t0)} ms`);
+      ` · ya impresos ${yaImpresos} · de otro ${deOtro} · no encontrados ${noEncontrados.length}` +
+      ` · reemplazar ${reemplazar ? 'sí' : 'no'} · ${Math.round(performance.now() - t0)} ms`);
 
-    // Otra persona los imprimio mientras la bandeja estaba abierta: no se
-    // imprime la tanda y se anula lo registrado (el servidor no toca los
-    // ya impresos)
-    if (yaImpresos > 0) {
+    // Otra persona los imprimio, o los mando a imprimir y no confirmo,
+    // mientras la bandeja estaba abierta: no se imprime la tanda y se anula
+    // lo registrado (el servidor no toca los ya impresos ni los de otros)
+    if (yaImpresos > 0 || deOtro > 0) {
       mostrarAviso('Anulando el registro de impresión…');
       let anulado = false;
       try {
@@ -823,10 +832,7 @@ async function registrarEImprimir() {
         console.error('[Hojas] Sin respuesta al anular el intento:', e);
       }
       trabajando = false;
-      mostrarAviso((yaImpresos === 1
-        ? '1 pedido ya fue impreso por otra persona mientras tenías la bandeja abierta.'
-        : `${yaImpresos} pedidos ya fueron impresos por otra persona mientras tenías la bandeja abierta.`) +
-        ' Actualizá la bandeja y volvé a seleccionar.',
+      mostrarAviso(textoTandaBloqueada(yaImpresos, deOtro),
         [{ texto: 'Actualizar bandeja', principal: true, accion: cerrar }],
         anulado ? '' : '<p class="ih-aviso-lista">No se pudo anular el registro: algunos pedidos ' +
           'pueden aparecer como «impresión sin confirmar»; se resuelven desde la bandeja.</p>');
@@ -838,6 +844,31 @@ async function registrarEImprimir() {
   mostrarAviso(`${etiqueta} · abriendo el diálogo de impresión…`);
   imprimirConTitulo();
   despuesDeImprimir();
+}
+
+/** Por que no se imprimio la tanda: ya impresos, intentos de otra persona o ambos. */
+function textoTandaBloqueada(yaImpresos, deOtro) {
+  const impresos = yaImpresos === 1
+    ? '1 pedido ya fue impreso por otra persona'
+    : `${yaImpresos} pedidos ya fueron impresos por otra persona`;
+
+  if (!deOtro) {
+    return `${impresos} mientras tenías la bandeja abierta. Actualizá la bandeja y volvé a seleccionar.`;
+  }
+
+  const salieron = deOtro === 1 ? 'salió' : 'salieron';
+
+  if (!yaImpresos) {
+    return deOtro === 1
+      ? '1 pedido lo mandó a imprimir otra persona y todavía no confirmó si salió. Actualizá la bandeja: ' +
+        'va a aparecer en «Impresión sin confirmar» con el nombre de quien lo mandó.'
+      : `${deOtro} pedidos los mandó a imprimir otra persona y todavía no confirmó si salieron. ` +
+        'Actualizá la bandeja: van a aparecer en «Impresión sin confirmar» con el nombre de quien los mandó.';
+  }
+
+  return `${impresos} y ${deOtro === 1 ? '1 lo mandó' : `${deOtro} los mandó`} a imprimir otra persona ` +
+    `sin confirmar todavía si ${salieron}. Actualizá la bandeja y volvé a seleccionar: los que no se ` +
+    'confirmaron van a aparecer en «Impresión sin confirmar» con el nombre de quien los mandó.';
 }
 
 /** "No se imprimio": se borra el intento registrado de la tanda. */

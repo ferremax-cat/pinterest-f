@@ -584,7 +584,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v23-marcado-propio' });
+      return responder({ ok: true, version: 'v24-intento-de-otro' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -943,8 +943,9 @@ function accionIntentoImpresion(body) {
     }
 
     const ahora = new Date();
-    const valores = anular ? ['', ''] : [ahora, String(p.usr || '')];
-    let registrados = 0, yaImpresos = 0;
+    const quien = String(p.usr || '');
+    const valores = anular ? ['', ''] : [ahora, quien];
+    let registrados = 0, yaImpresos = 0, deOtro = 0;
 
     for (let i = 1; i < v.length; i++) {
       const id = String(v[i][cId]).trim();
@@ -959,11 +960,24 @@ function accionIntentoImpresion(body) {
         yaImpresos++;
         continue;
       }
+
+      const hayIntento = v[i][cInt] !== '' && v[i][cInt] !== null;
+      const esPropio = String(v[i][cPor] || '').trim() === quien;
+      if (hayIntento && !esPropio) {
+        // Solo se anula el intento propio, nunca el de otra persona. Al
+        // registrar, tampoco se pisa el de otra persona, salvo que se pida
+        // reemplazarlo ("Imprimir de nuevo" desde la bandeja)
+        if (anular || !body.reemplazar) {
+          deOtro++;
+          continue;
+        }
+      }
+
       h.getRange(i + 1, cInt + 1, 1, 2).setValues([valores]);
       registrados++;
     }
 
-    return responder({ ok: true, registrados, yaImpresos, noEncontrados: Array.from(buscados) });
+    return responder({ ok: true, registrados, yaImpresos, deOtro, noEncontrados: Array.from(buscados) });
 
   } catch (err) {
     return responder({ ok: false, error: String(err) });
