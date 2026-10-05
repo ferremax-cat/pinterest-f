@@ -553,6 +553,72 @@
   overflow-wrap: anywhere;
 }
 
+/* Control por pedido despues de imprimir una tanda */
+.ih-aviso-control { max-width: 540px; }
+
+.ih-control {
+  max-height: min(45vh, 340px);
+  overflow-y: auto;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.ih-control li + li { border-top: 1px solid #f0f0f0; }
+
+.ih-control label {
+  display: grid;
+  grid-template-columns: 22px auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.ih-control label:hover { background: #f9fafb; }
+
+.ih-control input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #e60023;
+}
+
+.ih-control-num { white-space: nowrap; color: #111; }
+
+.ih-control-cli {
+  color: #1f2937;
+  overflow-wrap: anywhere;
+}
+
+.ih-control-hojas {
+  color: #6b7280;
+  font-size: 13px;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Destildado: no se va a marcar */
+.ih-control label:has(input:not(:checked)) .ih-control-num,
+.ih-control label:has(input:not(:checked)) .ih-control-cli {
+  color: #9ca3af;
+  text-decoration: line-through;
+  text-decoration-color: #d1d5db;
+}
+
+.ih-btn:disabled,
+.ih-btn-principal:disabled,
+.ih-btn-principal:disabled:hover {
+  border-color: #d1d5db;
+  background: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
 .ih-aviso-botones {
   display: flex;
   flex-wrap: wrap;
@@ -585,6 +651,22 @@
 /* Celular: botones a todo el ancho, uno debajo del otro */
 @media (max-width: 767.98px) {
   .ih-aviso-caja { padding: 18px; }
+
+  /* Renglones comodos para el dedo; el cliente baja debajo del N° */
+  .ih-control label {
+    grid-template-columns: 22px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "chk num hojas"
+      "chk cli cli";
+    gap: 2px 10px;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  .ih-control input { grid-area: chk; }
+  .ih-control-num { grid-area: num; }
+  .ih-control-cli { grid-area: cli; font-size: 14px; }
+  .ih-control-hojas { grid-area: hojas; }
 
   .ih-aviso-botones { flex-direction: column; }
 

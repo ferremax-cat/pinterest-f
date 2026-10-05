@@ -584,7 +584,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v22-intento-impresion' });
+      return responder({ ok: true, version: 'v23-marcado-propio' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -828,7 +828,7 @@ function accionMarcarImpresos(body) {
 
     const ahora = new Date();
     const quien = String(p.usr || '');
-    let marcados = 0, yaMarcados = 0;
+    let marcados = 0, yaMarcados = 0, yaPropios = 0;
 
     for (let i = 1; i < v.length; i++) {
       const id = String(v[i][cId]).trim();
@@ -840,14 +840,17 @@ function accionMarcarImpresos(body) {
         if (!d || d.vendedor !== p.cod) continue;
       }
       if (String(v[i][cImp] || '').trim().toUpperCase() === 'SI') {
-        yaMarcados++;
+        // Si lo marco la misma persona, es su propio intento anterior (por
+        // ejemplo, un reintento cuya primera respuesta no llego): no es alarma
+        if (String(v[i][cPor] || '').trim() === quien) yaPropios++;
+        else yaMarcados++;
         continue;
       }
       h.getRange(i + 1, cImp + 1, 1, 3).setValues([['SI', ahora, quien]]);
       marcados++;
     }
 
-    return responder({ ok: true, marcados, yaMarcados, noEncontrados: Array.from(buscados) });
+    return responder({ ok: true, marcados, yaMarcados, yaPropios, noEncontrados: Array.from(buscados) });
 
   } catch (err) {
     return responder({ ok: false, error: String(err) });
