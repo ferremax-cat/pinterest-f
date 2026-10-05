@@ -662,6 +662,9 @@ let tandas = [];
 let tandaActual = 0;
 let trabajando = false;
 
+// Hojas de la tanda impresa: total y por pedido (id -> hojas)
+let infoTanda = { hojas: 0, porPedido: new Map() };
+
 // reimpresion: hojas con la franja REIMPRESION y sin marcar nada
 // alTerminar: se llama al cerrar, haya terminado o se haya cancelado
 let opciones = {};
@@ -726,13 +729,17 @@ async function prepararTanda() {
   let html = '';
   let hojas = 0;
   let lineas = 0;
+  const porPedido = new Map();
   peds.forEach(p => {
     const r = armarPedido(p, !!opciones.reimpresion);
     html += r.html;
     hojas += r.hojas;
     lineas += r.lineas;
+    porPedido.set(String(p.id), r.hojas);
   });
   contenedor().innerHTML = html;
+  // Para la pregunta posterior: cuantas hojas tienen que haber salido
+  infoTanda = { hojas, porPedido };
   const t3 = performance.now();
 
   await esperarDibujo();
@@ -877,7 +884,7 @@ export function confirmarExistentes(pedido, opc = {}) {
 
   mostrarAviso(`¿Las hojas del pedido N° ${pedido.numero || '—'} están en el depósito?`, [
     { texto: 'Cancelar', accion: cerrar },
-    { texto: 'Sí, las hojas existen', principal: true, accion: () => marcarTanda(false) }
+    { texto: 'Sí, las hojas existen', principal: true, accion: () => marcarTanda() }
   ],
   '<p class="ih-aviso-explica">Si confirmás, el pedido pasa a Impresos sin volver a imprimirse. ' +
     'Hacelo solo si alguien verificó que las hojas existen; si no aparecen, usá Imprimir de nuevo.</p>' +
@@ -941,26 +948,86 @@ function despuesDeImprimir() {
     return;
   }
 
-  mostrarAviso((prefijo ? prefijo + ' · ' : '') + '¿Las hojas salieron bien?', [
-    { texto: 'Sí, marcar como impresos', principal: true, accion: () => marcarTanda(false) },
-    { texto: 'No, repetir la impresión', accion: () => { imprimirConTitulo(); despuesDeImprimir(); } },
-    { texto: 'No se imprimió', accion: anularIntento }
-  ]);
+  // Control por pedido: se cuentan las hojas y se destildan los incompletos
+  const peds = tandas[tandaActual];
+  const h = infoTanda.hojas;
+  const encabezado = (prefijo ? prefijo + ' · ' : '') +
+    `${plural(peds.length, 'pedido', 'pedidos')} · ${plural(h, 'hoja', 'hojas')}`;
+
+  const renglones = peds.map(p => {
+    const hp = infoTanda.porPedido.get(String(p.id)) || 0;
+    return `<li><label>
+      <input type="checkbox" checked data-id="${esc(p.id)}">
+      <b class="ih-control-num">N° ${esc(p.numero || '—')}</b>
+      <span class="ih-control-cli">${esc(nombreCliente(p))}</span>
+      <span class="ih-control-hojas">${plural(hp, 'hoja', 'hojas')}</span>
+    </label></li>`;
+  }).join('');
+
+  mostrarAviso(encabezado, [
+    { texto: 'Marcar los tildados como impresos', principal: true, accion: resolverTanda },
+    { texto: 'Repetir toda la tanda', accion: () => { imprimirConTitulo(); despuesDeImprimir(); } },
+    { texto: 'No se imprimió nada', accion: anularIntento }
+  ],
+  `<p class="ih-aviso-explica">${h === 1
+    ? 'Revisá que haya salido la hoja.'
+    : `Revisá que hayan salido las ${h} hojas.`} Destildá los pedidos que no salieron completos.</p>
+   <ul class="ih-control">${renglones}</ul>`,
+  'ih-aviso-pregunta ih-aviso-control');
+
+  // Sin ningun pedido tildado no hay nada que marcar
+  const av = document.getElementById('ih-aviso');
+  const principal = av.querySelector('.ih-btn-principal');
+  const casillas = [...av.querySelectorAll('.ih-control input')];
+  casillas.forEach(c => c.addEventListener('change', () => {
+    principal.disabled = !casillas.some(x => x.checked);
+  }));
 }
 
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 
 /**
+ * Marca los tildados y devuelve a Pendientes los destildados: se anula su
+ * intento, asi no quedan como "impresion sin confirmar". La anulacion se
+ * hace una sola vez; los reintentos de la marcacion no la repiten.
+ */
+async function resolverTanda() {
+  const marcadas = new Set([...document.querySelectorAll('#ih-aviso .ih-control input')]
+    .filter(c => c.checked).map(c => c.dataset.id));
+  const peds = tandas[tandaActual];
+  const tildados = peds.filter(p => marcadas.has(String(p.id)));
+  const destildados = peds.filter(p => !marcadas.has(String(p.id)));
+  if (!tildados.length) return;
+
+  let anulacionFallida = false;
+  if (destildados.length) {
+    mostrarAviso('Devolviendo a Pendientes los que no salieron…');
+    try {
+      const d = await llamarIntento(destildados.map(p => String(p.id)), true);
+      anulacionFallida = !d?.ok;
+      if (!d?.ok) console.warn('[Hojas] Error al anular los destildados:', d?.error);
+    } catch (e) {
+      console.error('[Hojas] Sin respuesta al anular los destildados:', e);
+      anulacionFallida = true;
+    }
+  }
+
+  marcarTanda({ peds: tildados, destildados, anulacionFallida });
+}
+
+/**
  * Marca la tanda actual en el servidor. Repetirlo es seguro: el servidor
  * no cambia la fecha de un pedido ya marcado.
  */
-async function marcarTanda(esReintento) {
-  const peds = tandas[tandaActual];
+async function marcarTanda(ctx) {
+  // Sin ctx: la tanda completa (por ejemplo, "Las hojas existen")
+  ctx = ctx || { peds: tandas[tandaActual], destildados: [], anulacionFallida: false };
+  const { peds, destildados } = ctx;
   const ids = peds.map(p => String(p.id));
   const total = tandas.length;
   const n = tandaActual + 1;
 
-  const reintentar = { texto: 'Reintentar marcar', principal: true, accion: () => marcarTanda(true) };
+  const reintentar = { texto: 'Reintentar marcar', principal: true, accion: () => marcarTanda(ctx) };
   const cancelar = { texto: 'Cancelar', accion: cerrar };
 
   // Sin botones mientras tanto: no se puede tocar dos veces
@@ -990,29 +1057,27 @@ async function marcarTanda(esReintento) {
     return;
   }
 
+  // yaMarcados: los marco otra persona. yaPropios: los habia marcado esta
+  // misma persona (por ejemplo, un intento anterior cuya respuesta no
+  // llego): cuentan como marcados y sin alarma
   const marcados = Number(d.marcados) || 0;
   const yaMarcados = Number(d.yaMarcados) || 0;
+  const yaPropios = Number(d.yaPropios) || 0;
   const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
 
   console.log(`[Hojas] Marcado tanda ${n}/${total}: ${ids.length} pedidos en ` +
     `${Math.round(performance.now() - t0)} ms · marcados ${marcados} · ya marcados ${yaMarcados}` +
-    ` · no encontrados ${noEncontrados.length}${esReintento ? ' · reintento' : ''}`);
+    ` · ya propios ${yaPropios} · no encontrados ${noEncontrados.length}` +
+    ` · destildados ${destildados.length}`);
 
-  let texto;
+  let texto = plural(marcados + yaPropios,
+    'pedido marcado como impreso', 'pedidos marcados como impresos') + '.';
   let detalle = '';
 
-  if (esReintento) {
-    // Los ya marcados casi seguro los marco el intento anterior, cuya
-    // respuesta no llego: cuentan como marcados y sin alarma
-    texto = plural(marcados + yaMarcados, 'pedido marcado como impreso', 'pedidos marcados como impresos') +
-      (yaMarcados ? ' (algunos ya habían quedado marcados en el intento anterior).' : '.');
-  } else {
-    texto = plural(marcados, 'pedido marcado como impreso', 'pedidos marcados como impresos') + '.';
-    if (yaMarcados) {
-      detalle += `<div class="ih-aviso-atencion"><b>ATENCIÓN</b>
-        ${yaMarcados === 1 ? '1 pedido ya había sido marcado' : `${yaMarcados} pedidos ya habían sido marcados`}
-        por otra persona. Revisá que no se preparen dos veces.</div>`;
-    }
+  if (yaMarcados) {
+    detalle += `<div class="ih-aviso-atencion"><b>ATENCIÓN</b>
+      ${yaMarcados === 1 ? '1 pedido ya había sido marcado' : `${yaMarcados} pedidos ya habían sido marcados`}
+      por otra persona. Revisá que no se preparen dos veces.</div>`;
   }
 
   if (noEncontrados.length) {
@@ -1023,11 +1088,40 @@ async function marcarTanda(esReintento) {
     detalle += `<p class="ih-aviso-lista">No se encontraron en el servidor: ${esc(numeros.join(', '))}</p>`;
   }
 
+  // Los que no salieron completos, nombrados por su N°
+  if (destildados.length) {
+    // El texto del aviso va con textContent: no se escapa
+    const numeros = destildados.map(p => p.numero || p.id).join(', ');
+    const k = destildados.length;
+    if (!ctx.anulacionFallida) {
+      texto += k === 1
+        ? ` Volvió a Pendientes 1 pedido que no salió: ${numeros}.`
+        : ` Volvieron a Pendientes ${k} pedidos que no salieron: ${numeros}.`;
+    } else {
+      texto += k === 1 ? ` 1 pedido no salió: ${numeros}.` : ` ${k} pedidos no salieron: ${numeros}.`;
+      detalle += '<p class="ih-aviso-lista">No se pudieron devolver a Pendientes: van a aparecer como ' +
+        '«impresión sin confirmar» y se resuelven desde la bandeja.</p>';
+    }
+  }
+
   if (total > 1) texto = `Tanda ${n} de ${total}: ${texto}`;
 
   // Recien despues de marcar se pasa a la tanda siguiente
-  mostrarAviso(texto, n < total
-    ? [{ texto: `Imprimir tanda ${n + 1}`, principal: true, accion: siguienteTanda }, cancelar]
-    : [{ texto: 'Cerrar', principal: true, accion: cerrar }],
-    detalle);
+  let botones;
+  if (destildados.length) {
+    // Los que faltaron, como tanda adicional inmediata con el circuito
+    // completo; despues siguen las tandas que quedaban
+    botones = [{
+      texto: 'Imprimir los que faltaron', principal: true,
+      accion: () => { tandas.splice(tandaActual + 1, 0, destildados); siguienteTanda(); }
+    }];
+    if (n < total) botones.push({ texto: `Seguir con la tanda ${n + 1}`, accion: siguienteTanda }, cancelar);
+    else botones.push({ texto: 'Cerrar', accion: cerrar });
+  } else {
+    botones = n < total
+      ? [{ texto: `Imprimir tanda ${n + 1}`, principal: true, accion: siguienteTanda }, cancelar]
+      : [{ texto: 'Cerrar', principal: true, accion: cerrar }];
+  }
+
+  mostrarAviso(texto, botones, detalle);
 }
