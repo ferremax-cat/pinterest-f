@@ -27,13 +27,21 @@
       "descripcion": "Ofertas Especiales",
       "icono": "🎁",
       "activa": true
+    },
+    "imprimir_pedidos": {
+      "id": "imprimir_pedidos",
+      "nombre": "Imprimir pedidos",
+      "descripcion": "Bandeja de impresión de pedidos",
+      "icono": "🖨️",
+      "activa": true
     }
   },
   "roles": {
     "vendedor_estandar": {
       "nombre": "Vendedor Estándar",
       "funcionalidades": [
-        "estado_de_cuentas"
+        "estado_de_cuentas",
+        "imprimir_pedidos"
       ]
     },
     "cliente_estandar": {
@@ -52,6 +60,12 @@
       "nombre": "Administrador",
       "funcionalidades": [
         "all"
+      ]
+    },
+    "oficina": {
+      "nombre": "Oficina",
+      "funcionalidades": [
+        "imprimir_pedidos"
       ]
     }
   }
