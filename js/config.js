@@ -30,3 +30,7 @@ const config = {
     }
 };
 export { config };
+
+// Prueba con vendedores: mientras este en true, los clientes ven el catalogo
+// sin carrito ni promociones y entran sin el login por servidor
+export const SOLO_VENDEDORES = true;
