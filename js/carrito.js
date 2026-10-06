@@ -9,12 +9,12 @@
  * - El orden de carga se conserva: define el semaforo acumulativo.
  */
 
-const PREFIJO = 'carrito::';
+// Prueba con vendedores (en config.js): mientras este en true, los clientes
+// ven el catalogo como hasta ahora, sin carrito ni promociones. Pasar a false
+// para habilitar el carrito a todos.
+import { SOLO_VENDEDORES } from './config.js';
 
-// Prueba con vendedores: mientras este en true, los clientes ven el catalogo
-// como hasta ahora, sin carrito ni promociones. Pasar a false para habilitar
-// el carrito a todos.
-const SOLO_VENDEDORES = true;
+const PREFIJO = 'carrito::';
 
 /** El carrito esta disponible para quien esta usando la app. */
 export function carritoHabilitado() {

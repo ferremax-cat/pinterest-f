@@ -1,6 +1,6 @@
 // LoginManager.js
 
-import { config } from './config.js';
+import { config, SOLO_VENDEDORES } from './config.js';
 //import CacheManager from './cacheManager.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
@@ -86,7 +86,14 @@ class LoginManager {
 
             // Autenticacion contra el endpoint: el servidor decide si la clave
             // es valida y cual es el rol. Los permisos siguen viniendo del JSON.
-            if (USAR_LOGIN_ENDPOINT) {
+            if (USAR_LOGIN_ENDPOINT && await this.esClienteSinToken(inputClave)) {
+                // Cliente sin carrito: alcanza con la validacion local, sin
+                // esperar al servidor. Se borra un modo degradado anterior de
+                // esta pestaña para que no aparezcan la franja ni la reconexion
+                sessionStorage.removeItem('authDegradado');
+                sessionStorage.removeItem('authMotivo');
+                console.log('[LOGIN] Cliente: validación local, sin login por servidor');
+            } else if (USAR_LOGIN_ENDPOINT) {
                 try {
                     const auth = await autenticarEnEndpoint(inputClave);
 
@@ -199,6 +206,25 @@ class LoginManager {
             return false;
         }
 
+    }
+
+    /**
+     * Mientras SOLO_VENDEDORES este activo, los clientes no tienen carrito y
+     * no necesitan token: entran sin el login por servidor. Solo cuenta un
+     * cliente_estandar explicito en funcionalidades_usuarios.json; si la clave
+     * no esta o el archivo no se puede leer, se usa el servidor como siempre,
+     * para que nadie que necesite token se quede sin el.
+     */
+    async esClienteSinToken(clave) {
+        if (!SOLO_VENDEDORES) return false;
+        try {
+            const r = await fetch('./json/funcionalidades_usuarios.json');
+            const datos = await r.json();
+            return datos.usuarios?.[String(clave).trim()]?.rol === 'cliente_estandar';
+        } catch (e) {
+            console.warn('[LOGIN] No se pudo leer funcionalidades_usuarios.json:', e);
+            return false;
+        }
     }
 
     //- agregue 19-3-25
