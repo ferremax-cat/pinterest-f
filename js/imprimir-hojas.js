@@ -49,6 +49,7 @@ const EXCEPCIONES_PISO = [
   { prefijo: 'MIC', rubros: ['8.SOPLETE'],                     piso: PISO_1 },  // sopletes
   { prefijo: 'EA',  rubros: ['8.AISLANTES'],                   piso: PISO_1 },  // aislantes
   { prefijo: 'LH',  rubros: ['8.TACO', '8.TARUGO'],            piso: PISO_1 },  // tacos y tarugos
+  { prefijo: 'MAV', rubros: ['9.CABLECANAL', '8.CALEFACCION'], piso: PISO_1 },  // cablecanal y calefaccion (el resto de MAV, en planta baja)
 ];
 
 const normTexto = s => String(s ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
