@@ -23,10 +23,42 @@ const PISO_1 = '1ER PISO';
 const PISO_SIN = 'SIN UBICACIÓN';
 const ORDEN_PISOS = [PISO_PB, PISO_1, PISO_SIN];
 
-// Excepciones por prefijo de codigo: se revisan antes que la categoria
+// Excepciones al piso que sale de la categoria. Se revisan en orden y gana
+// la primera que coincide. Una regla aplica si el codigo empieza con
+// "prefijo" y, si tiene "rubros", ademas la categoria del producto empieza
+// con alguno de ellos; sin "rubros", aplica a todo el prefijo. Mayusculas y
+// espacios sobrantes no importan.
 const EXCEPCIONES_PISO = [
-  { prefijo: 'CRE', piso: PISO_1 },
+  // Todo el prefijo
+  { prefijo: 'CRE',    piso: PISO_1 },  // Crecchio: separadores en cruz
+  { prefijo: 'SB',     piso: PISO_1 },  // correas (rubro 8, pero estan en el 1er piso)
+  { prefijo: 'GAG',    piso: PISO_1 },  // Gamma: maquinas, herramientas electricas y bombas
+  { prefijo: 'ROCKY',  piso: PISO_1 },  // Rocky: calzado de seguridad
+  { prefijo: 'PRO',    piso: PISO_1 },  // Proforce: botas de goma
+  { prefijo: 'PERF',   piso: PISO_1 },  // Perfecto: abrazaderas
+  { prefijo: 'TM',     piso: PISO_1 },  // sogas e hilos
+  { prefijo: 'KO',     piso: PISO_1 },  // Komasa: bombas y motores
+  { prefijo: 'UMI',    piso: PISO_1 },  // UMI: maquinas y accesorios
+  { prefijo: 'MOI',    piso: PISO_1 },  // Moises: palas y cabos
+  { prefijo: 'PLASTI', piso: PISO_1 },  // accesorios de riego, mangueras y caños cristal
+  { prefijo: 'TORN',   piso: PISO_1 },  // Tornado: cargadores de bateria
+
+  // Solo algunos rubros del prefijo
+  { prefijo: 'ALI', rubros: ['8.ESTUFA', '8.ANAFE'],           piso: PISO_1 },  // Aligas: estufas y anafes
+  { prefijo: 'LOU', rubros: ['8.AZADAS', '8.PALA', '8.PICOS'], piso: PISO_1 },  // azadas, palas y picos
+  { prefijo: 'MIC', rubros: ['8.SOPLETE'],                     piso: PISO_1 },  // sopletes
+  { prefijo: 'EA',  rubros: ['8.AISLANTES'],                   piso: PISO_1 },  // aislantes
+  { prefijo: 'LH',  rubros: ['8.TACO', '8.TARUGO'],            piso: PISO_1 },  // tacos y tarugos
 ];
+
+const normTexto = s => String(s ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
+
+// La tabla normalizada una sola vez, al cargar el modulo
+const REGLAS_PISO = EXCEPCIONES_PISO.map(e => ({
+  piso: e.piso,
+  prefijo: normTexto(e.prefijo),
+  rubros: (e.rubros || []).map(normTexto)
+}));
 
 // Alturas en mm: unica fuente. Se pasan al CSS como variables --ih-*
 const MM = {
@@ -219,8 +251,11 @@ export function precargar(pedidos) {
 // ---------- piso, orden y bulto ----------
 
 function pisoDe(sku, categoria) {
-  const exc = EXCEPCIONES_PISO.find(e => sku.startsWith(e.prefijo));
-  if (exc) return exc.piso;
+  const cod = normTexto(sku);
+  const cat = normTexto(categoria);
+  const regla = REGLAS_PISO.find(r => cod.startsWith(r.prefijo) &&
+    (!r.rubros.length || r.rubros.some(rubro => cat.startsWith(rubro))));
+  if (regla) return regla.piso;
 
   // El numero antes del punto: "8.ALAMBRE..." -> 8
   const n = parseInt(String(categoria ?? '').trim(), 10);
