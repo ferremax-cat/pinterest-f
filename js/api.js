@@ -27,6 +27,45 @@ const TIEMPO_MAXIMO = 15000;
 // asi que cortar y repetir solo duplica el trabajo
 const REINTENTOS_POR_TIEMPO = 1;
 
+// ---------- token del personal ----------
+// Renovacion anticipada y reintento ante token vencido. La funcion que pide
+// el token la registra sesion.js (registrarRenovador): asi api.js no importa
+// sesion.js, que a su vez importa api.js
+
+// Se renueva si al token le queda menos que esto
+const RENOVAR_ANTES_MS = 30 * 60 * 1000;
+// Si una renovacion anticipada fallo, no se insiste en cada llamada
+const ESPERA_TRAS_RENOVACION_FALLIDA_MS = 60 * 1000;
+
+let renovador = null;
+let ultimaRenovacionFallida = 0;
+
+export function registrarRenovador(fn) {
+  renovador = fn;
+}
+
+async function renovarToken(motivo) {
+  if (!renovador) return false;
+  console.info(`[Api] Renovando el token (${motivo})`);
+  const ok = await Promise.resolve(renovador()).catch(() => false);
+  if (!ok) ultimaRenovacionFallida = Date.now();
+  return ok;
+}
+
+function tokenPorVencer() {
+  if (!renovador || !sessionStorage.getItem('authToken')) return false;
+  const vence = Number(sessionStorage.getItem('authVence')) || 0;
+  return vence > 0
+    && vence - Date.now() < RENOVAR_ANTES_MS
+    && Date.now() - ultimaRenovacionFallida > ESPERA_TRAS_RENOVACION_FALLIDA_MS;
+}
+
+// Quien llama arma el payload con el token del momento: se usa el vigente,
+// por si se renovo mientras tanto
+function conTokenVigente(payload) {
+  return { ...payload, token: sessionStorage.getItem('authToken') };
+}
+
 /** intentos: se anota la duracion y el resultado de cada intento. */
 async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO, intentos = []) {
   let ultimoError;
@@ -92,7 +131,7 @@ async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO,
 // Google rechazaba alguna con su pagina de error
 let cola = Promise.resolve();
 
-export function llamarApi(payload, reintentos = 3, margen) {
+function encolar(payload, reintentos, margen) {
   const med = { pedido: performance.now(), inicio: 0, intentos: [] };
 
   const tarea = cola.then(() => {
@@ -108,6 +147,33 @@ export function llamarApi(payload, reintentos = 3, margen) {
   );
 
   return tarea;
+}
+
+/**
+ * Unico punto de acceso al servidor. Para las llamadas con token:
+ * 1. si el token vence en menos de 30 minutos, se renueva antes de llamar;
+ * 2. si igual vuelve token_invalido, se renueva y se reintenta una sola vez.
+ * Reintentar es seguro: el servidor descarta los pedidos duplicados por id.
+ * La renovacion va fuera de la cola: adentro, el login quedaria esperando
+ * detras de la misma llamada que lo pidio.
+ */
+export async function llamarApi(payload, reintentos = 3, margen) {
+  const usaToken = payload.accion !== 'login' && 'token' in payload;
+  if (!usaToken) return encolar(payload, reintentos, margen);
+
+  // 1. Renovacion anticipada
+  if (tokenPorVencer()) await renovarToken('vence en menos de 30 minutos');
+
+  const r = await encolar(conTokenVigente(payload), reintentos, margen);
+
+  // 2. Red de seguridad: vencio igual (por ejemplo, la pestaña estuvo
+  //    dormida): token nuevo y un solo reintento de la misma llamada
+  if (r?.ok === false && r.error === 'token_invalido' && await renovarToken('token_invalido')) {
+    console.info(`[Api] ${payload.accion}: reintento con el token nuevo`);
+    return encolar(conTokenVigente(payload), reintentos, margen);
+  }
+
+  return r;
 }
 
 /**
