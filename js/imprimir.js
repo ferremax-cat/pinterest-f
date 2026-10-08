@@ -10,6 +10,7 @@
  */
 
 import { precargar, imprimir as imprimirHojas, confirmarExistentes, cargarClientes } from './imprimir-hojas.js';
+import { pedirToken } from './sesion.js';
 
 // Oficina imprime aunque no arme pedidos: no sirve Carrito.puedePedir()
 const ROLES_IMPRESION = ['admin', 'vendedor_estandar', 'oficina'];
@@ -378,7 +379,18 @@ function configurarEventos() {
 
 // ---------- inicio ----------
 
-function iniciar() {
+async function iniciar() {
+  // El personal entra sin esperar el token: si todavia no llego, se pide
+  // aca. Sin token la bandeja no puede consultar nada, asi que se espera
+  if (sessionStorage.getItem('authDegradado') === '1' && !sessionStorage.getItem('authToken')) {
+    mostrarAviso('Conectando con el servidor…');
+    if (!await pedirToken()) {
+      mostrarAviso('No se pudo conectar con el servidor. Probá de nuevo en unos minutos.');
+      return;
+    }
+    $('im-aviso').hidden = true;
+  }
+
   const problema = problemaDeSesion();
   if (problema) {
     mostrarAviso(problema);

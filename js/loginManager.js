@@ -4,26 +4,12 @@ import { config, SOLO_VENDEDORES } from './config.js';
 //import CacheManager from './cacheManager.js';
 import ProductManager from './productManager.js';
 import ImageLoader from './imageLoader.js';
-import { registrarFallo } from './registro-fallos.js';
-import { llamarApi } from './api.js';
 
 
 // --- Login por endpoint (Etapa 1) ---
 // Interruptor de convivencia: en false, vuelve al comportamiento anterior.
 const USAR_LOGIN_ENDPOINT = true; // Cambiar a true para usar el endpoint de login
 const URL_API = 'https://script.google.com/macros/s/AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec';
-/**
- * Un solo intento con 12 segundos de margen: aunque el servidor responda en
- * 2-3 segundos, Google puede demorar 5-8 en entregar la respuesta, y con
- * menos margen el login caia en modo degradado con el servidor funcionando.
- * Si aun asi no llega, el usuario entra igual con la validacion local y el
- * token se pide despues. El token sigue siendo obligatorio para el cupo y
- * para guardar pedidos.
- */
-async function autenticarEnEndpoint(clave) {
-    return await llamarApi({ accion: 'login', clave: String(clave).trim() }, 0, 12000);
-}
-
 /**
  * Despierta el endpoint mientras el usuario escribe su clave.
  * No bloquea nada: si falla, se ignora.
@@ -84,8 +70,9 @@ class LoginManager {
             sessionStorage.removeItem('authCodigo');
             sessionStorage.removeItem('authVence');
 
-            // Autenticacion contra el endpoint: el servidor decide si la clave
-            // es valida y cual es el rol. Los permisos siguen viniendo del JSON.
+            // Nadie espera al servidor para entrar: el login se resuelve con la
+            // validacion local. El token del personal se pide despues, desde
+            // la pagina que queda abierta (sesion.js)
             if (USAR_LOGIN_ENDPOINT && await this.esClienteSinToken(inputClave)) {
                 // Cliente sin carrito: alcanza con la validacion local, sin
                 // esperar al servidor. Se borra un modo degradado anterior de
@@ -94,36 +81,13 @@ class LoginManager {
                 sessionStorage.removeItem('authMotivo');
                 console.log('[LOGIN] Cliente: validación local, sin login por servidor');
             } else if (USAR_LOGIN_ENDPOINT) {
-                try {
-                    const auth = await autenticarEnEndpoint(inputClave);
-
-                    if (!auth.ok) {
-                        console.log('Login rechazado por el endpoint:', auth.error);
-                        return false;
-                    }
-
-                    if (!auth.token) {
-                        // Nunca guardar un token vacio: deja la sesion rota
-                        // sin que el usuario se entere
-                        console.error('[LOGIN] Respuesta sin token:', auth);
-                        sessionStorage.setItem('authDegradado', '1');
-                    } else {
-                        sessionStorage.removeItem('authDegradado');
-                        sessionStorage.setItem('authToken', auth.token);
-                        sessionStorage.setItem('authRol', auth.rol);
-                        sessionStorage.setItem('authCodigo', auth.codigo || '');
-                        sessionStorage.setItem('authVence', String(auth.vence));
-                        console.log('Autenticado como', auth.rol, auth.nombre);
-                    }
-                } catch (err) {
-                    // Si el endpoint no responde se entra igual, para que nadie
-                    // quede sin catalogo. El carrito avisa que falta el token.
-                    console.warn('Endpoint no disponible, usando validacion local:', err);
-                    sessionStorage.setItem('authDegradado', '1');
-                    sessionStorage.setItem('authMotivo', 'sin_servicio');
-                    registrarFallo('endpoint_caido', String(err), `clave ${inputClave}`);
-                }
-            }      
+                // Personal: entra al instante con la validacion local. El token
+                // se pide desde la pagina que queda abierta (sesion.js): una
+                // llamada lanzada aca se cortaria al cambiar de pagina
+                sessionStorage.setItem('authDegradado', '1');
+                sessionStorage.setItem('authMotivo', 'token_pendiente');
+                console.log('[LOGIN] Personal: entra sin esperar el token');
+            }
         
             //- fin agregue 19-3-25
 
