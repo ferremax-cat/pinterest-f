@@ -20,6 +20,51 @@ async function traerFinanzasDelEndpoint(cuenta) {
     return d.ok ? d : null;
 }
 
+/**
+ * Trae del endpoint las finanzas del cliente y actualiza la barra y el
+ * disponible. No bloquea: si no hay token o falla, quedan los datos locales.
+ */
+function actualizarFinanzas(cuenta) {
+    if (!USAR_FINANZAS_ENDPOINT || !sessionStorage.getItem('authToken')) return;
+
+    traerFinanzasDelEndpoint(cuenta)
+        .then(d => {
+            if (!d) return;
+
+            const actualizados = {
+                nombre: d.nombre,
+                pgProm3M: d.pgProm3M,
+                comproMes: d.comproMes,
+                saldoTotal: d.saldoTotal,
+                pagoMes: d.pagoMes,
+                cupoMes: d.cupoMes,
+                ultOperacion: d.ultOperacion,
+                disponible: d.disponible,
+                esRevendedor: d.esRevendedor
+            };
+
+            // Solo guardar si el dato llego: si no, dejar vacio para
+            // que el panel vuelva a intentarlo
+            if (d.disponible !== undefined && d.disponible !== null) {
+                sessionStorage.setItem('disponibleCliente', String(d.disponible));
+                sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
+            }
+
+            if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
+                window.BarraSaludFinanciera.actualizarDatos(actualizados);
+            }
+            console.log('[Finanzas] Actualizado desde el endpoint, disponible:', d.disponible);
+        })
+        .catch(err => console.warn('[Finanzas] Endpoint no disponible:', err));
+}
+
+// El personal entra sin token y lo recibe despues: si ya hay un cliente
+// elegido, completar sus finanzas con los datos del servidor
+document.addEventListener('auth:token-listo', () => {
+    const cli = window.Precios?.getClienteVista();
+    if (cli) actualizarFinanzas(cli.cuenta);
+});
+
 
 class BusquedaClientes {
     constructor() {
@@ -510,37 +555,7 @@ class BusquedaClientes {
 
          // Pedir al endpoint SIN bloquear: la barra ya se mostro con los datos
         // locales y se actualiza sola cuando llega la respuesta del servidor
-        if (USAR_FINANZAS_ENDPOINT && sessionStorage.getItem('authToken')) {
-            traerFinanzasDelEndpoint(cuenta)
-                .then(d => {
-                    if (!d) return;
-
-                    const actualizados = {
-                        nombre: d.nombre,
-                        pgProm3M: d.pgProm3M,
-                        comproMes: d.comproMes,
-                        saldoTotal: d.saldoTotal,
-                        pagoMes: d.pagoMes,
-                        cupoMes: d.cupoMes,
-                        ultOperacion: d.ultOperacion,
-                        disponible: d.disponible,
-                        esRevendedor: d.esRevendedor
-                    };
-
-                    // Solo guardar si el dato llego: si no, dejar vacio para
-                    // que el panel vuelva a intentarlo
-                    if (d.disponible !== undefined && d.disponible !== null) {
-                        sessionStorage.setItem('disponibleCliente', String(d.disponible));
-                        sessionStorage.setItem('disponibleDeCuenta', String(cuenta));
-                    }
-
-                    if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
-                        window.BarraSaludFinanciera.actualizarDatos(actualizados);
-                    }
-                    console.log('[Finanzas] Actualizado desde el endpoint, disponible:', d.disponible);
-                })
-                .catch(err => console.warn('[Finanzas] Endpoint no disponible:', err));
-        }
+        actualizarFinanzas(cuenta);
 
          // Limpiar resultados y restaurar estado previo.
         // Si hay un cliente seleccionado, la barra debe quedar visible

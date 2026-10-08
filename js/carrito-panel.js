@@ -191,16 +191,18 @@ export function abrir() {
 
   // Sin token no hay cupo ni confirmacion posible
     if (sessionStorage.getItem('authDegradado') === '1') {
-    const sinServicio = sessionStorage.getItem('authMotivo') === 'sin_servicio';
+    const motivo = sessionStorage.getItem('authMotivo');
+    // token_pendiente: el token del personal se esta pidiendo (sesion.js);
+    // al llegar, auth:token-listo vuelve a abrir el panel
+    const [titulo, texto] =
+      motivo === 'token_pendiente' ? ['Conectando con el sistema de pedidos…', 'Probá de nuevo en unos segundos.']
+      : motivo === 'sin_servicio' ? ['El sistema de pedidos no está disponible', 'Podés seguir viendo el catálogo. Probá de nuevo en unos minutos.']
+      : ['Tu sesión expiró', 'Salí y volvé a entrar para armar pedidos.'];
     cont.innerHTML = `
       <div class="cp-caja">
         <div class="cp-cargando">
-          <p style="color:#dc2626;font-weight:600">
-            ${sinServicio ? 'El sistema de pedidos no está disponible' : 'Tu sesión expiró'}
-          </p>
-          <p>${sinServicio
-              ? 'Podés seguir viendo el catálogo. Probá de nuevo en unos minutos.'
-              : 'Salí y volvé a entrar para armar pedidos.'}</p>
+          <p style="color:#dc2626;font-weight:600">${titulo}</p>
+          <p>${texto}</p>
           <button class="cp-cerrar-exito">Entendido</button>
         </div>
       </div>`;
@@ -520,9 +522,7 @@ function conectar(cont) {
     });
   });
 
-  cont.querySelector('.cp-vaciar')?.addEventListener('click', () => {
-    if (confirm('¿Vaciar el pedido?')) { window.Carrito.vaciar(); dibujar(); }
-  });
+  cont.querySelector('.cp-vaciar')?.addEventListener('click', confirmarVaciar);
 
   cont.querySelector('.cp-confirmar')?.addEventListener('click', confirmarPedido);
 
@@ -763,6 +763,58 @@ function avisar(texto, tipo) {
   setTimeout(() => av.remove(), 3000);
 }
 
+/**
+ * Confirmacion de vaciar dentro del panel: confirm() del navegador muestra
+ * la direccion del sitio y rompe el diseño. Cancelar es la opcion segura:
+ * tiene el foco y tambien se cancela con Escape o tocando afuera.
+ */
+function confirmarVaciar() {
+  const caja = document.querySelector('#carrito-panel .cp-caja');
+  if (!caja || caja.querySelector('.cp-confirma')) return;
+
+  const n = window.Carrito.cantidadItems();
+  const cli = window.Precios?.getClienteVista();
+
+  const capa = document.createElement('div');
+  capa.className = 'cp-confirma';
+  capa.innerHTML = `
+    <div class="cp-confirma-caja" role="alertdialog" aria-modal="true" aria-labelledby="cp-confirma-tit">
+      <p class="cp-confirma-tit" id="cp-confirma-tit">¿Vaciar el pedido?</p>
+      <p class="cp-confirma-det"></p>
+      <div class="cp-confirma-botones">
+        <button type="button" class="cp-confirma-cancelar">Cancelar</button>
+        <button type="button" class="cp-confirma-vaciar">Vaciar pedido</button>
+      </div>
+    </div>`;
+
+  // Con textContent: el nombre del cliente no se interpreta como HTML
+  capa.querySelector('.cp-confirma-det').textContent =
+    `Se van a quitar ${n} artículo${n !== 1 ? 's' : ''}` +
+    (cli?.nombre ? ` del pedido de ${cli.nombre}` : '') + '. No se puede deshacer.';
+
+  caja.appendChild(capa);
+
+  const alTeclado = e => {
+    if (e.key === 'Escape') { e.stopPropagation(); cerrarConfirma(); }
+  };
+  const cerrarConfirma = () => {
+    capa.remove();
+    document.removeEventListener('keydown', alTeclado);
+  };
+
+  capa.querySelector('.cp-confirma-cancelar').addEventListener('click', cerrarConfirma);
+  capa.querySelector('.cp-confirma-vaciar').addEventListener('click', () => {
+    cerrarConfirma();
+    window.Carrito.vaciar();
+    dibujar();
+  });
+  // Tocar afuera de la tarjeta (sobre la capa) cancela
+  capa.addEventListener('click', e => { if (e.target === capa) cerrarConfirma(); });
+  document.addEventListener('keydown', alTeclado);
+
+  capa.querySelector('.cp-confirma-cancelar').focus();
+}
+
 async function confirmarPedido() {
 
   window.__t0 = performance.now();
@@ -941,6 +993,15 @@ document.addEventListener('carrito:abrir', abrir);
 document.addEventListener('carrito:cambio', dibujar);
 // Intentar varias veces: el rol tarda en estar disponible al cargar
 [500, 1500, 3000].forEach(ms => setTimeout(() => { if (!config && esVendedor()) cargarConfig(); }, ms));
+
+// Llego el token del personal: la configuracion que se cargo sin token son
+// los valores por defecto, se vuelve a pedir; y si el panel estaba abierto
+// con el aviso de conexion, se vuelve a abrir para mostrar el carrito
+document.addEventListener('auth:token-listo', () => {
+  if (!sessionStorage.getItem('configCarrito')) config = null;
+  if (esVendedor()) cargarConfig();
+  if (document.getElementById('carrito-panel')?.style.display === 'flex') abrir();
+});
 
 window.addEventListener('resize', () => {
   if (document.getElementById('carrito-panel')?.style.display === 'flex') ajustarAltura();
