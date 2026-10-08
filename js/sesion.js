@@ -10,7 +10,7 @@
  * que lo necesita (carrito, revision, finanzas) se actualice solo.
  */
 
-import { llamarApi } from './api.js';
+import { llamarApi, registrarRenovador } from './api.js';
 import { registrarFallo } from './registro-fallos.js';
 
 // La clave del que entro: la deja el login en clientData, disponible desde
@@ -23,6 +23,11 @@ function clavePropia() {
   }
 }
 
+// Se avisa a la app solo si alguien pidio el token porque faltaba; una
+// renovacion de un token que ya estaba no cambia nada para la app (y avisar
+// reabriria el panel del carrito, por ejemplo en medio de guardar un pedido)
+let avisarAlLlegar = false;
+
 function guardarSesion(auth) {
   sessionStorage.setItem('authToken', auth.token);
   sessionStorage.setItem('authRol', auth.rol);
@@ -32,7 +37,7 @@ function guardarSesion(auth) {
   sessionStorage.removeItem('authMotivo');
 
   // Lo que necesita token puede arrancar ahora
-  document.dispatchEvent(new CustomEvent('auth:token-listo'));
+  if (avisarAlLlegar) document.dispatchEvent(new CustomEvent('auth:token-listo'));
 }
 
 let pidiendo = null;
@@ -41,8 +46,10 @@ let pidiendo = null;
  * Pide el token al servidor. Devuelve true si quedo guardado. Nunca saca al
  * usuario que ya entro: si el servidor rechaza la clave o no responde, la
  * sesion sigue degradada y queda registrado.
+ * renovacion: el token ya estaba y se renueva (api.js): no se avisa a la app.
  */
-export function pedirToken() {
+export function pedirToken({ renovacion = false } = {}) {
+  if (!renovacion) avisarAlLlegar = true;
   if (pidiendo) return pidiendo;
 
   const clave = clavePropia();
@@ -73,7 +80,10 @@ export function pedirToken() {
       registrarFallo('endpoint_caido', String(err), `clave ${clave}`);
       return false;
     })
-    .finally(() => { pidiendo = null; });
+    .finally(() => { pidiendo = null; avisarAlLlegar = false; });
 
   return pidiendo;
 }
+
+// api.js renueva el token cuando esta por vencer o ya vencio
+registrarRenovador(() => pedirToken({ renovacion: true }));
