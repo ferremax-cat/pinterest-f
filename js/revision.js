@@ -198,4 +198,8 @@ async function revisar(id, boton) {
 // con las demas consultas del inicio
 setTimeout(consultarPendientes, 3000);
 
+// El personal entra sin token y lo recibe despues: sin esto, la consulta
+// de los 3 segundos no encuentra token y la bandeja no aparece
+document.addEventListener('auth:token-listo', () => consultarPendientes());
+
 window.Revision = { consultarPendientes, abrirPanel };

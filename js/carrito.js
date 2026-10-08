@@ -13,6 +13,7 @@
 // ven el catalogo como hasta ahora, sin carrito ni promociones. Pasar a false
 // para habilitar el carrito a todos.
 import { SOLO_VENDEDORES } from './config.js';
+import { pedirToken } from './sesion.js';
 
 const PREFIJO = 'carrito::';
 
@@ -725,6 +726,10 @@ export async function detalleVerificado(cliente) {
 
 let intentosReconexion = 0;
 
+// Mientras se espera el token del personal, la franja no aparece antes de
+// este tiempo desde que abrio la pagina
+const ESPERA_FRANJA_MS = 5000;
+
 // Aviso permanente cuando el sistema de pedidos no responde, con opcion
 // de reintentar sin tener que salir y volver a entrar
 function avisarSinServicio() {
@@ -735,6 +740,14 @@ function avisarSinServicio() {
     return;
   }
   if (franja) return;
+
+  // El token del personal se esta pidiendo: no alarmar en los primeros 5
+  // segundos. Si para entonces no llego, la franja aparece como siempre
+  const faltan = ESPERA_FRANJA_MS - performance.now();
+  if (sessionStorage.getItem('authMotivo') === 'token_pendiente' && faltan > 0) {
+    setTimeout(avisarSinServicio, faltan);
+    return;
+  }
 
   const f = document.createElement('div');
   f.id = 'franja-sin-servicio';
@@ -755,50 +768,38 @@ function avisarSinServicio() {
 async function reintentarConexion() {
   const btn = document.getElementById('franja-reintentar');
   const txt = document.getElementById('franja-texto');
-  const clave = window.menuFuncionalidades?.usuarioActual?.clave;
-  if (!btn || !clave) return;
+  if (!btn) return;
 
   btn.disabled = true;
   btn.textContent = 'Conectando...';
 
-  try {
-    const auth = await window.Api.llamar({ accion: 'login', clave: String(clave) });
+  // Si llega, el evento auth:token-listo saca la franja y habilita el carrito
+  if (await pedirToken()) return;
 
-    if (!auth.ok || !auth.token) throw new Error(auth.error || 'sin token');
+  intentosReconexion++;
+  btn.disabled = false;
+  btn.textContent = 'Reintentar';
 
-    // Conexion recuperada: guardar la sesion y habilitar el carrito
-    sessionStorage.setItem('authToken', auth.token);
-    sessionStorage.setItem('authRol', auth.rol);
-    sessionStorage.setItem('authCodigo', auth.codigo || '');
-    sessionStorage.setItem('authVence', String(auth.vence));
-    sessionStorage.removeItem('authDegradado');
-    sessionStorage.removeItem('authMotivo');
-    intentosReconexion = 0;
-
-    document.getElementById('franja-sin-servicio')?.remove();
-    window.Precios?.repintarTodos();
-    refrescarBotonFlotante();
-
-  } catch (e) {
-    intentosReconexion++;
-    btn.disabled = false;
-    btn.textContent = 'Reintentar';
-
-    if (intentosReconexion >= 2) {
-      txt.textContent = 'El sistema sigue sin responder. Esperá unos minutos y volvé a intentar.';
-    } else {
-      txt.textContent = 'No se pudo conectar. Probá de nuevo.';
-    }
+  if (intentosReconexion >= 2) {
+    txt.textContent = 'El sistema sigue sin responder. Esperá unos minutos y volvé a intentar.';
+  } else {
+    txt.textContent = 'No se pudo conectar. Probá de nuevo.';
   }
 }
 
+// Token recuperado (al entrar o con Reintentar): habilitar el carrito
+document.addEventListener('auth:token-listo', () => {
+  intentosReconexion = 0;
+  document.getElementById('franja-sin-servicio')?.remove();
+  window.Precios?.repintarTodos();
+  refrescarBotonFlotante();
+});
+
 setTimeout(avisarSinServicio, 2000);
 
-// Si el login entro sin token, reintentarlo una vez en segundo plano:
-// el usuario ya esta navegando y no espera nada
-setTimeout(() => {
-  if (sessionStorage.getItem('authDegradado') === '1') reintentarConexion();
-}, 12000);
+// El personal entra sin esperar el token: pedirlo ya, en segundo plano.
+// Tambien cubre una sesion que quedo degradada en un login anterior
+if (sessionStorage.getItem('authDegradado') === '1') pedirToken();
 
 // ---------- revision de pedidos ----------
 
