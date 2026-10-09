@@ -228,6 +228,45 @@ class ProductManager {
     }
 
   /**
+   * Reemplaza en memoria los datos de los productos ya cargados (precios,
+   * nombre, rubro y bulto) con los de un productos.json nuevo. No agrega ni
+   * quita productos. Guarda el estado y la cache que usa el modo margen.
+   * @returns {{ actualizados: number, cambios: Array<{codigo, antes, despues}> }}
+   *   cambios: los productos cuyo precio quedo distinto en alguna lista
+   */
+  actualizarDesde(productsData) {
+    const lista = this.clientData?.priceList;
+    const cambios = [];
+    let actualizados = 0;
+
+    for (const [codigo, p] of this.products) {
+      const nuevo = productsData[codigo];
+      if (!nuevo?.prices) continue;
+
+      const antes = p.precios || {};
+      const despues = nuevo.prices;
+      if (['D', 'E', 'F'].some(l => Number(antes[l]) !== Number(despues[l]))) {
+        cambios.push({ codigo, antes: { ...antes }, despues: { ...despues } });
+      }
+
+      p.precios = despues;
+      if (lista && despues[lista] !== undefined) p.precio = despues[lista];
+      p.nombre = nuevo.name ?? p.nombre;
+      p.categoria = nuevo.category ?? p.categoria;
+      p.bulto = nuevo.bulk ?? p.bulto;
+      actualizados++;
+    }
+
+    this.#saveState();
+    this.cache.set('products_data', {
+      products: Object.fromEntries(this.products),
+      timestamp: Date.now()
+    });
+    sessionStorage.setItem('productos_cargados', String(Date.now()));
+    return { actualizados, cambios };
+  }
+
+  /**
    * Carga datos desde el cache
    * @private
    * @param {Object} cachedData - Datos cacheados
@@ -510,6 +549,10 @@ class ProductManager {
 
 
       //console.log(`Productos agregados: ${productosAgregados}`);
+
+      // Cuando se cargaron los precios: frescura-precios.js lo compara con
+      // la fecha de generacion de productos.json
+      sessionStorage.setItem('productos_cargados', String(Date.now()));
 
       await this.buildIndices();
       await this.cache.set('products_data', {

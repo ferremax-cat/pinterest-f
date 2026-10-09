@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import re
+import hashlib
 from datetime import datetime  # Agregamos esta importación
 
 
@@ -833,6 +834,41 @@ def handle_git_conflicts(file_path):
 
 
 
+def escribir_version_productos():
+    """
+    json/version.json: huella de productos.json, para que el navegador
+    detecte que cambiaron los precios sin descargar el archivo completo.
+    'generado' solo cambia si cambia el contenido: el workflow corre cada
+    hora y solo commitea si hay cambios.
+    """
+    ruta_productos = 'json/productos.json'
+    ruta_version = 'json/version.json'
+    if not os.path.exists(ruta_productos):
+        return
+
+    with open(ruta_productos, 'rb') as f:
+        huella = hashlib.sha256(f.read()).hexdigest()[:16]
+
+    anterior = {}
+    if os.path.exists(ruta_version):
+        try:
+            with open(ruta_version, 'r', encoding='utf-8') as f:
+                anterior = json.load(f)
+        except Exception:
+            anterior = {}
+
+    if anterior.get('productos', {}).get('huella') == huella:
+        return   # sin cambios: no tocar el archivo
+
+    anterior['productos'] = {
+        'huella': huella,
+        'generado': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    }
+    with open(ruta_version, 'w', encoding='utf-8') as f:
+        json.dump(anterior, f, indent=2)
+    print(f'version.json actualizado: productos {huella}')
+
+
 def main():
     """Función principal que intenta primero Google Sheets y luego local"""
     try:
@@ -848,6 +884,13 @@ def main():
         print('Intentando actualización local')
         update_from_local()
         update_margenes_from_local()  # NUEVA LÍNEA - Actualizar márgenes desde Excel local
+
+    # Por cualquiera de los dos caminos: el navegador la usa para saber si
+    # tiene que actualizar los precios
+    try:
+        escribir_version_productos()
+    except Exception as e:
+        print(f'Error escribiendo version.json: {e}')
 
 if __name__ == "__main__":
     import sys

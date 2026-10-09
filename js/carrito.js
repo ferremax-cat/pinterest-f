@@ -17,6 +17,9 @@ import { pedirToken } from './sesion.js';
 
 const PREFIJO = 'carrito::';
 
+// Un carrito sin cambios durante este tiempo se descarta solo
+const DIAS_CARRITO_VIGENTE = 7;
+
 /** El carrito esta disponible para quien esta usando la app. */
 export function carritoHabilitado() {
 
@@ -126,6 +129,7 @@ function guardar(lineas, cliente) {
 
   try {
     localStorage.setItem(claveCarrito(cliente), JSON.stringify(lineas));
+    marcarModificado(cliente);
     document.dispatchEvent(new CustomEvent('carrito:cambio', {
       detail: { cliente: cliente || getClienteDestino(), lineas }
     }));
@@ -134,6 +138,21 @@ function guardar(lineas, cliente) {
     console.error('[Carrito] No se pudo guardar:', e);
     return false;
   }
+}
+
+/**
+ * Ultimo cambio del carrito. Sirve para listar los carritos pendientes y
+ * descartar los abandonados. Un carrito anterior a este cambio no la tiene:
+ * se usa el ultimo articulo agregado.
+ */
+function marcarModificado(cliente) {
+  localStorage.setItem(claveCarrito(cliente) + '::mod', String(Date.now()));
+}
+
+function ultimaModificacion(cliente, lineas) {
+  const mod = Number(localStorage.getItem(claveCarrito(cliente) + '::mod')) || 0;
+  if (mod) return mod;
+  return Math.max(0, ...(lineas || leer(cliente)).map(l => Number(l.agregado) || 0));
 }
 
 // ---------- operaciones ----------
@@ -216,6 +235,8 @@ export function vaciar(cliente) {
   localStorage.removeItem(claveCarrito(cliente) + '::origen');
   localStorage.removeItem(claveCarrito(cliente) + '::origenSkus');
   localStorage.removeItem(claveCarrito(cliente) + '::pendiente');
+  localStorage.removeItem(claveCarrito(cliente) + '::ajuste');
+  localStorage.removeItem(claveCarrito(cliente) + '::mod');
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
     detail: { cliente: cliente || getClienteDestino(), lineas: [] }
   }));
@@ -334,9 +355,32 @@ export function carritosAbiertos() {
     if (cliente.includes('::')) continue;
 
     const lineas = leer(cliente);
-    if (lineas.length) res.push({ cliente, items: lineas.length });
+    if (!lineas.length) continue;
+
+    res.push({
+      cliente,
+      items: lineas.length,
+      modificado: ultimaModificacion(cliente, lineas),
+      pendiente: !!getPendiente(cliente)
+    });
   }
   return res;
+}
+
+/**
+ * Descarta los carritos sin cambios hace mas de DIAS_CARRITO_VIGENTE dias.
+ * Nunca los que tienen una confirmacion pendiente: ahi esta el id del
+ * pedido que quizas ya se guardo, y borrarlo podria duplicarlo.
+ */
+export function descartarViejos() {
+  const limite = Date.now() - DIAS_CARRITO_VIGENTE * 24 * 60 * 60 * 1000;
+  const viejos = carritosAbiertos().filter(c => !c.pendiente && c.modificado && c.modificado < limite);
+  viejos.forEach(c => vaciar(c.cliente));
+  if (viejos.length) {
+    console.log(`[Carrito] Descartados ${viejos.length} carritos sin cambios hace más de ${DIAS_CARRITO_VIGENTE} días:`,
+      viejos.map(c => c.cliente).join(', '));
+  }
+  return viejos.length;
 }
 
 // ---------- interfaz: icono en la tarjeta ----------
@@ -642,6 +686,7 @@ export function setAjustePedido(ajuste, cliente) {
     motivo: ajuste.motivo || '',
     obsLibre: ajuste.obsLibre || ''
   }));
+  marcarModificado(cliente);
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
     detail: { cliente: cliente || getClienteDestino() }
   }));
@@ -846,7 +891,7 @@ export function marcarPrevia(sku, cantidadPrevia, cliente) {
 
 window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
-  cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos,
+  cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos, descartarViejos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, getAjustePedido, setAjustePedido,
   getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,

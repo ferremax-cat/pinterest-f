@@ -4699,6 +4699,26 @@
       "F": 16887.71
     }
   },
+  "BM143": {
+    "name": "EXTRACTOR DE TORNILLO x5pza WEMBLEY",
+    "category": "8.EXTRACTOR WEMBLEY",
+    "bulk": 10.0,
+    "prices": {
+      "D": 10799.52,
+      "E": 11630.26,
+      "F": 9968.79
+    }
+  },
+  "BM2103": {
+    "name": "AFILA MECHAS SOPORTE 3a19mm WEMBLEY",
+    "category": "8.SOPORTE P/AFILAR MECHA",
+    "bulk": 6.0,
+    "prices": {
+      "D": 44810.41,
+      "E": 48257.37,
+      "F": 41363.46
+    }
+  },
   "BM2328": {
     "name": "GRAMPAS 8mm Cj 1000un P Pesada BREMEN",
     "category": "8.ENGRAMP.MANUAL y ACC.",
@@ -7244,9 +7264,9 @@
     "category": "8.BROCAS BREMEN",
     "bulk": 10.0,
     "prices": {
-      "D": 4873.67,
-      "E": 5248.57,
-      "F": 4498.78
+      "D": 5848.41,
+      "E": 6298.29,
+      "F": 5398.53
     }
   },
   "BM3879": {
@@ -7254,9 +7274,9 @@
     "category": "8.BROCAS BREMEN",
     "bulk": 10.0,
     "prices": {
-      "D": 5831.74,
-      "E": 6280.34,
-      "F": 5383.15
+      "D": 6998.1,
+      "E": 7536.41,
+      "F": 6459.78
     }
   },
   "BM3880": {
@@ -7264,9 +7284,9 @@
     "category": "8.BROCAS BREMEN",
     "bulk": 10.0,
     "prices": {
-      "D": 7289.68,
-      "E": 7850.42,
-      "F": 6728.94
+      "D": 8747.62,
+      "E": 9420.51,
+      "F": 8074.72
     }
   },
   "BM3881": {
@@ -7274,9 +7294,9 @@
     "category": "8.BROCAS BREMEN",
     "bulk": 10.0,
     "prices": {
-      "D": 8664.31,
-      "E": 9330.8,
-      "F": 7997.82
+      "D": 10397.17,
+      "E": 11196.95,
+      "F": 9597.38
     }
   },
   "BM3882": {
@@ -7284,9 +7304,9 @@
     "category": "8.BROCAS BREMEN",
     "bulk": 10.0,
     "prices": {
-      "D": 9164.17,
-      "E": 9869.11,
-      "F": 8459.23
+      "D": 10997.01,
+      "E": 11842.93,
+      "F": 10151.08
     }
   },
   "BM3885": {
@@ -12489,6 +12509,106 @@
       "F": 9666.17
     }
   },
+  "BM6412": {
+    "name": "LLAVE TUBO \"T\" HEX. 8mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6413": {
+    "name": "LLAVE TUBO \"T\" HEX. 9mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6414": {
+    "name": "LLAVE TUBO \"T\" HEX.10mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6415": {
+    "name": "LLAVE TUBO \"T\" HEX.11mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6416": {
+    "name": "LLAVE TUBO \"T\" HEX.12mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6417": {
+    "name": "LLAVE TUBO \"T\" HEX.13mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6418": {
+    "name": "LLAVE TUBO \"T\" HEX.14mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4791.75,
+      "E": 5160.35,
+      "F": 4423.15
+    }
+  },
+  "BM6419": {
+    "name": "LLAVE TUBO \"T\" HEX.15mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 6864.71,
+      "E": 7392.77,
+      "F": 6336.66
+    }
+  },
+  "BM6420": {
+    "name": "LLAVE TUBO \"T\" HEX.20mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 6864.71,
+      "E": 7392.77,
+      "F": 6336.66
+    }
+  },
+  "BM6421": {
+    "name": "LLAVE TUBO \"T\" HEX.21mm LrgaWEMBLEY",
+    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 6864.71,
+      "E": 7392.77,
+      "F": 6336.66
+    }
+  },
   "BM6422": {
     "name": "DEST.PrtaPunta PRECIS.Rev.7pza.BREMEN",
     "category": "8.DEST.PORTA/PUNTA BREMEN",
@@ -12557,6 +12677,66 @@
       "D": 8164.44,
       "E": 8792.48,
       "F": 7536.41
+    }
+  },
+  "BM6479": {
+    "name": "LLAVE TUBO \"T\" HEX. 8mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4311.63,
+      "E": 4643.29,
+      "F": 3979.96
+    }
+  },
+  "BM6481": {
+    "name": "LLAVE TUBO \"T\" HEX.10mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4311.63,
+      "E": 4643.29,
+      "F": 3979.96
+    }
+  },
+  "BM6484": {
+    "name": "LLAVE TUBO \"T\" HEX 13mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4311.63,
+      "E": 4643.29,
+      "F": 3979.96
+    }
+  },
+  "BM6485": {
+    "name": "LLAVE TUBO \"T\" HEX 14mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4311.63,
+      "E": 4643.29,
+      "F": 3979.96
+    }
+  },
+  "BM6486": {
+    "name": "LLAVE TUBO \"T\" HEX 15mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6179.23,
+      "E": 6654.56,
+      "F": 5703.91
+    }
+  },
+  "BM6487": {
+    "name": "LLAVE TUBO \"T\" HEX.17mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 6179.23,
+      "E": 6654.56,
+      "F": 5703.91
     }
   },
   "BM6497": {
@@ -12707,6 +12887,16 @@
       "D": 26486.45,
       "E": 28523.87,
       "F": 24449.03
+    }
+  },
+  "BM6617": {
+    "name": "LLAVE TUBO \"T\" HEX. 7mm CrtaWEMBLEY",
+    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
+    "bulk": 12.0,
+    "prices": {
+      "D": 4311.63,
+      "E": 4643.29,
+      "F": 3979.96
     }
   },
   "BM6625": {
@@ -15627,6 +15817,16 @@
       "D": 15658.66,
       "E": 16863.17,
       "F": 14454.15
+    }
+  },
+  "BM8219": {
+    "name": "PICO DE LORO 10\" DOBL CREM  WEMBLEY",
+    "category": "8.PINZA PICO LORO WEMBLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 15158.91,
+      "E": 16324.98,
+      "F": 13992.84
     }
   },
   "BM8230": {
@@ -19314,9 +19514,9 @@
     "category": "8.ANAFE y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 33290.89,
-      "E": 35851.72,
-      "F": 30730.05
+      "D": 31441.39,
+      "E": 33859.96,
+      "F": 29022.83
     }
   },
   "CONO202051E": {
@@ -19344,9 +19544,9 @@
     "category": "8.ANAFE y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 37285.79,
-      "E": 40153.93,
-      "F": 34417.66
+      "D": 35214.36,
+      "E": 37923.16,
+      "F": 32505.56
     }
   },
   "CONO212001": {
@@ -34080,7 +34280,7 @@
     }
   },
   "EVOL0278": {
-    "name": "1ORTADORA CERAMICA 3 en 1 x60cm ROTTWEILER",
+    "name": "CORTADORA CERAMICA 3 en 1 x60cm ROTTWEILER",
     "category": "8.CORTAD/CERAMICA/ACCES.",
     "bulk": 1.0,
     "prices": {
@@ -54504,9 +54704,9 @@
     "category": "1.LLAVE.PASO FUS.LATYN",
     "bulk": 15.0,
     "prices": {
-      "D": 4375.65,
-      "E": 4712.24,
-      "F": 4039.06
+      "D": 20704.46,
+      "E": 22297.11,
+      "F": 19111.81
     }
   },
   "LY13625": {
@@ -54514,9 +54714,9 @@
     "category": "1.LLAVE.PASO FUS.LATYN",
     "bulk": 12.0,
     "prices": {
-      "D": 7368.08,
-      "E": 7934.86,
-      "F": 6801.31
+      "D": 26704.46,
+      "E": 28164.77,
+      "F": 24141.23
     }
   },
   "LY13701012": {
@@ -67289,16 +67489,6 @@
       "F": 6162.48
     }
   },
-  "NEWCGTA1K": {
-    "name": "CLORO GRANULAD.T/A D/R 1 kg NEWCLOR",
-    "category": "1.ACCES.PARA PILETA",
-    "bulk": 12.0,
-    "prices": {
-      "D": 12698.24,
-      "E": 13675.03,
-      "F": 11721.45
-    }
-  },
   "NEWCGTAG1K": {
     "name": "CLORO GRANULADO D-L BOLSA  x1 kg CLOROTEC",
     "category": "1.ACCES.PARA PILETA",
@@ -67329,34 +67519,14 @@
       "F": 12190.31
     }
   },
-  "NEWCPTA1K": {
-    "name": "CLORO PASTIL.T/A. 200grsx1kgNEWCLOR",
-    "category": "1.ACCES.PARA PILETA",
-    "bulk": 12.0,
-    "prices": {
-      "D": 14306.68,
-      "E": 15407.2,
-      "F": 13206.17
-    }
-  },
-  "NEWCPTA50G": {
-    "name": "CLORO PASTIL.T/A de 50grx1kgNEWCLOR",
-    "category": "1.ACCES.PARA PILETA",
-    "bulk": 12.0,
-    "prices": {
-      "D": 14306.68,
-      "E": 15407.2,
-      "F": 13206.17
-    }
-  },
   "NEWCPTAG200G": {
     "name": "CLORO PAST.200g.T/A GRANELx1 kg NEWCLOR",
     "category": "1.ACCES.PARA PILETA",
     "bulk": 50.0,
     "prices": {
-      "D": 8936.61,
-      "E": 9624.04,
-      "F": 8730.38
+      "D": 6066.34,
+      "E": 6532.98,
+      "F": 5926.35
     }
   },
   "NEWCPTAG50G": {
@@ -67364,9 +67534,9 @@
     "category": "1.ACCES.PARA PILETA",
     "bulk": 50.0,
     "prices": {
-      "D": 10022.65,
-      "E": 10793.62,
-      "F": 9791.36
+      "D": 7478.46,
+      "E": 8053.73,
+      "F": 7305.88
     }
   },
   "NEWLFLONA": {
@@ -67514,9 +67684,9 @@
     "category": "1.SOPAPAS y ACCESORIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 7839.81,
-      "E": 8442.87,
-      "F": 7236.74
+      "D": 8388.59,
+      "E": 9033.87,
+      "F": 7743.31
     }
   },
   "OR017": {
@@ -67524,9 +67694,9 @@
     "category": "1.SOPAPAS y ACCESORIOS",
     "bulk": 10.0,
     "prices": {
-      "D": 9105.3,
-      "E": 9805.71,
-      "F": 8404.9
+      "D": 9742.68,
+      "E": 10492.11,
+      "F": 8993.24
     }
   },
   "OR019 A": {
@@ -80334,9 +80504,9 @@
     "category": "8.TEJIDO MEDIASOM/POLY F",
     "bulk": 1.0,
     "prices": {
-      "D": 125190.22,
-      "E": 134820.24,
-      "F": 115560.21
+      "D": 127621.1,
+      "E": 137438.11,
+      "F": 117804.09
     }
   },
   "ROT98128": {
@@ -83964,9 +84134,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1752.03,
-      "E": 1886.8,
-      "F": 1617.26
+      "D": 1822.11,
+      "E": 1962.27,
+      "F": 1681.94
     }
   },
   "SPDAFL2060": {
@@ -83974,9 +84144,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1752.03,
-      "E": 1886.8,
-      "F": 1617.26
+      "D": 1822.11,
+      "E": 1962.27,
+      "F": 1681.94
     }
   },
   "SPDAFL2080": {
@@ -83984,9 +84154,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1752.03,
-      "E": 1886.8,
-      "F": 1617.26
+      "D": 1822.11,
+      "E": 1962.27,
+      "F": 1681.94
     }
   },
   "SPDAFL2120": {
@@ -83994,9 +84164,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1752.03,
-      "E": 1886.8,
-      "F": 1617.26
+      "D": 1822.11,
+      "E": 1962.27,
+      "F": 1681.94
     }
   },
   "SPDARC115120222": {
@@ -84004,9 +84174,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 466.54,
-      "E": 502.43,
-      "F": 466.54
+      "D": 485.19,
+      "E": 522.51,
+      "F": 485.18
     }
   },
   "SPDARC115160222": {
@@ -84014,9 +84184,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 466.54,
-      "E": 502.43,
-      "F": 466.54
+      "D": 485.19,
+      "E": 522.51,
+      "F": 485.18
     }
   },
   "SPDARC180180222": {
@@ -84024,9 +84194,9 @@
     "category": "8.DISCO A/Inox.180 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 1611.6,
-      "E": 1735.57,
-      "F": 1611.6
+      "D": 1676.06,
+      "E": 1804.99,
+      "F": 1676.06
     }
   },
   "SPDARC180600222": {
@@ -84034,9 +84204,9 @@
     "category": "8.DISCO A/Inox.180 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 3089.93,
-      "E": 3327.62,
-      "F": 2852.24
+      "D": 3213.53,
+      "E": 3460.73,
+      "F": 2966.34
     }
   },
   "SPDARC230180222": {
@@ -84044,9 +84214,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2454.02,
-      "E": 2642.8,
-      "F": 2454.02
+      "D": 2552.17,
+      "E": 2748.49,
+      "F": 2552.17
     }
   },
   "SPDARC350320222": {
@@ -84054,9 +84224,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 6213.41,
-      "E": 6691.36,
-      "F": 6213.41
+      "D": 6475.71,
+      "E": 6973.84,
+      "F": 6475.71
     }
   },
   "SPDARD115600222": {
@@ -84064,9 +84234,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 1391.83,
-      "E": 1498.89,
-      "F": 1391.83
+      "D": 1447.5,
+      "E": 1558.85,
+      "F": 1447.5
     }
   },
   "SPSMAB2218": {
@@ -84104,9 +84274,9 @@
     "category": "8.HOJA.SIERR.A/RAP.SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2318.49,
-      "E": 2496.84,
-      "F": 2318.49
+      "D": 2370.01,
+      "E": 2552.32,
+      "F": 2370.01
     }
   },
   "SPSMAR2124": {
@@ -84114,9 +84284,9 @@
     "category": "8.HOJA.SIERR.A/RAP.SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2318.49,
-      "E": 2496.84,
-      "F": 2318.49
+      "D": 2370.01,
+      "E": 2552.32,
+      "F": 2370.01
     }
   },
   "SPSMAR2132": {
@@ -84124,9 +84294,9 @@
     "category": "8.HOJA.SIERR.A/RAP.SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2318.49,
-      "E": 2496.84,
-      "F": 2318.49
+      "D": 2370.01,
+      "E": 2552.32,
+      "F": 2370.01
     }
   },
   "SPT1012-04": {
@@ -84134,9 +84304,9 @@
     "category": "1.FLOR.LLUVIA y ACC.",
     "bulk": 25.0,
     "prices": {
-      "D": 5544.94,
-      "E": 5971.47,
-      "F": 5118.4
+      "D": 5598.6,
+      "E": 6029.26,
+      "F": 5167.94
     }
   },
   "SPT1013-01": {
@@ -84144,9 +84314,9 @@
     "category": "1.FLOR.LLUVIA y ACC.",
     "bulk": 50.0,
     "prices": {
-      "D": 3475.63,
-      "E": 3742.99,
-      "F": 3208.28
+      "D": 3509.27,
+      "E": 3779.21,
+      "F": 3239.32
     }
   },
   "SPT1013-02": {
@@ -84154,9 +84324,9 @@
     "category": "1.FLOR.LLUVIA y ACC.",
     "bulk": 30.0,
     "prices": {
-      "D": 5344.03,
-      "E": 5755.11,
-      "F": 4932.96
+      "D": 5395.75,
+      "E": 5810.81,
+      "F": 4980.69
     }
   },
   "SPT1015-01": {
@@ -84164,9 +84334,9 @@
     "category": "1.FLOR.LLUVIA y ACC.",
     "bulk": 20.0,
     "prices": {
-      "D": 3475.63,
-      "E": 3742.99,
-      "F": 3208.28
+      "D": 3509.27,
+      "E": 3779.21,
+      "F": 3239.32
     }
   },
   "SPT1015-02": {
@@ -84174,9 +84344,9 @@
     "category": "1.FLOR.LLUVIA y ACC.",
     "bulk": 30.0,
     "prices": {
-      "D": 5344.03,
-      "E": 5755.11,
-      "F": 4932.96
+      "D": 5395.75,
+      "E": 5810.81,
+      "F": 4980.69
     }
   },
   "SPT1017-06": {
@@ -84184,9 +84354,9 @@
     "category": "1.ACCES.P/BA\u00d1O SPT",
     "bulk": 1.0,
     "prices": {
-      "D": 4327.15,
-      "E": 4636.24,
-      "F": 3708.99
+      "D": 4369.03,
+      "E": 4681.1,
+      "F": 3744.88
     }
   },
   "SPT1049-05": {
@@ -84194,9 +84364,9 @@
     "category": "1.GRIF.BCE/MONO/SPT",
     "bulk": 24.0,
     "prices": {
-      "D": 24445.94,
-      "E": 26326.4,
-      "F": 22565.49
+      "D": 24682.52,
+      "E": 26581.17,
+      "F": 22783.86
     }
   },
   "SPT1050-01": {
@@ -84204,9 +84374,9 @@
     "category": "1.GRIFERIA MONOCOMANDO",
     "bulk": 1.0,
     "prices": {
-      "D": 23907.52,
-      "E": 25746.56,
-      "F": 22068.48
+      "D": 24138.89,
+      "E": 25995.72,
+      "F": 22282.05
     }
   },
   "SPT1059-01": {
@@ -84214,9 +84384,9 @@
     "category": "1.GRIF.BCE/MONO/IMPORTADO",
     "bulk": 100.0,
     "prices": {
-      "D": 1988.94,
-      "E": 2141.94,
-      "F": 1835.95
+      "D": 2008.19,
+      "E": 2162.67,
+      "F": 1853.72
     }
   },
   "SPT1064-04": {
@@ -84224,9 +84394,9 @@
     "category": "1.GRIFERIA MONOCOMANDO",
     "bulk": 1.0,
     "prices": {
-      "D": 80160.52,
-      "E": 86326.71,
-      "F": 73994.33
+      "D": 80936.27,
+      "E": 87162.13,
+      "F": 74710.4
     }
   },
   "SPT1078-01": {
@@ -84234,9 +84404,9 @@
     "category": "1.GRIFERIA MONOCOMANDO",
     "bulk": 1.0,
     "prices": {
-      "D": 36162.64,
-      "E": 38944.38,
-      "F": 33380.9
+      "D": 36512.6,
+      "E": 39321.26,
+      "F": 33703.94
     }
   },
   "SPT1078-03": {
@@ -84244,9 +84414,9 @@
     "category": "1.GRIFERIA MONOCOMANDO",
     "bulk": 1.0,
     "prices": {
-      "D": 36162.64,
-      "E": 38944.38,
-      "F": 33380.9
+      "D": 36512.6,
+      "E": 39321.26,
+      "F": 33703.94
     }
   },
   "SPT2001-01": {
@@ -84254,9 +84424,9 @@
     "category": "8.ACEITERA METAL",
     "bulk": 36.0,
     "prices": {
-      "D": 4821.69,
-      "E": 5192.59,
-      "F": 4450.79
+      "D": 4868.35,
+      "E": 5242.84,
+      "F": 4493.86
     }
   },
   "SPT2001-03": {
@@ -84264,9 +84434,9 @@
     "category": "8.ACEITERA METAL",
     "bulk": 1.0,
     "prices": {
-      "D": 6127.56,
-      "E": 6598.91,
-      "F": 5656.21
+      "D": 6186.86,
+      "E": 6662.77,
+      "F": 5710.95
     }
   },
   "SPT2041-05": {
@@ -84274,9 +84444,9 @@
     "category": "8.ESCUADRA C/SOMBRERO",
     "bulk": 1.0,
     "prices": {
-      "D": 2410.84,
-      "E": 2596.29,
-      "F": 2225.39
+      "D": 2434.17,
+      "E": 2621.42,
+      "F": 2246.93
     }
   },
   "SPT2041-08": {
@@ -84284,9 +84454,9 @@
     "category": "8.ESCUADRA C/SOMBRERO",
     "bulk": 1.0,
     "prices": {
-      "D": 16052.19,
-      "E": 17286.98,
-      "F": 14817.41
+      "D": 16207.54,
+      "E": 17454.27,
+      "F": 14960.8
     }
   },
   "SPT2051-01": {
@@ -84294,9 +84464,9 @@
     "category": "8.INGLETEADORA",
     "bulk": 0.0,
     "prices": {
-      "D": 4821.69,
-      "E": 5192.59,
-      "F": 4450.79
+      "D": 4868.35,
+      "E": 5242.84,
+      "F": 4493.86
     }
   },
   "SPT2087-01": {
@@ -84304,9 +84474,9 @@
     "category": "8.METRO DE MADERA RACORT",
     "bulk": 20.0,
     "prices": {
-      "D": 3927.68,
-      "E": 4229.81,
-      "F": 3625.55
+      "D": 3965.69,
+      "E": 4270.74,
+      "F": 3660.63
     }
   },
   "SPT2089-02": {
@@ -84314,9 +84484,9 @@
     "category": "8.NIVEL TORPEDO",
     "bulk": 60.0,
     "prices": {
-      "D": 1788.04,
-      "E": 1925.58,
-      "F": 1650.5
+      "D": 1805.35,
+      "E": 1944.22,
+      "F": 1666.47
     }
   },
   "SPT2114-02": {
@@ -84324,9 +84494,9 @@
     "category": "8.DESTORN.SET IMP.",
     "bulk": 1.0,
     "prices": {
-      "D": 12456.02,
-      "E": 13414.18,
-      "F": 11497.86
+      "D": 12576.56,
+      "E": 13543.99,
+      "F": 11609.13
     }
   },
   "SPT2117-01": {
@@ -84334,9 +84504,9 @@
     "category": "8.SOPAPA P/VIDRIERO WEMBL",
     "bulk": 1.0,
     "prices": {
-      "D": 5223.49,
-      "E": 5625.3,
-      "F": 4821.69
+      "D": 5274.04,
+      "E": 5679.74,
+      "F": 4868.35
     }
   },
   "SPT2117-02": {
@@ -84344,9 +84514,9 @@
     "category": "8.SOPAPA P/VIDRIERO WEMBL",
     "bulk": 1.0,
     "prices": {
-      "D": 8036.14,
-      "E": 8654.31,
-      "F": 7417.98
+      "D": 8113.91,
+      "E": 8738.06,
+      "F": 7489.76
     }
   },
   "SPT2126-03": {
@@ -84354,9 +84524,9 @@
     "category": "8.CINTA METRICA FORRAD/D",
     "bulk": 1.0,
     "prices": {
-      "D": 6546.13,
-      "E": 7049.68,
-      "F": 6042.58
+      "D": 6609.48,
+      "E": 7117.9,
+      "F": 6101.06
     }
   },
   "SPT2127-01": {
@@ -84364,9 +84534,9 @@
     "category": "8.PRENSA CARPINTERO",
     "bulk": 1.0,
     "prices": {
-      "D": 3997.98,
-      "E": 4305.52,
-      "F": 3690.44
+      "D": 4036.67,
+      "E": 4347.19,
+      "F": 3726.16
     }
   },
   "SPT2127-02": {
@@ -84374,9 +84544,9 @@
     "category": "8.PRENSA CARPINTERO",
     "bulk": 1.0,
     "prices": {
-      "D": 6007.02,
-      "E": 6469.1,
-      "F": 5544.94
+      "D": 6065.15,
+      "E": 6531.7,
+      "F": 5598.6
     }
   },
   "SPT3005-01": {
@@ -84384,9 +84554,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 222.76,
-      "E": 238.67,
-      "F": 206.85
+      "D": 224.92,
+      "E": 240.98,
+      "F": 208.85
     }
   },
   "SPT3005-02": {
@@ -84394,9 +84564,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 300.74,
-      "E": 322.22,
-      "F": 279.26
+      "D": 303.65,
+      "E": 325.34,
+      "F": 281.96
     }
   },
   "SPT3005-03": {
@@ -84404,9 +84574,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 14465.06,
-      "E": 15577.75,
-      "F": 13352.36
+      "D": 14605.04,
+      "E": 15728.51,
+      "F": 13481.58
     }
   },
   "SPT3005-08": {
@@ -84414,9 +84584,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 1808.13,
-      "E": 1947.22,
-      "F": 1669.05
+      "D": 1825.63,
+      "E": 1966.06,
+      "F": 1685.2
     }
   },
   "SPT3005-09": {
@@ -84424,9 +84594,9 @@
     "category": "8.MAQ.GRUPO ELECTROGENO",
     "bulk": 1.0,
     "prices": {
-      "D": 2109.49,
-      "E": 2271.76,
-      "F": 1947.22
+      "D": 2129.9,
+      "E": 2293.74,
+      "F": 1966.06
     }
   },
   "SPT3005-10": {
@@ -84434,9 +84604,9 @@
     "category": "8.MAQ.GRUPO ELECTROGENO",
     "bulk": 1.0,
     "prices": {
-      "D": 3415.36,
-      "E": 3678.08,
-      "F": 3152.64
+      "D": 3448.41,
+      "E": 3713.68,
+      "F": 3183.15
     }
   },
   "SPT3006-01": {
@@ -84444,9 +84614,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 13862.35,
-      "E": 14928.68,
-      "F": 12796.01
+      "D": 14402.19,
+      "E": 15510.05,
+      "F": 13294.33
     }
   },
   "SPT3006-03": {
@@ -84454,9 +84624,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 1808.13,
-      "E": 1947.22,
-      "F": 1669.05
+      "D": 1825.63,
+      "E": 1966.06,
+      "F": 1685.2
     }
   },
   "SPT3006-04": {
@@ -84464,9 +84634,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 683.07,
-      "E": 735.62,
-      "F": 630.53
+      "D": 689.68,
+      "E": 742.74,
+      "F": 636.63
     }
   },
   "SPT3006-05": {
@@ -84474,9 +84644,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 2009.04,
-      "E": 2163.58,
-      "F": 1854.49
+      "D": 2028.48,
+      "E": 2184.51,
+      "F": 1872.44
     }
   },
   "SPT3010-01": {
@@ -84484,9 +84654,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 6027.11,
-      "E": 6490.73,
-      "F": 5563.48
+      "D": 6085.43,
+      "E": 6553.54,
+      "F": 5617.32
     }
   },
   "SPT3010-02": {
@@ -84494,9 +84664,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5424.4,
-      "E": 5841.66,
-      "F": 5007.13
+      "D": 5476.89,
+      "E": 5898.19,
+      "F": 5055.59
     }
   },
   "SPT3010-04": {
@@ -84504,9 +84674,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 4922.14,
-      "E": 5300.76,
-      "F": 4543.51
+      "D": 4969.77,
+      "E": 5352.06,
+      "F": 4587.48
     }
   },
   "SPT3010-05": {
@@ -84514,9 +84684,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 3395.27,
-      "E": 3656.44,
-      "F": 3134.1
+      "D": 3428.13,
+      "E": 3691.83,
+      "F": 3164.43
     }
   },
   "SPT3011-03": {
@@ -84534,9 +84704,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 4018.07,
-      "E": 4327.15,
-      "F": 3708.99
+      "D": 4056.96,
+      "E": 4369.03,
+      "F": 3744.88
     }
   },
   "SPT3012-02": {
@@ -84544,9 +84714,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 3596.17,
-      "E": 3872.8,
-      "F": 3319.54
+      "D": 3630.97,
+      "E": 3910.28,
+      "F": 3351.67
     }
   },
   "SPT3012-03": {
@@ -84554,9 +84724,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 5022.59,
-      "E": 5408.94,
-      "F": 4636.24
+      "D": 5071.19,
+      "E": 5461.29,
+      "F": 4681.1
     }
   },
   "SPT3015-02": {
@@ -84564,9 +84734,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 3616.26,
-      "E": 3894.44,
-      "F": 3338.09
+      "D": 3651.26,
+      "E": 3932.13,
+      "F": 3370.39
     }
   },
   "SPT3015-03": {
@@ -84574,9 +84744,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 13058.73,
-      "E": 14063.25,
-      "F": 12054.21
+      "D": 13185.11,
+      "E": 14199.34,
+      "F": 12170.87
     }
   },
   "SPT3015-04": {
@@ -84584,9 +84754,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 357.61,
-      "E": 385.12,
-      "F": 330.1
+      "D": 361.07,
+      "E": 388.84,
+      "F": 333.29
     }
   },
   "SPT3017-02": {
@@ -84594,9 +84764,9 @@
     "category": "9.LINTERNAS",
     "bulk": 1.0,
     "prices": {
-      "D": 3817.17,
-      "E": 4110.8,
-      "F": 3611.63
+      "D": 3854.11,
+      "E": 4150.58,
+      "F": 3646.58
     }
   },
   "SPT3019-03": {
@@ -84604,9 +84774,9 @@
     "category": "8.MAQ.HIDROLAVAD.REPUESTO",
     "bulk": 1.0,
     "prices": {
-      "D": 13038.64,
-      "E": 14041.61,
-      "F": 12035.67
+      "D": 13164.82,
+      "E": 14177.5,
+      "F": 12152.14
     }
   },
   "SPT3019-04": {
@@ -84614,9 +84784,9 @@
     "category": "8.MAQ.HIDROLAVAD.REPUESTO",
     "bulk": 1.0,
     "prices": {
-      "D": 22682.01,
-      "E": 24426.78,
-      "F": 20937.24
+      "D": 22901.51,
+      "E": 24663.17,
+      "F": 21139.86
     }
   },
   "SPT3021-03": {
@@ -84624,9 +84794,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 22099.39,
-      "E": 23799.35,
-      "F": 20399.44
+      "D": 22313.26,
+      "E": 24029.66,
+      "F": 20596.85
     }
   },
   "SPT3021-04": {
@@ -84634,9 +84804,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 1325.96,
-      "E": 1427.96,
-      "F": 1223.97
+      "D": 1338.8,
+      "E": 1441.78,
+      "F": 1235.81
     }
   },
   "SPT3021-05": {
@@ -84644,9 +84814,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 1325.96,
-      "E": 1427.96,
-      "F": 1223.97
+      "D": 1338.8,
+      "E": 1441.78,
+      "F": 1235.81
     }
   },
   "SPT3021-06": {
@@ -84654,9 +84824,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 50.0,
     "prices": {
-      "D": 301.36,
-      "E": 324.54,
-      "F": 278.17
+      "D": 313.6,
+      "E": 337.73,
+      "F": 289.48
     }
   },
   "SPT3021-07": {
@@ -84664,9 +84834,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 10225.99,
-      "E": 11012.61,
-      "F": 9439.38
+      "D": 10324.95,
+      "E": 11119.18,
+      "F": 9530.73
     }
   },
   "SPT3021-08": {
@@ -84674,9 +84844,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 10225.99,
-      "E": 11012.61,
-      "F": 9439.38
+      "D": 10324.95,
+      "E": 11119.18,
+      "F": 9530.73
     }
   },
   "SPT3022-02": {
@@ -84684,9 +84854,9 @@
     "category": "8.MAQ.HIDROLAVAD.REPUESTO",
     "bulk": 1.0,
     "prices": {
-      "D": 22099.39,
-      "E": 23799.35,
-      "F": 20399.44
+      "D": 22313.26,
+      "E": 24029.66,
+      "F": 20596.85
     }
   },
   "SPT3022-03": {
@@ -84694,9 +84864,9 @@
     "category": "8.MAQ.HIDROLAVAD.REPUESTO",
     "bulk": 1.0,
     "prices": {
-      "D": 8437.95,
-      "E": 9087.02,
-      "F": 7788.88
+      "D": 8519.61,
+      "E": 9174.96,
+      "F": 7864.25
     }
   },
   "SPT3023-05": {
@@ -84704,9 +84874,9 @@
     "category": "8.PULVERIZADOR",
     "bulk": 1.0,
     "prices": {
-      "D": 37167.16,
-      "E": 40026.17,
-      "F": 34308.15
+      "D": 37526.84,
+      "E": 40413.52,
+      "F": 34640.16
     }
   },
   "SPT4001-03": {
@@ -84714,9 +84884,9 @@
     "category": "8.KIT.COMPRESOR AIRE/ACCE",
     "bulk": 30.0,
     "prices": {
-      "D": 4821.69,
-      "E": 5192.59,
-      "F": 4450.79
+      "D": 4868.35,
+      "E": 5242.84,
+      "F": 4493.86
     }
   },
   "SPT4015-03": {
@@ -84724,9 +84894,9 @@
     "category": "8.INFLADOR",
     "bulk": 1.0,
     "prices": {
-      "D": 9040.66,
-      "E": 9736.1,
-      "F": 8345.22
+      "D": 9128.15,
+      "E": 9830.32,
+      "F": 8425.98
     }
   },
   "SPT4019-01": {
@@ -84734,9 +84904,9 @@
     "category": "8.LLAVE CRUZ",
     "bulk": 1.0,
     "prices": {
-      "D": 9643.37,
-      "E": 10385.17,
-      "F": 8901.57
+      "D": 9736.69,
+      "E": 10485.67,
+      "F": 8987.72
     }
   },
   "SPT4022-03": {
@@ -84744,9 +84914,9 @@
     "category": "8.INFLADOR",
     "bulk": 1.0,
     "prices": {
-      "D": 2712.2,
-      "E": 2920.83,
-      "F": 2503.57
+      "D": 2738.45,
+      "E": 2949.09,
+      "F": 2527.8
     }
   },
   "SPT4022-04": {
@@ -84754,9 +84924,9 @@
     "category": "8.INFLADOR",
     "bulk": 1.0,
     "prices": {
-      "D": 7031.62,
-      "E": 7572.52,
-      "F": 6490.73
+      "D": 7099.67,
+      "E": 7645.8,
+      "F": 6553.54
     }
   },
   "SPT4031-01": {
@@ -84764,9 +84934,9 @@
     "category": "9.TERMINAL.COBRE P/BATERI",
     "bulk": 1.0,
     "prices": {
-      "D": 1567.05,
-      "E": 1687.59,
-      "F": 1446.51
+      "D": 1582.21,
+      "E": 1703.92,
+      "F": 1460.5
     }
   },
   "SPT4035-01": {
@@ -84774,9 +84944,9 @@
     "category": "8.TORQUIMETRO",
     "bulk": 1.0,
     "prices": {
-      "D": 21898.49,
-      "E": 23582.99,
-      "F": 20213.99
+      "D": 22110.41,
+      "E": 23811.21,
+      "F": 20409.61
     }
   },
   "SPT4037-03": {
@@ -84784,9 +84954,9 @@
     "category": "8.PILOTO MULTIUSO",
     "bulk": 30.0,
     "prices": {
-      "D": 6815.27,
-      "E": 7302.07,
-      "F": 5841.66
+      "D": 6881.22,
+      "E": 7372.74,
+      "F": 5898.19
     }
   },
   "SPT5006-02": {
@@ -84794,9 +84964,9 @@
     "category": "8.ANTIPARRAS/MASCARAS",
     "bulk": 10.0,
     "prices": {
-      "D": 3214.46,
-      "E": 3461.72,
-      "F": 2967.19
+      "D": 3245.56,
+      "E": 3495.22,
+      "F": 2995.91
     }
   },
   "SPT5018-03": {
@@ -84804,9 +84974,9 @@
     "category": "8.CANDADOS TRI-COM",
     "bulk": 6.0,
     "prices": {
-      "D": 2141.94,
-      "E": 2294.94,
-      "F": 1988.95
+      "D": 2162.67,
+      "E": 2317.15,
+      "F": 2008.19
     }
   },
   "SPT5018-04": {
@@ -84814,9 +84984,9 @@
     "category": "8.CANDADOS TRI-COM",
     "bulk": 6.0,
     "prices": {
-      "D": 2704.47,
-      "E": 2897.65,
-      "F": 2511.29
+      "D": 2730.64,
+      "E": 2925.69,
+      "F": 2535.6
     }
   },
   "SPT5018-05": {
@@ -84824,9 +84994,9 @@
     "category": "8.CANDADOS TRI-COM",
     "bulk": 6.0,
     "prices": {
-      "D": 3461.72,
-      "E": 3708.99,
-      "F": 3214.46
+      "D": 3495.22,
+      "E": 3744.88,
+      "F": 3245.56
     }
   },
   "SPT5048-07": {
@@ -84834,9 +85004,9 @@
     "category": "8.GUANTE/GOMA/INDUSTRIAL",
     "bulk": 12.0,
     "prices": {
-      "D": 2812.65,
-      "E": 3029.01,
-      "F": 2596.29
+      "D": 2839.87,
+      "E": 3058.32,
+      "F": 2621.42
     }
   },
   "SPT5048-08": {
@@ -84844,9 +85014,9 @@
     "category": "8.GUANTES DE GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 1587.14,
-      "E": 1709.22,
-      "F": 1465.05
+      "D": 1602.5,
+      "E": 1725.77,
+      "F": 1479.23
     }
   },
   "SPT5048-10": {
@@ -84854,9 +85024,9 @@
     "category": "8.GUANTES DE GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 1707.68,
-      "E": 1839.04,
-      "F": 1576.32
+      "D": 1724.21,
+      "E": 1856.84,
+      "F": 1591.57
     }
   },
   "SPT5048-11": {
@@ -84864,9 +85034,9 @@
     "category": "8.GUANTES DE GOMA",
     "bulk": 12.0,
     "prices": {
-      "D": 1305.87,
-      "E": 1406.33,
-      "F": 1205.42
+      "D": 1318.51,
+      "E": 1419.93,
+      "F": 1217.09
     }
   },
   "SPT5055-01": {
@@ -84874,9 +85044,9 @@
     "category": "8.MASCARA P/FILTROS",
     "bulk": 5.0,
     "prices": {
-      "D": 8638.85,
-      "E": 9303.38,
-      "F": 7974.33
+      "D": 8722.45,
+      "E": 9393.41,
+      "F": 8051.5
     }
   },
   "SPT5055-02": {
@@ -84884,9 +85054,9 @@
     "category": "8.MASCARA P/FILTROS",
     "bulk": 1.0,
     "prices": {
-      "D": 1506.78,
-      "E": 1622.68,
-      "F": 1390.87
+      "D": 1521.36,
+      "E": 1638.39,
+      "F": 1404.33
     }
   },
   "SPT5059-02": {
@@ -84894,9 +85064,9 @@
     "category": "8.MECHA PILOTO PARA MADER",
     "bulk": 1.0,
     "prices": {
-      "D": 3096.05,
-      "E": 3334.21,
-      "F": 2857.89
+      "D": 3126.01,
+      "E": 3366.48,
+      "F": 2885.55
     }
   },
   "SPT5083-01": {
@@ -84904,9 +85074,9 @@
     "category": "9.TIMBRES",
     "bulk": 120.0,
     "prices": {
-      "D": 11049.7,
-      "E": 11899.67,
-      "F": 10624.71
+      "D": 9635.27,
+      "E": 10376.44,
+      "F": 9264.68
     }
   },
   "SPT5088-04": {
@@ -84914,9 +85084,9 @@
     "category": "8.PUNTA AT/TORX/KIT EASTM",
     "bulk": 1.0,
     "prices": {
-      "D": 27739.76,
-      "E": 29873.59,
-      "F": 25605.93
+      "D": 28008.21,
+      "E": 30162.69,
+      "F": 25853.73
     }
   },
   "SPT5088-05": {
@@ -84924,9 +85094,9 @@
     "category": "8.PUNTA AT/TORX/KIT EASTM",
     "bulk": 1.0,
     "prices": {
-      "D": 18985.39,
-      "E": 20445.8,
-      "F": 17524.97
+      "D": 19169.12,
+      "E": 20643.66,
+      "F": 17694.57
     }
   },
   "SPT7045": {
@@ -84934,9 +85104,9 @@
     "category": "8.MAQ.HIDROLAVAD.REPUESTO",
     "bulk": 25.0,
     "prices": {
-      "D": 16072.28,
-      "E": 17308.61,
-      "F": 14835.96
+      "D": 16227.82,
+      "E": 17476.12,
+      "F": 14979.53
     }
   },
   "SPT7111": {
@@ -84944,9 +85114,9 @@
     "category": "8.PILOTO",
     "bulk": 25.0,
     "prices": {
-      "D": 15067.77,
-      "E": 16226.83,
-      "F": 13908.71
+      "D": 15213.58,
+      "E": 16383.86,
+      "F": 14043.31
     }
   },
   "SUN227": {
@@ -91224,9 +91394,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 10.0,
     "prices": {
-      "D": 1419.73,
-      "E": 1521.14,
-      "F": 1216.91
+      "D": 1490.71,
+      "E": 1597.19,
+      "F": 1277.76
     }
   },
   "VIT002": {
@@ -91234,9 +91404,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 10.0,
     "prices": {
-      "D": 1687.02,
-      "E": 1807.52,
-      "F": 1446.02
+      "D": 1772.03,
+      "E": 1898.61,
+      "F": 1518.88
     }
   },
   "VIT003": {
@@ -91244,9 +91414,9 @@
     "category": "8.MAQ.BORDEADORA y ACCESO",
     "bulk": 10.0,
     "prices": {
-      "D": 3229.44,
-      "E": 3460.12,
-      "F": 2768.1
+      "D": 3391.57,
+      "E": 3633.83,
+      "F": 2907.06
     }
   },
   "VIT56": {
@@ -91314,9 +91484,9 @@
     "category": "8.CALEFACCION",
     "bulk": 6.0,
     "prices": {
-      "D": 15441.42,
-      "E": 16629.22,
-      "F": 13065.82
+      "D": 16213.5,
+      "E": 17460.69,
+      "F": 13719.11
     }
   },
   "VITESV": {
@@ -91324,9 +91494,9 @@
     "category": "8.CALEFACCION",
     "bulk": 6.0,
     "prices": {
-      "D": 15441.42,
-      "E": 16629.22,
-      "F": 13065.82
+      "D": 16213.5,
+      "E": 17460.69,
+      "F": 13719.11
     }
   },
   "VITVAL1V": {
@@ -91334,9 +91504,9 @@
     "category": "8.ESTUFA A GAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 47003.77,
-      "E": 50619.45,
-      "F": 43388.1
+      "D": 47931.48,
+      "E": 51618.52,
+      "F": 44244.44
     }
   },
   "VITVAL2V": {
@@ -91344,9 +91514,9 @@
     "category": "8.ESTUFA A GAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 72979.54,
-      "E": 78593.35,
-      "F": 67365.73
+      "D": 74419.93,
+      "E": 80144.54,
+      "F": 68695.32
     }
   },
   "VITVALP1/8": {
@@ -91354,9 +91524,9 @@
     "category": "8.ESTUFA A GAS y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 45766.83,
-      "E": 49287.36,
-      "F": 42246.31
+      "D": 46670.12,
+      "E": 50260.13,
+      "F": 43080.12
     }
   },
   "WATPB15": {
@@ -91377,26 +91547,6 @@
       "D": 23589.97,
       "E": 25404.58,
       "F": 21775.35
-    }
-  },
-  "WB143": {
-    "name": "EXTRACTOR DE TORNILLO x5pza WEMBLEY",
-    "category": "8.EXTRACTOR WEMBLEY",
-    "bulk": 10.0,
-    "prices": {
-      "D": 10799.52,
-      "E": 11630.26,
-      "F": 9968.79
-    }
-  },
-  "WB2103": {
-    "name": "AFILA MECHAS SOPORTE 3a19mm WEMBLEY",
-    "category": "8.SOPORTE P/AFILAR MECHA",
-    "bulk": 6.0,
-    "prices": {
-      "D": 44810.41,
-      "E": 48257.37,
-      "F": 41363.46
     }
   },
   "WB229": {
@@ -91839,106 +91989,6 @@
       "F": 43601.16
     }
   },
-  "WB6412": {
-    "name": "LLAVE TUBO \"T\" HEX. 8mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6413": {
-    "name": "LLAVE TUBO \"T\" HEX. 9mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6414": {
-    "name": "LLAVE TUBO \"T\" HEX.10mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6415": {
-    "name": "LLAVE TUBO \"T\" HEX.11mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6416": {
-    "name": "LLAVE TUBO \"T\" HEX.12mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6417": {
-    "name": "LLAVE TUBO \"T\" HEX.13mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6418": {
-    "name": "LLAVE TUBO \"T\" HEX.14mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4791.75,
-      "E": 5160.35,
-      "F": 4423.15
-    }
-  },
-  "WB6419": {
-    "name": "LLAVE TUBO \"T\" HEX.15mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 6864.71,
-      "E": 7392.77,
-      "F": 6336.66
-    }
-  },
-  "WB6420": {
-    "name": "LLAVE TUBO \"T\" HEX.20mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 6864.71,
-      "E": 7392.77,
-      "F": 6336.66
-    }
-  },
-  "WB6421": {
-    "name": "LLAVE TUBO \"T\" HEX.21mm LrgaWEMBLEY",
-    "category": "8.LLAVE \"T\" Lga mmWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 6864.71,
-      "E": 7392.77,
-      "F": 6336.66
-    }
-  },
   "WB6423": {
     "name": "PINZA SACABOC.+COLOC/BROCHE.WEMBLEY",
     "category": "8.PINZA SACABOCADO WEMBLE",
@@ -91987,66 +92037,6 @@
       "D": 8995.4,
       "E": 9687.35,
       "F": 8303.44
-    }
-  },
-  "WB6479": {
-    "name": "LLAVE TUBO \"T\" HEX. 8mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4311.63,
-      "E": 4643.29,
-      "F": 3979.96
-    }
-  },
-  "WB6481": {
-    "name": "LLAVE TUBO \"T\" HEX.10mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4311.63,
-      "E": 4643.29,
-      "F": 3979.96
-    }
-  },
-  "WB6484": {
-    "name": "LLAVE TUBO \"T\" HEX 13mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 1.0,
-    "prices": {
-      "D": 4311.63,
-      "E": 4643.29,
-      "F": 3979.96
-    }
-  },
-  "WB6485": {
-    "name": "LLAVE TUBO \"T\" HEX 14mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 1.0,
-    "prices": {
-      "D": 4311.63,
-      "E": 4643.29,
-      "F": 3979.96
-    }
-  },
-  "WB6487": {
-    "name": "LLAVE TUBO \"T\" HEX.17mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 6179.23,
-      "E": 6654.56,
-      "F": 5703.91
-    }
-  },
-  "WB6617": {
-    "name": "LLAVE TUBO \"T\" HEX. 7mm CrtaWEMBLEY",
-    "category": "8.LLAVE \"T\" CrtammWEMBLEY",
-    "bulk": 12.0,
-    "prices": {
-      "D": 4311.63,
-      "E": 4643.29,
-      "F": 3979.96
     }
   },
   "WESTAE5mm": {

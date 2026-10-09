@@ -57,18 +57,13 @@ function crearIcono() {
       justify-content:center;">${activas.length}</span>`;
 }
 
-function abrirPanel() {
-  const activas = window.Promos?.promosActivas() || [];
-  if (!activas.length) return;
+// Espera maxima antes de mostrar la lista: productos.json pesa unos 2 MB y
+// desde un celular con datos moviles puede tardar varios segundos
+const ESPERA_CARGA_MS = 5000;
+let abriendo = false;
 
-  document.getElementById('panel-promos')?.remove();
-
-  const cont = document.createElement('div');
-  cont.id = 'panel-promos';
-  cont.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);' +
-    'z-index:9700;display:flex;align-items:center;justify-content:center;padding:16px;';
-
-  const filas = activas.map(p => {
+function filasHtml(activas) {
+  return activas.map(p => {
     const prod = window.productManager?.getProduct(p.sku);
     const lista = window.Precios?.precioLista(p.sku);
     const enCarrito = window.Carrito?.cantidadDe(p.sku) || 0;
@@ -89,9 +84,23 @@ function abrirPanel() {
         </button>
       </div>`;
   }).join('');
+}
+
+async function abrirPanel() {
+  const activas = window.Promos?.promosActivas() || [];
+  if (!activas.length || abriendo) return;
+  abriendo = true;
+
+  document.getElementById('panel-promos')?.remove();
+
+  const cont = document.createElement('div');
+  cont.id = 'panel-promos';
+  cont.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);' +
+    'z-index:9700;display:flex;align-items:center;justify-content:center;padding:16px;';
 
   const venceMin = activas.map(p => p.vigencia).filter(Boolean).sort()[0];
 
+  // Se abre al instante con la cabecera; la lista llega cuando estan los datos
   cont.innerHTML = `
     <div class="pp-caja">
       <div class="pp-cab">
@@ -101,7 +110,7 @@ function abrirPanel() {
         </div>
         <button class="pp-cerrar">&times;</button>
       </div>
-      <div class="pp-lista">${filas}</div>
+      <div class="pp-lista"><p class="pp-meta" style="padding:16px 0;text-align:center">Cargando…</p></div>
     </div>`;
 
   document.body.appendChild(cont);
@@ -110,6 +119,27 @@ function abrirPanel() {
     if (e.target === cont) cont.remove();
   });
   cont.querySelector('.pp-cerrar').addEventListener('click', () => cont.remove());
+
+  // Productos de las promociones que no estan en memoria: sin ellos la fila
+  // queda sin nombre ni precio de lista. Espera breve; si no llegan, la
+  // lista se muestra igual y se completa cuando terminen de cargar
+  const faltan = activas.map(p => p.sku).filter(sku => !window.productManager?.getProduct(sku));
+  const carga = faltan.length && window.productManager?.loadSpecificProducts
+    ? window.productManager.loadSpecificProducts(faltan).catch(e => {
+        console.warn('[Promos] No se pudieron cargar los productos del panel:', e);
+      })
+    : Promise.resolve();
+
+  await Promise.race([carga, new Promise(r => setTimeout(r, ESPERA_CARGA_MS))]);
+  abriendo = false;
+  if (!cont.isConnected) return;   // se cerro mientras cargaba
+
+  dibujarLista(cont, activas);
+  carga.then(() => { if (cont.isConnected) dibujarLista(cont, activas); });
+}
+
+function dibujarLista(cont, activas) {
+  cont.querySelector('.pp-lista').innerHTML = filasHtml(activas);
 
     cont.querySelectorAll('.pp-add').forEach(b => {
     b.addEventListener('click', async () => {
@@ -141,6 +171,7 @@ function abrirPanel() {
 
 // El icono depende del cliente activo: rehacerlo cuando cambia
 document.addEventListener('carrito:cambio', crearIcono);
+document.addEventListener('cliente:cambio', crearIcono);
 setTimeout(crearIcono, 1800);
 
 window.PromoPanel = { crearIcono, abrirPanel };
