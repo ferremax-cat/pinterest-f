@@ -46,11 +46,18 @@ function vigente(promo) {
 
 /**
  * Cuenta a la que se le arma el pedido: el cliente en vista si es vendedor,
- * o el propio si es cliente.
+ * o el propio si es cliente. Un vendedor sin cliente elegido no tiene
+ * cuenta activa: usar la suya mostraba las promociones de SU grupo, que
+ * no son las del cliente al que le va a vender.
  */
 function cuentaActiva() {
   const enVista = window.Precios?.getClienteVista();
   if (enVista) return String(enVista.cuenta);
+
+  const rol = sessionStorage.getItem('authRol')
+      || window.menuFuncionalidades?.usuarioActual?.rol || '';
+  if (rol !== 'cliente_estandar') return '';
+
   try {
     return String(JSON.parse(localStorage.getItem('clientData') || '{}').account || '');
   } catch (e) {
