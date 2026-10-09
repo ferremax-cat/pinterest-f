@@ -529,7 +529,8 @@ class BusquedaClientes {
             || window.menuFuncionalidades?.usuarioActual?.rol
             || '';
         if (window.Precios && rol !== 'cliente_estandar') {
-            const aplicado = await window.Precios.setClienteVista(cuenta);
+            // El nombre de finanzas, el mismo que muestra la barra
+            const aplicado = await window.Precios.setClienteVista(cuenta, cliente.nombre);
             if (!aplicado) {
                 const av = document.createElement('div');
                 av.textContent = 'El cliente ' + cuenta + ' no tiene lista de precios asignada';
