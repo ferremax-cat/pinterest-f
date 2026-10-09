@@ -1,21 +1,232 @@
 {
   "promotions": {
-    "DOSF1601": {
+    "SPDARC115160222": {
       "tipoLista": "F",
-      "precio": 2719.5,
-      "cantidadMinima": 75,
-      "vigencia": "2026-09-27",
+      "precio": 485.2,
+      "cantidadMinima": 100,
+      "vigencia": "2026-10-23",
       "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF08000": {
+      "tipoLista": "F",
+      "precio": 7186.0,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF08003": {
+      "tipoLista": "F",
+      "precio": 14372.01,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF08001": {
+      "tipoLista": "F",
+      "precio": 11976.66,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF08004": {
+      "tipoLista": "F",
+      "precio": 23953.31,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF06492": {
+      "tipoLista": "F",
+      "precio": 9581.33,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
       ]
     },
     "SF06491": {
       "tipoLista": "F",
-      "precio": 5475.05,
+      "precio": 5748.8,
       "cantidadMinima": 30,
-      "vigencia": "2026-09-27",
+      "vigencia": "2026-10-23",
       "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF06496": {
+      "tipoLista": "F",
+      "precio": 11497.51,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF06494": {
+      "tipoLista": "F",
+      "precio": 19162.66,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF07202": {
+      "tipoLista": "F",
+      "precio": 45838.86,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF07200": {
+      "tipoLista": "F",
+      "precio": 22919.47,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF07199": {
+      "tipoLista": "F",
+      "precio": 13751.64,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF07206": {
+      "tipoLista": "F",
+      "precio": 27503.31,
+      "cantidadMinima": 30,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "ROT98128": {
+      "tipoLista": "F",
+      "precio": 117804.09,
+      "cantidadMinima": 2,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "ROT98127": {
+      "tipoLista": "F",
+      "precio": 117804.09,
+      "cantidadMinima": 2,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF16012": {
+      "tipoLista": "F",
+      "precio": 47949.9,
+      "cantidadMinima": 2,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "SF16001": {
+      "tipoLista": "F",
+      "precio": 37086.7,
+      "cantidadMinima": 2,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "EA5305AZ": {
+      "tipoLista": "F",
+      "precio": 32692.2,
+      "cantidadMinima": 3,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "EA5310AZ": {
+      "tipoLista": "F",
+      "precio": 32692.2,
+      "cantidadMinima": 3,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "AR855300": {
+      "tipoLista": "F",
+      "precio": 4141.5,
+      "cantidadMinima": 12,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "AR855500": {
+      "tipoLista": "F",
+      "precio": 5914.1,
+      "cantidadMinima": 12,
+      "vigencia": "2026-10-23",
+      "grupos": [
+        "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
       ]

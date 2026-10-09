@@ -55,6 +55,9 @@ export async function setClienteVista(cuenta, nombre) {
   sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
   window.Carrito?.refrescarBotonFlotante();
+  // Por ejemplo, para que el contador de carritos pendientes deje de contar
+  // el del cliente elegido
+  document.dispatchEvent(new CustomEvent('cliente:cambio'));
   return info;
 }
 
@@ -62,6 +65,7 @@ export function limpiarClienteVista() {
   sessionStorage.removeItem('clienteVista');
   sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
+  document.dispatchEvent(new CustomEvent('cliente:cambio'));
 }
 
 /**
