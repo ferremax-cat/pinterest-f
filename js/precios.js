@@ -35,9 +35,12 @@ export function getClienteVista() {
 
 /**
  * Fija el cliente cuyos precios se muestran y repinta lo visible.
+ * nombre: el de clientes_finanzas.json, que es el actual (se regenera desde
+ * el sistema de gestion); si no viene, el de clientes_permisos.json.
+ * La lista de precios sigue saliendo de clientes_permisos.json.
  * @returns {Promise<object|null>} datos del cliente aplicado
  */
-export async function setClienteVista(cuenta) {
+export async function setClienteVista(cuenta, nombre) {
   const permisos = await cargarPermisos();
   const datos = permisos[String(cuenta)];
 
@@ -46,7 +49,7 @@ export async function setClienteVista(cuenta) {
     return null;
   }
 
-  const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: datos.name || '' };
+  const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: nombre || datos.name || '' };
   sessionStorage.setItem('clienteVista', JSON.stringify(info));
   // El disponible es de cada cliente: al cambiar hay que descartarlo
   sessionStorage.removeItem('disponibleCliente');
