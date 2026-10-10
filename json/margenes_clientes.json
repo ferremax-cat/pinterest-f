@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 40,
+    "margen": 5,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,9,15,13,31)"
+    "ultima_actualizacion": "Date(2026,9,10,12,22,5)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -13,9 +13,9 @@
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
-    "margen": 30,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,9,18,47,28)"
+    "ultima_actualizacion": "Date(2026,9,10,12,1,52)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -597,7 +597,7 @@
     "nombre": "JAIME GONZALEZ",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,7,15,24,39)"
+    "ultima_actualizacion": "Date(2026,9,10,9,0,48)"
   },
   "20291": {
     "nombre": "EL PROGRESO FERRETERIA",
@@ -892,5 +892,11 @@
     "margen": 40,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,9,9,15,28,24)"
+  },
+  "20386": {
+    "nombre": "CARMEN EL PORTUGUES",
+    "margen": 50,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,9,10,11,27,20)"
   }
 }

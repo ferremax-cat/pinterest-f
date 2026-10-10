@@ -403,7 +403,11 @@ async function performSearch(query, offset = 0, limit = 30) {
     clearResults();
     return;
   }
-  
+
+  // Productos cuyo código empieza con la consulta, para sumar a la búsqueda por
+  // texto cuando la consulta son solo letras ("rd", "rdtf", "plasti")
+  let codigosPorPrefijo = [];
+
   //busqueda por codigo
           // Verificar si la consulta parece ser un código de producto
         if (looksLikeProductCode(query)) {
@@ -444,7 +448,17 @@ async function performSearch(query, offset = 0, limit = 30) {
           }
           
           console.log(`[search-engine] Coincidencias de prefijo para "${upperCaseQuery}": ${prefixMatches.length} productos`);
-          
+
+          // Solo letras y sin código exacto: no se corta acá. Se busca por texto y
+          // estos productos se suman a esos resultados. Se usan las claves de
+          // scoredResults (código normalizado, sin repetir), no prefixMatches, que
+          // trae las variantes de cada código (sin ceros, con espacio, con guion).
+          // Orden natural: RDTF1, RDTF2, RDTF10
+          if (!exactProductFound && !/\d/.test(query)) {
+            codigosPorPrefijo = Object.keys(scoredResults)
+              .sort(new Intl.Collator('es', { numeric: true }).compare);
+          }
+
           // Si encontramos coincidencias exactas o por prefijo, no necesitamos buscar por texto
             if (exactProductFound || (prefixMatches.length > 0 && /\d/.test(query))) {
             console.log(`[search-engine] Usando resultados de búsqueda por código de producto`);
@@ -1071,6 +1085,20 @@ if (queryTokens.length > 1) {
     .map(([code, score]) => ({ code, score }))
     .sort((a, b) => b.score - a.score) // Ordenar de mayor a menor puntuación
     .map(item => item.code);
+
+    // Consulta de solo letras con forma de código ("rd", "rdtf", "plasti"): los
+    // productos cuyo código empieza así van después de los que coincidieron por
+    // alguna palabra (puntaje >= 10) y antes de los que solo coincidieron por
+    // trigramas, sin repetir. Si el texto no encontró nada (o la consulta es
+    // demasiado corta para buscar por texto, como "rd"), quedan solo estos
+    if (codigosPorPrefijo.length) {
+      const yaEstan = new Set(matchingCodes);
+      const agregados = codigosPorPrefijo.filter(code => !yaEstan.has(code));
+      const fuertes = matchingCodes.filter(code => scoredResults[code] >= 10);
+      const debiles = matchingCodes.filter(code => scoredResults[code] < 10);
+      matchingCodes = [...fuertes, ...agregados, ...debiles];
+      console.log(`[search-engine] ${agregados.length} productos agregados por prefijo de código`);
+    }
 
     console.log(`[search-engine] Resultado final: ${matchingCodes.length} productos encontrados`);
 
