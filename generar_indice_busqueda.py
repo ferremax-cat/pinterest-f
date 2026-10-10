@@ -56,6 +56,16 @@ RE_DECIMAL_CERO = re.compile(r"(\d+)\.0+(?!\d)")             # 4.0  -> 4
 RE_X_ENTRE_MEDIDAS = re.compile(r"(\d[a-z\"]{0,3})x(?=\d)")  # 20mmx4mt -> 20mm x 4mt
 RE_X_INICIAL = re.compile(r"(^|\s)x(?=\d)")                  # x15m -> x 15m
 RE_FRACCION_MIXTA = re.compile(r"(^|\s)(\d{1,2})[\s.\-]+(\d+/\d+)")  # 1 1/2, 1.1/2 -> 1-1/2
+RE_FRACCION_PEGADA = re.compile(r"(^|[^\d/.])(\d)(\d)/(\d{1,2})(?![\d/])")  # 11/2 -> 1-1/2
+DENOMINADORES_PULGADA = {2, 4, 8, 16}
+
+
+def _separar_fraccion_pegada(m):
+    entero, numerador, denominador = int(m.group(2)), int(m.group(3)), int(m.group(4))
+    if (denominador in DENOMINADORES_PULGADA and numerador < denominador
+            and entero * 10 + numerador > denominador):
+        return m.group(1) + m.group(2) + "-" + m.group(3) + "/" + m.group(4)
+    return m.group(0)
 RE_TOKEN = re.compile(
     r"\d+-\d+/\d+"                # 1-1/2 (fracción mixta)
     r"|\d+(?:[./]\d+)+[a-z]*"     # 3.5  1/2  3.5mm
@@ -79,6 +89,7 @@ def normalizar(texto):
     t = RE_CEROS_FINALES.sub(r"\1", t)
     t = RE_DECIMAL_CERO.sub(r"\1", t)
     t = RE_FRACCION_MIXTA.sub(r"\1\2-\3", t)
+    t = RE_FRACCION_PEGADA.sub(_separar_fraccion_pegada, t)
     t = RE_X_ENTRE_MEDIDAS.sub(r"\1 x ", t)
     t = RE_X_INICIAL.sub(r"\1x ", t)
     return t
@@ -101,7 +112,12 @@ def tokenizar(texto, expandir=True):
         tok = m.group(0)
         agregar(tok)
         if expandir and RE_TIENE_DIGITO.search(tok) and RE_TIENE_LETRA.search(tok):
+            # 20mm -> 20 y mm. Pero pn20 -> solo pn: el 20 de una clase o modelo
+            # no es una medida y haría que "20" encuentre caños de 25, 32, etc.
+            empieza_con_letra = tok[0].isalpha()
             for parte in RE_PARTES.findall(tok):
+                if empieza_con_letra and parte[0].isdigit():
+                    continue
                 agregar(parte)
     return salida
 

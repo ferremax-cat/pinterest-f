@@ -43,7 +43,6 @@
         "termof",
         "pn16",
         "pn",
-        "16",
         "f/f",
         "20mm",
         "20",
@@ -60,8 +59,7 @@
         "cano",
         "termof",
         "pn16",
-        "pn",
-        "16"
+        "pn"
       ]
     },
     {
@@ -207,6 +205,72 @@
       "tokens": [
         "valvula",
         "1-1/2"
+      ]
+    },
+    {
+      "texto": "CAñO TERMOFUSION PN20 F/F 25mmREDECO",
+      "tokens": [
+        "cano",
+        "termofusion",
+        "pn20",
+        "pn",
+        "f/f",
+        "25mmredeco",
+        "25",
+        "mmredeco"
+      ]
+    },
+    {
+      "texto": "VALVULA ESFER METAL 11/2\" x6un LATYN",
+      "tokens": [
+        "valvula",
+        "esfer",
+        "metal",
+        "1-1/2",
+        "6un",
+        "6",
+        "latyn"
+      ]
+    },
+    {
+      "texto": "VALVULA ESFER METAL 11/4\" x6un LATYN",
+      "tokens": [
+        "valvula",
+        "esfer",
+        "metal",
+        "1-1/4",
+        "6un",
+        "6",
+        "latyn"
+      ]
+    },
+    {
+      "texto": "CUPLA 21/2",
+      "tokens": [
+        "cupla",
+        "2-1/2"
+      ]
+    },
+    {
+      "texto": "BROCA 15/16",
+      "tokens": [
+        "broca",
+        "15/16"
+      ]
+    },
+    {
+      "texto": "TRANSFORMADOR 24/12",
+      "tokens": [
+        "transformador",
+        "24/12"
+      ]
+    },
+    {
+      "texto": "TERMOFUS ECO 20/32",
+      "tokens": [
+        "termofus",
+        "eco",
+        "20/32"
       ]
     }
   ]
