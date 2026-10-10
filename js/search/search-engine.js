@@ -446,7 +446,7 @@ async function performSearch(query, offset = 0, limit = 30) {
           console.log(`[search-engine] Coincidencias de prefijo para "${upperCaseQuery}": ${prefixMatches.length} productos`);
           
           // Si encontramos coincidencias exactas o por prefijo, no necesitamos buscar por texto
-          if (exactProductFound || prefixMatches.length > 0) {
+            if (exactProductFound || (prefixMatches.length > 0 && /\d/.test(query))) {
             console.log(`[search-engine] Usando resultados de búsqueda por código de producto`);
             
             // Crear un token con el código completo para que displayResults funcione correctamente
