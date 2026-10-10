@@ -35,6 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
 // Cargar el índice de búsqueda inicial
 async function initSearch() {
+  // Buscador v2 activo: el índice viejo (8,6 MB) no hace falta. El motor nuevo
+  // carga el suyo al tocar el buscador o cuando el navegador queda libre
+  if (window.BuscadorV2?.activo) {
+    console.log('[search-engine] Buscador v2 activo: no se descarga search_index.json');
+    setupSearchField();
+    return;
+  }
+
   try {
     console.log('[search-engine] Iniciando carga del índice...');
     
@@ -391,7 +399,12 @@ async function performSearch(query, offset = 0, limit = 30) {
     console.log('[search-engine performSearch] Modo clientes activo - búsqueda bloqueada');
     return;
   }
-  
+
+  // Buscador v2: decide qué productos y en qué orden; el dibujo es el de siempre
+  if (window.BuscadorV2?.activo) {
+    return buscarConV2(query, offset, limit);
+  }
+
   if (!searchIndex || !searchIndex.indexes) {
     console.warn('[search-engine] Índice de búsqueda no disponible o formato incorrecto');
     return;
@@ -1211,6 +1224,106 @@ if (queryTokens.length > 1) {
   });
 
   // Devolver información para uso externo
+  return {
+    items: matchingItems,
+    total: totalResults,
+    offset: offset,
+    limit: limit,
+    hasMore: offset + limit < totalResults
+  };
+}
+
+// Búsqueda con el buscador v2 (js/search/v2/buscador-v2.js). Mismo contrato
+// que la búsqueda por texto de performSearch: pagina de a 30, arma los items
+// con loadSpecificProducts y dibuja con displayResults. Solo cambian qué
+// productos se muestran y en qué orden.
+async function buscarConV2(query, offset = 0, limit = 30) {
+  const consulta = String(query || '').trim();
+
+  // Consulta vacía: lo mismo que hoy
+  if (!consulta) {
+    clearResults();
+    return;
+  }
+
+  // Primera tanda: si mientras se esperaba el usuario cambió el texto, este
+  // resultado ya no sirve. Las tandas del scroll repiten la búsqueda vigente
+  const vigente = () =>
+    offset > 0 || !searchInput || searchInput.value.trim() === consulta;
+
+  // Términos para el resaltado: el mismo criterio que la búsqueda por texto
+  const queryTokens = consulta.toLowerCase().split(/\s+/).filter(token => token.length >= 3);
+
+  // "Sin resultados" visible: displayResults con lista vacía deja la galería
+  // vacía y muestra "0 resultados para ..." con el botón Limpiar
+  // (displayNoResults escribe en #results-container, que no existe en la página)
+  const mostrarSinResultados = () => {
+    if (offset === 0) {
+      displayResults([], consulta, queryTokens, { offset: 0, limit, total: 0, hasMore: false });
+    }
+  };
+
+  let codigos;
+  try {
+    codigos = await window.BuscadorV2.buscar(consulta);
+  } catch (error) {
+    // Falló la descarga del índice: el motor la reintenta en la próxima búsqueda
+    console.error('[search-engine] Buscador v2: no se pudo buscar', error);
+    if (vigente()) mostrarSinResultados();
+    return;
+  }
+  if (!vigente()) return;
+
+  if (!codigos || codigos.length === 0) {
+    mostrarSinResultados();
+    return;
+  }
+
+  // Paginación igual que hoy
+  const totalResults = codigos.length;
+  const paginatedCodes = codigos.slice(offset, offset + limit);
+  console.log(`[search-engine] v2 "${consulta}": ${totalResults} resultados, ` +
+              `mostrando ${offset + 1}-${offset + paginatedCodes.length}`);
+
+  // Items en el mismo formato que la búsqueda por texto. Los códigos ya son
+  // las claves de productos.json: no hace falta codeMap
+  const itemMinimo = code => ({
+    id: code, code: code, name: `Producto ${code}`, category: '', price: 0, imageId: null
+  });
+
+  let matchingItems;
+  if (window.productManagerInstance && typeof window.productManagerInstance.loadSpecificProducts === 'function') {
+    try {
+      const productData = await window.productManagerInstance.loadSpecificProducts(paginatedCodes);
+      matchingItems = paginatedCodes.map(code => (productData && productData[code]) ? {
+        id: code,
+        code: code,
+        name: productData[code].name || `Producto ${code}`,
+        category: productData[code].category || '',
+        price: productData[code].selectedPrice || 0,
+        imageId: productData[code].imageId || null
+      } : itemMinimo(code));
+    } catch (error) {
+      console.error('[search-engine] Error al obtener productos:', error);
+      matchingItems = paginatedCodes.map(itemMinimo);
+    }
+  } else {
+    console.warn('[search-engine] Método loadSpecificProducts no disponible, usando datos mínimos');
+    matchingItems = paginatedCodes.map(itemMinimo);
+  }
+
+  // loadSpecificProducts también tarda: volver a comprobar antes de dibujar
+  if (!vigente()) return;
+
+  // La consulta tal como se escribió: #load-more-button la guarda y el scroll
+  // vuelve a pedir exactamente lo mismo
+  displayResults(matchingItems, consulta, queryTokens, {
+    offset: offset,
+    limit: limit,
+    total: totalResults,
+    hasMore: offset + limit < totalResults
+  });
+
   return {
     items: matchingItems,
     total: totalResults,

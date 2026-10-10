@@ -1211,7 +1211,10 @@
                // 4. Implementar búsqueda
                const searchInput = document.querySelector('input[type="text"]');
 
-               if (searchInput) {
+               // Con el buscador v2 activo este filtro no corre: oculta tarjetas que no
+               // contienen el texto literal ("cano" no está dentro de "CAÑO") y llama
+               // a getPrice por cada tarjeta solo para un log
+               if (searchInput && !window.BuscadorV2?.activo) {
                     searchInput.addEventListener('input', debounce(async function(e) {
                          const searchTerm = e.target.value.toLowerCase();
                          monitoringSystem.trackUsage('search', { term: searchTerm });

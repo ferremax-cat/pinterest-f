@@ -152,6 +152,8 @@
   }
 
   const COLADOR = new Intl.Collator('es', { sensitivity: 'base' });
+  // Códigos en orden natural: rdtf12320 < rdtf12400 < rdtf12500
+  const COLADOR_CODIGO = new Intl.Collator('es', { numeric: true });
   const RE_NUMERO_ORDEN = /\d+-\d+\/\d+|\d+(?:\.\d+)?\/\d+|\d+(?:\.\d+)?/g;
 
   // Convierte cada número en un texto de largo fijo según su valor, para que
@@ -208,11 +210,12 @@
   // Orden de los grupos. "Es el artículo" = el nombre empieza con la primera palabra buscada:
   // todas las mangueras van antes que un acople "de manguera", aunque el acople tenga la medida.
   const GRUPO = {
-    codigoExacto: 6,
+    codigoExacto: 7,
+    lineaCodigo: 6,          // el código empieza con la consulta, que es solo letras ("ros", "plasti")
     articuloCompleto: 5,     // es el artículo y tiene todas las palabras
     articuloParcial: 4,      // es el artículo, le falta una palabra
     menciona: 3,             // lo menciona y tiene todas las palabras
-    codigoPrefijo: 2,
+    codigoPrefijo: 2,        // el código empieza con la consulta, que tiene números
     mencionaParcial: 1       // lo menciona, le falta una palabra
   };
 
@@ -264,11 +267,16 @@
       }
     });
 
-    // Códigos: exacto siempre; prefijo solo si la consulta tiene algún número
+    // Códigos: exacto siempre. Prefijo con números ("isafix40"): desde 3 caracteres,
+    // en su lugar de siempre. Prefijo solo letras ("rd", "rdtf", "plasti"): desde 2
+    // caracteres y una sola palabra; es la línea que se busca y va primero, aun antes de los artículos
     const compacta = compactarCodigo(texto);
     const idCodigoExacto = d.codigos.has(compacta) ? d.codigos.get(compacta) : -1;
+    const prefijoConNumeros = RE_TIENE_DIGITO.test(compacta);
+    const buscarPrefijo = prefijoConNumeros ? compacta.length >= 3
+                                            : compacta.length >= 2 && n <= 1;
     const prefijosCodigo = new Set();
-    if (compacta.length >= 3 && RE_TIENE_DIGITO.test(compacta)) {
+    if (buscarPrefijo) {
       d.compactos.forEach((c, id) => {
         if (id !== idCodigoExacto && c.startsWith(compacta)) prefijosCodigo.add(id);
       });
@@ -299,8 +307,12 @@
       const articulo = (completo || parcial) && empiezaConPrimera(id);
       let grupo = 0;
       if (id === idCodigoExacto) grupo = GRUPO.codigoExacto;
-      else if (completo) grupo = articulo ? GRUPO.articuloCompleto : GRUPO.menciona;
+      // Quien escribe las letras de un código ("ros", "plasti") busca esa línea:
+      // va primero, aunque el producto también sea artículo
+      else if (prefijosCodigo.has(id) && !prefijoConNumeros) grupo = GRUPO.lineaCodigo;
+      else if (completo && articulo) grupo = GRUPO.articuloCompleto;
       else if (parcial && articulo) grupo = GRUPO.articuloParcial;
+      else if (completo) grupo = GRUPO.menciona;
       else if (prefijosCodigo.has(id)) grupo = GRUPO.codigoPrefijo;
       else if (parcial) grupo = GRUPO.mencionaParcial;
       if (grupo) resultados.push({ id: id, grupo: grupo, puntos: a.puntos });
@@ -309,8 +321,15 @@
     // Dentro de cada grupo: por nombre, leyendo la abreviatura como la palabra buscada
     // ("MANGUER PLAS REF" se ordena junto a "MANGUERA PLAS REF"), con números en orden natural
     for (const r of resultados) r.clave = claveOrden(d, r.id, primera);
-    resultados.sort((x, y) => (y.grupo - x.grupo) || (y.puntos - x.puntos) ||
-                              COLADOR.compare(x.clave, y.clave) || (x.id - y.id));
+    // La línea de código va solo por código, en orden natural, sin mirar los puntos
+    // (los que además coinciden por descripción tienen puntos y desordenarían la línea).
+    // Se usa el código original y no el compacto, para que ROS4182-1 quede junto a ROS4182
+    const codigoOrden = (id) => String(d.productos[id][0]).toLowerCase();
+    resultados.sort((x, y) => (y.grupo - x.grupo) ||
+      (x.grupo === GRUPO.lineaCodigo
+        ? COLADOR_CODIGO.compare(codigoOrden(x.id), codigoOrden(y.id))
+        : (y.puntos - x.puntos) || COLADOR.compare(x.clave, y.clave)) ||
+      (x.id - y.id));
     return resultados;
   }
 
@@ -344,8 +363,15 @@
     const inicio = performance.now();
     const resultados = buscarEnDatos(d, consulta);
     const ms = performance.now() - inicio;
-    const nombresGrupo = { 6: 'código exacto', 5: 'artículo, todas', 4: 'artículo, falta una',
-                           3: 'menciona, todas', 2: 'prefijo código', 1: 'menciona, falta una' };
+    const nombresGrupo = {
+      [GRUPO.codigoExacto]: 'código exacto',
+      [GRUPO.articuloCompleto]: 'artículo, todas',
+      [GRUPO.articuloParcial]: 'artículo, falta una',
+      [GRUPO.menciona]: 'menciona, todas',
+      [GRUPO.codigoPrefijo]: 'prefijo código',
+      [GRUPO.mencionaParcial]: 'menciona, falta una',
+      [GRUPO.lineaCodigo]: 'línea de código'
+    };
     console.log('[BuscadorV2] "' + consulta + '" → tokens ' + JSON.stringify(tokenizar(consulta, false)) +
                 ', ' + resultados.length + ' resultados en ' + ms.toFixed(1) + ' ms');
     console.table(resultados.slice(0, limite || 20).map((r) => ({
