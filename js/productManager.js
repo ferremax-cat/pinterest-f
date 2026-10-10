@@ -743,106 +743,12 @@ class ProductManager {
    * @param {string} codigo - Código del producto
    * @returns {Object|null} Producto encontrado o null
    */
-      getProduct(codigo) {
-
-        console.log('[ProductManager- getProduct 1] Búsqueda de producto:', {
-          codigoBuscado: codigo,
-          estadoProductos: {
-              size: this.products.size,
-              tieneProductos: this.products.size > 0,
-              initialized: this.#initialized
-          }
-        });
-
-
-        console.log('[ProductManager- getProduct 2] llamado desde:', {
-          codigo,
-          stack: new Error().stack
-        });
-
-        const codigoMayusculas = codigo.toUpperCase();
-        console.log('[ProductManager- getProduct 3] Búsqueda:', {
-            original: codigo,
-            convertido: codigoMayusculas
-        });  
-
-        console.log('[ProductManager- getProduct 4] Intentando encontrar producto:', {
-          codigoBuscado: codigoMayusculas,
-          primerosProductos: Array.from(this.products.keys()).slice(0, 3),
-          existeEnMap: this.products.has(codigoMayusculas)
-        });
-
-        console.log('=== getProduct ===');
-
-        console.log('[ProductManager- getProduct 4a]', {
-          codigoMayusculas,
-          productoEncontrado: this.products.get(codigoMayusculas),
-          productos: Object.fromEntries(this.products),
-          tieneProducto: this.products.has(codigoMayusculas)
-      });
-
-        console.log('[ProductManager- getProduct 5] 🔍 Detalles de búsqueda:', {
-          codigoBuscado: codigoMayusculas,  // Cambiado a codigoMayusculas
-          // Mostrar algunos códigos similares
-          codigosSimilares: Array.from(this.products.keys())
-              .filter(k => k.includes(codigoMayusculas) || codigoMayusculas.includes(k))
-              .slice(0, 5),
-          // Mostrar diferentes formatos de códigos
-          ejemplosFormatos: Array.from(this.products.keys())
-              .slice(0, 10)
-              .map(k => ({codigo: k, longitud: k.length}))
-        });
-
-        // Agregar inspección de datos
-        console.log(' [ProductManager- getProduct 6] Muestra de claves en this.products:', {
-          primeras5Claves: Array.from(this.products.keys()).slice(0, 5),
-          formatoCodigoBuscado: typeof codigoMayusculas,  // Cambiado a codigoMayusculas
-          ejemploClaveMap: Array.from(this.products.keys())[0]
-        });
-
-        console.log('[ProductManager- getProduct 7] 📂 Primeros 10 productos:', {
-          keys: Array.from(this.products.keys()).slice(0, 10),
-          source: 'Desde caché/Excel'
-        });
-
-
-        console.log('[ProductManager- getProduct 8]Estado de this.products:', {
-            exists: !!this.products,
-            isMap: this.products instanceof Map,
-            size: this.products?.size,
-            has: this.products?.has(codigoMayusculas)  // Cambiado a codigoMayusculas
-        });
-
-
-        console.log('[ProductManager- getProduct 9] Estado de productos:', {
-          size: this.products.size,
-          initialized: this.#initialized,
-          tieneProductos: this.products.size > 0,
-          buscandoCodigo: codigoMayusculas  // Cambiado a codigoMayusculas
-        });
-
-         /* console.log('[ProductManager] Comparación de códigos:', {
-          buscado: {
-              codigo,
-              tipo: typeof codigo,
-              longitud: codigo.length,
-              espacios: codigo.includes(' '),
-              caracteresEspeciales: codigo.match(/[^a-zA-Z0-9]/g)
-          },
-          ejemplo: {
-              codigo: Array.from(this.products.keys())[0],
-              tipo: typeof Array.from(this.products.keys())[0],
-              longitud: Array.from(this.products.keys())[0]?.length,
-              espacios: Array.from(this.products.keys())[0]?.includes(' ')
-          }
-          });  */
-
+     
+  getProduct(codigo) {
         this.metrics.searchOperations++;
-        const product = this.products.get(codigoMayusculas);  // Cambiado a codigoMayusculas
-
-        console.log('Producto encontrado:', product);
+        const product = this.products.get(String(codigo).toUpperCase());
         return product || null;
-      }
+  }
 
   /**
    * Calcula el precio final de un producto
