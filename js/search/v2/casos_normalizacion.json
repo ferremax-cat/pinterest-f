@@ -1,0 +1,213 @@
+{
+  "descripcion": "Casos que deben dar los mismos tokens en Python (generar_indice_busqueda.py) y en JavaScript (motor v2). expandir=false indica tokenización de consulta.",
+  "casos": [
+    {
+      "texto": "TORNILLO FIX P MADERA 3.5 X 20 TORAR",
+      "tokens": [
+        "tornillo",
+        "fix",
+        "madera",
+        "3.5",
+        "20",
+        "torar"
+      ]
+    },
+    {
+      "texto": "TORNILLO FIX P MADERA 4.0 X 12 DM",
+      "tokens": [
+        "tornillo",
+        "fix",
+        "madera",
+        "4",
+        "12",
+        "dm"
+      ]
+    },
+    {
+      "texto": "MANGUER PLAS LIV 1/2 x15m I/N MAXAGUA",
+      "tokens": [
+        "manguer",
+        "plas",
+        "liv",
+        "1/2",
+        "15m",
+        "15",
+        "i/n",
+        "maxagua"
+      ]
+    },
+    {
+      "texto": "CAñO TERMOF PN16 F/F 20mmx4mt DOSOS",
+      "tokens": [
+        "cano",
+        "termof",
+        "pn16",
+        "pn",
+        "16",
+        "f/f",
+        "20mm",
+        "20",
+        "mm",
+        "4mt",
+        "4",
+        "mt",
+        "dosos"
+      ]
+    },
+    {
+      "texto": "CAÑO TERMOF PN16",
+      "tokens": [
+        "cano",
+        "termof",
+        "pn16",
+        "pn",
+        "16"
+      ]
+    },
+    {
+      "texto": "Válvula esférica 3/4\"",
+      "tokens": [
+        "valvula",
+        "esferica",
+        "3/4"
+      ]
+    },
+    {
+      "texto": "TORNILLO 4.0x12",
+      "tokens": [
+        "tornillo",
+        "4",
+        "12"
+      ]
+    },
+    {
+      "texto": "MANGUERA 1/2\"x15m",
+      "tokens": [
+        "manguera",
+        "1/2",
+        "15m",
+        "15"
+      ]
+    },
+    {
+      "texto": "3,5",
+      "tokens": [
+        "3.5"
+      ]
+    },
+    {
+      "texto": "3.50",
+      "tokens": [
+        "3.5"
+      ]
+    },
+    {
+      "texto": "4.0",
+      "tokens": [
+        "4"
+      ]
+    },
+    {
+      "texto": "10.00",
+      "tokens": [
+        "10"
+      ]
+    },
+    {
+      "texto": "4.05",
+      "tokens": [
+        "4.05"
+      ]
+    },
+    {
+      "texto": "fix 3.5",
+      "expandir": false,
+      "tokens": [
+        "fix",
+        "3.5"
+      ]
+    },
+    {
+      "texto": "fix 3,5",
+      "expandir": false,
+      "tokens": [
+        "fix",
+        "3.5"
+      ]
+    },
+    {
+      "texto": "caño de plástico",
+      "expandir": false,
+      "tokens": [
+        "cano",
+        "plastico"
+      ]
+    },
+    {
+      "texto": "válvula 1/2",
+      "expandir": false,
+      "tokens": [
+        "valvula",
+        "1/2"
+      ]
+    },
+    {
+      "texto": "20mm",
+      "expandir": false,
+      "tokens": [
+        "20mm"
+      ]
+    },
+    {
+      "texto": "VALVULA ESF SIMPLE NEGRA 1 1/2\" ITEPA",
+      "tokens": [
+        "valvula",
+        "esf",
+        "simple",
+        "negra",
+        "1-1/2",
+        "itepa"
+      ]
+    },
+    {
+      "texto": "CUPLA 1.1/2",
+      "tokens": [
+        "cupla",
+        "1-1/2"
+      ]
+    },
+    {
+      "texto": "TEE 1/2 1/2",
+      "tokens": [
+        "tee",
+        "1/2"
+      ]
+    },
+    {
+      "texto": "MANGUERA 1 1/2x25m",
+      "tokens": [
+        "manguera",
+        "1-1/2",
+        "25m",
+        "25"
+      ]
+    },
+    {
+      "texto": "MANGUER PLAS x15 1/2",
+      "tokens": [
+        "manguer",
+        "plas",
+        "15",
+        "1/2"
+      ]
+    },
+    {
+      "texto": "valvula 1 1/2",
+      "expandir": false,
+      "tokens": [
+        "valvula",
+        "1-1/2"
+      ]
+    }
+  ]
+}
