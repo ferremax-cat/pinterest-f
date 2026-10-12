@@ -53,7 +53,10 @@ async function revisar({ manual = false } = {}) {
   try {
     const r = await fetch('./json/version.json', { cache: 'no-store' });
     if (!r.ok) return;
-    const v = (await r.json())?.productos;
+    const version = await r.json();
+    // La misma lectura le sirve al buscador v2 para saber si cambió su índice
+    document.dispatchEvent(new CustomEvent('version:leida', { detail: version }));
+    const v = version?.productos;
     if (!v?.huella || !v.generado) return;
 
     const generado = Date.parse(v.generado);
