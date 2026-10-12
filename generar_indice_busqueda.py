@@ -18,6 +18,7 @@ dar exactamente los mismos tokens: eso es lo que controlan los casos de prueba.
 """
 import argparse
 import gzip
+import hashlib
 import json
 import re
 import sys
@@ -41,6 +42,7 @@ RAIZ = encontrar_raiz()
 RUTA_PRODUCTOS = RAIZ / "json" / "productos.json"
 RUTA_SALIDA = RAIZ / "json" / "search" / "v2" / "indice.json"
 RUTA_CASOS = RAIZ / "js" / "search" / "v2" / "casos_normalizacion.json"
+RUTA_VERSION = RAIZ / "json" / "version.json"
 
 
 # ---------------------------------------------------------------------------
@@ -173,10 +175,14 @@ def construir_indice():
         for tok in tokenizar(RE_PREFIJO_CATEGORIA.sub("", categoria)):
             ix_categoria.setdefault(tok, []).append(i)
 
-    ahora = datetime.now(timezone.utc)
+    # Huella del contenido: cambia solo si cambian códigos, nombres o categorías
+    # (no los precios). Con eso el workflow, que corre cada hora, no commitea un
+    # índice igual al anterior
+    cuerpo = json.dumps([productos, ix_nombre, ix_categoria], ensure_ascii=False, separators=(",", ":"))
+    huella = hashlib.sha256(cuerpo.encode("utf-8")).hexdigest()[:16]
     return {
-        "version": "v2-" + ahora.strftime("%Y%m%d-%H%M"),
-        "generado": ahora.isoformat(timespec="seconds"),
+        "version": "v2-" + huella,
+        "generado": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "total": len(productos),
         "productos": productos,
         "nombre": ix_nombre,
@@ -225,6 +231,39 @@ def consultar(indice, consulta, limite=15):
         print("   {:<16} {}".format(codigo, nombre))
 
 
+def leer_version_anterior():
+    """Versión del índice ya publicado, o None si no existe o no se puede leer."""
+    try:
+        with open(RUTA_SALIDA, encoding="utf-8") as f:
+            return json.load(f).get("version")
+    except (OSError, ValueError):
+        return None
+
+
+def registrar_version(version):
+    """Deja en json/version.json la huella del índice publicado, para que las
+    pestañas abiertas lo actualicen sin recargar. Conserva las demás claves
+    (productos, que escribe excel_to_json.py) y solo escribe si cambió."""
+    datos = {}
+    if RUTA_VERSION.exists():
+        try:
+            with open(RUTA_VERSION, encoding="utf-8") as f:
+                datos = json.load(f)
+        except (OSError, ValueError) as e:
+            # No se reescribe: se perdería la huella de productos
+            print("AVISO: no se pudo leer {} ({}); no se registra la versión del índice".format(
+                RUTA_VERSION.relative_to(RAIZ), e))
+            return
+    if datos.get("indice", {}).get("huella") == version:
+        return
+    datos["indice"] = {"huella": version}
+    # Mismo formato que excel_to_json.py (indent=2, sin salto final)
+    temporal = RUTA_VERSION.with_suffix(".tmp")
+    temporal.write_text(json.dumps(datos, indent=2), encoding="utf-8")
+    temporal.replace(RUTA_VERSION)
+    print("version.json actualizado: indice " + version)
+
+
 # ---------------------------------------------------------------------------
 def main():
     ap = argparse.ArgumentParser(description="Índice de búsqueda v2 — Ferremax")
@@ -243,11 +282,20 @@ def main():
         consultar(indice, args.consulta)
         return
 
+    # Mismo contenido que el publicado: no se toca el índice (no hay commit), pero
+    # version.json igual tiene que tener su huella
+    if leer_version_anterior() == indice["version"]:
+        print("Índice sin cambios (" + indice["version"] + "): no se reescribe")
+        registrar_version(indice["version"])
+        return
+
     contenido = json.dumps(indice, ensure_ascii=False, separators=(",", ":"))
     RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)
     temporal = RUTA_SALIDA.with_suffix(".tmp")
     temporal.write_text(contenido, encoding="utf-8")
     temporal.replace(RUTA_SALIDA)
+    # Después del índice: la huella nunca anuncia un archivo que todavía no existe
+    registrar_version(indice["version"])
 
     bytes_total = len(contenido.encode("utf-8"))
     bytes_gzip = len(gzip.compress(contenido.encode("utf-8")))

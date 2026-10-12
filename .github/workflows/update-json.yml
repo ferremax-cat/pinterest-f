@@ -9,18 +9,24 @@ on:
     - cron: '0 * * * *' # Para ejecutarse cada hora
   workflow_dispatch:      # Esto habilita la ejecución manual  
 
+# Una sola corrida a la vez (un push de Excel puede coincidir con la de cada hora):
+# la siguiente espera a que termine la anterior en lugar de pisar su push
+concurrency:
+  group: update-json
+  cancel-in-progress: false
+
 jobs:
   convert-excel-to-json:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT_TOKEN }}
-      
+
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
           
       - name: Install dependencies
         run: |
@@ -28,12 +34,20 @@ jobs:
           
       - name: Convert Excel to JSON
         run: python scripts/excel_to_json.py
-        
+
+      # Índice del buscador v2 (solo biblioteca estándar). Si falla, por ejemplo por
+      # un caso de normalización, quedan el índice anterior y su huella, y los
+      # demás datos se commitean igual; el último paso deja el run en rojo
+      - name: Generar índice de búsqueda v2
+        id: indice
+        continue-on-error: true
+        run: python generar_indice_busqueda.py
+
       - name: Commit JSON files
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add json/*.json
+          git add json/*.json json/search/v2/indice.json
           # Solo intenta hacer commit si hay cambios
           git diff --staged --quiet || (git commit -m "Update JSONs from Excel" && git push)
           
@@ -42,3 +56,11 @@ jobs:
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.ref }}
+
+      # Después de commitear lo demás: si el índice no se pudo generar, el run
+      # queda fallido (aviso por mail) y el error se ve en el resumen
+      - name: Avisar si falló el índice
+        if: steps.indice.outcome == 'failure'
+        run: |
+          echo "::error::No se pudo generar json/search/v2/indice.json; quedó el índice anterior. Ver el paso 'Generar índice de búsqueda v2'."
+          exit 1

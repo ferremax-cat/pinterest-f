@@ -101,6 +101,8 @@
   // ---------------------------------------------------------------------
   let promesaCarga = null;
   let datos = null;
+  let pendiente = null;          // índice nuevo ya descargado, se usa en la próxima búsqueda nueva
+  let descargandoNueva = null;   // huella que se está descargando
 
   function cargar() {
     if (datos) return Promise.resolve(datos);
@@ -143,6 +145,32 @@
       compactos: compactos,
       primeros: new Map()
     };
+  }
+
+  // Índice nuevo publicado con la pestaña abierta (los vendedores la dejan toda
+  // la jornada). frescura-precios.js lee json/version.json cada 15 minutos y
+  // avisa con 'version:leida'. El índice se baja en segundo plano y queda
+  // pendiente: se empieza a usar en la próxima búsqueda nueva, nunca en medio
+  // del scroll de una búsqueda (ver buscar)
+  function revisarVersion(e) {
+    const huella = e.detail && e.detail.indice && e.detail.indice.huella;
+    if (!huella || !datos || huella === datos.version) return;
+    if ((pendiente && pendiente.version === huella) || descargandoNueva === huella) return;
+    descargandoNueva = huella;
+    // La huella en la URL evita la copia vieja de la cache del servidor
+    fetch(RUTA_INDICE + '?v=' + encodeURIComponent(huella))
+      .then((r) => {
+        if (!r.ok) throw new Error('HTTP ' + r.status + ' al cargar ' + RUTA_INDICE);
+        return r.json();
+      })
+      .then((indice) => {
+        // Si el servidor todavía da el anterior, se reintenta en la próxima revisión
+        if (indice.version !== huella) return;
+        pendiente = prepararDatos(indice);
+        console.log('[BuscadorV2] índice nuevo ' + huella + ' listo; se usa en la próxima búsqueda');
+      })
+      .catch((err) => console.warn('[BuscadorV2] no se pudo bajar el índice nuevo:', err))
+      .finally(() => { descargandoNueva = null; });
   }
 
   // Primera palabra del nombre de un producto (se calcula una vez y se guarda)
@@ -333,8 +361,16 @@
     return resultados;
   }
 
-  // Devuelve la lista ordenada de códigos originales (como figuran en productos.json)
-  async function buscar(consulta) {
+  // Devuelve la lista ordenada de códigos originales (como figuran en productos.json).
+  // opciones.primeraTanda: la búsqueda empieza de cero (no es el scroll de una
+  // anterior). Recién ahí se pasa al índice nuevo, si hay uno listo: todas las
+  // tandas de una misma búsqueda salen del mismo índice
+  async function buscar(consulta, opciones) {
+    if (pendiente && opciones && opciones.primeraTanda) {
+      datos = pendiente;
+      pendiente = null;
+      console.log('[BuscadorV2] usando el índice ' + datos.version);
+    }
     const d = await cargar();
     return buscarEnDatos(d, consulta).map((r) => d.productos[r.id][0]);
   }
@@ -409,5 +445,8 @@
     _prepararDatos: prepararDatos
   };
 
-  if (USAR_BUSQUEDA_V2 && typeof document !== 'undefined') programarPrecarga();
+  if (USAR_BUSQUEDA_V2 && typeof document !== 'undefined') {
+    programarPrecarga();
+    document.addEventListener('version:leida', revisarVersion);
+  }
 })();

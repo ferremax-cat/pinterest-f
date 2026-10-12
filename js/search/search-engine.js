@@ -1246,10 +1246,11 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     return;
   }
 
-  // Primera tanda: si mientras se esperaba el usuario cambió el texto, este
-  // resultado ya no sirve. Las tandas del scroll repiten la búsqueda vigente
+  // Si mientras se esperaba el usuario cambió el texto, este resultado ya no
+  // sirve. Vale también para las tandas del scroll: una tanda de la búsqueda
+  // anterior no se agrega a la nueva (ni a la galería si se vació el campo)
   const vigente = () =>
-    offset > 0 || !searchInput || searchInput.value.trim() === consulta;
+    !searchInput || searchInput.value.trim() === consulta;
 
   // Términos para el resaltado: el mismo criterio que la búsqueda por texto
   const queryTokens = consulta.toLowerCase().split(/\s+/).filter(token => token.length >= 3);
@@ -1265,7 +1266,9 @@ async function buscarConV2(query, offset = 0, limit = 30) {
 
   let codigos;
   try {
-    codigos = await window.BuscadorV2.buscar(consulta);
+    // Primera tanda: si hay un índice nuevo descargado, el buscador lo empieza a
+    // usar acá; las tandas del scroll siguen con el mismo índice
+    codigos = await window.BuscadorV2.buscar(consulta, { primeraTanda: offset === 0 });
   } catch (error) {
     // Falló la descarga del índice: el motor la reintenta en la próxima búsqueda
     console.error('[search-engine] Buscador v2: no se pudo buscar', error);
