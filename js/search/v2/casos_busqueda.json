@@ -34,6 +34,8 @@
     { "consulta": "aluminio", "enLosPrimeros": { "n": 10, "codigos": ["EA5310MT"] } },
     { "consulta": "carpintero", "enLosPrimeros": { "n": 10, "codigos": ["DTF009"] } },
     { "consulta": "standard", "enLosPrimeros": { "n": 30, "codigos": ["PERFA0261"] } },
-    { "consulta": "desmalezadora", "minimoResultados": 40 }
+    { "consulta": "desmalezadora", "minimoResultados": 40 },
+    { "consulta": "px cupla m-h", "primerosEnGrupo": { "n": 5, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 5, "codigos": ["PX300001"] } },
+    { "consulta": "rd codo fus hh", "primerosEnGrupo": { "n": 15, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 15, "codigos": ["RDCO20000"] } }
   ]
 }

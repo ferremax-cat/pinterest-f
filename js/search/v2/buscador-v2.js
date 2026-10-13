@@ -248,7 +248,14 @@
     nombreAbreviado: 10,
     nombrePrefijo: 6,
     categoriaExacta: 3,
-    categoriaPrefijo: 2
+    categoriaPrefijo: 2,
+    // Palabra de la consulta que es comienzo de código ("px" en "px cupla m-h"):
+    // vale como una palabra del nombre para toda esa línea
+    lineaCodigo: 10,
+    // Si además es una palabra de los nombres ("cono", "tor", "pega", "ros"), vale
+    // menos que esa palabra escrita en el nombre: los anafes CONO… o los adhesivos
+    // PEGAL… no se adelantan a los productos que dicen CONO o PEGA
+    lineaCodigoTambienPalabra: 5
   };
   // Orden de los grupos. "Es el artículo" = el nombre empieza con la primera palabra buscada:
   // todas las mangueras van antes que un acople "de manguera", aunque el acople tenga la medida.
@@ -301,9 +308,31 @@
     const palabrasEnConsulta = tokens.filter((t) => RE_TIENE_LETRA.test(t)).length;
     const acumulado = new Map();   // id -> { cubiertos, palabras, puntos }
 
+    // Palabras que son el comienzo de algún código ("px" de POLIMEX, "rd" de REDECO).
+    // En consultas de varias palabras cuentan como coincidencia para todos los
+    // productos de esa línea, además de sus coincidencias normales en nombres y
+    // categorías. Con una sola palabra no se usa: ahí manda la línea de código de siempre
+    const lineaDe = new Map();   // palabra -> ids cuyo código empieza así
+    if (n > 1) {
+      for (const token of tokens) {
+        if (!RE_SOLO_LETRAS.test(token) || token.length < 2 || lineaDe.has(token)) continue;
+        const ids = new Set();
+        d.compactos.forEach((c, id) => { if (c.startsWith(token)) ids.add(id); });
+        if (ids.size) lineaDe.set(token, ids);
+      }
+    }
+
     tokens.forEach((token, k) => {
       const esPalabra = RE_TIENE_LETRA.test(token);
-      for (const [id, puntos] of puntuarToken(d, token, k === n - 1)) {
+      const coincidencias = puntuarToken(d, token, k === n - 1);
+      const linea = lineaDe.get(token);
+      if (linea) {
+        const puntosLinea = d.nombre[token] ? PUNTOS.lineaCodigoTambienPalabra : PUNTOS.lineaCodigo;
+        for (const id of linea) {
+          if ((coincidencias.get(id) || 0) < puntosLinea) coincidencias.set(id, puntosLinea);
+        }
+      }
+      for (const [id, puntos] of coincidencias) {
         const a = acumulado.get(id) || { cubiertos: 0, palabras: 0, puntos: 0 };
         a.cubiertos++;
         if (esPalabra) a.palabras++;
@@ -327,8 +356,14 @@
       });
     }
 
-    // ¿El nombre empieza con la primera palabra buscada? (define si "es el artículo")
-    const primera = n > 0 && RE_TIENE_LETRA.test(tokens[0]) ? tokens[0] : null;
+    // ¿El nombre empieza con la primera palabra buscada? (define si "es el artículo").
+    // Se saltean las palabras del principio que son solo comienzo de código (no
+    // aparecen en ningún nombre): en "px cupla m-h" el artículo es "cupla". "tor punta"
+    // o "cono 1/2" no cambian, porque "tor" y "cono" también son palabras del catálogo
+    const soloCodigo = (t) => lineaDe.has(t) && !d.nombre[t];
+    let k0 = 0;
+    while (k0 < n - 1 && soloCodigo(tokens[k0])) k0++;
+    const primera = n > 0 && RE_TIENE_LETRA.test(tokens[k0]) ? tokens[k0] : null;
     const empiezaConPrimera = (id) => {
       if (!primera) return false;
       const t0 = primerToken(d, id);
