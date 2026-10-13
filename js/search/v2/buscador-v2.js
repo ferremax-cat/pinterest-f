@@ -11,6 +11,7 @@
  * Desde la consola del navegador:
  *   await BuscadorV2.probarCasos()      verifica la normalización contra Python
  *   await BuscadorV2.probar("fix 3.5")  muestra resultados, grupos y tiempo
+ *   await BuscadorV2.probarBusquedas()  corre casos_busqueda.json
  */
 (function () {
   'use strict';
@@ -20,6 +21,7 @@
 
   const RUTA_INDICE = 'json/search/v2/indice.json';
   const RUTA_CASOS = 'js/search/v2/casos_normalizacion.json';
+  const RUTA_CASOS_BUSQUEDA = 'js/search/v2/casos_busqueda.json';
 
   // ---------------------------------------------------------------------
   // Normalización y tokenización (idéntica a generar_indice_busqueda.py)
@@ -28,6 +30,11 @@
                                    'en', 'por', 'al', 'un', 'una']);
 
   const RE_ACENTOS = /[\u0300-\u036f]/g;
+  // Siglas con puntos (r.c.t -> rct) y letras sueltas con guion (h-h -> h/h), igual que en Python
+  const RE_SIGLA = /(^|[^a-z0-9.])((?:[a-z]\.)+[a-z])\.?(?![a-z0-9])/g;
+  const unirSigla = (todo, antes, sigla) => antes + sigla.replace(/\./g, '');
+  const RE_LETRAS_GUION = /(^|[^a-z0-9-])([a-z](?:-[a-z])+)(?![a-z0-9-])/g;
+  const unirGuion = (todo, antes, letras) => antes + letras.replace(/-/g, '/');
   const RE_COMA_DECIMAL = /(\d),(?=\d)/g;
   const RE_CEROS_FINALES = /(\d+\.\d*?[1-9])0+(?!\d)/g;
   const RE_DECIMAL_CERO = /(\d+)\.0+(?!\d)/g;
@@ -45,7 +52,7 @@
   }
   const RE_X_ENTRE_MEDIDAS = /(\d[a-z"]{0,3})x(?=\d)/g;
   const RE_X_INICIAL = /(^|\s)x(?=\d)/g;
-  const RE_TOKEN = /\d+-\d+\/\d+|\d+(?:[./]\d+)+[a-z]*|\d+[a-z]+\d*[a-z]*|\d+|[a-z]\/[a-z]|[a-z]+\d+[a-z\d]*|[a-z]+/g;
+  const RE_TOKEN = /\d+-\d+\/\d+|\d+(?:[./]\d+)+[a-z]*|\d+[a-z]+\d*[a-z]*|\d+|[a-z](?:\/[a-z])+(?![a-z])|[a-z]+\d+[a-z\d]*|[a-z]+/g;
   const RE_PARTES = /\d+(?:[./]\d+)*|[a-z]+/g;
   const RE_SOLO_LETRAS = /^[a-z]+$/;
   const RE_TIENE_DIGITO = /\d/;
@@ -54,6 +61,8 @@
   function normalizar(texto) {
     let t = String(texto == null ? '' : texto).toLowerCase();
     t = t.normalize('NFD').replace(RE_ACENTOS, '');
+    t = t.replace(RE_SIGLA, unirSigla);
+    t = t.replace(RE_LETRAS_GUION, unirGuion);
     t = t.replace(RE_COMA_DECIMAL, '$1.');
     t = t.replace(RE_CEROS_FINALES, '$1');
     t = t.replace(RE_DECIMAL_CERO, '$1');
@@ -143,7 +152,10 @@
       tokensCategoria: Object.keys(indice.categoria).sort(),
       codigos: codigos,
       compactos: compactos,
-      primeros: new Map()
+      primeros: new Map(),
+      // término -> término principal de su grupo (diccionario_buscador.xlsx). Un índice
+      // viejo sin equivalencias da un mapa vacío y todo sigue como antes
+      canon: new Map((indice.equivalencias || []).flatMap((g) => g.map((t) => [t, g[0]])))
     };
   }
 
@@ -205,7 +217,10 @@
     let clave = normalizar(d.productos[id][1])
       .replace(RE_NUMERO_ORDEN, valorOrden)
       .replace(/\s+/g, ' ')
-      .trim();
+      .trim()
+      // Cada palabra se lee como el término principal de su grupo: "ENTREROSCA BCE"
+      // y "RCT RED BRNCE" se ordenan como "entrerosca bronce ..."
+      .replace(/[a-z]+/g, (w) => d.canon.get(w) || w);
     const t0 = primerToken(d, id);
     if (primera && t0 && t0 !== primera && t0.length >= 5 && primera.startsWith(t0) && clave.startsWith(t0)) {
       return primera + clave.slice(t0.length);
@@ -258,7 +273,9 @@
     // Abreviaturas por truncamiento: "manguera" encuentra "manguer", "termofusion" encuentra "termof".
     // La abreviatura debe tener al menos 5 letras y la mitad de la palabra:
     // así "termofusion" no encuentra "termo".
-    if (RE_SOLO_LETRAS.test(token) && token.length >= 6) {
+    // Las palabras del diccionario no se truncan: su grupo ya dice qué abreviaturas
+    // valen ("termocupla" ya no encuentra "termo", los termos de mate)
+    if (RE_SOLO_LETRAS.test(token) && token.length >= 6 && !d.canon.has(token)) {
       const desde = Math.max(5, Math.ceil(token.length / 2));
       for (let largo = desde; largo < token.length; largo++) {
         anotar(d.nombre[token.slice(0, largo)], PUNTOS.nombreAbreviado);
@@ -316,7 +333,10 @@
       if (!primera) return false;
       const t0 = primerToken(d, id);
       if (!t0) return false;
-      return t0 === primera || (n === 1 && t0.startsWith(primera)) ||
+      // "rct" es el artículo de "ENTREROSCA ...": los equivalentes cuentan igual
+      const canon = (t) => d.canon.get(t) || t;
+      return t0 === primera || canon(t0) === canon(primera) ||
+             (n === 1 && t0.startsWith(primera)) ||
              (t0.length >= 5 && primera.startsWith(t0));
     };
 
@@ -394,6 +414,50 @@
     return fallas === 0;
   }
 
+  // Corre las búsquedas de casos_busqueda.json y dice cuáles pasan. Cada caso
+  // puede pedir: primero (código en la posición 1), primerosEnGrupo {n, grupo},
+  // enLosPrimeros {n, codigos}, fueraDelGrupo {grupo, codigos}, minimoResultados.
+  // Los grupos se nombran como en GRUPO (articuloCompleto, lineaCodigo, ...)
+  async function probarBusquedas() {
+    const d = await cargar();
+    const r0 = await fetch(RUTA_CASOS_BUSQUEDA, { cache: 'no-cache' });
+    const casos = (await r0.json()).casos;
+    const cod = (x) => d.productos[x.id][0];
+    const filas = casos.map((c) => {
+      const r = buscarEnDatos(d, c.consulta);
+      const fallas = [];
+      if (c.primero && (!r[0] || cod(r[0]) !== c.primero)) {
+        fallas.push('primero ' + (r[0] ? cod(r[0]) : '(nada)') + ', se esperaba ' + c.primero);
+      }
+      if (c.primerosEnGrupo) {
+        const g = GRUPO[c.primerosEnGrupo.grupo], n = c.primerosEnGrupo.n;
+        if (!g) fallas.push('grupo desconocido ' + c.primerosEnGrupo.grupo);
+        else if (r.length < n || r.slice(0, n).some((x) => x.grupo !== g)) {
+          fallas.push('los primeros ' + n + ' no son todos ' + c.primerosEnGrupo.grupo);
+        }
+      }
+      if (c.enLosPrimeros) {
+        const top = new Set(r.slice(0, c.enLosPrimeros.n).map(cod));
+        const faltan = c.enLosPrimeros.codigos.filter((x) => !top.has(x));
+        if (faltan.length) fallas.push('faltan en los primeros ' + c.enLosPrimeros.n + ': ' + faltan.join(', '));
+      }
+      if (c.fueraDelGrupo) {
+        const g = GRUPO[c.fueraDelGrupo.grupo];
+        const enGrupo = new Set(r.filter((x) => x.grupo === g).map(cod));
+        const sobran = c.fueraDelGrupo.codigos.filter((x) => enGrupo.has(x));
+        if (sobran.length) fallas.push('no deberían estar en ' + c.fueraDelGrupo.grupo + ': ' + sobran.join(', '));
+      }
+      if (c.minimoResultados && r.length < c.minimoResultados) {
+        fallas.push(r.length + ' resultados, se esperaban al menos ' + c.minimoResultados);
+      }
+      return { consulta: c.consulta, resultado: fallas.length ? 'FALLA' : 'ok', detalle: fallas.join('; ') };
+    });
+    console.table(filas);
+    const ok = filas.filter((f) => f.resultado === 'ok').length;
+    console.log('[BuscadorV2] casos de búsqueda: ' + ok + ' de ' + filas.length + ' correctos');
+    return ok === filas.length;
+  }
+
   async function probar(consulta, limite) {
     const d = await cargar();
     const inicio = performance.now();
@@ -440,6 +504,7 @@
     tokenizar: tokenizar,
     normalizar: normalizar,
     probarCasos: probarCasos,
+    probarBusquedas: probarBusquedas,
     probar: probar,
     _buscarEnDatos: buscarEnDatos,
     _prepararDatos: prepararDatos

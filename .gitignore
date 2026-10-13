@@ -32,3 +32,7 @@ credentials.json
 credenciales/
 *.credentials.json
 service-account*.json
+
+# Salidas locales para revisar (candidatos del diccionario del buscador)
+salida/
+__pycache__/

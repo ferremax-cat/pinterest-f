@@ -43,6 +43,10 @@ RUTA_PRODUCTOS = RAIZ / "json" / "productos.json"
 RUTA_SALIDA = RAIZ / "json" / "search" / "v2" / "indice.json"
 RUTA_CASOS = RAIZ / "js" / "search" / "v2" / "casos_normalizacion.json"
 RUTA_VERSION = RAIZ / "json" / "version.json"
+# Diccionario de equivalencias, editable con Excel (una fila por grupo)
+RUTA_DICCIONARIO = RAIZ / "excel" / "diccionario_buscador.xlsx"
+# Para revisar en Excel; salida/ está en .gitignore: no se commitea ni se publica
+RUTA_CANDIDATOS = RAIZ / "salida" / "candidatos_diccionario.xlsx"
 
 
 # ---------------------------------------------------------------------------
@@ -52,6 +56,12 @@ PALABRAS_VACIAS = {"de", "del", "la", "las", "el", "los", "para", "con",
                    "en", "por", "al", "un", "una"}
 
 RE_ACENTOS = re.compile(r"[\u0300-\u036f]")                  # tildes y la de la ñ
+# Siglas con puntos: r.c.t / r.c.t. -> rct. Solo letras sueltas: no toca decimales
+# (3.5), fracciones ni abreviaturas de más de una letra (valv.esf)
+RE_SIGLA = re.compile(r"(^|[^a-z0-9.])((?:[a-z]\.)+[a-z])\.?(?![a-z0-9])")
+# Letras sueltas con guion: h-h, m-h, h-h-h -> h/h, m/h, h/h/h (como M/M). No toca
+# FUS-FUS (más de una letra), 20-32 ni T-6 (números)
+RE_LETRAS_GUION = re.compile(r"(^|[^a-z0-9-])([a-z](?:-[a-z])+)(?![a-z0-9-])")
 RE_COMA_DECIMAL = re.compile(r"(\d),(?=\d)")                 # 3,5  -> 3.5
 RE_CEROS_FINALES = re.compile(r"(\d+\.\d*?[1-9])0+(?!\d)")   # 3.50 -> 3.5
 RE_DECIMAL_CERO = re.compile(r"(\d+)\.0+(?!\d)")             # 4.0  -> 4
@@ -73,7 +83,7 @@ RE_TOKEN = re.compile(
     r"|\d+(?:[./]\d+)+[a-z]*"     # 3.5  1/2  3.5mm
     r"|\d+[a-z]+\d*[a-z]*"        # 20mm  15m  4mt
     r"|\d+"                       # 20
-    r"|[a-z]/[a-z]"               # f/f  i/n
+    r"|[a-z](?:/[a-z])+(?![a-z])" # f/f  i/n  h/h/h (no corta C/TUERCA en c/t + uerca)
     r"|[a-z]+\d+[a-z\d]*"         # pn16
     r"|[a-z]+"                    # palabras
 )
@@ -87,6 +97,8 @@ def normalizar(texto):
     t = str(texto or "").lower()
     t = unicodedata.normalize("NFD", t)
     t = RE_ACENTOS.sub("", t)
+    t = RE_SIGLA.sub(lambda m: m.group(1) + m.group(2).replace(".", ""), t)
+    t = RE_LETRAS_GUION.sub(lambda m: m.group(1) + m.group(2).replace("-", "/"), t)
     t = RE_COMA_DECIMAL.sub(r"\1.", t)
     t = RE_CEROS_FINALES.sub(r"\1", t)
     t = RE_DECIMAL_CERO.sub(r"\1", t)
@@ -151,6 +163,87 @@ def clave_natural(nombre_normalizado):
 # ---------------------------------------------------------------------------
 # Construcción del índice
 # ---------------------------------------------------------------------------
+def cargar_openpyxl():
+    """openpyxl se usa solo para el diccionario y los candidatos (Excel). Si no
+    está instalado, se explica cómo instalarlo en lugar de un error de Python."""
+    try:
+        import openpyxl
+        return openpyxl
+    except ImportError:
+        sys.exit("Falta la librería openpyxl, que se usa para leer el diccionario (Excel).\n"
+                 "Instalala con:  python -m pip install openpyxl")
+
+
+def dar_formato(hoja, anchos):
+    """Planilla cómoda: encabezados en negrita, primera fila fija, filtro y
+    columnas con el ancho indicado."""
+    from openpyxl.styles import Font
+    from openpyxl.utils import get_column_letter
+    for celda in hoja[1]:
+        celda.font = Font(bold=True)
+    hoja.freeze_panes = "A2"
+    hoja.auto_filter.ref = hoja.dimensions
+    for i, ancho in enumerate(anchos, 1):
+        hoja.column_dimensions[get_column_letter(i)].width = ancho
+
+
+def leer_diccionario():
+    """Grupos de términos equivalentes de excel/diccionario_buscador.xlsx, ya
+    normalizados. Primera hoja; la fila 1 tiene los encabezados: "principal",
+    "variante 1", "variante 2"... y "comentario", que se ignora (igual que
+    cualquier otra columna). Una fila por grupo; las filas vacías se saltean.
+    Devuelve (grupos, errores), con el número de fila de Excel en cada error.
+    Un error frena la generación, igual que un caso de normalización fallido."""
+    if not RUTA_DICCIONARIO.exists():
+        print("AVISO: no existe " + str(RUTA_DICCIONARIO.relative_to(RAIZ)) + "; índice sin equivalencias")
+        return [], []
+    openpyxl = cargar_openpyxl()
+    try:
+        libro = openpyxl.load_workbook(RUTA_DICCIONARIO, read_only=True, data_only=True)
+    except Exception as e:
+        return [], ["no se pudo abrir {}: {}".format(RUTA_DICCIONARIO.name, e)]
+    try:
+        filas = libro.worksheets[0].iter_rows(values_only=True)
+        encabezados = [str(c or "").strip().lower() for c in next(filas, ())]
+        if not encabezados or encabezados[0] != "principal":
+            return [], ["fila 1: la primera columna tiene que llamarse 'principal'"]
+        # principal y las variantes, en el orden de las columnas
+        columnas = [i for i, e in enumerate(encabezados) if i == 0 or e.startswith("variante")]
+
+        grupos, errores, fila_de = [], [], {}
+        for nro, fila in enumerate(filas, 2):
+            celdas = [str(fila[i]).strip() if i < len(fila) and fila[i] is not None else ""
+                      for i in columnas]
+            if not any(celdas):
+                continue                   # fila vacía
+            if not celdas[0]:
+                errores.append("fila {}: falta la palabra principal".format(nro))
+                continue
+            terminos = []
+            for celda in celdas:
+                if not celda:
+                    continue
+                termino = normalizar(celda).strip()
+                if tokenizar(celda, expandir=False) != [termino]:
+                    errores.append("fila {}: '{}' no es una sola palabra válida".format(nro, celda))
+                    continue
+                if termino not in terminos:
+                    terminos.append(termino)
+            if not terminos:
+                continue
+            if len(terminos) == 1:
+                errores.append("fila {}: el grupo '{}' tiene un solo término".format(nro, terminos[0]))
+            for t in terminos:
+                if t in fila_de:
+                    errores.append("fila {}: '{}' ya está en el grupo de la fila {}".format(nro, t, fila_de[t]))
+                else:
+                    fila_de[t] = nro
+            grupos.append(terminos)
+        return grupos, errores
+    finally:
+        libro.close()
+
+
 def cargar_productos():
     with open(RUTA_PRODUCTOS, encoding="utf-8") as f:
         datos = json.load(f)
@@ -159,7 +252,7 @@ def cargar_productos():
     return {cod: p for cod, p in datos.items() if isinstance(p, dict)}
 
 
-def construir_indice():
+def construir_indice(grupos=()):
     filas = []
     for codigo, p in cargar_productos().items():
         nombre = p.get("name") or p.get("nombre") or ""
@@ -167,18 +260,31 @@ def construir_indice():
         filas.append((clave_natural(normalizar(nombre)), str(codigo), nombre, categoria))
     filas.sort(key=lambda f: (f[0], f[1]))
 
+    # Cada término del diccionario indexa también a todos los de su grupo:
+    # un producto que dice "BCE" se encuentra por "bronce" y viceversa
+    grupo_de = {t: g for g in grupos for t in g}
+
+    def con_equivalentes(tokens):
+        salida, vistos = list(tokens), set(tokens)
+        for tok in tokens:
+            for eq in grupo_de.get(tok, ()):
+                if eq not in vistos:
+                    vistos.add(eq)
+                    salida.append(eq)
+        return salida
+
     productos, ix_nombre, ix_categoria = [], {}, {}
     for i, (_, codigo, nombre, categoria) in enumerate(filas):
         productos.append([codigo, nombre, categoria])
-        for tok in tokenizar(nombre):
+        for tok in con_equivalentes(tokenizar(nombre)):
             ix_nombre.setdefault(tok, []).append(i)
-        for tok in tokenizar(RE_PREFIJO_CATEGORIA.sub("", categoria)):
+        for tok in con_equivalentes(tokenizar(RE_PREFIJO_CATEGORIA.sub("", categoria))):
             ix_categoria.setdefault(tok, []).append(i)
 
     # Huella del contenido: cambia solo si cambian códigos, nombres o categorías
     # (no los precios). Con eso el workflow, que corre cada hora, no commitea un
     # índice igual al anterior
-    cuerpo = json.dumps([productos, ix_nombre, ix_categoria], ensure_ascii=False, separators=(",", ":"))
+    cuerpo = json.dumps([productos, ix_nombre, ix_categoria, list(grupos)], ensure_ascii=False, separators=(",", ":"))
     huella = hashlib.sha256(cuerpo.encode("utf-8")).hexdigest()[:16]
     return {
         "version": "v2-" + huella,
@@ -187,6 +293,9 @@ def construir_indice():
         "productos": productos,
         "nombre": ix_nombre,
         "categoria": ix_categoria,
+        # Para el navegador: qué términos son equivalentes (el primero de cada
+        # grupo es el que se usa para ordenar). Unos 2 KB
+        "equivalencias": [list(g) for g in grupos],
     }
 
 
@@ -231,6 +340,51 @@ def consultar(indice, consulta, limite=15):
         print("   {:<16} {}".format(codigo, nombre))
 
 
+def escribir_candidatos(grupos):
+    """Palabras del catálogo que no están en el diccionario y parecen abreviaturas,
+    para revisar en Excel: de hasta 5 letras con una vocal como mucho (bce, ngro,
+    std), o el comienzo de otra palabra más larga del catálogo (galv, desmalez).
+    Con la cantidad de productos, las palabras largas que empiezan igual y tres
+    nombres de ejemplo, de más a menos productos."""
+    en_dic = {t for g in grupos for t in g}
+    nombres_de = {}
+    for p in cargar_productos().values():
+        nombre = (p.get("name") or p.get("nombre") or "").strip()
+        for tok in set(tokenizar(nombre, expandir=False)):
+            if tok.isalpha():
+                nombres_de.setdefault(tok, []).append(nombre)
+    palabras = sorted(nombres_de)
+    filas = []
+    for i, tok in enumerate(palabras):
+        if tok in en_dic or len(nombres_de[tok]) < 2:
+            continue
+        largas = []
+        for otra in palabras[i + 1:]:
+            if not otra.startswith(tok):
+                break
+            if len(otra) >= len(tok) + 2:
+                largas.append(otra)
+        vocales = sum(1 for ch in tok if ch in "aeiou")
+        if not ((len(tok) <= 5 and vocales <= 1) or (len(tok) >= 3 and largas)):
+            continue
+        largas.sort(key=lambda w: -len(nombres_de[w]))
+        ejemplos = (nombres_de[tok] + ["", "", ""])[:3]
+        filas.append([tok, len(nombres_de[tok]), ", ".join(largas[:3])] + ejemplos)
+    filas.sort(key=lambda f: -f[1])
+
+    openpyxl = cargar_openpyxl()
+    libro = openpyxl.Workbook()
+    hoja = libro.active
+    hoja.title = "candidatos"
+    hoja.append(["palabra", "productos", "palabras que empiezan igual", "ejemplo 1", "ejemplo 2", "ejemplo 3"])
+    for fila in filas:
+        hoja.append(fila)
+    dar_formato(hoja, [14, 11, 36, 46, 46, 46])
+    RUTA_CANDIDATOS.parent.mkdir(parents=True, exist_ok=True)
+    libro.save(RUTA_CANDIDATOS)
+    print("Candidatos: {} palabras en {}".format(len(filas), RUTA_CANDIDATOS.relative_to(RAIZ)))
+
+
 def leer_version_anterior():
     """Versión del índice ya publicado, o None si no existe o no se puede leer."""
     try:
@@ -269,14 +423,25 @@ def main():
     ap = argparse.ArgumentParser(description="Índice de búsqueda v2 — Ferremax")
     ap.add_argument("--probar", action="store_true", help="solo verificar los casos")
     ap.add_argument("--consulta", help="mostrar tokens y resultados de una búsqueda")
+    ap.add_argument("--candidatos", action="store_true",
+                    help="escribir salida/candidatos_diccionario.xlsx para revisar en Excel")
     args = ap.parse_args()
 
     if not probar_casos():
         sys.exit("Hay casos de normalización fallidos: no se genera el índice.")
+    grupos, errores = leer_diccionario()
+    for e in errores:
+        print("ERROR diccionario_buscador.xlsx, " + e)
+    if errores:
+        sys.exit("El diccionario tiene errores: no se genera el índice.")
+    print("Diccionario: {} grupos, {} términos".format(len(grupos), sum(len(g) for g in grupos)))
     if args.probar:
         return
+    if args.candidatos:
+        escribir_candidatos(grupos)
+        return
 
-    indice = construir_indice()
+    indice = construir_indice(grupos)
 
     if args.consulta:
         consultar(indice, args.consulta)
