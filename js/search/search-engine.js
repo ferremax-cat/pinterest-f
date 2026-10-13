@@ -1406,6 +1406,32 @@ function displayNoResults(query) {
     
     // Mostrar resultados de búsqueda
     // Función displayResults adaptada para colocar elementos exactamente donde el código existente los espera
+      // Texto seguro para insertar con innerHTML: <, >, &, " y ' se muestran tal cual
+      function escaparHTML(texto) {
+        return String(texto == null ? '' : texto)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      // Resalta los términos de la búsqueda en una sola pasada: una sola expresión
+      // con todos (de 3 caracteres o más, de más largo a más corto) sobre el texto
+      // original, y cada parte se escapa por separado. Una marca ya puesta nunca
+      // vuelve a coincidir ("h-h" dentro de "search-highlight") y el nombre no se
+      // interpreta como HTML
+      function resaltar(texto, terminos) {
+        const lista = [...new Set((terminos || []).filter((t) => t && t.length >= 3))]
+          .sort((a, b) => b.length - a.length)
+          .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        if (!lista.length) return escaparHTML(texto);
+        const expresion = new RegExp('(' + lista.join('|') + ')', 'gi');
+        // split con un grupo de captura: las coincidencias quedan en las posiciones impares
+        return String(texto == null ? '' : texto).split(expresion)
+          .map((parte, i) => i % 2
+            ? '<span class="search-highlight">' + escaparHTML(parte) + '</span>'
+            : escaparHTML(parte))
+          .join('');
+      }
+
       function displayResults(matchingItems, normalizedQuery, queryTokens, pagination = {}) {
         const galleryContainer = document.querySelector('.gallery-container');
         if (!galleryContainer) {
@@ -1445,7 +1471,7 @@ function displayNoResults(query) {
               ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
             ` : `
               <div class="mensaje-contenido">
-                <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${normalizedQuery}</span>"` : ''}
+                <span class="mensaje-contador">${total}</span> resultados${normalizedQuery ? ` para "<span class="mensaje-termino">${escaparHTML(normalizedQuery)}</span>"` : ''}
                 ${total > matchingItems.length ? `<span class="mensaje-pagina">(Mostrando 1-${matchingItems.length})</span>` : ''}
               </div>
               ${normalizedQuery ? `<button id="boton-limpiar-busqueda" class="boton-limpiar">Limpiar</button>` : ''}
@@ -1532,34 +1558,14 @@ function displayNoResults(query) {
             galleryItem.setAttribute('data-product-code', item.code);
           }
           
-          // Preparar texto con resaltado mejorado para múltiples tokens
-          let itemName = item.name || '';
-          let itemCode = item.code || '';
-
-          // Resaltar cada token individual en lugar de solo la consulta completa
-          if (queryTokens && queryTokens.length > 0) {
-            // Crear copia para no modificar el original durante resaltado
-            let highlightedName = itemName;
-            let highlightedCode = itemCode;
-            
-            // Ordenar tokens por longitud (descendente) para evitar problemas de superposición
-            const sortedTokens = [...queryTokens].sort((a, b) => b.length - a.length);
-            
-            // Resaltar cada token individualmente
-            sortedTokens.forEach(token => {
-              if (token.length >= 3) { // Ignorar tokens muy cortos
-                const regex = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-                highlightedName = highlightedName.replace(regex, '<span class="search-highlight">$1</span>');
-                highlightedCode = highlightedCode.replace(regex, '<span class="search-highlight">$1</span>');
-              }
-            });
-            
-            itemName = highlightedName;
-            itemCode = highlightedCode;
-
-            // Al final del bloque de resaltado
-            itemName = itemName.toLowerCase(); // Asegurar que esté en minúsculas
-          }
+          // Resaltado en una sola pasada y con el texto escapado (ver resaltar).
+          // Igual que antes: con términos de búsqueda, el nombre va en minúsculas;
+          // como la expresión no distingue mayúsculas, da el mismo resultado que
+          // pasar a minúsculas después de resaltar
+          const hayTerminos = Boolean(queryTokens && queryTokens.length > 0);
+          const terminos = hayTerminos ? queryTokens : [];
+          const itemName = resaltar(hayTerminos ? (item.name || '').toLowerCase() : (item.name || ''), terminos);
+          const itemCode = resaltar(item.code || '', terminos);
 
 
           // Añade este log antes de asignar galleryItem.innerHTML
@@ -1574,7 +1580,7 @@ function displayNoResults(query) {
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
-              <img alt="${item.name || ''}" 
+              <img alt="${escaparHTML(item.name || '')}"
               src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/no-img.png'}"
               onerror="this.onerror=null; this.src='img/no-imag.png';">
 
@@ -1584,7 +1590,7 @@ function displayNoResults(query) {
 
               <div class="bottom-row">
               <a href="#" style="font-weight: 400 !important;">${itemCode}</a>
-              <span class="price-tag" data-sku="${item.code}"></span>
+              <span class="price-tag" data-sku="${escaparHTML(item.code)}"></span>
               </div>
             </div>
 
