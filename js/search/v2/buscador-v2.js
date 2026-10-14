@@ -268,6 +268,16 @@
     codigoPrefijo: 2,        // el código empieza con la consulta, que tiene números
     mencionaParcial: 1       // lo menciona, le falta una palabra
   };
+  // Nombres de los grupos para mostrar (probar, casos de búsqueda)
+  const NOMBRE_GRUPO = {
+    [GRUPO.codigoExacto]: 'código exacto',
+    [GRUPO.lineaCodigo]: 'línea de código',
+    [GRUPO.articuloCompleto]: 'artículo, todas',
+    [GRUPO.articuloParcial]: 'artículo, falta una',
+    [GRUPO.menciona]: 'menciona, todas',
+    [GRUPO.codigoPrefijo]: 'prefijo código',
+    [GRUPO.mencionaParcial]: 'menciona, falta una'
+  };
 
   function puntuarToken(d, token, esUltimo) {
     const mejor = new Map();
@@ -433,60 +443,103 @@
   // ---------------------------------------------------------------------
   // Herramientas de verificación para la consola
   // ---------------------------------------------------------------------
-  async function probarCasos() {
-    const r = await fetch(RUTA_CASOS, { cache: 'no-cache' });
-    const casos = (await r.json()).casos;
-    let fallas = 0;
+  // Casos de normalización: los que no dan los tokens esperados. Sin fetch: la
+  // usan probarCasos (navegador) y js/search/v2/probar_busquedas.js (Node)
+  function evaluarCasosNormalizacion(casos) {
+    const fallas = [];
     for (const c of casos) {
       const obtenido = tokenizar(c.texto, c.expandir !== false);
       if (JSON.stringify(obtenido) !== JSON.stringify(c.tokens)) {
-        fallas++;
-        console.warn('FALLA', c.texto, '\n esperado:', c.tokens, '\n obtenido:', obtenido);
+        fallas.push({ texto: c.texto, esperado: c.tokens, obtenido: obtenido });
       }
     }
-    console.log('[BuscadorV2] casos de normalización: ' + (casos.length - fallas) +
-                ' de ' + casos.length + ' correctos');
-    return fallas === 0;
+    return fallas;
   }
 
-  // Corre las búsquedas de casos_busqueda.json y dice cuáles pasan. Cada caso
-  // puede pedir: primero (código en la posición 1), primerosEnGrupo {n, grupo},
+  // Casos de búsqueda (casos_busqueda.json) sobre unos datos ya preparados. Cada caso
+  // puede pedir: primero (código en el puesto 1), primerosEnGrupo {n, grupo},
   // enLosPrimeros {n, codigos}, fueraDelGrupo {grupo, codigos}, minimoResultados.
-  // Los grupos se nombran como en GRUPO (articuloCompleto, lineaCodigo, ...)
-  async function probarBusquedas() {
-    const d = await cargar();
-    const r0 = await fetch(RUTA_CASOS_BUSQUEDA, { cache: 'no-cache' });
-    const casos = (await r0.json()).casos;
-    const cod = (x) => d.productos[x.id][0];
-    const filas = casos.map((c) => {
+  // Los grupos se nombran como en GRUPO (articuloCompleto, lineaCodigo, ...).
+  // El detalle está escrito para quien no lee código. Sin fetch: la usan
+  // probarBusquedas (navegador) y probar_busquedas.js (Node)
+  function evaluarCasosBusqueda(d, casos) {
+    const codigo = (x) => d.productos[x.id][0];
+    const describir = (cod) => {
+      const p = d.productos.find((q) => q[0] === cod);
+      return p ? cod + ' (' + String(p[1]).trim() + ')' : cod;
+    };
+    const dondeEsta = (r, cod) => {
+      const i = r.findIndex((x) => codigo(x) === cod);
+      if (i >= 0) return 'está en el puesto ' + (i + 1) + ', en el grupo "' + NOMBRE_GRUPO[r[i].grupo] + '"';
+      return d.productos.some((p) => p[0] === cod) ? 'no aparece en los resultados' : 'ya no existe en el catálogo';
+    };
+    return casos.map((c) => {
       const r = buscarEnDatos(d, c.consulta);
       const fallas = [];
-      if (c.primero && (!r[0] || cod(r[0]) !== c.primero)) {
-        fallas.push('primero ' + (r[0] ? cod(r[0]) : '(nada)') + ', se esperaba ' + c.primero);
+      if (c.primero && (!r[0] || codigo(r[0]) !== c.primero)) {
+        fallas.push('Se esperaba primero ' + describir(c.primero) + ', pero ' +
+          (r[0] ? 'sale primero ' + describir(codigo(r[0])) : 'no hay resultados') +
+          '; ' + c.primero + ' ' + dondeEsta(r, c.primero) + '.');
       }
       if (c.primerosEnGrupo) {
         const g = GRUPO[c.primerosEnGrupo.grupo], n = c.primerosEnGrupo.n;
-        if (!g) fallas.push('grupo desconocido ' + c.primerosEnGrupo.grupo);
-        else if (r.length < n || r.slice(0, n).some((x) => x.grupo !== g)) {
-          fallas.push('los primeros ' + n + ' no son todos ' + c.primerosEnGrupo.grupo);
+        if (!g) {
+          fallas.push('El caso pide un grupo que no existe: "' + c.primerosEnGrupo.grupo + '".');
+        } else if (r.length < n) {
+          fallas.push('Se esperaban al menos ' + n + ' resultados en "' + NOMBRE_GRUPO[g] +
+            '", pero hay ' + r.length + ' resultados en total.');
+        } else {
+          const i = r.slice(0, n).findIndex((x) => x.grupo !== g);
+          if (i >= 0) {
+            fallas.push('Se esperaba que los primeros ' + n + ' fueran "' + NOMBRE_GRUPO[g] +
+              '", pero el puesto ' + (i + 1) + ' es ' + describir(codigo(r[i])) +
+              ', en "' + NOMBRE_GRUPO[r[i].grupo] + '".');
+          }
         }
       }
       if (c.enLosPrimeros) {
-        const top = new Set(r.slice(0, c.enLosPrimeros.n).map(cod));
-        const faltan = c.enLosPrimeros.codigos.filter((x) => !top.has(x));
-        if (faltan.length) fallas.push('faltan en los primeros ' + c.enLosPrimeros.n + ': ' + faltan.join(', '));
+        const top = new Set(r.slice(0, c.enLosPrimeros.n).map(codigo));
+        for (const cod of c.enLosPrimeros.codigos) {
+          if (!top.has(cod)) {
+            fallas.push(describir(cod) + ' tendría que estar entre los primeros ' + c.enLosPrimeros.n +
+              ' y ' + dondeEsta(r, cod) + '.');
+          }
+        }
       }
       if (c.fueraDelGrupo) {
         const g = GRUPO[c.fueraDelGrupo.grupo];
-        const enGrupo = new Set(r.filter((x) => x.grupo === g).map(cod));
-        const sobran = c.fueraDelGrupo.codigos.filter((x) => enGrupo.has(x));
-        if (sobran.length) fallas.push('no deberían estar en ' + c.fueraDelGrupo.grupo + ': ' + sobran.join(', '));
+        for (const cod of c.fueraDelGrupo.codigos) {
+          const i = r.findIndex((x) => codigo(x) === cod && x.grupo === g);
+          if (i >= 0) {
+            fallas.push(describir(cod) + ' no debería estar en "' + NOMBRE_GRUPO[g] +
+              '" y está ahí, en el puesto ' + (i + 1) + '.');
+          }
+        }
       }
       if (c.minimoResultados && r.length < c.minimoResultados) {
-        fallas.push(r.length + ' resultados, se esperaban al menos ' + c.minimoResultados);
+        fallas.push('Se esperaban al menos ' + c.minimoResultados + ' resultados y hay ' + r.length + '.');
       }
-      return { consulta: c.consulta, resultado: fallas.length ? 'FALLA' : 'ok', detalle: fallas.join('; ') };
+      return { consulta: c.consulta, resultado: fallas.length ? 'FALLA' : 'ok', detalle: fallas.join(' ') };
     });
+  }
+
+  async function probarCasos() {
+    const r = await fetch(RUTA_CASOS, { cache: 'no-cache' });
+    const casos = (await r.json()).casos;
+    const fallas = evaluarCasosNormalizacion(casos);
+    for (const f of fallas) {
+      console.warn('FALLA', f.texto, '\n esperado:', f.esperado, '\n obtenido:', f.obtenido);
+    }
+    console.log('[BuscadorV2] casos de normalización: ' + (casos.length - fallas.length) +
+                ' de ' + casos.length + ' correctos');
+    return fallas.length === 0;
+  }
+
+  // Corre las búsquedas de casos_busqueda.json con el índice cargado y dice cuáles pasan
+  async function probarBusquedas() {
+    const d = await cargar();
+    const r0 = await fetch(RUTA_CASOS_BUSQUEDA, { cache: 'no-cache' });
+    const filas = evaluarCasosBusqueda(d, (await r0.json()).casos);
     console.table(filas);
     const ok = filas.filter((f) => f.resultado === 'ok').length;
     console.log('[BuscadorV2] casos de búsqueda: ' + ok + ' de ' + filas.length + ' correctos');
@@ -498,21 +551,12 @@
     const inicio = performance.now();
     const resultados = buscarEnDatos(d, consulta);
     const ms = performance.now() - inicio;
-    const nombresGrupo = {
-      [GRUPO.codigoExacto]: 'código exacto',
-      [GRUPO.articuloCompleto]: 'artículo, todas',
-      [GRUPO.articuloParcial]: 'artículo, falta una',
-      [GRUPO.menciona]: 'menciona, todas',
-      [GRUPO.codigoPrefijo]: 'prefijo código',
-      [GRUPO.mencionaParcial]: 'menciona, falta una',
-      [GRUPO.lineaCodigo]: 'línea de código'
-    };
     console.log('[BuscadorV2] "' + consulta + '" → tokens ' + JSON.stringify(tokenizar(consulta, false)) +
                 ', ' + resultados.length + ' resultados en ' + ms.toFixed(1) + ' ms');
     console.table(resultados.slice(0, limite || 20).map((r) => ({
       codigo: d.productos[r.id][0],
       nombre: d.productos[r.id][1],
-      grupo: nombresGrupo[r.grupo],
+      grupo: NOMBRE_GRUPO[r.grupo],
       puntos: r.puntos
     })));
   }
@@ -542,6 +586,8 @@
     probarBusquedas: probarBusquedas,
     probar: probar,
     _buscarEnDatos: buscarEnDatos,
+    _evaluarCasosBusqueda: evaluarCasosBusqueda,
+    _evaluarCasosNormalizacion: evaluarCasosNormalizacion,
     _prepararDatos: prepararDatos
   };
 

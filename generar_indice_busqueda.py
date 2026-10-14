@@ -385,6 +385,16 @@ def escribir_candidatos(grupos):
     print("Candidatos: {} palabras en {}".format(len(filas), RUTA_CANDIDATOS.relative_to(RAIZ)))
 
 
+def grupos_de_indice(ruta):
+    """Grupos de equivalencias guardados en un índice ya generado (el que estaba
+    publicado): sirven para rearmar el índice de hoy con el diccionario anterior."""
+    try:
+        with open(ruta, encoding="utf-8") as f:
+            return [list(g) for g in json.load(f).get("equivalencias", [])]
+    except (OSError, ValueError) as e:
+        sys.exit("No se pudo leer el diccionario de {}: {}".format(ruta, e))
+
+
 def leer_version_anterior():
     """Versión del índice ya publicado, o None si no existe o no se puede leer."""
     try:
@@ -425,16 +435,25 @@ def main():
     ap.add_argument("--consulta", help="mostrar tokens y resultados de una búsqueda")
     ap.add_argument("--candidatos", action="store_true",
                     help="escribir salida/candidatos_diccionario.xlsx para revisar en Excel")
+    ap.add_argument("--grupos-de", metavar="INDICE",
+                    help="usar las equivalencias de un índice ya generado en lugar del Excel "
+                         "(el workflow lo usa para volver al diccionario anterior)")
+    ap.add_argument("--salida", metavar="RUTA",
+                    help="escribir el índice en otra ruta, sin tocar el publicado ni version.json")
     args = ap.parse_args()
 
     if not probar_casos():
         sys.exit("Hay casos de normalización fallidos: no se genera el índice.")
-    grupos, errores = leer_diccionario()
-    for e in errores:
-        print("ERROR diccionario_buscador.xlsx, " + e)
-    if errores:
-        sys.exit("El diccionario tiene errores: no se genera el índice.")
-    print("Diccionario: {} grupos, {} términos".format(len(grupos), sum(len(g) for g in grupos)))
+    if args.grupos_de:
+        grupos = grupos_de_indice(args.grupos_de)
+        print("Diccionario tomado de {}: {} grupos".format(args.grupos_de, len(grupos)))
+    else:
+        grupos, errores = leer_diccionario()
+        for e in errores:
+            print("ERROR diccionario_buscador.xlsx, " + e)
+        if errores:
+            sys.exit("El diccionario tiene errores: no se genera el índice.")
+        print("Diccionario: {} grupos, {} términos".format(len(grupos), sum(len(g) for g in grupos)))
     if args.probar:
         return
     if args.candidatos:
@@ -445,6 +464,14 @@ def main():
 
     if args.consulta:
         consultar(indice, args.consulta)
+        return
+
+    # Índice de prueba: no toca el publicado ni version.json
+    if args.salida:
+        destino = Path(args.salida)
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text(json.dumps(indice, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        print("Índice de prueba: " + str(destino))
         return
 
     # Mismo contenido que el publicado: no se toca el índice (no hay commit), pero
