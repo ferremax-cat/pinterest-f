@@ -19,12 +19,12 @@ jobs:
   convert-excel-to-json:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           
@@ -41,7 +41,36 @@ jobs:
       - name: Generar índice de búsqueda v2
         id: indice
         continue-on-error: true
-        run: python generar_indice_busqueda.py
+        run: |
+          # Copia del índice publicado: su diccionario sirve de respaldo si los casos fallan
+          cp json/search/v2/indice.json "$RUNNER_TEMP/indice_anterior.json" 2>/dev/null || true
+          python generar_indice_busqueda.py
+
+      - name: Setup Node
+        if: steps.indice.outcome == 'success'
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      # Casos de búsqueda (casos_busqueda.json) contra el índice recién generado.
+      # Si fallan y la causa es el diccionario nuevo (el mismo catálogo con el
+      # diccionario anterior falla menos), se publica el índice con el diccionario
+      # anterior; si no, el índice nuevo. Los demás datos se commitean igual y el
+      # último paso deja el run en rojo, con el detalle en el resumen
+      - name: Probar búsquedas
+        id: busquedas
+        if: steps.indice.outcome == 'success'
+        continue-on-error: true
+        run: |
+          node js/search/v2/probar_busquedas.js --resumen "$GITHUB_STEP_SUMMARY" && exit 0
+          if [ -f "$RUNNER_TEMP/indice_anterior.json" ] \
+             && python generar_indice_busqueda.py --grupos-de "$RUNNER_TEMP/indice_anterior.json" \
+                  --salida "$RUNNER_TEMP/indice_dic_anterior.json" \
+             && node js/search/v2/probar_busquedas.js --culpa-del-diccionario "$RUNNER_TEMP/indice_dic_anterior.json" \
+                  --resumen "$GITHUB_STEP_SUMMARY"; then
+            python generar_indice_busqueda.py --grupos-de "$RUNNER_TEMP/indice_anterior.json"
+          fi
+          exit 1
 
       - name: Commit JSON files
         run: |
@@ -57,10 +86,15 @@ jobs:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.ref }}
 
-      # Después de commitear lo demás: si el índice no se pudo generar, el run
-      # queda fallido (aviso por mail) y el error se ve en el resumen
-      - name: Avisar si falló el índice
-        if: steps.indice.outcome == 'failure'
+      # Después de commitear lo demás: si el índice no se pudo generar o fallaron
+      # casos de búsqueda, el run queda fallido (aviso por mail) con el detalle
+      - name: Avisar si falló el buscador
+        if: steps.indice.outcome == 'failure' || steps.busquedas.outcome == 'failure'
         run: |
-          echo "::error::No se pudo generar json/search/v2/indice.json; quedó el índice anterior. Ver el paso 'Generar índice de búsqueda v2'."
+          if [ "${{ steps.indice.outcome }}" = "failure" ]; then
+            echo "::error::No se pudo generar json/search/v2/indice.json; quedó el índice anterior. Ver el paso 'Generar índice de búsqueda v2'."
+          fi
+          if [ "${{ steps.busquedas.outcome }}" = "failure" ]; then
+            echo "::error::Fallaron casos de búsqueda. El detalle y qué índice se publicó están en el resumen de la corrida (Summary)."
+          fi
           exit 1
