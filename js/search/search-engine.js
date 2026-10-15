@@ -1548,7 +1548,7 @@ function displayNoResults(query) {
         }
         
         // Añadir los nuevos items a la galería
-        matchingItems.forEach(item => {
+        matchingItems.forEach((item, posicion) => {
           // Crear elemento de galería siguiendo exactamente tu estructura HTML
           const galleryItem = document.createElement('div');
           galleryItem.className = 'gallery-item';
@@ -1573,8 +1573,8 @@ function displayNoResults(query) {
           galleryItem.innerHTML = `
             <div class="container-img">
               <img alt="${escaparHTML(item.name || '')}"
-              src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/no-img.png'}"
-              onerror="this.onerror=null; this.src='img/no-img.png';">
+              ${item.imageId ? window.Fotos.atributos(item.imageId, isInitialLoad ? posicion : undefined) : 'src="img/no-img.png"'}
+              onerror="this.onerror=null; this.removeAttribute('srcset'); this.src='img/no-img.png';">
 
               <div class="top-row">
               <a href="#">${itemName}</a>

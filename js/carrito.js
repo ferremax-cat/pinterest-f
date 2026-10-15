@@ -188,8 +188,10 @@ export function agregar(sku, cantidad, cliente) {
     // cosa, la tarjeta desaparece y el carrito se queda sin la referencia
         // Primero la del catalogo si esta en pantalla; si no, el mapa de imagenes
         // Primero la del catalogo si esta en pantalla; si no, el mapa de imagenes
-    let img = document.querySelector(`.price-tag[data-sku="${codigo}"]`)
-      ?.closest('.container-img')?.querySelector('img')?.src || null;
+    // currentSrc: la versión que ya bajó el navegador (con srcset puede no ser src)
+    const fotoCat = document.querySelector(`.price-tag[data-sku="${codigo}"]`)
+      ?.closest('.container-img')?.querySelector('img');
+    let img = fotoCat?.currentSrc || fotoCat?.src || null;
 
     if (!img && mapaImagenes?.[codigo]) {
       img = `https://lh3.googleusercontent.com/d/${mapaImagenes[codigo]}`;

@@ -906,6 +906,8 @@
           });
           </script>
 
+     <!-- Fotos de productos (tamaño y carga diferida): antes de los módulos que la usan -->
+     <script src="js/fotos.js"></script>
 
 
      <!-- Agregar el nuevo script al final -->
@@ -1284,7 +1286,7 @@
 
                          console.log('Items encontrados:', document.querySelectorAll('.gallery-item').length);
 
-                         document.querySelectorAll('.gallery-item').forEach(item => {
+                         document.querySelectorAll('.gallery-item').forEach((item, posicion) => {
                               const bottomRow = item.querySelector('.bottom-row a');
 
 
@@ -1296,10 +1298,9 @@
                               const codigoLimpio = codigo.replace(/\s+/g, '');
 
                               if (imageMap[codigoLimpio]) {
-                                   const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
                                    const img = item.querySelector('img');
                                    if (img) {
-                                        img.src = imgUrl;
+                                        window.Fotos.poner(img, imageMap[codigoLimpio], posicion);
                                    }
                               }
 
@@ -1505,14 +1506,16 @@
                                         });
                                         
                                         // 2. Iterar sobre los elementos de la galería
+                                        let orden = 0;   // posición entre las visibles: las primeras se piden enseguida
                                         for (const item of galleryItems) {
                                              // Si el elemento está oculto, saltar
                                              if (item.style.display === 'none') continue;
-                                             
+
                                              // Obtener el código del producto
                                              const codigo = item.getAttribute('data-product-code');
                                              if (!codigo) continue;
-                                             
+                                             const posicion = orden++;
+
                                              const codigoMayus = codigo.toUpperCase();
                                              const codigoLower = codigo.toLowerCase();
                                              
@@ -1533,9 +1536,8 @@
                                              if (imageId) {
                                                   const imgElement = item.querySelector('img');
                                                   if (imgElement) {
-                                                       // Usar URL directa de Google Drive
-                                                       const imgUrl = `https://lh3.googleusercontent.com/d/${imageId}`;
-                                                       imgElement.src = imgUrl;
+                                                       // Google Drive, con el ancho de la tarjeta y carga diferida
+                                                       window.Fotos.poner(imgElement, imageId, posicion);
                                                   }
                                              }
                                         }
@@ -1735,9 +1737,10 @@
 
 
                               // Limpiar la imagen para que no herede la del template
+                              // (con srcset, cambiar solo src no alcanza: seguiría la foto clonada)
                               const imgElement = template.querySelector('img');
                               if (imgElement) {
-                                   imgElement.src = '';
+                                   window.Fotos.quitar(imgElement);
                                    imgElement.alt = codigoMayus;
                               }
                               
@@ -1835,7 +1838,8 @@
                               }
                               
                               if (imageId) {
-                                   imgElement.src = `https://lh3.googleusercontent.com/d/${imageId}`;
+                                   // Sin posición: la foto es diferida
+                                   window.Fotos.poner(imgElement, imageId);
                                    return;
                               }
                          }
