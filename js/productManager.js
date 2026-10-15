@@ -461,59 +461,21 @@ class ProductManager {
       const groupResponse = await fetch('./json/catalogo_grupos.json');
       const groupData = await groupResponse.json();
       const allowedProducts = new Set(groupData[this.clientData.groups[0]].map(code => code.toUpperCase()));
-      console.log('[ProductManager-loadFreshData 1] Productos permitidos:', allowedProducts);
-
-       // Log para confirmar carga
-      console.log('[ProductManager-loadFreshData 2] Iniciando carga de:', allowedProducts.size, 'productos');
-
-      console.log('[ProductManager-loadFreshData 3] ClientData:', this.clientData);
-      console.log('[ProductManager-loadFreshData 4] Ruta productos:', './json/productos.json');
 
       const productsResponse = await fetch('./json/productos.json');
-      console.log('[ProductManager-loadFreshData 5] Response status:', productsResponse.status);
       //console.log('[ProductManager-loadFreshData 6] Respuesta:', await productsResponse.text());
 
       const productsData = await productsResponse.json();
-      console.log('[ProductManager-loadFreshData 7] Productos encontrados:', {
-      total: Object.keys(productsData).length,
-      ejemplo: productsData['evol0088']
-      });
-
-      console.log('[ProductManager-loadFreshData 8] Muestra de códigos:', {
-        primerCodigo: Object.keys(productsData)[0],
-        existeEvol: productsData['EVOL0088']
-      });
-
-      console.log('[ProductManager-loadFreshData 9] Debug:', {
-        allowedProducts: [...allowedProducts],
-        primerProducto: productsData['EVOL0088'],
-        busquedaDirecta: allowedProducts.has('EVOL0088')
-      });
-
-      console.log('[ProductManager-loadFreshData 10] Recorriendo productos:', {
-        productos: [...allowedProducts].map(code => ({
-          codigo: code,
-          datos: productsData[code]
-        }))
-      });
-
-      [...allowedProducts].forEach(code => {
-        console.log(`[ProductManager-loadFreshData 11] ${code}:`, productsData[code]);
-      });
 
       let productosAgregados = 0;
+      // Codigos del grupo que no estan en productos.json: se saltean y se
+      // avisan juntos al final, en lugar de cortar la carga
+      const faltantes = [];
 
 
       allowedProducts.forEach(code => {
-        console.log('[ProductManager-Loop-Start]', code);
         const productData = productsData[code];
         //console.log(`Procesando ${code}:`, productData);
-
-        console.log('[ProductManager-loadFreshData 11a -Save-Product]', {
-          inputData: productData,
-          listaPrecio: this.clientData.priceList,
-          precioEncontrado: productData.prices[this.clientData.priceList]
-          });
 
         if (productData) {
           this.products.set(code, {
@@ -529,23 +491,15 @@ class ProductManager {
             }
           });
           productosAgregados++;
-
-          console.log('[ProductManager-loadFreshData 11b-Debug]', {
-            priceList: this.clientData.priceList,
-            productPrices: productData.prices,
-            finalPrice: productData.prices[this.clientData.priceList]
-            });
-          console.log('[ProductManager-Loop-End]', code);
+        } else {
+          faltantes.push(code);
         }
       });
 
-      console.log('[ProductManager-After-Loop]');
-      console.log('[ProductManager-loadFreshData 12] Productos guardados:', this.products.size);
-      console.log('[ProductManager-Final]', {
-        totalProductos: this.products.size,
-        listaProductos: [...this.products.keys()]
-      });
-     
+      if (faltantes.length) {
+        console.warn(`[ProductManager] ${faltantes.length} códigos del grupo no están en productos.json y se saltean:`, faltantes);
+      }
+      console.log(`[ProductManager] ${this.products.size} productos cargados (lista ${this.clientData.priceList})`);
 
 
       //console.log(`Productos agregados: ${productosAgregados}`);
@@ -559,20 +513,6 @@ class ProductManager {
       products: Object.fromEntries(this.products),
       timestamp: Date.now()
       });
-
-      console.log('[ProductManager-Test]', {
-        producto: this.products.get('EVOL0088'),
-        existe: this.products.has('EVOL0088')
-      });
-
-      const producto = this.products.get('EVOL0088');
-      console.log('[ProductManager-Precios]', {
-        datosProducto: producto,
-        precioAsignado: producto.precio,
-        listaPrecio: this.clientData.priceList
-      });
-
-      console.log('[ProductManager-Cache]', await this.cache.get('products_data'));
 
 
     } catch (error) {
@@ -588,17 +528,9 @@ class ProductManager {
      * @returns {Object} - Resultado con productos encontrados
      */
         async loadSpecificProducts(codigos, clientData = null) {
-          console.log(`[ProductManager] Cargando datos específicos para ${codigos.length} productos`);
 
-          
           try {
 
-            console.log('[ProductManager] Estado antes de cargar:', {
-              initialized: this.#initialized,
-              hasProducts: this.products.size > 0,
-              clientData: this.clientData // Añadir log del clientData actual
-            });
-            
             // Usar datos del cliente proporcionados o el global con fallback a un objeto vacío
             const currentClientData = clientData || this.clientData || {};
 
@@ -615,17 +547,11 @@ class ProductManager {
               }
             } catch (error) {
               console.warn('[ProductManager] Error al cargar catálogo de imágenes:', error);
-            }        
+            }
 
-                        // Añade estos logs de diagnóstico
-            console.log("[ProductManager] Catálogo de imágenes cargado:", !!catalogoImagenes, catalogoImagenes?.images ? Object.keys(catalogoImagenes.images).length : 0);
-            console.log("[ProductManager] clientData usado:", currentClientData);
-            
             // Verificar lista de precios del cliente
             const clientePriceList = currentClientData.priceList || 'D';
-            
-            console.log("[ProductManager] Lista de precios seleccionada:", clientePriceList);
-             
+
             
             // Objeto para resultados
             const resultados = {};
@@ -640,11 +566,6 @@ class ProductManager {
                 
                 if (productData) {
 
-                  console.log("[ProductManager] Código producto:", codigo);
-                  console.log("[ProductManager] Lista de precios del cliente:", clientePriceList);
-                  console.log("[ProductManager] Precios disponibles:", productData.prices);
-                  console.log("[ProductManager] Precio seleccionado:", productData.prices[clientePriceList]);
-
                   // Buscar ID de imagen si el catálogo está disponible
                   let imageId = null;
                   if (catalogoImagenes && catalogoImagenes.images) {
@@ -654,7 +575,6 @@ class ProductManager {
                     for (const variante of variantes) {
                       if (catalogoImagenes.images[variante]) {
                         imageId = catalogoImagenes.images[variante];
-                        console.log(`[ProductManager] ImageId encontrado para ${codigo}:`, imageId);
                         break;
                       }
                     }
@@ -696,14 +616,6 @@ class ProductManager {
             });
             
             console.log(`[ProductManager] Datos cargados: ${Object.keys(resultados).length}/${codigos.length} productos encontrados`);
-            // Al final de loadSpecificProducts, justo antes del return resultados
-            console.log('[ProductManager] DIAGNÓSTICO FINAL - Resultados a devolver:', {
-              cantidadResultados: Object.keys(resultados).length,
-              primerResultado: Object.values(resultados)[0],
-              tieneImageId: Object.values(resultados).some(item => item.imageId),
-              muestraImageIds: Object.entries(resultados).slice(0, 3).map(([code, item]) => ({
-              code,
-              imageId: item.imageId }))});
             return resultados;
             
           } catch (error) {

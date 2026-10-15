@@ -153,6 +153,7 @@ export function pintarPrecio(elemento, sku) {
   const base = precioLista(sku);
   if (base === null) {
     elemento.textContent = '';
+    acomodarPildoras();
     return false;
   }
 
@@ -211,69 +212,116 @@ export function pintarPrecio(elemento, sku) {
     }
   }
 
-  // El ancho de la pildora esta definido en cuatro archivos con reglas
-  // que se pisan entre si. Se calcula aca sobre el contenedor real.
-  const fila = elemento.parentElement;
-  const cont = fila?.parentElement;
-    if (fila && cont && cont.offsetWidth) {
-    fila.style.setProperty('min-width', '0', 'important');
-    fila.style.setProperty('max-width', 'none', 'important');
-    fila.style.setProperty('width', (cont.offsetWidth - 8) + 'px', 'important');
-    fila.style.setProperty('margin-left', '4px', 'important');
-  }
+  // El precio cambia el ancho disponible para el codigo y el alto de la
+  // pildora: se acomoda en la proxima pasada, junto con los demas precios.
+  // El ancho de la pildora tambien lo fija esa pasada, antes de pintar
+  acomodarPildoras();
   return true;
 }
 
 /**
  * Ancla la pildora al borde inferior de la imagen y le da el ancho del
  * contenedor. Los valores fijos del CSS fallan segun la cantidad de columnas.
+ *
+ * Se puede llamar muchas veces seguidas (cada precio, cada imagen, cada item
+ * de busqueda): todas las llamadas de un mismo cuadro hacen una sola pasada,
+ * justo antes de que el navegador pinte.
  */
+let pedido = 0;   // requestAnimationFrame de la proxima pasada
+let repaso = 0;   // setTimeout de la segunda pasada
 export function acomodarPildoras() {
+  if (pedido) return;
+  pedido = requestAnimationFrame(() => {
+    pedido = 0;
+    acomodarAhora();
+    // Segundo pase, uno solo, 250 ms despues de la ultima pasada: al repintar
+    // precios la pildora cambia de alto y el top calculado antes queda corto.
+    // Sin esto la pildora se pega al borde. No se vuelve a programar solo
+    clearTimeout(repaso);
+    repaso = setTimeout(() => {
+      repaso = 0;
+      if (!pedido) acomodarAhora();
+    }, 250);
+  });
+}
+
+// Si un contenedor cambia de tamano (layout Pinterest, imagen que termina de
+// cargar, galeria que vuelve a mostrarse) se acomoda de nuevo. Cubre lo que
+// antes cubria el reintento cada 250 ms, sin correr con la pagina quieta
+const observados = new Set();
+const observador = typeof ResizeObserver === 'function'
+  ? new ResizeObserver(() => acomodarPildoras())
+  : null;
+
+// Una pasada completa. En cada etapa primero se lee todo y despues se escribe
+// todo, para no forzar un recalculo de diseno por tarjeta. El resultado es el
+// mismo que cuando se hacia tarjeta por tarjeta
+function acomodarAhora() {
+  acomodarAhora.pasadas = (acomodarAhora.pasadas || 0) + 1;   // para medir
+
+  // Dejar de observar las tarjetas que ya no estan (busqueda nueva, galeria restaurada)
+  for (const c of observados) {
+    if (!c.isConnected) { observador.unobserve(c); observados.delete(c); }
+  }
+
+  // 1. Leer el ancho de cada contenedor
+  const filas = [];
   document.querySelectorAll('.bottom-row').forEach(fila => {
     const cont = fila.parentElement;
-    if (!cont || !cont.offsetWidth) return;
-
-    fila.style.setProperty('min-width', '0', 'important');
-    fila.style.setProperty('max-width', 'none', 'important');
-    fila.style.setProperty('width', (cont.offsetWidth - 8) + 'px', 'important');
-    fila.style.setProperty('margin-left', '4px', 'important');
-
-        // Achicar el codigo solo si no entra: los normales conservan su tamano
-    const cod = fila.querySelector('a');
-    const precio = fila.querySelector('.price-tag');
-    if (cod && precio) {
-      cod.style.fontSize = '';
-      const disponible = fila.offsetWidth - precio.offsetWidth - 10;
-
-      let tam = parseFloat(getComputedStyle(cod).fontSize);
-      const minimo = 9.5;
-      while (cod.scrollWidth > disponible && tam > minimo) {
-        tam -= 0.5;
-        cod.style.setProperty('font-size', tam + 'px', 'important');
-      }
-    }
-
-    const img = cont.querySelector('img');
-    if (!img || !img.offsetHeight || !cont.offsetHeight) return;
-
-    // Descartar valores fuera del contenedor: en la busqueda la funcion
-    // corre antes de que el layout este listo y calcula posiciones absurdas
-    const propuesto = img.offsetHeight - fila.offsetHeight - 10;
-    if (propuesto < 0 || propuesto > cont.offsetHeight) return;
-
-    fila.style.bottom = 'auto';
-    fila.style.top = propuesto + 'px';
-    
+    if (!cont) return;
+    if (observador && !observados.has(cont)) { observados.add(cont); observador.observe(cont); }
+    const ancho = cont.offsetWidth;
+    if (!ancho) return;
+    filas.push({ fila, cont, ancho, cod: fila.querySelector('a'), precio: fila.querySelector('.price-tag') });
   });
 
-    // Segundo pase: al repintar precios la pildora cambia de alto y el top
-  // calculado antes queda corto. Sin esto la pildora se pega al borde.
-  if (!acomodarPildoras._reintento) {
-    acomodarPildoras._reintento = true;
-    setTimeout(() => {
-      acomodarPildoras._reintento = false;
-      acomodarPildoras();
-    }, 250);
+  // 2. Escribir el ancho de la pildora y devolver el codigo a su tamano normal
+  for (const f of filas) {
+    f.fila.style.setProperty('min-width', '0', 'important');
+    f.fila.style.setProperty('max-width', 'none', 'important');
+    f.fila.style.setProperty('width', (f.ancho - 8) + 'px', 'important');
+    f.fila.style.setProperty('margin-left', '4px', 'important');
+    if (f.cod && f.precio) f.cod.style.fontSize = '';
+  }
+
+  // 3. Achicar el codigo solo si no entra: los normales conservan su tamano.
+  // Medio punto por ronda hasta el minimo, como antes; cada ronda escribe en
+  // todos los que no entran y despues los mide todos juntos
+  const minimo = 9.5;
+  let achicar = [];
+  for (const f of filas) {
+    if (!f.cod || !f.precio) continue;
+    achicar.push({
+      cod: f.cod,
+      disponible: f.fila.offsetWidth - f.precio.offsetWidth - 10,
+      tam: parseFloat(getComputedStyle(f.cod).fontSize),
+      ancho: f.cod.scrollWidth
+    });
+  }
+  while ((achicar = achicar.filter(a => a.ancho > a.disponible && a.tam > minimo)).length) {
+    for (const a of achicar) {
+      a.tam -= 0.5;
+      a.cod.style.setProperty('font-size', a.tam + 'px', 'important');
+    }
+    for (const a of achicar) a.ancho = a.cod.scrollWidth;
+  }
+
+  // 4. Leer las alturas
+  const anclas = [];
+  for (const f of filas) {
+    const img = f.cont.querySelector('img');
+    if (!img || !img.offsetHeight || !f.cont.offsetHeight) continue;
+    // Descartar valores fuera del contenedor: en la busqueda la funcion
+    // corre antes de que el layout este listo y calcula posiciones absurdas
+    const propuesto = img.offsetHeight - f.fila.offsetHeight - 10;
+    if (propuesto < 0 || propuesto > f.cont.offsetHeight) continue;
+    anclas.push([f.fila, propuesto]);
+  }
+
+  // 5. Anclar la pildora al borde inferior de la imagen
+  for (const [fila, propuesto] of anclas) {
+    fila.style.bottom = 'auto';
+    fila.style.top = propuesto + 'px';
   }
 }
 
@@ -283,12 +331,22 @@ window.addEventListener('resize', () => {
   tempAcomodar = setTimeout(acomodarPildoras, 150);
 });
 
+// Cada imagen que termina de cargar pide una pasada; las que cargan en el
+// mismo cuadro comparten una sola
 document.addEventListener('load', (e) => {
   if (e.target.tagName === 'IMG') acomodarPildoras();
 }, true);
 
+// Al terminar de cargar la pagina y las fuentes: el ancho del codigo depende
+// de la fuente (efecto que antes daba el reintento)
+if (document.readyState === 'complete') acomodarPildoras();
+else window.addEventListener('load', () => acomodarPildoras(), { once: true });
+document.fonts?.ready.then(() => acomodarPildoras());
 
-// Disponible tambien sin modulos, para las rutas que estan en catalogo.html
+
+// Disponible tambien sin modulos, para las rutas que estan en catalogo.html.
+// _acomodarAhora: una pasada inmediata, solo para medir desde la consola
 window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio,
-setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos, acomodarPildoras  
+setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos, acomodarPildoras,
+_acomodarAhora: acomodarAhora
  };

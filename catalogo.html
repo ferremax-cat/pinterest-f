@@ -1287,13 +1287,6 @@
                          document.querySelectorAll('.gallery-item').forEach(item => {
                               const bottomRow = item.querySelector('.bottom-row a');
 
-                              console.log('[catalogo.html- cargargarImagenes Precios 1a] [Debug-bottomRow]', {
-                              bottomRow,
-                              item,
-                              tieneBottomRow: !!bottomRow
-                              });
-
-
 
                               if (bottomRow) {
                               const codigo = bottomRow.textContent.trim();
@@ -1345,9 +1338,6 @@
                     try {
                          console.log('Iniciando cargarGaleria');
 
-                         console.log('URL base para imágenes:', 'https://lh3.googleusercontent.com/d/');
-                         console.log('Cache actual:', localStorage.getItem('imageCatalog'));
-
                          // 1. Obtener los códigos permitidos del clientData
                          const clientData = JSON.parse(localStorage.getItem('clientData'));
                          console.log('=== Datos del Cliente ===', {
@@ -1360,10 +1350,6 @@
                          // 2. Cargar catálogo de imágenes
                          const response = await fetch('./json/catalogo_imagenes.json');
                          const catalogoImagenes = await response.json();
-                         console.log('Catálogo de imágenes cargado:', catalogoImagenes);
-
-                         console.log('ClientData en cargarGaleria:', clientData);
-                         console.log('Productos permitidos:', clientData?.productCodes);
 
                          if (!clientData || !clientData.productCodes) {
                          console.error('No hay datos de productos permitidos para el cliente');
@@ -1375,7 +1361,6 @@
                          //parte 1-producto. Obtener los códigos de productos
                          // Solo continuar con los productos permitidos
                          const productosPermitidos = new Set(clientData?.productCodes || []);
-                         console.log('Set de productos permitidos:', Array.from(productosPermitidos));
 
                          // -producto. Obtener todos los elementos de galería
                          const galleryItems = document.querySelectorAll('.gallery-item');
@@ -1409,51 +1394,12 @@
                               //bottomRow.innerHTML = `<span class="icon fas fa-arrow-up"></span>${codigoMayus}`;
                               // Establecer el código SIN el ícono
                               bottomRow.innerHTML = `${codigoMayus}`;
-                              console.log(`[DEBUG-P1] Asignado código ${codigoMayus} al elemento #${i}`);
                          }
                          }
 
                          console.log(`[DEBUG-P1] Asignación de códigos completada.`);
                          
 
-
-                         // Parte producto: Diagnóstico de productManager
-                         console.log('[DEBUG-DIAGNÓSTICO] Estado de productManager:', {
-                         existe: !!window.productManager,
-                         tieneGetProduct: typeof window.productManager.getProduct === 'function',
-                         tieneProducts: !!window.productManager.products,
-                         productosSize: window.productManager.products instanceof Map ? window.productManager.products.size : 'No es Map'
-                         });
-
-                         // Verificar si podemos acceder a los productos directamente
-                         if (window.productManager.products instanceof Map) {
-                         console.log('[DEBUG-DIAGNÓSTICO] Primeros 3 productos en Map:');
-                         let contador = 0;
-                         for (const [key, value] of window.productManager.products.entries()) {
-                              console.log(`  - ${key}:`, value);
-                              contador++;
-                              if (contador >= 3) break;
-                         }
-                         
-                         // Verificar específicamente si existe un producto
-                         const primerCodigo = Array.from(productosPermitidos)[0].toUpperCase();
-                         console.log(`[DEBUG-DIAGNÓSTICO] Verificando si existe ${primerCodigo} en Map:`, window.productManager.products.has(primerCodigo));
-                         console.log(`[DEBUG-DIAGNÓSTICO] Producto ${primerCodigo} en Map:`, window.productManager.products.get(primerCodigo));
-                         }
-
-                         // Prueba con getProduct para el primer código
-                         if (productosPermitidosArray.length > 0) {
-                         const primerCodigo = productosPermitidosArray[0].toUpperCase();
-                         console.log(`[DEBUG-DIAGNÓSTICO] Intentando getProduct('${primerCodigo}'):`);
-                         try {
-                              const producto = window.productManager.getProduct(primerCodigo);
-                              console.log(`  - Resultado:`, producto);
-                         } catch (e) {
-                              console.log(`  - Error:`, e);
-                         }
-                         }
-
-                         console.log('[DEBUG-DIAGNÓSTICO] Diagnóstico completado.');
 
                          // Parte 1 producto:-fin
 
@@ -1481,16 +1427,12 @@
                          
                          // Intentar obtener el producto usando getProduct
                          const producto = window.productManager.getProduct(codigoMayus);
-                         console.log(`[DEBUG-P2] Resultado getProduct(${codigoMayus}):`, producto);
-                         
+
                          // Actualizar el nombre en top-row
                          const topRowLink = item.querySelector('.top-row a');
                          if (topRowLink) {
                               if (producto && producto.nombre) {
                                    topRowLink.textContent = producto.nombre.toLowerCase();
-                                   console.log(`[DEBUG-P2] Actualizado nombre para ${codigoMayus} desde getProduct: ${producto.nombre}`);
-                              } else {
-                                   console.log(`[DEBUG-P2] No se pudo obtener nombre para ${codigoMayus} desde getProduct`);
                               }
                          }
                          }
@@ -1582,7 +1524,6 @@
                                                   for (const variante of variantes) {
                                                        if (catalogoImagenes.images[variante]) {
                                                        imageId = catalogoImagenes.images[variante];
-                                                       console.log(`[DEBUG-IMAGENES] ID encontrado para ${codigo}:`, imageId);
                                                        break;
                                                        }
                                                   }
@@ -1595,11 +1536,7 @@
                                                        // Usar URL directa de Google Drive
                                                        const imgUrl = `https://lh3.googleusercontent.com/d/${imageId}`;
                                                        imgElement.src = imgUrl;
-                                                       imgElement.onload = () => console.log(`[DEBUG-IMAGENES] Imagen cargada para ${codigo}`);
-                                                       imgElement.onerror = () => console.log(`[DEBUG-IMAGENES] Error al cargar imagen para ${codigo}`);
                                                   }
-                                             } else {
-                                                  console.log(`[DEBUG-IMAGENES] No se encontró ID para ${codigo}`);
                                              }
                                         }
                                    } catch (error) {
@@ -1752,7 +1689,6 @@
 
                                              // Convertir a minúsculas aquí, cuando se está cargando inicialmente
                                              topRowLink.textContent = producto.nombre.toLowerCase();
-                                             console.log(`[DEBUG] Actualizado nombre para ${codigoMayus}: ${producto.nombre.toLowerCase()}`);
                                         }
                                         }else {
                                              // Si el producto no existe, mostrar "producto fuera de lista"
@@ -3888,20 +3824,11 @@
 
            // 2. Función para posicionar elementos
           function positionPinterestLayout() {
-               console.log('Aplicando posicionamiento estilo Pinterest...');
-               
-               
-
                // ⭐ BLOQUEAR si estamos en modo búsqueda de clientes
                const tieneModoClientes = document.body.classList.contains('modo-busqueda-clientes');
-               console.log('[Pinterest Layout] Verificando modo clientes:', tieneModoClientes);
-               console.log('[Pinterest Layout] Clases del body:', document.body.className);
 
                if (tieneModoClientes) {
-               console.log('[Pinterest Layout] ✅ BLOQUEADO - modo búsqueda de clientes activo');
                return;
-               } else {
-               console.log('[Pinterest Layout] ⚠️ NO BLOQUEADO - modo productos activo');
                }
 
                const container = document.querySelector('.gallery-container');
@@ -3930,18 +3857,14 @@
                     } else {
                     columnCount = 5; // 5 columnas a partir de 1000px
                     }
-               
-               console.log(`Ancho de ventana: ${windowWidth}px, usando ${columnCount} columnas`);
-               
+
                // Usar un gap más pequeño para dispositivos con 2 columnas
                     const gap = (windowWidth <= 770) ? 10 : 20;
                
                // Obtener todos los elementos visibles
                const items = Array.from(document.querySelectorAll('.gallery-item'))
                     .filter(item => item.style.display !== 'none');
-               
-               console.log(`Posicionando ${items.length} elementos en layout Pinterest...`);
-               
+
                // Inicializar alturas de columnas
                const columnHeights = Array(columnCount).fill(0);
                
@@ -3991,8 +3914,6 @@
                // Actualizar altura del contenedor
                const maxHeight = Math.max(...columnHeights);
                container.style.height = `${maxHeight + 50}px`;
-               
-               console.log('Posicionamiento estilo Pinterest completado');
           }
   
           // El resto del código continúa igual...
@@ -4329,10 +4250,13 @@
                if (dimensiones && dimensiones.bottomPosition) {
                     const nuevoValor = dimensiones.bottomPosition[currentBreakpoint];
                     bottomRow.style.setProperty('bottom', nuevoValor + 'px', 'important');
-                    console.log(`✅ ${codigo}: ${nuevoValor}px aplicado`);
                }
           });
-          
+
+          // El bottom fijo pisa la posicion que calcula precios.js: volver a
+          // acomodar (antes lo corregia el reintento cada 250 ms)
+          if (window.Precios) window.Precios.acomodarPildoras();
+
           console.log('🎉 adjustBottomRowPositions COMPLETADO en catálogo');
           
      } catch (error) {

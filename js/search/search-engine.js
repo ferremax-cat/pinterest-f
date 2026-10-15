@@ -1568,21 +1568,13 @@ function displayNoResults(query) {
           const itemCode = resaltar(item.code || '', terminos);
 
 
-          // Añade este log antes de asignar galleryItem.innerHTML
-            console.log("[search-engine] Item con imagen:", {
-              code: item.code,
-              imageId: item.imageId,
-              urlGenerada: item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/loading-product.gif'
-              
-            });  
 
-           
           // Estructura HTML con elementos en las ubicaciones exactas según tus selectores
           galleryItem.innerHTML = `
             <div class="container-img">
               <img alt="${escaparHTML(item.name || '')}"
               src="${item.imageId ? `https://lh3.googleusercontent.com/d/${item.imageId}` : 'img/no-img.png'}"
-              onerror="this.onerror=null; this.src='img/no-imag.png';">
+              onerror="this.onerror=null; this.src='img/no-img.png';">
 
               <div class="top-row">
               <a href="#">${itemName}</a>
@@ -1612,27 +1604,14 @@ function displayNoResults(query) {
           if (window.Precios) {
             const tagPrecio = galleryItem.querySelector('.price-tag');
             if (tagPrecio) window.Precios.pintarPrecio(tagPrecio, item.code);
-          }  
-
-          if (window.Precios) setTimeout(() => window.Precios.acomodarPildoras(), 100);
+          }
 
           // Procesar el precio del nuevo elemento si existe
           const priceTag = galleryItem.querySelector('.price-tag');
-          console.log('[DEBUG] priceTag encontrado:', !!priceTag);
-          console.log('[DEBUG] window.processNewPriceElements disponible:', !!window.processNewPriceElements);
-          
-          if (priceTag && !window.Precios && window.processNewPriceElements) {
-            console.log('[DEBUG] Llamando a processNewPriceElements para:', priceTag.textContent);
-            console.log('[DEBUG] Estado del toggle antes de procesar:', localStorage.getItem('precioModo'));
-     
-            window.processNewPriceElements([priceTag]);
-           
 
-            console.log('[DEBUG] Precio después de procesar:', priceTag.textContent);
-            console.log('[DEBUG] Clase después de procesar:', priceTag.className);
-          }   else {
-                    console.log('[DEBUG] No se pudo procesar - priceTag:', !!priceTag, 'función:', !!window.processNewPriceElements);
-                  }     
+          if (priceTag && !window.Precios && window.processNewPriceElements) {
+            window.processNewPriceElements([priceTag]);
+          }
 
 
 
@@ -1934,10 +1913,13 @@ function displayNoResults(query) {
             if (dimensiones && dimensiones.bottomPosition) {
                 const nuevoValor = dimensiones.bottomPosition[currentBreakpoint];
                 bottomRow.style.setProperty('bottom', nuevoValor + 'px', 'important');
-                console.log(`✅ ${codigo}: ${nuevoValor}px aplicado`);
             }
         });
-        
+
+        // El bottom fijo pisa la posicion que calcula precios.js: volver a
+        // acomodar (antes lo corregia el reintento cada 250 ms)
+        if (window.Precios) window.Precios.acomodarPildoras();
+
         console.log('🎉 adjustBottomRowPositions COMPLETADO');
         
     } catch (error) {
