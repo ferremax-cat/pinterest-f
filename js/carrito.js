@@ -14,6 +14,7 @@
 // para habilitar el carrito a todos.
 import { SOLO_VENDEDORES } from './config.js';
 import { pedirToken } from './sesion.js';
+import { imagenes } from './datos-catalogo.js';
 
 const PREFIJO = 'carrito::';
 
@@ -39,15 +40,23 @@ export function carritoHabilitado() {
 // Mapa de imagenes: se carga una vez y sirve para los productos que se
 // agregan sin haber pasado por una tarjeta del catalogo
 let mapaImagenes = null;
+let pidiendoMapa = false;
 
-(async () => {
+// Compartido con la galería y la búsqueda: una sola descarga (ver
+// datos-catalogo.js). Si falla, el mapa queda vacío y agregar() lo vuelve a pedir
+async function cargarMapaImagenes() {
+  if (pidiendoMapa) return;
+  pidiendoMapa = true;
   try {
-    const r = await fetch('./json/catalogo_imagenes.json');
-    mapaImagenes = (await r.json()).images || {};
+    mapaImagenes = (await imagenes()).images || {};
   } catch (e) {
     mapaImagenes = {};
+  } finally {
+    pidiendoMapa = false;
   }
-})();
+}
+
+cargarMapaImagenes();
 
 // ---------- identidad ----------
 
@@ -196,6 +205,10 @@ export function agregar(sku, cantidad, cliente) {
     if (!img && mapaImagenes?.[codigo]) {
       img = `https://lh3.googleusercontent.com/d/${mapaImagenes[codigo]}`;
     }
+
+    // Mapa vacío porque falló la descarga: volver a pedirlo para los próximos
+    // productos (este se agrega igual, sin foto)
+    if (!img && mapaImagenes && !Object.keys(mapaImagenes).length) cargarMapaImagenes();
 
     // Respaldo del precio: el manager carga productos bajo demanda y puede
     // no tenerlo mas adelante. El precio vigente se sigue pidiendo a Precios
