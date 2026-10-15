@@ -8,6 +8,7 @@
 import MonitoringSystem from './MonitoringSystem.js';
 import { config } from './config.js';
 import AdvancedCacheManager from './AdvancedCacheManager.js';
+import { productos as leerProductos, imagenes as leerImagenes } from './datos-catalogo.js';
 
 /**
  * Gestor principal de productos y sus relaciones
@@ -462,10 +463,8 @@ class ProductManager {
       const groupData = await groupResponse.json();
       const allowedProducts = new Set(groupData[this.clientData.groups[0]].map(code => code.toUpperCase()));
 
-      const productsResponse = await fetch('./json/productos.json');
-      //console.log('[ProductManager-loadFreshData 6] Respuesta:', await productsResponse.text());
-
-      const productsData = await productsResponse.json();
+      // Una sola descarga por pagina, compartida con loadSpecificProducts (ver datos-catalogo.js)
+      const productsData = await leerProductos();
 
       let productosAgregados = 0;
       // Codigos del grupo que no estan en productos.json: se saltean y se
@@ -534,17 +533,14 @@ class ProductManager {
             // Usar datos del cliente proporcionados o el global con fallback a un objeto vacío
             const currentClientData = clientData || this.clientData || {};
 
-            // Cargar el archivo JSON completo, pero solo procesaremos los códigos necesarios
-            const productsResponse = await fetch('./json/productos.json');
-            const productsData = await productsResponse.json();
+            // productos.json y el catálogo de imágenes, compartidos: se descargan
+            // una vez por página y se reutilizan en cada tanda (ver datos-catalogo.js)
+            const productsData = await leerProductos();
 
-            // Cargar catálogo de imágenes
+            // Catálogo de imágenes: si falla, los productos se devuelven sin foto
             let catalogoImagenes = null;
             try {
-              const response = await fetch('./json/catalogo_imagenes.json');
-              if (response.ok) {
-                catalogoImagenes = await response.json();
-              }
+              catalogoImagenes = await leerImagenes();
             } catch (error) {
               console.warn('[ProductManager] Error al cargar catálogo de imágenes:', error);
             }

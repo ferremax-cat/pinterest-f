@@ -919,6 +919,7 @@
           import ProductManager from './js/productManager.js';
           import {config} from './js/config.js';
           import ImageLoader from './js/imageLoader.js';
+          import { imagenes as leerImagenes } from './js/datos-catalogo.js';
 
           async function cargarImagenes() {
     try {
@@ -1348,10 +1349,6 @@
                          });
                          
 
-                         // 2. Cargar catálogo de imágenes
-                         const response = await fetch('./json/catalogo_imagenes.json');
-                         const catalogoImagenes = await response.json();
-
                          if (!clientData || !clientData.productCodes) {
                          console.error('No hay datos de productos permitidos para el cliente');
                          return;
@@ -1493,13 +1490,9 @@
                                    console.log('[DEBUG-IMAGENES] Iniciando carga de imágenes...');
                                    
                                    try {
-                                        // 1. Intentar cargar el catálogo de imágenes desde JSON
-                                        const response = await fetch('./json/catalogo_imagenes.json');
-                                        if (!response.ok) {
-                                             throw new Error(`Error al cargar catálogo de imágenes: ${response.status}`);
-                                        }
-                                        
-                                        const catalogoImagenes = await response.json();
+                                        // 1. Catálogo de imágenes, compartido (ver js/datos-catalogo.js).
+                                        //    Si falla, el catch de abajo prueba con imageLoader
+                                        const catalogoImagenes = await leerImagenes();
                                         console.log('[DEBUG-IMAGENES] Catálogo cargado:', {
                                              totalImagenes: Object.keys(catalogoImagenes.images || {}).length,
                                              ejemploImagen: Object.entries(catalogoImagenes.images || {}).slice(0, 1)
@@ -1819,12 +1812,12 @@
                     const imgElement = element.querySelector('img');
                     if (!imgElement) return;
                     
-                    // Intentar cargar desde catalogoImagenes
+                    // Intentar cargar desde catalogoImagenes (compartido: una sola descarga
+                    // para todas las tarjetas del scroll, ver js/datos-catalogo.js)
                     try {
-                         const response = await fetch('./json/catalogo_imagenes.json');
-                         
-                         if (response.ok) {
-                              const catalogoImagenes = await response.json();
+                         const catalogoImagenes = await leerImagenes();
+
+                         if (catalogoImagenes) {
                               
                               // Intentar con diferentes variantes del código
                               const variantes = [codigo, codigo.toLowerCase(), codigo.toUpperCase()];
@@ -4221,60 +4214,6 @@
      <!--<script src="./js/search/busqueda-override.js"></script>-->
      <script type="module" src="./js/search/search-engine.js"></script>
 
-     <!-- AGREGAR AQUÍ - Script para posicionar bottom-row en catálogo inicial -->
-     <script>
-     // Función para posicionar bottom-row desde JSON (copiada de search-engine.js)
-     async function adjustBottomRowPositions() {
-     try {
-          console.log('🔧 EJECUTANDO adjustBottomRowPositions en catalogo...');
-          
-          // 1. Cargar JSON
-          const response = await fetch('./json/catalogo_dimensiones.json');
-          const catalogoDimensiones = await response.json();
-          
-          // 2. Detectar breakpoint
-          const screenWidth = window.innerWidth;
-          const currentBreakpoint = screenWidth <= 768 ? 'mobile' : 
-                                   screenWidth <= 1200 ? 'tablet' : 'desktop';
-          
-          console.log(`📱 Breakpoint: ${currentBreakpoint} (${screenWidth}px)`);
-          
-          // 3. Aplicar a todos los elementos
-          const elementosBottomRow = document.querySelectorAll('.container-img .bottom-row');
-          console.log(`🔍 Encontrados ${elementosBottomRow.length} elementos bottom-row`);
-          
-          elementosBottomRow.forEach(bottomRow => {
-               const galleryItem = bottomRow.closest('.gallery-item');
-               if (!galleryItem) return;
-               
-               const codigo = galleryItem.getAttribute('data-product-code');
-               if (!codigo) return;
-               
-               const dimensiones = catalogoDimensiones.images_dimensions[codigo];
-               if (dimensiones && dimensiones.bottomPosition) {
-                    const nuevoValor = dimensiones.bottomPosition[currentBreakpoint];
-                    bottomRow.style.setProperty('bottom', nuevoValor + 'px', 'important');
-               }
-          });
-
-          // El bottom fijo pisa la posicion que calcula precios.js: volver a
-          // acomodar (antes lo corregia el reintento cada 250 ms)
-          if (window.Precios) window.Precios.acomodarPildoras();
-
-          console.log('🎉 adjustBottomRowPositions COMPLETADO en catálogo');
-          
-     } catch (error) {
-          console.error('❌ Error en adjustBottomRowPositions:', error);
-     }
-     }
-
-     // Ejecutar después de que se cargue todo el contenido
-     window.addEventListener('load', () => {
-     setTimeout(() => {
-          adjustBottomRowPositions();
-     }, 3000); // Esperar 3 segundos para que se carguen todos los productos
-     });
-     </script>
 
      <script type="module" src="js/api.js"></script>
 

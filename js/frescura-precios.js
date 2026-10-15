@@ -13,6 +13,8 @@
  * cambio el precio de algo que el usuario tiene en el carrito.
  */
 
+import { reemplazarProductos } from './datos-catalogo.js';
+
 const PRIMERA_MS = 10 * 60 * 1000;     // primera revision despues de cargar
 const CADA_MS = 15 * 60 * 1000;        // revision periodica
 const REINTENTO_PANEL_MS = 30 * 1000;  // con el panel abierto, volver a probar
@@ -67,6 +69,9 @@ async function revisar({ manual = false } = {}) {
 
     // La huella en la URL evita la copia vieja de la cache HTTP
     const datos = await (await fetch(`./json/productos.json?v=${encodeURIComponent(v.huella)}`)).json();
+    // La misma descarga queda como copia compartida: lo que se cargue despues
+    // (busqueda, carrito, promos) usa los precios nuevos sin bajarlo otra vez
+    reemplazarProductos(datos);
     const { actualizados, cambios } = pm.actualizarDesde(datos);
 
     window.Precios?.repintarTodos();
