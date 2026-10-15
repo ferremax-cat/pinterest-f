@@ -535,8 +535,10 @@ function conectar(cont) {
   // asi no hay que resolver el id ni descargar nada de nuevo
   cont.querySelectorAll('.cp-img').forEach(d => {
     const sku = d.dataset.sku;
-    const enCatalogo = document.querySelector(`.price-tag[data-sku="${sku}"]`)
-      ?.closest('.container-img')?.querySelector('img')?.src;
+    const fotoCat = document.querySelector(`.price-tag[data-sku="${sku}"]`)
+      ?.closest('.container-img')?.querySelector('img');
+    // currentSrc: la versión que ya bajó el navegador (con srcset puede no ser src)
+    const enCatalogo = fotoCat?.currentSrc || fotoCat?.src;
 
     if (enCatalogo) {
       d.style.backgroundImage = `url(${enCatalogo})`;

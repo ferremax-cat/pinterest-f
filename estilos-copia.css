@@ -215,6 +215,10 @@ nav .iconos img{
 
 .container-img img{
      width: 100%;
+     /* Cuadrado hasta que llega la foto (casi todas son de 600 x 600): asi el
+        layout, las pildoras y la carga diferida trabajan con la altura real.
+        Con "auto", al cargar manda la proporcion verdadera de la foto */
+     aspect-ratio: auto 1 / 1;
      border-radius: 16px;
      display: block; /* Elimina espacio extra debajo de la imagen */
 }
