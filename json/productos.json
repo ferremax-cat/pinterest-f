@@ -1264,9 +1264,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 1357.01,
-      "E": 1461.4,
-      "F": 1252.63
+      "D": 1191.29,
+      "E": 1282.93,
+      "F": 1099.65
     }
   },
   "AMXDE033": {
@@ -1354,9 +1354,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 1357.01,
-      "E": 1461.4,
-      "F": 1252.63
+      "D": 1191.29,
+      "E": 1282.93,
+      "F": 1099.65
     }
   },
   "AMXDE045": {
@@ -1474,9 +1474,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 2940.19,
-      "E": 3166.36,
-      "F": 2714.03
+      "D": 2800.47,
+      "E": 3015.89,
+      "F": 2585.05
     }
   },
   "AMXDE067": {
@@ -1524,9 +1524,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 0.0,
     "prices": {
-      "D": 12934.62,
-      "E": 13929.59,
-      "F": 12437.13
+      "D": 11247.88,
+      "E": 12113.1,
+      "F": 10815.27
     }
   },
   "AMXDE075": {
@@ -1594,9 +1594,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 11615.11,
-      "E": 12508.58,
-      "F": 10721.64
+      "D": 4879.11,
+      "E": 5254.43,
+      "F": 4503.8
     }
   },
   "AMXDE093": {
@@ -1634,9 +1634,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 15.0,
     "prices": {
-      "D": 9059.79,
-      "E": 9756.69,
-      "F": 8362.88
+      "D": 5361.66,
+      "E": 5774.1,
+      "F": 4949.23
     }
   },
   "AMXDE099": {
@@ -1644,9 +1644,9 @@
     "category": "8.MAQ.DESMALEZ.y ACCES.",
     "bulk": 1.0,
     "prices": {
-      "D": 10221.3,
-      "E": 11007.55,
-      "F": 9435.04
+      "D": 5361.66,
+      "E": 5774.1,
+      "F": 4949.23
     }
   },
   "AMXDE102": {
@@ -2032,7 +2032,7 @@
   "AR2406000": {
     "name": "REMACHE STD ALUM 2.4 x06mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 33616.51,
       "E": 36202.39,
@@ -2042,7 +2042,7 @@
   "AR2408000": {
     "name": "REMACHE STD ALUM 2.4 x08mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 34414.93,
       "E": 37062.23,
@@ -2052,7 +2052,7 @@
   "AR2410000": {
     "name": "REMACHE STD ALUM 2.4 x10mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 39126.04,
       "E": 42135.73,
@@ -2082,7 +2082,7 @@
   "AR3506000": {
     "name": "REMACHE STD ALUM 3.5 x06mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 12787.42,
       "E": 13771.07,
@@ -2092,7 +2092,7 @@
   "AR3508000": {
     "name": "REMACHE STD ALUM 3.5 x08mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 13555.56,
       "E": 14598.3,
@@ -2102,7 +2102,7 @@
   "AR3510000": {
     "name": "REMACHE STD ALUM 3.5 x10mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 14280.82,
       "E": 15379.35,
@@ -2112,7 +2112,7 @@
   "AR3512000": {
     "name": "REMACHE STD ALUM 3.5 x12mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 15262.92,
       "E": 16436.99,
@@ -2122,7 +2122,7 @@
   "AR3514000": {
     "name": "REMACHE STD ALUM 3.5 x14mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 15986.4,
       "E": 17216.12,
@@ -2132,7 +2132,7 @@
   "AR3516000": {
     "name": "REMACHE STD ALUM 3.5 x16mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 16965.42,
       "E": 18270.45,
@@ -2142,7 +2142,7 @@
   "AR3519000": {
     "name": "REMACHE STD ALUM 3.5 x19mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 18592.65,
       "E": 20022.86,
@@ -2152,7 +2152,7 @@
   "AR3525000": {
     "name": "REMACHE STD ALUM 3.5 x25mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 26220.8,
       "E": 28237.79,
@@ -2162,7 +2162,7 @@
   "AR3530000": {
     "name": "REMACHE STD ALUM 3.5 x30mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.3.5 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 16864.4,
       "E": 18161.66,
@@ -2172,7 +2172,7 @@
   "AR4006000": {
     "name": "REMACHE STD ALUM 4.0 x06mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 15798.33,
       "E": 17013.58,
@@ -2182,7 +2182,7 @@
   "AR4008000": {
     "name": "REMACHE STD ALUM 4.0 x08mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 16533.27,
       "E": 17805.06,
@@ -2192,7 +2192,7 @@
   "AR4010000": {
     "name": "REMACHE STD ALUM 4.0 x10mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 17224.07,
       "E": 18549.0,
@@ -2202,7 +2202,7 @@
   "AR4012000": {
     "name": "REMACHE STD ALUM 4.0 x12mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 18466.42,
       "E": 19886.91,
@@ -2212,7 +2212,7 @@
   "AR4014000": {
     "name": "REMACHE STD ALUM 4.0 x14mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 19548.87,
       "E": 21052.63,
@@ -2222,7 +2222,7 @@
   "AR4016000": {
     "name": "REMACHE STD ALUM 4.0 x16mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 20648.53,
       "E": 22236.88,
@@ -2232,7 +2232,7 @@
   "AR4020000": {
     "name": "REMACHE STD ALUM 4.0 x20mm 1000u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 1000.0,
     "prices": {
       "D": 22498.58,
       "E": 24229.24,
@@ -2242,7 +2242,7 @@
   "AR4025000": {
     "name": "REMACHE STD ALUM 4.0 x25mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 15896.89,
       "E": 17119.72,
@@ -2252,7 +2252,7 @@
   "AR4030000": {
     "name": "REMACHE STD ALUM 4.0 x30mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.4.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 17126.61,
       "E": 18444.04,
@@ -2262,7 +2262,7 @@
   "AR5008000": {
     "name": "REMACHE STD ALUM 5.0 x08mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 14460.63,
       "E": 15572.98,
@@ -2272,7 +2272,7 @@
   "AR5010000": {
     "name": "REMACHE STD ALUM 5.0 x10mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 15363.11,
       "E": 16544.89,
@@ -2282,7 +2282,7 @@
   "AR5012000": {
     "name": "REMACHE STD ALUM 5.0 x12mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 16272.71,
       "E": 17524.46,
@@ -2292,7 +2292,7 @@
   "AR5014000": {
     "name": "REMACHE STD ALUM 5.0 x14mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 17175.83,
       "E": 18497.05,
@@ -2302,17 +2302,17 @@
   "AR5016000": {
     "name": "REMACHE STD ALUM 5.0 x16mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
-      "D": 17989.93,
-      "E": 19373.77,
-      "F": 16606.09
+      "D": 35.98,
+      "E": 38.75,
+      "F": 33.21
     }
   },
   "AR5020000": {
     "name": "REMACHE STD ALUM 5.0 x20mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 21383.59,
       "E": 23028.48,
@@ -2322,7 +2322,7 @@
   "AR5025000": {
     "name": "REMACHE STD ALUM 5.0 x25mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 24152.68,
       "E": 26010.58,
@@ -2332,7 +2332,7 @@
   "AR5028000": {
     "name": "REMACHE STD ALUM 5.0 x28mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 25346.48,
       "E": 27296.21,
@@ -2342,7 +2342,7 @@
   "AR5030000": {
     "name": "REMACHE STD ALUM 5.0 x30mm 500u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 500.0,
     "prices": {
       "D": 27562.85,
       "E": 29683.07,
@@ -2352,7 +2352,7 @@
   "AR5035000": {
     "name": "REMACHE STD ALUM 5.0 x35mm 300u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 300.0,
     "prices": {
       "D": 38962.89,
       "E": 41960.04,
@@ -2362,7 +2362,7 @@
   "AR5040000": {
     "name": "REMACHE STD ALUM 5.0 x40mm 250u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 250.0,
     "prices": {
       "D": 36665.77,
       "E": 39486.21,
@@ -2372,7 +2372,7 @@
   "AR5045000": {
     "name": "REMACHE STD ALUM 5.0 x45mm 250u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 250.0,
     "prices": {
       "D": 54472.64,
       "E": 58662.85,
@@ -2382,7 +2382,7 @@
   "AR5050000": {
     "name": "REMACHE STD ALUM 5.0 x50mm 250u ARGENRAP",
     "category": "6.REMACH/RAP.5.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 250.0,
     "prices": {
       "D": 78378.82,
       "E": 84407.97,
@@ -2392,7 +2392,7 @@
   "AR6008000": {
     "name": "REMACHE STD ALUM 6.0 x08mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 18061.3,
       "E": 19450.63,
@@ -2402,7 +2402,7 @@
   "AR6010000": {
     "name": "REMACHE STD ALUM 6.0 x10mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 19103.92,
       "E": 20573.46,
@@ -2412,7 +2412,7 @@
   "AR6012000": {
     "name": "REMACHE STD ALUM 6.0 x12mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 20138.65,
       "E": 21687.78,
@@ -2422,7 +2422,7 @@
   "AR6014000": {
     "name": "REMACHE STD ALUM 6.0 x14mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 21948.61,
       "E": 23636.97,
@@ -2432,7 +2432,7 @@
   "AR6016000": {
     "name": "REMACHE STD ALUM 6.0 x16mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 25212.16,
       "E": 27151.55,
@@ -2442,7 +2442,7 @@
   "AR6020000": {
     "name": "REMACHE STD ALUM 6.0 x20mm 400u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 400.0,
     "prices": {
       "D": 26807.18,
       "E": 28869.27,
@@ -2452,7 +2452,7 @@
   "AR6025000": {
     "name": "REMACHE STD ALUM 6.0 x25mm 200u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 200.0,
     "prices": {
       "D": 15453.74,
       "E": 16642.49,
@@ -2462,7 +2462,7 @@
   "AR6030000": {
     "name": "REMACHE STD ALUM 6.0 x30mm 200u ARGENRAP",
     "category": "6.REMACH/RAP.6.0 ARGENRAP",
-    "bulk": 1.0,
+    "bulk": 200.0,
     "prices": {
       "D": 16456.71,
       "E": 17722.61,
@@ -2694,9 +2694,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP12CC": {
@@ -2704,9 +2704,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP12LA": {
@@ -2714,9 +2714,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP12LC": {
@@ -2724,9 +2724,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP58CA": {
@@ -2734,9 +2734,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP58CC": {
@@ -2744,9 +2744,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP58LA": {
@@ -2754,9 +2754,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "ASOP58LC": {
@@ -2764,9 +2764,9 @@
     "category": "8.ACC.P/CORTINA",
     "bulk": 50.0,
     "prices": {
-      "D": 443.88,
-      "E": 478.02,
-      "F": 409.73
+      "D": 458.68,
+      "E": 493.96,
+      "F": 423.39
     }
   },
   "AT018": {
@@ -2984,9 +2984,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 150.41,
-      "E": 161.99,
-      "F": 138.84
+      "D": 159.44,
+      "E": 171.71,
+      "F": 147.18
     }
   },
   "BA1002": {
@@ -2994,9 +2994,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 266.12,
-      "E": 286.59,
-      "F": 245.65
+      "D": 282.08,
+      "E": 303.78,
+      "F": 260.39
     }
   },
   "BA1003": {
@@ -3004,9 +3004,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 385.81,
-      "E": 415.48,
-      "F": 356.13
+      "D": 408.95,
+      "E": 440.41,
+      "F": 377.5
     }
   },
   "BA1061": {
@@ -3014,9 +3014,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 165.29,
-      "E": 178.01,
-      "F": 152.58
+      "D": 175.21,
+      "E": 188.69,
+      "F": 161.74
     }
   },
   "BA1062": {
@@ -3024,9 +3024,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 303.04,
-      "E": 326.35,
-      "F": 279.73
+      "D": 321.22,
+      "E": 345.93,
+      "F": 296.51
     }
   },
   "BA1071": {
@@ -3034,9 +3034,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 137.38,
-      "E": 147.95,
-      "F": 126.81
+      "D": 145.62,
+      "E": 156.82,
+      "F": 134.42
     }
   },
   "BA1101": {
@@ -3044,9 +3044,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 64.04,
-      "E": 68.96,
-      "F": 59.11
+      "D": 67.88,
+      "E": 73.11,
+      "F": 62.66
     }
   },
   "BA1102": {
@@ -3054,9 +3054,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 123.15,
-      "E": 132.62,
-      "F": 113.67
+      "D": 130.54,
+      "E": 140.59,
+      "F": 120.5
     }
   },
   "BA1103": {
@@ -3064,9 +3064,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 185.45,
-      "E": 199.72,
-      "F": 171.19
+      "D": 196.58,
+      "E": 211.7,
+      "F": 181.46
     }
   },
   "BA1151": {
@@ -3074,9 +3074,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 127.04,
-      "E": 136.81,
-      "F": 117.27
+      "D": 134.66,
+      "E": 145.02,
+      "F": 124.3
     }
   },
   "BA1152": {
@@ -3084,9 +3084,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 175.63,
-      "E": 189.14,
-      "F": 162.12
+      "D": 186.16,
+      "E": 200.48,
+      "F": 171.84
     }
   },
   "BA1153": {
@@ -3094,9 +3094,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 231.73,
-      "E": 249.56,
-      "F": 213.91
+      "D": 245.64,
+      "E": 264.54,
+      "F": 226.75
     }
   },
   "BA1301": {
@@ -3104,9 +3104,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 877.68,
-      "E": 945.2,
-      "F": 810.17
+      "D": 930.34,
+      "E": 1001.9,
+      "F": 858.78
     }
   },
   "BA1302": {
@@ -3114,9 +3114,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 1028.14,
-      "E": 1107.23,
-      "F": 949.05
+      "D": 1089.84,
+      "E": 1173.67,
+      "F": 1006.01
     }
   },
   "BA1303": {
@@ -3124,9 +3124,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 1604.92,
-      "E": 1728.37,
-      "F": 1481.46
+      "D": 1701.24,
+      "E": 1832.1,
+      "F": 1570.37
     }
   },
   "BA1401": {
@@ -3134,9 +3134,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 116.21,
-      "E": 125.14,
-      "F": 107.27
+      "D": 123.18,
+      "E": 132.65,
+      "F": 113.7
     }
   },
   "BA1402": {
@@ -3144,9 +3144,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 234.9,
-      "E": 252.97,
-      "F": 216.83
+      "D": 249.0,
+      "E": 268.15,
+      "F": 229.85
     }
   },
   "BA1403": {
@@ -3154,9 +3154,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 221.97,
-      "E": 239.04,
-      "F": 204.89
+      "D": 235.3,
+      "E": 253.4,
+      "F": 217.2
     }
   },
   "BA1501": {
@@ -3164,9 +3164,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 223.97,
-      "E": 241.19,
-      "F": 206.74
+      "D": 237.4,
+      "E": 255.66,
+      "F": 219.14
     }
   },
   "BA1502": {
@@ -3174,9 +3174,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 344.91,
-      "E": 371.44,
-      "F": 318.38
+      "D": 365.61,
+      "E": 393.73,
+      "F": 337.48
     }
   },
   "BA1503": {
@@ -3184,9 +3184,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 499.77,
-      "E": 538.21,
-      "F": 461.32
+      "D": 529.75,
+      "E": 570.5,
+      "F": 489.0
     }
   },
   "BA1601": {
@@ -3194,9 +3194,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 128.22,
-      "E": 138.09,
-      "F": 118.36
+      "D": 135.91,
+      "E": 146.37,
+      "F": 125.46
     }
   },
   "BA1602": {
@@ -3204,9 +3204,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 183.17,
-      "E": 197.26,
-      "F": 169.08
+      "D": 194.17,
+      "E": 209.1,
+      "F": 179.23
     }
   },
   "BA1621": {
@@ -3214,9 +3214,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 182.79,
-      "E": 196.85,
-      "F": 168.73
+      "D": 193.76,
+      "E": 208.67,
+      "F": 178.86
     }
   },
   "BA1701": {
@@ -3224,9 +3224,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 77.41,
-      "E": 83.37,
-      "F": 71.46
+      "D": 82.06,
+      "E": 88.37,
+      "F": 75.75
     }
   },
   "BA1702": {
@@ -3234,9 +3234,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 137.74,
-      "E": 148.33,
-      "F": 127.14
+      "D": 146.01,
+      "E": 157.24,
+      "F": 134.78
     }
   },
   "BA1703": {
@@ -3244,9 +3244,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 229.6,
-      "E": 247.26,
-      "F": 211.94
+      "D": 243.38,
+      "E": 262.1,
+      "F": 224.66
     }
   },
   "BA1704": {
@@ -3254,9 +3254,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 30.0,
     "prices": {
-      "D": 667.22,
-      "E": 718.55,
-      "F": 615.9
+      "D": 707.25,
+      "E": 761.65,
+      "F": 652.84
     }
   },
   "BA1705": {
@@ -3264,9 +3264,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 30.0,
     "prices": {
-      "D": 804.59,
-      "E": 866.48,
-      "F": 742.7
+      "D": 852.87,
+      "E": 918.47,
+      "F": 787.26
     }
   },
   "BA1706": {
@@ -3274,9 +3274,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 30.0,
     "prices": {
-      "D": 1098.95,
-      "E": 1183.49,
-      "F": 1014.42
+      "D": 1164.88,
+      "E": 1254.49,
+      "F": 1075.28
     }
   },
   "BA1721": {
@@ -3284,9 +3284,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 182.94,
-      "E": 197.01,
-      "F": 168.87
+      "D": 193.92,
+      "E": 208.83,
+      "F": 179.0
     }
   },
   "BA1722": {
@@ -3294,9 +3294,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 254.08,
-      "E": 273.62,
-      "F": 234.53
+      "D": 269.32,
+      "E": 290.03,
+      "F": 248.6
     }
   },
   "BA1723": {
@@ -3304,9 +3304,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 100.0,
     "prices": {
-      "D": 304.88,
-      "E": 328.34,
-      "F": 281.43
+      "D": 323.19,
+      "E": 348.05,
+      "F": 298.33
     }
   },
   "BA1801": {
@@ -3314,9 +3314,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 10.0,
     "prices": {
-      "D": 445.39,
-      "E": 479.65,
-      "F": 411.13
+      "D": 472.11,
+      "E": 508.43,
+      "F": 435.79
     }
   },
   "BA1802": {
@@ -3324,9 +3324,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 10.0,
     "prices": {
-      "D": 534.47,
-      "E": 575.59,
-      "F": 493.36
+      "D": 566.54,
+      "E": 610.12,
+      "F": 522.96
     }
   },
   "BA1803": {
@@ -3334,9 +3334,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 0.0,
     "prices": {
-      "D": 504.46,
-      "E": 543.27,
-      "F": 465.66
+      "D": 534.73,
+      "E": 575.86,
+      "F": 493.6
     }
   },
   "BA1804": {
@@ -3344,9 +3344,9 @@
     "category": "2.ACCES.PPN",
     "bulk": 0.0,
     "prices": {
-      "D": 572.51,
-      "E": 616.55,
-      "F": 528.47
+      "D": 606.86,
+      "E": 653.54,
+      "F": 560.18
     }
   },
   "BA1901": {
@@ -3354,9 +3354,9 @@
     "category": "2.ACCES.PPN BARI",
     "bulk": 1.0,
     "prices": {
-      "D": 2056.3,
-      "E": 2214.47,
-      "F": 1898.12
+      "D": 2179.74,
+      "E": 2347.41,
+      "F": 2012.07
     }
   },
   "BA1902": {
@@ -3364,9 +3364,9 @@
     "category": "2.ACCES.PPN BARI",
     "bulk": 50.0,
     "prices": {
-      "D": 2307.06,
-      "E": 2484.52,
-      "F": 2129.59
+      "D": 2445.47,
+      "E": 2633.59,
+      "F": 2257.36
     }
   },
   "BA1903": {
@@ -3374,9 +3374,9 @@
     "category": "2.ACCES.PPN BARI",
     "bulk": 50.0,
     "prices": {
-      "D": 2633.06,
-      "E": 2835.6,
-      "F": 2430.51
+      "D": 2791.11,
+      "E": 3005.81,
+      "F": 2576.41
     }
   },
   "BA1925": {
@@ -3384,9 +3384,9 @@
     "category": "2.ACC/TERMOF.AGUA BARI",
     "bulk": 50.0,
     "prices": {
-      "D": 2307.06,
-      "E": 2484.52,
-      "F": 2129.59
+      "D": 2445.47,
+      "E": 2633.59,
+      "F": 2257.36
     }
   },
   "BA2001": {
@@ -3394,9 +3394,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 88.17,
-      "E": 94.95,
-      "F": 81.39
+      "D": 93.47,
+      "E": 100.66,
+      "F": 86.28
     }
   },
   "BA2002": {
@@ -3404,9 +3404,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 148.98,
-      "E": 160.44,
-      "F": 137.52
+      "D": 157.92,
+      "E": 170.06,
+      "F": 145.77
     }
   },
   "BA2003": {
@@ -3414,9 +3414,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 228.04,
-      "E": 245.58,
-      "F": 210.49
+      "D": 241.71,
+      "E": 260.3,
+      "F": 223.11
     }
   },
   "BA2004": {
@@ -3424,9 +3424,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 453.72,
-      "E": 488.62,
-      "F": 418.82
+      "D": 480.94,
+      "E": 517.94,
+      "F": 443.95
     }
   },
   "BA2005": {
@@ -3434,9 +3434,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 608.08,
-      "E": 654.86,
-      "F": 561.31
+      "D": 644.57,
+      "E": 694.15,
+      "F": 594.99
     }
   },
   "BA2006": {
@@ -3444,9 +3444,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 790.5,
-      "E": 851.31,
-      "F": 729.69
+      "D": 837.94,
+      "E": 902.39,
+      "F": 773.48
     }
   },
   "BA2007": {
@@ -3454,9 +3454,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 88.17,
-      "E": 94.95,
-      "F": 81.39
+      "D": 93.47,
+      "E": 100.66,
+      "F": 86.28
     }
   },
   "BA2008": {
@@ -3464,9 +3464,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 148.98,
-      "E": 160.44,
-      "F": 137.52
+      "D": 157.92,
+      "E": 170.06,
+      "F": 145.77
     }
   },
   "BA2009": {
@@ -3474,9 +3474,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 186.58,
-      "E": 200.93,
-      "F": 172.23
+      "D": 197.76,
+      "E": 212.97,
+      "F": 182.55
     }
   },
   "BA2010": {
@@ -3484,9 +3484,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 304.04,
-      "E": 327.43,
-      "F": 280.65
+      "D": 322.29,
+      "E": 347.08,
+      "F": 297.49
     }
   },
   "BA2011": {
@@ -3494,9 +3494,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 502.91,
-      "E": 541.6,
-      "F": 464.23
+      "D": 533.1,
+      "E": 574.11,
+      "F": 492.09
     }
   },
   "BA2012": {
@@ -3504,9 +3504,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 659.86,
-      "E": 710.61,
-      "F": 609.1
+      "D": 699.45,
+      "E": 753.25,
+      "F": 645.65
     }
   },
   "BA2013": {
@@ -3514,9 +3514,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 172.45,
-      "E": 185.71,
-      "F": 159.18
+      "D": 182.79,
+      "E": 196.85,
+      "F": 168.73
     }
   },
   "BA2014": {
@@ -3524,9 +3524,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 215.56,
-      "E": 232.14,
-      "F": 198.98
+      "D": 228.5,
+      "E": 246.07,
+      "F": 210.92
     }
   },
   "BA2015": {
@@ -3534,9 +3534,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 290.99,
-      "E": 313.38,
-      "F": 268.61
+      "D": 308.47,
+      "E": 332.19,
+      "F": 284.74
     }
   },
   "BA2016": {
@@ -3544,9 +3544,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 494.97,
-      "E": 533.04,
-      "F": 456.89
+      "D": 524.66,
+      "E": 565.02,
+      "F": 484.31
     }
   },
   "BA2017": {
@@ -3554,9 +3554,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 760.1,
-      "E": 818.57,
-      "F": 701.63
+      "D": 805.71,
+      "E": 867.69,
+      "F": 743.74
     }
   },
   "BA2018": {
@@ -3564,9 +3564,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 866.18,
-      "E": 932.81,
-      "F": 799.56
+      "D": 918.16,
+      "E": 988.79,
+      "F": 847.53
     }
   },
   "BA2019": {
@@ -3574,9 +3574,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 194.0,
-      "E": 208.93,
-      "F": 179.08
+      "D": 205.63,
+      "E": 221.45,
+      "F": 189.82
     }
   },
   "BA2020": {
@@ -3584,9 +3584,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 269.45,
-      "E": 290.18,
-      "F": 248.72
+      "D": 285.61,
+      "E": 307.58,
+      "F": 263.64
     }
   },
   "BA2022": {
@@ -3594,9 +3594,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 25.0,
     "prices": {
-      "D": 562.45,
-      "E": 605.72,
-      "F": 519.19
+      "D": 596.2,
+      "E": 642.07,
+      "F": 550.34
     }
   },
   "BA2023": {
@@ -3604,9 +3604,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 829.89,
-      "E": 893.73,
-      "F": 766.05
+      "D": 879.68,
+      "E": 947.35,
+      "F": 812.01
     }
   },
   "BA2024": {
@@ -3614,9 +3614,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 1243.81,
-      "E": 1339.48,
-      "F": 1148.13
+      "D": 1318.44,
+      "E": 1419.86,
+      "F": 1217.02
     }
   },
   "BA2025": {
@@ -3624,9 +3624,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 262.48,
-      "E": 282.67,
-      "F": 242.29
+      "D": 278.22,
+      "E": 299.62,
+      "F": 256.82
     }
   },
   "BA2026": {
@@ -3634,9 +3634,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 353.05,
-      "E": 380.2,
-      "F": 325.89
+      "D": 374.22,
+      "E": 403.0,
+      "F": 345.43
     }
   },
   "BA2027": {
@@ -3644,9 +3644,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 458.42,
-      "E": 493.69,
-      "F": 423.16
+      "D": 485.93,
+      "E": 523.31,
+      "F": 448.55
     }
   },
   "BA2028": {
@@ -3654,9 +3654,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 10.0,
     "prices": {
-      "D": 618.71,
-      "E": 666.3,
-      "F": 571.11
+      "D": 655.83,
+      "E": 706.28,
+      "F": 605.38
     }
   },
   "BA2030": {
@@ -3664,9 +3664,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 1031.17,
-      "E": 1110.49,
-      "F": 951.85
+      "D": 1093.05,
+      "E": 1177.13,
+      "F": 1008.97
     }
   },
   "BA2031": {
@@ -3674,9 +3674,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 122.57,
-      "E": 132.0,
-      "F": 113.14
+      "D": 140.56,
+      "E": 151.37,
+      "F": 129.75
     }
   },
   "BA2032": {
@@ -3684,9 +3684,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 145.46,
-      "E": 156.65,
-      "F": 134.27
+      "D": 171.63,
+      "E": 184.84,
+      "F": 158.43
     }
   },
   "BA2035": {
@@ -3694,9 +3694,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 487.47,
-      "E": 524.97,
-      "F": 449.97
+      "D": 516.72,
+      "E": 556.47,
+      "F": 476.97
     }
   },
   "BA2036": {
@@ -3704,9 +3704,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 749.95,
-      "E": 807.64,
-      "F": 692.26
+      "D": 794.94,
+      "E": 856.09,
+      "F": 733.79
     }
   },
   "BA2043": {
@@ -3714,9 +3714,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 112.26,
+      "D": 112.27,
       "E": 121.62,
-      "F": 112.26
+      "F": 112.27
     }
   },
   "BA2045": {
@@ -3734,9 +3734,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 101.32,
-      "E": 109.12,
-      "F": 93.53
+      "D": 107.4,
+      "E": 115.67,
+      "F": 99.14
     }
   },
   "BA2056": {
@@ -3744,9 +3744,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 101.32,
-      "E": 109.12,
-      "F": 93.53
+      "D": 107.4,
+      "E": 115.67,
+      "F": 99.14
     }
   },
   "BA2057": {
@@ -3754,9 +3754,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 165.85,
-      "E": 178.6,
-      "F": 153.09
+      "D": 175.79,
+      "E": 189.31,
+      "F": 162.27
     }
   },
   "BA2059": {
@@ -3764,9 +3764,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 165.88,
-      "E": 178.64,
-      "F": 153.12
+      "D": 175.82,
+      "E": 189.34,
+      "F": 162.3
     }
   },
   "BA2060": {
@@ -3774,9 +3774,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 136.27,
-      "E": 146.75,
-      "F": 125.79
+      "D": 144.44,
+      "E": 155.55,
+      "F": 133.33
     }
   },
   "BA2072": {
@@ -3784,9 +3784,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 541.13,
-      "E": 582.76,
-      "F": 499.51
+      "D": 573.6,
+      "E": 617.72,
+      "F": 529.47
     }
   },
   "BA2073": {
@@ -3794,9 +3794,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 10.0,
     "prices": {
-      "D": 742.45,
-      "E": 799.56,
-      "F": 685.33
+      "D": 787.0,
+      "E": 847.53,
+      "F": 726.46
     }
   },
   "BA2074": {
@@ -3804,9 +3804,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 10.0,
     "prices": {
-      "D": 907.43,
-      "E": 977.24,
-      "F": 837.63
+      "D": 961.88,
+      "E": 1035.88,
+      "F": 887.89
     }
   },
   "BA2075": {
@@ -3814,9 +3814,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 10.0,
     "prices": {
-      "D": 1154.91,
-      "E": 1243.75,
-      "F": 1066.07
+      "D": 1224.22,
+      "E": 1318.39,
+      "F": 1130.05
     }
   },
   "BA2076": {
@@ -3824,9 +3824,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 372.15,
-      "E": 400.77,
-      "F": 343.52
+      "D": 394.49,
+      "E": 424.84,
+      "F": 364.14
     }
   },
   "BA2077": {
@@ -3834,9 +3834,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 444.03,
-      "E": 478.18,
-      "F": 409.87
+      "D": 470.67,
+      "E": 506.88,
+      "F": 434.47
     }
   },
   "BA2078": {
@@ -3844,9 +3844,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 543.71,
-      "E": 585.53,
-      "F": 501.88
+      "D": 576.33,
+      "E": 620.66,
+      "F": 532.0
     }
   },
   "BA2080": {
@@ -3854,9 +3854,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 162.78,
-      "E": 175.31,
-      "F": 150.26
+      "D": 172.56,
+      "E": 185.84,
+      "F": 159.29
     }
   },
   "BA2082": {
@@ -3864,9 +3864,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 234.94,
-      "E": 253.02,
-      "F": 216.87
+      "D": 249.03,
+      "E": 268.19,
+      "F": 229.87
     }
   },
   "BA2083": {
@@ -3874,9 +3874,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 162.77,
-      "E": 175.29,
-      "F": 150.25
+      "D": 172.54,
+      "E": 185.81,
+      "F": 159.26
     }
   },
   "BA2084": {
@@ -3884,9 +3884,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 207.26,
-      "E": 223.21,
-      "F": 191.32
+      "D": 219.71,
+      "E": 236.61,
+      "F": 202.81
     }
   },
   "BA2085": {
@@ -3894,9 +3894,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 215.56,
-      "E": 232.14,
-      "F": 198.98
+      "D": 228.5,
+      "E": 246.07,
+      "F": 210.92
     }
   },
   "BA2086": {
@@ -3904,9 +3904,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 301.78,
-      "E": 324.99,
-      "F": 278.56
+      "D": 319.89,
+      "E": 344.5,
+      "F": 295.28
     }
   },
   "BA2087": {
@@ -3914,9 +3914,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 474.22,
-      "E": 510.7,
-      "F": 437.75
+      "D": 502.68,
+      "E": 541.35,
+      "F": 464.01
     }
   },
   "BA2088": {
@@ -3924,9 +3924,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 50.0,
     "prices": {
-      "D": 758.77,
-      "E": 817.13,
-      "F": 700.4
+      "D": 804.29,
+      "E": 866.16,
+      "F": 742.42
     }
   },
   "BA2089": {
@@ -3934,9 +3934,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 820.36,
-      "E": 883.47,
-      "F": 757.26
+      "D": 869.59,
+      "E": 936.48,
+      "F": 802.7
     }
   },
   "BA2090": {
@@ -3944,9 +3944,9 @@
     "category": "2.ACCES.POLIETILENO",
     "bulk": 100.0,
     "prices": {
-      "D": 713.93,
-      "E": 768.85,
-      "F": 659.01
+      "D": 756.76,
+      "E": 814.97,
+      "F": 698.54
     }
   },
   "BERMET400": {
@@ -4540,7 +4540,7 @@
     }
   },
   "BLUCE12": {
-    "name": "CANILLA ESF.MET.ECO.PALAN.1/2 GLOSS",
+    "name": "CANILLA ESF MET ECO PALAN 1/2 GLOSS",
     "category": "1.CANILLAS y ACC.MET.GLOS",
     "bulk": 120.0,
     "prices": {
@@ -4550,7 +4550,7 @@
     }
   },
   "BLUCE34": {
-    "name": "CANILLA ESF.MET.ECO.PALAN.3/4 GLOSS",
+    "name": "CANILLA ESF MET ECO PALAN 3/4 GLOSS",
     "category": "1.CANILLAS y ACC.MET.GLOS",
     "bulk": 100.0,
     "prices": {
@@ -4560,7 +4560,7 @@
     }
   },
   "BLUR1509CO": {
-    "name": "RAFIA CUBREC.90g  C/OJAL 1.50mtx50mt BLUE",
+    "name": "RAFIA CUBREC 90g  C/OJAL 1.50mt x50mt BLUE",
     "category": "8.RAFIA CUBRECERCO VERDE",
     "bulk": 1.0,
     "prices": {
@@ -4570,7 +4570,7 @@
     }
   },
   "BLUR1909CO": {
-    "name": "RAFIA CUBREC.90g  C/OJAL 1.90mtx50mt BLUE",
+    "name": "RAFIA CUBREC 90g  C/OJAL 1.90mt x50mt BLUE",
     "category": "8.RAFIA CUBRECERCO VERDE",
     "bulk": 1.0,
     "prices": {
@@ -4580,7 +4580,7 @@
     }
   },
   "BLUR1913C0": {
-    "name": "RAFIA CUBREC.130g C/OJAL 1.90mtx50mt BLUE",
+    "name": "RAFIA CUBREC 130g C/OJAL 1.90mt x50mt BLUE",
     "category": "8.RAFIA CUBRECERCO VERDE",
     "bulk": 1.0,
     "prices": {
@@ -4590,7 +4590,7 @@
     }
   },
   "BLUR75G1550": {
-    "name": "RAFIA CUBRECERCO VERDE 1.50mtx50mt BLUETOOLS",
+    "name": "RAFIA CUBRECERCO VERDE 1.50mt x50mt BLUETOOLS",
     "category": "8.TEJ.CUBRECERC.RafiaROTC",
     "bulk": 1.0,
     "prices": {
@@ -4600,7 +4600,7 @@
     }
   },
   "BLURN75G1550": {
-    "name": "RAFIA CUBRECERCO NEGRA 1.50mtx50mt BLUETOOLS",
+    "name": "RAFIA CUBRECERCO NEGRA 1.50mt x50mt BLUETOOLS",
     "category": "8.TEJ.CUBRECERC.RafiaROTC",
     "bulk": 1.0,
     "prices": {
@@ -4610,7 +4610,7 @@
     }
   },
   "BLURN75G1950": {
-    "name": "RAFIA CUBRECERCO NEGRA 1.90mtx50mt BLUETOOLS",
+    "name": "RAFIA CUBRECERCO NEGRA 1.90mt x50mt BLUETOOLS",
     "category": "8.TEJ.CUBRECERC.RafiaROTC",
     "bulk": 1.0,
     "prices": {
@@ -4650,7 +4650,7 @@
     }
   },
   "BLUVE1": {
-    "name": "VALV.ESF.METAL RIEGO  1 \"ECO  GLOSS",
+    "name": "VALV ESF METAL RIEGO 1 \"ECO GLOSS",
     "category": "1.LLAVE.PASO METAL GLOSS",
     "bulk": 60.0,
     "prices": {
@@ -4660,7 +4660,7 @@
     }
   },
   "BLUVE12": {
-    "name": "VALV.ESF.METAL RIEGO 1/2\"ECO  GLOSS",
+    "name": "VALV ESF METAL RIEGO 1/2\" ECO GLOSS",
     "category": "1.LLAVE.PASO METAL GLOSS",
     "bulk": 100.0,
     "prices": {
@@ -4670,7 +4670,7 @@
     }
   },
   "BLUVE34": {
-    "name": "VALV.ESF.METAL RIEGO 3/4\"ECO  GLOSS",
+    "name": "VALV ESF METAL RIEGO 3/4\" ECO GLOSS",
     "category": "1.LLAVE.PASO METAL GLOSS",
     "bulk": 100.0,
     "prices": {
@@ -4817,6 +4817,16 @@
       "D": 10932.58,
       "E": 11773.54,
       "F": 10091.61
+    }
+  },
+  "BM2615": {
+    "name": "HOJA PARTIBLE CUTTER 18mm x10un. BREMEN",
+    "category": "8.CUTER RETRACTIL y REPU",
+    "bulk": 1.0,
+    "prices": {
+      "D": 1576.24,
+      "E": 1697.48,
+      "F": 1454.99
     }
   },
   "BM2717": {
@@ -9769,6 +9779,16 @@
       "F": 29938.03
     }
   },
+  "BM5269": {
+    "name": "TESTER DIGITAL PANTALLA GDE WEMBLEY",
+    "category": "9.TESTER",
+    "bulk": 1.0,
+    "prices": {
+      "D": 21830.09,
+      "E": 23509.32,
+      "F": 20150.85
+    }
+  },
   "BM5319": {
     "name": "PINZA SACAFILTRO ACEITE 60/90mm BREMEN",
     "category": "8.SACAFILTROS BREMEN",
@@ -14210,7 +14230,7 @@
     }
   },
   "BM7056": {
-    "name": "CANDADO BRONCE PESADO 30MM \"BREMEN",
+    "name": "CANDADO BRONCE PESADO 30MM   BREMEN",
     "category": "8.CANDADO BRONCE",
     "bulk": 0.0,
     "prices": {
@@ -14220,13 +14240,23 @@
     }
   },
   "BM7057": {
-    "name": "CANDADO BRONCE PESADO 40MM \"BREMEN",
+    "name": "CANDADO BRONCE PESADO 40MM   BREMEN",
     "category": "8.CANDADO BRONCE",
     "bulk": 0.0,
     "prices": {
       "D": 10992.38,
       "E": 11837.94,
       "F": 10146.81
+    }
+  },
+  "BM7059": {
+    "name": "CANDADO BRONCE PESADO 60MM   BREMEN",
+    "category": "8.CANDADO BRONCE",
+    "bulk": 1.0,
+    "prices": {
+      "D": 30205.89,
+      "E": 32529.42,
+      "F": 27882.36
     }
   },
   "BM7066": {
@@ -15384,9 +15414,9 @@
     "category": "8.CINTA METRICA BREMEN",
     "bulk": 0.0,
     "prices": {
-      "D": 11335.35,
-      "E": 12207.3,
-      "F": 10463.4
+      "D": 11932.51,
+      "E": 12850.4,
+      "F": 11014.63
     }
   },
   "BM7613": {
@@ -15547,6 +15577,16 @@
       "D": 16928.26,
       "E": 18230.43,
       "F": 15626.08
+    }
+  },
+  "BM7640": {
+    "name": "FRESA RANURA 1/4x7/8x6mm     BREMEN",
+    "category": "8.FRESA P/MADERA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 12149.47,
+      "E": 13084.04,
+      "F": 11214.89
     }
   },
   "BM7643": {
@@ -15907,6 +15947,16 @@
       "D": 10328.05,
       "E": 11122.52,
       "F": 9533.58
+    }
+  },
+  "BM8239": {
+    "name": "PINZA MEDIA CA\u00d1A CURVA  8\"  WEMBLEY",
+    "category": "8.PINZA ALICATE WEMBLEY",
+    "bulk": 1.0,
+    "prices": {
+      "D": 9411.85,
+      "E": 10135.84,
+      "F": 8687.86
     }
   },
   "BM8268": {
@@ -18774,9 +18824,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 7890.6,
-      "E": 8521.85,
-      "F": 7574.97
+      "D": 8723.64,
+      "E": 9421.53,
+      "F": 8374.7
     }
   },
   "CL000360OK325": {
@@ -18784,9 +18834,9 @@
     "category": "8.ELECTRODOS CONARCO",
     "bulk": 20.0,
     "prices": {
-      "D": 7328.43,
-      "E": 7914.7,
-      "F": 7035.29
+      "D": 7598.01,
+      "E": 8205.85,
+      "F": 7294.09
     }
   },
   "CL000360OK400": {
@@ -18879,7 +18929,7 @@
       "F": 10411.62
     }
   },
-  "CL000470CAUDA": {
+  "CL00047000230": {
     "name": "CAUDALIMETRO CMTO.P/VALV.DE ARGON",
     "category": "8.MAQ.SOLDAR y ACCES.",
     "bulk": 1.0,
@@ -18904,9 +18954,9 @@
     "category": "8.VARILLA P/SOLDAR y ACCE",
     "bulk": 26.0,
     "prices": {
-      "D": 2884.53,
-      "E": 3106.41,
-      "F": 2662.64
+      "D": 2893.92,
+      "E": 3116.53,
+      "F": 2671.31
     }
   },
   "CL00074BRO3.0": {
@@ -19104,9 +19154,9 @@
     "category": "8.DISCO LIJA MONTADA",
     "bulk": 10.0,
     "prices": {
-      "D": 4710.39,
-      "E": 5102.92,
-      "F": 4710.39
+      "D": 5181.41,
+      "E": 5613.2,
+      "F": 5181.41
     }
   },
   "CL00121000002": {
@@ -19114,9 +19164,9 @@
     "category": "8.DISCO LIJA MONTADA",
     "bulk": 10.0,
     "prices": {
-      "D": 6195.67,
-      "E": 6711.98,
-      "F": 6195.67
+      "D": 6815.24,
+      "E": 7383.17,
+      "F": 6815.24
     }
   },
   "CL00121000003": {
@@ -19124,9 +19174,9 @@
     "category": "8.DISCO LIJA MONTADA",
     "bulk": 10.0,
     "prices": {
-      "D": 7466.03,
-      "E": 8088.2,
-      "F": 7466.03
+      "D": 8212.63,
+      "E": 8897.01,
+      "F": 8212.63
     }
   },
   "CL00121000004": {
@@ -19134,9 +19184,9 @@
     "category": "8.DISCO LIJA MONTADA",
     "bulk": 10.0,
     "prices": {
-      "D": 12885.37,
-      "E": 13959.15,
-      "F": 12885.37
+      "D": 14173.92,
+      "E": 15355.08,
+      "F": 14173.92
     }
   },
   "CL00121000005": {
@@ -19144,9 +19194,9 @@
     "category": "8.PUNTAS MONTADAS CORMET",
     "bulk": 1.0,
     "prices": {
-      "D": 125554.36,
-      "E": 136017.22,
-      "F": 125554.36
+      "D": 138109.79,
+      "E": 149618.94,
+      "F": 138109.79
     }
   },
   "CL00121000008": {
@@ -19154,9 +19204,9 @@
     "category": "8.DISCO LIJA MONTADA",
     "bulk": 1.0,
     "prices": {
-      "D": 113980.37,
-      "E": 118729.55,
-      "F": 113980.37
+      "D": 125378.4,
+      "E": 130602.5,
+      "F": 125378.4
     }
   },
   "CL00121M250PM": {
@@ -19164,9 +19214,9 @@
     "category": "8.PUNTAS MONTADAS CORMET",
     "bulk": 1.0,
     "prices": {
-      "D": 1015511.11,
-      "E": 1057824.08,
-      "F": 1015511.11
+      "D": 1117062.22,
+      "E": 1163606.48,
+      "F": 1117062.22
     }
   },
   "CL00125000004": {
@@ -29664,9 +29714,9 @@
     "category": "8.ELECTRODOS SIDERAL",
     "bulk": 20.0,
     "prices": {
-      "D": 19433.91,
-      "E": 20211.27,
-      "F": 18656.55
+      "D": 20211.27,
+      "E": 21019.72,
+      "F": 19402.82
     }
   },
   "ECSID2.0": {
@@ -29674,9 +29724,9 @@
     "category": "8.ELECTRODOS SIDERAL",
     "bulk": 25.0,
     "prices": {
-      "D": 9938.9,
-      "E": 10336.45,
-      "F": 9541.34
+      "D": 10337.25,
+      "E": 10750.74,
+      "F": 9923.76
     }
   },
   "ECSID2.5": {
@@ -29684,9 +29734,9 @@
     "category": "8.ELECTRODOS SIDERAL",
     "bulk": 25.0,
     "prices": {
-      "D": 7440.66,
-      "E": 7738.28,
-      "F": 7143.03
+      "D": 7739.42,
+      "E": 8049.0,
+      "F": 7429.84
     }
   },
   "ECSID3.25": {
@@ -29694,9 +29744,9 @@
     "category": "8.ELECTRODOS SIDERAL",
     "bulk": 25.0,
     "prices": {
-      "D": 6672.4,
-      "E": 6939.3,
-      "F": 6405.51
+      "D": 7070.76,
+      "E": 7353.59,
+      "F": 6787.93
     }
   },
   "ECVALR": {
@@ -31874,9 +31924,9 @@
     "category": "1.VALV.ADMISION y ACCES.",
     "bulk": 0.0,
     "prices": {
-      "D": 2371.09,
-      "E": 2553.48,
-      "F": 2188.7
+      "D": 2664.64,
+      "E": 2869.61,
+      "F": 2459.66
     }
   },
   "EGVL 47": {
@@ -45352,7 +45402,7 @@
   "ISA125BC": {
     "name": "BULON CAMERO C/TyA 5/16 x125mm x100u",
     "category": "6.BULON CAMERO C/Tue.Aran",
-    "bulk": 0.0,
+    "bulk": 100.0,
     "prices": {
       "D": 280.61,
       "E": 302.19,
@@ -45732,7 +45782,7 @@
   "ISA2041": {
     "name": "BULON CAB HEXAGONAL 5/16 x41/4 x110mm",
     "category": "6.BULON EXAG.ZIN.5/16",
-    "bulk": 0.0,
+    "bulk": 100.0,
     "prices": {
       "D": 246.25,
       "E": 265.19,
@@ -46852,7 +46902,7 @@
   "ISABCR1882": {
     "name": "BULON CAB REDONDA CU CUA 3/8 x2 1/2",
     "category": "6.BULON.C/RED.C/CUAD.9",
-    "bulk": 0.0,
+    "bulk": 100.0,
     "prices": {
       "D": 180.67,
       "E": 194.56,
@@ -47569,6 +47619,16 @@
       "F": 53.47
     }
   },
+  "ISAFIX6040": {
+    "name": "TORNILLO FIX P MADERA 6.0 x40    DM",
+    "category": "6.TOR.FIX BRCEDO 5.0",
+    "bulk": 200.0,
+    "prices": {
+      "D": 38.06,
+      "E": 40.99,
+      "F": 35.13
+    }
+  },
   "ISAFIX6050": {
     "name": "TORNILLO FIX P MADERA 6.0 x50    DM",
     "category": "6.TOR.FIX BRCEDO 5.0",
@@ -47592,7 +47652,7 @@
   "ISAFIX6070": {
     "name": "TORNILLO FIX P MADERA 6.0 x70    DM",
     "category": "6.TOR.FIX BRCEDO 5.0",
-    "bulk": 1000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 61.85,
       "E": 66.61,
@@ -48332,7 +48392,7 @@
   "ISATUE5051": {
     "name": "TUERCA UNC/WHT ZIN 1/8 (12000) A/B",
     "category": "6.TUERCA UNC/WHT ZIN.A/B",
-    "bulk": 0.0,
+    "bulk": 100.0,
     "prices": {
       "D": 14.01,
       "E": 15.09,
@@ -49004,9 +49064,9 @@
     "category": "1.TANQUE AGUA/ACC.IVAN",
     "bulk": 10.0,
     "prices": {
-      "D": 43391.97,
-      "E": 45127.65,
-      "F": 41656.29
+      "D": 48371.38,
+      "E": 50306.23,
+      "F": 46436.52
     }
   },
   "IVANB02": {
@@ -49014,9 +49074,9 @@
     "category": "1.TANQUE AGUA/ACC.IVAN",
     "bulk": 10.0,
     "prices": {
-      "D": 44814.66,
-      "E": 46607.24,
-      "F": 43022.07
+      "D": 49794.06,
+      "E": 51785.82,
+      "F": 47802.3
     }
   },
   "JALEM3M30": {
@@ -52004,9 +52064,9 @@
     "category": "8.TARUGO COMUN BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 19991.32,
-      "E": 21419.27,
-      "F": 17135.42
+      "D": 20790.98,
+      "E": 22276.05,
+      "F": 17820.84
     }
   },
   "LH04006000": {
@@ -52014,9 +52074,9 @@
     "category": "8.TARUGO COMUN BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 20885.71,
-      "E": 22377.55,
-      "F": 17902.04
+      "D": 21721.14,
+      "E": 23272.65,
+      "F": 18618.12
     }
   },
   "LH04008000": {
@@ -52024,9 +52084,9 @@
     "category": "8.TARUGO COMUN BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 18290.34,
-      "E": 19596.79,
-      "F": 15677.43
+      "D": 19021.96,
+      "E": 20380.68,
+      "F": 16304.54
     }
   },
   "LH04010000": {
@@ -52034,9 +52094,9 @@
     "category": "8.TARUGO COMUN BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 19329.33,
-      "E": 20709.99,
-      "F": 16567.99
+      "D": 20102.5,
+      "E": 21538.39,
+      "F": 17230.71
     }
   },
   "LH04012000": {
@@ -52044,9 +52104,9 @@
     "category": "8.TARUGO COMUN BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 19529.14,
-      "E": 20924.08,
-      "F": 16739.26
+      "D": 20310.31,
+      "E": 21761.04,
+      "F": 17408.83
     }
   },
   "LH04105000": {
@@ -52054,9 +52114,9 @@
     "category": "8.TARUGO C/TOPE BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 23209.1,
-      "E": 24866.89,
-      "F": 19893.51
+      "D": 24137.47,
+      "E": 25861.58,
+      "F": 20689.26
     }
   },
   "LH04106000": {
@@ -52064,9 +52124,9 @@
     "category": "8.TARUGO C/TOPE BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 24168.2,
-      "E": 25894.51,
-      "F": 20715.6
+      "D": 25134.94,
+      "E": 26930.29,
+      "F": 21544.23
     }
   },
   "LH04108000": {
@@ -52074,9 +52134,9 @@
     "category": "8.TARUGO C/TOPE BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 20608.1,
-      "E": 22080.1,
-      "F": 17664.08
+      "D": 21432.42,
+      "E": 22963.31,
+      "F": 18370.65
     }
   },
   "LH04110000": {
@@ -52084,9 +52144,9 @@
     "category": "8.TARUGO C/TOPE BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 20349.23,
-      "E": 21802.75,
-      "F": 17442.2
+      "D": 21163.19,
+      "E": 22674.85,
+      "F": 18139.88
     }
   },
   "LH04112000": {
@@ -52094,9 +52154,9 @@
     "category": "8.TARUGO C/TOPE BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 19603.86,
-      "E": 21004.14,
-      "F": 16803.31
+      "D": 20388.02,
+      "E": 21844.31,
+      "F": 17475.45
     }
   },
   "LH04206000": {
@@ -52104,9 +52164,9 @@
     "category": "8.TARUGO P/HUECO BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 18735.12,
-      "E": 20073.35,
-      "F": 16058.68
+      "D": 19484.53,
+      "E": 20876.28,
+      "F": 16701.02
     }
   },
   "LH04208000": {
@@ -52114,9 +52174,9 @@
     "category": "8.TARUGO P/HUECO BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 18110.16,
-      "E": 19403.74,
-      "F": 15522.99
+      "D": 18834.56,
+      "E": 20179.89,
+      "F": 16143.91
     }
   },
   "LH04210000": {
@@ -52124,9 +52184,9 @@
     "category": "8.TARUGO P/HUECO BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 18995.74,
-      "E": 20352.57,
-      "F": 16282.06
+      "D": 19755.57,
+      "E": 21166.69,
+      "F": 16933.35
     }
   },
   "LH042120000": {
@@ -52134,9 +52194,9 @@
     "category": "8.TARUGO P/HUECO BOLSA LH",
     "bulk": 1.0,
     "prices": {
-      "D": 18828.12,
-      "E": 20276.44,
-      "F": 17379.8
+      "D": 19581.24,
+      "E": 21087.49,
+      "F": 18074.99
     }
   },
   "LH50100": {
@@ -52182,41 +52242,41 @@
   "LH8118250": {
     "name": "TORNILLO DRYWALL MET 8 x1 LH",
     "category": "6.TOR.DRYWAL.R/MET. 8LH",
-    "bulk": 7000.0,
+    "bulk": 200.0,
     "prices": {
-      "D": 18.33,
-      "E": 19.64,
-      "F": 15.71
+      "D": 19.06,
+      "E": 20.43,
+      "F": 16.34
     }
   },
   "LH8118380": {
     "name": "TORNILLO DRYWALL MET 8 x11/2 LH",
     "category": "6.TOR.DRYWAL.R/MET. 8LH",
-    "bulk": 4000.0,
+    "bulk": 200.0,
     "prices": {
-      "D": 29.57,
-      "E": 31.68,
-      "F": 25.34
+      "D": 30.75,
+      "E": 32.95,
+      "F": 26.36
     }
   },
   "LH8118510": {
     "name": "TORNILLO DRYWALL MET 8 x2 LH",
     "category": "6.TOR.DRYWAL.R/MET. 8LH",
-    "bulk": 2500.0,
+    "bulk": 200.0,
     "prices": {
-      "D": 35.34,
-      "E": 37.87,
-      "F": 30.3
+      "D": 36.76,
+      "E": 39.38,
+      "F": 31.51
     }
   },
   "LH8118640": {
     "name": "TORNILLO DRYWALL MET 8 x21/2\"LH",
     "category": "6.TOR.DRYWAL.R/MET. 8LH",
-    "bulk": 2000.0,
+    "bulk": 200.0,
     "prices": {
-      "D": 45.85,
-      "E": 49.12,
-      "F": 39.3
+      "D": 47.68,
+      "E": 51.09,
+      "F": 40.87
     }
   },
   "LOUBAR6": {
@@ -52527,6 +52587,16 @@
       "D": 79319.88,
       "E": 82624.88,
       "F": 76014.89
+    }
+  },
+  "LOUGHE012": {
+    "name": "TENAZA ARMADOR 12\" Medio Cte.GHERARDI",
+    "category": "8.TENAZA ARMADOR GHERARDI",
+    "bulk": 1.0,
+    "prices": {
+      "D": 25492.94,
+      "E": 27453.94,
+      "F": 23531.95
     }
   },
   "LOUGHE013": {
@@ -52967,6 +53037,16 @@
       "D": 15794.83,
       "E": 17058.41,
       "F": 14910.32
+    }
+  },
+  "LOUQAL2075": {
+    "name": "REGLA ALBA\u00d1ILERIA ALUM. 3\"x1\"x2mts",
+    "category": "8.REGLA P/ALBA\u00d1ILERIA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 33622.51,
+      "E": 36208.85,
+      "F": 31036.16
     }
   },
   "LOUQAL3075": {
@@ -54574,9 +54654,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 60.0,
     "prices": {
-      "D": 18611.63,
-      "E": 20043.29,
-      "F": 17179.97
+      "D": 20472.79,
+      "E": 22047.62,
+      "F": 18897.96
     }
   },
   "LY1310012": {
@@ -54584,9 +54664,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 140.0,
     "prices": {
-      "D": 7855.07,
-      "E": 8459.31,
-      "F": 7250.84
+      "D": 8640.58,
+      "E": 9305.24,
+      "F": 7975.92
     }
   },
   "LY131021000": {
@@ -54594,9 +54674,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 6.0,
     "prices": {
-      "D": 9385.17,
-      "E": 10107.11,
-      "F": 8663.24
+      "D": 10323.69,
+      "E": 11117.82,
+      "F": 9529.56
     }
   },
   "LY1310212000": {
@@ -54604,9 +54684,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 14.0,
     "prices": {
-      "D": 4105.31,
-      "E": 4421.1,
-      "F": 3789.52
+      "D": 4515.84,
+      "E": 4863.21,
+      "F": 4168.47
     }
   },
   "LY1310234000": {
@@ -54614,9 +54694,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 5635.91,
-      "E": 6069.44,
-      "F": 5202.38
+      "D": 6199.5,
+      "E": 6676.38,
+      "F": 5722.61
     }
   },
   "LY131112": {
@@ -54624,9 +54704,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 47763.23,
-      "E": 51437.32,
-      "F": 44089.13
+      "D": 52539.55,
+      "E": 56581.05,
+      "F": 48498.04
     }
   },
   "LY131114": {
@@ -54634,9 +54714,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 29378.65,
-      "E": 31638.54,
-      "F": 27118.75
+      "D": 32316.51,
+      "E": 34802.4,
+      "F": 29830.63
     }
   },
   "LY1312": {
@@ -54644,9 +54724,9 @@
     "category": "1.LLAVE.PASO METAL LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 73105.39,
-      "E": 78728.88,
-      "F": 67481.9
+      "D": 80415.92,
+      "E": 86601.77,
+      "F": 74230.08
     }
   },
   "LY13520": {
@@ -54994,9 +55074,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 18.0,
     "prices": {
-      "D": 18908.45,
-      "E": 20362.94,
-      "F": 17453.95
+      "D": 20799.29,
+      "E": 22399.24,
+      "F": 19199.35
     }
   },
   "LY15402112": {
@@ -55004,9 +55084,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 30.0,
     "prices": {
-      "D": 42487.5,
-      "E": 45755.77,
-      "F": 39219.23
+      "D": 46736.25,
+      "E": 50331.35,
+      "F": 43141.16
     }
   },
   "LY15402114": {
@@ -55014,9 +55094,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 40.0,
     "prices": {
-      "D": 31714.97,
-      "E": 34154.58,
-      "F": 29275.35
+      "D": 34886.47,
+      "E": 37570.04,
+      "F": 32202.89
     }
   },
   "LY1540212": {
@@ -55024,9 +55104,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 12.0,
     "prices": {
-      "D": 11827.2,
-      "E": 12736.99,
-      "F": 10917.42
+      "D": 13009.92,
+      "E": 14010.69,
+      "F": 12009.16
     }
   },
   "LY154022": {
@@ -55034,9 +55114,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 24.0,
     "prices": {
-      "D": 86549.46,
-      "E": 93207.11,
-      "F": 79891.81
+      "D": 95204.41,
+      "E": 102527.82,
+      "F": 87880.99
     }
   },
   "LY1540234": {
@@ -55044,9 +55124,9 @@
     "category": "1.LLAVE.ESCLUSA P/T LATYN",
     "bulk": 20.0,
     "prices": {
-      "D": 14011.85,
-      "E": 15089.69,
-      "F": 12934.02
+      "D": 15413.04,
+      "E": 16598.66,
+      "F": 14227.42
     }
   },
   "LY16101": {
@@ -55334,9 +55414,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 20.0,
     "prices": {
-      "D": 15465.8,
-      "E": 16655.48,
-      "F": 14276.12
+      "D": 17012.38,
+      "E": 18321.02,
+      "F": 15703.73
     }
   },
   "LY18116114": {
@@ -55344,9 +55424,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 60.0,
     "prices": {
-      "D": 24004.57,
-      "E": 25851.08,
-      "F": 22158.07
+      "D": 26405.03,
+      "E": 28436.19,
+      "F": 24373.88
     }
   },
   "LY1811612": {
@@ -55354,9 +55434,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 18.0,
     "prices": {
-      "D": 7739.8,
-      "E": 8335.17,
-      "F": 7144.43
+      "D": 8513.78,
+      "E": 9168.68,
+      "F": 7858.87
     }
   },
   "LY181162": {
@@ -55364,9 +55444,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 24.0,
     "prices": {
-      "D": 53832.05,
-      "E": 57972.98,
-      "F": 49691.12
+      "D": 59215.25,
+      "E": 63770.27,
+      "F": 54660.23
     }
   },
   "LY1811634": {
@@ -55374,9 +55454,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 30.0,
     "prices": {
-      "D": 10490.65,
-      "E": 11297.62,
-      "F": 9683.68
+      "D": 11539.71,
+      "E": 12427.38,
+      "F": 10652.04
     }
   },
   "LY181171": {
@@ -55434,9 +55514,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 16999.75,
-      "E": 18307.42,
-      "F": 15692.07
+      "D": 18699.72,
+      "E": 20138.16,
+      "F": 17261.28
     }
   },
   "LY18119112": {
@@ -55444,9 +55524,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 30.0,
     "prices": {
-      "D": 45445.46,
-      "E": 48941.26,
-      "F": 41949.66
+      "D": 49990.01,
+      "E": 53835.39,
+      "F": 46144.62
     }
   },
   "LY18119114": {
@@ -55454,9 +55534,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 60.0,
     "prices": {
-      "D": 29046.19,
-      "E": 31280.51,
-      "F": 26811.86
+      "D": 31950.8,
+      "E": 34408.56,
+      "F": 29493.05
     }
   },
   "LY1811912": {
@@ -55464,9 +55544,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 180.0,
     "prices": {
-      "D": 8492.53,
-      "E": 9145.8,
-      "F": 7839.26
+      "D": 9341.79,
+      "E": 10060.39,
+      "F": 8623.19
     }
   },
   "LY1811934": {
@@ -55474,9 +55554,9 @@
     "category": "1.VALV.RET.BCE ACC.LATYN",
     "bulk": 15.0,
     "prices": {
-      "D": 13781.32,
-      "E": 14841.42,
-      "F": 12721.22
+      "D": 15159.46,
+      "E": 16325.57,
+      "F": 13993.34
     }
   },
   "LY1920751230": {
@@ -55784,9 +55864,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 2607.17,
-      "E": 2807.72,
-      "F": 2406.62
+      "D": 2867.89,
+      "E": 3088.5,
+      "F": 2647.28
     }
   },
   "LY20160300": {
@@ -55794,9 +55874,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 3251.15,
-      "E": 3501.24,
-      "F": 3001.06
+      "D": 3576.27,
+      "E": 3851.37,
+      "F": 3301.17
     }
   },
   "LY20160400": {
@@ -55804,9 +55884,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 3873.75,
-      "E": 4171.73,
-      "F": 3575.76
+      "D": 4261.12,
+      "E": 4588.9,
+      "F": 3933.34
     }
   },
   "LY20160500": {
@@ -55814,9 +55894,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 5117.09,
-      "E": 5510.71,
-      "F": 4723.46
+      "D": 5628.79,
+      "E": 6061.78,
+      "F": 5195.81
     }
   },
   "LY20160600": {
@@ -55824,9 +55904,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 5966.75,
-      "E": 6425.73,
-      "F": 5507.77
+      "D": 6563.42,
+      "E": 7068.3,
+      "F": 6058.54
     }
   },
   "LY20160700": {
@@ -55834,9 +55914,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 6789.65,
-      "E": 7311.93,
-      "F": 6267.37
+      "D": 7468.61,
+      "E": 8043.11,
+      "F": 6894.1
     }
   },
   "LY20160800": {
@@ -55844,9 +55924,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 7572.4,
-      "E": 8154.89,
-      "F": 6989.9
+      "D": 8329.64,
+      "E": 8970.38,
+      "F": 7688.9
     }
   },
   "LY20160900": {
@@ -55854,9 +55934,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 8314.19,
-      "E": 8953.74,
-      "F": 7674.64
+      "D": 9145.61,
+      "E": 9849.12,
+      "F": 8442.1
     }
   },
   "LY20161000": {
@@ -55864,9 +55944,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 9137.07,
-      "E": 9839.92,
-      "F": 8434.22
+      "D": 10050.77,
+      "E": 10823.91,
+      "F": 9277.64
     }
   },
   "LY2016105": {
@@ -55874,9 +55954,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 100.0,
     "prices": {
-      "D": 443.61,
-      "E": 477.73,
-      "F": 409.49
+      "D": 487.97,
+      "E": 525.51,
+      "F": 450.44
     }
   },
   "LY2016107": {
@@ -55884,9 +55964,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 100.0,
     "prices": {
-      "D": 193.91,
-      "E": 208.82,
-      "F": 178.99
+      "D": 213.29,
+      "E": 229.7,
+      "F": 196.89
     }
   },
   "LY2016108": {
@@ -55894,9 +55974,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 100.0,
     "prices": {
-      "D": 324.17,
-      "E": 349.11,
-      "F": 299.24
+      "D": 356.59,
+      "E": 384.02,
+      "F": 329.16
     }
   },
   "LY2016109": {
@@ -55904,9 +55984,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 20.0,
     "prices": {
-      "D": 1291.05,
-      "E": 1390.37,
-      "F": 1191.74
+      "D": 1420.16,
+      "E": 1529.4,
+      "F": 1310.92
     }
   },
   "LY20161100": {
@@ -55914,9 +55994,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 9933.2,
-      "E": 10697.3,
-      "F": 9169.11
+      "D": 10926.52,
+      "E": 11767.03,
+      "F": 10086.02
     }
   },
   "LY20161200": {
@@ -55924,9 +56004,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 10756.1,
-      "E": 11583.49,
-      "F": 9928.71
+      "D": 11831.71,
+      "E": 12741.84,
+      "F": 10921.58
     }
   },
   "LY20161300": {
@@ -55934,9 +56014,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 11412.76,
-      "E": 12290.67,
-      "F": 10534.86
+      "D": 12554.04,
+      "E": 13519.74,
+      "F": 11588.34
     }
   },
   "LY20161400": {
@@ -55944,9 +56024,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 12267.25,
-      "E": 13210.89,
-      "F": 11323.62
+      "D": 13493.98,
+      "E": 14531.98,
+      "F": 12455.98
     }
   },
   "LY20161500": {
@@ -55954,9 +56034,9 @@
     "category": "1.TERMOCUPLAS P/GAS LATYN",
     "bulk": 5.0,
     "prices": {
-      "D": 13130.28,
-      "E": 14140.3,
-      "F": 12120.26
+      "D": 14443.31,
+      "E": 15554.33,
+      "F": 13332.29
     }
   },
   "LY2033812": {
@@ -55964,9 +56044,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 32.0,
     "prices": {
-      "D": 16896.31,
-      "E": 18196.02,
-      "F": 15596.59
+      "D": 18585.94,
+      "E": 20015.63,
+      "F": 17156.25
     }
   },
   "LY2033834": {
@@ -55974,9 +56054,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 25.0,
     "prices": {
-      "D": 22166.07,
-      "E": 23871.15,
-      "F": 20460.98
+      "D": 24382.67,
+      "E": 26258.27,
+      "F": 22507.08
     }
   },
   "LY2033912": {
@@ -55984,9 +56064,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 1.0,
     "prices": {
-      "D": 20086.1,
-      "E": 21631.19,
-      "F": 18541.02
+      "D": 22094.71,
+      "E": 23794.3,
+      "F": 20395.12
     }
   },
   "LY210012": {
@@ -55994,9 +56074,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 25.0,
     "prices": {
-      "D": 2017.16,
-      "E": 2172.33,
-      "F": 1862.0
+      "D": 2218.88,
+      "E": 2389.56,
+      "F": 2048.2
     }
   },
   "LY210034": {
@@ -56004,9 +56084,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 20.0,
     "prices": {
-      "D": 2477.15,
-      "E": 2667.71,
-      "F": 2286.6
+      "D": 2724.87,
+      "E": 2934.48,
+      "F": 2515.27
     }
   },
   "LY21101": {
@@ -56014,9 +56094,9 @@
     "category": "1.CANILLAS y AC.MET.LATYN",
     "bulk": 6.0,
     "prices": {
-      "D": 24804.74,
-      "E": 26712.8,
-      "F": 22896.68
+      "D": 27285.22,
+      "E": 29384.08,
+      "F": 25186.35
     }
   },
   "LY211412": {
@@ -56024,9 +56104,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 10.0,
     "prices": {
-      "D": 17488.47,
-      "E": 18945.84,
-      "F": 17488.47
+      "D": 19237.32,
+      "E": 20840.43,
+      "F": 19237.32
     }
   },
   "LY211434": {
@@ -56034,9 +56114,9 @@
     "category": "1.CANILLAS y AC.Bce.LATYN",
     "bulk": 8.0,
     "prices": {
-      "D": 24105.88,
-      "E": 26114.71,
-      "F": 24105.88
+      "D": 26516.47,
+      "E": 28726.18,
+      "F": 26516.47
     }
   },
   "LY21301600": {
@@ -56064,9 +56144,9 @@
     "category": "1.CANILLAS y AC.MET.LATYN",
     "bulk": 120.0,
     "prices": {
-      "D": 3958.38,
-      "E": 4262.87,
-      "F": 3653.88
+      "D": 4354.21,
+      "E": 4689.15,
+      "F": 4019.27
     }
   },
   "LY21408121": {
@@ -56074,9 +56154,9 @@
     "category": "1.CANILLAS y AC.MET.LATYN",
     "bulk": 120.0,
     "prices": {
-      "D": 3958.38,
-      "E": 4262.87,
-      "F": 3653.88
+      "D": 4354.21,
+      "E": 4689.15,
+      "F": 4019.27
     }
   },
   "LY2140834": {
@@ -56084,9 +56164,9 @@
     "category": "1.CANILLAS y AC.MET.LATYN",
     "bulk": 120.0,
     "prices": {
-      "D": 6144.01,
-      "E": 6616.63,
-      "F": 5671.4
+      "D": 6758.41,
+      "E": 7278.29,
+      "F": 6238.54
     }
   },
   "LY21408341": {
@@ -56094,9 +56174,9 @@
     "category": "1.CANILLAS y AC.MET.LATYN",
     "bulk": 120.0,
     "prices": {
-      "D": 6144.01,
-      "E": 6616.63,
-      "F": 5671.4
+      "D": 6758.41,
+      "E": 7278.29,
+      "F": 6238.54
     }
   },
   "LY215112": {
@@ -56354,9 +56434,9 @@
     "category": "1.GRIF.BRONCE MESADA LY",
     "bulk": 6.0,
     "prices": {
-      "D": 26092.92,
-      "E": 28100.07,
-      "F": 24085.77
+      "D": 28702.21,
+      "E": 30910.07,
+      "F": 26494.35
     }
   },
   "LY47601": {
@@ -56364,9 +56444,9 @@
     "category": "1.GRIF.BRONCE PARED LY",
     "bulk": 6.0,
     "prices": {
-      "D": 17431.71,
-      "E": 18772.61,
-      "F": 16090.81
+      "D": 19174.88,
+      "E": 20649.87,
+      "F": 17699.89
     }
   },
   "LY47602": {
@@ -56374,9 +56454,9 @@
     "category": "1.GRIF.BRONCE PARED LY",
     "bulk": 6.0,
     "prices": {
-      "D": 17431.71,
-      "E": 18772.61,
-      "F": 16090.81
+      "D": 19174.88,
+      "E": 20649.87,
+      "F": 17699.89
     }
   },
   "LY5011": {
@@ -57864,9 +57944,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 20.0,
     "prices": {
-      "D": 3214.57,
-      "E": 3461.84,
-      "F": 2967.29
+      "D": 2583.15,
+      "E": 2781.86,
+      "F": 2384.45
     }
   },
   "MAVPTGRAM09CB": {
@@ -57874,9 +57954,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACS",
     "bulk": 20.0,
     "prices": {
-      "D": 2399.61,
-      "E": 2584.19,
-      "F": 2215.02
+      "D": 1920.22,
+      "E": 2067.93,
+      "F": 1772.51
     }
   },
   "MAVPTGRAM10B": {
@@ -57884,9 +57964,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 20.0,
     "prices": {
-      "D": 2331.69,
-      "E": 2511.05,
-      "F": 2152.33
+      "D": 1851.64,
+      "E": 1994.07,
+      "F": 1709.21
     }
   },
   "MAVPTGRAM12B": {
@@ -57894,9 +57974,9 @@
     "category": "9.GRAMPA SUJET.CABL.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 1901.58,
-      "E": 2047.85,
-      "F": 1755.3
+      "D": 1531.6,
+      "E": 1649.42,
+      "F": 1413.79
     }
   },
   "MAVPTTACHMP10": {
@@ -57904,9 +57984,9 @@
     "category": "9.PISTOLA TERMOELECTRICA",
     "bulk": 48.0,
     "prices": {
-      "D": 6093.71,
-      "E": 6562.45,
-      "F": 5624.96
+      "D": 5943.53,
+      "E": 6400.73,
+      "F": 5486.34
     }
   },
   "MAVPTTACHMP60": {
@@ -57914,9 +57994,9 @@
     "category": "9.PISTOLA TERMOELECTRICA",
     "bulk": 48.0,
     "prices": {
-      "D": 9166.16,
-      "E": 9871.25,
-      "F": 8461.07
+      "D": 8892.44,
+      "E": 9576.47,
+      "F": 8208.41
     }
   },
   "MAVTACAUTO": {
@@ -57924,9 +58004,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 10.0,
     "prices": {
-      "D": 3339.05,
-      "E": 3595.9,
-      "F": 3082.2
+      "D": 3360.38,
+      "E": 3618.87,
+      "F": 3101.89
     }
   },
   "MAVTACPLUS10": {
@@ -57934,9 +58014,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 150.0,
     "prices": {
-      "D": 839.8,
-      "E": 904.41,
-      "F": 775.2
+      "D": 800.09,
+      "E": 861.64,
+      "F": 738.55
     }
   },
   "MAVTACPLUS20": {
@@ -57944,9 +58024,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 100.0,
     "prices": {
-      "D": 1443.41,
-      "E": 1554.45,
-      "F": 1332.38
+      "D": 1394.44,
+      "E": 1501.71,
+      "F": 1287.18
     }
   },
   "MAVTACPLUS5": {
@@ -57954,9 +58034,9 @@
     "category": "9.CINTA AISLADORA TACSA",
     "bulk": 200.0,
     "prices": {
-      "D": 551.12,
-      "E": 593.52,
-      "F": 508.73
+      "D": 525.77,
+      "E": 566.22,
+      "F": 485.33
     }
   },
   "MAVTERM2.4": {
@@ -57964,9 +58044,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 11556.83,
-      "E": 12445.81,
-      "F": 10667.84
+      "D": 9875.41,
+      "E": 10635.06,
+      "F": 9115.76
     }
   },
   "MAVTERM3.2": {
@@ -57974,9 +58054,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 12654.99,
-      "E": 13628.45,
-      "F": 11681.52
+      "D": 10812.66,
+      "E": 11644.4,
+      "F": 9980.91
     }
   },
   "MAVTERM4.8": {
@@ -57984,9 +58064,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 15008.18,
-      "E": 16162.66,
-      "F": 13853.71
+      "D": 12824.32,
+      "E": 13810.8,
+      "F": 11837.83
     }
   },
   "MAVTERM6.4": {
@@ -57994,9 +58074,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 16655.42,
-      "E": 17936.61,
-      "F": 15374.24
+      "D": 14241.62,
+      "E": 15337.13,
+      "F": 13146.11
     }
   },
   "MAVTERM8.0": {
@@ -58004,9 +58084,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 1.0,
     "prices": {
-      "D": 20917.33,
-      "E": 22526.36,
-      "F": 19308.3
+      "D": 17876.32,
+      "E": 19251.42,
+      "F": 16501.22
     }
   },
   "MAVTERM9.5": {
@@ -58014,9 +58094,9 @@
     "category": "9.SPAGUETTI TERMOC.TACSA",
     "bulk": 8.0,
     "prices": {
-      "D": 22486.13,
-      "E": 24215.83,
-      "F": 20756.43
+      "D": 19225.04,
+      "E": 20703.89,
+      "F": 17746.19
     }
   },
   "MAVVAHA": {
@@ -58034,9 +58114,9 @@
     "category": "8.CALEFACCION",
     "bulk": 50.0,
     "prices": {
-      "D": 3222.56,
-      "E": 3470.45,
-      "F": 3098.61
+      "D": 3254.15,
+      "E": 3504.47,
+      "F": 3128.99
     }
   },
   "MAVZT-1001": {
@@ -60194,7 +60274,7 @@
     "category": "8.PINZA ALICATE METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 8242.81,
+      "D": 8242.8,
       "E": 8876.87,
       "F": 7608.74
     }
@@ -60205,7 +60285,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 11002.01,
-      "E": 11848.32,
+      "E": 11848.31,
       "F": 10155.7
     }
   },
@@ -60245,7 +60325,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 8396.15,
-      "E": 9042.0,
+      "E": 9042.01,
       "F": 7750.29
     }
   },
@@ -60254,7 +60334,7 @@
     "category": "8.PINZA ALICATE METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 9930.74,
+      "D": 9930.73,
       "E": 10694.64,
       "F": 9166.83
     }
@@ -60274,9 +60354,9 @@
     "category": "8.BOCALL.ESTRISD.mmRHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 2320.7,
-      "E": 2499.22,
-      "F": 2142.18
+      "D": 2466.91,
+      "E": 2656.67,
+      "F": 2277.15
     }
   },
   "MCBOCA11": {
@@ -60286,7 +60366,7 @@
     "prices": {
       "D": 2320.7,
       "E": 2499.22,
-      "F": 2142.18
+      "F": 2142.19
     }
   },
   "MCBOCA12": {
@@ -60296,7 +60376,7 @@
     "prices": {
       "D": 2320.7,
       "E": 2499.22,
-      "F": 2142.18
+      "F": 2142.19
     }
   },
   "MCBOCA13": {
@@ -60305,8 +60385,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 2434.85,
-      "E": 2622.15,
-      "F": 2247.56
+      "E": 2622.14,
+      "F": 2247.55
     }
   },
   "MCBOCA14": {
@@ -60315,8 +60395,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 2434.85,
-      "E": 2622.15,
-      "F": 2247.56
+      "E": 2622.14,
+      "F": 2247.55
     }
   },
   "MCBOCA15": {
@@ -60325,8 +60405,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 2434.85,
-      "E": 2622.15,
-      "F": 2247.56
+      "E": 2622.14,
+      "F": 2247.55
     }
   },
   "MCBOCA16": {
@@ -60335,8 +60415,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 2434.85,
-      "E": 2622.15,
-      "F": 2247.56
+      "E": 2622.14,
+      "F": 2247.55
     }
   },
   "MCBOCA17": {
@@ -60344,8 +60424,8 @@
     "category": "8.BOCALL.ESTRIAD.mmRHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 2599.05,
-      "E": 2798.98,
+      "D": 2599.06,
+      "E": 2798.99,
       "F": 2399.13
     }
   },
@@ -60376,7 +60456,7 @@
     "prices": {
       "D": 3291.83,
       "E": 3545.05,
-      "F": 3038.61
+      "F": 3038.62
     }
   },
   "MCBOCA21": {
@@ -60386,7 +60466,7 @@
     "prices": {
       "D": 3291.83,
       "E": 3545.05,
-      "F": 3038.61
+      "F": 3038.62
     }
   },
   "MCBOCA22": {
@@ -60415,8 +60495,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 4608.56,
-      "E": 4963.06,
-      "F": 4254.05
+      "E": 4963.07,
+      "F": 4254.06
     }
   },
   "MCBOCA25": {
@@ -60425,7 +60505,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 4710.2,
-      "E": 5072.53,
+      "E": 5072.52,
       "F": 4347.88
     }
   },
@@ -60435,7 +60515,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 4732.1,
-      "E": 5096.1,
+      "E": 5096.11,
       "F": 4368.09
     }
   },
@@ -60496,7 +60576,7 @@
     "prices": {
       "D": 2320.7,
       "E": 2499.22,
-      "F": 2142.18
+      "F": 2142.19
     }
   },
   "MCBOCA8": {
@@ -60506,7 +60586,7 @@
     "prices": {
       "D": 2320.7,
       "E": 2499.22,
-      "F": 2142.18
+      "F": 2142.19
     }
   },
   "MCBOCA9": {
@@ -60516,7 +60596,7 @@
     "prices": {
       "D": 2320.7,
       "E": 2499.22,
-      "F": 2142.18
+      "F": 2142.19
     }
   },
   "MCBOCAM14": {
@@ -60525,7 +60605,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 2739.8,
-      "E": 2950.56,
+      "E": 2950.55,
       "F": 2529.05
     }
   },
@@ -60535,7 +60615,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 3032.23,
-      "E": 3265.48,
+      "E": 3265.47,
       "F": 2798.98
     }
   },
@@ -60545,7 +60625,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 2927.63,
-      "E": 3152.84,
+      "E": 3152.83,
       "F": 2702.43
     }
   },
@@ -60556,7 +60636,7 @@
     "prices": {
       "D": 3637.43,
       "E": 3917.23,
-      "F": 3357.62
+      "F": 3357.63
     }
   },
   "MCBOPR1": {
@@ -60594,7 +60674,7 @@
     "category": "8.CANDADOS PROLL",
     "bulk": 1.0,
     "prices": {
-      "D": 3.98,
+      "D": 3.97,
       "E": 4.28,
       "F": 3.67
     }
@@ -60655,8 +60735,8 @@
     "bulk": 12.0,
     "prices": {
       "D": 3602.13,
-      "E": 3879.22,
-      "F": 3325.05
+      "E": 3879.21,
+      "F": 3325.04
     }
   },
   "MCCANB25": {
@@ -60664,9 +60744,9 @@
     "category": "8.CANDADOS PROLL",
     "bulk": 12.0,
     "prices": {
-      "D": 5597.38,
+      "D": 5597.37,
       "E": 6027.94,
-      "F": 5166.81
+      "F": 5166.8
     }
   },
   "MCCANB30": {
@@ -60696,7 +60776,7 @@
     "prices": {
       "D": 19861.24,
       "E": 21389.03,
-      "F": 18333.45
+      "F": 18333.46
     }
   },
   "MCCANB60": {
@@ -60705,7 +60785,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 27744.49,
-      "E": 29878.68,
+      "E": 29878.69,
       "F": 25610.3
     }
   },
@@ -60724,8 +60804,8 @@
     "category": "8.CANDADOS PROLL",
     "bulk": 6.0,
     "prices": {
-      "D": 5931.0,
-      "E": 6387.23,
+      "D": 5931.01,
+      "E": 6387.24,
       "F": 5474.77
     }
   },
@@ -60734,9 +60814,9 @@
     "category": "8.CANDADOS PROLL",
     "bulk": 6.0,
     "prices": {
-      "D": 9066.58,
-      "E": 9764.01,
-      "F": 8369.15
+      "D": 9066.59,
+      "E": 9764.02,
+      "F": 8369.16
     }
   },
   "MCCANP60": {
@@ -60754,8 +60834,8 @@
     "category": "8.CANDADOS PROLL",
     "bulk": 6.0,
     "prices": {
-      "D": 4765.91,
-      "E": 5132.52,
+      "D": 4765.92,
+      "E": 5132.53,
       "F": 4399.31
     }
   },
@@ -60766,7 +60846,7 @@
     "prices": {
       "D": 5786.35,
       "E": 6231.45,
-      "F": 5341.25
+      "F": 5341.24
     }
   },
   "MCCANT50": {
@@ -60785,7 +60865,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 11670.44,
-      "E": 12568.17,
+      "E": 12568.16,
       "F": 10772.71
     }
   },
@@ -60795,7 +60875,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 9422.35,
-      "E": 10207.55,
+      "E": 10207.54,
       "F": 9422.35
     }
   },
@@ -60815,7 +60895,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 5641.86,
-      "E": 6112.02,
+      "E": 6112.01,
       "F": 5641.86
     }
   },
@@ -60836,7 +60916,7 @@
     "prices": {
       "D": 1971.1,
       "E": 2135.35,
-      "F": 1971.09
+      "F": 1971.1
     }
   },
   "MCCECOE24": {
@@ -60845,7 +60925,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 2732.39,
-      "E": 2960.09,
+      "E": 2960.08,
       "F": 2732.39
     }
   },
@@ -60855,7 +60935,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 3954.69,
-      "E": 4284.25,
+      "E": 4284.24,
       "F": 3954.69
     }
   },
@@ -60874,9 +60954,9 @@
     "category": "8.CEPILLO COPA CIRC.RHEIN",
     "bulk": 12.0,
     "prices": {
-      "D": 3737.18,
-      "E": 4048.61,
-      "F": 3737.18
+      "D": 3737.17,
+      "E": 4048.6,
+      "F": 3737.17
     }
   },
   "MCCECON10": {
@@ -60914,9 +60994,9 @@
     "category": "8.CEPILLO COPA CIRC.RHEIN",
     "bulk": 12.0,
     "prices": {
-      "D": 18521.31,
-      "E": 20064.75,
-      "F": 18521.31
+      "D": 18521.32,
+      "E": 20064.76,
+      "F": 18521.32
     }
   },
   "MCCECOR125": {
@@ -60934,9 +61014,9 @@
     "category": "8.CEPILLO COPA CIRC.RHEIN",
     "bulk": 12.0,
     "prices": {
-      "D": 6103.84,
-      "E": 6612.49,
-      "F": 6103.84
+      "D": 6103.83,
+      "E": 6612.48,
+      "F": 6103.83
     }
   },
   "MCCECOR75": {
@@ -60964,7 +61044,7 @@
     "category": "8.CEPILLO CIRC.P/O.RHEIN",
     "bulk": 1.0,
     "prices": {
-      "D": 13314.49,
+      "D": 13314.48,
       "E": 14424.02,
       "F": 13314.48
     }
@@ -60974,9 +61054,9 @@
     "category": "8.CEPILLO CIRC.P/O.RHEIN",
     "bulk": 1.0,
     "prices": {
-      "D": 16635.88,
+      "D": 16635.87,
       "E": 18022.2,
-      "F": 16635.88
+      "F": 16635.87
     }
   },
   "MCCEPLRE200": {
@@ -61034,9 +61114,9 @@
     "category": "8.CEPILLO CIRC.P/O.RHEIN",
     "bulk": 1.0,
     "prices": {
-      "D": 17050.69,
+      "D": 17050.7,
       "E": 18471.59,
-      "F": 17050.69
+      "F": 17050.7
     }
   },
   "MCCICO1425P": {
@@ -61056,7 +61136,7 @@
     "prices": {
       "D": 7936.3,
       "E": 8546.78,
-      "F": 7325.82
+      "F": 7325.81
     }
   },
   "MCCIPUM1840": {
@@ -61064,8 +61144,8 @@
     "category": "8.SDS PLUS CINCEL ESSAMET",
     "bulk": 1.0,
     "prices": {
-      "D": 20387.28,
-      "E": 21955.53,
+      "D": 20387.29,
+      "E": 21955.54,
       "F": 18819.03
     }
   },
@@ -61075,7 +61155,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 1834.5,
-      "E": 1975.61,
+      "E": 1975.62,
       "F": 1693.38
     }
   },
@@ -61085,8 +61165,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 1842.41,
-      "E": 1984.13,
-      "F": 1700.68
+      "E": 1984.14,
+      "F": 1700.69
     }
   },
   "MCDEM3005": {
@@ -61096,7 +61176,7 @@
     "prices": {
       "D": 2047.99,
       "E": 2205.53,
-      "F": 1890.46
+      "F": 1890.45
     }
   },
   "MCDEM3006": {
@@ -61114,9 +61194,9 @@
     "category": "8.DESTORN.PLANO  METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 4105.4,
-      "E": 4421.2,
-      "F": 3789.6
+      "D": 4105.39,
+      "E": 4421.19,
+      "F": 3789.59
     }
   },
   "MCDEM3020": {
@@ -61136,7 +61216,7 @@
     "prices": {
       "D": 3035.29,
       "E": 3268.77,
-      "F": 2801.8
+      "F": 2801.81
     }
   },
   "MCDEM3030": {
@@ -61144,9 +61224,9 @@
     "category": "8.DESTORN.PLANO  METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 3214.9,
-      "E": 3462.2,
-      "F": 2967.6
+      "D": 3214.89,
+      "E": 3462.19,
+      "F": 2967.59
     }
   },
   "MCDEM3031": {
@@ -61156,7 +61236,7 @@
     "prices": {
       "D": 3431.78,
       "E": 3695.76,
-      "F": 3167.8
+      "F": 3167.79
     }
   },
   "MCDEM3035": {
@@ -61214,8 +61294,8 @@
     "category": "8.DESTORN.PLANO  METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 13079.86,
-      "E": 14086.0,
+      "D": 13079.85,
+      "E": 14085.99,
       "F": 12073.71
     }
   },
@@ -61226,7 +61306,7 @@
     "prices": {
       "D": 13976.77,
       "E": 15051.91,
-      "F": 12901.64
+      "F": 12901.63
     }
   },
   "MCDEM3100": {
@@ -61255,7 +61335,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 2515.66,
-      "E": 2709.18,
+      "E": 2709.17,
       "F": 2322.15
     }
   },
@@ -61266,7 +61346,7 @@
     "prices": {
       "D": 2694.14,
       "E": 2901.38,
-      "F": 2486.89
+      "F": 2486.9
     }
   },
   "MCDEM3110": {
@@ -61276,7 +61356,7 @@
     "prices": {
       "D": 3156.16,
       "E": 3398.94,
-      "F": 2913.37
+      "F": 2913.38
     }
   },
   "MCDEM3111": {
@@ -61305,7 +61385,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 4242.84,
-      "E": 4569.22,
+      "E": 4569.21,
       "F": 3916.47
     }
   },
@@ -61316,7 +61396,7 @@
     "prices": {
       "D": 4554.62,
       "E": 4904.98,
-      "F": 4204.26
+      "F": 4204.27
     }
   },
   "MCDEM3122": {
@@ -61344,9 +61424,9 @@
     "category": "8.DISCO DIAMANT.RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 21815.02,
+      "D": 21815.03,
       "E": 23493.1,
-      "F": 20136.94
+      "F": 20136.95
     }
   },
   "MCDID39": {
@@ -61354,7 +61434,7 @@
     "category": "8.DISCO DIAMANT.RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 35443.15,
+      "D": 35443.14,
       "E": 38169.54,
       "F": 32716.75
     }
@@ -61384,9 +61464,9 @@
     "category": "8.DISCO DIAMANT.RHEIN 115",
     "bulk": 1.0,
     "prices": {
-      "D": 36104.89,
+      "D": 36104.88,
       "E": 38882.18,
-      "F": 33327.59
+      "F": 33327.58
     }
   },
   "MCDIDL7": {
@@ -61425,7 +61505,7 @@
     "bulk": 1.0,
     "prices": {
       "D": 223093.73,
-      "E": 240254.79,
+      "E": 240254.78,
       "F": 205932.67
     }
   },
@@ -61435,7 +61515,7 @@
     "bulk": 40.0,
     "prices": {
       "D": 17052.2,
-      "E": 18363.9,
+      "E": 18363.91,
       "F": 15740.49
     }
   },
@@ -61464,7 +61544,7 @@
     "category": "8.DISCO DIAMANT.RHEIN 180",
     "bulk": 40.0,
     "prices": {
-      "D": 19087.45,
+      "D": 19087.44,
       "E": 20555.71,
       "F": 17619.18
     }
@@ -61476,7 +61556,7 @@
     "prices": {
       "D": 30667.81,
       "E": 33026.87,
-      "F": 28308.75
+      "F": 28308.74
     }
   },
   "MCDIDTC": {
@@ -61494,7 +61574,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 2160.79,
+      "D": 2160.8,
       "E": 2327.01,
       "F": 1994.58
     }
@@ -61504,7 +61584,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 2160.79,
+      "D": 2160.8,
       "E": 2327.01,
       "F": 1994.58
     }
@@ -61514,7 +61594,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 2160.79,
+      "D": 2160.8,
       "E": 2327.01,
       "F": 1994.58
     }
@@ -61574,7 +61654,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 10.0,
     "prices": {
-      "D": 2160.79,
+      "D": 2160.8,
       "E": 2327.01,
       "F": 1994.58
     }
@@ -61584,7 +61664,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 12461.6,
+      "D": 12461.59,
       "E": 13420.18,
       "F": 11503.01
     }
@@ -61594,7 +61674,7 @@
     "category": "8.DISCO FLAP RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 12461.6,
+      "D": 12461.59,
       "E": 13420.18,
       "F": 11503.01
     }
@@ -61635,7 +61715,7 @@
     "bulk": 1.0,
     "prices": {
       "D": 13065.1,
-      "E": 14070.11,
+      "E": 14070.1,
       "F": 12060.09
     }
   },
@@ -61865,7 +61945,7 @@
     "bulk": 1.0,
     "prices": {
       "D": 6932.92,
-      "E": 7466.23,
+      "E": 7466.22,
       "F": 6399.62
     }
   },
@@ -61884,7 +61964,7 @@
     "category": "8.MAQ.AMOLAD.ACC.KOLN",
     "bulk": 5.0,
     "prices": {
-      "D": 7377.8,
+      "D": 7377.79,
       "E": 7945.32,
       "F": 6810.27
     }
@@ -61904,9 +61984,9 @@
     "category": "8.GUANTES MOTEADOS",
     "bulk": 12.0,
     "prices": {
-      "D": 887.35,
-      "E": 955.6,
-      "F": 819.09
+      "D": 915.77,
+      "E": 986.21,
+      "F": 845.32
     }
   },
   "MCLCB10": {
@@ -61914,7 +61994,7 @@
     "category": "8.LIMA CUADRA.BASTA.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 5546.9,
+      "D": 5546.89,
       "E": 5973.58,
       "F": 5120.21
     }
@@ -61935,7 +62015,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 6822.06,
-      "E": 7346.83,
+      "E": 7346.84,
       "F": 6297.29
     }
   },
@@ -61945,7 +62025,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 9173.23,
-      "E": 9878.86,
+      "E": 9878.87,
       "F": 8467.6
     }
   },
@@ -61956,7 +62036,7 @@
     "prices": {
       "D": 13510.66,
       "E": 14549.94,
-      "F": 12471.38
+      "F": 12471.37
     }
   },
   "MCLCF10": {
@@ -61984,7 +62064,7 @@
     "category": "8.LIMA CUADRAD.FINA.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 8466.32,
+      "D": 8466.31,
       "E": 9117.57,
       "F": 7815.06
     }
@@ -62004,8 +62084,8 @@
     "category": "8.LIMA CUADRAD.FINA.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 16444.67,
-      "E": 17709.65,
+      "D": 16444.68,
+      "E": 17709.66,
       "F": 15179.7
     }
   },
@@ -62024,7 +62104,7 @@
     "category": "8.LIMA CUADRA.E/FIN.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 6325.75,
+      "D": 6325.76,
       "E": 6812.35,
       "F": 5839.16
     }
@@ -62086,7 +62166,7 @@
     "prices": {
       "D": 15872.26,
       "E": 17093.2,
-      "F": 14651.32
+      "F": 14651.31
     }
   },
   "MCLER20": {
@@ -62104,8 +62184,8 @@
     "category": "8.LIMA ESCOFINA RED.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 9706.03,
-      "E": 10452.65,
+      "D": 9706.02,
+      "E": 10452.64,
       "F": 8959.41
     }
   },
@@ -62446,7 +62526,7 @@
     "prices": {
       "D": 19934.39,
       "E": 21467.8,
-      "F": 18400.98
+      "F": 18400.97
     }
   },
   "MCLLAJ12": {
@@ -62454,9 +62534,9 @@
     "category": "8.LLAVE AJUST.FOSF.METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 28348.34,
+      "D": 28348.35,
       "E": 30528.99,
-      "F": 26167.7
+      "F": 26167.71
     }
   },
   "MCLLAJ15": {
@@ -62464,9 +62544,9 @@
     "category": "8.LLAVE AJUST.FOSF.METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 60877.07,
+      "D": 60877.08,
       "E": 65559.93,
-      "F": 56194.22
+      "F": 56194.23
     }
   },
   "MCLLAJ18": {
@@ -62486,7 +62566,7 @@
     "prices": {
       "D": 10905.93,
       "E": 11744.85,
-      "F": 10067.01
+      "F": 10067.02
     }
   },
   "MCLLAJ8": {
@@ -62496,7 +62576,7 @@
     "prices": {
       "D": 14362.51,
       "E": 15467.32,
-      "F": 13257.71
+      "F": 13257.7
     }
   },
   "MCLLC10": {
@@ -62574,7 +62654,7 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 6546.73,
+      "D": 6546.74,
       "E": 7050.33,
       "F": 6043.14
     }
@@ -62586,7 +62666,7 @@
     "prices": {
       "D": 7265.19,
       "E": 7824.05,
-      "F": 6706.33
+      "F": 6706.32
     }
   },
   "MCLLC19": {
@@ -62596,7 +62676,7 @@
     "prices": {
       "D": 7443.65,
       "E": 8016.24,
-      "F": 6871.06
+      "F": 6871.07
     }
   },
   "MCLLC20": {
@@ -62604,7 +62684,7 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 9947.9,
+      "D": 9947.91,
       "E": 10713.13,
       "F": 9182.68
     }
@@ -62614,7 +62694,7 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 11191.38,
+      "D": 11191.39,
       "E": 12052.26,
       "F": 10330.51
     }
@@ -62624,7 +62704,7 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 11829.25,
+      "D": 11829.26,
       "E": 12739.2,
       "F": 10919.31
     }
@@ -62654,7 +62734,7 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 16924.09,
+      "D": 16924.1,
       "E": 18225.95,
       "F": 15622.24
     }
@@ -62666,7 +62746,7 @@
     "prices": {
       "D": 18408.22,
       "E": 19824.24,
-      "F": 16992.21
+      "F": 16992.2
     }
   },
   "MCLLC27": {
@@ -62695,7 +62775,7 @@
     "bulk": 10.0,
     "prices": {
       "D": 23134.62,
-      "E": 24914.2,
+      "E": 24914.21,
       "F": 21355.03
     }
   },
@@ -62714,9 +62794,9 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 5.0,
     "prices": {
-      "D": 25703.34,
-      "E": 27680.52,
-      "F": 23726.16
+      "D": 25703.35,
+      "E": 27680.53,
+      "F": 23726.17
     }
   },
   "MCLLC6": {
@@ -62725,7 +62805,7 @@
     "bulk": 10.0,
     "prices": {
       "D": 3127.14,
-      "E": 3367.69,
+      "E": 3367.68,
       "F": 2886.59
     }
   },
@@ -62736,7 +62816,7 @@
     "prices": {
       "D": 3203.13,
       "E": 3449.52,
-      "F": 2956.73
+      "F": 2956.74
     }
   },
   "MCLLC8": {
@@ -62744,9 +62824,9 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 10.0,
     "prices": {
-      "D": 3288.33,
-      "E": 3541.28,
-      "F": 3035.38
+      "D": 3288.34,
+      "E": 3541.29,
+      "F": 3035.39
     }
   },
   "MCLLC9": {
@@ -62764,9 +62844,9 @@
     "category": "8.LLAVE COMBIN/RHEIN MILI",
     "bulk": 0.0,
     "prices": {
-      "D": 1.16,
-      "E": 1.25,
-      "F": 1.07
+      "D": 1.15,
+      "E": 1.24,
+      "F": 1.06
     }
   },
   "MCLLCP14": {
@@ -62776,7 +62856,7 @@
     "prices": {
       "D": 3180.1,
       "E": 3424.72,
-      "F": 2935.48
+      "F": 2935.47
     }
   },
   "MCLLT10": {
@@ -62814,7 +62894,7 @@
     "category": "8.LLAVE \"T\" Cta mmRHEIN",
     "bulk": 12.0,
     "prices": {
-      "D": 6910.48,
+      "D": 6910.49,
       "E": 7442.06,
       "F": 6378.91
     }
@@ -62824,9 +62904,9 @@
     "category": "8.LLAVE \"T\" Cta mmRHEIN",
     "bulk": 12.0,
     "prices": {
-      "D": 7254.52,
+      "D": 7254.53,
       "E": 7812.57,
-      "F": 6696.48
+      "F": 6696.49
     }
   },
   "MCLLT15": {
@@ -62834,8 +62914,8 @@
     "category": "8.LLAVE \"T\" Cta mmRHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7869.11,
-      "E": 8474.43,
+      "D": 7869.1,
+      "E": 8474.42,
       "F": 7263.79
     }
   },
@@ -62844,8 +62924,8 @@
     "category": "8.LLAVE \"T\" Cta mmRHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7869.11,
-      "E": 8474.43,
+      "D": 7869.1,
+      "E": 8474.42,
       "F": 7263.79
     }
   },
@@ -62854,8 +62934,8 @@
     "category": "8.LLAVE \"T\" Cta mmRHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7869.11,
-      "E": 8474.43,
+      "D": 7869.1,
+      "E": 8474.42,
       "F": 7263.79
     }
   },
@@ -62905,7 +62985,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 6720.51,
-      "E": 7237.48,
+      "E": 7237.47,
       "F": 6203.55
     }
   },
@@ -62915,7 +62995,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 6720.51,
-      "E": 7237.48,
+      "E": 7237.47,
       "F": 6203.55
     }
   },
@@ -62925,7 +63005,7 @@
     "bulk": 12.0,
     "prices": {
       "D": 6720.51,
-      "E": 7237.48,
+      "E": 7237.47,
       "F": 6203.55
     }
   },
@@ -62934,8 +63014,8 @@
     "category": "8.LLAVE \"T\" Crta\"\"RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7869.11,
-      "E": 8474.43,
+      "D": 7869.1,
+      "E": 8474.42,
       "F": 7263.79
     }
   },
@@ -62944,7 +63024,7 @@
     "category": "8.LLAVE \"T\" Crta\"\"RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 6910.48,
+      "D": 6910.49,
       "E": 7442.06,
       "F": 6378.91
     }
@@ -63014,8 +63094,8 @@
     "category": "8.LLAVE \"T\" Crta\"\"RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7869.11,
-      "E": 8474.43,
+      "D": 7869.1,
+      "E": 8474.42,
       "F": 7263.79
     }
   },
@@ -63044,9 +63124,9 @@
     "category": "8.LLAVE \"T\" Crta\"\"RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 7254.52,
+      "D": 7254.53,
       "E": 7812.57,
-      "F": 6696.48
+      "F": 6696.49
     }
   },
   "MCLMCB10": {
@@ -63074,9 +63154,9 @@
     "category": "8.LIMA MED.CA\u00d1A BAS.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 9981.28,
+      "D": 9981.29,
       "E": 10749.08,
-      "F": 9213.49
+      "F": 9213.5
     }
   },
   "MCLMCB25": {
@@ -63084,9 +63164,9 @@
     "category": "8.LIMA MED.CA\u00d1A BAS.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 13003.93,
+      "D": 13003.92,
       "E": 14004.23,
-      "F": 12003.63
+      "F": 12003.62
     }
   },
   "MCLMCB30": {
@@ -63095,7 +63175,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 16572.92,
-      "E": 17847.76,
+      "E": 17847.75,
       "F": 15298.08
     }
   },
@@ -63114,7 +63194,7 @@
     "category": "8.LIMA MEDIA CA\u00d1A F.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 8864.61,
+      "D": 8864.62,
       "E": 9546.51,
       "F": 8182.72
     }
@@ -63126,7 +63206,7 @@
     "prices": {
       "D": 11575.5,
       "E": 12465.92,
-      "F": 10685.08
+      "F": 10685.07
     }
   },
   "MCLMCF25": {
@@ -63175,7 +63255,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 10917.59,
-      "E": 11757.4,
+      "E": 11757.41,
       "F": 10077.78
     }
   },
@@ -63184,8 +63264,8 @@
     "category": "8.LIMA MED.CA\u00d1A E/F.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 15246.68,
-      "E": 16419.5,
+      "D": 15246.67,
+      "E": 16419.49,
       "F": 14073.85
     }
   },
@@ -63196,7 +63276,7 @@
     "prices": {
       "D": 18638.41,
       "E": 20072.13,
-      "F": 17204.69
+      "F": 17204.68
     }
   },
   "MCLPB10": {
@@ -63205,7 +63285,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 5768.98,
-      "E": 6212.75,
+      "E": 6212.74,
       "F": 5325.21
     }
   },
@@ -63236,7 +63316,7 @@
     "prices": {
       "D": 10541.2,
       "E": 11352.06,
-      "F": 9730.33
+      "F": 9730.34
     }
   },
   "MCLPB30": {
@@ -63255,7 +63335,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 6753.24,
-      "E": 7272.73,
+      "E": 7272.72,
       "F": 6233.76
     }
   },
@@ -63285,7 +63365,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 13111.32,
-      "E": 14119.89,
+      "E": 14119.88,
       "F": 12102.76
     }
   },
@@ -63294,9 +63374,9 @@
     "category": "8.LIMA PLAN.PAR.FIN.PLE",
     "bulk": 6.0,
     "prices": {
-      "D": 16838.8,
+      "D": 16838.79,
       "E": 18134.09,
-      "F": 15543.51
+      "F": 15543.5
     }
   },
   "MCLPM10": {
@@ -63355,7 +63435,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 5226.81,
-      "E": 5628.87,
+      "E": 5628.88,
       "F": 4824.75
     }
   },
@@ -63365,8 +63445,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 5707.46,
-      "E": 6146.5,
-      "F": 5268.43
+      "E": 6146.49,
+      "F": 5268.42
     }
   },
   "MCLRB20": {
@@ -63404,8 +63484,8 @@
     "category": "8.LIMA ROMBOIDAL   PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 8732.2,
-      "E": 9403.91,
+      "D": 8732.19,
+      "E": 9403.9,
       "F": 8060.49
     }
   },
@@ -63414,7 +63494,7 @@
     "category": "8.LIMA REDOND.FINA PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 6116.18,
+      "D": 6116.19,
       "E": 6586.66,
       "F": 5645.71
     }
@@ -63426,7 +63506,7 @@
     "prices": {
       "D": 6363.29,
       "E": 6852.77,
-      "F": 5873.8
+      "F": 5873.81
     }
   },
   "MCLRF20": {
@@ -63454,7 +63534,7 @@
     "category": "8.LIMA REDOND.FINA PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 14905.72,
+      "D": 14905.73,
       "E": 16052.32,
       "F": 13759.13
     }
@@ -63475,7 +63555,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 5689.74,
-      "E": 6127.42,
+      "E": 6127.41,
       "F": 5252.07
     }
   },
@@ -63485,7 +63565,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 6890.88,
-      "E": 7420.94,
+      "E": 7420.95,
       "F": 6360.81
     }
   },
@@ -63506,7 +63586,7 @@
     "prices": {
       "D": 13510.66,
       "E": 14549.94,
-      "F": 12471.38
+      "F": 12471.37
     }
   },
   "MCLTB10": {
@@ -63525,8 +63605,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 6579.12,
-      "E": 7085.2,
-      "F": 6073.03
+      "E": 7085.21,
+      "F": 6073.04
     }
   },
   "MCLTB20": {
@@ -63556,7 +63636,7 @@
     "prices": {
       "D": 7735.42,
       "E": 8330.45,
-      "F": 7140.39
+      "F": 7140.38
     }
   },
   "MCLTF15": {
@@ -63575,7 +63655,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 9652.86,
-      "E": 10395.39,
+      "E": 10395.38,
       "F": 8910.33
     }
   },
@@ -63584,9 +63664,9 @@
     "category": "8.LIMA TRIANG.FINA PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 11868.48,
-      "E": 12781.44,
-      "F": 10955.52
+      "D": 11868.49,
+      "E": 12781.45,
+      "F": 10955.53
     }
   },
   "MCLTM10": {
@@ -63594,7 +63674,7 @@
     "category": "8.LIMA TRIANG.E/FIN.PLENA",
     "bulk": 6.0,
     "prices": {
-      "D": 6876.28,
+      "D": 6876.27,
       "E": 7405.22,
       "F": 6347.33
     }
@@ -63625,7 +63705,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 12515.97,
-      "E": 13478.74,
+      "E": 13478.73,
       "F": 11553.2
     }
   },
@@ -63636,7 +63716,7 @@
     "prices": {
       "D": 2734.87,
       "E": 2945.24,
-      "F": 2524.5
+      "F": 2524.49
     }
   },
   "MCLTS15I": {
@@ -63656,7 +63736,7 @@
     "prices": {
       "D": 3598.19,
       "E": 3874.97,
-      "F": 3321.4
+      "F": 3321.41
     }
   },
   "MCMEARE1": {
@@ -63666,7 +63746,7 @@
     "prices": {
       "D": 1359.76,
       "E": 1464.36,
-      "F": 1255.17
+      "F": 1255.16
     }
   },
   "MCMEARE10": {
@@ -63684,8 +63764,8 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 10487.21,
-      "E": 11293.92,
+      "D": 10487.2,
+      "E": 11293.91,
       "F": 9680.5
     }
   },
@@ -63694,9 +63774,9 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 10862.54,
-      "E": 11698.12,
-      "F": 10026.96
+      "D": 10862.53,
+      "E": 11698.11,
+      "F": 10026.95
     }
   },
   "MCMEARE1075": {
@@ -63744,8 +63824,8 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 14282.08,
-      "E": 15380.7,
+      "D": 14282.09,
+      "E": 15380.71,
       "F": 13183.46
     }
   },
@@ -63755,8 +63835,8 @@
     "bulk": 5.0,
     "prices": {
       "D": 15147.03,
-      "E": 16312.19,
-      "F": 13981.88
+      "E": 16312.18,
+      "F": 13981.87
     }
   },
   "MCMEARE1225": {
@@ -63764,9 +63844,9 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 16408.09,
+      "D": 16408.08,
       "E": 17670.25,
-      "F": 15145.93
+      "F": 15145.92
     }
   },
   "MCMEARE125": {
@@ -63776,7 +63856,7 @@
     "prices": {
       "D": 1359.76,
       "E": 1464.36,
-      "F": 1255.17
+      "F": 1255.16
     }
   },
   "MCMEARE1250": {
@@ -63785,8 +63865,8 @@
     "bulk": 5.0,
     "prices": {
       "D": 17006.8,
-      "E": 18315.01,
-      "F": 15698.58
+      "E": 18315.02,
+      "F": 15698.59
     }
   },
   "MCMEARE1275": {
@@ -63826,7 +63906,7 @@
     "prices": {
       "D": 38666.93,
       "E": 41641.31,
-      "F": 35692.55
+      "F": 35692.56
     }
   },
   "MCMEARE1450": {
@@ -63846,7 +63926,7 @@
     "prices": {
       "D": 44329.38,
       "E": 47739.33,
-      "F": 40919.42
+      "F": 40919.43
     }
   },
   "MCMEARE150": {
@@ -63856,7 +63936,7 @@
     "prices": {
       "D": 1359.76,
       "E": 1464.36,
-      "F": 1255.17
+      "F": 1255.16
     }
   },
   "MCMEARE1550": {
@@ -63865,7 +63945,7 @@
     "bulk": 1.0,
     "prices": {
       "D": 48867.12,
-      "E": 52626.12,
+      "E": 52626.13,
       "F": 45108.11
     }
   },
@@ -63886,7 +63966,7 @@
     "prices": {
       "D": 57272.47,
       "E": 61678.04,
-      "F": 52866.9
+      "F": 52866.89
     }
   },
   "MCMEARE17": {
@@ -63906,7 +63986,7 @@
     "prices": {
       "D": 1359.76,
       "E": 1464.36,
-      "F": 1255.17
+      "F": 1255.16
     }
   },
   "MCMEARE18": {
@@ -63925,7 +64005,7 @@
     "bulk": 1.0,
     "prices": {
       "D": 81124.84,
-      "E": 87365.22,
+      "E": 87365.21,
       "F": 74884.47
     }
   },
@@ -63934,8 +64014,8 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 1190.92,
-      "E": 1282.53,
+      "D": 1190.93,
+      "E": 1282.54,
       "F": 1099.32
     }
   },
@@ -63954,8 +64034,8 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 1190.92,
-      "E": 1282.53,
+      "D": 1190.93,
+      "E": 1282.54,
       "F": 1099.32
     }
   },
@@ -63964,8 +64044,8 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 1190.92,
-      "E": 1282.53,
+      "D": 1190.93,
+      "E": 1282.54,
       "F": 1099.32
     }
   },
@@ -63976,7 +64056,7 @@
     "prices": {
       "D": 1220.8,
       "E": 1314.71,
-      "F": 1126.89
+      "F": 1126.9
     }
   },
   "MCMEARE3": {
@@ -63994,7 +64074,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 1362.36,
+      "D": 1362.37,
       "E": 1467.16,
       "F": 1257.57
     }
@@ -64075,7 +64155,7 @@
     "bulk": 10.0,
     "prices": {
       "D": 2676.67,
-      "E": 2882.57,
+      "E": 2882.56,
       "F": 2470.77
     }
   },
@@ -64106,7 +64186,7 @@
     "prices": {
       "D": 3075.38,
       "E": 3311.95,
-      "F": 2838.82
+      "F": 2838.81
     }
   },
   "MCMEARE625": {
@@ -64114,7 +64194,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 3475.39,
+      "D": 3475.38,
       "E": 3742.72,
       "F": 3208.05
     }
@@ -64124,9 +64204,9 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 3581.89,
+      "D": 3581.88,
       "E": 3857.41,
-      "F": 3306.36
+      "F": 3306.35
     }
   },
   "MCMEARE675": {
@@ -64144,7 +64224,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 4342.94,
+      "D": 4342.93,
       "E": 4677.01,
       "F": 4008.86
     }
@@ -64154,7 +64234,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 4578.01,
+      "D": 4578.0,
       "E": 4930.16,
       "F": 4225.85
     }
@@ -64184,7 +64264,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 5650.75,
+      "D": 5650.76,
       "E": 6085.43,
       "F": 5216.08
     }
@@ -64205,7 +64285,7 @@
     "bulk": 10.0,
     "prices": {
       "D": 6114.4,
-      "E": 6584.74,
+      "E": 6584.73,
       "F": 5644.06
     }
   },
@@ -64214,9 +64294,9 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 6650.77,
-      "E": 7162.37,
-      "F": 6139.17
+      "D": 6650.78,
+      "E": 7162.38,
+      "F": 6139.18
     }
   },
   "MCMEARE9": {
@@ -64225,7 +64305,7 @@
     "bulk": 5.0,
     "prices": {
       "D": 6989.74,
-      "E": 7527.41,
+      "E": 7527.42,
       "F": 6452.07
     }
   },
@@ -64244,7 +64324,7 @@
     "category": "8.MECHA A/RAPIDO ESSAMET",
     "bulk": 5.0,
     "prices": {
-      "D": 7753.38,
+      "D": 7753.39,
       "E": 8349.8,
       "F": 7156.97
     }
@@ -64255,8 +64335,8 @@
     "bulk": 5.0,
     "prices": {
       "D": 8409.24,
-      "E": 9056.11,
-      "F": 7762.38
+      "E": 9056.1,
+      "F": 7762.37
     }
   },
   "MCMEAREX": {
@@ -64274,9 +64354,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 12.0,
     "prices": {
-      "D": 12310.35,
-      "E": 13257.3,
-      "F": 11363.4
+      "D": 14543.7,
+      "E": 15662.45,
+      "F": 13424.95
     }
   },
   "MCmeau15": {
@@ -64284,9 +64364,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 8.0,
     "prices": {
-      "D": 18465.46,
-      "E": 19885.88,
-      "F": 17045.04
+      "D": 21792.5,
+      "E": 23468.85,
+      "F": 20116.15
     }
   },
   "MCmeau25": {
@@ -64294,9 +64374,9 @@
     "category": "8.MEMBRANA AUTOADHE/CELER",
     "bulk": 4.0,
     "prices": {
-      "D": 30776.17,
-      "E": 33143.56,
-      "F": 28408.77
+      "D": 36301.74,
+      "E": 39094.18,
+      "F": 33509.3
     }
   },
   "MCmewe10": {
@@ -64304,9 +64384,9 @@
     "category": "8.MECHA DE WIDIA ESSAMET",
     "bulk": 20.0,
     "prices": {
-      "D": 3731.53,
-      "E": 4018.57,
-      "F": 3444.49
+      "D": 4477.84,
+      "E": 4822.29,
+      "F": 4133.39
     }
   },
   "MCmewe5": {
@@ -64314,9 +64394,9 @@
     "category": "8.MECHA DE WIDIA ESSAMET",
     "bulk": 10.0,
     "prices": {
-      "D": 1559.49,
-      "E": 1679.45,
-      "F": 1439.53
+      "D": 1871.39,
+      "E": 2015.34,
+      "F": 1727.43
     }
   },
   "MCmewe6": {
@@ -64324,9 +64404,9 @@
     "category": "8.MECHA DE WIDIA ESSAMET",
     "bulk": 25.0,
     "prices": {
-      "D": 1922.7,
-      "E": 2070.6,
-      "F": 1774.8
+      "D": 2307.24,
+      "E": 2484.72,
+      "F": 2129.76
     }
   },
   "MCmewe8": {
@@ -64334,9 +64414,9 @@
     "category": "8.MECHA DE WIDIA ESSAMET",
     "bulk": 25.0,
     "prices": {
-      "D": 2639.02,
-      "E": 2842.02,
-      "F": 2436.02
+      "D": 3166.82,
+      "E": 3410.43,
+      "F": 2923.22
     }
   },
   "MCMEWSE10110": {
@@ -64344,9 +64424,9 @@
     "category": "8.MECHA P/ROTOP.SDS/110",
     "bulk": 6.0,
     "prices": {
-      "D": 2736.74,
-      "E": 2947.26,
-      "F": 2526.23
+      "D": 3284.09,
+      "E": 3536.71,
+      "F": 3031.47
     }
   },
   "MCMEWSE10160": {
@@ -64354,9 +64434,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 3003.47,
-      "E": 3234.51,
-      "F": 2772.44
+      "D": 3604.16,
+      "E": 3881.41,
+      "F": 3326.92
     }
   },
   "MCMEWSE10210": {
@@ -64364,9 +64444,9 @@
     "category": "8.MECHA P/ROTOP.SDS/210",
     "bulk": 6.0,
     "prices": {
-      "D": 4196.04,
-      "E": 4518.81,
-      "F": 3873.27
+      "D": 5035.25,
+      "E": 5422.58,
+      "F": 4647.92
     }
   },
   "MCMEWSE12160": {
@@ -64374,9 +64454,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 3565.59,
-      "E": 3839.87,
-      "F": 3291.32
+      "D": 4278.7,
+      "E": 4607.84,
+      "F": 3949.57
     }
   },
   "MCMEWSE12210": {
@@ -64384,9 +64464,9 @@
     "category": "8.MECHA P/ROTOP.SDS/210",
     "bulk": 6.0,
     "prices": {
-      "D": 4547.64,
-      "E": 4897.46,
-      "F": 4197.83
+      "D": 5457.17,
+      "E": 5876.95,
+      "F": 5037.38
     }
   },
   "MCMEWSE14160": {
@@ -64394,9 +64474,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 4142.03,
-      "E": 4460.65,
-      "F": 3823.42
+      "D": 4970.45,
+      "E": 5352.79,
+      "F": 4588.11
     }
   },
   "MCMEWSE14210": {
@@ -64404,9 +64484,9 @@
     "category": "8.MECHA P/ROTOP.SDS/210",
     "bulk": 6.0,
     "prices": {
-      "D": 5188.02,
-      "E": 5587.1,
-      "F": 4788.94
+      "D": 6225.62,
+      "E": 6704.52,
+      "F": 5746.73
     }
   },
   "MCMEWSE5110": {
@@ -64414,9 +64494,9 @@
     "category": "8.MECHA P/ROTOP.SDS/110",
     "bulk": 6.0,
     "prices": {
-      "D": 2396.16,
-      "E": 2580.48,
-      "F": 2211.84
+      "D": 2875.4,
+      "E": 3096.59,
+      "F": 2654.22
     }
   },
   "MCMEWSE5160": {
@@ -64424,9 +64504,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 2694.85,
-      "E": 2902.15,
-      "F": 2487.56
+      "D": 3233.83,
+      "E": 3482.59,
+      "F": 2985.07
     }
   },
   "MCMEWSE6110": {
@@ -64434,9 +64514,9 @@
     "category": "8.MECHA P/ROTOP.SDS/110",
     "bulk": 6.0,
     "prices": {
-      "D": 2382.94,
-      "E": 2566.24,
-      "F": 2199.63
+      "D": 2859.52,
+      "E": 3079.49,
+      "F": 2639.56
     }
   },
   "MCMEWSE6160": {
@@ -64444,9 +64524,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 2676.12,
-      "E": 2881.98,
-      "F": 2470.26
+      "D": 3211.35,
+      "E": 3458.38,
+      "F": 2964.32
     }
   },
   "MCMEWSE8110": {
@@ -64454,9 +64534,9 @@
     "category": "8.MECHA P/ROTOP.SDS/110",
     "bulk": 6.0,
     "prices": {
-      "D": 2471.11,
-      "E": 2661.2,
-      "F": 2281.03
+      "D": 2965.33,
+      "E": 3193.44,
+      "F": 2737.23
     }
   },
   "MCMEWSE8160": {
@@ -64464,9 +64544,9 @@
     "category": "8.MECHA P/ROTOP.SDS/160",
     "bulk": 6.0,
     "prices": {
-      "D": 2787.44,
-      "E": 3001.86,
-      "F": 2573.02
+      "D": 3344.93,
+      "E": 3602.23,
+      "F": 3087.63
     }
   },
   "MCMEWSE8210": {
@@ -64474,9 +64554,9 @@
     "category": "8.MECHA P/ROTOP.SDS/210",
     "bulk": 6.0,
     "prices": {
-      "D": 4019.69,
-      "E": 4328.9,
-      "F": 3710.48
+      "D": 4823.62,
+      "E": 5194.67,
+      "F": 4452.58
     }
   },
   "MCMOTR0": {
@@ -64535,8 +64615,8 @@
     "bulk": 6.0,
     "prices": {
       "D": 27120.82,
-      "E": 29207.03,
-      "F": 25034.6
+      "E": 29207.04,
+      "F": 25034.61
     }
   },
   "MCPILOS": {
@@ -64576,7 +64656,7 @@
     "prices": {
       "D": 11934.05,
       "E": 12852.05,
-      "F": 11016.05
+      "F": 11016.04
     }
   },
   "MCPIUN7S": {
@@ -64584,7 +64664,7 @@
     "category": "8.PINZA UNIVERSAL METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 14186.73,
+      "D": 14186.74,
       "E": 15278.02,
       "F": 13095.45
     }
@@ -64594,7 +64674,7 @@
     "category": "8.PINZA UNIVERSAL METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 17040.62,
+      "D": 17040.61,
       "E": 18351.43,
       "F": 15729.8
     }
@@ -64604,9 +64684,9 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 1191.61,
-      "E": 1283.27,
-      "F": 1099.94
+      "D": 1190.95,
+      "E": 1282.56,
+      "F": 1099.33
     }
   },
   "MCPLNPR12": {
@@ -64614,9 +64694,9 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 1022.78,
-      "E": 1101.46,
-      "F": 944.11
+      "D": 1023.32,
+      "E": 1102.03,
+      "F": 944.6
     }
   },
   "MCPLNPR15": {
@@ -64624,9 +64704,9 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 1879.21,
-      "E": 2023.77,
-      "F": 1734.66
+      "D": 1879.0,
+      "E": 2023.54,
+      "F": 1734.46
     }
   },
   "MCPLNPR20": {
@@ -64634,9 +64714,9 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 2665.4,
-      "E": 2870.43,
-      "F": 2460.37
+      "D": 2664.53,
+      "E": 2869.49,
+      "F": 2459.56
     }
   },
   "MCPLNPR25": {
@@ -64644,8 +64724,8 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 3486.09,
-      "E": 3754.25,
+      "D": 3486.1,
+      "E": 3754.26,
       "F": 3217.93
     }
   },
@@ -64654,9 +64734,9 @@
     "category": "7.PINCEL ESSAMET",
     "bulk": 12.0,
     "prices": {
-      "D": 1187.9,
-      "E": 1279.28,
-      "F": 1096.53
+      "D": 1187.04,
+      "E": 1278.35,
+      "F": 1095.73
     }
   },
   "MCSICO14": {
@@ -64665,7 +64745,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 5486.5,
-      "E": 5908.54,
+      "E": 5908.53,
       "F": 5064.46
     }
   },
@@ -64675,7 +64755,7 @@
     "bulk": 6.0,
     "prices": {
       "D": 5486.5,
-      "E": 5908.54,
+      "E": 5908.53,
       "F": 5064.46
     }
   },
@@ -64735,7 +64815,7 @@
     "bulk": 0.0,
     "prices": {
       "D": 7064.51,
-      "E": 7607.94,
+      "E": 7607.93,
       "F": 6521.09
     }
   },
@@ -64744,7 +64824,7 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 7214.94,
+      "D": 7214.93,
       "E": 7769.93,
       "F": 6659.94
     }
@@ -64764,7 +64844,7 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 8942.37,
+      "D": 8942.36,
       "E": 9630.24,
       "F": 8254.49
     }
@@ -64774,7 +64854,7 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 8942.37,
+      "D": 8942.36,
       "E": 9630.24,
       "F": 8254.49
     }
@@ -64794,8 +64874,8 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 9877.3,
-      "E": 10637.09,
+      "D": 9877.29,
+      "E": 10637.08,
       "F": 9117.5
     }
   },
@@ -64864,7 +64944,7 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 14414.61,
+      "D": 14414.6,
       "E": 15523.42,
       "F": 13305.79
     }
@@ -64874,9 +64954,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 17347.65,
-      "E": 18682.08,
-      "F": 16013.22
+      "D": 19949.8,
+      "E": 21484.4,
+      "F": 18415.2
     }
   },
   "MCSICOB113": {
@@ -64884,9 +64964,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 19385.26,
-      "E": 20876.44,
-      "F": 17894.09
+      "D": 22293.06,
+      "E": 24007.91,
+      "F": 20578.2
     }
   },
   "MCSICOB33": {
@@ -64894,9 +64974,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 5768.7,
-      "E": 6212.45,
-      "F": 5324.96
+      "D": 6634.02,
+      "E": 7144.32,
+      "F": 6123.71
     }
   },
   "MCSICOB43": {
@@ -64904,9 +64984,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 7099.03,
-      "E": 7645.11,
-      "F": 6552.95
+      "D": 8163.88,
+      "E": 8791.88,
+      "F": 7535.89
     }
   },
   "MCSICOB53": {
@@ -64914,9 +64994,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 8644.15,
-      "E": 9309.09,
-      "F": 7979.22
+      "D": 9940.78,
+      "E": 10705.46,
+      "F": 9176.11
     }
   },
   "MCSICOB67": {
@@ -64924,9 +65004,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 10884.71,
-      "E": 11721.99,
-      "F": 10047.42
+      "D": 12517.41,
+      "E": 13480.29,
+      "F": 11554.53
     }
   },
   "MCSICOB73": {
@@ -64934,9 +65014,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 11926.66,
-      "E": 12844.09,
-      "F": 11009.22
+      "D": 13715.65,
+      "E": 14770.7,
+      "F": 12660.6
     }
   },
   "MCSICOB83": {
@@ -64944,9 +65024,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 13540.61,
-      "E": 14582.2,
-      "F": 12499.02
+      "D": 15571.7,
+      "E": 16769.53,
+      "F": 14373.88
     }
   },
   "MCSICOBB33": {
@@ -64954,9 +65034,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 13552.48,
-      "E": 14594.98,
-      "F": 12509.98
+      "D": 15583.06,
+      "E": 16781.76,
+      "F": 14384.37
     }
   },
   "MCSICOBB73": {
@@ -64964,9 +65044,9 @@
     "category": "8.SIERRA COPA TUNGST/ACCE",
     "bulk": 6.0,
     "prices": {
-      "D": 17300.18,
-      "E": 18630.96,
-      "F": 15969.4
+      "D": 19893.15,
+      "E": 21423.39,
+      "F": 18362.91
     }
   },
   "MCSICOEX": {
@@ -64974,9 +65054,9 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 1.0,
     "prices": {
-      "D": 6.89,
+      "D": 6.9,
       "E": 7.43,
-      "F": 6.36
+      "F": 6.37
     }
   },
   "MCSICOSA1": {
@@ -65004,8 +65084,8 @@
     "category": "8.SIERRA COPA Bimetal RHE",
     "bulk": 6.0,
     "prices": {
-      "D": 13653.65,
-      "E": 14703.93,
+      "D": 13653.64,
+      "E": 14703.92,
       "F": 12603.36
     }
   },
@@ -65014,9 +65094,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 14551.71,
-      "E": 15671.07,
-      "F": 13432.35
+      "D": 15277.66,
+      "E": 16452.87,
+      "F": 14102.46
     }
   },
   "MCSICOW22M": {
@@ -65024,9 +65104,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 14834.15,
-      "E": 15975.24,
-      "F": 13693.06
+      "D": 15573.58,
+      "E": 16771.54,
+      "F": 14375.61
     }
   },
   "MCSICOW30": {
@@ -65034,9 +65114,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 13065.92,
-      "E": 14070.99,
-      "F": 12060.84
+      "D": 13719.22,
+      "E": 14774.54,
+      "F": 12663.89
     }
   },
   "MCSICOW40": {
@@ -65044,9 +65124,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 13977.33,
-      "E": 15052.51,
-      "F": 12902.15
+      "D": 14676.19,
+      "E": 15805.13,
+      "F": 13547.25
     }
   },
   "MCSICOW430": {
@@ -65054,9 +65134,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 18107.16,
-      "E": 19500.02,
-      "F": 16714.3
+      "D": 19009.73,
+      "E": 20472.02,
+      "F": 17547.45
     }
   },
   "MCSICOW43M": {
@@ -65064,9 +65144,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 20735.77,
-      "E": 22330.83,
-      "F": 19140.71
+      "D": 21769.53,
+      "E": 23444.1,
+      "F": 20094.95
     }
   },
   "MCSICOW55": {
@@ -65074,9 +65154,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 17246.77,
-      "E": 18573.45,
-      "F": 15920.1
+      "D": 18109.11,
+      "E": 19502.12,
+      "F": 16716.1
     }
   },
   "MCSICOW60": {
@@ -65084,9 +65164,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 17942.2,
-      "E": 19322.37,
-      "F": 16562.03
+      "D": 18839.31,
+      "E": 20288.49,
+      "F": 17390.14
     }
   },
   "MCSICOW65": {
@@ -65094,9 +65174,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 1.0,
     "prices": {
-      "D": 18319.58,
-      "E": 19728.78,
-      "F": 16910.38
+      "D": 19235.56,
+      "E": 20715.22,
+      "F": 17755.9
     }
   },
   "MCSICOWP": {
@@ -65104,9 +65184,9 @@
     "category": "8.SIERRA COPA.WIDIA RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 3150.12,
-      "E": 3392.43,
-      "F": 2907.8
+      "D": 3305.02,
+      "E": 3559.26,
+      "F": 3050.79
     }
   },
   "MCSIW1090": {
@@ -65114,9 +65194,9 @@
     "category": "8.SIERRA P/ALU.Wdia RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 40020.58,
-      "E": 43099.08,
-      "F": 36942.07
+      "D": 44022.64,
+      "E": 47409.0,
+      "F": 40636.28
     }
   },
   "MCSIW12100": {
@@ -65124,9 +65204,9 @@
     "category": "8.SIERRA P/ALU.Wdia RHEIN",
     "bulk": 6.0,
     "prices": {
-      "D": 53159.11,
-      "E": 57248.28,
-      "F": 49069.95
+      "D": 58475.03,
+      "E": 62973.11,
+      "F": 53976.95
     }
   },
   "MCSIW724": {
@@ -65134,9 +65214,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 9075.98,
-      "E": 9774.13,
-      "F": 8377.83
+      "D": 9983.58,
+      "E": 10751.54,
+      "F": 9215.61
     }
   },
   "MCSIW730": {
@@ -65144,9 +65224,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 10451.42,
-      "E": 11255.37,
-      "F": 9647.46
+      "D": 11496.56,
+      "E": 12380.91,
+      "F": 10612.21
     }
   },
   "MCSIW740": {
@@ -65154,9 +65234,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 12080.51,
-      "E": 13009.78,
-      "F": 11151.24
+      "D": 13288.56,
+      "E": 14310.76,
+      "F": 12266.36
     }
   },
   "MCSIW748": {
@@ -65164,9 +65244,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 13823.54,
-      "E": 14886.89,
-      "F": 12760.19
+      "D": 15205.89,
+      "E": 16375.57,
+      "F": 14036.2
     }
   },
   "MCSIW760": {
@@ -65174,9 +65254,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 14983.31,
-      "E": 16135.87,
-      "F": 13830.74
+      "D": 16481.63,
+      "E": 17749.45,
+      "F": 15213.81
     }
   },
   "MCSIWE41224": {
@@ -65184,9 +65264,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 5977.59,
-      "E": 6437.4,
-      "F": 5517.77
+      "D": 6575.35,
+      "E": 7081.14,
+      "F": 6069.55
     }
   },
   "MCSIWE41230": {
@@ -65194,9 +65274,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 6439.86,
-      "E": 6935.24,
-      "F": 5944.49
+      "D": 7083.85,
+      "E": 7628.76,
+      "F": 6538.94
     }
   },
   "MCSIWE41236": {
@@ -65204,9 +65284,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 7772.98,
-      "E": 8370.9,
-      "F": 7175.06
+      "D": 8550.28,
+      "E": 9207.99,
+      "F": 7892.56
     }
   },
   "MCSIWE41240": {
@@ -65214,9 +65294,9 @@
     "category": "8.DISCO SIERRA CIRC.RHEIN",
     "bulk": 5.0,
     "prices": {
-      "D": 8170.15,
-      "E": 8798.62,
-      "F": 7541.67
+      "D": 8987.16,
+      "E": 9678.48,
+      "F": 8295.84
     }
   },
   "MCTEAM10": {
@@ -65236,7 +65316,7 @@
     "prices": {
       "D": 25219.7,
       "E": 27159.68,
-      "F": 23279.72
+      "F": 23279.73
     }
   },
   "MCTEAM9": {
@@ -65244,9 +65324,9 @@
     "category": "8.TENAZA ARMADOR METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 16031.71,
+      "D": 16031.72,
       "E": 17264.92,
-      "F": 14798.5
+      "F": 14798.51
     }
   },
   "MCTECAM6": {
@@ -65266,7 +65346,7 @@
     "prices": {
       "D": 13863.23,
       "E": 14929.63,
-      "F": 12796.83
+      "F": 12796.82
     }
   },
   "MCTECAM8": {
@@ -65274,7 +65354,7 @@
     "category": "8.TENAZA CARPINT.METZ",
     "bulk": 6.0,
     "prices": {
-      "D": 15573.79,
+      "D": 15573.78,
       "E": 16771.77,
       "F": 14375.8
     }
@@ -65284,9 +65364,9 @@
     "category": "8.TEJIDO CUAD.PVC CELER",
     "bulk": 1.0,
     "prices": {
-      "D": 6307.2,
-      "E": 6792.37,
-      "F": 5822.03
+      "D": 6546.89,
+      "E": 7050.49,
+      "F": 6043.28
     }
   },
   "MCTEESK100": {
@@ -65764,9 +65844,9 @@
     "category": "9.FICHA/TOMA DE SEGUR.MIG",
     "bulk": 0.0,
     "prices": {
-      "D": 1624.6,
-      "E": 1749.57,
-      "F": 1499.63
+      "D": 1689.85,
+      "E": 1819.83,
+      "F": 1559.86
     }
   },
   "MIG141": {
@@ -65774,9 +65854,9 @@
     "category": "9.FICHA/TOMA DE SEGUR.MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 1852.97,
-      "E": 1995.51,
-      "F": 1710.43
+      "D": 1927.54,
+      "E": 2075.82,
+      "F": 1779.27
     }
   },
   "MIG142": {
@@ -65784,9 +65864,9 @@
     "category": "9.FICHA/TOMA DE SEGUR.MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 2260.45,
-      "E": 2434.33,
-      "F": 2086.57
+      "D": 2351.0,
+      "E": 2531.85,
+      "F": 2170.16
     }
   },
   "MIG218": {
@@ -65794,9 +65874,9 @@
     "category": "9.FICHA MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 1761.09,
-      "E": 1896.56,
-      "F": 1625.62
+      "D": 1831.66,
+      "E": 1972.56,
+      "F": 1690.77
     }
   },
   "MIG223": {
@@ -65804,9 +65884,9 @@
     "category": "9.LINEA EXT/MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 1211.79,
-      "E": 1305.0,
-      "F": 1118.57
+      "D": 1260.39,
+      "E": 1357.35,
+      "F": 1163.44
     }
   },
   "MIG227": {
@@ -65814,9 +65894,9 @@
     "category": "9.FICHA/TOMA DE SEGUR.MIG",
     "bulk": 0.0,
     "prices": {
-      "D": 1747.11,
-      "E": 1881.5,
-      "F": 1612.71
+      "D": 1817.02,
+      "E": 1956.79,
+      "F": 1677.25
     }
   },
   "MIG242": {
@@ -65824,9 +65904,9 @@
     "category": "9.LINEA EXT/MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 2241.14,
-      "E": 2413.54,
-      "F": 2068.75
+      "D": 2331.03,
+      "E": 2510.34,
+      "F": 2151.72
     }
   },
   "MIG250": {
@@ -65834,9 +65914,9 @@
     "category": "9.FICHA MIG",
     "bulk": 40.0,
     "prices": {
-      "D": 1724.47,
-      "E": 1857.12,
-      "F": 1591.82
+      "D": 1793.71,
+      "E": 1931.69,
+      "F": 1655.73
     }
   },
   "MIGE407R": {
@@ -65844,9 +65924,9 @@
     "category": "9.LINEA EXTER.MIG",
     "bulk": 24.0,
     "prices": {
-      "D": 1872.28,
-      "E": 2016.3,
-      "F": 1728.26
+      "D": 1947.52,
+      "E": 2097.33,
+      "F": 1797.71
     }
   },
   "MK000005": {
@@ -66244,9 +66324,9 @@
     "category": "8.SOPRTE.EST/BRACKET SC",
     "bulk": 20.0,
     "prices": {
-      "D": 2284.49,
-      "E": 2460.23,
-      "F": 2108.76
+      "D": 2398.42,
+      "E": 2582.92,
+      "F": 2213.93
     }
   },
   "MMDHG150": {
@@ -68484,9 +68564,9 @@
     "category": "8.GUANTES SOLDADOR",
     "bulk": 12.0,
     "prices": {
-      "D": 5474.5,
-      "E": 5895.62,
-      "F": 5053.39
+      "D": 5918.38,
+      "E": 6373.64,
+      "F": 5463.12
     }
   },
   "OSGUANVAQCTOR": {
@@ -68494,9 +68574,9 @@
     "category": "8.GUANTES DE CUERO MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 3255.11,
-      "E": 3505.5,
-      "F": 3004.72
+      "D": 3403.07,
+      "E": 3664.84,
+      "F": 3141.29
     }
   },
   "OSGUANVAQREF": {
@@ -69092,7 +69172,7 @@
   "PEGAL003": {
     "name": "SELLA.SILIC.ALTA TEMPER. 32ccPEGALO",
     "category": "8.SELLADOR SILICON.PEGALO",
-    "bulk": 288.0,
+    "bulk": 12.0,
     "prices": {
       "D": 1513.22,
       "E": 1629.62,
@@ -69112,7 +69192,7 @@
   "PEGAL005": {
     "name": "SELLA.SILIC.ALTA TEMPER. 85ccPEGALO",
     "category": "8.SELLADOR SILICON.PEGALO",
-    "bulk": 144.0,
+    "bulk": 12.0,
     "prices": {
       "D": 2172.08,
       "E": 2339.16,
@@ -69122,7 +69202,7 @@
   "PEGAL006": {
     "name": "SELLA.SILIC.ACETI.TRANS. 32ccPEGALO",
     "category": "8.SELLADOR SILICON.PEGALO",
-    "bulk": 288.0,
+    "bulk": 12.0,
     "prices": {
       "D": 1352.84,
       "E": 1456.91,
@@ -69132,7 +69212,7 @@
   "PEGAL008": {
     "name": "SELLA.SILIC.ACETI.TRANS. 85ccPEGALO",
     "category": "8.SELLADOR SILICON.PEGALO",
-    "bulk": 144.0,
+    "bulk": 12.0,
     "prices": {
       "D": 1996.37,
       "E": 2149.93,
@@ -79869,6 +79949,36 @@
       "F": 193535.7
     }
   },
+  "ROT2604": {
+    "name": "MEDIASOMBRA Vrde 6.5k 80% 2.1 x50mt PESADA",
+    "category": "8.TEJIDO MEDIASOM/POLY F",
+    "bulk": 1.0,
+    "prices": {
+      "D": 82706.28,
+      "E": 89068.3,
+      "F": 76344.26
+    }
+  },
+  "ROT2604N": {
+    "name": "MEDIASOMBRA Ngra 6.5k 80% 2.1 x50mt PESADA",
+    "category": "8.TEJIDO MEDIASOM/POLY F",
+    "bulk": 1.0,
+    "prices": {
+      "D": 82700.96,
+      "E": 89062.57,
+      "F": 76339.34
+    }
+  },
+  "ROT2606": {
+    "name": "MEDIASOMBRA Vrde Ferr 5.5k 2.0 x50mt WEST",
+    "category": "8.TEJIDO MEDIASOM/POLY F",
+    "bulk": 1.0,
+    "prices": {
+      "D": 64698.31,
+      "E": 69675.1,
+      "F": 59721.52
+    }
+  },
   "ROT51672": {
     "name": "REPUESTO CLIP LIMPIA FONDO  BRUSTEC",
     "category": "1.ACC.PILETA",
@@ -87192,7 +87302,7 @@
   "TIDIL-1069": {
     "name": "TORNILLO P TAPA LUZ Bca Cj x200u DILUX",
     "category": "9.TORNILLOS P/TAPA y Cja",
-    "bulk": 1.0,
+    "bulk": 200.0,
     "prices": {
       "D": 5233.85,
       "E": 5636.45,
@@ -87202,7 +87312,7 @@
   "TIDIL-1071": {
     "name": "TORNILLO P BASTIDOR Largo x200u DILUX",
     "category": "9.TORNILLOS P/TAPA y Cja",
-    "bulk": 1.0,
+    "bulk": 200.0,
     "prices": {
       "D": 5397.56,
       "E": 5812.76,
@@ -89682,7 +89792,7 @@
   "TOR01523": {
     "name": "TORNILLO DRYWALL MAD 10 x11/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 24.66,
       "E": 26.55,
@@ -89692,7 +89802,7 @@
   "TOR01524": {
     "name": "TORNILLO DRYWALL MAD 10 x11/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 25.78,
       "E": 27.76,
@@ -89702,7 +89812,7 @@
   "TOR01525": {
     "name": "TORNILLO DRYWALL MAD 10 x15/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 4000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 28.31,
       "E": 30.48,
@@ -89712,7 +89822,7 @@
   "TOR01526": {
     "name": "TORNILLO DRYWALL MAD 10 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 3000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 31.12,
       "E": 33.52,
@@ -89722,7 +89832,7 @@
   "TOR01528": {
     "name": "TORNILLO DRYWALL MAD 10 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 2500.0,
+    "bulk": 200.0,
     "prices": {
       "D": 39.53,
       "E": 42.57,
@@ -89732,7 +89842,7 @@
   "TOR01529": {
     "name": "TORNILLO DRYWALL MAD 10 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 2000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 45.5,
       "E": 49.0,
@@ -89752,7 +89862,7 @@
   "TOR01540": {
     "name": "TORNILLO FIX P MADERA 5.0 x55 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
-    "bulk": 2500.0,
+    "bulk": 200.0,
     "prices": {
       "D": 38.12,
       "E": 41.05,
@@ -89762,7 +89872,7 @@
   "TOR01549": {
     "name": "TORNILLO DRYWALL MAD 10 x3/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 7000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 15.92,
       "E": 17.15,
@@ -89772,7 +89882,7 @@
   "TOR01561": {
     "name": "TORNILLO DRYWALL MAD 8 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 3500.0,
+    "bulk": 200.0,
     "prices": {
       "D": 21.57,
       "E": 23.23,
@@ -89782,7 +89892,7 @@
   "TOR01589": {
     "name": "TORNILLO DRYWALL MAD 8 x15/8 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 20.73,
       "E": 22.32,
@@ -89792,7 +89902,7 @@
   "TOR01602": {
     "name": "TORNILLO FIX P MADERA 5.0 x65 TORAR",
     "category": "6.TOR.FIX BRCEDO 5.0TOR",
-    "bulk": 2000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 44.62,
       "E": 48.05,
@@ -89812,7 +89922,7 @@
   "TORIMP000090": {
     "name": "TORNILLO DRYWALL MET 6 x13/4 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
-    "bulk": 4000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 18.04,
       "E": 19.43,
@@ -89822,7 +89932,7 @@
   "TORIMP000323": {
     "name": "TORNILLO DRYWALL MET 6 x5/8 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
-    "bulk": 15000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 8.36,
       "E": 9.0,
@@ -89832,7 +89942,7 @@
   "TORIMP000357": {
     "name": "TORNILLO DRYWALL MET 6 x11/4 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
-    "bulk": 9000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 12.71,
       "E": 13.69,
@@ -89842,7 +89952,7 @@
   "TORIMP000667": {
     "name": "TORNILLO DRYWALL MAD 8 x11/4 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 16.74,
       "E": 18.03,
@@ -89852,7 +89962,7 @@
   "TORIMP000674": {
     "name": "TORNILLO DRYWALL MAD 10 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 1500.0,
+    "bulk": 200.0,
     "prices": {
       "D": 50.27,
       "E": 54.14,
@@ -89862,7 +89972,7 @@
   "TORIMP000764": {
     "name": "TORNILLO P/MECHA TANQUE 8 x11/4 TORAR",
     "category": "6.TOR.P/MECHA TANQ/PHI.8",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 22.12,
       "E": 23.82,
@@ -89872,7 +89982,7 @@
   "TORIMP000789": {
     "name": "TORNILLO DRYWALL MAD 8 X1 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 7000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 13.25,
       "E": 14.27,
@@ -89882,7 +89992,7 @@
   "TORIMP000795": {
     "name": "TORNILLO DRYWALL MAD 8 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 2200.0,
+    "bulk": 200.0,
     "prices": {
       "D": 30.54,
       "E": 32.89,
@@ -89892,7 +90002,7 @@
   "TORIMP000796": {
     "name": "TORNILLO DRYWALL MAD 8 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 2000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 32.15,
       "E": 34.62,
@@ -89902,7 +90012,7 @@
   "TORIMP000797": {
     "name": "TORNILLO DRYWALL MAD 8 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 1800.0,
+    "bulk": 200.0,
     "prices": {
       "D": 36.33,
       "E": 39.13,
@@ -89912,7 +90022,7 @@
   "TORIMP000799": {
     "name": "TORNILLO DRYWALL MAD 10 x1 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 6000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 20.23,
       "E": 21.79,
@@ -89932,7 +90042,7 @@
   "TORIMP000863": {
     "name": "TORNILLO DRYWALL MAD 6 x21/4 TOR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
-    "bulk": 2400.0,
+    "bulk": 200.0,
     "prices": {
       "D": 24.43,
       "E": 26.31,
@@ -89942,7 +90052,7 @@
   "TORIMP000864": {
     "name": "TORNILLO DRYWALL MET 6 x21/2 TOR",
     "category": "6.TOR.DRYWAL.R/MET. 6LH",
-    "bulk": 2700.0,
+    "bulk": 200.0,
     "prices": {
       "D": 26.65,
       "E": 28.7,
@@ -89952,7 +90062,7 @@
   "TORIMP000948": {
     "name": "TORNILLO FIX P MADERA 3.5 x20 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 13000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 8.31,
       "E": 8.95,
@@ -89962,7 +90072,7 @@
   "TORIMP001032": {
     "name": "TORNILLO PAN FRAMING MECHA 6 x7/16 TORAR",
     "category": "6.TOR.FRAMING",
-    "bulk": 16500.0,
+    "bulk": 200.0,
     "prices": {
       "D": 13.72,
       "E": 14.77,
@@ -89982,7 +90092,7 @@
   "TORIMP001059": {
     "name": "TORNILLO FIX P MADERA 3.5 x35 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 7000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 12.29,
       "E": 13.24,
@@ -90032,7 +90142,7 @@
   "TORIMP001189": {
     "name": "TORNILLO FIX P MADERA 3.5 x25 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 12000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 9.64,
       "E": 10.38,
@@ -90042,7 +90152,7 @@
   "TORIMP001190": {
     "name": "TORNILLO FIX P MADERA 3.5 x30 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 10000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 11.44,
       "E": 12.32,
@@ -90052,7 +90162,7 @@
   "TORIMP001192": {
     "name": "TORNILLO FIX P MADERA 3.5 x40 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 6000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 14.63,
       "E": 15.75,
@@ -90072,7 +90182,7 @@
   "TORIMP001234": {
     "name": "TORNILLO DRYWALL MAD 8 x11/2 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 19.36,
       "E": 20.85,
@@ -90082,7 +90192,7 @@
   "TORIMP001236": {
     "name": "TORNILLO DRYWALL MAD 8 x2 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 8TOR",
-    "bulk": 3000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 21.76,
       "E": 23.43,
@@ -90092,7 +90202,7 @@
   "TORIMP001251": {
     "name": "TORNILLO FIX P MADERA 3.5 x15 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 19000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 5.62,
       "E": 6.06,
@@ -90112,7 +90222,7 @@
   "TORIMP001380": {
     "name": "TORNILLO FIX P MADERA 3.5 x50 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 18.91,
       "E": 20.36,
@@ -90152,7 +90262,7 @@
   "TORIMP001635": {
     "name": "TORNILLO FIX P MADERA 3.5 x12 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 22000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 7.11,
       "E": 7.65,
@@ -90162,7 +90272,7 @@
   "TORIMP001637": {
     "name": "TORNILLO FIX P MADERA 3.5 x45 TORAR",
     "category": "6.TOR.FIX BRCEDO 3.5TOR",
-    "bulk": 5000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 15.04,
       "E": 16.2,
@@ -90182,7 +90292,7 @@
   "TORIMP001734": {
     "name": "TORNILLO DRYWALL MAD 6 x3 TORAR",
     "category": "6.TOR.DRYWAL.R/MAD. 6TOR",
-    "bulk": 1800.0,
+    "bulk": 200.0,
     "prices": {
       "D": 39.53,
       "E": 42.58,
@@ -90192,7 +90302,7 @@
   "TORIMP001735": {
     "name": "TORNILLO DRYWALL MAD 10 x2 TOR",
     "category": "6.TOR.DRYWAL.R/MAD.10TOR",
-    "bulk": 2800.0,
+    "bulk": 200.0,
     "prices": {
       "D": 34.63,
       "E": 37.3,
@@ -90202,7 +90312,7 @@
   "TORIMP001746": {
     "name": "TORNILLO DRYWALL MET 6 x3/4 TORA",
     "category": "6.TOR.DRYWAL.R/MET. 6TOR",
-    "bulk": 16000.0,
+    "bulk": 200.0,
     "prices": {
       "D": 9.57,
       "E": 10.31,
@@ -90307,26 +90417,6 @@
       "D": 1019307.0,
       "E": 1104249.25,
       "F": 1019307.0
-    }
-  },
-  "TREPROTEJ-003": {
-    "name": "MEDIASOMBRA Ngra 6.5k 80% 2.1 x50mt PESADA",
-    "category": "8.TEJIDO MEDIASOM/POLY F",
-    "bulk": 1.0,
-    "prices": {
-      "D": 84153.13,
-      "E": 90626.44,
-      "F": 77679.81
-    }
-  },
-  "TREPROTEJ-004": {
-    "name": "MEDIASOMBRA Vrde 6.5k 80% 2.1 x50mt PESADA",
-    "category": "8.TEJIDO MEDIASOM/POLY F",
-    "bulk": 1.0,
-    "prices": {
-      "D": 89398.91,
-      "E": 96275.74,
-      "F": 82522.07
     }
   },
   "TUBF 1042": {
@@ -92067,16 +92157,6 @@
       "D": 17831.46,
       "E": 19203.11,
       "F": 16459.81
-    }
-  },
-  "WESTMSVF20": {
-    "name": "MEDIASOMBRA Vrde Ferr 5.5k 2.0 x50mt WEST",
-    "category": "8.TEJIDO MEDIASOM/POLY F",
-    "bulk": 1.0,
-    "prices": {
-      "D": 77748.34,
-      "E": 83728.98,
-      "F": 71767.7
     }
   },
   "WIMW601": {
