@@ -677,14 +677,21 @@ function preciosDeLinea(l) {
   return { base, aplicado: base };
 }
 
+// Segundo descuento sobre el total: solo se ofrece junto con el -7%, y se
+// aplica en cascada sobre el resultado del primero (-7% y -5% = -11,65%)
+const DESC_CON_EXTRA = 7;
+const DESC_EXTRA = 5;
+
 // ---------- ajuste del pedido ----------
 
 export function getAjustePedido(cliente) {
   try {
     const raw = localStorage.getItem(claveCarrito(cliente) + '::ajuste');
-    return raw ? JSON.parse(raw) : { descuento: 0, motivo: '', obsLibre: '' };
+    // Un ajuste guardado antes de existir el segundo descuento no lo trae: 0
+    return raw ? { descuentoExtra: 0, ...JSON.parse(raw) }
+               : { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '' };
   } catch (e) {
-    return { descuento: 0, motivo: '', obsLibre: '' };
+    return { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '' };
   }
 }
 
@@ -695,9 +702,15 @@ export function setAjustePedido(ajuste, cliente) {
     return;
   }
 
+  // El segundo descuento solo vale con el -7%: con cualquier otro valor se
+  // borra, asi que al volver al -7% la casilla aparece desmarcada
+  const descuento = Number(ajuste.descuento) || 0;
+  const descuentoExtra = descuento === DESC_CON_EXTRA && Number(ajuste.descuentoExtra) === DESC_EXTRA
+    ? DESC_EXTRA : 0;
 
   localStorage.setItem(claveCarrito(cliente) + '::ajuste', JSON.stringify({
-    descuento: Number(ajuste.descuento) || 0,
+    descuento,
+    descuentoExtra,
     motivo: ajuste.motivo || '',
     obsLibre: ajuste.obsLibre || ''
   }));
@@ -709,27 +722,38 @@ export function setAjustePedido(ajuste, cliente) {
 
 /**
  * Totales con la cascada: primero los descuentos de linea, despues el
- * descuento sobre el total. -5% y -10% dan 14,5%, no 15%.
+ * descuento sobre el total y, si hay, el segundo descuento sobre ese
+ * resultado. -5% y -10% dan 14,5%, no 15%; -7% y -5% dan 11,65%.
  */
 export function totales(cliente) {
   const lineas = detalle(cliente);
   const aj = getAjustePedido(cliente);
+  const d1 = Number(aj.descuento) || 0;
+  // Mismo criterio que setAjustePedido: el segundo solo junto con el -7%
+  const d2 = d1 === DESC_CON_EXTRA && Number(aj.descuentoExtra) === DESC_EXTRA ? DESC_EXTRA : 0;
 
   const bruto = Math.round(lineas.reduce((a, l) => a + (l.subtotal || 0), 0) * 100) / 100;
 
-  // Las lineas en promocion no admiten descuento: el porcentaje se aplica
+  // Las lineas en promocion no admiten descuento: los porcentajes se aplican
   // solo sobre el resto del pedido
   const enPromo = Math.round(lineas.filter(l => l.enPromo)
     .reduce((a, l) => a + (l.subtotal || 0), 0) * 100) / 100;
   const descontable = bruto - enPromo;
 
-  const neto = Math.round((enPromo + descontable * (1 - (aj.descuento || 0) / 100)) * 100) / 100;
+  const factor = (1 - d1 / 100) * (1 - d2 / 100);
+  const neto = Math.round((enPromo + descontable * factor) * 100) / 100;
 
   // Referencia: lo que hubiera costado a lista del cliente, sin ajustes
   const aLista = Math.round(lineas.reduce((a, l) => a + ((l.precioBase || 0) * l.cantidad), 0) * 100) / 100;
   const descGlobal = aLista ? Math.round((1 - neto / aLista) * 1000) / 10 : 0;
 
-  return { bruto, neto, aLista, descGlobal, descuentoTotal: aj.descuento || 0, enPromo };
+  return {
+    bruto, neto, aLista, descGlobal, enPromo,
+    descuentoTotal: d1,
+    descuentoExtra: d2,
+    // Los dos juntos, para mostrar: 7 y 5 dan 11,65
+    descuentoCombinado: Math.round((1 - factor) * 10000) / 100
+  };
 }
 
 /**
@@ -908,7 +932,7 @@ window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos, descartarViejos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
-  ajustarLinea, getAjustePedido, setAjustePedido,
+  ajustarLinea, getAjustePedido, setAjustePedido, DESC_CON_EXTRA, DESC_EXTRA,
   getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,
   getPendiente, setPendiente, borrarPendiente,
 };
