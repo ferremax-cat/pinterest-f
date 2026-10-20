@@ -331,6 +331,15 @@ function calcularSemaforo(lineas, cupo) {
   return res;
 }
 
+/** Escribe en una fila los valores por nombre de encabezado (los que existan) */
+function escribirPorEncabezado(hoja, fila, valores) {
+  const enc = hoja.getRange(1, 1, 1, hoja.getLastColumn()).getValues()[0].map(x => String(x).trim());
+  Object.keys(valores).forEach(k => {
+    const c = enc.indexOf(k);
+    if (c >= 0) hoja.getRange(fila, c + 1).setValue(valores[k]);
+  });
+}
+
 function accionGuardarPedido(body) {
   const p = verificarToken(body.token);
   if (!p) return responder({ ok: false, error: 'token_invalido' });
@@ -423,6 +432,13 @@ function accionGuardarPedido(body) {
       String(p.rol || '').trim(),   // rol_creador
       numero                       // numero
     ]);
+
+    // Segundo descuento sobre el total, en cascada (solo junto con el -7%).
+    // Va por nombre de encabezado: no depende de la posicion de la columna
+    const extra = Number(ped.descuentoExtra) || 0;
+    if (extra) {
+      escribirPorEncabezado(hCab, hCab.getLastRow(), { desc_total_extra_pct: extra });
+    }
 
     const filas = ped.lineas.map((l, i) => ([
       ped.id,
@@ -584,7 +600,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v24-intento-de-otro' });
+      return responder({ ok: true, version: 'v25-desc-extra' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -680,7 +696,7 @@ function accionPedidosParaImprimir(body) {
   const I = {
     id: c('id_pedido'), ts: c('timestamp'), cliente: c('cliente'), nombre: c('nombre_cliente'),
     vendedor: c('vendedor'), canal: c('canal'), cant: c('cant_lineas'), bruto: c('total_bruto'),
-    descPct: c('desc_total_pct'), neto: c('total_neto'), motivo: c('motivo_obs'),
+    descPct: c('desc_total_pct'), descExtra: c('desc_total_extra_pct'), neto: c('total_neto'), motivo: c('motivo_obs'),
     obs: c('obs_libre'), origen: c('id_pedido_origen'), revision: c('revision'), lista: c('lista'),
     impreso: c('impreso'), fechaImp: c('fecha_impresion'), impresoPor: c('impreso_por'),
     rolCreador: c('rol_creador'), numero: c('numero'),
@@ -743,6 +759,7 @@ function accionPedidosParaImprimir(body) {
       cantLineas: Number(f[I.cant]) || 0,
       totalBruto: Number(f[I.bruto]) || 0,
       descTotalPct: Number(f[I.descPct]) || 0,
+      descTotalExtraPct: I.descExtra >= 0 ? Number(f[I.descExtra]) || 0 : 0,
       totalNeto: Number(f[I.neto]) || 0,
       motivo: String(f[I.motivo] || ''),
       obsLibre: String(f[I.obs] || ''),

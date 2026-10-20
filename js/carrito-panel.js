@@ -408,6 +408,12 @@ function vistaVendedor() {
             ${(config?.descuentosTotal || [5,7,10]).map(d =>
               `<option value="${d}" ${tot.descuentoTotal === d ? 'selected' : ''}>-${d}%</option>`).join('')}
           </select>
+          ${tot.descuentoTotal === window.Carrito.DESC_CON_EXTRA ? `
+          <label class="cp-desc-extra" title="Segundo descuento, sobre el total ya descontado">
+            <input type="checkbox" class="cp-desc-extra-chk" ${tot.descuentoExtra ? 'checked' : ''}>
+            y además -${window.Carrito.DESC_EXTRA}%
+          </label>` : ''}
+          ${tot.descuentoExtra ? `<span class="cp-ref">= -${tot.descuentoCombinado.toLocaleString('es-AR')}% al total</span>` : ''}
           <select class="cp-obs-pedido">
             <option value="">Sin observación</option>
             ${(config?.observaciones || []).map(o =>
@@ -567,7 +573,14 @@ function conectar(cont) {
   
     cont.querySelector('.cp-desc-pedido')?.addEventListener('change', (e) => {
     const aj = window.Carrito.getAjustePedido();
+    // Si deja de ser -7%, setAjustePedido desmarca el segundo descuento
     window.Carrito.setAjustePedido({ ...aj, descuento: e.target.value });
+    dibujar();
+  });
+
+  cont.querySelector('.cp-desc-extra-chk')?.addEventListener('change', (e) => {
+    const aj = window.Carrito.getAjustePedido();
+    window.Carrito.setAjustePedido({ ...aj, descuentoExtra: e.target.checked ? window.Carrito.DESC_EXTRA : 0 });
     dibujar();
   });
 
@@ -875,6 +888,8 @@ async function confirmarPedido() {
         revision: window.Carrito.getOrigen() ? 1 : 0,
         totalBruto: t.bruto,
         descuentoTotal: t.descuentoTotal,
+        // Segundo descuento en cascada (solo con el -7%): columna desc_total_extra_pct
+        descuentoExtra: t.descuentoExtra,
         totalNeto: t.neto,
         descEfectivoGlobal: t.descGlobal,
         motivo: aj.motivo,

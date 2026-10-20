@@ -560,8 +560,10 @@ function htmlTablaFact(filas, continua) {
 }
 
 function htmlCierreFact(t) {
+  // Con segundo descuento: "7 % y además 5 %", en cascada
+  const pcts = t.extra ? `${fmtNum(t.pct)} % y además ${fmtNum(t.extra)} %` : `${fmtNum(t.pct)} %`;
   const desc = t.pct || t.descuento
-    ? `Descuento sobre el total (${fmtNum(t.pct)} %, no alcanza a las promociones)`
+    ? `Descuento sobre el total (${pcts}, no alcanza a las promociones)`
     : 'Descuento sobre el total';
   return `
     <div class="ih-totales">
@@ -628,6 +630,7 @@ function armarPedido(p, reimpresion) {
     promo: lineas.filter(it => it.linea.mecanismo === 'promocion')
       .reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0),
     pct: Number(p.descTotalPct) || 0,
+    extra: Number(p.descTotalExtraPct) || 0,
     // Igual a lo que guardo el servidor
     descuento: Math.round((bruto - neto) * 100) / 100
   };
