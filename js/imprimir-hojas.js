@@ -65,7 +65,9 @@ const REGLAS_PISO = EXCEPCIONES_PISO.map(e => ({
 const MM = {
   hoja: 280, cabPrep: 34, obs: 14, cabCont: 9, franja: 7, fila: 19,
   firmas: 40, pie: 6, cabFact: 26, filaFact: 5.5, totales: 26,
-  firmasFact: 14, separador: 8, reimp: 9
+  firmasFact: 14, separador: 8, reimp: 9,
+  // Titulo de piso en facturacion: un renglon fino, mas bajo que una linea
+  pisoFact: 4
 };
 
 // Caracteres de codigo que entran en un renglon de la columna Codigo de
@@ -285,6 +287,35 @@ function tipoDe(l) {
   }
 }
 
+// ---------- orden por piso (las dos hojas) ----------
+
+/**
+ * Lineas agrupadas por piso, en el orden de la hoja de preparacion: planta
+ * baja, 1er piso y sin ubicacion; dentro de cada piso, por prefijo y despues
+ * por codigo. Es el unico lugar que decide el orden: la facturacion lo sigue
+ * para que quien factura encuentre las lineas en el mismo lugar.
+ * nuevoGrupo marca el cambio de prefijo (solo lo dibuja la preparacion).
+ */
+function agruparPorPiso(lineas) {
+  return ORDEN_PISOS.map(nombre => {
+    const items = lineas.filter(it => it.piso === nombre)
+      .sort((a, b) => COLLATOR.compare(a.prefijo, b.prefijo) || COLLATOR.compare(a.sku, b.sku));
+    items.forEach((it, i) => { it.nuevoGrupo = i > 0 && it.prefijo !== items[i - 1].prefijo; });
+    return { nombre, items };
+  }).filter(pi => pi.items.length);
+}
+
+/**
+ * Renglones de la facturacion: el titulo de cada piso y sus lineas, en el
+ * orden de agruparPorPiso. El paginado y la hoja unica miden esta misma lista.
+ */
+function filasFacturacion(pisos) {
+  return pisos.flatMap(pi => [
+    { tipo: 'piso', piso: pi.nombre, total: pi.items.length },
+    ...pi.items.map(it => ({ tipo: 'linea', piso: pi.nombre, it }))
+  ]);
+}
+
 // ---------- paginado ----------
 
 /**
@@ -332,8 +363,16 @@ function paginarPrep(pisos, conObs, conReimp) {
 /** Renglones que ocupa una linea en facturacion: el codigo va completo. */
 const renglonesFact = it => Math.max(1, Math.ceil(it.sku.length / COD_POR_RENGLON));
 
-/** Hojas de facturacion: totales y firmas al final de la ultima. */
-function paginarFact(lineas) {
+/** Alto en mm de un renglon de facturacion: titulo de piso o linea */
+const altoFilaFact = f => (f.tipo === 'piso' ? MM.pisoFact : renglonesFact(f.it) * MM.filaFact);
+
+/**
+ * Hojas de facturacion: totales y firmas al final de la ultima.
+ * Una hoja que empieza en medio de un piso repite su titulo ("continúa"),
+ * igual que la preparacion. Un titulo nunca queda solo al pie de una hoja:
+ * baja con su primera linea.
+ */
+function paginarFact(filas) {
   const hojas = [];
   const cierre = MM.totales + MM.firmasFact;
   let i = 0;
@@ -341,23 +380,33 @@ function paginarFact(lineas) {
 
   for (;;) {
     // El encabezado de la tabla ocupa un renglon
-    const libre = MM.hoja - (primera ? MM.cabFact : MM.cabCont) - MM.pie - MM.filaFact;
+    let libre = MM.hoja - (primera ? MM.cabFact : MM.cabCont) - MM.pie - MM.filaFact;
+
+    const continua = i < filas.length && filas[i].tipo === 'linea' ? filas[i].piso : null;
+    if (continua) libre -= MM.pisoFact;
 
     let alto = 0;
     let j = i;
-    while (j < lineas.length && alto + renglonesFact(lineas[j]) * MM.filaFact <= libre) {
-      alto += renglonesFact(lineas[j]) * MM.filaFact;
+    while (j < filas.length) {
+      const a = altoFilaFact(filas[j]);
+      const conSiguiente = filas[j].tipo === 'piso' && j + 1 < filas.length
+        ? altoFilaFact(filas[j + 1]) : 0;
+      if (alto + a + conSiguiente > libre) break;
+      alto += a;
       j++;
     }
+    // Resguardo: un renglon que no entra ni en una hoja vacia se pone igual,
+    // para no repetir hojas vacias sin fin
+    if (j === i && i < filas.length) { alto += altoFilaFact(filas[i]); j = i + 1; }
 
     // Entraron todas y tambien el cierre
-    if (j === lineas.length && alto + cierre <= libre) {
-      hojas.push({ primera, desde: i, hasta: j, cierre: true });
+    if (j === filas.length && alto + cierre <= libre) {
+      hojas.push({ primera, desde: i, hasta: j, cierre: true, continua });
       return hojas;
     }
 
     // Si entraron todas pero no el cierre, el cierre va solo en la siguiente
-    hojas.push({ primera, desde: i, hasta: j, cierre: false });
+    hojas.push({ primera, desde: i, hasta: j, cierre: false, continua });
     i = j;
     primera = false;
   }
@@ -470,15 +519,25 @@ function htmlCabFact(c) {
         <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>
         ${c.obs ? `<span class="ih-datos-obs"><b>Obs.:</b> ${esc(c.obs)}</span>` : ''}
       </div>
+      <div class="ih-instr">N°: orden en el pedido</div>
     </header>`;
 }
 
-function htmlTablaFact(lineas) {
-  const filas = lineas.map(it => {
+function htmlPisoFact(piso, total, continua) {
+  return `<tr class="ih-piso-fact"><td colspan="7"><b>${esc(piso)}</b>
+    <span>· ${continua ? 'continúa' : `${total} ${total === 1 ? 'línea' : 'líneas'}`}</span></td></tr>`;
+}
+
+// filas: renglones de filasFacturacion; continua: piso que sigue de la hoja anterior
+function htmlTablaFact(filas, continua) {
+  const cuerpo = (continua ? htmlPisoFact(continua, 0, true) : '') + filas.map(f => {
+    if (f.tipo === 'piso') return htmlPisoFact(f.piso, f.total, false);
+    const it = f.it;
     const l = it.linea;
     const tipo = tipoDe(l);
     const renglones = renglonesFact(it);
-    // Alto fijo segun los renglones del codigo: el mismo que usa el paginado
+    // Alto fijo segun los renglones del codigo: el mismo que usa el paginado.
+    // N°: el de la linea en el pedido original, la referencia entre las dos hojas
     return `<tr${renglones > 1 ? ` style="height:calc(var(--ih-fila-fact) * ${renglones})"` : ''}>
       <td class="ih-n">${it.n}</td>
       <td class="ih-tcod">${esc(it.sku)}</td>
@@ -496,7 +555,7 @@ function htmlTablaFact(lineas) {
         <col class="c-pu"><col class="c-sub"><col class="c-tipo"></colgroup>
       <thead><tr><th>N°</th><th>Código</th><th class="ih-num">Cant.</th><th>Descripción</th>
         <th class="ih-num">P. unit.</th><th class="ih-num">Subtotal</th><th>Tipo</th></tr></thead>
-      <tbody>${filas}</tbody>
+      <tbody>${cuerpo}</tbody>
     </table>`;
 }
 
@@ -518,9 +577,9 @@ function htmlCierreFact(t) {
     </div>`;
 }
 
-function htmlBloqueFact(h, c, lineas, totales) {
+function htmlBloqueFact(h, c, filas, totales) {
   return (h.primera ? htmlCabFact(c) : htmlCabCont('Facturación', c)) +
-    (h.hasta > h.desde ? htmlTablaFact(lineas.slice(h.desde, h.hasta)) : '') +
+    (h.hasta > h.desde ? htmlTablaFact(filas.slice(h.desde, h.hasta), h.continua) : '') +
     (h.cierre ? htmlCierreFact(totales) : '');
 }
 
@@ -556,12 +615,9 @@ function armarPedido(p, reimpresion) {
       };
     });
 
-  const pisos = ORDEN_PISOS.map(nombre => {
-    const items = lineas.filter(it => it.piso === nombre)
-      .sort((a, b) => COLLATOR.compare(a.prefijo, b.prefijo) || COLLATOR.compare(a.sku, b.sku));
-    items.forEach((it, i) => { it.nuevoGrupo = i > 0 && it.prefijo !== items[i - 1].prefijo; });
-    return { nombre, items };
-  }).filter(pi => pi.items.length);
+  // El mismo orden en las dos hojas: por piso, prefijo y codigo
+  const pisos = agruparPorPiso(lineas);
+  const filasFact = filasFacturacion(pisos);
 
   const sumaSub = lineas.reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0);
   const bruto = Number(p.totalBruto) || sumaSub;
@@ -578,13 +634,14 @@ function armarPedido(p, reimpresion) {
 
   const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion);
   const ultima = hojasPrep[hojasPrep.length - 1];
+  // Con los titulos de piso: la hoja unica mide lo mismo que el paginado
   const altoFact = MM.cabFact + MM.filaFact +
-    lineas.reduce((a, it) => a + renglonesFact(it) * MM.filaFact, 0) +
+    filasFact.reduce((a, f) => a + altoFilaFact(f), 0) +
     MM.totales + MM.firmasFact;
   const unica = hojasPrep.length === 1 &&
     ultima.usado + MM.separador + altoFact <= MM.hoja * MARGEN_HOJA_UNICA;
 
-  const hojasFact = unica ? [] : paginarFact(lineas);
+  const hojasFact = unica ? [] : paginarFact(filasFact);
   const total = hojasPrep.length + hojasFact.length;
 
   let html = '';
@@ -596,13 +653,13 @@ function armarPedido(p, reimpresion) {
     if (h.firmas) cuerpo += htmlFirmasPrep();
     if (unica) {
       cuerpo += '<div class="ih-separador">FACTURACIÓN · uso interno</div>' +
-        htmlBloqueFact({ primera: true, desde: 0, hasta: lineas.length, cierre: true }, c, lineas, totales);
+        htmlBloqueFact({ primera: true, desde: 0, hasta: filasFact.length, cierre: true }, c, filasFact, totales);
     }
     html += `<section class="ih-hoja">${cuerpo}${htmlPie(c, i + 1, total)}</section>`;
   });
 
   hojasFact.forEach((h, i) => {
-    html += `<section class="ih-hoja">${htmlBloqueFact(h, c, lineas, totales)}` +
+    html += `<section class="ih-hoja">${htmlBloqueFact(h, c, filasFact, totales)}` +
       `${htmlPie(c, hojasPrep.length + i + 1, total)}</section>`;
   });
 

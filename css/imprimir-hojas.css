@@ -416,6 +416,20 @@
 
 .ih-tabla td { border-bottom: .2mm solid #bbb; }
 
+/* Titulo de piso en facturacion: renglon fino, sin el fondo negro de las
+   franjas de preparacion (alto: MM.pisoFact en el JS) */
+.ih-tabla tr.ih-piso-fact { height: var(--ih-piso-fact); }
+
+.ih-tabla tr.ih-piso-fact td {
+  padding: .6mm 1mm 0;
+  border-bottom: .3mm solid #000;
+  font-size: 6.5pt;
+  letter-spacing: .08em;
+}
+
+.ih-piso-fact b { font-weight: 800; }
+.ih-piso-fact span { margin-left: 1.5mm; font-weight: 400; letter-spacing: 0; }
+
 .ih-tabla .ih-num {
   text-align: right;
   font-variant-numeric: tabular-nums;
