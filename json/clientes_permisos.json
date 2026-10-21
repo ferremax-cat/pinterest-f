@@ -9,6 +9,11 @@
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
     "priceList": "E"
   },
+  "4": {
+    "name": "CONSUMIDOR FINAL 4",
+    "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
+    "priceList": "D"
+  },
   "5": {
     "name": "MUNDOMAT SRL.CORRALON.MATERIAL",
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
@@ -2132,7 +2137,7 @@
   "1043": {
     "name": "FERRETERIA ARI",
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
-    "priceList": "E"
+    "priceList": "D"
   },
   "20340": {
     "name": "FERNANDO ELECTRICIDA",
@@ -2253,5 +2258,10 @@
     "name": "F. RAUCH ADRIAN",
     "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
     "priceList": "D"
+  },
+  "20307": {
+    "name": "FERRETERIA SENEGAL",
+    "categories": "SANITARIOS,REPUESTOS,BULONERIA,PINTURAS,FERRETERIA,ELECTRICIDAD",
+    "priceList": "F"
   }
 }
