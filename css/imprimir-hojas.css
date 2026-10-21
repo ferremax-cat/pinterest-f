@@ -453,6 +453,9 @@
   border: .3mm solid #000;
   font-size: 6.5pt;
   font-weight: 700;
+  /* "Lista F -12,5%": el porcentaje va junto a la letra (hasta unos 23 mm) */
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .ih-totales {

@@ -278,11 +278,26 @@ function textoBulto(cant, bulk) {
   return `${n} ${n === 1 ? 'bulto' : 'bultos'}` + (resto ? ` + ${fmtNum(resto)} u.` : '');
 }
 
+/**
+ * Leyenda del precio aplicado en la columna Tipo de la facturacion.
+ * descLinea: el porcentaje que eligio el vendedor (0 sin descuento o en
+ * promocion; null en los pedidos guardados antes de registrarlo, que
+ * muestran lo mismo que antes, sin porcentaje).
+ */
 function tipoDe(l) {
+  const letra = x => String(x ?? '').trim().toUpperCase();
+  // Con coma decimal y sin decimales de mas: -5%, -12,5% (null o 0: nada)
+  const pct = Number(l.descLinea) > 0 ? ` -${fmtNum(l.descLinea)}%` : '';
+
   switch (l.mecanismo) {
-    case 'promocion': return 'PROMO';
-    case 'precio_libre': return 'PRECIO ESPECIAL';
-    case 'otra_lista': return ('LISTA ' + String(l.listaAplicada ?? '').trim().toUpperCase()).trim();
+    case 'promocion': return 'Promo';
+    case 'precio_libre': return 'Precio especial' + pct;
+    case 'otra_lista': return ('Lista ' + letra(l.listaAplicada)).trim() + pct;
+    case 'lista_cliente':
+    case '':
+    case undefined:
+      // A lista del cliente no lleva leyenda, salvo que el vendedor haya elegido un descuento
+      return pct ? ('Lista ' + letra(l.listaCliente || l.listaAplicada)).trim() + pct : '';
     default: return '';
   }
 }
