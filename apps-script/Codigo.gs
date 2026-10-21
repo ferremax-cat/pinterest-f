@@ -454,7 +454,11 @@ function accionGuardarPedido(body) {
       l.descEfectivo || 0,
       l.subtotal || 0,
       l.origenLinea || '',
-      sem.colores[i] || ''
+      sem.colores[i] || '',
+      // desc_linea_pct (columna O): el porcentaje que eligio el vendedor.
+      // Sin el dato (navegador sin actualizar) queda vacio, no 0
+      l.descuentoLinea === undefined || l.descuentoLinea === null || l.descuentoLinea === ''
+        ? '' : Number(l.descuentoLinea) || 0
     ]));
 
     if (filas.length) {
@@ -600,7 +604,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v25-desc-extra' });
+      return responder({ ok: true, version: 'v26-desc-linea' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -782,7 +786,7 @@ function accionPedidosParaImprimir(body) {
     id: cl('id_pedido'), orden: cl('orden'), sku: cl('sku'), nombre: cl('nombre'),
     cant: cl('cantidad'), listaCli: cl('lista_cliente'), listaApl: cl('lista_aplicada'),
     mec: cl('mecanismo'), pu: cl('precio_unitario'), desc: cl('desc_efectivo_linea'),
-    sub: cl('subtotal')
+    sub: cl('subtotal'), descSel: cl('desc_linea_pct')
   };
   const porId = {};
   for (let i = 1; i < lin.length; i++) {
@@ -799,6 +803,9 @@ function accionPedidosParaImprimir(body) {
       mecanismo: String(r[L.mec] || ''),
       precioUnitario: Number(r[L.pu]) || 0,
       descEfectivo: Number(r[L.desc]) || 0,
+      // Porcentaje elegido por el vendedor; null en los pedidos sin ese dato
+      descLinea: L.descSel >= 0 && r[L.descSel] !== '' && r[L.descSel] !== null
+        ? Number(r[L.descSel]) || 0 : null,
       subtotal: Number(r[L.sub]) || 0
     });
   }
