@@ -904,6 +904,9 @@ async function confirmarPedido() {
           precioBase: l.precioBase,
           precio: l.precio,
           descEfectivo: l.descEfectivo,
+          // El porcentaje que eligio el vendedor (desc_efectivo_linea mezcla la
+          // diferencia de lista con este descuento). En promocion no se aplica: 0
+          descuentoLinea: l.enPromo ? 0 : (Number(l.descuento) || 0),
           subtotal: l.subtotal,
           origenLinea: origenDe(l)
         }))
