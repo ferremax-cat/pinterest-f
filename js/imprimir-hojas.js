@@ -29,6 +29,21 @@ const ORDEN_PISOS = [PISO_PB, PISO_1, PISO_SIN];
 // con alguno de ellos; sin "rubros", aplica a todo el prefijo. Mayusculas y
 // espacios sobrantes no importan.
 const EXCEPCIONES_PISO = [
+  // ---------- Hacia PLANTA BAJA ----------
+
+  // Todo el prefijo
+  { prefijo: 'RUC',    piso: PISO_PB },  // Rubi: caños de PVC L/100 y L/110 (rubro 2, pero estan en planta baja)
+  { prefijo: 'DUC',    piso: PISO_PB },  // caños de PPN bicapa, tricapa y K10 (rubro 2)
+  { prefijo: 'LE',     piso: PISO_PB },  // caños de PVC L/100, referencia LE (rubro 2)
+  { prefijo: 'FER',    piso: PISO_PB },  // accesorios para calefon electrico (rubro 1)
+
+  // Solo algunos rubros del prefijo
+  { prefijo: 'DAM',  rubros: ['1.CALEFON'],          piso: PISO_PB },  // accesorios para calefon: resistencias, kits y griferia (el resto de DAM, por categoria)
+  { prefijo: 'TF',   rubros: ['1.DESLIZANTE'],       piso: PISO_PB },  // deslizante para caños (el resto de TF, por categoria)
+  { prefijo: 'EVOL', rubros: ['2.TIJERA CORTATUBO'], piso: PISO_PB },  // tijera cortatubo de fusion
+
+  // ---------- Hacia el 1ER PISO ----------
+
   // Todo el prefijo
   { prefijo: 'CRE',    piso: PISO_1 },  // Crecchio: separadores en cruz
   { prefijo: 'SB',     piso: PISO_1 },  // correas (rubro 8, pero estan en el 1er piso)
@@ -42,14 +57,22 @@ const EXCEPCIONES_PISO = [
   { prefijo: 'MOI',    piso: PISO_1 },  // Moises: palas y cabos
   { prefijo: 'PLASTI', piso: PISO_1 },  // accesorios de riego, mangueras y caños cristal
   { prefijo: 'TORN',   piso: PISO_1 },  // Tornado: cargadores de bateria
+  { prefijo: 'FT',     piso: PISO_1 },  // fratachos de pino y algarrobo, zarandas y cabos (rubro 8)
+  { prefijo: 'CER',    piso: PISO_1 },  // separadores para ceramicas (rubro 8)
+  { prefijo: 'EXT',    piso: PISO_1 },  // Extender: accesorios de cortina y placard, y tenders (rubro 8)
+  { prefijo: 'TUC',    piso: PISO_1 },  // Tucan: rodillos, pinceles, pinceletas y bandeja de pintor (rubro 7)
+  { prefijo: 'SF',     piso: PISO_1 },  // mangueras de riego, caños cristal Max-Agua, accesorios de pileta y reguladores de gas
+  { prefijo: 'PV',     piso: PISO_1 },  // fratachos plasticos Tenda y escurridor de pintor (rubros 7 y 8)
 
   // Solo algunos rubros del prefijo
-  { prefijo: 'ALI', rubros: ['8.ESTUFA', '8.ANAFE'],           piso: PISO_1 },  // Aligas: estufas y anafes
-  { prefijo: 'LOU', rubros: ['8.AZADAS', '8.PALA', '8.PICOS'], piso: PISO_1 },  // azadas, palas y picos
-  { prefijo: 'MIC', rubros: ['8.SOPLETE'],                     piso: PISO_1 },  // sopletes
-  { prefijo: 'EA',  rubros: ['8.AISLANTES'],                   piso: PISO_1 },  // aislantes
-  { prefijo: 'LH',  rubros: ['8.TACO', '8.TARUGO'],            piso: PISO_1 },  // tacos y tarugos
-  { prefijo: 'MAV', rubros: ['9.CABLECANAL', '8.CALEFACCION'], piso: PISO_1 },  // cablecanal y calefaccion (el resto de MAV, en planta baja)
+  { prefijo: 'ALI',  rubros: ['8.ESTUFA', '8.ANAFE'],           piso: PISO_1 },  // Aligas: estufas y anafes
+  { prefijo: 'LOU',  rubros: ['8.AZADAS', '8.PALA', '8.PICOS'], piso: PISO_1 },  // azadas, palas y picos
+  { prefijo: 'MIC',  rubros: ['8.SOPLETE'],                     piso: PISO_1 },  // sopletes
+  { prefijo: 'EA',   rubros: ['8.AISLANTES'],                   piso: PISO_1 },  // aislantes
+  { prefijo: 'LH',   rubros: ['8.TACO', '8.TARUGO'],            piso: PISO_1 },  // tacos y tarugos
+  { prefijo: 'MAV',  rubros: ['9.CABLECANAL', '8.CALEFACCION'], piso: PISO_1 },  // cablecanal y calefaccion (el resto de MAV, en planta baja)
+  { prefijo: 'WIM',  rubros: ['8.MAQ'],                         piso: PISO_1 },  // bordeadoras y accesorios
+  { prefijo: 'EVOL', rubros: ['8.TEJIDO MOSQ'],                 piso: PISO_1 },  // tejido mosquitero de PVC y de aluminio
 ];
 
 const normTexto = s => String(s ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
