@@ -290,12 +290,37 @@ function limpiarCacheConfig() {
 // ---------- pedidos ----------
 
 /**
+ * Factor del descuento sobre el total (uno o dos en cascada) para las lineas
+ * que no estan en promocion: (neto - promo) / (bruto - promo). Sale de los
+ * totales del pedido, asi que vale aunque el navegador no mande los
+ * porcentajes, y las franjas suman el total neto guardado. Es la misma
+ * cuenta que hace el panel del vendedor (carrito-panel.js, vistaVendedor).
+ */
+function factorDescuentoTotal(lineas, totalNeto) {
+  let bruto = 0, promo = 0;
+  lineas.forEach(l => {
+    const s = Number(l.subtotal) || 0;
+    bruto += s;
+    if (l.mecanismo === 'promocion') promo += s;
+  });
+  const descontable = bruto - promo;
+  const neto = Number(totalNeto);
+  if (!(descontable > 0) || !(neto > 0)) return 1;
+  const f = (neto - promo) / descontable;
+  // Resguardo: un total inconsistente no puede inflar ni anular las lineas
+  return f > 0 && f <= 1 ? f : 1;
+}
+
+/**
  * Semaforo del pedido, calculado en el servidor para que valga igual
  * en los pedidos del vendedor y en los del cliente, que no recibe el cupo.
  * Acumula las lineas en orden: verde hasta el cupo, amarillo hasta un 30%
  * por encima, rojo mas alla.
+ * Mide contra el neto: el cupo es capacidad de pago y lo que compromete el
+ * credito es lo que el cliente va a pagar. El descuento sobre el total no
+ * alcanza a las lineas en promocion.
  */
-function calcularSemaforo(lineas, cupo) {
+function calcularSemaforo(lineas, cupo, totalNeto) {
   const res = {
     cupo: cupo,
     verde: 0, amarillo: 0, rojo: 0,
@@ -303,11 +328,14 @@ function calcularSemaforo(lineas, cupo) {
     peor: 'verde'
   };
 
+  const factor = factorDescuentoTotal(lineas, totalNeto);
+  const netoDe = l => (Number(l.subtotal) || 0) * (l.mecanismo === 'promocion' ? 1 : factor);
+
   if (!cupo || cupo <= 0) {
     // Sin cupo disponible, todo el pedido queda en rojo
     lineas.forEach(l => {
       res.colores.push('rojo');
-      res.rojo += Number(l.subtotal) || 0;
+      res.rojo += netoDe(l);
     });
     res.peor = lineas.length ? 'rojo' : 'verde';
     return res;
@@ -315,14 +343,15 @@ function calcularSemaforo(lineas, cupo) {
 
   let acum = 0;
   lineas.forEach(l => {
-    acum += Number(l.subtotal) || 0;
+    const neto = netoDe(l);
+    acum += neto;
     let color;
     if (acum <= cupo) color = 'verde';
     else if (acum <= cupo * 1.3) color = 'amarillo';
     else color = 'rojo';
 
     res.colores.push(color);
-    res[color] += Number(l.subtotal) || 0;
+    res[color] += neto;
 
     if (color === 'rojo') res.peor = 'rojo';
     else if (color === 'amarillo' && res.peor === 'verde') res.peor = 'amarillo';
@@ -362,7 +391,8 @@ function accionGuardarPedido(body) {
 
   // Semaforo calculado aca: el cliente no recibe el cupo, asi que su
   // navegador no puede calcularlo. Ademas el dato no depende del frontend.
-  const sem = calcularSemaforo(ped.lineas, Number(datosCli ? datosCli.cupoMes : 0));
+  // Sobre el neto: el mismo total con el que se calcula el excedente
+  const sem = calcularSemaforo(ped.lineas, Number(datosCli ? datosCli.cupoMes : 0), ped.totalNeto);
   const excedente = Math.round(((ped.totalNeto || 0) - sem.cupo) * 100) / 100;
 
 
@@ -433,12 +463,14 @@ function accionGuardarPedido(body) {
       numero                       // numero
     ]);
 
-    // Segundo descuento sobre el total, en cascada (solo junto con el -7%).
-    // Va por nombre de encabezado: no depende de la posicion de la columna
+    // Columnas por nombre de encabezado: no dependen de su posicion.
+    // semaforo_base: criterio del semaforo (vacio en los pedidos viejos,
+    // que se midieron sobre el bruto). desc_total_extra_pct: segundo
+    // descuento sobre el total, en cascada (solo junto con el -7%)
     const extra = Number(ped.descuentoExtra) || 0;
-    if (extra) {
-      escribirPorEncabezado(hCab, hCab.getLastRow(), { desc_total_extra_pct: extra });
-    }
+    const columnasNuevas = { semaforo_base: 'neto' };
+    if (extra) columnasNuevas.desc_total_extra_pct = extra;
+    escribirPorEncabezado(hCab, hCab.getLastRow(), columnasNuevas);
 
     const filas = ped.lineas.map((l, i) => ([
       ped.id,
@@ -604,7 +636,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v26-desc-linea' });
+      return responder({ ok: true, version: 'v27-semaforo-neto' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();

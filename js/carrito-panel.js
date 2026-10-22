@@ -303,11 +303,15 @@ function vistaVendedor() {
   let acum = 0;
   let hayRojo = false;
 
+  // El acumulado se mide sobre el neto. El descuento sobre el total no
+  // alcanza a las lineas en promocion: solo las demas se multiplican por el
+  // factor. Misma cuenta que calcularSemaforo en el servidor, asi el color
+  // que se ve es el que queda registrado
+  const descontable = tot.bruto - tot.enPromo;
+  const factorTotal = descontable > 0 ? (tot.neto - tot.enPromo) / descontable : 1;
+
   const filas = lineas.map((l, i) => {
-        // El acumulado se mide sobre el neto: si hay descuento de total,
-    // los renglones tienen que reflejarlo
-    const factor = tot.bruto ? tot.neto / tot.bruto : 1;
-    acum += (l.subtotal || 0) * factor;
+    acum += (l.subtotal || 0) * (l.enPromo ? 1 : factorTotal);
     const c = colorAcumulado(acum, disponible);
     if (c === ROJO) hayRojo = true;
     const col = c || 'inherit';
