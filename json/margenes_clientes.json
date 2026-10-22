@@ -15,7 +15,7 @@
     "nombre": "FERRETERIA RITA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,18,10,7,58)"
+    "ultima_actualizacion": "Date(2026,9,22,10,46,39)"
   },
   "20138": {
     "nombre": "TITO FERRETERIA",
@@ -537,7 +537,7 @@
     "nombre": "CHRISTIAN SEQUEIRA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,21,16,42,56)"
+    "ultima_actualizacion": "Date(2026,9,21,23,14,48)"
   },
   "50607": {
     "nombre": "LA BOTICA FERRETERIA",
@@ -553,9 +553,9 @@
   },
   "1030": {
     "nombre": "FERRETERIA CONTRERAS",
-    "margen": 60,
+    "margen": 100,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,15,14,10,35)"
+    "ultima_actualizacion": "Date(2026,9,21,18,4,6)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -915,12 +915,18 @@
     "nombre": "VILLALBA FERRETERIA",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,20,9,54,12)"
+    "ultima_actualizacion": "Date(2026,9,22,9,39,50)"
   },
   "50611": {
     "nombre": "FERRETERIA HORACIO",
     "margen": 40,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,9,21,12,56,35)"
+  },
+  "70117": {
+    "nombre": "FERRETERIA ANIBAL",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,9,22,10,16,55)"
   }
 }
