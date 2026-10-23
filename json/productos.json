@@ -469,6 +469,16 @@
       "F": 6895.82
     }
   },
+  "ALFA-25": {
+    "name": "PINTURA ASFALTICA    1Lt  ALFA",
+    "category": "8.PROD.QUIM.ASFAL.EA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 4924.09,
+      "E": 5302.87,
+      "F": 4545.32
+    }
+  },
   "ALFA-26": {
     "name": "PINTURA ASFALTICA    4Lt  ALFA",
     "category": "8.PROD.QUIM.ASFAL.EA",
@@ -487,6 +497,16 @@
       "D": 39394.28,
       "E": 42424.61,
       "F": 36363.95
+    }
+  },
+  "ALFA-28": {
+    "name": "PINTURA ASFALTICA   18Lt  ALFA",
+    "category": "8.PROD.QUIM.ASFAL.EA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 62685.23,
+      "E": 67507.17,
+      "F": 57863.29
     }
   },
   "ALFA-42": {
@@ -2904,9 +2924,9 @@
     "category": "8.GANCHO P/TECHO ZINC.AT",
     "bulk": 100.0,
     "prices": {
-      "D": 295.97,
-      "E": 318.74,
-      "F": 273.2
+      "D": 89.33,
+      "E": 96.2,
+      "F": 82.46
     }
   },
   "AT447": {
@@ -2914,9 +2934,9 @@
     "category": "8.GANCHO P/TECHO ZINC.AT",
     "bulk": 100.0,
     "prices": {
-      "D": 341.12,
-      "E": 367.36,
-      "F": 314.88
+      "D": 159.66,
+      "E": 171.95,
+      "F": 147.38
     }
   },
   "AT448": {
@@ -4224,9 +4244,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 60.0,
     "prices": {
-      "D": 7421.61,
-      "E": 7992.5,
-      "F": 6850.72
+      "D": 7941.12,
+      "E": 8551.98,
+      "F": 7330.27
     }
   },
   "BK3-415": {
@@ -4234,9 +4254,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 24.0,
     "prices": {
-      "D": 3801.54,
-      "E": 4093.97,
-      "F": 3509.12
+      "D": 4067.65,
+      "E": 4380.55,
+      "F": 3754.75
     }
   },
   "BK3-430": {
@@ -4244,9 +4264,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 10.0,
     "prices": {
-      "D": 8638.11,
-      "E": 9302.58,
-      "F": 7973.64
+      "D": 9242.78,
+      "E": 9953.76,
+      "F": 8531.8
     }
   },
   "BK3-431": {
@@ -4254,9 +4274,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 10.0,
     "prices": {
-      "D": 9544.14,
-      "E": 10278.31,
-      "F": 8809.98
+      "D": 10212.23,
+      "E": 10997.79,
+      "F": 9426.68
     }
   },
   "BK3-432": {
@@ -4264,9 +4284,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 10904.9,
-      "E": 11743.74,
-      "F": 10066.06
+      "D": 11668.24,
+      "E": 12565.8,
+      "F": 10770.69
     }
   },
   "BK3-510": {
@@ -4274,9 +4294,9 @@
     "category": "8.PROD.QUIM/GARRAPATICIDA",
     "bulk": 10.0,
     "prices": {
-      "D": 9754.05,
-      "E": 10504.36,
-      "F": 9003.74
+      "D": 10436.83,
+      "E": 11239.66,
+      "F": 9634.0
     }
   },
   "BK6-1010": {
@@ -4284,9 +4304,9 @@
     "category": "8.PROD.QUIM/MATA MOSCAS",
     "bulk": 18.0,
     "prices": {
-      "D": 2043.14,
-      "E": 2200.31,
-      "F": 1885.98
+      "D": 2186.16,
+      "E": 2354.33,
+      "F": 2018.0
     }
   },
   "BK6-1023": {
@@ -4294,9 +4314,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 1.0,
     "prices": {
-      "D": 39797.88,
-      "E": 42859.25,
-      "F": 36736.5
+      "D": 42583.73,
+      "E": 45859.4,
+      "F": 39308.06
     }
   },
   "BK6-1042": {
@@ -4304,9 +4324,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 1.0,
     "prices": {
-      "D": 28865.36,
-      "E": 31085.77,
-      "F": 26644.95
+      "D": 30885.94,
+      "E": 33261.78,
+      "F": 28510.1
     }
   },
   "BK6-1045": {
@@ -4314,9 +4334,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 0.0,
     "prices": {
-      "D": 61045.49,
-      "E": 65741.3,
-      "F": 56349.68
+      "D": 65318.68,
+      "E": 70343.19,
+      "F": 60294.16
     }
   },
   "BK6-1052": {
@@ -4324,9 +4344,9 @@
     "category": "8.PROD.QUIM/CUCARACHICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 3483.36,
-      "E": 3751.31,
-      "F": 3215.4
+      "D": 3727.19,
+      "E": 4013.9,
+      "F": 3440.48
     }
   },
   "BK6-1300": {
@@ -4334,9 +4354,9 @@
     "category": "8.PROD.QUIM/INSECTICIDAS",
     "bulk": 12.0,
     "prices": {
-      "D": 12106.27,
-      "E": 13037.52,
-      "F": 11175.02
+      "D": 12953.71,
+      "E": 13950.15,
+      "F": 11957.27
     }
   },
   "BK6-1310": {
@@ -4344,9 +4364,9 @@
     "category": "8.PROD.QUIM/INSECTICIDAS",
     "bulk": 12.0,
     "prices": {
-      "D": 12106.3,
-      "E": 13037.56,
-      "F": 11175.05
+      "D": 12953.74,
+      "E": 13950.18,
+      "F": 11957.3
     }
   },
   "BK6-1320": {
@@ -4354,9 +4374,9 @@
     "category": "8.PROD.QUIM/INSECTICIDAS",
     "bulk": 12.0,
     "prices": {
-      "D": 11005.74,
-      "E": 11852.34,
-      "F": 10159.14
+      "D": 11776.14,
+      "E": 12682.0,
+      "F": 10870.28
     }
   },
   "BK6-1340": {
@@ -4364,9 +4384,9 @@
     "category": "8.PROD.QUIM/INSECTICIDAS",
     "bulk": 12.0,
     "prices": {
-      "D": 10159.14,
-      "E": 10940.61,
-      "F": 9377.66
+      "D": 10870.28,
+      "E": 11706.45,
+      "F": 10034.1
     }
   },
   "BKDROP90": {
@@ -4374,9 +4394,9 @@
     "category": "8.PROD.QUIM/RATICIDA",
     "bulk": 12.0,
     "prices": {
-      "D": 6919.71,
-      "E": 7451.99,
-      "F": 6387.42
+      "D": 7404.09,
+      "E": 7973.63,
+      "F": 6834.54
     }
   },
   "BKHL120": {
@@ -19299,7 +19319,7 @@
       "F": 77073.13
     }
   },
-  "CL00130000017": {
+  "CL00130000203": {
     "name": "AGUANTADOR CHAPIS/CONVENCIONAL RICO",
     "category": "8.MARTILLO CHAPISTA",
     "bulk": 1.0,
@@ -19529,6 +19549,16 @@
       "F": 2743.69
     }
   },
+  "CONO202038E": {
+    "name": "ANAFE 2 H EPOXI C/REGULADOR CONOMETAL",
+    "category": "8.ANAFE y ACCES.",
+    "bulk": 1.0,
+    "prices": {
+      "D": 36753.14,
+      "E": 39580.3,
+      "F": 33925.98
+    }
+  },
   "CONO202039": {
     "name": "ANAFE 1 HLLA C/ROB ENLOZ  CONOMETAL",
     "category": "8.ANAFE y ACCES.",
@@ -19750,13 +19780,13 @@
     }
   },
   "CONOP01001": {
-    "name": "ANAFE 1 HLLA PARA GAS BUTANO  KOVEA",
+    "name": "ANAFE 1 HLLA P GAS BUTANO NRJA KOVEA",
     "category": "8.ANAFE y ACCES.",
     "bulk": 10.0,
     "prices": {
-      "D": 40612.22,
-      "E": 43736.24,
-      "F": 37488.2
+      "D": 27224.55,
+      "E": 29318.74,
+      "F": 25130.35
     }
   },
   "CONOP02004": {
@@ -19767,6 +19797,46 @@
       "D": 6214.3,
       "E": 6692.32,
       "F": 5736.28
+    }
+  },
+  "CONOP09001": {
+    "name": "CABEZA REGULADOR GAS C/VALV APROB CONOMETAL",
+    "category": "1.REGULADOR y ACCES.P/GA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 5203.72,
+      "E": 5604.01,
+      "F": 4803.44
+    }
+  },
+  "CONOP09002": {
+    "name": "REGULADOR GAS C/VALV x1.00mt APROB CONOMETAL",
+    "category": "1.REGULADOR y ACCES.P/GA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6910.54,
+      "E": 7442.12,
+      "F": 6378.96
+    }
+  },
+  "CONOP09003": {
+    "name": "REGULADOR GAS C/VALV x1.50mt APROB CONOMETAL",
+    "category": "1.REGULADOR y ACCES.P/GA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 7861.09,
+      "E": 8465.79,
+      "F": 7256.39
+    }
+  },
+  "CONOP09004": {
+    "name": "REGULADOR GAS C/VALV x2.00mt APROB CONOMETAL",
+    "category": "1.REGULADOR y ACCES.P/GA",
+    "bulk": 1.0,
+    "prices": {
+      "D": 8506.35,
+      "E": 9160.68,
+      "F": 7852.02
     }
   },
   "CONOTKT-96070": {
@@ -23054,9 +23124,9 @@
     "category": "1.MOCHILA/DEPOS.AC.DEALER",
     "bulk": 30.0,
     "prices": {
-      "D": 1737.99,
-      "E": 1871.68,
-      "F": 1604.3
+      "D": 1975.17,
+      "E": 2127.11,
+      "F": 1823.24
     }
   },
   "DEAL930212": {
@@ -23179,16 +23249,6 @@
       "F": 99379.6
     }
   },
-  "DGP037-014": {
-    "name": "CADENA PATENTE N\u00ba 45 ZINCADA REIZENEX",
-    "category": "8.CADENA PATENTE ZINC.RZX",
-    "bulk": 12.5,
-    "prices": {
-      "D": 8051.34,
-      "E": 8670.68,
-      "F": 7432.01
-    }
-  },
   "DGP037-020": {
     "name": "ESLABON ABIERTO N\u00b04",
     "category": "8.ESLABON ABIERTO",
@@ -23294,9 +23354,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 10.0,
     "prices": {
-      "D": 7991.55,
-      "E": 8606.28,
-      "F": 7376.81
+      "D": 8354.8,
+      "E": 8997.48,
+      "F": 7712.12
     }
   },
   "DGP151-0001": {
@@ -23304,9 +23364,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 10.0,
     "prices": {
-      "D": 7324.0,
-      "E": 7887.38,
-      "F": 6760.61
+      "D": 7656.9,
+      "E": 8245.9,
+      "F": 7067.91
     }
   },
   "DGP151-008": {
@@ -23314,9 +23374,9 @@
     "category": "1.REGULADOR y ACCES.P/GA",
     "bulk": 10.0,
     "prices": {
-      "D": 8300.53,
-      "E": 8939.03,
-      "F": 7662.03
+      "D": 8677.83,
+      "E": 9345.35,
+      "F": 8010.3
     }
   },
   "DGP154-0110": {
@@ -29384,9 +29444,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 6.0,
     "prices": {
-      "D": 4653.27,
-      "E": 5011.21,
-      "F": 4295.32
+      "D": 7620.63,
+      "E": 8206.83,
+      "F": 7034.43
     }
   },
   "EA0202": {
@@ -29394,9 +29454,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 2.0,
     "prices": {
-      "D": 15332.39,
-      "E": 16511.81,
-      "F": 14152.98
+      "D": 22444.63,
+      "E": 24171.14,
+      "F": 20718.12
     }
   },
   "EA0203": {
@@ -29404,9 +29464,9 @@
     "category": "8.PROD.QUIM.ASFAL.EA",
     "bulk": 1.0,
     "prices": {
-      "D": 57264.11,
-      "E": 61669.05,
-      "F": 52859.18
+      "D": 70808.45,
+      "E": 76255.25,
+      "F": 65361.64
     }
   },
   "EA1001": {
@@ -46929,6 +46989,16 @@
       "F": 4456.68
     }
   },
+  "ISACAN45": {
+    "name": "CADENA PATENTE N\u00ba 45 ZINC BOLSA ISADAR",
+    "category": "8.CADENA PATENTE ZINC.RZX",
+    "bulk": 25.0,
+    "prices": {
+      "D": 4946.12,
+      "E": 5326.59,
+      "F": 4565.65
+    }
+  },
   "ISACAN50": {
     "name": "CADENA PATENTE N\u00ba 50 ZINC BOLSA ISADAR",
     "category": "8.CADENA PATENTE ZINC.",
@@ -46937,6 +47007,16 @@
       "D": 5072.52,
       "E": 5462.71,
       "F": 4682.32
+    }
+  },
+  "ISACAN55": {
+    "name": "CADENA PATENTE N\u00ba 55 ZINC BOLSA ISADAR",
+    "category": "8.CADENA PATENTE ZINC.RZX",
+    "bulk": 25.0,
+    "prices": {
+      "D": 4808.72,
+      "E": 5178.62,
+      "F": 4438.82
     }
   },
   "ISACL1": {
@@ -47627,6 +47707,16 @@
       "D": 79.65,
       "E": 85.78,
       "F": 73.53
+    }
+  },
+  "ISAGA1490": {
+    "name": "GANCHO P/TECHO \"J\" 1/4\"x 90mmx100un",
+    "category": "8.GANCHO P/TECHO ZINC.AT",
+    "bulk": 100.0,
+    "prices": {
+      "D": 204.73,
+      "E": 220.47,
+      "F": 188.98
     }
   },
   "ISAMAR1/2": {
@@ -79969,8 +80059,18 @@
       "F": 59721.52
     }
   },
+  "ROT40424": {
+    "name": "CABO EXTENSOR PARA RODILLO 2x1.5 HUNTER",
+    "category": "6.RODILLOS ACCESORIOS",
+    "bulk": 1.0,
+    "prices": {
+      "D": 29569.88,
+      "E": 31844.49,
+      "F": 27295.28
+    }
+  },
   "ROT40427": {
-    "name": "CABO EXTENSOR PARA RODILLO 2x2 HUNTER",
+    "name": "CABO EXTENSOR PARA RODILLO 2x2   HUNTER",
     "category": "6.RODILLOS ACCESORIOS",
     "bulk": 1.0,
     "prices": {
@@ -80967,16 +81067,6 @@
       "D": 7511.78,
       "E": 8137.76,
       "F": 7511.78
-    }
-  },
-  "RUSAE40x1": {
-    "name": "ACEITE SAE 40x1ltCOMPRES/BOMBE.RUBI",
-    "category": "8.LUBRICANTES",
-    "bulk": 12.0,
-    "prices": {
-      "D": 2075.38,
-      "E": 2248.33,
-      "F": 2075.38
     }
   },
   "SAHGRIFCCERBIDE": {
@@ -83264,9 +83354,9 @@
     "category": "1.ACCES.PARA PILETA POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 40177.17,
-      "E": 43267.72,
-      "F": 37086.62
+      "D": 36159.45,
+      "E": 38940.95,
+      "F": 33377.95
     }
   },
   "SF16003": {
@@ -83284,9 +83374,9 @@
     "category": "1.ACCES.PARA PILETA POLY",
     "bulk": 1.0,
     "prices": {
-      "D": 51945.71,
-      "E": 55941.54,
-      "F": 47949.89
+      "D": 46751.14,
+      "E": 50347.38,
+      "F": 43154.9
     }
   },
   "SF6700": {
