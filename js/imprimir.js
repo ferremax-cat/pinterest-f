@@ -36,9 +36,76 @@ let crudos = new Map();
 let clientes = null;
 const nombreDe = f => clientes?.[String(f.cuenta).trim()]?.name || f.cliente;
 
-// Cada consulta lleva un numero: si el usuario cambia de pestaña antes de
-// que llegue la respuesta, la vieja se descarta
-let consultaActual = 0;
+// Ultimo resultado de cada pestaña, solo en memoria: al volver a una pestaña
+// se muestra enseguida y se actualiza en segundo plano. En Impresos vale
+// solo para el mismo rango de fechas. Recargar la pagina empieza sin nada
+const guardado = { pendientes: null, impresos: null };
+
+// Estado de la actualizacion de cada pestaña: si se esta consultando (y si
+// es en segundo plano), la hora de la ultima respuesta y si la ultima fallo
+const sinc = {
+  pendientes: { consultando: false, enFondo: false, hora: null, fallo: false },
+  impresos: { consultando: false, enFondo: false, hora: null, fallo: false }
+};
+
+// Cada consulta lleva un numero por pestaña: de dos consultas de la misma
+// pestaña vale solo la ultima. La de otra pestaña se guarda igual, aunque
+// ya no se dibuje
+const ultimaConsulta = { pendientes: 0, impresos: 0 };
+
+// Al volver a la ventana se actualiza en segundo plano, salvo que la ultima
+// respuesta sea de hace menos que esto (cambiar de ventana seguido no
+// tiene que consultar cada vez)
+const VOLVER_ACTUALIZA_MS = 60 * 1000;
+
+// ---------- filtros ----------
+// Busqueda por cliente o cuenta y vendedor, sobre los pedidos ya cargados.
+// Cada pestaña tiene su propio filtro: uno puesto en Impresos no esconde
+// nada en Pendientes. Al volver a una pestaña, su filtro esta como se lo
+// dejo; se conservan al cambiar las fechas y al actualizar despues de
+// imprimir. Viven solo en memoria: al recargar la pagina empiezan vacios
+// (un filtro olvidado podria esconder pedidos pendientes). El bloque de
+// impresion sin confirmar no se filtra
+const ROLES_VER_TODOS = ['admin', 'oficina'];   // los mismos que en el servidor
+const COLLATOR = new Intl.Collator('es', { numeric: true });
+
+const filtros = {
+  pendientes: { texto: '', vendedor: '' },
+  impresos: { texto: '', vendedor: '' }
+};
+
+// El filtro de la pestaña actual: cambiarModo lo apunta al de la pestaña
+// nueva. Todo el resto lee y escribe a traves de esta referencia
+let filtro = filtros[modo];
+
+// Mensaje de la ultima consulta (cargando, error o lista vacia); el de
+// "ningun pedido coincide" se decide aparte, en pintarEstado
+let estadoConsulta = '';
+
+const sinAcentos = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+const veTodos = () => ROLES_VER_TODOS.includes(sessionStorage.getItem('authRol') || '');
+const estaActivo = f => !!(f.texto.trim() || f.vendedor);
+const filtroActivo = () => estaActivo(filtro);
+
+/** La cuenta empieza con lo escrito o el nombre completo lo contiene, sin mayusculas ni acentos */
+function pasaFiltro(p) {
+  if (filtro.vendedor && String(p.vendedor).trim() !== filtro.vendedor) return false;
+  const q = sinAcentos(filtro.texto);
+  if (!q) return true;
+  return sinAcentos(p.cuenta).startsWith(q) || sinAcentos(nombreDe(p)).includes(q);
+}
+
+/** Pedidos de la tabla que deja ver el filtro */
+const visibles = () => pedidos.filter(pasaFiltro);
+
+function cambiarFiltro(cambios) {
+  Object.assign(filtro, cambios);
+  dibujar();
+}
+
+function limpiarFiltros() {
+  cambiarFiltro({ texto: '', vendedor: '' });
+}
 
 const $ = id => document.getElementById(id);
 
@@ -143,47 +210,133 @@ function mostrarEstado(html) {
   est.hidden = !html;
 }
 
-async function consultar() {
-  const n = ++consultaActual;
+/** Mensaje de la consulta: se guarda y se combina con el de los filtros */
+function fijarEstado(html) {
+  estadoConsulta = html;
+  pintarEstado();
+}
 
-  pedidos = [];
-  sinConfirmar = [];
-  crudos = new Map();
-  seleccion.clear();
+function pintarEstado() {
+  const sinCoincidencias = pedidos.length > 0 && filtroActivo() && !visibles().length;
+  mostrarEstado(sinCoincidencias
+    ? 'Ningún pedido coincide con el filtro. ' +
+      '<button type="button" class="im-limpiar-filtros">Limpiar filtros</button>'
+    : estadoConsulta);
+}
+
+/** Rango de fechas de la pestaña actual (vacio en Pendientes) */
+function rangoActual() {
+  return modo === 'impresos'
+    ? { desde: $('im-desde').value, hasta: $('im-hasta').value }
+    : { desde: '', hasta: '' };
+}
+
+const mismoRango = (a, b) => a.desde === b.desde && a.hasta === b.hasta;
+
+/** Mensaje cuando la consulta no trajo pedidos para la tabla */
+function mensajeLista() {
+  return pedidos.length ? '' :
+    sinConfirmar.length ? 'No hay otros pedidos para imprimir.' :
+    modo === 'pendientes' ? 'No hay pedidos pendientes de imprimir.'
+                          : 'No hay pedidos impresos en esas fechas.';
+}
+
+/**
+ * Pone a la vista un resultado (recien llegado o guardado). dibujar conserva
+ * de la seleccion solo lo que sigue existiendo y esta a la vista, con el
+ * filtro de la pestaña
+ */
+function aplicarResultado(r) {
+  pedidos = r.pedidos;
+  sinConfirmar = r.sinConfirmar;
+  crudos = r.crudos;
+  estadoConsulta = mensajeLista();
   dibujar();
+}
+
+/** "Actualizando…", "Actualizado a las hh:mm" o el aviso de falla, de la pestaña actual */
+function pintarSinc() {
+  const s = sinc[modo];
+  const texto = $('im-sinc-texto');
+  const btn = $('im-actualizar');
+  const hora = s.hora ? fechaYHora(s.hora.toISOString()).hora : '';
+  btn.disabled = s.consultando;
+  btn.textContent = s.fallo && !s.consultando ? 'Reintentar' : 'Actualizar';
+  texto.classList.toggle('im-sinc-fallo', s.fallo && !s.consultando);
+  // En la primera carga ya se ve "Cargando..." en la tabla: aca, nada
+  texto.textContent = s.consultando ? (s.enFondo ? 'Actualizando…' : '')
+    : s.fallo ? (hora ? `No se pudo actualizar · datos de las ${hora}` : 'No se pudo actualizar')
+    : hora ? `Actualizado a las ${hora}` : '';
+}
+
+/** Falla de una consulta: con una lista a la vista se mantiene y se avisa discreto */
+function falloConsulta(pestana, enFondo, texto) {
+  sinc[pestana].consultando = false;
+  sinc[pestana].fallo = true;
+  if (modo === pestana && !enFondo) {
+    fijarEstado(texto + ' <button type="button" class="im-reintentar">Reintentar</button>');
+  }
+  pintarSinc();
+}
+
+/**
+ * Consulta los pedidos de la pestaña actual.
+ * enFondo: la lista que se ve queda mientras llega la respuesta (al volver a
+ * una pestaña ya cargada, al volver a la ventana o con Actualizar); si falla,
+ * se sigue viendo lo anterior con un aviso discreto. Sin enFondo, la lista
+ * se vacia y se espera (primera carga, otras fechas, despues de imprimir).
+ * La respuesta se guarda para su pestaña aunque ya se haya cambiado de
+ * pestaña, pero solo se dibuja si sigue siendo la pestaña y el rango actual.
+ */
+async function consultar({ enFondo = false } = {}) {
+  const pestana = modo;
+  const n = ++ultimaConsulta[pestana];
+  const rango = rangoActual();
+
+  if (!enFondo) {
+    pedidos = [];
+    sinConfirmar = [];
+    crudos = new Map();
+    seleccion.clear();
+    dibujar();
+  }
 
   const payload = {
     accion: 'pedidos_para_imprimir',
     token: sessionStorage.getItem('authToken'),
-    modo
+    modo: pestana
   };
 
-  if (modo === 'impresos') {
-    const desde = $('im-desde').value;
-    const hasta = $('im-hasta').value;
-    if (desde && hasta && desde > hasta) {
-      mostrarEstado('La fecha "desde" es posterior a "hasta".');
+  if (pestana === 'impresos') {
+    if (rango.desde && rango.hasta && rango.desde > rango.hasta) {
+      sinc[pestana].consultando = false;
+      pintarSinc();
+      fijarEstado('La fecha "desde" es posterior a "hasta".');
       return;
     }
-    if (desde) payload.desde = desde;
-    if (hasta) payload.hasta = hasta;
+    if (rango.desde) payload.desde = rango.desde;
+    if (rango.hasta) payload.hasta = rango.hasta;
   }
 
-  mostrarEstado('Cargando...');
+  Object.assign(sinc[pestana], { consultando: true, enFondo, fallo: false });
+  pintarSinc();
+  if (!enFondo) fijarEstado('Cargando...');
+
+  // De dos consultas de la misma pestaña, vale la ultima
+  const vigente = () => n === ultimaConsulta[pestana];
 
   let d;
   try {
     // La entrega de la respuesta puede demorar: 20 s por intento y 2 reintentos
     d = await window.Api.llamar(payload, 2, 20000);
   } catch (e) {
-    if (n !== consultaActual) return;
+    if (!vigente()) return;
     console.error('[Imprimir] Sin respuesta:', e);
-    mostrarEstado('No se pudo conectar con el servidor. ' +
-      '<button type="button" class="im-reintentar">Reintentar</button>');
+    falloConsulta(pestana, enFondo, 'No se pudo conectar con el servidor.');
     return;
   }
 
-  if (n !== consultaActual) return;
+  if (!vigente()) return;
 
   if (!d.ok) {
     if (d.error === 'token_invalido') {
@@ -191,30 +344,50 @@ async function consultar() {
       return;
     }
     console.warn('[Imprimir] Error del servidor:', d.error);
-    mostrarEstado('El servidor respondió con un error (' + esc(d.error) + '). ' +
-      '<button type="button" class="im-reintentar">Reintentar</button>');
+    falloConsulta(pestana, enFondo, 'El servidor respondió con un error (' + esc(d.error) + ').');
     return;
   }
 
   const filas = (d.pedidos || []).map(aFila);
   // En Pendientes, los de impresion sin confirmar van aparte
-  sinConfirmar = modo === 'pendientes' ? filas.filter(f => f.intento) : [];
-  pedidos = modo === 'pendientes' ? filas.filter(f => !f.intento) : filas;
-  crudos = new Map((d.pedidos || []).map(p => [String(p.id), p]));
-  dibujar();
+  const resultado = {
+    pedidos: pestana === 'pendientes' ? filas.filter(f => !f.intento) : filas,
+    sinConfirmar: pestana === 'pendientes' ? filas.filter(f => f.intento) : [],
+    crudos: new Map((d.pedidos || []).map(p => [String(p.id), p])),
+    rango
+  };
+  guardado[pestana] = resultado;
+  Object.assign(sinc[pestana], { consultando: false, hora: new Date(), fallo: false });
 
   // Fotos y productos en segundo plano: no se espera
-  if (modo === 'pendientes') precargar(d.pedidos || []);
-  mostrarEstado(pedidos.length ? '' :
-    sinConfirmar.length ? 'No hay otros pedidos para imprimir.' :
-    modo === 'pendientes' ? 'No hay pedidos pendientes de imprimir.'
-                          : 'No hay pedidos impresos en esas fechas.');
+  if (pestana === 'pendientes') precargar(d.pedidos || []);
+
+  // Solo si sigue siendo la pestaña y el rango de esta consulta
+  if (modo === pestana && mismoRango(rangoActual(), rango)) aplicarResultado(resultado);
+  pintarSinc();
+}
+
+/**
+ * Despues de imprimir o confirmar desde Pendientes: lo guardado de Impresos
+ * queda viejo (le faltan los recien impresos), asi que se descarta y la
+ * proxima vez que se entre se espera la lista nueva. Pendientes se vacia y
+ * se espera, para que los recien marcados desaparezcan enseguida
+ */
+function despuesDeImprimir() {
+  guardado.impresos = null;
+  consultar();
 }
 
 // ---------- tabla ----------
 
 function dibujar() {
   const impresos = modo === 'impresos';
+  const lista = visibles();
+
+  // Lo que el filtro oculta deja de estar seleccionado: nunca se imprime
+  // algo que no esta a la vista
+  const aLaVista = new Set(lista.map(p => p.id));
+  [...seleccion].forEach(id => { if (!aLaVista.has(id)) seleccion.delete(id); });
 
   // Las clases c-* ubican cada celda en la tarjeta del celular
   $('im-thead').innerHTML = `
@@ -230,7 +403,7 @@ function dibujar() {
       ${impresos ? '<th class="c-impreso">Impreso</th><th class="c-impreso-por">Impreso por</th>' : ''}
     </tr>`;
 
-  $('im-tbody').innerHTML = pedidos.map(p => `
+  $('im-tbody').innerHTML = lista.map(p => `
     <tr data-id="${esc(p.id)}">
       <td class="im-col-check"><input type="checkbox" class="im-check"></td>
       <td class="im-num c-numero">${esc(p.numero)}</td>
@@ -244,7 +417,65 @@ function dibujar() {
     </tr>`).join('');
 
   dibujarSinConfirmar();
+  dibujarTitulo(lista.length);
+  dibujarFiltros(lista.length);
   actualizarSeleccion();
+  pintarEstado();
+}
+
+/**
+ * Titulo de la lista: con impresion sin confirmar (separa la lista del
+ * bloque) o con un filtro activo, con la proporcion: "Para imprimir (3 de 9)"
+ */
+function dibujarTitulo(nVisibles) {
+  const titulo = $('im-titulo-lista');
+  const mostrar = sinConfirmar.length > 0 || (filtroActivo() && pedidos.length > 0);
+  titulo.hidden = !mostrar;
+  if (!mostrar) return;
+  const nombre = modo === 'impresos' ? 'Impresos' : 'Para imprimir';
+  titulo.textContent = filtroActivo()
+    ? `${nombre} (${nVisibles} de ${pedidos.length})`
+    : `${nombre} (${pedidos.length})`;
+}
+
+/** Filtros a la vista: borde rojo si estan en uso, Limpiar, contador y vendedores */
+function dibujarFiltros(nVisibles) {
+  const buscar = $('im-buscar');
+  // Solo si cambio (por ejemplo, al limpiar): reescribirlo moveria el cursor
+  if (buscar.value !== filtro.texto) buscar.value = filtro.texto;
+  buscar.classList.toggle('im-filtro-activo', !!filtro.texto.trim());
+  $('im-buscar-borrar').hidden = !filtro.texto;
+
+  const sel = $('im-vendedor');
+  sel.hidden = !veTodos();
+  if (veTodos()) {
+    // Los vendedores de la lista, ordenados; el elegido queda aunque en esta
+    // pestaña no tenga pedidos, para que se vea por que la lista esta vacia
+    const vendedores = [...new Set(pedidos.map(p => String(p.vendedor).trim()).filter(Boolean))];
+    if (filtro.vendedor && !vendedores.includes(filtro.vendedor)) vendedores.push(filtro.vendedor);
+    vendedores.sort(COLLATOR.compare);
+    const opciones = vendedores.join('|');
+    if (sel.dataset.opciones !== opciones) {
+      sel.dataset.opciones = opciones;
+      sel.innerHTML = '<option value="">Todos los vendedores</option>' +
+        vendedores.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join('');
+    }
+    sel.value = filtro.vendedor;
+    sel.classList.toggle('im-filtro-activo', !!filtro.vendedor);
+  }
+
+  // Punto rojo en cada pestaña con un filtro activo: al pasar a la otra, se
+  // sigue viendo que la anterior quedo filtrada
+  document.querySelectorAll('.im-pestana').forEach(b => {
+    const activo = !!filtros[b.dataset.modo] && estaActivo(filtros[b.dataset.modo]);
+    b.classList.toggle('con-filtro', activo);
+    b.title = activo ? 'Esta pestaña tiene un filtro activo' : '';
+  });
+
+  $('im-limpiar').hidden = !filtroActivo();
+  const cont = $('im-filtro-cont');
+  cont.hidden = !filtroActivo() || !pedidos.length;
+  cont.textContent = `Mostrando ${nVisibles} de ${pedidos.length} ${pedidos.length === 1 ? 'pedido' : 'pedidos'}`;
 }
 
 const SVG_ADVERTENCIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
@@ -254,17 +485,14 @@ const SVG_ADVERTENCIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="c
 /** Bloque "Impresion sin confirmar", arriba de la lista de Pendientes. */
 function dibujarSinConfirmar() {
   const bloque = $('im-sinconf');
-  const titulo = $('im-titulo-lista');
   const hay = sinConfirmar.length > 0;
 
+  // No se filtra: un pedido en duda tiene que estar siempre a la vista
   bloque.hidden = !hay;
-  titulo.hidden = !hay;
   if (!hay) {
     bloque.innerHTML = '';
     return;
   }
-
-  titulo.textContent = `Para imprimir (${pedidos.length})`;
 
   const tarjetas = sinConfirmar.map(p => `
     <div class="im-sc-tarjeta" data-id="${esc(p.id)}">
@@ -298,11 +526,13 @@ function actualizarSeleccion() {
     tr.classList.toggle('seleccionado', marcado);
   });
 
+  // La seleccion es siempre de pedidos visibles: dibujar quita los ocultos
+  const nVisibles = visibles().length;
   const n = seleccion.size;
   const todos = $('im-todos');
-  todos.disabled = !pedidos.length;
-  todos.checked = n > 0 && n === pedidos.length;
-  todos.indeterminate = n > 0 && n < pedidos.length;
+  todos.disabled = !nVisibles;
+  todos.checked = n > 0 && n === nVisibles;
+  todos.indeterminate = n > 0 && n < nVisibles;
 
   $('im-contador').textContent = n === 1 ? '1 seleccionado' : `${n} seleccionados`;
   $('im-imprimir').disabled = n === 0;
@@ -319,12 +549,40 @@ function alternar(id) {
 function cambiarModo(nuevo) {
   if (nuevo === modo) return;
   modo = nuevo;
+  // Cada pestaña con su filtro: el campo, el selector, los bordes, Limpiar,
+  // el contador y el titulo pasan a mostrar el de esta pestaña
+  filtro = filtros[modo];
   document.querySelectorAll('.im-pestana').forEach(b => {
     b.classList.toggle('activa', b.dataset.modo === modo);
   });
   $('im-fechas').hidden = modo !== 'impresos';
   $('im-imprimir').textContent = modo === 'impresos' ? 'Reimprimir seleccionados' : 'Imprimir seleccionados';
-  consultar();
+
+  // Al cambiar de pestaña la seleccion se vacia, como siempre
+  seleccion.clear();
+
+  // Lo ultimo que se cargo, al instante (en Impresos, si es el mismo rango),
+  // y la actualizacion en segundo plano; sin nada guardado, se espera
+  const g = guardado[modo];
+  if (g && mismoRango(g.rango, rangoActual())) {
+    aplicarResultado(g);
+    consultar({ enFondo: true });
+  } else {
+    consultar();
+  }
+}
+
+/**
+ * Al volver a la ventana (otra pestaña del navegador u otra aplicacion), se
+ * actualiza en segundo plano lo que se ve, salvo que ya se este consultando
+ * o la ultima respuesta sea muy reciente
+ */
+function alVolverALaVentana() {
+  if (document.hidden || $('im-bandeja').hidden) return;
+  const s = sinc[modo];
+  if (s.consultando) return;
+  if (s.hora && Date.now() - s.hora.getTime() < VOLVER_ACTUALIZA_MS) return;
+  consultar({ enFondo: pedidos.length > 0 || sinConfirmar.length > 0 });
 }
 
 function configurarEventos() {
@@ -332,14 +590,33 @@ function configurarEventos() {
     b.addEventListener('click', () => cambiarModo(b.dataset.modo));
   });
 
-  $('im-desde').addEventListener('change', consultar);
-  $('im-hasta').addEventListener('change', consultar);
+  // Otro rango: lo guardado no sirve, se vacia y se espera
+  $('im-desde').addEventListener('change', () => consultar());
+  $('im-hasta').addEventListener('change', () => consultar());
 
+  // Forzar la consulta: en segundo plano si hay algo a la vista
+  $('im-actualizar').addEventListener('click', () =>
+    consultar({ enFondo: pedidos.length > 0 || sinConfirmar.length > 0 }));
+
+  document.addEventListener('visibilitychange', alVolverALaVentana);
+
+  // Solo los pedidos visibles
   $('im-todos').addEventListener('change', e => {
     seleccion.clear();
-    if (e.target.checked) pedidos.forEach(p => seleccion.add(p.id));
+    if (e.target.checked) visibles().forEach(p => seleccion.add(p.id));
     actualizarSeleccion();
   });
+
+  $('im-buscar').addEventListener('input', e => cambiarFiltro({ texto: e.target.value }));
+  $('im-buscar').addEventListener('keydown', e => {
+    if (e.key === 'Escape' && filtro.texto) cambiarFiltro({ texto: '' });
+  });
+  $('im-buscar-borrar').addEventListener('click', () => {
+    cambiarFiltro({ texto: '' });
+    $('im-buscar').focus();
+  });
+  $('im-vendedor').addEventListener('change', e => cambiarFiltro({ vendedor: e.target.value }));
+  $('im-limpiar').addEventListener('click', limpiarFiltros);
 
   // Toda la fila marca la casilla, no solo el cuadradito
   $('im-tbody').addEventListener('click', e => {
@@ -352,7 +629,8 @@ function configurarEventos() {
     const crudo = crudos.get(btn?.closest('[data-id]')?.dataset.id);
     if (!crudo) return;
 
-    const alTerminar = () => consultar();
+    // Los dos pasan el pedido a Impresos
+    const alTerminar = despuesDeImprimir;
     if (btn.classList.contains('im-sc-existen')) confirmarExistentes(crudo, { alTerminar });
     // Imprimir de nuevo reemplaza el intento anterior, aunque sea de otra persona
     else if (btn.classList.contains('im-sc-imprimir')) {
@@ -362,17 +640,19 @@ function configurarEventos() {
 
   $('im-estado').addEventListener('click', e => {
     if (e.target.closest('.im-reintentar')) consultar();
+    else if (e.target.closest('.im-limpiar-filtros')) limpiarFiltros();
   });
 
   $('im-imprimir').addEventListener('click', () => {
-    // Las ids en el orden de la tabla, no en el orden en que se marcaron
-    const ids = pedidos.map(p => p.id).filter(id => seleccion.has(id));
+    // Las ids en el orden de la tabla, no en el orden en que se marcaron, y
+    // solo de los pedidos a la vista (resguardo: dibujar ya quita los ocultos)
+    const ids = visibles().map(p => p.id).filter(id => seleccion.has(id));
     console.log('[Imprimir] seleccionados:', ids);
     const reimpresion = modo === 'impresos';
     imprimirHojas(ids.map(id => crudos.get(id)), {
       reimpresion,
       // Al terminar o cancelar, los marcados pasan a Impresos
-      alTerminar: reimpresion ? null : () => consultar()
+      alTerminar: reimpresion ? null : despuesDeImprimir
     });
   });
 }
@@ -416,7 +696,8 @@ async function iniciar() {
   titulo.id = 'im-titulo-lista';
   titulo.className = 'im-titulo-lista';
   titulo.hidden = true;
-  document.querySelector('.im-barra').before(bloque, titulo);
+  // Arriba de los filtros: el bloque sin confirmar no se filtra
+  $('im-filtros').before(bloque, titulo);
 
   $('im-bandeja').hidden = false;
   configurarEventos();

@@ -37,6 +37,27 @@
                 <button type="button" class="im-pestana" data-modo="impresos">Impresos</button>
             </nav>
 
+            <!-- Estado de la actualizacion de la pestaña: discreto, arriba a la derecha -->
+            <div class="im-sinc">
+                <span id="im-sinc-texto" class="im-sinc-texto" aria-live="polite"></span>
+                <button type="button" id="im-actualizar" class="im-actualizar">Actualizar</button>
+            </div>
+
+            <!-- Filtros de la lista: se aplican en el navegador, en las dos pestañas -->
+            <div id="im-filtros" class="im-filtros">
+                <div class="im-buscar">
+                    <input type="text" id="im-buscar" placeholder="Buscar por cliente o cuenta"
+                        autocomplete="off" enterkeyhint="search" aria-label="Buscar por cliente o cuenta">
+                    <button type="button" id="im-buscar-borrar" class="im-buscar-borrar"
+                        aria-label="Borrar la búsqueda" hidden>&times;</button>
+                </div>
+                <select id="im-vendedor" class="im-vendedor" aria-label="Filtrar por vendedor" hidden>
+                    <option value="">Todos los vendedores</option>
+                </select>
+                <button type="button" id="im-limpiar" class="im-limpiar" hidden>Limpiar<span class="im-solo-ancho"> filtros</span></button>
+                <span id="im-filtro-cont" class="im-filtro-cont" hidden></span>
+            </div>
+
             <div class="im-barra">
                 <label class="im-todos">
                     <input type="checkbox" id="im-todos">

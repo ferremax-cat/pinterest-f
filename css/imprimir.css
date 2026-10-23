@@ -130,7 +130,8 @@ body {
   cursor: not-allowed;
 }
 
-.im-reintentar {
+.im-reintentar,
+.im-limpiar-filtros {
   margin-left: 8px;
   padding: 4px 12px;
   border: 1px solid var(--rojo);
@@ -167,6 +168,49 @@ body {
 .im-pestana.activa {
   color: var(--rojo);
   border-bottom-color: var(--rojo);
+}
+
+/* Estado de la actualizacion de la pestaña: discreto, a la derecha */
+.im-sinc {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  min-height: 30px;
+  padding-top: 8px;
+  color: var(--texto-suave);
+  font-size: 12px;
+}
+
+.im-sinc-fallo { color: #9a3412; }
+
+.im-actualizar {
+  padding: 4px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+  cursor: pointer;
+}
+
+.im-actualizar:hover { background: #f9fafb; }
+
+.im-actualizar:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+/* Punto rojo: la pestaña tiene un filtro activo (tambien en el celular) */
+.im-pestana.con-filtro::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 6px;
+  border-radius: 50%;
+  background: var(--rojo);
+  vertical-align: middle;
 }
 
 /* ---------- barra de seleccion y fechas ---------- */
@@ -216,6 +260,78 @@ body {
 }
 
 #im-imprimir { margin-left: auto; }
+
+/* ---------- filtros ---------- */
+
+.im-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding-top: 14px;
+}
+
+.im-buscar {
+  position: relative;
+  flex: 0 1 340px;
+  min-width: 200px;
+}
+
+.im-buscar input,
+.im-vendedor {
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--texto);
+  font: inherit;
+}
+
+/* Lugar para la cruz */
+.im-buscar input {
+  width: 100%;
+  padding-right: 34px;
+}
+
+.im-buscar-borrar {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--texto-suave);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.im-buscar-borrar:hover { color: var(--texto); }
+
+/* Filtro en uso: borde rojo, para que no pase desapercibido */
+.im-filtro-activo {
+  border-color: var(--rojo) !important;
+  box-shadow: 0 0 0 1px var(--rojo);
+}
+
+.im-limpiar {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--rojo);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.im-filtro-cont {
+  margin-left: auto;
+  color: var(--texto-suave);
+}
 
 /* ---------- tabla (escritorio) ---------- */
 
@@ -523,6 +639,52 @@ body {
     margin: 0;
     padding: 8px;
     font-size: 14px;
+  }
+
+  /* Estado de la actualizacion: a la derecha, debajo de las pestañas */
+  .im-sinc { font-size: 13px; }
+
+  .im-actualizar { padding: 8px 12px; }
+
+  /* Filtros: buscador a todo el ancho; vendedor y Limpiar debajo; el
+     contador al final. 16px: en iOS un campo mas chico hace zoom */
+  .im-filtros {
+    gap: 8px 10px;
+    padding-top: 12px;
+  }
+
+  .im-buscar {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .im-buscar input,
+  .im-vendedor {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .im-buscar input { padding-right: 40px; }
+
+  .im-buscar-borrar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .im-vendedor {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .im-limpiar {
+    margin-left: auto;
+    padding: 10px 4px;
+  }
+
+  .im-filtro-cont {
+    flex-basis: 100%;
+    margin-left: 0;
+    font-size: 13px;
   }
 
   .im-todos input,
