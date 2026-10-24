@@ -32,7 +32,12 @@ jobs:
         run: |
           pip install pandas openpyxl requests   # Agregado requests aquí
           
+      # Si un archivo viene con muchos menos registros que el publicado, no se
+      # escribe (scripts/guardia_registros.py) y el paso termina con error: los
+      # demas se commitean igual y el ultimo paso deja el run en rojo
       - name: Convert Excel to JSON
+        id: json
+        continue-on-error: true
         run: python scripts/excel_to_json.py
 
       # Índice del buscador v2 (solo biblioteca estándar). Si falla, por ejemplo por
@@ -86,11 +91,15 @@ jobs:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: ${{ github.ref }}
 
-      # Después de commitear lo demás: si el índice no se pudo generar o fallaron
-      # casos de búsqueda, el run queda fallido (aviso por mail) con el detalle
-      - name: Avisar si falló el buscador
-        if: steps.indice.outcome == 'failure' || steps.busquedas.outcome == 'failure'
+      # Después de commitear lo demás: si algún JSON no se escribió para no pisar
+      # datos buenos, si el índice no se pudo generar o fallaron casos de
+      # búsqueda, el run queda fallido (aviso por mail) con el detalle
+      - name: Avisar si falló algún paso
+        if: steps.json.outcome == 'failure' || steps.indice.outcome == 'failure' || steps.busquedas.outcome == 'failure'
         run: |
+          if [ "${{ steps.json.outcome }}" = "failure" ]; then
+            echo "::error::Algún JSON no se actualizó: ver las líneas BLOQUEADO del paso 'Convert Excel to JSON'."
+          fi
           if [ "${{ steps.indice.outcome }}" = "failure" ]; then
             echo "::error::No se pudo generar json/search/v2/indice.json; quedó el índice anterior. Ver el paso 'Generar índice de búsqueda v2'."
           fi

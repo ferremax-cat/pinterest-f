@@ -7,6 +7,12 @@ import re
 import hashlib
 from datetime import datetime  # Agregamos esta importación
 
+# Antes de pisar un JSON, comparar la cantidad de registros (ver guardia_registros.py)
+try:
+    import guardia_registros as guardia
+except ImportError:
+    from scripts import guardia_registros as guardia
+
 
 def get_sheet_ids():
     """Lee los IDs desde config.js"""
@@ -44,58 +50,19 @@ def get_sheet_data(sheet_id):
         print(f'Error obteniendo datos de Google Sheets: {e}')
         return None
 
-def update_from_sheets():
-    """Actualiza JSONs desde Google Sheets"""
-    try:
-        sheets = get_sheet_ids()
-        for name, sheet_id in sheets.items():
-            try:
-                print(f'Procesando {name} desde Google Sheets')
-                data = get_sheet_data(sheet_id)
-                if data:
-                    if name == 'catalogo_imagenes':
-                        # Procesar catálogo de imágenes
-                        #process_image_catalog(data) EN ESTA LINEA SE VA A LEER EL SHEET DEL DRIVE, PERO TIENE 
-                        #PROBLEMA A VECES, MAS SEGURO ES DEL EXCEL EN LOCAL
-                        print(f'Omitiendo {name} (se procesará desde Excel local)')
-                        continue
-
-                    elif name == 'catalogo_grupos':
-                        # Procesar catálogo de grupos
-                        process_catalogo_grupos(data)
-                    else:    
-                        # Procesar otros sheets
-                        process_sheet_data(name, data)
-                    print(f'Actualizado {name}.json desde Google Sheets')
-
-            except Exception as e:
-                print(f'Error procesando {name}: {e}')
-                # Solo actualizar desde local si NO es el catálogo de imágenes
-                if name != 'catalogo_imagenes':
-                    print(f'Intentando actualizar {name} desde Excel local')
-                    update_from_local()
-                  
-    except Exception as e:
-        print(f'Error en actualización desde Sheets: {e}')
-        # Solo actualizar desde local si hubo un error general
-        print('Intentando actualización local para archivos no críticos')
-        update_from_local()
-
-
-
 def update_from_local():
     """Actualiza JSONs desde archivos Excel locales"""
-    try:
-        print('Actualizando desde archivos Excel locales')
-        excel_to_json()
-        process_clients()
-        process_groups()
-        process_promotions()
-        process_catalogo_grupos_local()  # Agregamos el proceso del catálogo
-        process_image_catalog_local()  # Añade esta línea 20-3-25
-        print('Actualización local completada')
-    except Exception as e:
-        print(f'Error en actualización local: {e}')
+    print('Actualizando desde archivos Excel locales')
+    # Cada archivo por separado: un error en uno no frena a los demas
+    for paso in (excel_to_json, process_clients, process_groups, process_promotions,
+                 process_catalogo_grupos_local, process_image_catalog_local):
+        try:
+            paso()
+        except guardia.EscrituraBloqueada:
+            pass   # ya se aviso: queda el archivo anterior
+        except Exception as e:
+            print(f'Error en actualización local ({paso.__name__}): {e}')
+    print('Actualización local completada')
 
 
 def process_sheet_data(name, data):
@@ -135,9 +102,8 @@ def process_sheet_data(name, data):
                     elif name == 'promociones':
                         process_promotion_row(result, row)
 
-        with open(f'json/{name}.json', 'w', encoding='utf-8') as f:
-            json.dump(result, f, indent=2, ensure_ascii=False)
-            
+        guardia.escribir_json(f'json/{name}.json', result, indent=2, ensure_ascii=False)
+
     except Exception as e:
         print(f'Error procesando datos de {name}: {e}')
         raise
@@ -246,89 +212,34 @@ def process_margenes_sheet_data(data):
         print(f'Clientes procesados: {list(result.keys())}')
 
         # Guardar JSON
-        with open('json/margenes_clientes.json', 'w', encoding='utf-8') as f:
-            json.dump(result, f, indent=2, ensure_ascii=False)
+        guardia.escribir_json('json/margenes_clientes.json', result, indent=2, ensure_ascii=False)
             
     except Exception as e:
         print(f'Error procesando datos de márgenes: {e}')
         raise
 
 
-# MODIFICACIÓN 4: Crear process_margins_local()
-def process_margins_local():
-    """Procesa MARGENES_CLIENTES.xlsx y genera margenes_clientes.json"""
-    try:
-        # Leer Excel
-        df = pd.read_excel('excel/MARGENES_CLIENTES.xlsx')
-        
-        # Procesar datos
-        margins_data = {}
-        for _, row in df.iterrows():
-            cliente = str(row['Cliente'])
-            margins_data[cliente] = {
-                'nombre': row['Nombre'],
-                'margen': int(row['Margen']),
-                'mostrar': row['Mostrar'],
-                'ultima_actualizacion': str(row['Fecha_Cambio']) if 'Fecha_Cambio' in row else ''
-            }
-            
-        # Guardar JSON
-        with open('json/margenes_clientes.json', 'w', encoding='utf-8') as f:
-            json.dump(margins_data, f, indent=2, ensure_ascii=False)
-            
-        print('margenes_clientes.json generado exitosamente')
-            
-    except Exception as e:
-        print(f'Error procesando márgenes: {e}')
-
-
-# MODIFICACIÓN 5: Crear función específica para actualización local de márgenes
-def update_margenes_from_local():
-    """Actualiza márgenes desde archivo Excel local"""
-    try:
-        print('Actualizando márgenes desde Excel local')
-        process_margins_local()
-        print('Actualización de márgenes local completada')
-    except Exception as e:
-        print(f'Error en actualización de márgenes local: {e}')
-
-
-# MODIFICACIÓN 6: Crear función específica para actualización de márgenes desde Google Sheets
+# Sin respaldo local: excel/MARGENES_CLIENTES.xlsx quedo viejo (4 clientes contra
+# los 155 de las respuestas del formulario). Si Google no responde, queda el
+# margenes_clientes.json anterior y se avisa
 def update_margenes_from_sheets():
-    """Actualiza márgenes específicamente desde Google Sheets"""
+    """Actualiza márgenes desde Google Sheets (respuestas del formulario)"""
     try:
-        sheets = get_sheet_ids()
-        
-        if 'margenes_clientes' in sheets:
-            sheet_id = sheets['margenes_clientes']
-            print(f'Procesando margenes_clientes desde Google Sheets')
-            
-            data = get_sheet_data(sheet_id)
-            if data:
-                process_margenes_sheet_data(data)
-                print(f'Actualizado margenes_clientes.json desde Google Sheets')
-            else:
-                print('No se pudieron obtener datos de Google Sheets, usando Excel local')
-                update_margenes_from_local()
+        sheet_id = get_sheet_ids()['margenes_clientes']
+        print(f'Procesando margenes_clientes desde Google Sheets')
+
+        data = get_sheet_data(sheet_id)
+        if data:
+            process_margenes_sheet_data(data)
+            print(f'Actualizado margenes_clientes.json desde Google Sheets')
         else:
-            print('ID de margenes_clientes no encontrado en config.js')
-            
+            print('AVISO: sin datos de Google Sheets para margenes_clientes: queda el archivo anterior')
+
+    except guardia.EscrituraBloqueada:
+        pass   # ya se aviso: quedan los márgenes anteriores
     except Exception as e:
         print(f'Error en actualización de márgenes desde Sheets: {e}')
-        print('Intentando actualización local de márgenes')
-        update_margenes_from_local()
-
-
-# FUNCIÓN PRINCIPAL PARA ACTUALIZAR SOLO MÁRGENES
-def update_margenes():
-    """Función principal para actualizar solo márgenes (Sheets primero, Excel como backup)"""
-    try:
-        print('Iniciando actualización de márgenes')
-        update_margenes_from_sheets()
-    except Exception as e:
-        print(f'Error en actualización desde Sheets: {e}')
-        print('Intentando actualización local')
-        update_margenes_from_local()
+        print('AVISO: queda el margenes_clientes.json anterior')
 
 
 
@@ -402,8 +313,7 @@ def excel_to_json():
     products_json = process_products(df_products)
     
     # Guardar JSONs
-    with open('json/productos.json', 'w') as f:
-        json.dump(products_json, f, indent=2)
+    guardia.escribir_json('json/productos.json', products_json, indent=2)
 
 
 def process_clients():
@@ -422,8 +332,7 @@ def process_clients():
             }
             
         # Guardar JSON
-        with open('json/clientes_permisos.json', 'w') as f:
-            json.dump(clients_data, f, indent=2)
+        guardia.escribir_json('json/clientes_permisos.json', clients_data, indent=2)
             
         print('clientes_permisos.json generado exitosamente')
             
@@ -446,8 +355,11 @@ def process_groups():
                 groups_data["groups"][group_name] = clients
                 
             # Guardar JSON
-            with open('json/grupos_clientes.json', 'w') as f:
-                json.dump(groups_data, f, indent=2)
+            # Se cuentan los clientes de todos los grupos, no los grupos: con
+            # pocos grupos, la guardia solo frenaria un archivo vacio
+            guardia.escribir_json('json/grupos_clientes.json', groups_data,
+                                  contar=lambda d: sum(len(v) for v in d.get('groups', {}).values()),
+                                  indent=2)
                 
             print('grupos_clientes.json generado exitosamente')
                 
@@ -488,8 +400,7 @@ def process_promotions():
             }
             
         # Guardar JSON
-        with open('json/promociones.json', 'w') as f:
-            json.dump(promotions_data, f, indent=2)
+        guardia.escribir_json('json/promociones.json', promotions_data, indent=2)
             
         print('promociones.json generado exitosamente')
             
@@ -616,8 +527,7 @@ def process_catalogo_grupos(data):
         # Guardar JSON
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
         print('Guardando resultados...')
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(catalogo_json, f, indent=2, ensure_ascii=False)
+        guardia.escribir_json(json_path, catalogo_json, indent=2, ensure_ascii=False)
             
         # Reporte final
         for grupo, productos in catalogo_json.items():
@@ -678,8 +588,7 @@ def process_catalogo_grupos_local():
         # Guardar JSON
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
         print('Guardando catálogo en JSON...')
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(catalogo_json, f, indent=2, ensure_ascii=False)
+        guardia.escribir_json(json_path, catalogo_json, indent=2, ensure_ascii=False)
             
         # Reporte final
         total_productos = sum(len(productos) for productos in catalogo_json.values())
@@ -723,10 +632,9 @@ def process_image_catalog(data):
 
         # Guardar el archivo
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
-            f.flush()
-        
+        guardia.escribir_json(json_path, output, contar=lambda d: len(d.get('images', {})),
+                              indent=2, ensure_ascii=False)
+
         print(f"Catálogo de imágenes actualizado exitosamente")
 
     except Exception as e:
@@ -794,8 +702,8 @@ def process_image_catalog_local():
         
         # Guardar JSON
         os.makedirs(os.path.dirname(json_path), exist_ok=True)
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
+        guardia.escribir_json(json_path, output, contar=lambda d: len(d.get('images', {})),
+                              indent=2, ensure_ascii=False)
             
         print(f'catalogo_imagenes.json generado exitosamente desde Excel local')
             
@@ -870,23 +778,18 @@ def escribir_version_productos():
 
 
 def main():
-    """Función principal que intenta primero Google Sheets y luego local"""
-    try:
-        print('Iniciando actualización de JSONs')
-        if not verify_json_file('json/catalogo_imagenes.json'):  # Pasamos la ruta del archivo
-            print("Error: No se puede escribir en el directorio json")
-            return
-        print('Iniciando actualización de JSONs')
-        update_from_sheets()
-        update_margenes()  # NUEVA LÍNEA - Actualizar márgenes desde Google Sheets
-    except Exception as e:
-        print(f'Error en actualización desde Sheets: {e}')
-        print('Intentando actualización local')
-        update_from_local()
-        update_margenes_from_local()  # NUEVA LÍNEA - Actualizar márgenes desde Excel local
+    """Función principal: catálogo desde los Excel locales, márgenes desde Google Sheets"""
+    print('Iniciando actualización de JSONs')
+    if not verify_json_file('json/catalogo_imagenes.json'):  # Pasamos la ruta del archivo
+        print("Error: No se puede escribir en el directorio json")
+        return
+    # Los datos del catalogo salen de los Excel de excel/: las planillas de Sheets
+    # de productos, grupos, promociones y clientes quedaron viejas o de prueba.
+    # De Sheets solo se leen los margenes (respuestas del formulario)
+    update_from_local()
+    update_margenes_from_sheets()
 
-    # Por cualquiera de los dos caminos: el navegador la usa para saber si
-    # tiene que actualizar los precios
+    # El navegador la usa para saber si tiene que actualizar los precios
     try:
         escribir_version_productos()
     except Exception as e:
@@ -899,3 +802,5 @@ if __name__ == "__main__":
         process_image_catalog_local()
     else:
         main()
+    # Si algun archivo no se escribio para no pisar datos buenos: codigo 1
+    guardia.terminar_si_hubo_bloqueos()

@@ -1,7 +1,17 @@
 import openpyxl
 import json
 import os
+import sys
 from pathlib import Path
+
+# Antes de pisar un JSON, comparar la cantidad de registros (ver guardia_registros.py)
+try:
+    import guardia_registros as guardia
+except ImportError:
+    from scripts import guardia_registros as guardia
+
+# funcionalidades.json tiene dos listas (funcionalidades y roles): se cuentan las funcionalidades
+CONTAR = {'funcionalidades.json': lambda d: len(d.get('funcionalidades', {}))}
 
 def leer_funcionalidades_maestro():
     """Lee el archivo funcionalidades_maestro.xlsx y retorna diccionario"""
@@ -151,10 +161,13 @@ def guardar_json(data, filename):
     json_path.parent.mkdir(exist_ok=True)
     
     try:
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        guardia.escribir_json(json_path, data,
+                              contar=CONTAR.get(filename, guardia.contar_registros),
+                              ensure_ascii=False, indent=2)
         print(f"✅ Guardado: {json_path}")
         return True
+    except guardia.EscrituraBloqueada:
+        return False   # ya se aviso: quedo el anterior
     except Exception as e:
         print(f"❌ ERROR al guardar {filename}: {e}")
         return False
@@ -174,7 +187,7 @@ def main():
     
     if not funcionalidades_data:
         print("\n❌ Error al leer funcionalidades_maestro.xlsx")
-        return
+        sys.exit(1)
     
     # Leer usuarios_funcionalidades.xlsx
     print("\n📋 PASO 2: Leyendo usuarios y funcionalidades...")
@@ -182,7 +195,7 @@ def main():
     
     if not usuarios_data:
         print("\n❌ Error al leer usuarios_funcionalidades.xlsx")
-        return
+        sys.exit(1)
     
     # Guardar JSONs
     print("\n💾 PASO 3: Guardando archivos JSON...")
@@ -199,6 +212,8 @@ def main():
         print(f"   • {len(usuarios_data['usuarios'])} usuarios")
     else:
         print("⚠️  CONVERSIÓN COMPLETADA CON ERRORES")
+        print("="*60 + "\n")
+        sys.exit(1)
     print("="*60 + "\n")
 
 
