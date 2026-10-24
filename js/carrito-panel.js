@@ -766,7 +766,8 @@ function dibujarPendiente(pend) {
 
 /**
  * Aviso dentro del panel: los del navegador muestran la direccion del
- * sitio y quedan mal.
+ * sitio y quedan mal. Los de error quedan a la vista hasta que se tocan,
+ * para que se puedan leer completos; los demas se van a los 3 segundos.
  */
 function avisar(texto, tipo) {
   const cont = document.getElementById('carrito-panel');
@@ -774,12 +775,25 @@ function avisar(texto, tipo) {
 
   document.querySelectorAll('.cp-aviso').forEach(a => a.remove());
 
+  const esError = tipo === 'error';
   const av = document.createElement('div');
-  av.className = 'cp-aviso ' + (tipo === 'error' ? 'cp-aviso-error' : '');
+  av.className = 'cp-aviso ' + (esError ? 'cp-aviso-error' : '');
   av.textContent = texto;
-  cont.querySelector('.cp-caja')?.appendChild(av);
 
-  setTimeout(() => av.remove(), 3000);
+  if (esError) {
+    av.setAttribute('role', 'alert');
+    av.title = 'Tocá para cerrar';
+    const cerrarAv = document.createElement('span');
+    cerrarAv.className = 'cp-aviso-cerrar';
+    cerrarAv.setAttribute('aria-hidden', 'true');
+    cerrarAv.textContent = '×';
+    av.appendChild(cerrarAv);
+    av.addEventListener('click', () => av.remove());
+  } else {
+    setTimeout(() => av.remove(), 3000);
+  }
+
+  cont.querySelector('.cp-caja')?.appendChild(av);
 }
 
 /**
@@ -834,6 +848,66 @@ function confirmarVaciar() {
   capa.querySelector('.cp-confirma-cancelar').focus();
 }
 
+// Campos que puede tener una linea guardada del carrito, de esta version y
+// de las anteriores (agregar(), ajustarLinea(), marcarPrevia())
+const CAMPOS_LINEA = ['sku', 'cantidad', 'orden', 'nombre', 'bulto', 'img', 'precioResp',
+  'listaResp', 'agregado', 'mecanismo', 'listaForzada', 'precioLibre', 'descuento', 'cantVendedor'];
+
+/**
+ * Registra en el formulario de fallos un error al preparar o confirmar el
+ * pedido, con la estructura de las lineas guardadas (que campos tienen y
+ * cuales faltan, sin datos personales). Nunca lanza: un fallo del registro
+ * no puede tapar el error original.
+ */
+function registrarErrorPedido(err, etapa) {
+  try {
+    let resumen;
+    try {
+      const lineas = window.Carrito?.leer?.();
+      if (!Array.isArray(lineas)) {
+        resumen = 'lineas: ' + (lineas === undefined ? 'sin Carrito' : typeof lineas);
+      } else {
+        const n = lineas.length;
+        const tiene = {};
+        const raros = new Set();
+        const otros = new Set();
+        lineas.forEach(l => {
+          if (!l || typeof l !== 'object') { raros.add('linea_' + typeof l); return; }
+          CAMPOS_LINEA.forEach(c => { if (l[c] !== undefined && l[c] !== null) tiene[c] = (tiene[c] || 0) + 1; });
+          Object.keys(l).forEach(k => { if (!CAMPOS_LINEA.includes(k)) otros.add(k); });
+          if (typeof l.sku !== 'string') raros.add('sku_' + typeof l.sku);
+          if (typeof l.cantidad !== 'number') raros.add('cantidad_' + typeof l.cantidad);
+        });
+        const faltan = CAMPOS_LINEA.filter(c => (tiene[c] || 0) < n).map(c => `${c} ${n - (tiene[c] || 0)}`);
+        resumen = `lineas ${n}; faltan: ${faltan.join(', ') || 'ninguno'}` +
+          (raros.size ? `; raros: ${[...raros].join(', ')}` : '') +
+          (otros.size ? `; otros: ${[...otros].join(', ')}` : '');
+      }
+    } catch (e) {
+      resumen = 'lineas: no se pudieron leer';
+    }
+
+    // Uso aproximado de localStorage: un QuotaExceededError se explica con esto
+    let usoLs = '?';
+    try {
+      let total = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i) || '';
+        total += k.length + (localStorage.getItem(k) || '').length;
+      }
+      usoLs = Math.round(total / 1024) + ' KB';
+    } catch (e) {}
+
+    const pila = String(err?.stack || '').split('\n').slice(1, 3).map(s => s.trim()).join(' | ');
+    const detalle = `etapa ${etapa} · ${String(err?.name || 'Error')}: ${String(err?.message ?? err).slice(0, 120)}` +
+      ` · ${pila.slice(0, 150)} · ${resumen} · localStorage ${usoLs}`;
+
+    window.RegistroFallos?.registrarFallo('pedido_no_preparado', detalle, undefined, { repetir: true });
+  } catch (e) {
+    console.warn('[Carrito] No se pudo registrar el fallo:', e);
+  }
+}
+
 async function confirmarPedido() {
 
   window.__t0 = performance.now();
@@ -853,6 +927,9 @@ async function confirmarPedido() {
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
+  // Ultimo paso alcanzado, para el registro de fallos
+  let etapa = 'inicio';
+
   try {
     // Con una confirmacion pendiente se reenvia exactamente el mismo pedido,
     // con el mismo id: el servidor lo reconoce y no lo duplica
@@ -863,16 +940,33 @@ async function confirmarPedido() {
     if (esReintento) {
       pedido = pend.pedido;
     } else {
+      etapa = 'verificar';
       const d = await window.Carrito.detalleVerificado();
 
       console.log('[Tiempos] verificación:', Math.round(performance.now() - window.__t0), 'ms');
-      console.log('[Pedido] líneas:', d.lineas.map(l => ({ sku: l.sku, mecanismo: l.mecanismo, listaForzada: l.listaForzada, descuento: l.descuento, precioLibre: l.precioLibre, precioBase: l.precioBase, precio: l.precio })));
 
+      // Sin precios, detalleVerificado no trae lineas: el aviso va antes de
+      // usarlas (antes el log de abajo fallaba y se mostraba un error de conexion)
       if (!d.ok) {
-        avisar('Faltan precios de ' + (d.skus || []).join(', ') + '. Probá de nuevo en unos segundos.', 'error');
+        const fuera = d.fueraDeCatalogo || [];
+        const faltan = (d.skus || []).filter(s => !fuera.includes(s));
+        // Un codigo que ya no esta en el catalogo no se arregla reintentando
+        const partes = [];
+        if (fuera.length) {
+          partes.push(fuera.length === 1
+            ? `${fuera[0]} ya no está en el catálogo: quitalo del pedido.`
+            : `${fuera.join(', ')} ya no están en el catálogo: quitalos del pedido.`);
+        }
+        if (faltan.length) {
+          partes.push('Faltan precios de ' + faltan.join(', ') + '. Probá de nuevo en unos segundos.');
+        }
+        avisar(partes.join(' '), 'error');
         return;
       }
 
+      console.log('[Pedido] líneas:', (d.lineas || []).map(l => ({ sku: l.sku, mecanismo: l.mecanismo, listaForzada: l.listaForzada, descuento: l.descuento, precioLibre: l.precioLibre, precioBase: l.precioBase, precio: l.precio })));
+
+      etapa = 'totales';
       const t = window.Carrito.totales();
       const aj = window.Carrito.getAjustePedido();
       const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
@@ -883,6 +977,7 @@ async function confirmarPedido() {
         : !origenSkus.includes(l.sku) ? 'vendedor'
         : (l.cantVendedor ? 'ambos' : 'cliente');
 
+      etapa = 'armar';
       pedido = {
         id: nuevoId(),
         cliente: esVend ? cli.cuenta : String(cd.account || ''),
@@ -918,9 +1013,11 @@ async function confirmarPedido() {
 
       // Registrar el intento antes de enviarlo: si la respuesta no llega,
       // el carrito queda bloqueado con este mismo pedido
+      etapa = 'pendiente';
       window.Carrito.setPendiente(pedido);
     }
 
+    etapa = 'enviar';
     let resp;
     try {
       // Guardar tarda mas que una consulta: 20 s por intento y 2 reintentos
@@ -937,6 +1034,7 @@ async function confirmarPedido() {
       return;
     }
 
+    etapa = 'respuesta';
     console.log('[Tiempos] total con guardado:', Math.round(performance.now() - window.__t0), 'ms');
     console.log('[Pedido] respuesta del servidor:', resp);
 
@@ -984,10 +1082,12 @@ async function confirmarPedido() {
 
   } catch (err) {
     console.error('[Carrito] Error al confirmar:', err);
+    registrarErrorPedido(err, etapa);
     if (window.Carrito.getPendiente()) {
       dibujar();
     } else {
-      avisar('No se pudo guardar el pedido. Revisá la conexión.', 'error');
+      // El pedido no se llego a enviar: no es un problema de conexion
+      avisar('No se pudo preparar el pedido. El carrito quedó guardado. Probá de nuevo y, si se repite, avisá.', 'error');
     }
   } finally {
     btn.disabled = false;
