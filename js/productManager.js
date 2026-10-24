@@ -9,6 +9,22 @@ import MonitoringSystem from './MonitoringSystem.js';
 import { config } from './config.js';
 import AdvancedCacheManager from './AdvancedCacheManager.js';
 import { productos as leerProductos, imagenes as leerImagenes } from './datos-catalogo.js';
+import { registrarFallo } from './registro-fallos.js';
+
+/**
+ * Registra en el formulario de fallos una descarga fallida de
+ * loadSpecificProducts. Una vez por motivo y sesion (registrarFallo no
+ * repite): cada tanda de busqueda volveria a registrarlo. Nunca lanza.
+ */
+function avisarFalloCarga(motivo, error, codigos) {
+  try {
+    const cant = Array.isArray(codigos) ? codigos.length : 0;
+    registrarFallo(motivo,
+      `${String(error?.name || 'Error')}: ${String(error?.message ?? error).slice(0, 200)} · ${cant} códigos pedidos`);
+  } catch (e) {
+    console.warn('[ProductManager] No se pudo registrar el fallo:', e);
+  }
+}
 
 /**
  * Gestor principal de productos y sus relaciones
@@ -543,6 +559,7 @@ class ProductManager {
               catalogoImagenes = await leerImagenes();
             } catch (error) {
               console.warn('[ProductManager] Error al cargar catálogo de imágenes:', error);
+              avisarFalloCarga('carga_imagenes_fallida', error, codigos);
             }
 
             // Verificar lista de precios del cliente
@@ -616,6 +633,9 @@ class ProductManager {
             
           } catch (error) {
             console.error('[ProductManager] Error al cargar datos específicos:', error);
+            // Sin esto, los productos quedan sin precio en silencio y el
+            // carrito no puede confirmar (busqueda, carrito, promos, revision)
+            avisarFalloCarga('carga_productos_fallida', error, codigos);
             return {};
           }
         }

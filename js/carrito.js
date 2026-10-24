@@ -14,7 +14,7 @@
 // para habilitar el carrito a todos.
 import { SOLO_VENDEDORES } from './config.js';
 import { pedirToken } from './sesion.js';
-import { imagenes } from './datos-catalogo.js';
+import { imagenes, productos as leerProductos } from './datos-catalogo.js';
 
 const PREFIJO = 'carrito::';
 
@@ -797,7 +797,18 @@ export async function detalleVerificado(cliente) {
   });
 
   if (sinPrecio.length) {
-    return { ok: false, error: 'sin_precio', skus: sinPrecio };
+    // Los que ya no estan en productos.json (dados de baja o con otro codigo)
+    // no se arreglan reintentando: hay que quitarlos del pedido. Si el
+    // catalogo no se puede leer, no se afirma nada y quedan como sin precio
+    let fueraDeCatalogo = [];
+    try {
+      const catalogo = await leerProductos();
+      fueraDeCatalogo = sinPrecio.filter(sku =>
+        !catalogo[sku] && !catalogo[String(sku).toUpperCase()]);
+    } catch (e) {
+      console.warn('[Carrito] No se pudo revisar el catálogo:', e);
+    }
+    return { ok: false, error: 'sin_precio', skus: sinPrecio, fueraDeCatalogo };
   }
 
   return {

@@ -2797,7 +2797,17 @@
                          box-shadow: 0 4px 14px rgba(0,0,0,0.3);
                          z-index: 100;
                     }
-                    .cp-aviso-error { background: #dc2626; }
+                    /* Los de error quedan hasta que se tocan: la cruz lo indica */
+                    .cp-aviso-error {
+                         background: #dc2626;
+                         padding-right: 36px;
+                         cursor: pointer;
+                    }
+                    .cp-aviso-cerrar {
+                         position: absolute; top: 50%; right: 12px;
+                         transform: translateY(-50%);
+                         font-size: 20px; line-height: 1; opacity: .85;
+                    }
                     .cp-caja { position: relative; }
 
                     /* Confirmacion dentro del panel (vaciar el pedido) */
