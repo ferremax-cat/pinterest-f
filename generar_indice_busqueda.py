@@ -26,6 +26,9 @@ import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 
+# Antes de pisar el indice publicado, comparar la cantidad de productos
+from scripts.guardia_registros import revisar, contar_json, EscrituraBloqueada
+
 
 # ---------------------------------------------------------------------------
 # Rutas: se busca la raíz del proyecto subiendo hasta encontrar json/productos.json
@@ -480,6 +483,13 @@ def main():
         print("Índice sin cambios (" + indice["version"] + "): no se reescribe")
         registrar_version(indice["version"])
         return
+
+    # Antes de pisar el publicado: con muchos menos productos que el anterior,
+    # productos.json vino incompleto (ver scripts/guardia_registros.py)
+    try:
+        revisar(RUTA_SALIDA.name, contar_json(RUTA_SALIDA, lambda d: len(d["productos"])), indice["total"])
+    except EscrituraBloqueada as e:
+        sys.exit(str(e))
 
     contenido = json.dumps(indice, ensure_ascii=False, separators=(",", ":"))
     RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)

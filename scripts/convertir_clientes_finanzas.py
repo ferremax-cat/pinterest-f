@@ -1,6 +1,13 @@
 import pandas as pd
 import json
+import sys
 from pathlib import Path
+
+# Antes de pisar el JSON, comparar la cantidad de clientes (ver guardia_registros.py)
+try:
+    import guardia_registros as guardia
+except ImportError:
+    from scripts import guardia_registros as guardia
 
 def limpiar_moneda(valor):
     """Convierte valor monetario a número"""
@@ -53,7 +60,7 @@ def main():
         df = pd.read_excel(excel_path)
     except FileNotFoundError:
         print(f"❌ ERROR: No se encontró el archivo {excel_path}")
-        return
+        sys.exit(1)
     
     print(f"✅ Leídas {len(df)} filas")
     
@@ -85,9 +92,9 @@ def main():
         print(f"⚠️  Sobrescribiendo archivo existente: {json_path}")
 
     try:
-        with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(output, f, ensure_ascii=False, indent=2)
-        
+        # Con muchos menos clientes que el actual, el Excel vino incompleto
+        guardia.escribir_json(json_path, output, ensure_ascii=False, indent=2)
+
         # Verificar que se guardó correctamente
         with open(json_path, 'r', encoding='utf-8') as f:
             verificacion = json.load(f)
@@ -99,11 +106,15 @@ def main():
         if clientes_guardados != len(clientes):
             print(f"⚠️  ADVERTENCIA: Se esperaban {len(clientes)} pero hay {clientes_guardados}")
 
+    except guardia.EscrituraBloqueada:
+        sys.exit(1)   # ya se aviso: quedo el JSON anterior
     except PermissionError:
         print(f"❌ ERROR: No se puede escribir el archivo (puede estar abierto en otro programa)")
         print(f"   Cierra el archivo {json_path.name} y vuelve a ejecutar el script")
+        sys.exit(1)
     except Exception as e:
         print(f"❌ ERROR al guardar: {e}")
+        sys.exit(1)
 
     print("\n" + "="*60 + "\n")
 

@@ -13,6 +13,12 @@ from pathlib import Path
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Antes de borrar la hoja, comparar la cantidad de usuarios (ver guardia_registros.py)
+try:
+    import guardia_registros as guardia
+except ImportError:
+    from scripts import guardia_registros as guardia
+
 RAIZ = Path(__file__).resolve().parent.parent
 CREDENCIAL = RAIZ / 'credenciales' / 'service-account.json'
 ORIGEN = RAIZ / 'json' / 'funcionalidades_usuarios.json'
@@ -74,6 +80,18 @@ def main():
     print(f'Conectado a: {planilla.title}')
 
     hoja = planilla.worksheet(HOJA)
+
+    # Antes de borrar la hoja: con muchos menos usuarios que los cargados, el
+    # JSON vino incompleto. Sin poder leer la hoja actual, no hay con que comparar
+    try:
+        actuales = sum(1 for f in hoja.get_all_values()[1:] if f and f[0].strip())
+    except Exception:
+        actuales = None
+    try:
+        guardia.revisar('hoja usuarios', actuales, len(filas))
+    except guardia.EscrituraBloqueada:
+        sys.exit(1)   # ya se aviso: quedo la hoja anterior
+
     hoja.clear()
     hoja.update(values=[ENCABEZADOS] + filas, range_name='A1')
     hoja.format('A1:E1', {'textFormat': {'bold': True}})
