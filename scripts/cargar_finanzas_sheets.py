@@ -13,6 +13,12 @@ from pathlib import Path
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Antes de borrar la hoja, comparar la cantidad de clientes (ver guardia_registros.py)
+try:
+    import guardia_registros as guardia
+except ImportError:
+    from scripts import guardia_registros as guardia
+
 RAIZ = Path(__file__).resolve().parent.parent
 CREDENCIAL = RAIZ / 'credenciales' / 'service-account.json'
 ORIGEN = RAIZ / 'json' / 'clientes_finanzas.json'
@@ -82,6 +88,7 @@ def main():
 
     # Conservar la marca de revendedor que ya este cargada a mano
     revendedores = {}
+    previo = None
     try:
         previo = hoja.get_all_values()
         for fila in previo[1:]:
@@ -95,6 +102,14 @@ def main():
             if f[0] in revendedores:
                 f[9] = revendedores[f[0]]
         print(f'Conservadas {len(revendedores)} marcas de revendedor')
+
+    # Antes de borrar la hoja: con muchos menos clientes que los cargados, el
+    # JSON vino incompleto. Sin poder leer la hoja actual, no hay con que comparar
+    actuales = None if previo is None else sum(1 for f in previo[1:] if f and f[0].strip())
+    try:
+        guardia.revisar('hoja finanzas', actuales, len(filas))
+    except guardia.EscrituraBloqueada:
+        sys.exit(1)   # ya se aviso: quedo la hoja anterior y no se limpio la cache
 
     hoja.clear()
     hoja.update(values=[ENCABEZADOS] + filas, range_name='A1')
