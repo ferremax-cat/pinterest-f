@@ -1,9 +1,9 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 60,
+    "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,24,10,29,37)"
+    "ultima_actualizacion": "Date(2026,9,25,11,32,2)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
@@ -675,7 +675,7 @@
     "nombre": "FERRETERIA VIGO",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,8,15,15,42,4)"
+    "ultima_actualizacion": "Date(2026,9,25,11,5,55)"
   },
   "61012": {
     "nombre": "EL TREBOL FERRETERIA",
@@ -823,9 +823,9 @@
   },
   "20333": {
     "nombre": "LINA FERRETERIA",
-    "margen": 60,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,24,12,25,29)"
+    "ultima_actualizacion": "Date(2026,9,25,11,13,33)"
   },
   "1050": {
     "nombre": "FERRETERIA BM",
@@ -928,5 +928,11 @@
     "margen": 0,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,9,22,10,16,55)"
+  },
+  "60308": {
+    "nombre": "FERRETERIA RyV",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,9,25,9,28,34)"
   }
 }
