@@ -390,14 +390,37 @@ async function consultar({ enFondo = false } = {}) {
 }
 
 /**
- * Despues de imprimir o confirmar desde Pendientes: lo guardado de Impresos
- * queda viejo (le faltan los recien impresos), asi que se descarta y la
- * proxima vez que se entre se espera la lista nueva. Pendientes se vacia y
- * se espera, para que los recien marcados desaparezcan enseguida
+ * Despues de imprimir o confirmar desde Pendientes: los que el servidor
+ * confirmo como impresos salen de Pendientes en el momento (de la lista, de
+ * lo guardado y de la seleccion), sin esperar al servidor, y la lista se
+ * actualiza en segundo plano para traer los pedidos nuevos. Lo guardado de
+ * Impresos queda viejo (le faltan los recien impresos): se descarta.
+ * La consulta nueva deja sin efecto cualquier otra que estuviera en curso
+ * (ultimaConsulta), asi una respuesta anterior a la marcacion no vuelve a
+ * mostrar un pedido ya impreso.
  */
-function despuesDeImprimir() {
+function despuesDeImprimir(resultado) {
   guardado.impresos = null;
-  consultar();
+  const impresos = new Set((resultado?.impresos || []).map(String));
+
+  if (impresos.size) {
+    const quitar = lista => lista.filter(f => !impresos.has(f.id));
+    const g = guardado.pendientes;
+    if (g) {
+      g.pedidos = quitar(g.pedidos);
+      g.sinConfirmar = quitar(g.sinConfirmar);
+      impresos.forEach(id => g.crudos.delete(id));
+    }
+    if (modo === 'pendientes') {
+      pedidos = quitar(pedidos);
+      sinConfirmar = quitar(sinConfirmar);
+      impresos.forEach(id => { crudos.delete(id); seleccion.delete(id); });
+      estadoConsulta = mensajeLista();
+      dibujar();
+    }
+  }
+
+  consultar({ enFondo: true });
 }
 
 // ---------- tabla ----------

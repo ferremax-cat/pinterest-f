@@ -81,6 +81,10 @@
 .ih-obs-item b { flex: none; min-width: 10mm; text-align: right; }
 .ih-obs-cod { flex: none; font-weight: 700; }
 .ih-obs-nom { overflow: hidden; text-overflow: ellipsis; }
+/* Articulo con foto (OBS_CON_FOTO): renglon de MM.obsFilaFoto, foto de 10 mm */
+.ih-obs-item.ih-obs-item-foto { height: var(--ih-obs-fila-foto); }
+.ih-obs-item-foto .ih-foto { flex: none; width: 10mm; height: 10mm; }
+.ih-obs-item-foto .ih-sinfoto { font-size: 4.5pt; overflow: hidden; }
 .ih-solo-obs { padding: 0 1.5mm; border: .4mm solid #000; font-weight: 800; }
 
 /* Facturacion: renglones de la misma tabla de articulos */
@@ -92,6 +96,13 @@
 .ih-tabla tr.ih-obs-lado-fact,
 .ih-tabla tr.ih-obs-nota-fact { height: var(--ih-piso-fact); }
 .ih-tabla tr.ih-obs-lado-fact td { font-size: 6.5pt; font-weight: 700; text-transform: uppercase; }
+
+/* Facturacion de un pedido solo de observaciones: en lugar de los totales */
+.ih-totales.ih-totales-solo-obs { align-items: center; }
+.ih-totales > .ih-solo-obs-cierre {
+  width: auto; padding: 2mm 6mm; border: .6mm solid #000;
+  font-size: 11pt; font-weight: 800; letter-spacing: .06em;
+}
 
 /* Pedido del cliente de prueba: marca de agua en diagonal sobre toda la hoja.
    Absoluta, asi no ocupa lugar y el paginado no cambia. Texto y borde en gris

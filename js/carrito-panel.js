@@ -400,6 +400,14 @@ function vistaVendedor() {
       <span class="cp-cupo-num" style="color:${exc > 0 ? ROJO : VERDE}">${fmt(Math.abs(exc))}</span>
     </div>`;
 
+  // Observaciones: debajo de los articulos; sin articulos, ocupan el lugar de la lista
+  const bloqueObs = conObs ? `
+      <div class="cp-obs${lineas.length ? '' : ' cp-obs-solo'}">
+        ${lineas.length ? '' : '<p class="cp-solo-obs">Pedido solo de observaciones: sin artículos.</p>'}
+        ${Obs.htmlLista(config, obsLista)}
+        <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
+      </div>` : '';
+
   return `
     <div class="cp-caja">
       <div class="cp-cab">
@@ -410,12 +418,8 @@ function vistaVendedor() {
         <button class="cp-cerrar" title="Cerrar">&times;</button>
       </div>
       ${lineas.length ? cabecera : ''}
-      <div class="cp-lista">${lineas.length ? filas : '<div class="cp-vacio cp-solo-obs">Pedido solo de observaciones: sin artículos.</div>'}</div>
-      ${conObs ? `
-      <div class="cp-obs">
-        ${Obs.htmlLista(config, obsLista)}
-        <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
-      </div>` : ''}
+      <div class="cp-lista">${lineas.length ? filas : bloqueObs}</div>
+      ${lineas.length ? bloqueObs : ''}
       <div class="cp-pie">
         <div class="cp-desc-total">
           <span class="cp-total-rot">Al total</span>
@@ -441,8 +445,9 @@ function vistaVendedor() {
         <div class="cp-pie-abajo">
           <div>
             <div>
+              ${lineas.length ? `
               <span class="cp-total-rot">Total</span>
-              <span class="cp-total-num">${fmt(tot.neto)}</span>
+              <span class="cp-total-num">${fmt(tot.neto)}</span>` : '<span class="cp-total-solo-obs">Solo observaciones</span>'}
             </div>
             ${tot.descGlobal !== 0 ? `<p class="cp-ref-total">de lista ${fmt(tot.aLista)} · <b>${tot.descGlobal > 0 ? '-' : '+'}${Math.abs(tot.descGlobal)}% efectivo</b></p>` : ''}
           </div>

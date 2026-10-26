@@ -29,6 +29,26 @@ export function abrirHoja({ titulo = '', alCerrar } = {}) {
     </div>`;
   document.body.appendChild(fondo);
 
+  // Celular: la hoja ocupa solo lo que queda visible por encima del teclado,
+  // asi el buscador y los primeros resultados nunca quedan tapados (ni el
+  // iPhone ni Chrome en Android achican la pagina al abrir el teclado: solo
+  // cambia visualViewport). En la computadora queda como siempre (css)
+  const caja = fondo.querySelector('.hj-caja');
+  const vv = window.visualViewport;
+  function ajustarAlTeclado() {
+    if (!vv || esAncha()) {
+      fondo.style.top = fondo.style.bottom = fondo.style.height = caja.style.height = '';
+      return;
+    }
+    fondo.style.top = vv.offsetTop + 'px';
+    fondo.style.bottom = 'auto';
+    fondo.style.height = vv.height + 'px';
+    caja.style.height = '100%';
+  }
+  vv?.addEventListener('resize', ajustarAlTeclado);
+  vv?.addEventListener('scroll', ajustarAlTeclado);
+  ajustarAlTeclado();
+
   const foco = document.activeElement;
   const h = {
     cuerpo: fondo.querySelector('.hj-cuerpo'),
@@ -49,6 +69,8 @@ export function abrirHoja({ titulo = '', alCerrar } = {}) {
     if (abierta !== h) return;
     abierta = null;
     document.removeEventListener('keydown', alTeclado, true);
+    vv?.removeEventListener('resize', ajustarAlTeclado);
+    vv?.removeEventListener('scroll', ajustarAlTeclado);
     fondo.remove();
     foco?.focus?.();
     alCerrar?.();

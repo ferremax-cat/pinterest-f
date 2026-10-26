@@ -18,6 +18,10 @@ const DESCARGAS_SIMULTANEAS = 8;
 // Preparacion y facturacion en una sola hoja solo si sobra este margen
 const MARGEN_HOJA_UNICA = 0.92;
 
+// Observaciones cuyos articulos llevan foto en la hoja de preparacion (las
+// que el deposito prepara para el cliente). Para sumar otra, agregar su codigo
+const OBS_CON_FOTO = ['113', '115'];
+
 const PISO_PB = 'PLANTA BAJA';
 const PISO_1 = '1ER PISO';
 const PISO_SIN = 'SIN UBICACIÓN';
@@ -91,7 +95,7 @@ const MM = {
   firmasFact: 14, separador: 8, reimp: 9,
   // Recuadro de observaciones: titulo (con su margen y bordes) y cada renglon
   // en preparacion; en facturacion, el titulo de cada observacion
-  obsCab: 8, obsFila: 5, obsTitFact: 4.5,
+  obsCab: 8, obsFila: 5, obsFilaFoto: 12, obsTitFact: 4.5,
   // Titulo de piso en facturacion: un renglon fino, mas bajo que una linea
   pisoFact: 4
 };
@@ -195,6 +199,14 @@ function skusDe(pedidos) {
   pedidos.forEach(p => (p.lineas || []).forEach(l => {
     const sku = normSku(l.sku);
     if (sku) skus.add(sku);
+  }));
+  // Y los articulos de las observaciones con foto en la preparacion
+  pedidos.forEach(p => (p.observaciones || []).forEach(o => {
+    if (!OBS_CON_FOTO.includes(String(o.codigo).trim())) return;
+    (o.items || []).forEach(it => {
+      const sku = normSku(it.sku);
+      if (sku) skus.add(sku);
+    });
   }));
   return [...skus];
 }
@@ -380,13 +392,18 @@ function filasObservaciones(obs) {
         if (del.length) filas.push({ tipo: 'obsLado', texto: LADO_OBS[lado] }, ...del.map(it => ({ tipo: 'obsItem', o, it })));
       });
     } else {
-      filas.push(...items.map(it => ({ tipo: 'obsItem', o, it })));
+      // foto: solo la usa la preparacion (OBS_CON_FOTO); la facturacion la ignora
+      const foto = OBS_CON_FOTO.includes(String(o.codigo).trim());
+      filas.push(...items.map(it => ({ tipo: 'obsItem', o, it, foto })));
     }
     return filas;
   });
 }
 
 const esTituloObs = f => f.tipo === 'obsTit' || f.tipo === 'obsLado';
+
+/** Alto de un renglon del recuadro de preparacion: con foto o sin foto */
+const altoFilaObs = f => (f.tipo === 'obsItem' && f.foto ? MM.obsFilaFoto : MM.obsFila);
 
 // ---------- paginado ----------
 
@@ -412,11 +429,24 @@ function paginarPrep(pisos, conObs, conReimp, filasObs = []) {
   let k = 0;
   let sigue = false;
   while (k < filasObs.length) {
-    let n = Math.min(filasObs.length - k, Math.floor((MM.hoja - hoja.usado - MM.obsCab) / MM.obsFila));
-    if (n < 1) { hoja = nueva(false); continue; }
-    while (k + n < filasObs.length && n > 1 && esTituloObs(filasObs[k + n - 1])) n--;
-    hoja.bloques.push({ tipo: 'obs', filas: filasObs.slice(k, k + n), continua: sigue });
-    hoja.usado += MM.obsCab + n * MM.obsFila;
+    const libre = MM.hoja - hoja.usado - MM.obsCab;
+    let n = 0;
+    let alto = 0;
+    while (k + n < filasObs.length && alto + altoFilaObs(filasObs[k + n]) <= libre) {
+      alto += altoFilaObs(filasObs[k + n]);
+      n++;
+    }
+    if (n < 1) {
+      // Resguardo: en una hoja recien empezada siempre entra un renglon
+      if (!hoja.bloques.length && !hoja.primera) { n = 1; alto = altoFilaObs(filasObs[k]); }
+      else { hoja = nueva(false); continue; }
+    }
+    while (k + n < filasObs.length && n > 1 && esTituloObs(filasObs[k + n - 1])) {
+      n--;
+      alto -= altoFilaObs(filasObs[k + n]);
+    }
+    hoja.bloques.push({ tipo: 'obs', filas: filasObs.slice(k, k + n), continua: sigue, alto });
+    hoja.usado += MM.obsCab + alto;
     k += n;
     sigue = true;
     if (k < filasObs.length) hoja = nueva(false);
@@ -555,11 +585,14 @@ function htmlObsPrep(b) {
         `${EFECTO_OBS[f.o.efecto] ? ` <span>· ${EFECTO_OBS[f.o.efecto]}</span>` : ''}</div>`;
     }
     if (f.tipo === 'obsLado') return `<div class="ih-obs-lado">${esc(f.texto)}</div>`;
-    // Cuadradito para tildar en el deposito, como OK en los articulos
-    return `<div class="ih-obs-item"><i></i><b>${fmtNum(f.it.cantidad)}</b>` +
+    // Cuadradito para tildar en el deposito, como OK en los articulos; en
+    // las de OBS_CON_FOTO, con la foto (la misma de la grilla)
+    return `<div class="ih-obs-item${f.foto ? ' ih-obs-item-foto' : ''}"><i></i>${f.foto ? htmlFoto(f.it.sku) : ''}` +
+      `<b>${fmtNum(f.it.cantidad)}</b>` +
       `<span class="ih-obs-cod">${esc(f.it.sku)}</span><span class="ih-obs-nom">${esc(f.it.nombre)}</span></div>`;
   }).join('');
-  return `<div class="ih-obs-caja" style="height:calc(var(--ih-obs-cab) - 1.5mm + var(--ih-obs-fila) * ${b.filas.length})">
+  // Alto: el titulo mas la suma de los renglones, la misma que midio paginarPrep
+  return `<div class="ih-obs-caja" style="height:calc(var(--ih-obs-cab) - 1.5mm + ${b.alto}mm)">
     <div class="ih-obs-caja-tit">OBSERVACIONES${b.continua ? ' <span>· continúa</span>' : ''}</div>${filas}</div>`;
 }
 
@@ -698,13 +731,19 @@ function htmlCierreFact(t) {
   const desc = t.pct || t.descuento
     ? `Descuento sobre el total (${pcts}, no alcanza a las promociones)`
     : 'Descuento sobre el total';
-  return `
-    <div class="ih-totales">
+  // Pedido solo de observaciones: sin articulos no hay totales. Mismo alto
+  // (MM.totales), asi el paginado no cambia. En la etapa 2 aca va el resumen
+  // de importes de las observaciones
+  const totales = t.soloObs
+    ? `<div class="ih-totales ih-totales-solo-obs"><div class="ih-solo-obs-cierre">PEDIDO SOLO DE OBSERVACIONES</div></div>`
+    : `<div class="ih-totales">
       <div><span>Total bruto</span><b>${fmtPesos(t.bruto)}</b></div>
       <div><span>Líneas en promoción</span><b>${fmtPesos(t.promo)}</b></div>
       <div><span>${desc}</span><b>${t.descuento ? '−' + fmtPesos(t.descuento) : '—'}</b></div>
       <div class="ih-neto"><span>TOTAL NETO</span><b>${fmtPesos(t.neto)}</b></div>
-    </div>
+    </div>`;
+  return `
+    ${totales}
     <div class="ih-firmas-fact">
       <div class="ih-caja"><span>FACTURÓ</span></div>
       <div class="ih-caja"><span>N° DE FACTURA</span></div>
@@ -777,7 +816,8 @@ function armarPedido(p, reimpresion) {
     pct: Number(p.descTotalPct) || 0,
     extra: Number(p.descTotalExtraPct) || 0,
     // Igual a lo que guardo el servidor
-    descuento: Math.round((bruto - neto) * 100) / 100
+    descuento: Math.round((bruto - neto) * 100) / 100,
+    soloObs: c.soloObs
   };
 
   const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion, filasObs);
@@ -883,8 +923,10 @@ function cerrar() {
 
   // Al terminar o cancelar: la bandeja se actualiza con lo que se marco
   const alTerminar = opciones.alTerminar;
+  const impresos = [...impresosConfirmados];
   opciones = {};
-  alTerminar?.();
+  impresosConfirmados = new Set();
+  alTerminar?.({ impresos });
 }
 
 /**
@@ -916,12 +958,17 @@ let infoTanda = { hojas: 0, porPedido: new Map() };
 // alTerminar: se llama al cerrar, haya terminado o se haya cancelado
 let opciones = {};
 
+// Ids que el servidor confirmo como impresos en esta impresion (todas sus
+// tandas): al cerrar se le pasan a la bandeja para sacarlos de Pendientes
+let impresosConfirmados = new Set();
+
 /** Arma e imprime los pedidos elegidos, en tandas de TAMANO_TANDA. */
 export function imprimir(pedidos, opc = {}) {
   pedidos = (pedidos || []).filter(Boolean);
   if (!pedidos.length || trabajando) return;
 
   opciones = opc;
+  impresosConfirmados = new Set();
   tandas = [];
   for (let i = 0; i < pedidos.length; i += TAMANO_TANDA) {
     tandas.push(pedidos.slice(i, i + TAMANO_TANDA));
@@ -1152,6 +1199,7 @@ export function confirmarExistentes(pedido, opc = {}) {
   if (!pedido || trabajando) return;
 
   opciones = opc;
+  impresosConfirmados = new Set();
   tandas = [[pedido]];
   tandaActual = 0;
 
@@ -1342,6 +1390,11 @@ async function marcarTanda(ctx) {
   const yaMarcados = Number(d.yaMarcados) || 0;
   const yaPropios = Number(d.yaPropios) || 0;
   const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
+
+  // Marcados ahora, ya marcados por esta persona o por otra: todos quedan
+  // impresos en el servidor. Los no encontrados, no
+  const sinEncontrar = new Set(noEncontrados.map(String));
+  ids.filter(id => !sinEncontrar.has(id)).forEach(id => impresosConfirmados.add(id));
 
   console.log(`[Hojas] Marcado tanda ${n}/${total}: ${ids.length} pedidos en ` +
     `${Math.round(performance.now() - t0)} ms · marcados ${marcados} · ya marcados ${yaMarcados}` +

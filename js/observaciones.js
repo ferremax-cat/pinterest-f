@@ -33,6 +33,28 @@ const sinAcentos = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '')
 const nuevoId = () => 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const fmtPesos = n => '$' + Number(n).toLocaleString('es-AR', { maximumFractionDigits: 2 });
 
+// Fotos de los articulos: el mapa codigo -> id de Drive que la pagina ya
+// cargo (catalogo_imagenes.json, una sola vez). Se pide al importar, asi al
+// abrir la hoja ya esta en memoria; las fotos se bajan con carga diferida
+const SIN_FOTO = 'img/no-img.png';
+let fotos = {};
+const fotosListas = (window.DatosCatalogo ? window.DatosCatalogo.imagenes() : Promise.resolve({}))
+  .then(j => { fotos = j?.images || {}; })
+  .catch(() => {});
+
+const urlFoto = sku => (fotos[sku] ? 'https://lh3.googleusercontent.com/d/' + fotos[sku] + '=w120' : SIN_FOTO);
+
+/** Miniatura: si el mapa todavia no estaba, ponerFotos la completa al llegar */
+const htmlFoto = sku => `<img class="ob-foto" data-sku="${esc(sku)}" src="${esc(urlFoto(sku))}" alt=""
+  loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${SIN_FOTO}'">`;
+
+function ponerFotos(cont) {
+  cont.querySelectorAll('img.ob-foto[data-sku]').forEach(img => {
+    const url = urlFoto(img.dataset.sku);
+    if (url !== SIN_FOTO && !img.src.endsWith(url)) img.src = url;
+  });
+}
+
 /** La lista de la planilla, o null si el servidor todavia no la manda */
 export function catalogo(config) {
   return Array.isArray(config?.catalogoObservaciones) ? config.catalogoObservaciones : null;
@@ -63,10 +85,11 @@ export function falta(def, o) {
   if (!def) return 'ya no está en la lista';
   if (def.grupo !== 'mercaderia') return '';
   if (!o.items.length) return 'faltan artículos';
-  if (o.items.some(it => !(Number(it.cantidad) > 0))) return 'falta una cantidad';
-  if (def.efecto === 'ajuste' && LADOS.some(l => !o.items.some(it => it.lado === l.lado))) {
-    return 'faltan artículos en los dos lados';
+  if (def.efecto === 'ajuste') {
+    const sinCargar = LADOS.find(l => !o.items.some(it => it.lado === l.lado));
+    if (sinCargar) return sinCargar.lado === 'facturado' ? 'falta cargar lo facturado' : 'falta cargar lo que correspondía';
   }
+  if (o.items.some(it => !(Number(it.cantidad) > 0))) return 'falta una cantidad';
   return '';
 }
 
@@ -121,29 +144,31 @@ export function abrirSelector(config, { alAgregar }) {
       <span class="ob-efecto">${esc(EFECTO_TEXTO[d.efecto] || '')}</span>
     </button>`;
 
-  function pintar() {
-    const q = sinAcentos(campo.value);
+  // Secciones en el orden en que se ven: sin nada escrito, las mas usadas
+  // arriba; despues las que coinciden, por grupo
+  function secciones(q) {
     const coinciden = defs.filter(d => !q || sinAcentos(d.codigo).startsWith(q) || sinAcentos(d.texto).includes(q));
-    if (!coinciden.length) {
-      cont.innerHTML = '<p class="ob-vacio">Ninguna observación coincide.</p>';
-      return;
-    }
-    let html = '';
+    const res = [];
     if (!q) {
       const usadas = defs.filter(d => u[d.clave]).sort((a, b) => u[b.clave] - u[a.clave]).slice(0, 3);
-      if (usadas.length) html += '<p class="ob-seccion">Más usadas</p>' + usadas.map(fila).join('');
+      if (usadas.length) res.push(['Más usadas', usadas]);
     }
     [['mercaderia', 'Mercadería'], ['condiciones', 'Condiciones']].forEach(([g, titulo]) => {
       const del = coinciden.filter(d => d.grupo === g);
-      if (del.length) html += `<p class="ob-seccion">${titulo}</p>` + del.map(fila).join('');
+      if (del.length) res.push([titulo, del]);
     });
-    cont.innerHTML = html;
+    return res;
   }
 
-  campo.addEventListener('input', pintar);
-  cont.addEventListener('click', e => {
-    const def = defs.find(d => d.clave === e.target.closest('.ob-opcion')?.dataset.clave);
-    if (!def) return;
+  function pintar() {
+    const s = secciones(sinAcentos(campo.value));
+    cont.innerHTML = s.length
+      ? s.map(([titulo, lista]) => `<p class="ob-seccion">${titulo}</p>` + lista.map(fila).join('')).join('')
+      : '<p class="ob-vacio">Ninguna observación coincide.</p>';
+  }
+
+  /** Condiciones: se agrega. Mercaderia: pasa a la carga de articulos, en la misma hoja */
+  function elegir(def) {
     const nueva = { id: nuevoId(), clave: def.clave, items: [] };
     if (def.grupo !== 'mercaderia') {
       h.cerrar();
@@ -151,10 +176,28 @@ export function abrirSelector(config, { alAgregar }) {
       return;
     }
     editarEn(h, def, nueva, { alGuardar: o => { h.cerrar(); alAgregar(o); } });
+  }
+
+  campo.addEventListener('input', pintar);
+  // Enter: la del codigo exacto ("116") o, si no, la primera que se ve. Con
+  // el buscador vacio no hace nada: un Enter sin querer no agrega ninguna
+  campo.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    const q = sinAcentos(campo.value);
+    if (!q) return;
+    const def = defs.find(d => d.codigo && sinAcentos(d.codigo) === q) || secciones(q)[0]?.[1][0];
+    if (def) elegir(def);
+  });
+  cont.addEventListener('click', e => {
+    const def = defs.find(d => d.clave === e.target.closest('.ob-opcion')?.dataset.clave);
+    if (def) elegir(def);
   });
 
   pintar();
-  if (esAncha()) campo.focus();
+  // Cursor en el buscador, tambien en el celular: la hoja se abre desde un
+  // toque, y dentro de ese toque el celular si abre el teclado
+  campo.focus();
 }
 
 /** Hoja para revisar, corregir o quitar una observacion ya agregada */
@@ -191,6 +234,7 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     if (!del.length) return '<p class="ob-sin-art">Todavía no hay artículos.</p>';
     return del.map(({ it, k }) => `
       <div class="ob-item">
+        ${htmlFoto(it.sku)}
         <div class="ob-item-desc">
           <p class="ob-item-nom">${esc(it.nombre || it.sku)}</p>
           <p class="ob-item-cod">${esc(it.sku)}</p>
@@ -215,7 +259,7 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
             placeholder="Agregar artículo: código o palabra" aria-label="Agregar artículo a ${esc(l.titulo)}">
           <div class="ob-art-res" data-lado="${l.lado}"></div>
         </section>`).join('') +
-        (error ? `<p class="ob-error" role="alert">${esc(error)}</p>` : '');
+        (error ? `<p class="ob-error" role="alert">${esc(error.charAt(0).toUpperCase() + error.slice(1))}.</p>` : '');
     }
     h.pie.hidden = false;
     h.pie.innerHTML =
@@ -253,8 +297,43 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     if (n !== consultas[lado]) return;
     res.innerHTML = encontrados.length ? encontrados.map(a => `
       <button type="button" class="ob-art" data-sku="${esc(a.sku)}" data-nombre="${esc(a.nombre)}">
-        ${esc(a.nombre || a.sku)}<small>${esc(a.sku)}</small>
+        ${htmlFoto(a.sku)}
+        <span>${esc(a.nombre || a.sku)}<small>${esc(a.sku)}</small></span>
       </button>`).join('') : '<p class="ob-sin-art">Ningún artículo coincide.</p>';
+  });
+
+  // Enter en el buscador de articulos: agrega el primer resultado (se busca
+  // de nuevo, en memoria: vale aunque la lista todavia no se haya dibujado)
+  h.cuerpo.addEventListener('keydown', async e => {
+    const campo = e.target.closest('.ob-art-buscar');
+    if (!campo || e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    const q = campo.value.trim();
+    if (!q) return;
+    const [primero] = await buscarArticulos(q);
+    // Si mientras tanto se escribio otra cosa o se cerro la hoja, no se agrega
+    if (!primero || !campo.isConnected || campo.value.trim() !== q) return;
+    agregar(campo.dataset.lado, primero.sku, primero.nombre);
+  });
+
+  // Enter en la cantidad (ya cargada): el cursor vuelve al buscador del mismo
+  // lado, para cargar varios seguidos solo con el teclado (codigo, Enter,
+  // cantidad, Enter...). Sin una cantidad valida, se queda para completarla
+  h.cuerpo.addEventListener('keydown', e => {
+    const cant = e.target.closest('.ob-cant');
+    if (!cant || e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    if (!(Number(cant.value) > 0)) return;
+    const lado = o.items[cant.dataset.k]?.lado || '';
+    h.cuerpo.querySelector(`.ob-art-buscar[data-lado="${lado}"]`)?.focus();
+  });
+
+  // Celular: al entrar a un buscador, que quede arriba de lo visible, con
+  // lugar para los resultados (se espera a que termine de abrir el teclado)
+  h.cuerpo.addEventListener('focusin', e => {
+    const campo = e.target.closest('.ob-art-buscar');
+    if (!campo || esAncha()) return;
+    setTimeout(() => { if (document.activeElement === campo) campo.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 300);
   });
 
   h.cuerpo.addEventListener('click', e => {
@@ -281,5 +360,11 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     }
   });
 
-  pintar(esAncha() ? '.ob-art-buscar' : null);
+  // Cursor en el buscador de articulos al cargar una nueva (tambien en el
+  // celular). Al revisar una ya cargada (alQuitar), en el celular sin
+  // teclado: tapara la mitad de los articulos que se quieren revisar
+  const revisando = !!alQuitar;
+  pintar(!revisando || esAncha() ? '.ob-art-buscar' : null);
+  // Si el mapa de fotos todavia no habia llegado, se completan al llegar
+  fotosListas.then(() => ponerFotos(h.cuerpo));
 }

@@ -25,7 +25,10 @@
   color: #374151; font-size: 13px; font-weight: 600; cursor: pointer;
 }
 .cp-vacio .cp-obs-agregar { display: block; margin: 14px auto 0; }
-.cp-solo-obs { color: #92400e; }
+/* Pedido solo de observaciones: el bloque va dentro de la lista y ocupa su lugar */
+.cp-obs.cp-obs-solo { max-height: none; overflow: visible; padding: 12px 0; border-top: none; }
+.cp-solo-obs { margin: 0 0 4px; color: #92400e; font-size: 13px; font-weight: 600; }
+.cp-total-solo-obs { font-size: 15px; font-weight: 700; color: #92400e; }
 
 /* Celular angosto (358px): el detalle pasa abajo del texto */
 @media (max-width: 400px) {
@@ -55,8 +58,13 @@
 .ob-lado { margin-top: 14px; }
 .ob-lado-tit { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
 .ob-item {
-  display: grid; grid-template-columns: minmax(0, 1fr) 68px 36px; align-items: center; gap: 8px;
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) 68px 36px; align-items: center; gap: 8px;
   padding: 8px 0; border-bottom: 1px solid #f0f0f0;
+}
+/* Miniatura: confirma que se eligio el articulo correcto */
+.ob-foto {
+  width: 44px; height: 44px; object-fit: contain;
+  border: 1px solid #eee; border-radius: 6px; background: #fafafa;
 }
 .ob-item-nom { margin: 0; font-size: 14px; line-height: 1.25; overflow-wrap: anywhere; }
 .ob-item-cod { margin: 2px 0 0; font-size: 12px; color: #6b7280; }
@@ -68,10 +76,12 @@
 .ob-item-quitar { width: 36px; height: 36px; border: none; background: none; font-size: 20px; color: #9ca3af; cursor: pointer; }
 .ob-art-buscar { margin-top: 8px; }
 .ob-art {
-  display: block; width: 100%; min-height: 44px; padding: 6px 4px;
+  display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 10px;
+  width: 100%; min-height: 52px; padding: 4px;
   border: none; border-bottom: 1px solid #f0f0f0; background: #fff;
   text-align: left; font-size: 14px; color: #1f2937; cursor: pointer;
 }
+.ob-art span { overflow-wrap: anywhere; }
 .ob-art small { display: block; color: #6b7280; font-size: 12px; }
 .ob-sin-art { margin: 6px 0; color: #6b7280; font-size: 13px; }
 .ob-error { margin: 12px 0 0; color: #dc2626; font-size: 13px; font-weight: 600; }
