@@ -179,10 +179,19 @@ function aFila(p) {
     vendedor: p.vendedor ?? '',
     // lineas es la lista de articulos: la cantidad viene aparte
     cantLineas: Number(p.cantLineas) || 0,
+    // Observaciones nuevas: "Solo obs." sin articulos, "+ obs." con articulos
+    nObs: Array.isArray(p.observaciones) ? p.observaciones.length : 0,
     totalNeto: fmtPesos(p.totalNeto),
     fechaImpresion: fmtFechaHora(p.fechaImpresion),
     impresoPor: p.impresoPor || '—'
   };
+}
+
+/** Celda de lineas: cantidad, o "Solo obs." en un pedido solo de observaciones */
+function htmlLineas(p) {
+  if (!p.cantLineas && p.nObs) return '<span class="im-solo-obs">Solo obs.</span>';
+  return `${p.cantLineas}<span class="im-solo-cel"> ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span>` +
+    (p.nObs ? ' <span class="im-con-obs" title="Con observaciones">+ obs.</span>' : '');
 }
 
 // ---------- sesion ----------
@@ -381,14 +390,37 @@ async function consultar({ enFondo = false } = {}) {
 }
 
 /**
- * Despues de imprimir o confirmar desde Pendientes: lo guardado de Impresos
- * queda viejo (le faltan los recien impresos), asi que se descarta y la
- * proxima vez que se entre se espera la lista nueva. Pendientes se vacia y
- * se espera, para que los recien marcados desaparezcan enseguida
+ * Despues de imprimir o confirmar desde Pendientes: los que el servidor
+ * confirmo como impresos salen de Pendientes en el momento (de la lista, de
+ * lo guardado y de la seleccion), sin esperar al servidor, y la lista se
+ * actualiza en segundo plano para traer los pedidos nuevos. Lo guardado de
+ * Impresos queda viejo (le faltan los recien impresos): se descarta.
+ * La consulta nueva deja sin efecto cualquier otra que estuviera en curso
+ * (ultimaConsulta), asi una respuesta anterior a la marcacion no vuelve a
+ * mostrar un pedido ya impreso.
  */
-function despuesDeImprimir() {
+function despuesDeImprimir(resultado) {
   guardado.impresos = null;
-  consultar();
+  const impresos = new Set((resultado?.impresos || []).map(String));
+
+  if (impresos.size) {
+    const quitar = lista => lista.filter(f => !impresos.has(f.id));
+    const g = guardado.pendientes;
+    if (g) {
+      g.pedidos = quitar(g.pedidos);
+      g.sinConfirmar = quitar(g.sinConfirmar);
+      impresos.forEach(id => g.crudos.delete(id));
+    }
+    if (modo === 'pendientes') {
+      pedidos = quitar(pedidos);
+      sinConfirmar = quitar(sinConfirmar);
+      impresos.forEach(id => { crudos.delete(id); seleccion.delete(id); });
+      estadoConsulta = mensajeLista();
+      dibujar();
+    }
+  }
+
+  consultar({ enFondo: true });
 }
 
 // ---------- tabla ----------
@@ -424,7 +456,7 @@ function dibujar() {
       <td class="im-num c-cuenta">${esc(p.cuenta)}</td>
       <td class="c-cliente">${esc(nombreDe(p))}</td>
       <td class="c-vendedor">${esc(p.vendedor)}</td>
-      <td class="im-num c-lineas">${p.cantLineas}<span class="im-solo-cel"> ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span></td>
+      <td class="im-num c-lineas">${htmlLineas(p)}</td>
       <td class="im-num c-total">${esc(p.totalNeto)}</td>
       ${impresos ? `<td class="c-impreso">${esc(p.fechaImpresion)}</td><td class="c-impreso-por">${esc(p.impresoPor)}</td>` : ''}
     </tr>`).join('');
@@ -514,7 +546,7 @@ function dibujarSinConfirmar() {
           <b class="im-sc-numero">N° ${esc(p.numero)}</b>
           <span class="im-sc-cliente">${esc(nombreDe(p))}</span>
           <span class="im-sc-meta">Cuenta ${esc(p.cuenta)} · Vendedor ${esc(p.vendedor)} ·
-            ${p.cantLineas} ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span>
+            ${!p.cantLineas && p.nObs ? 'solo observaciones' : `${p.cantLineas} ${p.cantLineas === 1 ? 'línea' : 'líneas'}${p.nObs ? ' + obs.' : ''}`}</span>
         </p>
         <p class="im-sc-intento">Se mandó a imprimir el ${esc(p.intentoFecha)} a las ${esc(p.intentoHora)}${
           p.intentoPor ? ` (${esc(p.intentoPor)})` : ''}. No se confirmó si salió.</p>

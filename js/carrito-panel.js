@@ -8,7 +8,10 @@
  * El precio se pide siempre a js/precios.js. Este modulo solo dibuja.
  */
 
+import * as Obs from './observaciones.js';
+
 const fmt = n => '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 2 });
+const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const VERDE = '#16a34a';
 const NARANJA = '#ff9404';
@@ -296,9 +299,13 @@ function vistaVendedor() {
   const tot = window.Carrito.totales();
   const aj = window.Carrito.getAjustePedido(); 
     // En una revision, marcar lo que el cliente no habia pedido
-  const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null; 
+  const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null;
+  // Observaciones nuevas: solo si el servidor manda la lista (si no, el select de antes)
+  const conObs = Obs.catalogo(config) !== null;
+  const obsLista = conObs ? (aj.observaciones || []) : [];
 
-  if (!lineas.length) return cajaVacia(cliente?.nombre || '');
+  // Con observaciones el pedido se puede confirmar aunque no tenga articulos
+  if (!lineas.length && !obsLista.length) return cajaVacia(cliente?.nombre || '', conObs);
 
   let acum = 0;
   let hayRojo = false;
@@ -368,7 +375,7 @@ function vistaVendedor() {
   // Sin cupo: o fallo la consulta (aviso con Reintentar) o se esta
   // consultando. En ese ultimo caso, si nadie lo pidio todavia para este
   // cliente, se consulta una sola vez
-  if (disponible === null && !cupoFallido() && !consultandoCupo) {
+  if (lineas.length && disponible === null && !cupoFallido() && !consultandoCupo) {
     const cuenta = String(cliente?.cuenta ?? '');
     if (consultaAutoDe !== cuenta) {
       consultaAutoDe = cuenta;
@@ -393,17 +400,26 @@ function vistaVendedor() {
       <span class="cp-cupo-num" style="color:${exc > 0 ? ROJO : VERDE}">${fmt(Math.abs(exc))}</span>
     </div>`;
 
+  // Observaciones: debajo de los articulos; sin articulos, ocupan el lugar de la lista
+  const bloqueObs = conObs ? `
+      <div class="cp-obs${lineas.length ? '' : ' cp-obs-solo'}">
+        ${lineas.length ? '' : '<p class="cp-solo-obs">Pedido solo de observaciones: sin artículos.</p>'}
+        ${Obs.htmlLista(config, obsLista)}
+        <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
+      </div>` : '';
+
   return `
     <div class="cp-caja">
       <div class="cp-cab">
         <div>
           <p class="cp-titulo">${cliente?.nombre || 'Pedido'}</p>
-          <p class="cp-sub-titulo">${cliente ? 'Lista ' + cliente.lista + ' · ' : ''}${lineas.length} artículo${lineas.length !== 1 ? 's' : ''}</p>
+          <p class="cp-sub-titulo">${cliente ? 'Lista ' + cliente.lista + ' · ' : ''}${lineas.length} artículo${lineas.length !== 1 ? 's' : ''}${obsLista.length ? ` · ${obsLista.length} obs.` : ''}</p>
         </div>
         <button class="cp-cerrar" title="Cerrar">&times;</button>
       </div>
-      ${cabecera}
-      <div class="cp-lista">${filas}</div>
+      ${lineas.length ? cabecera : ''}
+      <div class="cp-lista">${lineas.length ? filas : bloqueObs}</div>
+      ${lineas.length ? bloqueObs : ''}
       <div class="cp-pie">
         <div class="cp-desc-total">
           <span class="cp-total-rot">Al total</span>
@@ -418,18 +434,20 @@ function vistaVendedor() {
             y además -${window.Carrito.DESC_EXTRA}%
           </label>` : ''}
           ${tot.descuentoExtra ? `<span class="cp-ref">= -${tot.descuentoCombinado.toLocaleString('es-AR')}% al total</span>` : ''}
+          ${conObs ? '' : `
           <select class="cp-obs-pedido">
             <option value="">Sin observación</option>
             ${(config?.observaciones || []).map(o =>
-              `<option value="${o}" ${aj.motivo === o ? 'selected' : ''}>${o}</option>`).join('')}
-          </select>
+              `<option value="${escHtml(o)}" ${aj.motivo === o ? 'selected' : ''}>${escHtml(o)}</option>`).join('')}
+          </select>`}
           ${tot.enPromo ? `<span class="cp-nota-promo">${fmt(tot.enPromo)} en promoción, sin descuento</span>` : ''}
         </div>
         <div class="cp-pie-abajo">
           <div>
             <div>
+              ${lineas.length ? `
               <span class="cp-total-rot">Total</span>
-              <span class="cp-total-num">${fmt(tot.neto)}</span>
+              <span class="cp-total-num">${fmt(tot.neto)}</span>` : '<span class="cp-total-solo-obs">Solo observaciones</span>'}
             </div>
             ${tot.descGlobal !== 0 ? `<p class="cp-ref-total">de lista ${fmt(tot.aLista)} · <b>${tot.descGlobal > 0 ? '-' : '+'}${Math.abs(tot.descGlobal)}% efectivo</b></p>` : ''}
           </div>
@@ -490,7 +508,8 @@ function vistaCliente() {
     </div>`;
 }
 
-function cajaVacia(nombre) {
+// conObs: el vendedor puede armar un pedido solo de observaciones
+function cajaVacia(nombre, conObs) {
   return `
     <div class="cp-caja">
       <div class="cp-cab">
@@ -500,7 +519,8 @@ function cajaVacia(nombre) {
         </div>
         <button class="cp-cerrar" title="Cerrar">&times;</button>
       </div>
-      <div class="cp-vacio">Agregá productos desde el catálogo tocando el carrito de cada tarjeta.</div>
+      <div class="cp-vacio">Agregá productos desde el catálogo tocando el carrito de cada tarjeta.
+        ${conObs ? '<button type="button" class="cp-obs-agregar">+ Agregar observación</button>' : ''}</div>
     </div>`;
 }
 
@@ -593,6 +613,25 @@ function conectar(cont) {
     window.Carrito.setAjustePedido({ ...aj, motivo: e.target.value });
     dibujar();
   });
+
+  // Observaciones: la lista y la carga se abren en una hoja aparte, sin consultar al servidor
+  cont.querySelector('.cp-obs-agregar')?.addEventListener('click', () => {
+    Obs.abrirSelector(config, { alAgregar: o => cambiarObs(lista => [...lista, o]) });
+  });
+  cont.querySelectorAll('.cp-obs-linea').forEach(b => b.addEventListener('click', () => {
+    const o = (window.Carrito.getAjustePedido().observaciones || []).find(x => x.id === b.dataset.obs);
+    if (!o) return;
+    Obs.abrirEditor(config, o, {
+      alGuardar: nueva => cambiarObs(lista => lista.map(x => x.id === nueva.id ? nueva : x)),
+      alQuitar: () => cambiarObs(lista => lista.filter(x => x.id !== o.id))
+    });
+  }));
+}
+
+/** Cambia las observaciones del carrito en vista (setAjustePedido redibuja) */
+function cambiarObs(cambio) {
+  const aj = window.Carrito.getAjustePedido();
+  window.Carrito.setAjustePedido({ ...aj, observaciones: cambio(aj.observaciones || []) });
 }
 
 function abrirMenu(btn) {
@@ -730,7 +769,9 @@ let motivoPendiente = '';
 // Errores con los que el servidor rechaza el pedido antes de escribir nada
 const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado',
-  'rol_sin_permiso'];
+  'rol_sin_permiso', 'observaciones_no_permitidas', 'observaciones_invalidas',
+  'observacion_inactiva', 'observacion_sin_articulos', 'observacion_sin_cantidad',
+  'ajuste_incompleto', 'faltan_columnas_obs'];
 
 /**
  * Vista del carrito mientras no se sabe si el pedido se guardo: no permite
@@ -969,6 +1010,15 @@ async function confirmarPedido() {
       etapa = 'totales';
       const t = window.Carrito.totales();
       const aj = window.Carrito.getAjustePedido();
+
+      // Cada observacion completa antes de enviar (el servidor igual lo controla)
+      const obsPed = aj.observaciones || [];
+      const incompleta = obsPed.find(o => Obs.falta(Obs.defDe(config, o.clave), o));
+      if (incompleta) {
+        const def = Obs.defDe(config, incompleta.clave);
+        avisar(`Revisá la observación ${def ? Obs.nombreObs(def) : incompleta.clave}: ${Obs.falta(def, incompleta)}.`, 'error');
+        return;
+      }
       const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
 
       // En una revision, registrar de donde vino cada linea
@@ -981,7 +1031,8 @@ async function confirmarPedido() {
       pedido = {
         id: nuevoId(),
         cliente: esVend ? cli.cuenta : String(cd.account || ''),
-        lista: d.lista,
+        // Sin articulos, detalleVerificado no trae la lista: la del cliente en vista
+        lista: d.lista || cli?.lista || '',
         canal: 'app',
         idOrigen: window.Carrito.getOrigen() || '',
         revision: window.Carrito.getOrigen() ? 1 : 0,
@@ -991,8 +1042,14 @@ async function confirmarPedido() {
         descuentoExtra: t.descuentoExtra,
         totalNeto: t.neto,
         descEfectivoGlobal: t.descGlobal,
-        motivo: aj.motivo,
+        // Con la lista nueva, el resumen de motivo_obs lo arma el servidor
+        motivo: Obs.catalogo(config) ? '' : aj.motivo,
         obsLibre: aj.obsLibre,
+        // Solo clave, articulos y lado: texto, grupo y efecto los pone el servidor
+        observaciones: obsPed.map(o => ({
+          clave: o.clave,
+          items: o.items.map(it => ({ sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '' }))
+        })),
         lineas: d.lineas.map(l => ({
           sku: l.sku,
           nombre: l.nombre,
@@ -1064,7 +1121,8 @@ async function confirmarPedido() {
     window.Carrito.vaciar();
     // El pedido revisado deja de figurar como pendiente
     window.Revision?.consultarPendientes();
-    window.Carrito.setAjustePedido({ descuento: 0, motivo: '', obsLibre: '' });
+    window.Carrito.setAjustePedido({ descuento: 0, motivo: '', obsLibre: '', observaciones: [] });
+    Obs.registrarUsos(pedido.observaciones || []);
 
     const cont = document.getElementById('carrito-panel');
     cont.innerHTML = `
@@ -1074,7 +1132,7 @@ async function confirmarPedido() {
           <p class="cp-exito-tit">Pedido confirmado</p>
           <p class="cp-exito-num">N° ${resp.numero}</p>
           <p class="cp-exito-det">${nombreCli}</p>
-          <p class="cp-exito-total">${fmt(totalConfirmado)}</p>
+          <p class="cp-exito-total">${pedido.lineas.length ? fmt(totalConfirmado) : 'Solo observaciones'}</p>
           <button class="cp-cerrar-exito">Listo</button>
         </div>
       </div>`;
