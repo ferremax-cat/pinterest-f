@@ -130,7 +130,7 @@ function abrirPanel() {
     return `
       <div class="pp-fila">
         <div class="pp-desc">
-          <p class="pp-nombre">${p.nombre}</p>
+          <p class="pp-nombre">${p.nombre}${p.prueba ? ' <b style="color:#b45309">· PRUEBA</b>' : ''}</p>
           <p class="pp-meta">${p.cliente} · ${fecha} · ${p.lineas} artículo${p.lineas !== 1 ? 's' : ''}</p>
           <p class="pp-precio" style="color:#111"><b>${fmt(p.total)}</b></p>
         </div>

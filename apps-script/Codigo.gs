@@ -419,7 +419,7 @@ function accionGuardarPedido(body) {
       if (String(filasCab[i][0]).trim() === String(ped.id)) {
         const mismasLineas = Number(filasCab[i][7]) === ped.lineas.length;
         const mismoTotal = Math.abs(Number(filasCab[i][10]) - Number(ped.totalNeto || 0)) < 0.01;
-        const numGuardado = etiquetaPedido(Number(filasCab[i][COL_NUMERO - 1]) || i);
+        const numGuardado = etiquetaGuardada(filasCab[i][COL_NUMERO - 1], i);
         if (mismasLineas && mismoTotal) {
           return responder({ ok: true, duplicado: true, numero: numGuardado, id: ped.id });
         }
@@ -428,7 +428,10 @@ function accionGuardarPedido(body) {
     }
 
     const ahora = new Date();
-    const numero = siguienteNumeroPedido(hCab);
+    // El cliente de prueba lleva su propia numeracion (PRU-n, guardada como
+    // texto): no consume ni altera la de los pedidos reales
+    const prueba = cuenta === cuentaPrueba();
+    const numero = prueba ? siguienteNumeroPrueba(hCab) : siguienteNumeroPedido(hCab);
 
     hCab.appendRow([
       ped.id,
@@ -500,7 +503,8 @@ function accionGuardarPedido(body) {
     return responder({
       ok: true,
       id: ped.id,
-      numero: etiquetaPedido(numero),
+      numero: prueba ? numero : etiquetaPedido(numero),
+      prueba,
       fecha: ahora.toISOString()
     });
 
@@ -540,6 +544,10 @@ function accionPedidosPendientes(body) {
     vendedorDe[String(fin[i][0]).trim()] = String(fin[i][2]).trim();
   }
 
+  // Los pedidos de prueba los ve solo un admin, marcados
+  const cp = cuentaPrueba();
+  const esAdmin = String(p.rol || '').trim() === 'admin';
+
   const pedidos = [];
   for (let i = 1; i < cab.length; i++) {
     const f = cab[i];
@@ -549,9 +557,12 @@ function accionPedidosPendientes(body) {
     if (!id || revisados.has(id)) continue;
     if (String(f[5]).trim() !== cliente) continue;   // lo cargo un vendedor
     if (p.rol === 'vendedor_estandar' && vendedorDe[cliente] !== p.cod) continue;
+    const prueba = esPedidoPrueba(f[COL_NUMERO - 1], cliente, cp);
+    if (prueba && !esAdmin) continue;
 
     pedidos.push({
       id,
+      prueba,
       fecha: f[1] instanceof Date ? f[1].toISOString() : String(f[1]),
       cliente,
       nombre: String(f[3]),
@@ -636,7 +647,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v27-semaforo-neto' });
+      return responder({ ok: true, version: 'v28-cuenta-prueba' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -711,6 +722,11 @@ function accionPedidosParaImprimir(body) {
   const modo = body.modo === 'impresos' ? 'impresos' : 'pendientes';
   const verTodos = ROLES_VER_TODOS.includes(rol);
 
+  // Pedidos de prueba: fuera de Pendientes e Impresos, salvo que un admin
+  // pida verlos; entonces se ven solo esos
+  const soloPruebas = rol === 'admin' && body.verPruebas === true;
+  const cp = cuentaPrueba();
+
   // Impresos: por defecto la ultima semana; como maximo dos meses por consulta
   let desde = null, hasta = null;
   if (modo === 'impresos') {
@@ -765,6 +781,9 @@ function accionPedidosParaImprimir(body) {
     const rc = String(f[I.rolCreador] || '').trim();
     if (!rc || rc === 'cliente_estandar') continue;
 
+    const prueba = esPedidoPrueba(I.numero >= 0 ? f[I.numero] : '', f[I.cliente], cp);
+    if (prueba !== soloPruebas) continue;
+
     const impreso = String(f[I.impreso] || '').trim().toUpperCase() === 'SI';
     if (modo === 'pendientes' && impreso) continue;
     if (modo === 'impresos') {
@@ -786,7 +805,8 @@ function accionPedidosParaImprimir(body) {
     const ts = f[I.ts] instanceof Date ? f[I.ts].toISOString() : String(f[I.ts]);
     pedidos.push({
       id: String(f[I.id]).trim(),
-      numero: etiquetaPedido((I.numero >= 0 && Number(f[I.numero])) || i),
+      numero: etiquetaGuardada(I.numero >= 0 ? f[I.numero] : '', i),
+      prueba,
       fecha: ts,
       cliente: cuenta,
       nombreCliente: String(f[I.nombre] || ''),
@@ -845,7 +865,7 @@ function accionPedidosParaImprimir(body) {
     pd.lineas = (porId[pd.id] || []).sort((a, b) => a.orden - b.orden);
   });
 
-  return responder({ ok: true, modo, pedidos });
+  return responder({ ok: true, modo, verPruebas: soloPruebas, pedidos });
 }
 
 /**
@@ -917,9 +937,39 @@ function accionMarcarImpresos(body) {
 
 
 
+// ---------- cliente de prueba ----------
+
+/**
+ * Cuenta del cliente de prueba: clave cuenta_prueba de la hoja config. Sus
+ * pedidos llevan numeracion propia (PRU-n) y no aparecen en la bandeja ni en
+ * los pendientes de revision, salvo para un admin. Vacia: no hay cliente de
+ * prueba y todo funciona como siempre.
+ * Cualquier calculo nuevo sobre pedidos (precio anterior, estadisticas) tiene
+ * que descartar los de prueba con esPedidoPrueba.
+ */
+function cuentaPrueba() {
+  return String(getConfig().cuenta_prueba || '').trim();
+}
+
+/** El valor de la columna numero es de un pedido de prueba ("PRU-3") */
+function esNumeroPrueba(valor) {
+  return String(valor || '').trim().indexOf(PREFIJO_PRUEBA) === 0;
+}
+
+/**
+ * Pedido de prueba: numerado PRU-, o de la cuenta de prueba actual (por si
+ * entro con numero APP- antes de que se renovara la cache de config).
+ * cp: cuentaPrueba(), leida una vez por consulta
+ */
+function esPedidoPrueba(valorNumero, cuenta, cp) {
+  return esNumeroPrueba(valorNumero) || (!!cp && String(cuenta).trim() === cp);
+}
+
+
 // ---------- numero de pedido ----------
 
 const PREFIJO_PEDIDO = 'APP-';
+const PREFIJO_PRUEBA = 'PRU-';
 const COL_NUMERO = 30;   // columna AD de pedidos_cabecera
 
 function etiquetaPedido(n) {
@@ -927,9 +977,20 @@ function etiquetaPedido(n) {
 }
 
 /**
+ * Etiqueta de un pedido guardado. Los de prueba guardan en la columna numero
+ * el texto completo ("PRU-3"); los reales, solo el numero. respaldo: el
+ * numero a mostrar si la celda esta vacia (pedidos anteriores a la columna)
+ */
+function etiquetaGuardada(valor, respaldo) {
+  if (esNumeroPrueba(valor)) return String(valor).trim();
+  return etiquetaPedido(Number(valor) || respaldo);
+}
+
+/**
  * Siguiente numero de pedido. Sale de un contador propio, que no depende de
  * las filas: aunque se borren o archiven pedidos, nunca se repite un numero.
  * Como resguardo, nunca queda por debajo del mayor numero ya guardado.
+ * Los pedidos de prueba ("PRU-n", texto) no cuentan: Number() les da 0.
  * Se llama siempre dentro del bloqueo de guardar_pedido.
  */
 function siguienteNumeroPedido(hCab) {
@@ -947,6 +1008,29 @@ function siguienteNumeroPedido(hCab) {
   const siguiente = ultimo + 1;
   props.setProperty('ultimo_numero_pedido', String(siguiente));
   return siguiente;
+}
+
+/**
+ * Siguiente numero de prueba ("PRU-n"), con su propio contador: nunca toca
+ * el de los pedidos reales. El mismo resguardo: nunca por debajo del mayor
+ * PRU- ya guardado. Se llama siempre dentro del bloqueo de guardar_pedido.
+ */
+function siguienteNumeroPrueba(hCab) {
+  const props = PropertiesService.getScriptProperties();
+  let ultimo = Number(props.getProperty('ultimo_numero_prueba')) || 0;
+
+  const filas = hCab.getLastRow();
+  if (filas > 1) {
+    hCab.getRange(2, COL_NUMERO, filas - 1, 1).getValues().forEach(r => {
+      if (!esNumeroPrueba(r[0])) return;
+      const v = Number(String(r[0]).trim().slice(PREFIJO_PRUEBA.length)) || 0;
+      if (v > ultimo) ultimo = v;
+    });
+  }
+
+  const siguiente = ultimo + 1;
+  props.setProperty('ultimo_numero_prueba', String(siguiente));
+  return PREFIJO_PRUEBA + siguiente;
 }
 
 /**

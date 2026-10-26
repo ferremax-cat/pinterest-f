@@ -54,9 +54,17 @@
                 <select id="im-vendedor" class="im-vendedor" aria-label="Filtrar por vendedor" hidden>
                     <option value="">Todos los vendedores</option>
                 </select>
+                <!-- Solo admin: muestra unicamente los pedidos del cliente de prueba -->
+                <label id="im-pruebas" class="im-pruebas" hidden>
+                    <input type="checkbox" id="im-ver-pruebas"> Ver pruebas
+                </label>
                 <button type="button" id="im-limpiar" class="im-limpiar" hidden>Limpiar<span class="im-solo-ancho"> filtros</span></button>
                 <span id="im-filtro-cont" class="im-filtro-cont" hidden></span>
             </div>
+
+            <p id="im-aviso-pruebas" class="im-aviso-pruebas" hidden>
+                Mostrando solo pedidos de prueba: no se facturan.
+            </p>
 
             <div class="im-barra">
                 <label class="im-todos">
