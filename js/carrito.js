@@ -359,26 +359,33 @@ export function total(cliente) {
 
 export function carritosAbiertos() {
   const mio = PREFIJO + getOperador() + '::';
-  const res = [];
+
+  // Cada cliente una vez: por su clave de articulos o por la de ajuste (un
+  // carrito solo de observaciones puede no tener articulos). Las demas claves
+  // auxiliares (::origen, ::origenSkus, ::pendiente, ::mod) no son carritos
+  const clientes = new Set();
   for (let i = 0; i < localStorage.length; i++) {
     const k = localStorage.key(i);
     if (!k || !k.startsWith(mio)) continue;
-    const cliente = k.slice(mio.length);
+    const resto = k.slice(mio.length);
+    if (!resto.includes('::')) clientes.add(resto);
+    else if (resto.endsWith('::ajuste')) clientes.add(resto.slice(0, -'::ajuste'.length));
+  }
 
-    // Las claves auxiliares (::origen, ::origenSkus, ::ajuste, ::pendiente)
-    // no son carritos
-    if (cliente.includes('::')) continue;
-
+  const res = [];
+  clientes.forEach(cliente => {
     const lineas = leer(cliente);
-    if (!lineas.length) continue;
+    const obs = (getAjustePedido(cliente).observaciones || []).length;
+    if (!lineas.length && !obs) return;
 
     res.push({
       cliente,
       items: lineas.length,
+      obs,
       modificado: ultimaModificacion(cliente, lineas),
       pendiente: !!getPendiente(cliente)
     });
-  }
+  });
   return res;
 }
 
@@ -583,8 +590,11 @@ export function refrescarBotonFlotante() {
   btn.style.display = '';
 
   const n = cantidadItems();
-  btn.innerHTML = SVG_CARRITO_GRANDE + (n ? `<span class="fab-badge">${n}</span>` : '');
-  btn.classList.toggle('vacio', n === 0);
+  // Las observaciones se marcan aunque no haya articulos (pedido solo de observaciones)
+  const nObs = (getAjustePedido().observaciones || []).length;
+  btn.innerHTML = SVG_CARRITO_GRANDE + (n ? `<span class="fab-badge">${n}</span>` : '') +
+    (nObs ? '<span class="fab-obs" title="Con observaciones">OBS</span>' : '');
+  btn.classList.toggle('vacio', n === 0 && nObs === 0);
 }
 
 // Mantener el contador al dia
@@ -688,10 +698,11 @@ export function getAjustePedido(cliente) {
   try {
     const raw = localStorage.getItem(claveCarrito(cliente) + '::ajuste');
     // Un ajuste guardado antes de existir el segundo descuento no lo trae: 0
-    return raw ? { descuentoExtra: 0, ...JSON.parse(raw) }
-               : { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '' };
+    // Un ajuste guardado antes de existir las observaciones no las trae: []
+    return raw ? { descuentoExtra: 0, observaciones: [], ...JSON.parse(raw) }
+               : { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '', observaciones: [] };
   } catch (e) {
-    return { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '' };
+    return { descuento: 0, descuentoExtra: 0, motivo: '', obsLibre: '', observaciones: [] };
   }
 }
 
@@ -712,7 +723,9 @@ export function setAjustePedido(ajuste, cliente) {
     descuento,
     descuentoExtra,
     motivo: ajuste.motivo || '',
-    obsLibre: ajuste.obsLibre || ''
+    obsLibre: ajuste.obsLibre || '',
+    // Observaciones del pedido (js/observaciones.js): se borran con vaciar()
+    observaciones: Array.isArray(ajuste.observaciones) ? ajuste.observaciones : []
   }));
   marcarModificado(cliente);
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
