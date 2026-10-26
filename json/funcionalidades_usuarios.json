@@ -2661,6 +2661,12 @@
       "nombre": "CONSUMIDOR FINAL 4",
       "rol": "cliente_estandar",
       "numero_cuenta": "4"
+    },
+    "7": {
+      "clave": "7",
+      "nombre": "CLIENTE PRUEBA- NO FACTURAR",
+      "rol": "cliente_estandar",
+      "numero_cuenta": "7"
     }
   }
 }
