@@ -89,6 +89,9 @@ const MM = {
   hoja: 280, cabPrep: 34, obs: 14, cabCont: 9, franja: 7, fila: 19,
   firmas: 40, pie: 6, cabFact: 26, filaFact: 5.5, totales: 26,
   firmasFact: 14, separador: 8, reimp: 9,
+  // Recuadro de observaciones: titulo (con su margen y bordes) y cada renglon
+  // en preparacion; en facturacion, el titulo de cada observacion
+  obsCab: 8, obsFila: 5, obsTitFact: 4.5,
   // Titulo de piso en facturacion: un renglon fino, mas bajo que una linea
   pisoFact: 4
 };
@@ -354,13 +357,44 @@ function filasFacturacion(pisos) {
   ]);
 }
 
+// ---------- observaciones ----------
+
+const EFECTO_OBS = { descuenta: 'Descuenta', suma: 'Suma', ajuste: 'Ajuste' };
+const LADO_OBS = { facturado: 'Lo facturado', correspondia: 'Lo que correspondía' };
+
+/**
+ * Renglones del recuadro de observaciones, los mismos en las dos hojas: el
+ * titulo de cada observacion y sus articulos (en la de ajuste, separados en
+ * lo facturado y lo que correspondia). Las de Condiciones, solo el titulo.
+ */
+function filasObservaciones(obs) {
+  return obs.flatMap(o => {
+    const items = (o.items || []).map(it => {
+      const sku = normSku(it.sku);
+      return { ...it, sku, nombre: it.nombre || datos.productos[sku]?.name || '' };
+    });
+    const filas = [{ tipo: 'obsTit', o }];
+    if (o.efecto === 'ajuste') {
+      ['facturado', 'correspondia'].forEach(lado => {
+        const del = items.filter(it => it.lado === lado);
+        if (del.length) filas.push({ tipo: 'obsLado', texto: LADO_OBS[lado] }, ...del.map(it => ({ tipo: 'obsItem', o, it })));
+      });
+    } else {
+      filas.push(...items.map(it => ({ tipo: 'obsItem', o, it })));
+    }
+    return filas;
+  });
+}
+
+const esTituloObs = f => f.tipo === 'obsTit' || f.tipo === 'obsLado';
+
 // ---------- paginado ----------
 
 /**
  * Reparte los pisos en hojas. Cada piso abre con su franja y sigue con
  * renglones de dos columnas; si no entra, continua en la hoja siguiente.
  */
-function paginarPrep(pisos, conObs, conReimp) {
+function paginarPrep(pisos, conObs, conReimp, filasObs = []) {
   const hojas = [];
   const nueva = primera => {
     const cab = primera
@@ -372,6 +406,21 @@ function paginarPrep(pisos, conObs, conReimp) {
   };
 
   let hoja = nueva(true);
+
+  // Recuadro de observaciones, arriba de los articulos. Si no entra, sigue en
+  // la hoja siguiente ("continúa"); un titulo nunca queda solo al pie
+  let k = 0;
+  let sigue = false;
+  while (k < filasObs.length) {
+    let n = Math.min(filasObs.length - k, Math.floor((MM.hoja - hoja.usado - MM.obsCab) / MM.obsFila));
+    if (n < 1) { hoja = nueva(false); continue; }
+    while (k + n < filasObs.length && n > 1 && esTituloObs(filasObs[k + n - 1])) n--;
+    hoja.bloques.push({ tipo: 'obs', filas: filasObs.slice(k, k + n), continua: sigue });
+    hoja.usado += MM.obsCab + n * MM.obsFila;
+    k += n;
+    sigue = true;
+    if (k < filasObs.length) hoja = nueva(false);
+  }
 
   pisos.forEach(piso => {
     let i = 0;
@@ -402,7 +451,11 @@ function paginarPrep(pisos, conObs, conReimp) {
 const renglonesFact = it => Math.max(1, Math.ceil(it.sku.length / COD_POR_RENGLON));
 
 /** Alto en mm de un renglon de facturacion: titulo de piso o linea */
-const altoFilaFact = f => (f.tipo === 'piso' ? MM.pisoFact : renglonesFact(f.it) * MM.filaFact);
+// Titulos (piso, observaciones) en un renglon fino; lineas y articulos de observaciones, segun su codigo
+const ALTO_TITULO_FACT = { piso: () => MM.pisoFact, obsLado: () => MM.pisoFact,
+  obsCab: () => MM.obsTitFact, obsTit: () => MM.obsTitFact, obsNota: () => MM.pisoFact };
+const altoFilaFact = f => (ALTO_TITULO_FACT[f.tipo] ? ALTO_TITULO_FACT[f.tipo]() : renglonesFact(f.it) * MM.filaFact);
+const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem';
 
 /**
  * Hojas de facturacion: totales y firmas al final de la ultima.
@@ -410,9 +463,9 @@ const altoFilaFact = f => (f.tipo === 'piso' ? MM.pisoFact : renglonesFact(f.it)
  * igual que la preparacion. Un titulo nunca queda solo al pie de una hoja:
  * baja con su primera linea.
  */
-function paginarFact(filas) {
+// cierre: alto de los totales y las firmas
+function paginarFact(filas, cierre = MM.totales + MM.firmasFact) {
   const hojas = [];
-  const cierre = MM.totales + MM.firmasFact;
   let i = 0;
   let primera = true;
 
@@ -427,11 +480,17 @@ function paginarFact(filas) {
     let j = i;
     while (j < filas.length) {
       const a = altoFilaFact(filas[j]);
-      const conSiguiente = filas[j].tipo === 'piso' && j + 1 < filas.length
+      const conSiguiente = esTituloFact(filas[j]) && j + 1 < filas.length
         ? altoFilaFact(filas[j + 1]) : 0;
       if (alto + a + conSiguiente > libre) break;
       alto += a;
       j++;
+    }
+    // Titulos que quedaron juntos al pie (una observacion y su lado): bajan
+    // con su primer renglon. Un titulo de piso nunca llega aca solo
+    while (j < filas.length && j - 1 > i && esTituloFact(filas[j - 1])) {
+      j--;
+      alto -= altoFilaFact(filas[j]);
     }
     // Resguardo: un renglon que no entra ni en una hoja vacia se pone igual,
     // para no repetir hojas vacias sin fin
@@ -488,6 +547,22 @@ function htmlFranja(b) {
     <span>${b.total} ${b.total === 1 ? 'línea' : 'líneas'}${b.continua ? ' · continúa' : ''}</span></div>`;
 }
 
+/** Recuadro de observaciones de la preparacion: alto fijo por renglon (MM.obsCab, MM.obsFila) */
+function htmlObsPrep(b) {
+  const filas = b.filas.map(f => {
+    if (f.tipo === 'obsTit') {
+      return `<div class="ih-obs-tit"><b>${esc(f.o.codigo)}</b> ${esc(f.o.texto)}` +
+        `${EFECTO_OBS[f.o.efecto] ? ` <span>· ${EFECTO_OBS[f.o.efecto]}</span>` : ''}</div>`;
+    }
+    if (f.tipo === 'obsLado') return `<div class="ih-obs-lado">${esc(f.texto)}</div>`;
+    // Cuadradito para tildar en el deposito, como OK en los articulos
+    return `<div class="ih-obs-item"><i></i><b>${fmtNum(f.it.cantidad)}</b>` +
+      `<span class="ih-obs-cod">${esc(f.it.sku)}</span><span class="ih-obs-nom">${esc(f.it.nombre)}</span></div>`;
+  }).join('');
+  return `<div class="ih-obs-caja" style="height:calc(var(--ih-obs-cab) - 1.5mm + var(--ih-obs-fila) * ${b.filas.length})">
+    <div class="ih-obs-caja-tit">OBSERVACIONES${b.continua ? ' <span>· continúa</span>' : ''}</div>${filas}</div>`;
+}
+
 function htmlCabPrep(c, lineas) {
   return `
     <header class="ih-cab-prep">
@@ -499,7 +574,7 @@ function htmlCabPrep(c, lineas) {
       <div class="ih-datos">
         <span><b>Fecha:</b> ${esc(c.fecha)}</span>
         <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>
-        <span><b>Líneas:</b> ${lineas}</span>
+        ${c.soloObs ? '<span class="ih-solo-obs">SOLO OBSERVACIONES</span>' : `<span><b>Líneas:</b> ${lineas}</span>`}
       </div>
       <div class="ih-instr">OK: tildar si sale completa · REAL: cantidad entregada si falta · Reemp.: código entregado si se cambia de marca</div>
     </header>
@@ -554,7 +629,7 @@ function htmlCabFact(c) {
       <div class="ih-cliente">${esc(c.cuenta)} · ${esc(c.nombre)}${c.lista ? ` · <span class="ih-lista">LISTA ${esc(c.lista)}</span>` : ''}</div>
       <div class="ih-datos">
         <span><b>Fecha:</b> ${esc(c.fecha)}</span>
-        <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>
+        <span><b>Vendedor:</b> ${esc(c.vendedor)}</span>${c.soloObs ? '<span class="ih-solo-obs">SOLO OBSERVACIONES</span>' : ''}
         ${c.obs ? `<span class="ih-datos-obs"><b>Obs.:</b> ${esc(c.obs)}</span>` : ''}
       </div>
       <div class="ih-instr">N°: orden en el pedido</div>
@@ -566,10 +641,30 @@ function htmlPisoFact(piso, total, continua) {
     <span>· ${continua ? 'continúa' : `${total} ${total === 1 ? 'línea' : 'líneas'}`}</span></td></tr>`;
 }
 
+function htmlObsTitFact(o) {
+  return `<tr class="ih-obs-tit-fact"><td colspan="7"><b>${esc(o.codigo)}</b> ${esc(o.texto)}` +
+    `${EFECTO_OBS[o.efecto] ? ` <span>· ${EFECTO_OBS[o.efecto]}</span>` : ''}</td></tr>`;
+}
+
+function htmlObsItemFact(f) {
+  const renglones = renglonesFact(f.it);
+  return `<tr class="ih-obs-item-fact"${renglones > 1 ? ` style="height:calc(var(--ih-fila-fact) * ${renglones})"` : ''}>
+    <td class="ih-n"></td>
+    <td class="ih-tcod">${esc(f.it.sku)}</td>
+    <td class="ih-num">${fmtNum(f.it.cantidad)}</td>
+    <td>${esc(f.it.nombre)}</td>
+    <td></td><td></td><td></td>
+  </tr>`;
+}
+
 // filas: renglones de filasFacturacion; continua: piso que sigue de la hoja anterior
 function htmlTablaFact(filas, continua) {
   const cuerpo = (continua ? htmlPisoFact(continua, 0, true) : '') + filas.map(f => {
     if (f.tipo === 'piso') return htmlPisoFact(f.piso, f.total, false);
+    if (f.tipo === 'obsCab') return '<tr class="ih-obs-cab-fact"><td colspan="7"><b>OBSERVACIONES</b></td></tr>';
+    if (f.tipo === 'obsTit') return htmlObsTitFact(f.o);
+    if (f.tipo === 'obsLado') return `<tr class="ih-obs-lado-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
+    if (f.tipo === 'obsItem') return htmlObsItemFact(f);
     const it = f.it;
     const l = it.linea;
     const tipo = tipoDe(l);
@@ -639,8 +734,13 @@ function armarPedido(p, reimpresion) {
     nombre: nombreCliente(p),
     vendedor: p.vendedor || '—',
     lista: String(p.lista ?? '').trim(),
-    obs: [p.motivo, p.obsLibre].map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
+    // Pedidos con observaciones nuevas: van en el recuadro. Los viejos: el
+    // renglon de siempre, con el motivo y la observacion libre
+    obs: Array.isArray(p.observaciones) && p.observaciones.length ? ''
+      : [p.motivo, p.obsLibre].map(s => String(s ?? '').trim()).filter(Boolean).join(' · '),
+    soloObs: !(p.lineas || []).length && Array.isArray(p.observaciones) && p.observaciones.length > 0
   };
+  const obs = Array.isArray(p.observaciones) ? p.observaciones : [];
 
   // Numero de orden: posicion en el pedido original, el mismo en las dos hojas
   const lineas = [...(p.lineas || [])]
@@ -662,7 +762,9 @@ function armarPedido(p, reimpresion) {
 
   // El mismo orden en las dos hojas: por piso, prefijo y codigo
   const pisos = agruparPorPiso(lineas);
-  const filasFact = filasFacturacion(pisos);
+  const filasObs = filasObservaciones(obs);
+  // En facturacion, el recuadro va despues de los articulos, en la misma tabla
+  const filasFact = filasFacturacion(pisos).concat(filasObs.length ? [{ tipo: 'obsCab' }, ...filasObs] : []);
 
   const sumaSub = lineas.reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0);
   const bruto = Number(p.totalBruto) || sumaSub;
@@ -678,7 +780,7 @@ function armarPedido(p, reimpresion) {
     descuento: Math.round((bruto - neto) * 100) / 100
   };
 
-  const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion);
+  const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion, filasObs);
   const ultima = hojasPrep[hojasPrep.length - 1];
   // Con los titulos de piso: la hoja unica mide lo mismo que el paginado
   const altoFact = MM.cabFact + MM.filaFact +
@@ -699,7 +801,9 @@ function armarPedido(p, reimpresion) {
     let cuerpo = h.primera
       ? htmlCabPrep(c, lineas.length) + (reimpresion ? htmlReimp(p) : '')
       : htmlCabCont('Hoja de preparación', c);
-    h.bloques.forEach(b => { cuerpo += b.tipo === 'franja' ? htmlFranja(b) : htmlGrilla(b); });
+    h.bloques.forEach(b => {
+      cuerpo += b.tipo === 'franja' ? htmlFranja(b) : b.tipo === 'obs' ? htmlObsPrep(b) : htmlGrilla(b);
+    });
     if (h.firmas) cuerpo += htmlFirmasPrep();
     if (unica) {
       cuerpo += '<div class="ih-separador">FACTURACIÓN · uso interno</div>' +

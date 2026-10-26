@@ -278,13 +278,176 @@ function accionConfig(body) {
     observaciones: (cfg.observaciones || '').split('|').map(s => s.trim()).filter(Boolean),
     umbralAviso: Number(cfg.umbral_aviso) || 0,
     umbralBloqueo: Number(cfg.umbral_bloqueo) || 0,
-    modoObservacion: String(cfg.modo_observacion).toUpperCase() === 'SI'
+    modoObservacion: String(cfg.modo_observacion).toUpperCase() === 'SI',
+    // Observaciones de la hoja "observaciones": solo las activas. La lista de
+    // texto de arriba (observaciones) queda para la app anterior
+    catalogoObservaciones: getObservaciones().filter(o => o.activa).map(o => ({
+      clave: o.clave, codigo: o.codigo, texto: o.texto, grupo: o.grupo, efecto: o.efecto
+    }))
   });
 }
 
 function limpiarCacheConfig() {
-  CacheService.getScriptCache().remove('config_mapa');
-  console.log('Cache de configuracion limpiada');
+  // Tambien la lista de observaciones: se edita en la misma planilla
+  CacheService.getScriptCache().removeAll(['config_mapa', 'obs_catalogo']);
+  console.log('Cache de configuracion y observaciones limpiada');
+}
+
+// ---------- observaciones del pedido ----------
+
+const HOJA_OBS = 'observaciones';
+const HOJA_PED_OBS = 'pedidos_observaciones';
+// Columnas de pedidos_observaciones, en este orden: una fila por articulo
+// (las observaciones sin articulos, una fila sin sku)
+const COLS_PED_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave',
+  'codigo', 'texto', 'grupo', 'efecto', 'lado', 'orden_item', 'sku', 'nombre',
+  'cantidad', 'precio_lista'];
+const EFECTOS_OBS = ['informativa', 'descuenta', 'suma', 'ajuste'];
+const MAX_OBS = 20;
+const MAX_ITEMS_OBS = 60;
+
+function normalizarObs(s) {
+  return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+}
+
+/**
+ * Lista de la hoja "observaciones" (codigo, texto, grupo, efecto, activa),
+ * incluidas las inactivas: guardar_pedido las necesita para rechazarlas.
+ * clave: el codigo, o el texto si no tiene (las de Condiciones).
+ * Sin la hoja: lista vacia, y la app no ofrece las observaciones nuevas.
+ */
+function getObservaciones() {
+  const cache = CacheService.getScriptCache();
+  const guardado = cache.get('obs_catalogo');
+  if (guardado) return JSON.parse(guardado);
+
+  const lista = [];
+  const hoja = SpreadsheetApp.openById(PLANILLA_ID).getSheetByName(HOJA_OBS);
+  if (hoja) {
+    const datos = hoja.getDataRange().getValues();
+    const enc = datos[0].map(normalizarObs);
+    const I = { codigo: enc.indexOf('codigo'), texto: enc.indexOf('texto'), grupo: enc.indexOf('grupo'),
+                efecto: enc.indexOf('efecto'), activa: enc.indexOf('activa') };
+    for (let i = 1; i < datos.length; i++) {
+      const f = datos[i];
+      const texto = I.texto >= 0 ? String(f[I.texto] || '').trim() : '';
+      if (!texto) continue;
+      const codigo = I.codigo >= 0 ? String(f[I.codigo] || '').trim() : '';
+      const efecto = normalizarObs(f[I.efecto]);
+      lista.push({
+        clave: codigo || texto,
+        codigo,
+        texto,
+        // Las de Mercaderia llevan articulos; las de Condiciones, nada mas
+        grupo: normalizarObs(f[I.grupo]) === 'mercaderia' ? 'mercaderia' : 'condiciones',
+        efecto: EFECTOS_OBS.indexOf(efecto) >= 0 ? efecto : 'informativa',
+        activa: I.activa < 0 || String(f[I.activa]).trim().toUpperCase() === 'SI'
+      });
+    }
+  }
+  cache.put('obs_catalogo', JSON.stringify(lista), 3600);
+  return lista;
+}
+
+/**
+ * Observaciones de un pedido, validadas contra la hoja: texto, grupo y
+ * efecto salen de la planilla, nunca del navegador. Del navegador se toman
+ * solo la clave, los articulos (codigo, nombre y cantidad), el lado en la de
+ * ajuste y el precio de lista actual (etapa 2). Devuelve { obs } o { error }.
+ */
+function validarObservaciones(entrada) {
+  if (!entrada) return { obs: [] };
+  if (!Array.isArray(entrada) || entrada.length > MAX_OBS) return { error: 'observaciones_invalidas' };
+
+  const catalogo = {};
+  getObservaciones().forEach(o => { catalogo[o.clave] = o; });
+
+  const obs = [];
+  for (let k = 0; k < entrada.length; k++) {
+    const e = entrada[k] || {};
+    const def = catalogo[String(e.clave || '').trim()];
+    if (!def || !def.activa) return { error: 'observacion_inactiva' };
+
+    const items = [];
+    if (def.grupo === 'mercaderia') {
+      if (!Array.isArray(e.items) || !e.items.length || e.items.length > MAX_ITEMS_OBS) {
+        return { error: 'observacion_sin_articulos' };
+      }
+      for (let j = 0; j < e.items.length; j++) {
+        const it = e.items[j] || {};
+        const sku = String(it.sku || '').trim().toUpperCase();
+        const cantidad = Number(it.cantidad);
+        if (!sku || !(cantidad > 0)) return { error: 'observacion_sin_cantidad' };
+        const precio = Number(it.precioLista);
+        items.push({
+          sku,
+          nombre: String(it.nombre || '').slice(0, 200),
+          cantidad,
+          // Lado solo en la de ajuste
+          lado: def.efecto === 'ajuste' ? (it.lado === 'correspondia' ? 'correspondia' : 'facturado') : '',
+          precioLista: precio > 0 ? Math.round(precio * 100) / 100 : ''
+        });
+      }
+      if (def.efecto === 'ajuste' &&
+          !(items.some(i => i.lado === 'facturado') && items.some(i => i.lado === 'correspondia'))) {
+        return { error: 'ajuste_incompleto' };
+      }
+    }
+    obs.push({ clave: def.clave, codigo: def.codigo, texto: def.texto, grupo: def.grupo,
+               efecto: def.efecto, items });
+  }
+  return { obs };
+}
+
+/** Resumen de texto para motivo_obs (compatibilidad): "113 MERCADERIA ... (2 art.) · PAGA TOTAL DE BOLETA" */
+function resumenObservaciones(obs) {
+  return obs.map(o => (o.codigo ? o.codigo + ' ' : '') + o.texto +
+    (o.items.length ? ' (' + o.items.length + ' art.)' : '')).join(' · ');
+}
+
+/**
+ * Observaciones de los pedidos elegidos, leidas de pedidos_observaciones de
+ * una vez. Devuelve id -> [{ orden, clave, codigo, texto, grupo, efecto,
+ * items: [{ orden, lado, sku, nombre, cantidad, precioLista }] }]
+ */
+function leerObservacionesDe(ss, ids) {
+  const res = {};
+  const hoja = ss.getSheetByName(HOJA_PED_OBS);
+  if (!hoja || hoja.getLastRow() < 2 || !ids.size) return res;
+
+  const C = {};
+  COLS_PED_OBS.forEach((n, k) => { C[n] = k; });
+  const v = hoja.getRange(2, 1, hoja.getLastRow() - 1, COLS_PED_OBS.length).getValues();
+
+  v.forEach(r => {
+    const id = String(r[C.id_pedido]).trim();
+    if (!ids.has(id)) return;
+    const lista = res[id] = res[id] || [];
+    const orden = Number(r[C.orden_obs]) || 0;
+    let o = lista.find(x => x.orden === orden);
+    if (!o) {
+      o = { orden, clave: String(r[C.clave]), codigo: String(r[C.codigo] || ''),
+            texto: String(r[C.texto] || ''), grupo: String(r[C.grupo] || ''),
+            efecto: String(r[C.efecto] || 'informativa'), items: [] };
+      lista.push(o);
+    }
+    if (String(r[C.sku] || '').trim()) {
+      o.items.push({
+        orden: Number(r[C.orden_item]) || 0,
+        lado: String(r[C.lado] || ''),
+        sku: String(r[C.sku]).trim(),
+        nombre: String(r[C.nombre] || ''),
+        cantidad: Number(r[C.cantidad]) || 0,
+        precioLista: Number(r[C.precio_lista]) || null
+      });
+    }
+  });
+
+  Object.keys(res).forEach(id => {
+    res[id].sort((a, b) => a.orden - b.orden);
+    res[id].forEach(o => o.items.sort((a, b) => a.orden - b.orden));
+  });
+  return res;
 }
 
 // ---------- pedidos ----------
@@ -379,7 +542,21 @@ function accionGuardarPedido(body) {
   }
 
   const ped = body.pedido;
-  if (!ped || !ped.lineas || !ped.lineas.length) {
+  if (!ped || !Array.isArray(ped.lineas)) {
+    return responder({ ok: false, error: 'pedido_vacio' });
+  }
+
+  // Observaciones: solo de un vendedor o admin, y validadas contra la hoja
+  const conObs = Array.isArray(ped.observaciones) && ped.observaciones.length > 0;
+  if (conObs && String(p.rol || '').trim() === 'cliente_estandar') {
+    return responder({ ok: false, error: 'observaciones_no_permitidas' });
+  }
+  const vo = validarObservaciones(conObs ? ped.observaciones : null);
+  if (vo.error) return responder({ ok: false, error: vo.error });
+  const obs = vo.obs;
+
+  // Sin articulos solo si tiene al menos una observacion (pedido solo de observaciones)
+  if (!ped.lineas.length && !obs.length) {
     return responder({ ok: false, error: 'pedido_vacio' });
   }
 
@@ -427,6 +604,16 @@ function accionGuardarPedido(body) {
       }
     }
 
+    // Con observaciones, su hoja tiene que estar bien armada antes de escribir nada
+    let hObs = null;
+    if (obs.length) {
+      hObs = ss.getSheetByName(HOJA_PED_OBS);
+      const enc = hObs ? hObs.getRange(1, 1, 1, COLS_PED_OBS.length).getValues()[0].map(x => String(x).trim()) : [];
+      if (COLS_PED_OBS.some((n, k) => enc[k] !== n)) {
+        return responder({ ok: false, error: 'faltan_columnas_obs' });
+      }
+    }
+
     const ahora = new Date();
     // El cliente de prueba lleva su propia numeracion (PRU-n, guardada como
     // texto): no consume ni altera la de los pedidos reales
@@ -446,7 +633,7 @@ function accionGuardarPedido(body) {
       ped.descuentoTotal || 0,
       ped.totalNeto || 0,
       ped.descEfectivoGlobal || 0,
-      ped.motivo || '',
+      obs.length ? resumenObservaciones(obs) : (ped.motivo || ''),
       ped.obsLibre || '',
       'recibido',
       ped.idOrigen || '',
@@ -498,6 +685,20 @@ function accionGuardarPedido(body) {
 
     if (filas.length) {
       hLin.getRange(hLin.getLastRow() + 1, 1, filas.length, filas[0].length).setValues(filas);
+    }
+
+    // Una fila por articulo de cada observacion; las que no llevan articulos, una fila sin sku
+    if (obs.length) {
+      const etiqueta = prueba ? numero : etiquetaPedido(numero);
+      const filasObs = [];
+      obs.forEach((o, k) => {
+        (o.items.length ? o.items : [null]).forEach((it, j) => filasObs.push([
+          ped.id, ahora, cuenta, etiqueta, k + 1, o.clave, o.codigo, o.texto, o.grupo, o.efecto,
+          it ? it.lado : '', it ? j + 1 : '', it ? it.sku : '', it ? it.nombre : '',
+          it ? it.cantidad : '', it ? it.precioLista : ''
+        ]));
+      });
+      hObs.getRange(hObs.getLastRow() + 1, 1, filasObs.length, COLS_PED_OBS.length).setValues(filasObs);
     }
 
     return responder({
@@ -647,7 +848,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v28-cuenta-prueba' });
+      return responder({ ok: true, version: 'v29-observaciones' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -861,8 +1062,11 @@ function accionPedidosParaImprimir(body) {
       subtotal: Number(r[L.sub]) || 0
     });
   }
+  // Observaciones de los pedidos elegidos (los viejos no tienen: lista vacia)
+  const obsPorId = leerObservacionesDe(ss, ids);
   pedidos.forEach(pd => {
     pd.lineas = (porId[pd.id] || []).sort((a, b) => a.orden - b.orden);
+    pd.observaciones = obsPorId[pd.id] || [];
   });
 
   return responder({ ok: true, modo, verPruebas: soloPruebas, pedidos });

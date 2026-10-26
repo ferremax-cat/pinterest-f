@@ -59,6 +59,40 @@
 
 .ih-hoja > * { flex: none; }
 
+/* ---------- recuadro de observaciones ----------
+   Alto fijo por renglon (MM.obsCab y MM.obsFila en el JS): el paginado lo
+   mide asi, y lo que no entra se recorta sin aviso */
+.ih-obs-caja { margin-top: 1.5mm; border: .8mm solid #000; overflow: hidden; }
+.ih-obs-caja-tit {
+  height: calc(var(--ih-obs-cab) - 3.1mm);
+  display: flex; align-items: center; padding: 0 2mm;
+  border-bottom: .3mm solid #000; font-size: 8pt; font-weight: 800; letter-spacing: .08em;
+}
+.ih-obs-caja-tit span { margin-left: 1.5mm; font-weight: 400; letter-spacing: 0; }
+.ih-obs-tit, .ih-obs-lado, .ih-obs-item {
+  height: var(--ih-obs-fila); display: flex; align-items: center; gap: 2mm;
+  padding: 0 2mm; white-space: nowrap; overflow: hidden;
+}
+.ih-obs-tit { border-top: .2mm solid #bbb; font-size: 9pt; }
+.ih-obs-tit span { font-size: 7.5pt; }
+.ih-obs-lado { padding-left: 6mm; font-size: 7pt; font-weight: 700; text-transform: uppercase; }
+.ih-obs-item { padding-left: 6mm; font-size: 8.5pt; }
+.ih-obs-item i { flex: none; width: 3.5mm; height: 3.5mm; border: .3mm solid #000; }
+.ih-obs-item b { flex: none; min-width: 10mm; text-align: right; }
+.ih-obs-cod { flex: none; font-weight: 700; }
+.ih-obs-nom { overflow: hidden; text-overflow: ellipsis; }
+.ih-solo-obs { padding: 0 1.5mm; border: .4mm solid #000; font-weight: 800; }
+
+/* Facturacion: renglones de la misma tabla de articulos */
+.ih-tabla tr.ih-obs-cab-fact,
+.ih-tabla tr.ih-obs-tit-fact { height: var(--ih-obs-tit-fact); }
+.ih-tabla tr.ih-obs-cab-fact td { border-top: .6mm solid #000; border-bottom: .3mm solid #000; font-size: 7.5pt; letter-spacing: .08em; }
+.ih-tabla tr.ih-obs-tit-fact td { font-size: 8pt; font-weight: 700; }
+.ih-obs-tit-fact span { font-weight: 400; }
+.ih-tabla tr.ih-obs-lado-fact,
+.ih-tabla tr.ih-obs-nota-fact { height: var(--ih-piso-fact); }
+.ih-tabla tr.ih-obs-lado-fact td { font-size: 6.5pt; font-weight: 700; text-transform: uppercase; }
+
 /* Pedido del cliente de prueba: marca de agua en diagonal sobre toda la hoja.
    Absoluta, asi no ocupa lugar y el paginado no cambia. Texto y borde en gris
    (negro al 20%), no un fondo: sale igual en blanco y negro y aunque el

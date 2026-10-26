@@ -1,0 +1,45 @@
+/* Hoja de opciones del pedido (js/hoja.js): pantalla completa en el celular,
+   ventana centrada desde 768px. Encima del panel del carrito (z-index 9600) */
+.hj-fondo {
+  position: fixed; inset: 0; z-index: 9800;
+  display: flex; align-items: stretch; justify-content: center;
+  background: rgba(0, 0, 0, .45);
+}
+.hj-caja {
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%; height: 100dvh;
+  overflow: hidden; background: #fff;
+}
+.hj-cab {
+  flex: none; display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; border-bottom: 1px solid #e5e5e5;
+}
+.hj-volver {
+  flex: none; width: 40px; height: 40px;
+  border: none; border-radius: 8px; background: none;
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.hj-volver:hover { background: #f3f4f6; }
+.hj-titulo {
+  flex: 1; min-width: 0; margin: 0;
+  font-size: 16px; font-weight: 700;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.hj-cuerpo { flex: 1; overflow-y: auto; padding: 12px 16px 20px; -webkit-overflow-scrolling: touch; }
+.hj-pie {
+  flex: none; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px;
+  padding: 10px 16px; border-top: 1px solid #e5e5e5; background: #fafafa;
+}
+.hj-pie[hidden] { display: none; }
+.hj-pie button { min-height: 42px; padding: 0 16px; border-radius: 7px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.hj-btn { border: 1px solid #ccc; background: #fff; color: #333; }
+.hj-btn-prim { border: none; background: #e60023; color: #fff; }
+.hj-btn-peligro { margin-right: auto; border: 1px solid #dc2626; background: #fff; color: #dc2626; }
+
+@media (min-width: 768px) {
+  .hj-fondo { align-items: center; padding: 24px; }
+  .hj-caja {
+    width: 560px; max-width: 94vw; height: auto; max-height: 86vh;
+    border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, .3);
+  }
+}

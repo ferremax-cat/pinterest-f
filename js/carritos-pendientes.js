@@ -37,7 +37,7 @@ function haceCuanto(ms) {
   return d === 1 ? 'ayer' : `hace ${d} días`;
 }
 
-/** Carritos con articulos, sin el del cliente elegido, del mas reciente al mas viejo. */
+/** Carritos con articulos u observaciones, sin el del cliente elegido, del mas reciente al mas viejo. */
 function pendientes() {
   const actual = String(window.Precios?.getClienteVista()?.cuenta ?? '');
   return (window.Carrito?.carritosAbiertos() || [])
@@ -92,7 +92,9 @@ function abrirPanel() {
     <div class="pp-fila">
       <div class="pp-desc">
         <p class="pp-nombre">${esc(nombreDe(c.cliente))}</p>
-        <p class="pp-meta">Cuenta ${esc(c.cliente)} · ${c.items} artículo${c.items !== 1 ? 's' : ''}` +
+        <p class="pp-meta">Cuenta ${esc(c.cliente)} · ${c.items
+          ? `${c.items} artículo${c.items !== 1 ? 's' : ''}${c.obs ? ` + ${c.obs} obs.` : ''}`
+          : 'solo observaciones'}` +
           `${c.modificado ? ' · ' + haceCuanto(c.modificado) : ''}` +
           `${c.pendiente ? ' · <b style="color:#ff9404">confirmación pendiente</b>' : ''}</p>
       </div>

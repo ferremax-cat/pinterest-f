@@ -179,10 +179,19 @@ function aFila(p) {
     vendedor: p.vendedor ?? '',
     // lineas es la lista de articulos: la cantidad viene aparte
     cantLineas: Number(p.cantLineas) || 0,
+    // Observaciones nuevas: "Solo obs." sin articulos, "+ obs." con articulos
+    nObs: Array.isArray(p.observaciones) ? p.observaciones.length : 0,
     totalNeto: fmtPesos(p.totalNeto),
     fechaImpresion: fmtFechaHora(p.fechaImpresion),
     impresoPor: p.impresoPor || '—'
   };
+}
+
+/** Celda de lineas: cantidad, o "Solo obs." en un pedido solo de observaciones */
+function htmlLineas(p) {
+  if (!p.cantLineas && p.nObs) return '<span class="im-solo-obs">Solo obs.</span>';
+  return `${p.cantLineas}<span class="im-solo-cel"> ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span>` +
+    (p.nObs ? ' <span class="im-con-obs" title="Con observaciones">+ obs.</span>' : '');
 }
 
 // ---------- sesion ----------
@@ -424,7 +433,7 @@ function dibujar() {
       <td class="im-num c-cuenta">${esc(p.cuenta)}</td>
       <td class="c-cliente">${esc(nombreDe(p))}</td>
       <td class="c-vendedor">${esc(p.vendedor)}</td>
-      <td class="im-num c-lineas">${p.cantLineas}<span class="im-solo-cel"> ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span></td>
+      <td class="im-num c-lineas">${htmlLineas(p)}</td>
       <td class="im-num c-total">${esc(p.totalNeto)}</td>
       ${impresos ? `<td class="c-impreso">${esc(p.fechaImpresion)}</td><td class="c-impreso-por">${esc(p.impresoPor)}</td>` : ''}
     </tr>`).join('');
@@ -514,7 +523,7 @@ function dibujarSinConfirmar() {
           <b class="im-sc-numero">N° ${esc(p.numero)}</b>
           <span class="im-sc-cliente">${esc(nombreDe(p))}</span>
           <span class="im-sc-meta">Cuenta ${esc(p.cuenta)} · Vendedor ${esc(p.vendedor)} ·
-            ${p.cantLineas} ${p.cantLineas === 1 ? 'línea' : 'líneas'}</span>
+            ${!p.cantLineas && p.nObs ? 'solo observaciones' : `${p.cantLineas} ${p.cantLineas === 1 ? 'línea' : 'líneas'}${p.nObs ? ' + obs.' : ''}`}</span>
         </p>
         <p class="im-sc-intento">Se mandó a imprimir el ${esc(p.intentoFecha)} a las ${esc(p.intentoHora)}${
           p.intentoPor ? ` (${esc(p.intentoPor)})` : ''}. No se confirmó si salió.</p>
