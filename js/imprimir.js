@@ -41,6 +41,10 @@ const nombreDe = f => clientes?.[String(f.cuenta).trim()]?.name || f.cliente;
 // solo para el mismo rango de fechas. Recargar la pagina empieza sin nada
 const guardado = { pendientes: null, impresos: null };
 
+// Ver pruebas (solo admin): el servidor devuelve otra lista, asi que viaja
+// junto con el rango y lo guardado vale solo para la misma eleccion
+let verPruebas = false;
+
 // Estado de la actualizacion de cada pestaña: si se esta consultando (y si
 // es en segundo plano), la hora de la ultima respuesta y si la ultima fallo
 const sinc = {
@@ -167,6 +171,7 @@ function aFila(p) {
     intentoHora: intento.hora,
     intentoPor: String(p.intentoPor ?? '').trim(),
     id: String(p.id),
+    prueba: p.prueba === true,
     numero: p.numero ?? '',
     fecha: fmtFechaHora(p.fecha),
     cuenta: p.cliente ?? '',
@@ -227,11 +232,11 @@ function pintarEstado() {
 /** Rango de fechas de la pestaña actual (vacio en Pendientes) */
 function rangoActual() {
   return modo === 'impresos'
-    ? { desde: $('im-desde').value, hasta: $('im-hasta').value }
-    : { desde: '', hasta: '' };
+    ? { desde: $('im-desde').value, hasta: $('im-hasta').value, pruebas: verPruebas }
+    : { desde: '', hasta: '', pruebas: verPruebas };
 }
 
-const mismoRango = (a, b) => a.desde === b.desde && a.hasta === b.hasta;
+const mismoRango = (a, b) => a.desde === b.desde && a.hasta === b.hasta && a.pruebas === b.pruebas;
 
 /** Mensaje cuando la consulta no trajo pedidos para la tabla */
 function mensajeLista() {
@@ -317,6 +322,7 @@ async function consultar({ enFondo = false } = {}) {
     if (rango.desde) payload.desde = rango.desde;
     if (rango.hasta) payload.hasta = rango.hasta;
   }
+  if (rango.pruebas) payload.verPruebas = true;
 
   Object.assign(sinc[pestana], { consultando: true, enFondo, fallo: false });
   pintarSinc();
@@ -345,6 +351,13 @@ async function consultar({ enFondo = false } = {}) {
     }
     console.warn('[Imprimir] Error del servidor:', d.error);
     falloConsulta(pestana, enFondo, 'El servidor respondió con un error (' + esc(d.error) + ').');
+    return;
+  }
+
+  // Un servidor sin esta opcion la ignora y devolveria los pedidos reales:
+  // nunca mostrarlos como si fueran de prueba
+  if (rango.pruebas && d.verPruebas !== true) {
+    falloConsulta(pestana, enFondo, 'El servidor todavía no tiene la opción de pedidos de prueba.');
     return;
   }
 
@@ -404,9 +417,9 @@ function dibujar() {
     </tr>`;
 
   $('im-tbody').innerHTML = lista.map(p => `
-    <tr data-id="${esc(p.id)}">
+    <tr data-id="${esc(p.id)}"${p.prueba ? ' class="im-prueba"' : ''}>
       <td class="im-col-check"><input type="checkbox" class="im-check"></td>
-      <td class="im-num c-numero">${esc(p.numero)}</td>
+      <td class="im-num c-numero">${esc(p.numero)}${p.prueba ? ' <span class="im-marca-prueba">PRUEBA</span>' : ''}</td>
       <td class="c-fecha">${esc(p.fecha)}</td>
       <td class="im-num c-cuenta">${esc(p.cuenta)}</td>
       <td class="c-cliente">${esc(nombreDe(p))}</td>
@@ -618,6 +631,13 @@ function configurarEventos() {
   $('im-vendedor').addEventListener('change', e => cambiarFiltro({ vendedor: e.target.value }));
   $('im-limpiar').addEventListener('click', limpiarFiltros);
 
+  // Otra lista del servidor: la seleccion y lo guardado no sirven, se vacia y se espera
+  $('im-ver-pruebas').addEventListener('change', e => {
+    verPruebas = e.target.checked;
+    $('im-aviso-pruebas').hidden = !verPruebas;
+    consultar();
+  });
+
   // Toda la fila marca la casilla, no solo el cuadradito
   $('im-tbody').addEventListener('click', e => {
     const tr = e.target.closest('tr[data-id]');
@@ -680,6 +700,9 @@ async function iniciar() {
   const rol = sessionStorage.getItem('authRol');
   const codigo = sessionStorage.getItem('authCodigo');
   $('im-usuario').textContent = codigo ? `${codigo} · ${rol}` : rol;
+
+  // Ver pruebas: solo admin (el servidor lo ignora para los demas roles)
+  $('im-pruebas').hidden = rol !== 'admin';
 
   // Por defecto, la ultima semana
   const hoy = hoyArgentina();

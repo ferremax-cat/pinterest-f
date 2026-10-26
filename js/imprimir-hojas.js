@@ -625,6 +625,11 @@ function htmlBloqueFact(h, c, filas, totales) {
 
 // ---------- armado de un pedido ----------
 
+// Pedido del cliente de prueba: marca de agua en cada hoja, de preparacion y
+// de facturacion. Es texto con borde, no un fondo: sale impresa aunque el
+// navegador no imprima graficos de fondo
+const MARCA_PRUEBA = '<div class="ih-marca-prueba" aria-hidden="true"><b>PRUEBA</b><span>NO FACTURAR</span></div>';
+
 function armarPedido(p, reimpresion) {
   const c = {
     numero: p.numero || '—',
@@ -685,6 +690,10 @@ function armarPedido(p, reimpresion) {
   const hojasFact = unica ? [] : paginarFact(filasFact);
   const total = hojasPrep.length + hojasFact.length;
 
+  const abrirHoja = p.prueba === true
+    ? '<section class="ih-hoja ih-hoja-prueba">' + MARCA_PRUEBA
+    : '<section class="ih-hoja">';
+
   let html = '';
   hojasPrep.forEach((h, i) => {
     let cuerpo = h.primera
@@ -696,11 +705,11 @@ function armarPedido(p, reimpresion) {
       cuerpo += '<div class="ih-separador">FACTURACIÓN · uso interno</div>' +
         htmlBloqueFact({ primera: true, desde: 0, hasta: filasFact.length, cierre: true }, c, filasFact, totales);
     }
-    html += `<section class="ih-hoja">${cuerpo}${htmlPie(c, i + 1, total)}</section>`;
+    html += `${abrirHoja}${cuerpo}${htmlPie(c, i + 1, total)}</section>`;
   });
 
   hojasFact.forEach((h, i) => {
-    html += `<section class="ih-hoja">${htmlBloqueFact(h, c, filasFact, totales)}` +
+    html += `${abrirHoja}${htmlBloqueFact(h, c, filasFact, totales)}` +
       `${htmlPie(c, hojasPrep.length + i + 1, total)}</section>`;
   });
 

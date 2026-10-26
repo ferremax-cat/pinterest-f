@@ -59,6 +59,39 @@
 
 .ih-hoja > * { flex: none; }
 
+/* Pedido del cliente de prueba: marca de agua en diagonal sobre toda la hoja.
+   Absoluta, asi no ocupa lugar y el paginado no cambia. Texto y borde en gris
+   (negro al 20%), no un fondo: sale igual en blanco y negro y aunque el
+   navegador no imprima graficos de fondo */
+.ih-hoja-prueba { position: relative; }
+
+.ih-marca-prueba {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6mm;
+  transform: rotate(-35deg);
+  color: rgba(0, 0, 0, .2);
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ih-marca-prueba b {
+  padding: 3mm 8mm;
+  border: 2mm solid rgba(0, 0, 0, .2);
+  font-size: 60pt;
+  letter-spacing: 3mm;
+}
+
+.ih-marca-prueba span { font-size: 40pt; }
+
 .ih-pie {
   height: var(--ih-pie);
   margin-top: auto;

@@ -333,6 +333,14 @@ body {
   color: var(--texto-suave);
 }
 
+/* Pedidos del cliente de prueba (solo admin) */
+.im-pruebas { display: flex; align-items: center; gap: 6px; color: var(--texto-suave); }
+.im-aviso-pruebas { margin: 10px 0 0; padding: 8px 12px; border-radius: 6px;
+  background: #fef3c7; color: #92400e; font-weight: 600; }
+.im-marca-prueba { margin-left: 6px; padding: 1px 6px; border-radius: 4px;
+  background: #f59e0b; color: #fff; font-size: 11px; font-weight: 700; }
+tr.im-prueba { background: #fffbeb; }
+
 /* ---------- tabla (escritorio) ---------- */
 
 .im-tabla-cont {
