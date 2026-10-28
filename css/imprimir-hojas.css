@@ -97,6 +97,13 @@
 .ih-tabla tr.ih-obs-nota-fact { height: var(--ih-piso-fact); }
 .ih-tabla tr.ih-obs-lado-fact td { font-size: 6.5pt; font-weight: 700; text-transform: uppercase; }
 
+/* Resumen con observaciones: mas renglones (MM.totalesObs) */
+.ih-totales.ih-totales-obs { height: var(--ih-totales-obs); }
+.ih-totales > .ih-solo-obs-linea { justify-content: flex-start; font-weight: 800; letter-spacing: .06em; }
+.ih-tabla tr.ih-obs-nota-fact td { font-size: 6.5pt; font-style: italic; }
+/* Alerta para quien factura: borde y mayusculas, se ve en blanco y negro */
+.ih-verificar { padding: 0 1mm; border: .4mm solid #000; font-size: 6.5pt; font-weight: 800; }
+
 /* Facturacion de un pedido solo de observaciones: en lugar de los totales */
 .ih-totales.ih-totales-solo-obs { align-items: center; }
 .ih-totales > .ih-solo-obs-cierre {

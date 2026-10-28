@@ -404,7 +404,7 @@ function vistaVendedor() {
   const bloqueObs = conObs ? `
       <div class="cp-obs${lineas.length ? '' : ' cp-obs-solo'}">
         ${lineas.length ? '' : '<p class="cp-solo-obs">Pedido solo de observaciones: sin artículos.</p>'}
-        ${Obs.htmlLista(config, obsLista)}
+        ${Obs.htmlLista(config, obsLista, (o, def) => Obs.importeEstimado(def, o, 1 - tot.descuentoCombinado / 100))}
         <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
       </div>` : '';
 
@@ -616,7 +616,11 @@ function conectar(cont) {
 
   // Observaciones: la lista y la carga se abren en una hoja aparte, sin consultar al servidor
   cont.querySelector('.cp-obs-agregar')?.addEventListener('click', () => {
-    Obs.abrirSelector(config, { alAgregar: o => cambiarObs(lista => [...lista, o]) });
+    Obs.abrirSelector(config, {
+      actuales: window.Carrito.getAjustePedido().observaciones || [],
+      alAgregar: o => cambiarObs(lista => [...lista, o]),
+      alGuardarExistente: o => cambiarObs(lista => lista.map(x => x.id === o.id ? o : x))
+    });
   });
   cont.querySelectorAll('.cp-obs-linea').forEach(b => b.addEventListener('click', () => {
     const o = (window.Carrito.getAjustePedido().observaciones || []).find(x => x.id === b.dataset.obs);
@@ -1013,6 +1017,11 @@ async function confirmarPedido() {
 
       // Cada observacion completa antes de enviar (el servidor igual lo controla)
       const obsPed = aj.observaciones || [];
+      // Los articulos de las observaciones, en memoria para su precio de lista (cache local)
+      const faltanObs = obsPed.flatMap(o => o.items.map(it => it.sku)).filter(s => !window.productManager?.getProduct(s));
+      if (faltanObs.length) {
+        try { await window.productManagerInstance?.loadSpecificProducts(faltanObs); } catch (e) {}
+      }
       const incompleta = obsPed.find(o => Obs.falta(Obs.defDe(config, o.clave), o));
       if (incompleta) {
         const def = Obs.defDe(config, incompleta.clave);
@@ -1048,7 +1057,11 @@ async function confirmarPedido() {
         // Solo clave, articulos y lado: texto, grupo y efecto los pone el servidor
         observaciones: obsPed.map(o => ({
           clave: o.clave,
-          items: o.items.map(it => ({ sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '' }))
+          items: o.items.map(it => ({
+            sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '',
+            // Lista actual, con los precios en memoria; sin precio, null (a verificar al facturar)
+            precioLista: Obs.llevaLista(Obs.defDe(config, o.clave), it) ? (window.Precios?.precioLista(it.sku) ?? null) : null
+          }))
         })),
         lineas: d.lineas.map(l => ({
           sku: l.sku,
