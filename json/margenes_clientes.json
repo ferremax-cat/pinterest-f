@@ -1,15 +1,15 @@
 {
   "3": {
     "nombre": "CONSUMIDOR FINAL",
-    "margen": 5,
+    "margen": 6,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,27,9,50,30)"
+    "ultima_actualizacion": "Date(2026,9,28,10,54,37)"
   },
   "20257": {
     "nombre": "FERNANDEZ RUBEN FERRETERIA",
-    "margen": 50,
+    "margen": 0,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,26,18,52,53)"
+    "ultima_actualizacion": "Date(2026,9,28,11,59,19)"
   },
   "20395": {
     "nombre": "FERRETERIA RITA",
@@ -63,7 +63,7 @@
     "nombre": "LA QUINTA MATERIALES",
     "margen": 20,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,26,8,18,28)"
+    "ultima_actualizacion": "Date(2026,9,28,8,48,2)"
   },
   "20281": {
     "nombre": "PEDRO IVAN FERRETERIA",
@@ -75,7 +75,7 @@
     "nombre": "EL RELINCHO FERRETERIA",
     "margen": 70,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,14,15,45,30)"
+    "ultima_actualizacion": "Date(2026,9,28,9,48,9)"
   },
   "20101": {
     "nombre": "J.R. FERRETERIA",
@@ -555,7 +555,7 @@
     "nombre": "FERRETERIA CONTRERAS",
     "margen": 60,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,24,12,52,23)"
+    "ultima_actualizacion": "Date(2026,9,27,16,57,41)"
   },
   "1029": {
     "nombre": "FERRETERIA LA BROCA",
@@ -597,7 +597,7 @@
     "nombre": "JAIME GONZALEZ",
     "margen": 40,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,26,14,13,15)"
+    "ultima_actualizacion": "Date(2026,9,27,20,58,19)"
   },
   "20291": {
     "nombre": "EL PROGRESO FERRETERIA",
@@ -897,13 +897,13 @@
     "nombre": "CARMEN EL PORTUGUES",
     "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,10,11,27,20)"
+    "ultima_actualizacion": "Date(2026,9,27,17,42,35)"
   },
   "1014": {
     "nombre": "PALOMER FERRETERIA",
-    "margen": 60,
+    "margen": 50,
     "mostrar": "venta",
-    "ultima_actualizacion": "Date(2026,9,17,9,27,47)"
+    "ultima_actualizacion": "Date(2026,9,27,15,30,49)"
   },
   "20169": {
     "nombre": "CHARLY FERRETERIA",
@@ -940,5 +940,17 @@
     "margen": 30,
     "mostrar": "venta",
     "ultima_actualizacion": "Date(2026,9,26,16,58,40)"
+  },
+  "70118": {
+    "nombre": "FERRETERIA VALVERDE",
+    "margen": 48,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,9,27,14,58,33)"
+  },
+  "20293": {
+    "nombre": "ARMONIA FERRETERIA",
+    "margen": 0,
+    "mostrar": "venta",
+    "ultima_actualizacion": "Date(2026,9,28,13,55,48)"
   }
 }

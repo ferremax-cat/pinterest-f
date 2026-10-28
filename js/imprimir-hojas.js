@@ -95,7 +95,7 @@ const MM = {
   firmasFact: 14, separador: 8, reimp: 9,
   // Recuadro de observaciones: titulo (con su margen y bordes) y cada renglon
   // en preparacion; en facturacion, el titulo de cada observacion
-  obsCab: 8, obsFila: 5, obsFilaFoto: 12, obsTitFact: 4.5,
+  obsCab: 8, obsFila: 5, obsFilaFoto: 12, obsTitFact: 4.5, totalesObs: 44,
   // Titulo de piso en facturacion: un renglon fino, mas bajo que una linea
   pisoFact: 4
 };
@@ -379,7 +379,8 @@ const LADO_OBS = { facturado: 'Lo facturado', correspondia: 'Lo que correspondí
  * titulo de cada observacion y sus articulos (en la de ajuste, separados en
  * lo facturado y lo que correspondia). Las de Condiciones, solo el titulo.
  */
-function filasObservaciones(obs) {
+// paraFact: con la nota de la 126 (solo la hoja de facturacion)
+function filasObservaciones(obs, paraFact) {
   return obs.flatMap(o => {
     const items = (o.items || []).map(it => {
       const sku = normSku(it.sku);
@@ -391,6 +392,9 @@ function filasObservaciones(obs) {
         const del = items.filter(it => it.lado === lado);
         if (del.length) filas.push({ tipo: 'obsLado', texto: LADO_OBS[lado] }, ...del.map(it => ({ tipo: 'obsItem', o, it })));
       });
+      if (paraFact) {
+        filas.push({ tipo: 'obsNota', texto: 'Lo que correspondía va a lista actual sin descuentos; si es el mismo artículo, al precio facturado.' });
+      }
     } else {
       // foto: solo la usa la preparacion (OBS_CON_FOTO); la facturacion la ignora
       const foto = OBS_CON_FOTO.includes(String(o.codigo).trim());
@@ -674,19 +678,44 @@ function htmlPisoFact(piso, total, continua) {
     <span>· ${continua ? 'continúa' : `${total} ${total === 1 ? 'línea' : 'líneas'}`}</span></td></tr>`;
 }
 
+const fmtImporte = n => (n < 0 ? '−' + fmtPesos(-n) : fmtPesos(n));
+const fmtFechaCorta = iso => new Date(iso).toLocaleDateString('es-AR',
+  { timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit', year: '2-digit' });
+
+/**
+ * La observacion mueve importe y el servidor ya lo calculo (servidor v30 en
+ * adelante: siempre manda o.importe, aunque sea null). Con un servidor
+ * anterior la hoja queda como en la etapa 1, sin precios
+ */
+const conImporte = o => o.efecto !== 'informativa' && (o.items || []).length > 0 && o.importe !== undefined;
+const aVerificar = o => o.verificar || o.importe === null;
+
 function htmlObsTitFact(o) {
-  return `<tr class="ih-obs-tit-fact"><td colspan="7"><b>${esc(o.codigo)}</b> ${esc(o.texto)}` +
-    `${EFECTO_OBS[o.efecto] ? ` <span>· ${EFECTO_OBS[o.efecto]}</span>` : ''}</td></tr>`;
+  const imp = conImporte(o) && o.importe !== null ? fmtImporte(o.importe) : '';
+  return `<tr class="ih-obs-tit-fact"><td colspan="5"><b>${esc(o.codigo)}</b> ${esc(o.texto)}` +
+    `${EFECTO_OBS[o.efecto] ? ` <span>· ${EFECTO_OBS[o.efecto]}</span>` : ''}</td>` +
+    `<td class="ih-num">${imp}</td>` +
+    `<td>${conImporte(o) && aVerificar(o) ? '<b class="ih-verificar">VERIFICAR PRECIOS</b>' : ''}</td></tr>`;
+}
+
+/** Origen del precio: el pedido y su fecha, la lista actual o la alerta para quien factura */
+function htmlOrigen(o, it) {
+  if (!conImporte(o)) return '';
+  if (!it.origen) return '<b class="ih-verificar">VERIFICAR PRECIO</b>';
+  return it.origen.tipo === 'lista' ? 'Lista actual' : `${esc(it.origen.numero)} ${esc(fmtFechaCorta(it.origen.fecha))}`;
 }
 
 function htmlObsItemFact(f) {
   const renglones = renglonesFact(f.it);
+  const conPrecio = conImporte(f.o) && f.it.precio !== null && f.it.precio !== undefined;
   return `<tr class="ih-obs-item-fact"${renglones > 1 ? ` style="height:calc(var(--ih-fila-fact) * ${renglones})"` : ''}>
     <td class="ih-n"></td>
     <td class="ih-tcod">${esc(f.it.sku)}</td>
     <td class="ih-num">${fmtNum(f.it.cantidad)}</td>
     <td>${esc(f.it.nombre)}</td>
-    <td></td><td></td><td></td>
+    <td class="ih-num">${conPrecio ? fmtPesos(f.it.precio) : ''}</td>
+    <td class="ih-num">${conPrecio ? fmtImporte(f.it.importe) : ''}</td>
+    <td>${htmlOrigen(f.o, f.it)}</td>
   </tr>`;
 }
 
@@ -698,6 +727,7 @@ function htmlTablaFact(filas, continua) {
     if (f.tipo === 'obsTit') return htmlObsTitFact(f.o);
     if (f.tipo === 'obsLado') return `<tr class="ih-obs-lado-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
     if (f.tipo === 'obsItem') return htmlObsItemFact(f);
+    if (f.tipo === 'obsNota') return `<tr class="ih-obs-nota-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
     const it = f.it;
     const l = it.linea;
     const tipo = tipoDe(l);
@@ -731,16 +761,29 @@ function htmlCierreFact(t) {
   const desc = t.pct || t.descuento
     ? `Descuento sobre el total (${pcts}, no alcanza a las promociones)`
     : 'Descuento sobre el total';
-  // Pedido solo de observaciones: sin articulos no hay totales. Mismo alto
-  // (MM.totales), asi el paginado no cambia. En la etapa 2 aca va el resumen
-  // de importes de las observaciones
-  const totales = t.soloObs
+  // Resumen de las observaciones que mueven importe (t.obs): devoluciones,
+  // sumas, ajustes y el neto con observaciones ("A VERIFICAR" si falta algun precio)
+  const o = t.obs;
+  const resumenObs = o ? `
+      <div><span>Devoluciones (observaciones)</span><b>${o.devoluciones ? fmtImporte(o.devoluciones) : '—'}</b></div>
+      <div><span>Sumas (observaciones)</span><b>${o.sumas ? fmtImporte(o.sumas) : '—'}</b></div>
+      <div><span>Ajustes (observaciones)</span><b>${o.ajustes ? fmtImporte(o.ajustes) : '—'}</b></div>
+      <div class="ih-neto"><span>NETO CON OBSERVACIONES</span><b>${o.completo
+        ? fmtImporte(t.neto + o.devoluciones + o.sumas + o.ajustes) : 'A VERIFICAR'}</b></div>` : '';
+
+  // Solo de observaciones: sin importes, el recuadro (mismo alto que los
+  // totales); con importes, el resumen en ese mismo lugar
+  const totales = t.soloObs && !o
     ? `<div class="ih-totales ih-totales-solo-obs"><div class="ih-solo-obs-cierre">PEDIDO SOLO DE OBSERVACIONES</div></div>`
-    : `<div class="ih-totales">
+    : t.soloObs
+    ? `<div class="ih-totales ih-totales-obs">
+      <div class="ih-solo-obs-linea"><span>PEDIDO SOLO DE OBSERVACIONES</span></div>${resumenObs}
+    </div>`
+    : `<div class="ih-totales${o ? ' ih-totales-obs' : ''}">
       <div><span>Total bruto</span><b>${fmtPesos(t.bruto)}</b></div>
       <div><span>Líneas en promoción</span><b>${fmtPesos(t.promo)}</b></div>
       <div><span>${desc}</span><b>${t.descuento ? '−' + fmtPesos(t.descuento) : '—'}</b></div>
-      <div class="ih-neto"><span>TOTAL NETO</span><b>${fmtPesos(t.neto)}</b></div>
+      ${o ? `<div><span>Total artículos</span><b>${fmtPesos(t.neto)}</b></div>${resumenObs}` : `<div class="ih-neto"><span>TOTAL NETO</span><b>${fmtPesos(t.neto)}</b></div>`}
     </div>`;
   return `
     ${totales}
@@ -803,7 +846,8 @@ function armarPedido(p, reimpresion) {
   const pisos = agruparPorPiso(lineas);
   const filasObs = filasObservaciones(obs);
   // En facturacion, el recuadro va despues de los articulos, en la misma tabla
-  const filasFact = filasFacturacion(pisos).concat(filasObs.length ? [{ tipo: 'obsCab' }, ...filasObs] : []);
+  // (con la nota de la 126)
+  const filasFact = filasFacturacion(pisos).concat(obs.length ? [{ tipo: 'obsCab' }, ...filasObservaciones(obs, true)] : []);
 
   const sumaSub = lineas.reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0);
   const bruto = Number(p.totalBruto) || sumaSub;
@@ -820,16 +864,26 @@ function armarPedido(p, reimpresion) {
     soloObs: c.soloObs
   };
 
+  // Observaciones que mueven importe (con un servidor que ya los calcula):
+  // resumen en el cierre, mas alto que los totales de siempre
+  const movidas = obs.filter(conImporte);
+  const sumaDe = ef => Math.round(movidas.filter(x => x.efecto === ef)
+    .reduce((a, x) => a + (Number(x.importe) || 0), 0) * 100) / 100;
+  totales.obs = movidas.length ? {
+    devoluciones: sumaDe('descuenta'), sumas: sumaDe('suma'), ajustes: sumaDe('ajuste'),
+    completo: movidas.every(x => x.importe !== null)
+  } : null;
+  const altoCierre = (totales.obs ? MM.totalesObs : MM.totales) + MM.firmasFact;
+
   const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion, filasObs);
   const ultima = hojasPrep[hojasPrep.length - 1];
   // Con los titulos de piso: la hoja unica mide lo mismo que el paginado
   const altoFact = MM.cabFact + MM.filaFact +
-    filasFact.reduce((a, f) => a + altoFilaFact(f), 0) +
-    MM.totales + MM.firmasFact;
+    filasFact.reduce((a, f) => a + altoFilaFact(f), 0) + altoCierre;
   const unica = hojasPrep.length === 1 &&
     ultima.usado + MM.separador + altoFact <= MM.hoja * MARGEN_HOJA_UNICA;
 
-  const hojasFact = unica ? [] : paginarFact(filasFact);
+  const hojasFact = unica ? [] : paginarFact(filasFact, altoCierre);
   const total = hojasPrep.length + hojasFact.length;
 
   const abrirHoja = p.prueba === true

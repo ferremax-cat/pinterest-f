@@ -93,6 +93,24 @@ export function falta(def, o) {
   return '';
 }
 
+/** Lleva precio de lista actual: la 117 entera y lo que correspondia en la 126 */
+export const llevaLista = (def, it) => def?.efecto === 'suma' || it.lado === 'correspondia';
+
+/**
+ * Importe estimado de la 117 en el panel: lista actual con el descuento sobre
+ * el total elegido (factor). Las demas se calculan al imprimir: null.
+ */
+export function importeEstimado(def, o, factor) {
+  if (def?.efecto !== 'suma') return null;
+  let total = 0;
+  for (const it of o.items) {
+    const p = window.Precios?.precioLista(it.sku);
+    if (p === null || p === undefined || !(Number(it.cantidad) > 0)) return null;
+    total += p * Number(it.cantidad) * factor;
+  }
+  return Math.round(total * 100) / 100;
+}
+
 // ---------- lista compacta del panel ----------
 
 /**
@@ -125,7 +143,9 @@ export function htmlLista(config, lista, importeDe) {
  * agregan al tocarlas; las de Mercaderia pasan a la carga de articulos, en
  * la misma hoja.
  */
-export function abrirSelector(config, { alAgregar }) {
+// actuales: las observaciones que ya tiene el pedido. alGuardarExistente:
+// guarda una de esas, cuando se eligio de nuevo para sumarle articulos
+export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExistente }) {
   const defs = catalogo(config) || [];
   const u = usos();
   const h = abrirHoja({ titulo: 'Agregar observación' });
@@ -141,7 +161,7 @@ export function abrirSelector(config, { alAgregar }) {
     <button type="button" class="ob-opcion" data-clave="${esc(d.clave)}">
       <span class="ob-cod">${esc(d.codigo)}</span>
       <span class="ob-txt">${esc(d.texto)}</span>
-      <span class="ob-efecto">${esc(EFECTO_TEXTO[d.efecto] || '')}</span>
+      <span class="ob-efecto">${esc(EFECTO_TEXTO[d.efecto] || '')}${actuales.some(o => o.clave === d.clave) ? ' · ya en el pedido' : ''}</span>
     </button>`;
 
   // Secciones en el orden en que se ven: sin nada escrito, las mas usadas
@@ -167,14 +187,25 @@ export function abrirSelector(config, { alAgregar }) {
       : '<p class="ob-vacio">Ninguna observación coincide.</p>';
   }
 
-  /** Condiciones: se agrega. Mercaderia: pasa a la carga de articulos, en la misma hoja */
+  /**
+   * Condiciones: se agrega (si ya esta, no se repite). Mercaderia: pasa a la
+   * carga de articulos, en la misma hoja; si ya esta en el pedido, se abre
+   * esa misma para sumarle articulos, en lugar de crear otra
+   */
   function elegir(def) {
-    const nueva = { id: nuevoId(), clave: def.clave, items: [] };
+    const existente = actuales.find(o => o.clave === def.clave);
     if (def.grupo !== 'mercaderia') {
       h.cerrar();
-      alAgregar(nueva);
+      if (!existente) alAgregar({ id: nuevoId(), clave: def.clave, items: [] });
       return;
     }
+    if (existente) {
+      editarEn(h, def, JSON.parse(JSON.stringify(existente)), {
+        alGuardar: o => { h.cerrar(); alGuardarExistente(o); }
+      });
+      return;
+    }
+    const nueva = { id: nuevoId(), clave: def.clave, items: [] };
     editarEn(h, def, nueva, { alGuardar: o => { h.cerrar(); alAgregar(o); } });
   }
 
@@ -273,6 +304,8 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
   function agregar(lado, sku, nombre) {
     const k = o.items.findIndex(it => it.sku === sku && (it.lado || '') === lado);
     if (k < 0) o.items.push({ sku, nombre, cantidad: '', lado });
+    // A memoria para su precio de lista (cache local, sin servidor)
+    window.productManagerInstance?.loadSpecificProducts?.([sku])?.catch?.(() => {});
     // Si ya estaba, se va a su cantidad en lugar de repetirlo
     const n = k < 0 ? o.items.length - 1 : k;
     error = '';
