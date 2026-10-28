@@ -424,16 +424,22 @@ function leerObservacionesDe(ss, ids) {
     if (!ids.has(id)) return;
     const lista = res[id] = res[id] || [];
     const orden = Number(r[C.orden_obs]) || 0;
-    let o = lista.find(x => x.orden === orden);
+    // La misma observacion repetida en un pedido (por ejemplo, dos 116, una
+    // por articulo) se junta bajo un solo titulo, con todos sus articulos
+    const clave = String(r[C.clave] || '').trim() || '#' + orden;
+    let o = lista.find(x => x.clave === clave);
     if (!o) {
-      o = { orden, clave: String(r[C.clave]), codigo: String(r[C.codigo] || ''),
+      o = { orden, clave, codigo: String(r[C.codigo] || ''),
             texto: String(r[C.texto] || ''), grupo: String(r[C.grupo] || ''),
             efecto: String(r[C.efecto] || 'informativa'), items: [] };
       lista.push(o);
     }
+    o.orden = Math.min(o.orden, orden);
     if (String(r[C.sku] || '').trim()) {
       o.items.push({
-        orden: Number(r[C.orden_item]) || 0,
+        // Primero por observacion y despues por articulo: al juntar dos, los
+        // articulos quedan en el orden en que se cargaron
+        orden: orden * 1000 + (Number(r[C.orden_item]) || 0),
         lado: String(r[C.lado] || ''),
         sku: String(r[C.sku]).trim(),
         nombre: String(r[C.nombre] || ''),
@@ -448,6 +454,62 @@ function leerObservacionesDe(ss, ids) {
     res[id].forEach(o => o.items.sort((a, b) => a.orden - b.orden));
   });
   return res;
+}
+
+/**
+ * Precio e importe de cada articulo de una observacion, con su origen
+ * ({ tipo: 'anterior', numero, fecha } o { tipo: 'lista' }; null: verificar).
+ * - descuenta (116, 119): precio anterior; importe negativo.
+ * - suma (117): lista actual (la que mando el navegador al confirmar) con el
+ *   descuento sobre el total del pedido, como las lineas fuera de promocion.
+ * - ajuste (126): lo que correspondia menos lo facturado. Lo facturado, a
+ *   precio anterior; lo que correspondia, al mismo precio anterior si es el
+ *   mismo articulo, si no a lista actual sin descuentos. Siempre a verificar.
+ * o.importe: con signo (negativo descuenta), o null si falta algun precio o
+ * si es informativa. Siempre se define: la app lo usa para saber que el
+ * servidor ya calcula importes.
+ * anterior(sku): { precio, numero, fecha } o null.
+ */
+function calcularImportesObs(o, factorTotal, anterior) {
+  o.importe = null;
+  o.verificar = o.efecto === 'ajuste';
+  if (o.efecto === 'informativa' || !o.items.length) return;
+
+  let total = 0;
+  let completo = true;
+  const desde = a => (a ? { tipo: 'anterior', numero: a.numero, fecha: a.fecha } : null);
+  const poner = (it, precio, origen, signo) => {
+    it.precio = precio;
+    it.origen = precio === null ? null : origen;
+    it.importe = precio === null ? null : Math.round(signo * precio * it.cantidad * 100) / 100;
+    if (it.importe === null) completo = false;
+    else total += it.importe;
+  };
+
+  const facturado = {};   // sku -> precio anterior de lo facturado (en la de ajuste)
+  o.items.forEach(it => {
+    if (o.efecto === 'suma') {
+      const p = it.precioLista ? Math.round(it.precioLista * factorTotal * 100) / 100 : null;
+      poner(it, p, { tipo: 'lista' }, 1);
+    } else if (o.efecto === 'descuenta' || it.lado === 'facturado') {
+      const a = anterior(it.sku);
+      if (it.lado === 'facturado') facturado[it.sku] = a;
+      poner(it, a ? a.precio : null, desde(a), -1);
+    }
+  });
+  if (o.efecto === 'ajuste') {
+    o.items.filter(it => it.lado === 'correspondia').forEach(it => {
+      if (it.sku in facturado) {
+        const a = facturado[it.sku];
+        poner(it, a ? a.precio : null, desde(a), 1);
+      } else {
+        poner(it, it.precioLista || null, { tipo: 'lista' }, 1);
+      }
+    });
+  }
+
+  o.importe = completo ? Math.round(total * 100) / 100 : null;
+  if (!completo) o.verificar = true;
 }
 
 // ---------- pedidos ----------
@@ -848,7 +910,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v29-observaciones' });
+      return responder({ ok: true, version: 'v30-observaciones-importes' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -973,6 +1035,7 @@ function accionPedidosParaImprimir(body) {
     return nombreDe[c];
   };
   const pedidos = [];
+  const previos = {};   // id -> pedido impreso con articulos (para el precio anterior)
 
   for (let i = 1; i < cab.length; i++) {
     const f = cab[i];
@@ -983,9 +1046,22 @@ function accionPedidosParaImprimir(body) {
     if (!rc || rc === 'cliente_estandar') continue;
 
     const prueba = esPedidoPrueba(I.numero >= 0 ? f[I.numero] : '', f[I.cliente], cp);
-    if (prueba !== soloPruebas) continue;
-
     const impreso = String(f[I.impreso] || '').trim().toUpperCase() === 'SI';
+
+    // Para el precio anterior de las observaciones: los pedidos ya impresos,
+    // armados o revisados por un vendedor o admin (filtro de arriba), con
+    // articulos (los de solo observaciones no). Se elige al recorrer las lineas
+    if (impreso && Number(f[I.cant]) > 0) {
+      previos[String(f[I.id]).trim()] = {
+        cliente: String(f[I.cliente]).trim(),
+        prueba,
+        ts: f[I.ts] instanceof Date ? f[I.ts] : new Date(f[I.ts]),
+        numero: etiquetaGuardada(I.numero >= 0 ? f[I.numero] : '', i),
+        neto: Number(f[I.neto]) || 0
+      };
+    }
+
+    if (prueba !== soloPruebas) continue;
     if (modo === 'pendientes' && impreso) continue;
     if (modo === 'impresos') {
       if (!impreso) continue;
@@ -1032,6 +1108,24 @@ function accionPedidosParaImprimir(body) {
 
   // Lineas de los pedidos elegidos, tambien con campos explicitos
   const ids = new Set(pedidos.map(x => x.id));
+
+  // Observaciones de los pedidos elegidos (los viejos no tienen: lista vacia)
+  const obsPorId = leerObservacionesDe(ss, ids);
+  pedidos.forEach(pd => { pd.observaciones = obsPorId[pd.id] || []; });
+
+  // Articulos que necesitan precio anterior, por cliente y entorno: un pedido
+  // de prueba busca solo entre los de prueba, y uno real, solo entre los reales
+  const claveBusqueda = (cliente, prueba, sku) =>
+    cliente + '|' + (prueba ? 1 : 0) + '|' + String(sku).trim().toUpperCase();
+  const buscados = {};
+  const clientesBuscan = new Set();
+  pedidos.forEach(pd => pd.observaciones.forEach(o => o.items.forEach(it => {
+    if (o.efecto === 'descuenta' || (o.efecto === 'ajuste' && it.lado === 'facturado')) {
+      buscados[claveBusqueda(pd.cliente, pd.prueba, it.sku)] = true;
+      clientesBuscan.add(pd.cliente);
+    }
+  })));
+
   const lin = ss.getSheetByName('pedidos_lineas').getDataRange().getValues();
   const encL = lin[0].map(x => String(x).trim());
   const cl = n => encL.indexOf(n);
@@ -1042,9 +1136,24 @@ function accionPedidosParaImprimir(body) {
     sub: cl('subtotal'), descSel: cl('desc_linea_pct')
   };
   const porId = {};
+  const sumas = {};        // id previo -> { bruto, promo }: su descuento sobre el total
+  const apariciones = {};  // clave de busqueda -> [{ id, pu, enPromo }]
   for (let i = 1; i < lin.length; i++) {
     const r = lin[i];
     const id = String(r[L.id]).trim();
+
+    // Solo los pedidos previos de los clientes que lo necesitan
+    const pv = previos[id];
+    if (pv && clientesBuscan.has(pv.cliente)) {
+      const sub = Number(r[L.sub]) || 0;
+      const enPromo = String(r[L.mec] || '') === 'promocion';
+      const s = sumas[id] = sumas[id] || { bruto: 0, promo: 0 };
+      s.bruto += sub;
+      if (enPromo) s.promo += sub;
+      const k = claveBusqueda(pv.cliente, pv.prueba, r[L.sku]);
+      if (buscados[k]) (apariciones[k] = apariciones[k] || []).push({ id, pu: Number(r[L.pu]) || 0, enPromo });
+    }
+
     if (!ids.has(id)) continue;
     (porId[id] = porId[id] || []).push({
       orden: Number(r[L.orden]) || 0,
@@ -1062,11 +1171,34 @@ function accionPedidosParaImprimir(body) {
       subtotal: Number(r[L.sub]) || 0
     });
   }
-  // Observaciones de los pedidos elegidos (los viejos no tienen: lista vacia)
-  const obsPorId = leerObservacionesDe(ss, ids);
+  /**
+   * Precio neto unitario del pedido impreso mas reciente del cliente con ese
+   * articulo, anterior al pedido que se imprime (una reimpresion da el mismo
+   * precio): precio_unitario con el descuento sobre el total, que sale de los
+   * totales del pedido (los dos descuentos en cascada); las lineas en
+   * promocion no lo llevan
+   */
+  function precioAnterior(pd, sku) {
+    const antesDe = new Date(pd.fecha);
+    let mejor = null;
+    (apariciones[claveBusqueda(pd.cliente, pd.prueba, sku)] || []).forEach(a => {
+      const t = previos[a.id].ts;
+      if (a.id === pd.id || !(t < antesDe)) return;
+      if (!mejor || t > previos[mejor.id].ts) mejor = a;
+    });
+    if (!mejor) return null;
+    const pv = previos[mejor.id];
+    const s = sumas[mejor.id];
+    const factor = mejor.enPromo ? 1 : factorDescuentoTotal(
+      [{ subtotal: s.bruto - s.promo }, { subtotal: s.promo, mecanismo: 'promocion' }], pv.neto);
+    return { precio: Math.round(mejor.pu * factor * 100) / 100, numero: pv.numero, fecha: pv.ts.toISOString() };
+  }
+
   pedidos.forEach(pd => {
     pd.lineas = (porId[pd.id] || []).sort((a, b) => a.orden - b.orden);
-    pd.observaciones = obsPorId[pd.id] || [];
+    // La 117 lleva el descuento sobre el total del pedido, en cascada
+    const factorTotal = (1 - pd.descTotalPct / 100) * (1 - pd.descTotalExtraPct / 100);
+    pd.observaciones.forEach(o => calcularImportesObs(o, factorTotal, sku => precioAnterior(pd, sku)));
   });
 
   return responder({ ok: true, modo, verPruebas: soloPruebas, pedidos });
