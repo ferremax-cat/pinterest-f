@@ -65,6 +65,9 @@ export function limpiarClienteVista() {
   sessionStorage.removeItem('clienteVista');
   sessionStorage.removeItem('disponibleCliente');
   repintarTodos();
+  // Sin cliente, el boton flotante se oculta (igual que en setClienteVista)
+  window.Carrito?.refrescarBotonFlotante();
+  // Por ejemplo, para que el icono de carritos pendientes vuelva a contarlos todos
   document.dispatchEvent(new CustomEvent('cliente:cambio'));
 }
 

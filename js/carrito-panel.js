@@ -20,6 +20,14 @@ const SIN_CUPO = '#d1d5db';   // barra de las lineas cuando no hay semaforo
 
 let moviendo = null;   // sku de la linea que se esta reubicando
 
+// Se acaba de confirmar un pedido de un vendedor: al cerrar la pantalla de
+// exito, sin cliente y al buscador de clientes (ver cerrar)
+let elegirClienteAlCerrar = false;
+
+// Cuenta del cliente cuyo carrito se abrio desde el icono de pendientes: no
+// es el que se esta atendiendo. Vale mientras el panel siga abierto
+let abiertoDesdePendientes = null;
+
 let config = null;
 
 async function cargarConfigInterna() {
@@ -184,8 +192,18 @@ function contenedor() {
   return cont;
 }
 
-export function abrir() {
+// opc.desde: 'pendientes' si se abrio desde el icono de carritos pendientes
+export function abrir(opc = {}) {
   const cont = contenedor();
+  // Abrir desde los pendientes marca a ese cliente. Cualquier otra apertura
+  // con el panel cerrado lo desmarca; con el panel ya abierto (por ejemplo,
+  // auth:token-listo lo vuelve a abrir) se conserva lo que habia
+  const yaAbierto = cont.style.display === 'flex';
+  if (opc.desde === 'pendientes') {
+    abiertoDesdePendientes = String(window.Precios?.getClienteVista()?.cuenta ?? '');
+  } else if (!yaAbierto) {
+    abiertoDesdePendientes = null;
+  }
   cont.className = esVendedor() ? 'cp-fondo cp-centrado' : 'cp-fondo cp-lateral';
   cont.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -253,6 +271,19 @@ export function cerrar() {
   const cont = document.getElementById('carrito-panel');
   if (cont) cont.style.display = 'none';
   document.body.style.overflow = '';
+  // Cerrado el panel, si sigue con ese cliente ya lo esta atendiendo
+  abiertoDesdePendientes = null;
+
+  // Despues de confirmar un pedido (vendedor), con Listo o tocando afuera:
+  // se saca al cliente y se abre el buscador de clientes, para que el
+  // proximo pedido empiece eligiendo a quien. Es en este toque, asi el
+  // celular abre el teclado
+  if (elegirClienteAlCerrar && window.busquedaClientes?.elegirOtroCliente) {
+    elegirClienteAlCerrar = false;
+    window.busquedaClientes.elegirOtroCliente();
+    return;
+  }
+  elegirClienteAlCerrar = false;
 
   // Foco en el buscador con el texto seleccionado: el usuario escribe
   // su proxima busqueda sin tener que borrar lo anterior
@@ -264,6 +295,8 @@ export function cerrar() {
 }
 
 function dibujar() {
+  // Si se vuelve a dibujar el carrito, la pantalla de exito ya no esta
+  elegirClienteAlCerrar = false;
 
   const pend = window.Carrito?.getPendiente?.();
   if (pend) {
@@ -883,7 +916,19 @@ function confirmarVaciar() {
   capa.querySelector('.cp-confirma-cancelar').addEventListener('click', cerrarConfirma);
   capa.querySelector('.cp-confirma-vaciar').addEventListener('click', () => {
     cerrarConfirma();
+    // Carrito abierto desde los pendientes (y sigue siendo ese cliente): no
+    // es el que se esta atendiendo. Despues de vaciarlo, sin cliente y al
+    // buscador de clientes, como al confirmar. Vaciar el del cliente que se
+    // atiende lo deja seleccionado, para seguir con el
+    const cuentaVista = String(window.Precios?.getClienteVista()?.cuenta ?? '');
+    const desdePendientes = !!abiertoDesdePendientes && abiertoDesdePendientes === cuentaVista;
     window.Carrito.vaciar();
+    if (desdePendientes) {
+      // Despues de vaciar: vaciar() redibuja, y dibujar() borra la marca
+      elegirClienteAlCerrar = true;
+      cerrar();
+      return;
+    }
     dibujar();
   });
   // Tocar afuera de la tarjeta (sobre la capa) cancela
@@ -1149,6 +1194,9 @@ async function confirmarPedido() {
           <button class="cp-cerrar-exito">Listo</button>
         </div>
       </div>`;
+    // Vendedor: al cerrar esta pantalla, sin cliente y al buscador de
+    // clientes. Un cliente confirma su propio pedido: no tiene a quien elegir
+    elegirClienteAlCerrar = esVend;
     cont.querySelector('.cp-cerrar-exito').addEventListener('click', cerrar);
 
   } catch (err) {
@@ -1184,7 +1232,8 @@ function ajustarAltura() {
 
 // ---------- enganche ----------
 
-document.addEventListener('carrito:abrir', abrir);
+// detail: { desde: 'pendientes' } cuando se abre desde el icono de pendientes
+document.addEventListener('carrito:abrir', e => abrir(e.detail || {}));
 document.addEventListener('carrito:cambio', dibujar);
 // Intentar varias veces: el rol tarda en estar disponible al cargar
 [500, 1500, 3000].forEach(ms => setTimeout(() => { if (!config && esVendedor()) cargarConfig(); }, ms));
