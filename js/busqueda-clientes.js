@@ -261,6 +261,21 @@ class BusquedaClientes {
     }
 
     /**
+     * Despues de confirmar un pedido (vendedor): sin cliente en vista y con
+     * el buscador de clientes abierto, para que el proximo pedido empiece
+     * eligiendo a quien. Los carritos a medio armar de otros clientes no se
+     * tocan: solo se saca la seleccion. Mismo armado que "Estado de cuentas"
+     * del menu (funcionalidades-menu.js)
+     */
+    elegirOtroCliente() {
+        window.Precios?.limpiarClienteVista();
+        if (window.BarraSaludFinanciera && window.BarraSaludFinanciera.visible) {
+            window.BarraSaludFinanciera.ocultar();
+        }
+        this.activar();
+    }
+
+    /**
      * Ocultar galería de productos
      */
     ocultarProductos() {
@@ -599,6 +614,10 @@ class BusquedaClientes {
                             bi.classList.remove('visible');
                             document.body.classList.remove('barra-visible');
                         }
+                        // Limpiar tambien saca al cliente: sin esto, la recarga lo
+                        // vuelve a seleccionar (restaurarClienteEnVista). Sus
+                        // carritos quedan guardados
+                        window.Precios?.limpiarClienteVista();
                         localStorage.setItem('setFocusOnLoad', 'true');
                         setTimeout(() => window.location.reload(), 50);
                     });

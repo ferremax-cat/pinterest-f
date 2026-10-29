@@ -134,9 +134,11 @@ async function abrirCarrito(cuenta, boton, panel) {
   await window.busquedaClientes.seleccionarCliente(cuenta);
   panel.remove();
 
-  // seleccionarCliente no aplica el cliente si no tiene lista de precios
+  // seleccionarCliente no aplica el cliente si no tiene lista de precios.
+  // desde: el panel sabe que este cliente no es el que se esta atendiendo
+  // (al vaciarlo, vuelve al buscador de clientes)
   if (String(window.Precios?.getClienteVista()?.cuenta) === String(cuenta)) {
-    document.dispatchEvent(new CustomEvent('carrito:abrir'));
+    document.dispatchEvent(new CustomEvent('carrito:abrir', { detail: { desde: 'pendientes' } }));
   }
 }
 
