@@ -1499,7 +1499,10 @@ function displayNoResults(query) {
                 document.body.classList.remove('barra-visible');  // ← Esta línea
               }
 
-
+              // Limpiar tambien saca al cliente en vista: sin esto, la recarga
+              // lo vuelve a seleccionar (restaurarClienteEnVista en
+              // busqueda-clientes.js). Sus carritos quedan guardados
+              window.Precios?.limpiarClienteVista();
 
               // Establecer una bandera en localStorage para que sea más fácil de inspeccionar
               localStorage.setItem('setFocusOnLoad', 'true');
