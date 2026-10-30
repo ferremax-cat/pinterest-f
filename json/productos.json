@@ -119,6 +119,16 @@
       "F": 7393.14
     }
   },
+  "AGRAUPZ": {
+    "name": "AURIPOZ TRATAMINTO P POZO CIEGO 2Kg.",
+    "category": "8.AURIPOZ",
+    "bulk": 1.0,
+    "prices": {
+      "D": 3723.88,
+      "E": 4010.34,
+      "F": 3437.43
+    }
+  },
   "AGRBC200": {
     "name": "BABOSIL CEBO x200cc",
     "category": "8.PROD.QUIM/BABOSAS",
@@ -227,6 +237,16 @@
       "D": 35203.04,
       "E": 37910.97,
       "F": 32495.12
+    }
+  },
+  "AGRDT125cc": {
+    "name": "DERRIBANTE TOTAL LUQUIDO 125cc FULLTION",
+    "category": "8.PROD.QUIM/DERRIBANTES",
+    "bulk": 1.0,
+    "prices": {
+      "D": 6263.13,
+      "E": 6744.9,
+      "F": 5781.35
     }
   },
   "AGRDT250cc": {
@@ -18959,16 +18979,6 @@
       "F": 89845.65
     }
   },
-  "CL00054000001": {
-    "name": "DISCO DE LIJAS FLAP OXI.115 TYROLIT",
-    "category": "8.DISCO FLAP TYROLIT",
-    "bulk": 10.0,
-    "prices": {
-      "D": 5221.33,
-      "E": 4765.23,
-      "F": 4084.48
-    }
-  },
   "CL00074BRO2.5": {
     "name": "VARILLA/BRONCE 2.5mm.Ptex5kg(26uxKg)",
     "category": "8.VARILLA P/SOLDAR y ACCE",
@@ -18984,9 +18994,9 @@
     "category": "8.VARILLA P/SOLDAR y ACCE",
     "bulk": 17.0,
     "prices": {
-      "D": 4380.91,
-      "E": 4717.9,
-      "F": 4043.92
+      "D": 4423.72,
+      "E": 4764.01,
+      "F": 4083.43
     }
   },
   "CL00086000002": {
@@ -27949,36 +27959,6 @@
       "F": 63153.65
     }
   },
-  "DTF263C": {
-    "name": "DISCO DIAMANT CONTINUO 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 10.0,
-    "prices": {
-      "D": 8211.74,
-      "E": 8843.41,
-      "F": 7580.07
-    }
-  },
-  "DTF263S": {
-    "name": "DISCO DIAMANT SEGMENT 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 10.0,
-    "prices": {
-      "D": 11160.57,
-      "E": 12019.08,
-      "F": 10302.06
-    }
-  },
-  "DTF263T": {
-    "name": "DISCO DIAMANT TURBO 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 10.0,
-    "prices": {
-      "D": 11528.99,
-      "E": 12415.83,
-      "F": 10642.14
-    }
-  },
   "DTF280": {
     "name": "VIRUTA FINA Pte x250grs GALI",
     "category": "8.VIRUTA DE ACERO 250gr",
@@ -28097,46 +28077,6 @@
       "D": 3157.44,
       "E": 3400.32,
       "F": 2914.56
-    }
-  },
-  "DTF406": {
-    "name": "DISCO DIAM CONTIN BASIC 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 1.0,
-    "prices": {
-      "D": 6421.43,
-      "E": 6915.38,
-      "F": 5927.47
-    }
-  },
-  "DTF407": {
-    "name": "DISCO DIAM SEGMEN BASIC 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 1.0,
-    "prices": {
-      "D": 6510.2,
-      "E": 7010.99,
-      "F": 6009.42
-    }
-  },
-  "DTF408": {
-    "name": "DISCO DIAM TURBO BASIC 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 1.0,
-    "prices": {
-      "D": 7153.83,
-      "E": 7704.12,
-      "F": 6603.53
-    }
-  },
-  "DTF409": {
-    "name": "DISCO DIAM BASIC MULTIUSO 115 TYROLIT",
-    "category": "8.DISCO DIAMANT.TYROLIT",
-    "bulk": 10.0,
-    "prices": {
-      "D": 10882.41,
-      "E": 11719.51,
-      "F": 10045.3
     }
   },
   "DTF419": {
@@ -44082,7 +44022,7 @@
   "GONHUFERJO34TV": {
     "name": "CA\u00d1O PLAST RIGIDO LIVIANO LUZ 3/4",
     "category": "9.CA\u00d1O PVC",
-    "bulk": 0.0,
+    "bulk": 1.0,
     "prices": {
       "D": 1477.45,
       "E": 1591.1,
@@ -49654,9 +49594,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 24437.35,
-      "E": 26317.15,
-      "F": 22557.55
+      "D": 25903.64,
+      "E": 27896.23,
+      "F": 23911.05
     }
   },
   "JC2803": {
@@ -49664,9 +49604,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 27460.75,
-      "E": 29573.11,
-      "F": 25348.38
+      "D": 29108.67,
+      "E": 31347.8,
+      "F": 26869.54
     }
   },
   "JC2804": {
@@ -49674,9 +49614,9 @@
     "category": "8.MANGUERA P/ALTA PRESION",
     "bulk": 1.0,
     "prices": {
-      "D": 31185.92,
-      "E": 33584.83,
-      "F": 28787.0
+      "D": 33057.18,
+      "E": 35600.04,
+      "F": 30514.32
     }
   },
   "JC2858": {
@@ -49904,9 +49844,9 @@
     "category": "8.ACC.P/CORTINA SABELCORT",
     "bulk": 50.0,
     "prices": {
-      "D": 564.42,
-      "E": 607.84,
-      "F": 521.0
+      "D": 546.77,
+      "E": 588.83,
+      "F": 504.72
     }
   },
   "JC4302": {
@@ -52644,9 +52584,9 @@
     "category": "8.HORQUILLA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 54310.81,
-      "E": 58488.56,
-      "F": 50133.05
+      "D": 57389.76,
+      "E": 61804.36,
+      "F": 52975.16
     }
   },
   "LOUGHE0044": {
@@ -52654,9 +52594,9 @@
     "category": "8.HORQUILLA GHERARDI",
     "bulk": 1.0,
     "prices": {
-      "D": 54310.81,
-      "E": 58488.56,
-      "F": 50133.05
+      "D": 57389.76,
+      "E": 61804.36,
+      "F": 52975.16
     }
   },
   "LOUGHE011": {
@@ -52974,9 +52914,9 @@
     "category": "8.MEZCLADOR NEIKE",
     "bulk": 1.0,
     "prices": {
-      "D": 11139.34,
-      "E": 11996.21,
-      "F": 10282.47
+      "D": 11584.91,
+      "E": 12476.06,
+      "F": 10693.76
     }
   },
   "LOUPET512": {
@@ -53194,9 +53134,9 @@
     "category": "8.PALA HOYERA",
     "bulk": 1.0,
     "prices": {
-      "D": 98480.3,
-      "E": 110297.93,
-      "F": 94541.08
+      "D": 104921.54,
+      "E": 117512.13,
+      "F": 100724.68
     }
   },
   "LOUTRA7982": {
@@ -53224,9 +53164,9 @@
     "category": "8.TIJERA PARA PODA",
     "bulk": 1.0,
     "prices": {
-      "D": 8236.81,
-      "E": 8870.41,
-      "F": 7603.21
+      "D": 8221.18,
+      "E": 8853.58,
+      "F": 7588.78
     }
   },
   "LOUVUL4": {
@@ -57064,9 +57004,9 @@
     "category": "8.LIMA ESCOFINA Jgo",
     "bulk": 60.0,
     "prices": {
-      "D": 6080.87,
-      "E": 6548.63,
-      "F": 5613.11
+      "D": 6123.98,
+      "E": 6595.06,
+      "F": 5652.91
     }
   },
   "MASIV10059": {
@@ -57164,9 +57104,9 @@
     "category": "8.CORTINA BA\u00d1O SIMPLE",
     "bulk": 10.0,
     "prices": {
-      "D": 3964.88,
-      "E": 4269.87,
-      "F": 3659.89
+      "D": 2032.6,
+      "E": 2188.96,
+      "F": 1876.25
     }
   },
   "MASIV11358": {
@@ -57194,9 +57134,9 @@
     "category": "1.GRIF.BCE/MONO/IMP MAS",
     "bulk": 12.0,
     "prices": {
-      "D": 58301.98,
-      "E": 62786.75,
-      "F": 53817.22
+      "D": 54319.75,
+      "E": 58498.19,
+      "F": 50141.31
     }
   },
   "MASIV11670": {
@@ -57264,9 +57204,9 @@
     "category": "9.TUBO LUZ EMERG.IMP.",
     "bulk": 120.0,
     "prices": {
-      "D": 8058.03,
-      "E": 8677.88,
-      "F": 7748.11
+      "D": 6929.32,
+      "E": 7462.35,
+      "F": 6662.81
     }
   },
   "MASIV12208": {
@@ -57304,9 +57244,9 @@
     "category": "8.PAVA ELECTRICA",
     "bulk": 16.0,
     "prices": {
-      "D": 48296.04,
-      "E": 52011.12,
-      "F": 44580.96
+      "D": 21912.07,
+      "E": 23597.61,
+      "F": 20226.52
     }
   },
   "MASIV12459": {
@@ -57344,9 +57284,9 @@
     "category": "8.MECHA A/RAPIDO CONICA",
     "bulk": 200.0,
     "prices": {
-      "D": 5195.61,
-      "E": 5595.27,
-      "F": 4795.95
+      "D": 4143.74,
+      "E": 4462.49,
+      "F": 3824.99
     }
   },
   "MASIV12672": {
@@ -57464,9 +57404,9 @@
     "category": "8.ALAMBRE GALVANIZADO",
     "bulk": 10.0,
     "prices": {
-      "D": 2026.97,
-      "E": 2182.89,
-      "F": 1871.05
+      "D": 2029.52,
+      "E": 2185.64,
+      "F": 1873.41
     }
   },
   "MASIV12784": {
@@ -57494,9 +57434,9 @@
     "category": "8.CEPILLADORA MANUAL",
     "bulk": 9.0,
     "prices": {
-      "D": 23057.71,
-      "E": 24831.38,
-      "F": 21284.04
+      "D": 20018.05,
+      "E": 21557.9,
+      "F": 18478.2
     }
   },
   "MASIV13026": {
@@ -57544,9 +57484,9 @@
     "category": "8.TERMOS/REPUESTOS",
     "bulk": 50.0,
     "prices": {
-      "D": 13931.48,
-      "E": 15003.13,
-      "F": 12859.83
+      "D": 12953.22,
+      "E": 13949.62,
+      "F": 11956.82
     }
   },
   "MASIV13224": {
@@ -57574,9 +57514,9 @@
     "category": "8.TIJERA PARA HOJALATERO",
     "bulk": 120.0,
     "prices": {
-      "D": 4003.61,
-      "E": 4311.58,
-      "F": 3695.64
+      "D": 3387.67,
+      "E": 3648.26,
+      "F": 3127.08
     }
   },
   "MASIV13292": {
@@ -57584,9 +57524,9 @@
     "category": "8.PIEDRA DE AFILAR",
     "bulk": 150.0,
     "prices": {
-      "D": 1804.26,
-      "E": 1943.05,
-      "F": 1665.47
+      "D": 962.41,
+      "E": 1036.44,
+      "F": 888.38
     }
   },
   "MASIV1536": {
@@ -57614,9 +57554,9 @@
     "category": "8.MAQUINA FLY",
     "bulk": 1.0,
     "prices": {
-      "D": 2861.75,
-      "E": 3081.88,
-      "F": 2641.61
+      "D": 2869.36,
+      "E": 3090.08,
+      "F": 2648.64
     }
   },
   "MASIV1785": {
@@ -57744,9 +57684,9 @@
     "category": "8.HILO PLASTICO",
     "bulk": 360.0,
     "prices": {
-      "D": 828.17,
-      "E": 891.88,
-      "F": 764.46
+      "D": 829.98,
+      "E": 893.82,
+      "F": 766.13
     }
   },
   "MASIV66": {
@@ -57754,9 +57694,9 @@
     "category": "9.TIMBRES",
     "bulk": 100.0,
     "prices": {
-      "D": 3020.77,
-      "E": 3253.14,
-      "F": 2788.4
+      "D": 3224.45,
+      "E": 3472.48,
+      "F": 2976.41
     }
   },
   "MASIV6696": {
@@ -57954,9 +57894,9 @@
     "category": "1.ACCES.P/BA\u00d1O",
     "bulk": 10.0,
     "prices": {
-      "D": 5680.61,
-      "E": 6117.58,
-      "F": 5243.64
+      "D": 5260.13,
+      "E": 5664.75,
+      "F": 4855.5
     }
   },
   "MASIV9927": {
@@ -83514,9 +83454,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 24817.69,
-      "E": 26726.74,
-      "F": 22908.64
+      "D": 26058.78,
+      "E": 28063.3,
+      "F": 24054.25
     }
   },
   "SG0000SP/2": {
@@ -83524,9 +83464,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 10507.58,
-      "E": 11315.86,
-      "F": 9699.3
+      "D": 11033.98,
+      "E": 11882.75,
+      "F": 10185.21
     }
   },
   "SG0000SP/3": {
@@ -83534,9 +83474,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 10507.58,
-      "E": 11315.86,
-      "F": 9699.3
+      "D": 11033.98,
+      "E": 11882.75,
+      "F": 10185.21
     }
   },
   "SG0000SP/4": {
@@ -83544,9 +83484,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 10507.58,
-      "E": 11315.86,
-      "F": 9699.3
+      "D": 11033.98,
+      "E": 11882.75,
+      "F": 10185.21
     }
   },
   "SG0000SP/5": {
@@ -83554,9 +83494,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 10.0,
     "prices": {
-      "D": 3307.13,
-      "E": 3561.53,
-      "F": 3052.74
+      "D": 3473.36,
+      "E": 3740.55,
+      "F": 3206.18
     }
   },
   "SG1005SG/4": {
@@ -83564,9 +83504,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 4.0,
     "prices": {
-      "D": 245022.26,
-      "E": 263870.13,
-      "F": 226174.4
+      "D": 257274.64,
+      "E": 277065.0,
+      "F": 237484.29
     }
   },
   "SG2000/A": {
@@ -83574,9 +83514,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 40.0,
     "prices": {
-      "D": 46163.81,
-      "E": 49714.87,
-      "F": 42612.75
+      "D": 48471.53,
+      "E": 52200.11,
+      "F": 44742.95
     }
   },
   "SG2000SP/1": {
@@ -83584,9 +83524,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 1.0,
     "prices": {
-      "D": 20251.65,
-      "E": 21809.47,
-      "F": 18693.83
+      "D": 21264.71,
+      "E": 22900.46,
+      "F": 19628.97
     }
   },
   "SG2000SP/2": {
@@ -83594,9 +83534,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 1.0,
     "prices": {
-      "D": 20251.65,
-      "E": 21809.47,
-      "F": 18693.83
+      "D": 21264.71,
+      "E": 22900.46,
+      "F": 19628.97
     }
   },
   "SG2000SP/3": {
@@ -83604,9 +83544,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 1.0,
     "prices": {
-      "D": 20251.65,
-      "E": 21809.47,
-      "F": 18693.83
+      "D": 21264.71,
+      "E": 22900.46,
+      "F": 19628.97
     }
   },
   "SG2001/A": {
@@ -83614,9 +83554,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 12264.36,
-      "E": 13207.77,
-      "F": 11320.95
+      "D": 12878.25,
+      "E": 13868.88,
+      "F": 11887.61
     }
   },
   "SG2001/A01": {
@@ -83624,9 +83564,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 12264.36,
-      "E": 13207.77,
-      "F": 11320.95
+      "D": 12878.25,
+      "E": 13868.88,
+      "F": 11887.61
     }
   },
   "SG2001/A02": {
@@ -83634,9 +83574,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 12264.36,
-      "E": 13207.77,
-      "F": 11320.95
+      "D": 12878.25,
+      "E": 13868.88,
+      "F": 11887.61
     }
   },
   "SG2006SP/2": {
@@ -83644,9 +83584,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 4.0,
     "prices": {
-      "D": 171614.52,
-      "E": 184815.64,
-      "F": 158413.41
+      "D": 180194.25,
+      "E": 194055.35,
+      "F": 166333.16
     }
   },
   "SGBOQKIT": {
@@ -83654,9 +83594,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 0.0,
     "prices": {
-      "D": 51915.14,
-      "E": 55908.61,
-      "F": 47921.67
+      "D": 54510.5,
+      "E": 58703.61,
+      "F": 50317.38
     }
   },
   "SGHOBB": {
@@ -83664,9 +83604,9 @@
     "category": "1.KIT.TERRAJA/PPN/ACCE SG",
     "bulk": 50.0,
     "prices": {
-      "D": 11959.42,
-      "E": 12879.37,
-      "F": 11039.46
+      "D": 12557.32,
+      "E": 13523.27,
+      "F": 11591.37
     }
   },
   "SGTER1400": {
@@ -83674,9 +83614,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 3.0,
     "prices": {
-      "D": 105582.91,
-      "E": 113704.67,
-      "F": 97461.15
+      "D": 110862.06,
+      "E": 119389.91,
+      "F": 102334.21
     }
   },
   "SGTER800": {
@@ -83684,9 +83624,9 @@
     "category": "2.ACC/TERMOFUSORA SANOGAS",
     "bulk": 1.0,
     "prices": {
-      "D": 93874.03,
-      "E": 101095.11,
-      "F": 86652.95
+      "D": 98567.73,
+      "E": 106149.87,
+      "F": 90985.6
     }
   },
   "SILC12": {
@@ -84364,9 +84304,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1822.11,
-      "E": 1962.27,
-      "F": 1681.94
+      "D": 1949.64,
+      "E": 2099.62,
+      "F": 1799.67
     }
   },
   "SPDAFL2060": {
@@ -84374,9 +84314,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1822.11,
-      "E": 1962.27,
-      "F": 1681.94
+      "D": 1949.64,
+      "E": 2099.62,
+      "F": 1799.67
     }
   },
   "SPDAFL2080": {
@@ -84384,9 +84324,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1822.11,
-      "E": 1962.27,
-      "F": 1681.94
+      "D": 1949.64,
+      "E": 2099.62,
+      "F": 1799.67
     }
   },
   "SPDAFL2120": {
@@ -84394,9 +84334,9 @@
     "category": "8.DISCO FLAP SIN PAR",
     "bulk": 10.0,
     "prices": {
-      "D": 1822.11,
-      "E": 1962.27,
-      "F": 1681.94
+      "D": 1949.64,
+      "E": 2099.62,
+      "F": 1799.67
     }
   },
   "SPDARC115120222": {
@@ -84404,9 +84344,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 485.19,
-      "E": 522.51,
-      "F": 485.18
+      "D": 519.15,
+      "E": 559.08,
+      "F": 519.15
     }
   },
   "SPDARC115160222": {
@@ -84414,9 +84354,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 100.0,
     "prices": {
-      "D": 485.19,
-      "E": 522.51,
-      "F": 485.18
+      "D": 519.15,
+      "E": 559.08,
+      "F": 519.15
     }
   },
   "SPDARC180180222": {
@@ -84424,9 +84364,9 @@
     "category": "8.DISCO A/Inox.180 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 1676.06,
-      "E": 1804.99,
-      "F": 1676.06
+      "D": 1793.4,
+      "E": 1931.35,
+      "F": 1793.4
     }
   },
   "SPDARC180600222": {
@@ -84434,9 +84374,9 @@
     "category": "8.DISCO A/Inox.180 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 3213.53,
-      "E": 3460.73,
-      "F": 2966.34
+      "D": 3438.48,
+      "E": 3702.98,
+      "F": 3173.98
     }
   },
   "SPDARC230180222": {
@@ -84444,9 +84384,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 50.0,
     "prices": {
-      "D": 2552.17,
-      "E": 2748.49,
-      "F": 2552.17
+      "D": 2730.84,
+      "E": 2940.9,
+      "F": 2730.84
     }
   },
   "SPDARC350320222": {
@@ -84454,9 +84394,9 @@
     "category": "8.DISCO A/Inox.230 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 6475.71,
-      "E": 6973.84,
-      "F": 6475.71
+      "D": 6928.99,
+      "E": 7461.99,
+      "F": 6928.99
     }
   },
   "SPDARD115600222": {
@@ -84464,9 +84404,9 @@
     "category": "8.DISCO A/Inox.115 SINPAR",
     "bulk": 25.0,
     "prices": {
-      "D": 1447.5,
-      "E": 1558.85,
-      "F": 1447.5
+      "D": 1548.84,
+      "E": 1667.98,
+      "F": 1548.84
     }
   },
   "SPSMAB2218": {
@@ -86157,6 +86097,16 @@
       "D": 61768.55,
       "E": 66519.98,
       "F": 57017.12
+    }
+  },
+  "TENCCV": {
+    "name": "CINTA CUBRECERCO VERDE POR METRO TENSIL",
+    "category": "8.TEJ.CUBRECERC.RafiaROTC",
+    "bulk": 100.0,
+    "prices": {
+      "D": 388.2,
+      "E": 418.06,
+      "F": 358.33
     }
   },
   "TENDP": {
