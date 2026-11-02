@@ -2506,6 +2506,12 @@
                     }
                     .fab-carrito:hover { background: #c5001d; }
                     .fab-carrito.vacio { background: #555; opacity: 0.7; }
+                    /* Sin sistema de pedidos: visible con su contador, pero apagado */
+                    .fab-carrito.fab-sin-servicio,
+                    .fab-carrito.fab-sin-servicio:hover { background: #9ca3af; opacity: 0.75; box-shadow: none; }
+                    .fab-carrito.fab-sin-servicio .fab-badge { color: #6b7280; border-color: #9ca3af; }
+                    /* La franja roja de "sin servicio" ocupa el pie: el boton sube */
+                    .btn-inferiores:has(.fab-sin-servicio) { bottom: 56px !important; }
 
                     .fab-badge {
                          position: absolute;

@@ -36,6 +36,10 @@ function guardarSesion(auth) {
   sessionStorage.removeItem('authDegradado');
   sessionStorage.removeItem('authMotivo');
 
+  // El boton flotante depende de la sesion (sin token se oculta): se redibuja
+  // siempre, tambien en una renovacion, que no avisa al resto de la app
+  window.Carrito?.refrescarBotonFlotante?.();
+
   // Lo que necesita token puede arrancar ahora
   if (avisarAlLlegar) document.dispatchEvent(new CustomEvent('auth:token-listo'));
 }
