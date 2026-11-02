@@ -336,21 +336,13 @@ export function detalle(cliente) {
         };
       }
 
-      const desc = Number(l.descuento) || 0;
-      // Dos decimales: el sistema de facturacion calcula el unitario
-      // con descuento y despues multiplica
-      const precio = Math.round(aplicado * (1 - desc / 100) * 100) / 100;
-
-      // Cuanto representa el precio final respecto del que le hubiera
-      // correspondido al cliente por su lista: es el numero que se controla
-      const descEfectivo = base ? (1 - precio / base) * 100 : 0;
-
+      const { precio, descEfectivo } = precioAjustado(l);
       return {
         ...l,
         precioBase: base,
         precio,
         subtotal: Math.round(precio * l.cantidad * 100) / 100,
-        descEfectivo: Math.round(descEfectivo * 10) / 10
+        descEfectivo
       };
     });
 }
@@ -775,6 +767,28 @@ function preciosDeLinea(l) {
   return { base, aplicado: base };
 }
 
+/**
+ * Precio final de una linea sin promocion, o de un articulo de la 117: el
+ * mecanismo (lista del cliente, otra lista o precio especial) y despues el
+ * descuento. descuentoExtra solo lo usa la 117 (-7% y ademas -5% en cascada).
+ * Devuelve tambien el precio de partida (precioAplicado: el de la lista
+ * elegida o el precio especial, antes del descuento)
+ */
+export function precioAjustado(l) {
+  const { base, aplicado } = preciosDeLinea(l);
+  if (aplicado === null) return { precioBase: null, precioAplicado: null, precio: null, descEfectivo: 0 };
+
+  const factor = (1 - (Number(l.descuento) || 0) / 100) * (1 - (Number(l.descuentoExtra) || 0) / 100);
+  // Dos decimales: el sistema de facturacion calcula el unitario
+  // con descuento y despues multiplica
+  const precio = Math.round(aplicado * factor * 100) / 100;
+
+  // Cuanto representa el precio final respecto del que le hubiera
+  // correspondido al cliente por su lista: es el numero que se controla
+  const descEfectivo = base ? (1 - precio / base) * 100 : 0;
+  return { precioBase: base, precioAplicado: aplicado, precio, descEfectivo: Math.round(descEfectivo * 10) / 10 };
+}
+
 // Segundo descuento sobre el total: solo se ofrece junto con el -7%, y se
 // aplica en cascada sobre el resultado del primero (-7% y -5% = -11,65%)
 const DESC_CON_EXTRA = 7;
@@ -1044,7 +1058,7 @@ window.Carrito = {
   getClienteDestino, leer, agregar, quitar, vaciar, reordenar,
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos, descartarViejos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
-  ajustarLinea, getAjustePedido, setAjustePedido, DESC_CON_EXTRA, DESC_EXTRA,
+  ajustarLinea, precioAjustado, getAjustePedido, setAjustePedido, DESC_CON_EXTRA, DESC_EXTRA,
   getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,
   getPendiente, setPendiente, borrarPendiente,
 };

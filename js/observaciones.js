@@ -9,8 +9,10 @@
  * - La de ajuste (126) lleva lo facturado y lo que correspondia, por separado.
  * - Las de Condiciones no llevan nada mas.
  * Se guardan en el ajuste del carrito (Carrito.getAjustePedido().observaciones):
- *   { id, clave, items: [{ sku, nombre, cantidad, lado }] }
- * (lado: 'facturado' o 'correspondia', solo en la de ajuste).
+ *   { id, clave, items: [{ sku, nombre, cantidad, lado, mecanismo?, listaForzada?,
+ *     precioLibre?, descuento?, descuentoExtra? }] }
+ * (lado: 'facturado' o 'correspondia', solo en la de ajuste; los campos de
+ * precio, los mismos que una linea del pedido, solo en la 117).
  */
 
 import { abrirHoja, esAncha } from './hoja.js';
@@ -90,23 +92,68 @@ export function falta(def, o) {
     if (sinCargar) return sinCargar.lado === 'facturado' ? 'falta cargar lo facturado' : 'falta cargar lo que correspondía';
   }
   if (o.items.some(it => !(Number(it.cantidad) > 0))) return 'falta una cantidad';
+  if (llevaPrecio(def)) {
+    const it = o.items.find(x => faltaPrecioLibre(x) || precioItem(x).precio === null);
+    if (it) return faltaPrecioLibre(it) ? 'falta escribir un precio especial' : `falta el precio de ${it.sku}`;
+  }
   return '';
 }
 
 /** Lleva precio de lista actual: la 117 entera y lo que correspondia en la 126 */
 export const llevaLista = (def, it) => def?.efecto === 'suma' || it.lado === 'correspondia';
 
+// ---------- precio de la 117 (mercaderia entregada) ----------
+
+// Descuentos propios de la 117: el -7% admite ademas -5% en cascada
+// (-11,65%). El menu de las lineas del pedido no cambia
+const DESC_117 = [
+  { valor: '0', descuento: 0, extra: 0, texto: 'Sin descuento' },
+  { valor: '5', descuento: 5, extra: 0, texto: '-5%' },
+  { valor: '7', descuento: 7, extra: 0, texto: '-7%' },
+  { valor: '7+5', descuento: 7, extra: 5, texto: '-7% y además -5% (-11,65%)' }
+];
+const LISTAS = ['D', 'E', 'F'];
+// Un articulo nuevo de la 117 arranca a la lista del cliente, sin descuento
+const PRECIO_INICIAL = { mecanismo: 'lista_cliente', listaForzada: null, precioLibre: null, descuento: 0, descuentoExtra: 0 };
+
+/** La 117: el vendedor define el precio de cada articulo, y es el final */
+export const llevaPrecio = def => def?.efecto === 'suma';
+
+const listaCliente = () => window.Precios?.getClienteVista()?.lista || '';
+
+/** Misma cuenta que las lineas del pedido (Carrito.precioAjustado) */
+const precioItem = it => window.Carrito?.precioAjustado?.(it) || { precioBase: null, precio: null, descEfectivo: 0 };
+
+/** Precio especial elegido sin escribir el precio */
+const faltaPrecioLibre = it => it.mecanismo === 'precio_libre' && !(Number(it.precioLibre) > 0);
+
+/** Descuento total del articulo: 7 y 5 en cascada dan 11,65 */
+const descCombinado = it => Math.round((1 - (1 - (Number(it.descuento) || 0) / 100) *
+  (1 - (Number(it.descuentoExtra) || 0) / 100)) * 10000) / 100;
+
+/** Lo que viaja al servidor del precio de un articulo de la 117 */
+export function envioPrecio(it) {
+  const mecanismo = it.mecanismo || 'lista_cliente';
+  return {
+    mecanismo,
+    listaAplicada: mecanismo === 'precio_libre' ? '' : mecanismo === 'otra_lista' ? it.listaForzada : listaCliente(),
+    // Los dos en cascada, en un numero: 7 y 5 dan 11,65
+    descuentoLinea: descCombinado(it),
+    precio: faltaPrecioLibre(it) ? null : precioItem(it).precio
+  };
+}
+
 /**
- * Importe estimado de la 117 en el panel: lista actual con el descuento sobre
- * el total elegido (factor). Las demas se calculan al imprimir: null.
+ * Importe de la 117 en el panel: el precio que definio el vendedor en cada
+ * articulo, sin el descuento sobre el total. Las demas se calculan al imprimir: null
  */
-export function importeEstimado(def, o, factor) {
-  if (def?.efecto !== 'suma') return null;
+export function importeEstimado(def, o) {
+  if (!llevaPrecio(def)) return null;
   let total = 0;
   for (const it of o.items) {
-    const p = window.Precios?.precioLista(it.sku);
-    if (p === null || p === undefined || !(Number(it.cantidad) > 0)) return null;
-    total += p * Number(it.cantidad) * factor;
+    const p = faltaPrecioLibre(it) ? null : precioItem(it).precio;
+    if (p === null || !(Number(it.cantidad) > 0)) return null;
+    total += Math.round(p * Number(it.cantidad) * 100) / 100;
   }
   return Math.round(total * 100) / 100;
 }
@@ -273,7 +320,57 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
         <input type="number" inputmode="numeric" min="1" step="1" class="ob-cant${Number(it.cantidad) > 0 ? '' : ' ob-mal'}"
           data-k="${k}" value="${esc(it.cantidad)}" placeholder="Cant." aria-label="Cantidad de ${esc(it.sku)}">
         <button type="button" class="ob-item-quitar" data-k="${k}" aria-label="Quitar ${esc(it.sku)}">&times;</button>
-      </div>`).join('');
+      </div>${llevaPrecio(def) ? htmlPrecio(it, k) : ''}`).join('');
+  }
+
+  // Precio de la 117: lista (la del cliente marcada), precio especial y
+  // descuento, debajo de cada articulo, como el menu de las lineas
+  function htmlPrecio(it, k) {
+    const listaCli = listaCliente();
+    const libre = it.mecanismo === 'precio_libre';
+    const sel = libre ? 'libre' : (it.mecanismo === 'otra_lista' && it.listaForzada) || listaCli;
+    const descSel = (DESC_117.find(d => d.descuento === (Number(it.descuento) || 0) &&
+      d.extra === (Number(it.descuentoExtra) || 0)) || DESC_117[0]).valor;
+    return `
+      <div class="ob-precio">
+        <select class="ob-lista" data-k="${k}" aria-label="Precio de ${esc(it.sku)}">
+          ${LISTAS.map(x => `<option value="${x}"${sel === x ? ' selected' : ''}>Lista ${x}${x === listaCli ? ' (cliente)' : ''}</option>`).join('')}
+          <option value="libre"${libre ? ' selected' : ''}>Precio especial</option>
+        </select>
+        <input type="number" inputmode="decimal" min="0" step="0.01" data-k="${k}"
+          class="ob-precio-libre${faltaPrecioLibre(it) ? ' ob-mal' : ''}" value="${esc(it.precioLibre ?? '')}"
+          placeholder="Precio" aria-label="Precio especial de ${esc(it.sku)}"${libre ? '' : ' hidden'}>
+        <select class="ob-desc" data-k="${k}" aria-label="Descuento de ${esc(it.sku)}">
+          ${DESC_117.map(d => `<option value="${d.valor}"${d.valor === descSel ? ' selected' : ''}>${d.texto}</option>`).join('')}
+        </select>
+        <span class="ob-precio-ref" data-k="${k}">${esc(refPrecio(it))}</span>
+      </div>`;
+  }
+
+  /**
+   * De donde sale el precio y que se cobra: "Lista E $8.001,03 −5% → se
+   * cobra $7.600,98 por unidad · su lista D: $7.429,53". El primer importe
+   * es el de partida (lista elegida o precio especial), el que sigue a "se
+   * cobra" es el precio final por unidad, y "su lista" es lo que le
+   * corresponde al cliente por su propia lista, sin descuento
+   */
+  function refPrecio(it) {
+    const listaCli = listaCliente();
+    const p = precioItem(it);
+    const suLista = p.precioBase ? ` · su lista ${listaCli}: ${fmtPesos(p.precioBase)}` : '';
+    if (faltaPrecioLibre(it)) return 'Escribí el precio especial' + suLista;
+    if (p.precio === null) return 'Sin precio de lista';
+
+    const libre = it.mecanismo === 'precio_libre';
+    const lista = it.mecanismo === 'otra_lista' && it.listaForzada ? it.listaForzada : listaCli;
+    const desc = descCombinado(it);
+    const esSuLista = !libre && lista === listaCli;
+    // Sin descuento y a su lista: el precio de partida es el que se cobra
+    if (esSuLista && !desc) return `Se cobra ${fmtPesos(p.precio)} por unidad · es su lista ${listaCli}`;
+
+    const partida = (libre ? 'Precio especial ' : `Lista ${lista} `) + fmtPesos(p.precioAplicado);
+    return `${partida}${desc ? ` −${String(desc).replace('.', ',')}%` : ''} → se cobra ${fmtPesos(p.precio)} por unidad` +
+      (esSuLista ? '' : suLista);
   }
 
   function pintar(enfocar) {
@@ -281,7 +378,9 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
       h.cuerpo.innerHTML = `<p class="ob-nota">${def ? 'Esta observación no lleva artículos.'
         : 'Esta observación ya no está en la lista: quitala del pedido.'}</p>`;
     } else {
-      h.cuerpo.innerHTML = `<p class="ob-nota">${esc(EFECTO_TEXTO[def.efecto] || '')} · cantidad obligatoria en cada artículo</p>` +
+      h.cuerpo.innerHTML = `<p class="ob-nota">${esc(EFECTO_TEXTO[def.efecto] || '')} · ${llevaPrecio(def)
+        ? 'cantidad y precio en cada artículo · el precio es el final, sin el descuento del pedido'
+        : 'cantidad obligatoria en cada artículo'}</p>` +
         lados.map(l => `
         <section class="ob-lado" data-lado="${l.lado}">
           <p class="ob-lado-tit">${esc(l.titulo)}</p>
@@ -303,7 +402,7 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
 
   function agregar(lado, sku, nombre) {
     const k = o.items.findIndex(it => it.sku === sku && (it.lado || '') === lado);
-    if (k < 0) o.items.push({ sku, nombre, cantidad: '', lado });
+    if (k < 0) o.items.push({ sku, nombre, cantidad: '', lado, ...(llevaPrecio(def) ? PRECIO_INICIAL : {}) });
     // A memoria para su precio de lista (cache local, sin servidor)
     window.productManagerInstance?.loadSpecificProducts?.([sku])?.catch?.(() => {});
     // Si ya estaba, se va a su cantidad en lugar de repetirlo
@@ -317,6 +416,16 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     if (cant) {
       o.items[cant.dataset.k].cantidad = cant.value;
       cant.classList.toggle('ob-mal', !(Number(cant.value) > 0));
+      return;
+    }
+    // Precio especial de la 117: se guarda y se actualiza la referencia
+    const libre = e.target.closest('.ob-precio-libre');
+    if (libre) {
+      const it = o.items[libre.dataset.k];
+      it.precioLibre = Number(libre.value) > 0 ? Number(libre.value) : null;
+      libre.classList.toggle('ob-mal', faltaPrecioLibre(it));
+      const ref = h.cuerpo.querySelector(`.ob-precio-ref[data-k="${libre.dataset.k}"]`);
+      if (ref) ref.textContent = refPrecio(it);
       return;
     }
     const campo = e.target.closest('.ob-art-buscar');
@@ -359,6 +468,34 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     if (!(Number(cant.value) > 0)) return;
     const lado = o.items[cant.dataset.k]?.lado || '';
     h.cuerpo.querySelector(`.ob-art-buscar[data-lado="${lado}"]`)?.focus();
+  });
+
+  // Precio de la 117: lo mismo que guarda ajustarLinea en una linea del pedido
+  // (el precio especial se toma al escribir, en 'input', sin redibujar: si se
+  // redibujara al salir del campo, el toque en Guardar se perderia)
+  h.cuerpo.addEventListener('change', e => {
+    const c = e.target.closest('.ob-lista, .ob-desc');
+    if (!c) return;
+    const k = Number(c.dataset.k);
+    const it = o.items[k];
+    error = '';
+    if (c.classList.contains('ob-lista')) {
+      const libre = c.value === 'libre';
+      it.mecanismo = libre ? 'precio_libre' : (c.value === listaCliente() ? 'lista_cliente' : 'otra_lista');
+      it.listaForzada = it.mecanismo === 'otra_lista' ? c.value : null;
+      if (!libre) it.precioLibre = null;
+      // Precio especial: el cursor al precio, para escribirlo directo
+      pintar(libre ? `.ob-precio-libre[data-k="${k}"]` : null);
+      return;
+    }
+    const d = DESC_117.find(x => x.valor === c.value) || DESC_117[0];
+    it.descuento = d.descuento;
+    it.descuentoExtra = d.extra;
+    pintar();
+  });
+  // Enter en el precio especial: listo (cierra el teclado del celular)
+  h.cuerpo.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.closest('.ob-precio-libre')) { e.preventDefault(); e.target.blur(); }
   });
 
   // Celular: al entrar a un buscador, que quede arriba de lo visible, con

@@ -301,7 +301,10 @@ const HOJA_PED_OBS = 'pedidos_observaciones';
 // (las observaciones sin articulos, una fila sin sku)
 const COLS_PED_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave',
   'codigo', 'texto', 'grupo', 'efecto', 'lado', 'orden_item', 'sku', 'nombre',
-  'cantidad', 'precio_lista'];
+  'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario'];
+// Precio de la 117: mecanismos y descuentos que acepta (11,65 = -7% y ademas -5%)
+const MECANISMOS_117 = ['lista_cliente', 'otra_lista', 'precio_libre'];
+const DESC_117 = [0, 5, 7, 11.65];
 const EFECTOS_OBS = ['informativa', 'descuenta', 'suma', 'ajuste'];
 const MAX_OBS = 20;
 const MAX_ITEMS_OBS = 60;
@@ -353,7 +356,8 @@ function getObservaciones() {
  * Observaciones de un pedido, validadas contra la hoja: texto, grupo y
  * efecto salen de la planilla, nunca del navegador. Del navegador se toman
  * solo la clave, los articulos (codigo, nombre y cantidad), el lado en la de
- * ajuste y el precio de lista actual (etapa 2). Devuelve { obs } o { error }.
+ * ajuste, el precio de lista actual (etapa 2) y, en la 117, el precio que
+ * definio el vendedor. Devuelve { obs } o { error }.
  */
 function validarObservaciones(entrada) {
   if (!entrada) return { obs: [] };
@@ -379,14 +383,31 @@ function validarObservaciones(entrada) {
         const cantidad = Number(it.cantidad);
         if (!sku || !(cantidad > 0)) return { error: 'observacion_sin_cantidad' };
         const precio = Number(it.precioLista);
-        items.push({
+        const item = {
           sku,
           nombre: String(it.nombre || '').slice(0, 200),
           cantidad,
           // Lado solo en la de ajuste
           lado: def.efecto === 'ajuste' ? (it.lado === 'correspondia' ? 'correspondia' : 'facturado') : '',
-          precioLista: precio > 0 ? Math.round(precio * 100) / 100 : ''
-        });
+          precioLista: precio > 0 ? Math.round(precio * 100) / 100 : '',
+          mecanismo: '', listaAplicada: '', descLinea: '', precioUnitario: ''
+        };
+        // La 117: el precio que definio el vendedor es el final, sin el
+        // descuento sobre el total. Un navegador sin actualizar no lo manda:
+        // queda como antes (lista actual con el descuento del pedido)
+        if (def.efecto === 'suma' && it.precio !== undefined) {
+          const mec = String(it.mecanismo || '');
+          const pu = Number(it.precio);
+          const dsc = Number(it.descuentoLinea) || 0;
+          if (MECANISMOS_117.indexOf(mec) < 0 || !(pu > 0) || DESC_117.indexOf(dsc) < 0) {
+            return { error: 'observacion_sin_precio' };
+          }
+          item.mecanismo = mec;
+          item.listaAplicada = mec === 'precio_libre' ? '' : String(it.listaAplicada || '').trim().toUpperCase().slice(0, 2);
+          item.descLinea = dsc;
+          item.precioUnitario = Math.round(pu * 100) / 100;
+        }
+        items.push(item);
       }
       if (def.efecto === 'ajuste' &&
           !(items.some(i => i.lado === 'facturado') && items.some(i => i.lado === 'correspondia'))) {
@@ -444,7 +465,12 @@ function leerObservacionesDe(ss, ids) {
         sku: String(r[C.sku]).trim(),
         nombre: String(r[C.nombre] || ''),
         cantidad: Number(r[C.cantidad]) || 0,
-        precioLista: Number(r[C.precio_lista]) || null
+        precioLista: Number(r[C.precio_lista]) || null,
+        mecanismo: String(r[C.mecanismo] || ''),
+        listaAplicada: String(r[C.lista_aplicada] || ''),
+        descLinea: r[C.desc_linea_pct] === '' ? null : Number(r[C.desc_linea_pct]) || 0,
+        // Precio que definio el vendedor en la 117 (los pedidos de antes: null)
+        precioAcordado: Number(r[C.precio_unitario]) || null
       });
     }
   });
@@ -460,8 +486,10 @@ function leerObservacionesDe(ss, ids) {
  * Precio e importe de cada articulo de una observacion, con su origen
  * ({ tipo: 'anterior', numero, fecha } o { tipo: 'lista' }; null: verificar).
  * - descuenta (116, 119): precio anterior; importe negativo.
- * - suma (117): lista actual (la que mando el navegador al confirmar) con el
- *   descuento sobre el total del pedido, como las lineas fuera de promocion.
+ * - suma (117): el precio que definio el vendedor en cada articulo (lista,
+ *   otra lista o precio especial, con su descuento), y es el final: sin el
+ *   descuento sobre el total. Los pedidos de antes, sin ese precio: lista
+ *   actual (la que mando el navegador) con el descuento sobre el total.
  * - ajuste (126): lo que correspondia menos lo facturado. Lo facturado, a
  *   precio anterior; lo que correspondia, al mismo precio anterior si es el
  *   mismo articulo, si no a lista actual sin descuentos. Siempre a verificar.
@@ -489,8 +517,15 @@ function calcularImportesObs(o, factorTotal, anterior) {
   const facturado = {};   // sku -> precio anterior de lo facturado (en la de ajuste)
   o.items.forEach(it => {
     if (o.efecto === 'suma') {
-      const p = it.precioLista ? Math.round(it.precioLista * factorTotal * 100) / 100 : null;
-      poner(it, p, { tipo: 'lista' }, 1);
+      if (it.precioAcordado) {
+        // El precio que definio el vendedor: es el final, sin el descuento sobre el total
+        poner(it, it.precioAcordado, { tipo: 'acordado', mecanismo: it.mecanismo,
+          lista: it.listaAplicada, desc: it.descLinea }, 1);
+      } else {
+        // Pedidos de antes: lista actual con el descuento sobre el total, como hasta ahora
+        const p = it.precioLista ? Math.round(it.precioLista * factorTotal * 100) / 100 : null;
+        poner(it, p, { tipo: 'lista' }, 1);
+      }
     } else if (o.efecto === 'descuenta' || it.lado === 'facturado') {
       const a = anterior(it.sku);
       if (it.lado === 'facturado') facturado[it.sku] = a;
@@ -757,7 +792,8 @@ function accionGuardarPedido(body) {
         (o.items.length ? o.items : [null]).forEach((it, j) => filasObs.push([
           ped.id, ahora, cuenta, etiqueta, k + 1, o.clave, o.codigo, o.texto, o.grupo, o.efecto,
           it ? it.lado : '', it ? j + 1 : '', it ? it.sku : '', it ? it.nombre : '',
-          it ? it.cantidad : '', it ? it.precioLista : ''
+          it ? it.cantidad : '', it ? it.precioLista : '',
+          it ? it.mecanismo : '', it ? it.listaAplicada : '', it ? it.descLinea : '', it ? it.precioUnitario : ''
         ]));
       });
       hObs.getRange(hObs.getLastRow() + 1, 1, filasObs.length, COLS_PED_OBS.length).setValues(filasObs);
@@ -910,7 +946,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v30-observaciones-importes' });
+      return responder({ ok: true, version: 'v31-precio-117' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -1196,7 +1232,8 @@ function accionPedidosParaImprimir(body) {
 
   pedidos.forEach(pd => {
     pd.lineas = (porId[pd.id] || []).sort((a, b) => a.orden - b.orden);
-    // La 117 lleva el descuento sobre el total del pedido, en cascada
+    // La 117 de antes (sin precio del vendedor) lleva el descuento sobre el
+    // total del pedido, en cascada
     const factorTotal = (1 - pd.descTotalPct / 100) * (1 - pd.descTotalExtraPct / 100);
     pd.observaciones.forEach(o => calcularImportesObs(o, factorTotal, sku => precioAnterior(pd, sku)));
   });

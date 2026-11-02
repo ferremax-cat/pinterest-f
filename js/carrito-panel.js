@@ -30,20 +30,19 @@ let abiertoDesdePendientes = null;
 
 let config = null;
 
+// Valores por defecto, para poder trabajar sin la configuracion del servidor.
+// porDefecto: auth:token-listo los descarta para pedir la de verdad
+const configPorDefecto = () => ({ descuentosLinea: [5,7,10], descuentosTotal: [5,7,10],
+  descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
+  umbralBloqueo: 0, modoObservacion: true, porDefecto: true });
+
 async function cargarConfigInterna() {
   if (config) return config;
 
-  const token = sessionStorage.getItem('authToken');
-  if (!token) {
-    // Sin endpoint: valores por defecto para poder trabajar igual
-    config = { descuentosLinea: [5,7,10], descuentosTotal: [5,7,10],
-               descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
-               umbralBloqueo: 0, modoObservacion: true };
-    return config;
-  }
-
   // Guardada mientras dura la sesion: se pide una vez al entrar y cualquier
-  // cambio en la planilla llega la proxima vez que el vendedor inicia sesion
+  // cambio en la planilla llega la proxima vez que el vendedor inicia sesion.
+  // Se mira antes que el token: un intento sin token (al cargar la pagina,
+  // mientras se pide) no tiene que tapar la configuracion que ya estaba
   try {
     const guardada = sessionStorage.getItem('configCarrito');
     if (guardada) {
@@ -51,6 +50,13 @@ async function cargarConfigInterna() {
       return config;
     }
   } catch (e) {}
+
+  const token = sessionStorage.getItem('authToken');
+  if (!token) {
+    // Sin endpoint: valores por defecto para poder trabajar igual, sin
+    // dejarlos en memoria: con el token se pide la configuracion de verdad
+    return configPorDefecto();
+  }
 
   try {
     const d = await window.Api.llamar({ accion: 'config', token });
@@ -62,11 +68,7 @@ async function cargarConfigInterna() {
     console.warn('[Carrito] No se pudo traer la configuracion:', e);
   }
 
-  if (!config) {
-    config = { descuentosLinea: [5,7,10], descuentosTotal: [5,7,10],
-               descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
-               umbralBloqueo: 0, modoObservacion: true };
-  }
+  if (!config) config = configPorDefecto();
   window.__cfgCheck = true;
   return config;
 }
@@ -231,8 +233,16 @@ export function abrir(opc = {}) {
     return;
   }
 
-  // Carrito vacio: no hay semaforo que calcular, no hay que esperar nada
-  if (!window.Carrito.leer().length) { dibujar(); return; }
+  // Carrito sin articulos: no hay semaforo que calcular. Se dibuja ya, y si
+  // la configuracion en memoria no trae el catalogo de observaciones (no
+  // estaba cargada, o son los valores por defecto) se pide y se vuelve a
+  // dibujar: de el salen el boton de observaciones y las ya cargadas
+  // (pedido solo de observaciones), que sin el no se ven
+  if (!window.Carrito.leer().length) {
+    dibujar();
+    if (Obs.catalogo(config) === null) cargarConfig().then(() => dibujar());
+    return;
+  }
 
   
 
@@ -437,7 +447,7 @@ function vistaVendedor() {
   const bloqueObs = conObs ? `
       <div class="cp-obs${lineas.length ? '' : ' cp-obs-solo'}">
         ${lineas.length ? '' : '<p class="cp-solo-obs">Pedido solo de observaciones: sin artículos.</p>'}
-        ${Obs.htmlLista(config, obsLista, (o, def) => Obs.importeEstimado(def, o, 1 - tot.descuentoCombinado / 100))}
+        ${Obs.htmlLista(config, obsLista, (o, def) => Obs.importeEstimado(def, o))}
         <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
       </div>` : '';
 
@@ -808,7 +818,7 @@ const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado',
   'rol_sin_permiso', 'observaciones_no_permitidas', 'observaciones_invalidas',
   'observacion_inactiva', 'observacion_sin_articulos', 'observacion_sin_cantidad',
-  'ajuste_incompleto', 'faltan_columnas_obs'];
+  'ajuste_incompleto', 'faltan_columnas_obs', 'observacion_sin_precio'];
 
 /**
  * Vista del carrito mientras no se sabe si el pedido se guardo: no permite
@@ -1105,7 +1115,9 @@ async function confirmarPedido() {
           items: o.items.map(it => ({
             sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '',
             // Lista actual, con los precios en memoria; sin precio, null (a verificar al facturar)
-            precioLista: Obs.llevaLista(Obs.defDe(config, o.clave), it) ? (window.Precios?.precioLista(it.sku) ?? null) : null
+            precioLista: Obs.llevaLista(Obs.defDe(config, o.clave), it) ? (window.Precios?.precioLista(it.sku) ?? null) : null,
+            // La 117: el precio que definio el vendedor (final), con su lista y descuento
+            ...(Obs.llevaPrecio(Obs.defDe(config, o.clave)) ? Obs.envioPrecio(it) : {})
           }))
         })),
         lineas: d.lineas.map(l => ({
@@ -1242,7 +1254,9 @@ document.addEventListener('carrito:cambio', dibujar);
 // los valores por defecto, se vuelve a pedir; y si el panel estaba abierto
 // con el aviso de conexion, se vuelve a abrir para mostrar el carrito
 document.addEventListener('auth:token-listo', () => {
-  if (!sessionStorage.getItem('configCarrito')) config = null;
+  // Los valores por defecto se descartan siempre, aunque sessionStorage
+  // tenga algo: si no, quedan tapando la configuracion de verdad
+  if (!sessionStorage.getItem('configCarrito') || config?.porDefecto) config = null;
   if (esVendedor()) cargarConfig();
   if (document.getElementById('carrito-panel')?.style.display === 'flex') abrir();
 });

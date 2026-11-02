@@ -74,6 +74,14 @@
 }
 .ob-cant.ob-mal { border-color: #dc2626; background: #fef2f2; }
 .ob-item-quitar { width: 36px; height: 36px; border: none; background: none; font-size: 20px; color: #9ca3af; cursor: pointer; }
+/* Precio de la 117: debajo de cada articulo */
+.ob-item:has(+ .ob-precio) { border-bottom: none; }
+.ob-precio { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 0 0 8px 52px; border-bottom: 1px solid #f0f0f0; }
+.ob-precio select, .ob-precio-libre { height: 36px; box-sizing: border-box; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background: #fff; }
+.ob-precio-libre { width: 110px; padding: 0 8px; }
+.ob-precio-libre[hidden] { display: none; }
+.ob-precio-libre.ob-mal { border-color: #dc2626; background: #fef2f2; }
+.ob-precio-ref { width: 100%; font-size: 12px; color: #6b7280; }
 .ob-art-buscar { margin-top: 8px; }
 .ob-art {
   display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: center; gap: 10px;
