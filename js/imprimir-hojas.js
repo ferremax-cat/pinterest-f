@@ -320,7 +320,8 @@ function textoBulto(cant, bulk) {
  * Leyenda del precio aplicado en la columna Tipo de la facturacion.
  * descLinea: el porcentaje que eligio el vendedor (0 sin descuento o en
  * promocion; null en los pedidos guardados antes de registrarlo, que
- * muestran lo mismo que antes, sin porcentaje).
+ * muestran lo mismo que antes, sin porcentaje). Precio especial se abrevia
+ * "P. especial" para que entre con la cascada (-11,65%).
  */
 function tipoDe(l) {
   const letra = x => String(x ?? '').trim().toUpperCase();
@@ -329,7 +330,8 @@ function tipoDe(l) {
 
   switch (l.mecanismo) {
     case 'promocion': return 'Promo';
-    case 'precio_libre': return 'Precio especial' + pct;
+    // Abreviado: "P. especial -11,65%" (la mas larga) entra en la columna Tipo
+    case 'precio_libre': return 'P. especial' + pct;
     case 'otra_lista': return ('Lista ' + letra(l.listaAplicada)).trim() + pct;
     case 'lista_cliente':
     case '':
@@ -702,6 +704,14 @@ function htmlObsTitFact(o) {
 function htmlOrigen(o, it) {
   if (!conImporte(o)) return '';
   if (!it.origen) return '<b class="ih-verificar">VERIFICAR PRECIO</b>';
+  // La 117 con precio del vendedor: la misma leyenda y el mismo recuadro que
+  // la columna Tipo de las lineas ("Lista E -5%", "P. especial -11,65%"); a
+  // lista del cliente sin descuento, la lista
+  if (it.origen.tipo === 'acordado') {
+    const a = it.origen;
+    const tipo = tipoDe({ mecanismo: a.mecanismo, listaAplicada: a.lista, descLinea: a.desc }) || ('Lista ' + a.lista).trim();
+    return `<span class="ih-tipo">${esc(tipo)}</span>`;
+  }
   return it.origen.tipo === 'lista' ? 'Lista actual' : `${esc(it.origen.numero)} ${esc(fmtFechaCorta(it.origen.fecha))}`;
 }
 

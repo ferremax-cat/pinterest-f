@@ -480,7 +480,9 @@
 .ih-tabla col.c-cant { width: 12mm; }
 .ih-tabla col.c-pu { width: 21mm; }
 .ih-tabla col.c-sub { width: 23mm; }
-.ih-tabla col.c-tipo { width: 28mm; }
+/* Tipo: "P. especial -11,65%" (la leyenda mas larga) y "VERIFICAR PRECIO",
+   con margen por si la letra de la impresora es mas ancha */
+.ih-tabla col.c-tipo { width: 30mm; }
 
 .ih-tabla tr { height: var(--ih-fila-fact); }
 
@@ -538,7 +540,8 @@
   border: .3mm solid #000;
   font-size: 6.5pt;
   font-weight: 700;
-  /* "Lista F -12,5%": el porcentaje va junto a la letra (hasta unos 23 mm) */
+  /* El porcentaje va junto a la letra: "Lista F -12,5%"; la mas larga,
+     "P. especial -11,65%", unos 25 mm (la columna Tipo tiene 28 utiles) */
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
