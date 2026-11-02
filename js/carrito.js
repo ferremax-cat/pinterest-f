@@ -65,15 +65,19 @@ cargarMapaImagenes();
  * destinatario y los precios que se muestran no son los de nadie.
  */
 function faltaCliente() {
+  return motivoSinCarrito() !== '';
+}
 
-  if (!carritoHabilitado()) return true;
-
-  if (sessionStorage.getItem('authDegradado') === '1') return true;  
-  const rol = sessionStorage.getItem('authRol')
-      || window.menuFuncionalidades?.usuarioActual?.rol
-      || '';
-  if (rol === 'cliente_estandar') return false;
-  return !window.Precios?.getClienteVista();
+/**
+ * Por que no se puede cargar al carrito ahora: 'no_habilitado' (rol sin
+ * pedidos, o todavia sin rol), 'sin_token' (sesion degradada), 'sin_cliente'
+ * (vendedor sin cliente elegido), o '' si se puede
+ */
+function motivoSinCarrito() {
+  if (!carritoHabilitado()) return 'no_habilitado';
+  if (sessionStorage.getItem('authDegradado') === '1') return 'sin_token';
+  if (getRol() === 'cliente_estandar') return '';
+  return window.Precios?.getClienteVista() ? '' : 'sin_cliente';
 }
 
 
@@ -443,6 +447,29 @@ function refrescarIcono(btn, sku) {
   btn.title = cant ? `${cant} en el pedido` : 'Agregar al pedido';
 }
 
+/**
+ * Despues de cargar un articulo: foco en el buscador de productos y el campo
+ * vacio, listo para el proximo codigo o nombre. Los resultados quedan: cambiar
+ * value no dispara 'input', asi que no se busca de nuevo ni se borra la lista.
+ * Se llama dentro del toque (OK) o de la tecla (Enter) del usuario: en el
+ * celular el teclado queda abierto
+ */
+function volverAlBuscador() {
+  // En la busqueda de clientes ese mismo campo busca clientes: no tocarlo
+  if (document.body.classList.contains('modo-busqueda-clientes')) return;
+  const buscador = document.querySelector('nav input[type="text"]');
+  if (!buscador) return;
+
+  buscador.value = '';
+  // La X de limpiar se muestra solo con texto (catalogo.html la actualiza con
+  // 'input', que aca no se dispara): se oculta igual que lo haria ese manejador
+  const x = document.querySelector('.search-clear-btn');
+  if (x) x.style.display = 'none';
+
+  // Sin desplazar la pagina: la lista queda donde estaba
+  buscador.focus({ preventScroll: true });
+}
+
 function abrirCampoCantidad(btn, sku) {
   document.querySelectorAll('.popover-cantidad').forEach(p => p.remove());
 
@@ -505,6 +532,9 @@ function abrirCampoCantidad(btn, sku) {
     if (!n || n <= 0) { quitar(sku); } else { agregar(sku, n); }
     refrescarIcono(btn, sku);
     pop.remove();
+    // Listo para el proximo articulo: OK y Enter pasan por aca, dentro de la
+    // accion del usuario (en el celular el teclado sigue abierto)
+    volverAlBuscador();
   };
 
   pop.querySelector('.btn-ok-cantidad').addEventListener('click', confirmar);
@@ -528,6 +558,23 @@ function abrirCampoCantidad(btn, sku) {
 const SVG_CARRITO_GRANDE = `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
   <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
 </svg>`;
+
+/** Aviso breve del boton apagado: sin sistema de pedidos, pero nada se perdio */
+function avisarPedidoGuardado() {
+  document.querySelectorAll('.aviso-fab-sin-servicio').forEach(a => a.remove());
+  const av = document.createElement('div');
+  av.className = 'aviso-fab-sin-servicio';
+  av.setAttribute('role', 'status');
+  av.textContent = 'El sistema de pedidos no está disponible en este momento. ' +
+    'Tus artículos están guardados: vas a poder confirmar el pedido cuando vuelva.';
+  // Mismo estilo que los demas avisos flotantes, arriba del boton y de la franja roja
+  av.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
+    'bottom:130px;background:#333;color:#fff;padding:12px 18px;' +
+    'border-radius:8px;font-size:13px;z-index:99999;text-align:center;' +
+    'max-width:90vw;box-shadow:0 4px 14px rgba(0,0,0,.3)';
+  document.body.appendChild(av);
+  setTimeout(() => av.remove(), 4000);
+}
 
 export function crearBotonFlotante() {
 
@@ -568,6 +615,12 @@ export function crearBotonFlotante() {
 
   btn.addEventListener('click', (e) => {
     e.preventDefault();
+    // Sin token el pedido no se puede abrir ni confirmar, pero no se perdio:
+    // un aviso breve en lugar del panel
+    if (btn.classList.contains('fab-sin-servicio')) {
+      avisarPedidoGuardado();
+      return;
+    }
     document.dispatchEvent(new CustomEvent('carrito:abrir'));
   });
 
@@ -576,31 +629,66 @@ export function crearBotonFlotante() {
 }
 
 export function refrescarBotonFlotante() {
-
-
-
   const btn = document.getElementById('fab-carrito');
   if (!btn) return;
 
-  // Ocultar el boton flotante mientras no haya cliente elegido
-  if (faltaCliente()) {
+  const motivo = motivoSinCarrito();
+  const n = cantidadItems();
+  // Las observaciones se marcan aunque no haya articulos (pedido solo de observaciones)
+  const nObs = (getAjustePedido().observaciones || []).length;
+
+  // Sin token, con algo cargado y con cliente: el boton queda a la vista,
+  // apagado. Si desapareciera, el vendedor creeria que perdio el pedido
+  const conCliente = getRol() === 'cliente_estandar' || !!window.Precios?.getClienteVista();
+  const sinServicio = motivo === 'sin_token' && conCliente && (n > 0 || nObs > 0);
+
+  // En los demas casos (sin cliente, carrito no habilitado, o sin token y
+  // nada cargado) se oculta, como siempre
+  if (motivo && !sinServicio) {
+    // Oculto con algo cargado: el vendedor puede creer que el carrito esta
+    // vacio. Se registra el motivo (una vez por sesion) para encontrar la causa.
+    // Sin cliente es el caso normal (por ejemplo, despues de confirmar)
+    if (btn.style.display !== 'none' && motivo !== 'sin_cliente' && n > 0) {
+      const detalle = `${motivo} · rol ${getRol() || '-'} · ${sessionStorage.getItem('authMotivo') || '-'}`;
+      console.warn('[Carrito] Boton flotante oculto con articulos cargados:', detalle);
+      window.RegistroFallos?.registrarFallo('boton_carrito_oculto', detalle);
+    }
     btn.style.display = 'none';
     return;
   }
   btn.style.display = '';
 
-  const n = cantidadItems();
-  // Las observaciones se marcan aunque no haya articulos (pedido solo de observaciones)
-  const nObs = (getAjustePedido().observaciones || []).length;
   btn.innerHTML = SVG_CARRITO_GRANDE + (n ? `<span class="fab-badge">${n}</span>` : '') +
     (nObs ? '<span class="fab-obs" title="Con observaciones">OBS</span>' : '');
   btn.classList.toggle('vacio', n === 0 && nObs === 0);
+  btn.classList.toggle('fab-sin-servicio', sinServicio);
+  btn.title = sinServicio
+    ? 'Sistema de pedidos no disponible: tus artículos están guardados'
+    : 'Ver pedido';
+  if (sinServicio) {
+    // Para saber cuanto pasa (una vez por sesion)
+    window.RegistroFallos?.registrarFallo('boton_carrito_sin_servicio',
+      `${n} articulos · ${sessionStorage.getItem('authMotivo') || '-'}`);
+  }
 }
 
 // Mantener el contador al dia
 document.addEventListener('carrito:cambio', refrescarBotonFlotante);
 document.addEventListener('DOMContentLoaded', crearBotonFlotante);
 if (document.readyState !== 'loading') crearBotonFlotante();
+
+/**
+ * Al volver a la pestaña o al restaurarse desde la cache del navegador, la
+ * sesion o el cliente pudieron cambiar sin que nadie avisara: se vuelve a
+ * dibujar el boton, y se crea si todavia no estaba (por ejemplo, si al
+ * cargar el rol tardo mas que los reintentos de crearBotonFlotante)
+ */
+function asegurarBotonFlotante() {
+  if (document.getElementById('fab-carrito')) refrescarBotonFlotante();
+  else crearBotonFlotante();
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) asegurarBotonFlotante(); });
+window.addEventListener('pageshow', asegurarBotonFlotante);
 
 /**
  * Mueve una linea a la posicion de otra. El orden define el semaforo
