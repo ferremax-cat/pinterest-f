@@ -946,10 +946,14 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v31-precio-117' });
+      return responder({ ok: true, version: 'v32-cache-usuarios' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
+       return responder({ ok: true, limpiado: true });
+    }
+    if (accion === 'limpiar_cache_usr') {
+       limpiarCacheUsuarios();
        return responder({ ok: true, limpiado: true });
     }
     return responder({ ok: false, error: 'usar POST para acciones con datos' });
