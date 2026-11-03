@@ -9,7 +9,7 @@ Corre en orden todo lo que hay que actualizar cada dia, aunque un paso falle:
   4. Finanzas: JSON desde excel/clientes_finanzas.xlsx
   5. Finanzas: hoja de la planilla y cache del servidor (necesita el 4)
   6. Usuarios: JSON desde los Excel de usuarios y funcionalidades
-  7. Usuarios: hoja de la planilla (necesita el 6)
+  7. Usuarios: hoja de la planilla y cache del servidor (necesita el 6)
 
 Un paso que necesita otro que fallo se omite (no se carga un JSON viejo a la
 planilla). Al final muestra un resumen: que salio bien, que fallo, que quedo
@@ -97,11 +97,15 @@ PASOS = [
     },
     {
         'clave': 'usr_hoja',
-        'nombre': 'Usuarios: hoja de la planilla',
+        'nombre': 'Usuarios: hoja de la planilla y caché del servidor',
         'comando': [PY, 'scripts/cargar_usuarios_sheets.py'],
         'requiere': ['usr_json'],
+        'avisos': [r'AVISO: no se pudo limpiar'],
         'si_falla': ('Usuarios nuevos no pueden iniciar sesión, y las bajas o cambios de rol '
                      'no se aplican en el servidor.'),
+        'si_aviso': ('La caché del servidor no se limpió: un usuario nuevo puede tardar hasta 6 horas '
+                     'en poder entrar, y las bajas o cambios de rol en aplicarse. Volvé a correr este '
+                     'paso o abrí la URL de limpiar_cache_usr.'),
     },
 ]
 

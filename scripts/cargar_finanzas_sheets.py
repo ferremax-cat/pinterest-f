@@ -124,6 +124,8 @@ def main():
                'AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec')
     try:
         r = requests.get(URL_API + '?accion=limpiar_cache_fin', timeout=30)
+        if not r.json().get('ok'):
+            raise RuntimeError(r.text[:80])
         print('Cache del servidor limpiada:', r.text[:80])
     except Exception as e:
         print('AVISO: no se pudo limpiar la cache del servidor:', e)
