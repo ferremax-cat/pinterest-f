@@ -5,7 +5,9 @@
  * Carga el mismo js/search/v2/buscador-v2.js que usa el catálogo y corre:
  *   - casos_normalizacion.json con la normalización de JavaScript (tiene que dar
  *     los mismos tokens que la de Python), y
- *   - casos_busqueda.json contra el índice json/search/v2/indice.json.
+ *   - casos_busqueda.json contra el índice json/search/v2/indice.json, y
+ *   - el mapa del resaltado: normalizarConMapa tiene que dar el mismo texto que
+ *     normalizar en todos los nombres y categorías del índice.
  * Termina con código 1 si algún caso falla.
  *
  * Uso, desde la raíz del proyecto:
@@ -73,6 +75,24 @@ function evaluar(B, rutaIndice, casos) {
   return B._evaluarCasosBusqueda(B._prepararDatos(leerJSON(rutaIndice)), casos);
 }
 
+// Textos del índice (nombres y categorías) en los que normalizarConMapa no da lo
+// mismo que normalizar: ahí el resaltado no podría marcar el nombre
+function evaluarMapa(B, rutaIndice) {
+  const fallas = [];
+  let total = 0;
+  for (const p of leerJSON(rutaIndice).productos) {
+    for (const texto of [p[1], p[2]]) {
+      total++;
+      const m = B._normalizarConMapa(texto);
+      const esperado = B.normalizar(texto);
+      if (m.texto !== esperado || m.desde.length !== m.texto.length || m.hasta.length !== m.texto.length) {
+        fallas.push({ codigo: p[0], texto: texto, esperado: esperado, obtenido: m.texto });
+      }
+    }
+  }
+  return { total: total, fallas: fallas };
+}
+
 function agregarResumen(texto) {
   const ruta = opcion('--resumen');
   if (ruta) fs.appendFileSync(ruta, texto + '\n');
@@ -125,11 +145,14 @@ function main() {
   const fallasNorm = B._evaluarCasosNormalizacion(normalizacion);
   const filas = evaluar(B, rutaIndice, casos);
   const fallasBusq = filas.filter((f) => f.resultado !== 'ok');
+  const mapa = evaluarMapa(B, rutaIndice);
 
   console.log('Casos de normalización: ' + (normalizacion.length - fallasNorm.length) + ' de ' +
               normalizacion.length + ' correctos');
   console.log('Casos de búsqueda: ' + (filas.length - fallasBusq.length) + ' de ' + filas.length +
               ' correctos (índice: ' + path.relative(RAIZ, rutaIndice) + ')');
+  console.log('Mapa del resaltado: ' + (mapa.total - mapa.fallas.length) + ' de ' + mapa.total +
+              ' nombres y categorías iguales a la normalización');
 
   for (const f of fallasNorm) {
     const texto = 'Normalización de «' + f.texto + '»: se esperaba ' + JSON.stringify(f.esperado) +
@@ -141,20 +164,31 @@ function main() {
     console.log('\n✗ Búsqueda «' + f.consulta + '»\n    ' + f.detalle);
     if (EN_GITHUB) console.log('::error title=Búsqueda «' + f.consulta + '»::' + f.detalle);
   }
+  for (const f of mapa.fallas) {
+    const texto = 'Mapa del resaltado de «' + f.texto + '» (' + f.codigo + '): normalizar da ' +
+                  JSON.stringify(f.esperado) + ' y normalizarConMapa da ' + JSON.stringify(f.obtenido) + '.';
+    console.log('\n✗ ' + texto);
+    if (EN_GITHUB) console.log('::error title=Mapa del resaltado::' + texto);
+  }
 
-  if (fallasNorm.length || fallasBusq.length) {
+  if (fallasNorm.length || fallasBusq.length || mapa.fallas.length) {
     const tabla = ['### Buscador: casos que fallan', '',
       'Normalización: ' + (normalizacion.length - fallasNorm.length) + ' de ' + normalizacion.length +
-      ' · Búsquedas: ' + (filas.length - fallasBusq.length) + ' de ' + filas.length, '',
+      ' · Búsquedas: ' + (filas.length - fallasBusq.length) + ' de ' + filas.length +
+      ' · Mapa del resaltado: ' + (mapa.total - mapa.fallas.length) + ' de ' + mapa.total, '',
       '| Caso | Qué pasó |', '|---|---|']
       .concat(fallasNorm.map((f) => '| normalización «' + f.texto + '» | se esperaba ' +
         JSON.stringify(f.esperado) + ', da ' + JSON.stringify(f.obtenido) + ' |'))
-      .concat(fallasBusq.map((f) => '| búsqueda «' + f.consulta + '» | ' + f.detalle.replace(/\|/g, '/') + ' |'));
+      .concat(fallasBusq.map((f) => '| búsqueda «' + f.consulta + '» | ' + f.detalle.replace(/\|/g, '/') + ' |'))
+      .concat(mapa.fallas.map((f) => '| mapa del resaltado «' + String(f.texto).replace(/\|/g, '/') + '» (' +
+        f.codigo + ') | normalizar da ' + JSON.stringify(f.esperado).replace(/\|/g, '/') +
+        ', normalizarConMapa da ' + JSON.stringify(f.obtenido).replace(/\|/g, '/') + ' |'));
     agregarResumen(tabla.join('\n'));
     process.exitCode = 1;
   } else {
     agregarResumen('### Buscador: los ' + filas.length + ' casos de búsqueda y los ' +
-                   normalizacion.length + ' de normalización pasan');
+                   normalizacion.length + ' de normalización pasan, y el mapa del resaltado coincide en los ' +
+                   mapa.total + ' nombres y categorías');
   }
 }
 

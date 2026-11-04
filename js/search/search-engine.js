@@ -1264,11 +1264,13 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     }
   };
 
+  // Lo que el buscador encontró en cada producto, para el resaltado (ver BuscadorV2.buscar)
+  const marcas = {};
   let codigos;
   try {
     // Primera tanda: si hay un índice nuevo descargado, el buscador lo empieza a
     // usar acá; las tandas del scroll siguen con el mismo índice
-    codigos = await window.BuscadorV2.buscar(consulta, { primeraTanda: offset === 0 });
+    codigos = await window.BuscadorV2.buscar(consulta, { primeraTanda: offset === 0, marcas: marcas });
   } catch (error) {
     // Falló la descarga del índice: el motor la reintenta en la próxima búsqueda
     console.error('[search-engine] Buscador v2: no se pudo buscar', error);
@@ -1325,7 +1327,7 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     limit: limit,
     total: totalResults,
     hasMore: offset + limit < totalResults
-  });
+  }, marcas);
 
   return {
     items: matchingItems,
@@ -1432,7 +1434,22 @@ function displayNoResults(query) {
           .join('');
       }
 
-      function displayResults(matchingItems, normalizedQuery, queryTokens, pagination = {}) {
+      // Marca los tramos [inicio, fin) que dio el buscador v2: lo que de verdad
+      // coincidió ("R.C.T." para "rct", "11/2" para "1 1/2"). Como en resaltar, cada
+      // parte se escapa por separado y el HTML se arma en una sola pasada
+      function resaltarRangos(texto, rangos, minusculas) {
+        const s = String(texto == null ? '' : texto);
+        const f = (x) => escaparHTML(minusculas ? x.toLowerCase() : x);
+        let html = '', ultimo = 0;
+        for (const [ini, fin] of rangos) {
+          if (ini < ultimo || fin <= ini) continue;
+          html += f(s.slice(ultimo, ini)) + '<span class="search-highlight">' + f(s.slice(ini, fin)) + '</span>';
+          ultimo = fin;
+        }
+        return html + f(s.slice(ultimo));
+      }
+
+      function displayResults(matchingItems, normalizedQuery, queryTokens, pagination = {}, marcas = null) {
         const galleryContainer = document.querySelector('.gallery-container');
         if (!galleryContainer) {
           console.warn('[search-engine] Contenedor de galería no encontrado');
@@ -1567,8 +1584,15 @@ function displayNoResults(query) {
           // pasar a minúsculas después de resaltar
           const hayTerminos = Boolean(queryTokens && queryTokens.length > 0);
           const terminos = hayTerminos ? queryTokens : [];
-          const itemName = resaltar(hayTerminos ? (item.name || '').toLowerCase() : (item.name || ''), terminos);
-          const itemCode = resaltar(item.code || '', terminos);
+          // Con el buscador v2 se marca lo que encontró (marcas); si no, lo escrito.
+          // Los tramos son del nombre original: se pasa a minúsculas parte por parte
+          const rangosNombre = marcas && marcas.nombre ? marcas.nombre(item.name || '') : null;
+          const itemName = rangosNombre
+            ? resaltarRangos(item.name || '', rangosNombre, hayTerminos)
+            : resaltar(hayTerminos ? (item.name || '').toLowerCase() : (item.name || ''), terminos);
+          const itemCode = marcas && marcas.codigo
+            ? resaltarRangos(item.code || '', marcas.codigo(item.code || ''), false)
+            : resaltar(item.code || '', terminos);
 
 
 
