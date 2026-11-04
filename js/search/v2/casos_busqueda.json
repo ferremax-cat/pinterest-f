@@ -36,6 +36,14 @@
     { "consulta": "standard", "enLosPrimeros": { "n": 30, "codigos": ["PERFA0261"] } },
     { "consulta": "desmalezadora", "minimoResultados": 40 },
     { "consulta": "px cupla m-h", "primerosEnGrupo": { "n": 5, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 5, "codigos": ["PX300001"] } },
-    { "consulta": "rd codo fus hh", "primerosEnGrupo": { "n": 15, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 15, "codigos": ["RDCO20000"] } }
+    { "consulta": "rd codo fus hh", "primerosEnGrupo": { "n": 15, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 15, "codigos": ["RDCO20000"] } },
+    { "consulta": "cubrecerco", "enLosPrimeros": { "n": 11, "codigos": ["TENCCV", "BLUR1509CO", "BLUR1909CO", "BLUR1913C0", "BLURN75G1550", "BLURN75G1950", "ROT72101", "ROT72102", "ROT72099", "ROT72100", "BLUR75G1550"] } },
+    { "consulta": "cubre cerco", "enLosPrimeros": { "n": 11, "codigos": ["TENCCV", "BLUR1509CO", "BLUR1909CO", "BLUR1913C0", "BLURN75G1550", "BLURN75G1950", "ROT72101", "ROT72102", "ROT72099", "ROT72100", "BLUR75G1550"] } },
+    { "consulta": "rafia cubrecerco", "primerosEnGrupo": { "n": 10, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 10, "codigos": ["BLUR1509CO", "BLUR1909CO", "BLUR1913C0", "BLURN75G1550", "BLURN75G1950", "ROT72101", "ROT72102", "ROT72099", "ROT72100", "BLUR75G1550"] } },
+    { "consulta": "rafia cubre cerco", "primerosEnGrupo": { "n": 10, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 10, "codigos": ["BLUR1509CO", "BLUR1909CO", "BLUR1913C0", "BLURN75G1550", "BLURN75G1950", "ROT72101", "ROT72102", "ROT72099", "ROT72100", "BLUR75G1550"] } },
+    { "consulta": "torniquete", "enLosPrimeros": { "n": 2, "codigos": ["MTORC124", "MTORC122"] } },
+    { "consulta": "torniqu", "enLosPrimeros": { "n": 2, "codigos": ["MTORC124", "MTORC122"] } },
+    { "consulta": "termo tanque", "primerosEnGrupo": { "n": 8, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 8, "codigos": ["KCMTE40S"] }, "fueraDelGrupo": { "grupo": "articuloParcial", "codigos": ["BM8200", "BM7133"] } },
+    { "consulta": "tira fondo", "primerosEnGrupo": { "n": 48, "grupo": "articuloCompleto" }, "enLosPrimeros": { "n": 48, "codigos": ["ISATIR3616"] } }
   ]
 }
