@@ -58,19 +58,76 @@
   const RE_TIENE_DIGITO = /\d/;
   const RE_TIENE_LETRA = /[a-z]/;
 
+  // Pasos de normalizar después de minúsculas y acentos, en orden. Los usan
+  // normalizar y normalizarConMapa: así no pueden quedar distintos
+  const PASOS_NORMALIZAR = [
+    [RE_SIGLA, unirSigla],
+    [RE_LETRAS_GUION, unirGuion],
+    [RE_COMA_DECIMAL, '$1.'],
+    [RE_CEROS_FINALES, '$1'],
+    [RE_DECIMAL_CERO, '$1'],
+    [RE_FRACCION_MIXTA, '$1$2-$3'],
+    [RE_FRACCION_PEGADA, separarFraccionPegada],
+    [RE_X_ENTRE_MEDIDAS, '$1 x '],
+    [RE_X_INICIAL, '$1x ']
+  ];
+
   function normalizar(texto) {
     let t = String(texto == null ? '' : texto).toLowerCase();
     t = t.normalize('NFD').replace(RE_ACENTOS, '');
-    t = t.replace(RE_SIGLA, unirSigla);
-    t = t.replace(RE_LETRAS_GUION, unirGuion);
-    t = t.replace(RE_COMA_DECIMAL, '$1.');
-    t = t.replace(RE_CEROS_FINALES, '$1');
-    t = t.replace(RE_DECIMAL_CERO, '$1');
-    t = t.replace(RE_FRACCION_MIXTA, '$1$2-$3');
-    t = t.replace(RE_FRACCION_PEGADA, separarFraccionPegada);
-    t = t.replace(RE_X_ENTRE_MEDIDAS, '$1 x ');
-    t = t.replace(RE_X_INICIAL, '$1x ');
+    for (const [re, reemplazo] of PASOS_NORMALIZAR) t = t.replace(re, reemplazo);
     return t;
+  }
+
+  // normalizar, recordando de dónde sale cada carácter: desde[i] y hasta[i] son el
+  // tramo del texto original que dio el carácter i del normalizado ("1 1/2" -> "1-1/2":
+  // el guion sale del espacio). Lo usa el resaltado, para marcar en el nombre tal como
+  // se muestra la palabra que coincidió en el normalizado
+  function normalizarConMapa(texto) {
+    const original = String(texto == null ? '' : texto);
+    let t = '', desde = [], hasta = [];
+    for (let i = 0; i < original.length; i++) {
+      const c = original[i].toLowerCase().normalize('NFD').replace(RE_ACENTOS, '');
+      for (let j = 0; j < c.length; j++) { desde.push(i); hasta.push(i + 1); }
+      t += c;
+    }
+    for (const [re, reemplazo] of PASOS_NORMALIZAR) {
+      let nuevo = '', ultimo = 0;
+      const nd = [], nh = [];
+      const copiar = (i) => { nd.push(desde[i]); nh.push(hasta[i]); };
+      t.replace(re, function () {
+        const args = arguments;
+        const m = args[0], pos = args[args.length - 2];
+        const r = typeof reemplazo === 'function' ? reemplazo.apply(null, args)
+          : reemplazo.replace(/\$(\d)/g, (x, k) => args[+k] || '');
+        for (let i = ultimo; i < pos; i++) copiar(i);
+        // El principio y el final que no cambian conservan su tramo; lo del medio
+        // toma el tramo de lo que reemplaza
+        let p = 0;
+        while (p < m.length && p < r.length && m[p] === r[p]) p++;
+        let s = 0;
+        while (s < m.length - p && s < r.length - p && m[m.length - 1 - s] === r[r.length - 1 - s]) s++;
+        for (let i = 0; i < p; i++) copiar(pos + i);
+        if (p < m.length - s) {
+          const a = desde[pos + p], b = hasta[pos + m.length - s - 1];
+          // Se borró ("3.50" -> "3.5"): el carácter anterior se queda con lo borrado
+          if (p === r.length - s && nh.length) nh[nh.length - 1] = b;
+          for (let i = p; i < r.length - s; i++) { nd.push(a); nh.push(b); }
+        } else {
+          // Se agregó ("11/2" -> "1-1/2"): lo nuevo no ocupa lugar en el original
+          const a = pos + p > 0 ? hasta[pos + p - 1] : 0;
+          for (let i = p; i < r.length - s; i++) { nd.push(a); nh.push(a); }
+        }
+        for (let i = m.length - s; i < m.length; i++) copiar(pos + i);
+        nuevo += t.slice(ultimo, pos) + r;
+        ultimo = pos + m.length;
+        return r;
+      });
+      for (let i = ultimo; i < t.length; i++) copiar(i);
+      t = nuevo + t.slice(ultimo);
+      desde = nd; hasta = nh;
+    }
+    return { texto: t, desde: desde, hasta: hasta };
   }
 
   function tokenizar(texto, expandir) {
@@ -282,18 +339,27 @@
   // Coincidencias de una palabra: id -> puntos. En "abreviados" quedan los que
   // coinciden solo porque una palabra de su nombre es una abreviatura de ella
   // ("TORNI" para "torniquete"): esos van después dentro de su grupo
-  function puntuarToken(d, token, esUltimo) {
+  // claves (opcional): ahí se anotan las palabras del índice de nombres que
+  // coincidieron, para el resaltado
+  function puntuarToken(d, token, esUltimo, claves) {
     const mejor = new Map();
     const abreviados = new Set();
     const anotar = (ids, puntos) => {
       if (!ids) return;
       for (const id of ids) if ((mejor.get(id) || 0) < puntos) mejor.set(id, puntos);
     };
-    anotar(d.nombre[token], PUNTOS.nombreExacto);
+    // Palabra del índice de nombres: además de los puntos, se guarda para el resaltado
+    const anotarNombre = (t, puntos, resaltar) => {
+      if (claves && resaltar !== false && d.nombre[t]) claves.add(t);
+      anotar(d.nombre[t], puntos);
+    };
+    anotarNombre(token, PUNTOS.nombreExacto);
     anotar(d.categoria[token], PUNTOS.categoriaExacta);
     if (esUltimo) {
+      // Lo que empieza con 1 o 2 letras se encuentra, pero no se resalta: con "ma"
+      // quedaría marcada media galería
       for (const t of tokensConPrefijo(d.tokensNombre, token)) {
-        if (t !== token) anotar(d.nombre[t], PUNTOS.nombrePrefijo);
+        if (t !== token) anotarNombre(t, PUNTOS.nombrePrefijo, token.length >= 3);
       }
       for (const t of tokensConPrefijo(d.tokensCategoria, token)) {
         if (t !== token) anotar(d.categoria[t], PUNTOS.categoriaPrefijo);
@@ -308,10 +374,11 @@
     if (RE_SOLO_LETRAS.test(token) && token.length >= 6 && !d.canon.has(token)) {
       const desde = Math.max(5, Math.ceil(token.length / 2));
       for (let largo = desde; largo < token.length; largo++) {
-        const ids = d.nombre[token.slice(0, largo)];
+        const t = token.slice(0, largo);
+        const ids = d.nombre[t];
         if (!ids) continue;
         for (const id of ids) if (!mejor.has(id)) abreviados.add(id);
-        anotar(ids, PUNTOS.nombreAbreviado);
+        anotarNombre(t, PUNTOS.nombreAbreviado);
       }
     }
     return { puntos: mejor, abreviados: abreviados };
@@ -339,10 +406,10 @@
   // Coincidencias de una palabra compuesta: la palabra junta ("CUBRECERCO", "CUBREC")
   // o sus dos partes en el mismo nombre ("CUBRE CERCO"). Quien tiene una sola de las
   // partes queda en "mitades": no es lo buscado (CUBRE AGUJERO no es un cubrecerco)
-  function puntuarCompuesta(d, u, esUltimo) {
-    const junta = puntuarToken(d, u.token, esUltimo);
-    const a = puntuarToken(d, u.partes[0], false);
-    const b = puntuarToken(d, u.partes[1], esUltimo);
+  function puntuarCompuesta(d, u, esUltimo, claves) {
+    const junta = puntuarToken(d, u.token, esUltimo, claves);
+    const a = puntuarToken(d, u.partes[0], false, claves);
+    const b = puntuarToken(d, u.partes[1], esUltimo, claves);
     const puntos = new Map();
     const abreviados = new Set();
     const mitades = new Map();
@@ -367,7 +434,9 @@
     return { puntos: puntos, abreviados: abreviados, mitades: mitades };
   }
 
-  function buscarEnDatos(d, consulta) {
+  // marcas (opcional): se completa con nombre(texto) y codigo(codigo), que dan los
+  // tramos a resaltar en cada resultado (ver rangosNombre y rangosCodigo)
+  function buscarEnDatos(d, consulta, marcas) {
     const texto = String(consulta == null ? '' : consulta).trim();
     if (!texto) return [];
 
@@ -377,6 +446,8 @@
     const palabrasEnConsulta = unidades.filter((u) => RE_TIENE_LETRA.test(u.token)).length;
     const acumulado = new Map();   // id -> { cubiertos, palabras, puntos, abreviadas, mitades }
     const nuevo = () => ({ cubiertos: 0, palabras: 0, puntos: 0, abreviadas: 0, mitades: 0 });
+    // Palabras del índice de nombres que coincidieron, para el resaltado (solo si se pide)
+    const claves = marcas ? new Set() : null;
 
     // Palabras que son el comienzo de algún código ("px" de POLIMEX, "rd" de REDECO).
     // En consultas de varias palabras cuentan como coincidencia para todos los
@@ -397,7 +468,7 @@
     unidades.forEach((u, k) => {
       const token = u.token;
       const esPalabra = RE_TIENE_LETRA.test(token);
-      const c = u.partes ? puntuarCompuesta(d, u, k === n - 1) : puntuarToken(d, token, k === n - 1);
+      const c = u.partes ? puntuarCompuesta(d, u, k === n - 1, claves) : puntuarToken(d, token, k === n - 1, claves);
       const coincidencias = c.puntos;
       const linea = lineaDe.get(token);
       if (linea) {
@@ -505,13 +576,67 @@
         ? COLADOR_CODIGO.compare(codigoOrden(x.id), codigoOrden(y.id))
         : (x.abreviadas - y.abreviadas) || (y.puntos - x.puntos) || COLADOR.compare(x.clave, y.clave)) ||
       (x.id - y.id));
+
+    // Resaltado: qué marcar en el nombre y en el código de cada resultado que se dibuje
+    if (marcas) {
+      const canonicas = new Set();
+      for (const t of claves) if (d.canon.has(t)) canonicas.add(d.canon.get(t));
+      const prefijos = [...lineaDe.keys()];
+      if (idCodigoExacto >= 0 || buscarPrefijo) prefijos.push(compacta);
+      marcas.nombre = (texto) => rangosNombre(d, claves, canonicas, texto);
+      marcas.codigo = (codigo) => rangosCodigo(prefijos, codigo);
+    }
     return resultados;
+  }
+
+  // Tramos [inicio, fin) del nombre original que coincidieron con la búsqueda: cada
+  // palabra del nombre que está entre las claves, o que es equivalente a una por el
+  // diccionario ("ENTREROSCA" para "rct"). En 20MM se mira también "20" y "mm", como
+  // en el índice. null si el nombre no se pudo mapear (search-engine.js resalta como antes)
+  function rangosNombre(d, claves, canonicas, texto) {
+    const n = normalizarConMapa(texto);
+    if (n.texto !== normalizar(texto)) return null;
+    const coincide = (t) => claves.has(t) || canonicas.has(d.canon.get(t));
+    const rangos = [];
+    const marcar = (ini, fin) => rangos.push([n.desde[ini], n.hasta[fin - 1]]);
+    const re = new RegExp(RE_TOKEN.source, 'g');
+    let m;
+    while ((m = re.exec(n.texto))) {
+      const tok = m[0];
+      if (coincide(tok)) { marcar(m.index, m.index + tok.length); continue; }
+      // 20mm también está como "20" y "mm"; pn20, solo como "pn" (igual que tokenizar)
+      if (RE_TIENE_DIGITO.test(tok) && RE_TIENE_LETRA.test(tok)) {
+        const empiezaConLetra = RE_TIENE_LETRA.test(tok[0]);
+        const rp = new RegExp(RE_PARTES.source, 'g');
+        let p;
+        while ((p = rp.exec(tok))) {
+          if (empiezaConLetra && RE_TIENE_DIGITO.test(p[0][0])) continue;
+          if (coincide(p[0])) marcar(m.index + p.index, m.index + p.index + p[0].length);
+        }
+      }
+    }
+    return rangos;
+  }
+
+  // Tramo del código original que coincidió: el comienzo más largo entre el código
+  // buscado (exacto o prefijo) y las líneas de código de la consulta ("px", "rd")
+  function rangosCodigo(prefijos, codigo) {
+    const original = String(codigo == null ? '' : codigo);
+    const c = compactarCodigo(original);
+    let largo = 0;
+    for (const p of prefijos) if (p.length > largo && c.startsWith(p)) largo = p.length;
+    if (!largo) return [];
+    let k = 0, i = 0;
+    while (i < original.length && k < largo) k += compactarCodigo(original[i++]).length;
+    return [[0, i]];
   }
 
   // Devuelve la lista ordenada de códigos originales (como figuran en productos.json).
   // opciones.primeraTanda: la búsqueda empieza de cero (no es el scroll de una
   // anterior). Recién ahí se pasa al índice nuevo, si hay uno listo: todas las
-  // tandas de una misma búsqueda salen del mismo índice
+  // tandas de una misma búsqueda salen del mismo índice.
+  // opciones.marcas: un objeto que se completa con nombre(texto) y codigo(codigo),
+  // que devuelven los tramos a resaltar (ver buscarEnDatos)
   async function buscar(consulta, opciones) {
     if (pendiente && opciones && opciones.primeraTanda) {
       datos = pendiente;
@@ -519,7 +644,7 @@
       console.log('[BuscadorV2] usando el índice ' + datos.version);
     }
     const d = await cargar();
-    return buscarEnDatos(d, consulta).map((r) => d.productos[r.id][0]);
+    return buscarEnDatos(d, consulta, opciones && opciones.marcas).map((r) => d.productos[r.id][0]);
   }
 
   // ---------------------------------------------------------------------
@@ -670,7 +795,8 @@
     _buscarEnDatos: buscarEnDatos,
     _evaluarCasosBusqueda: evaluarCasosBusqueda,
     _evaluarCasosNormalizacion: evaluarCasosNormalizacion,
-    _prepararDatos: prepararDatos
+    _prepararDatos: prepararDatos,
+    _normalizarConMapa: normalizarConMapa
   };
 
   if (USAR_BUSQUEDA_V2 && typeof document !== 'undefined') {
