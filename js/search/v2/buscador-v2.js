@@ -279,25 +279,18 @@
     [GRUPO.mencionaParcial]: 'menciona, falta una'
   };
 
+  // Coincidencias de una palabra: id -> puntos. En "abreviados" quedan los que
+  // coinciden solo porque una palabra de su nombre es una abreviatura de ella
+  // ("TORNI" para "torniquete"): esos van después dentro de su grupo
   function puntuarToken(d, token, esUltimo) {
     const mejor = new Map();
+    const abreviados = new Set();
     const anotar = (ids, puntos) => {
       if (!ids) return;
       for (const id of ids) if ((mejor.get(id) || 0) < puntos) mejor.set(id, puntos);
     };
     anotar(d.nombre[token], PUNTOS.nombreExacto);
     anotar(d.categoria[token], PUNTOS.categoriaExacta);
-    // Abreviaturas por truncamiento: "manguera" encuentra "manguer", "termofusion" encuentra "termof".
-    // La abreviatura debe tener al menos 5 letras y la mitad de la palabra:
-    // así "termofusion" no encuentra "termo".
-    // Las palabras del diccionario no se truncan: su grupo ya dice qué abreviaturas
-    // valen ("termocupla" ya no encuentra "termo", los termos de mate)
-    if (RE_SOLO_LETRAS.test(token) && token.length >= 6 && !d.canon.has(token)) {
-      const desde = Math.max(5, Math.ceil(token.length / 2));
-      for (let largo = desde; largo < token.length; largo++) {
-        anotar(d.nombre[token.slice(0, largo)], PUNTOS.nombreAbreviado);
-      }
-    }
     if (esUltimo) {
       for (const t of tokensConPrefijo(d.tokensNombre, token)) {
         if (t !== token) anotar(d.nombre[t], PUNTOS.nombrePrefijo);
@@ -306,7 +299,72 @@
         if (t !== token) anotar(d.categoria[t], PUNTOS.categoriaPrefijo);
       }
     }
-    return mejor;
+    // Abreviaturas por truncamiento: "manguera" encuentra "manguer", "termofusion" encuentra "termof".
+    // La abreviatura debe tener al menos 5 letras y la mitad de la palabra:
+    // así "termofusion" no encuentra "termo".
+    // Las palabras del diccionario no se truncan: su grupo ya dice qué abreviaturas
+    // valen ("termocupla" ya no encuentra "termo", los termos de mate).
+    // Va al final: solo es "abreviado" el que no coincidió de otra forma
+    if (RE_SOLO_LETRAS.test(token) && token.length >= 6 && !d.canon.has(token)) {
+      const desde = Math.max(5, Math.ceil(token.length / 2));
+      for (let largo = desde; largo < token.length; largo++) {
+        const ids = d.nombre[token.slice(0, largo)];
+        if (!ids) continue;
+        for (const id of ids) if (!mejor.has(id)) abreviados.add(id);
+        anotar(ids, PUNTOS.nombreAbreviado);
+      }
+    }
+    return { puntos: mejor, abreviados: abreviados };
+  }
+
+  // Palabras de la consulta, juntando dos seguidas que forman una palabra del
+  // catálogo o del diccionario ("cubre cerco" -> "cubrecerco"). Cada una es
+  // { token } o { token: junta, partes: [a, b] }. Las dos partes tienen que ser
+  // solo letras y de 3 o más (así "ros ca" no se vuelve "rosca")
+  function unirCompuestas(d, tokens) {
+    const unidades = [];
+    for (let k = 0; k < tokens.length; k++) {
+      const a = tokens[k], b = tokens[k + 1];
+      if (b !== undefined && RE_SOLO_LETRAS.test(a) && RE_SOLO_LETRAS.test(b) &&
+          a.length >= 3 && b.length >= 3 && (d.nombre[a + b] || d.canon.has(a + b))) {
+        unidades.push({ token: a + b, partes: [a, b] });
+        k++;
+      } else {
+        unidades.push({ token: a });
+      }
+    }
+    return unidades;
+  }
+
+  // Coincidencias de una palabra compuesta: la palabra junta ("CUBRECERCO", "CUBREC")
+  // o sus dos partes en el mismo nombre ("CUBRE CERCO"). Quien tiene una sola de las
+  // partes queda en "mitades": no es lo buscado (CUBRE AGUJERO no es un cubrecerco)
+  function puntuarCompuesta(d, u, esUltimo) {
+    const junta = puntuarToken(d, u.token, esUltimo);
+    const a = puntuarToken(d, u.partes[0], false);
+    const b = puntuarToken(d, u.partes[1], esUltimo);
+    const puntos = new Map();
+    const abreviados = new Set();
+    const mitades = new Map();
+    for (const [id, p] of junta.puntos) {
+      puntos.set(id, 2 * p);   // vale lo que las dos palabras
+      if (junta.abreviados.has(id)) abreviados.add(id);
+    }
+    for (const [id, p] of a.puntos) {
+      const q = b.puntos.get(id);
+      if (q !== undefined) {
+        if ((puntos.get(id) || 0) < p + q) {
+          puntos.set(id, p + q);
+          if (a.abreviados.has(id) || b.abreviados.has(id)) abreviados.add(id); else abreviados.delete(id);
+        }
+      } else if (!puntos.has(id)) {
+        mitades.set(id, p);
+      }
+    }
+    for (const [id, q] of b.puntos) {
+      if (!puntos.has(id) && !a.puntos.has(id)) mitades.set(id, q);
+    }
+    return { puntos: puntos, abreviados: abreviados, mitades: mitades };
   }
 
   function buscarEnDatos(d, consulta) {
@@ -314,38 +372,54 @@
     if (!texto) return [];
 
     const tokens = tokenizar(texto, false);
-    const n = tokens.length;
-    const palabrasEnConsulta = tokens.filter((t) => RE_TIENE_LETRA.test(t)).length;
-    const acumulado = new Map();   // id -> { cubiertos, palabras, puntos }
+    const unidades = unirCompuestas(d, tokens);
+    const n = unidades.length;
+    const palabrasEnConsulta = unidades.filter((u) => RE_TIENE_LETRA.test(u.token)).length;
+    const acumulado = new Map();   // id -> { cubiertos, palabras, puntos, abreviadas, mitades }
+    const nuevo = () => ({ cubiertos: 0, palabras: 0, puntos: 0, abreviadas: 0, mitades: 0 });
 
     // Palabras que son el comienzo de algún código ("px" de POLIMEX, "rd" de REDECO).
     // En consultas de varias palabras cuentan como coincidencia para todos los
     // productos de esa línea, además de sus coincidencias normales en nombres y
-    // categorías. Con una sola palabra no se usa: ahí manda la línea de código de siempre
+    // categorías. Con una sola palabra no se usa: ahí manda la línea de código de siempre.
+    // Una compuesta no se mira como comienzo de código
     const lineaDe = new Map();   // palabra -> ids cuyo código empieza así
-    if (n > 1) {
-      for (const token of tokens) {
-        if (!RE_SOLO_LETRAS.test(token) || token.length < 2 || lineaDe.has(token)) continue;
+    if (tokens.length > 1) {
+      for (const u of unidades) {
+        const token = u.token;
+        if (u.partes || !RE_SOLO_LETRAS.test(token) || token.length < 2 || lineaDe.has(token)) continue;
         const ids = new Set();
         d.compactos.forEach((c, id) => { if (c.startsWith(token)) ids.add(id); });
         if (ids.size) lineaDe.set(token, ids);
       }
     }
 
-    tokens.forEach((token, k) => {
+    unidades.forEach((u, k) => {
+      const token = u.token;
       const esPalabra = RE_TIENE_LETRA.test(token);
-      const coincidencias = puntuarToken(d, token, k === n - 1);
+      const c = u.partes ? puntuarCompuesta(d, u, k === n - 1) : puntuarToken(d, token, k === n - 1);
+      const coincidencias = c.puntos;
       const linea = lineaDe.get(token);
       if (linea) {
         const puntosLinea = d.nombre[token] ? PUNTOS.lineaCodigoTambienPalabra : PUNTOS.lineaCodigo;
         for (const id of linea) {
-          if ((coincidencias.get(id) || 0) < puntosLinea) coincidencias.set(id, puntosLinea);
+          if ((coincidencias.get(id) || 0) < puntosLinea) {
+            coincidencias.set(id, puntosLinea);
+            c.abreviados.delete(id);
+          }
         }
       }
       for (const [id, puntos] of coincidencias) {
-        const a = acumulado.get(id) || { cubiertos: 0, palabras: 0, puntos: 0 };
+        const a = acumulado.get(id) || nuevo();
         a.cubiertos++;
         if (esPalabra) a.palabras++;
+        if (c.abreviados.has(id)) a.abreviadas++;
+        a.puntos += puntos;
+        acumulado.set(id, a);
+      }
+      for (const [id, puntos] of (c.mitades || [])) {
+        const a = acumulado.get(id) || nuevo();
+        a.mitades++;
         a.puntos += puntos;
         acumulado.set(id, a);
       }
@@ -358,7 +432,7 @@
     const idCodigoExacto = d.codigos.has(compacta) ? d.codigos.get(compacta) : -1;
     const prefijoConNumeros = RE_TIENE_DIGITO.test(compacta);
     const buscarPrefijo = prefijoConNumeros ? compacta.length >= 3
-                                            : compacta.length >= 2 && n <= 1;
+                                            : compacta.length >= 2 && tokens.length <= 1;
     const prefijosCodigo = new Set();
     if (buscarPrefijo) {
       d.compactos.forEach((c, id) => {
@@ -369,18 +443,21 @@
     // ¿El nombre empieza con la primera palabra buscada? (define si "es el artículo").
     // Se saltean las palabras del principio que son solo comienzo de código (no
     // aparecen en ningún nombre): en "px cupla m-h" el artículo es "cupla". "tor punta"
-    // o "cono 1/2" no cambian, porque "tor" y "cono" también son palabras del catálogo
+    // o "cono 1/2" no cambian, porque "tor" y "cono" también son palabras del catálogo.
+    // Si la primera es compuesta, el nombre puede empezar con ella o con su primera
+    // parte ("CUBRE CERCO ..." para "cubre cerco")
     const soloCodigo = (t) => lineaDe.has(t) && !d.nombre[t];
     let k0 = 0;
-    while (k0 < n - 1 && soloCodigo(tokens[k0])) k0++;
-    const primera = n > 0 && RE_TIENE_LETRA.test(tokens[k0]) ? tokens[k0] : null;
+    while (k0 < n - 1 && soloCodigo(unidades[k0].token)) k0++;
+    const primera = n > 0 && RE_TIENE_LETRA.test(unidades[k0].token) ? unidades[k0].token : null;
+    const primeraParte = n > 0 && unidades[k0].partes ? unidades[k0].partes[0] : null;
     const empiezaConPrimera = (id) => {
       if (!primera) return false;
       const t0 = primerToken(d, id);
       if (!t0) return false;
       // "rct" es el artículo de "ENTREROSCA ...": los equivalentes cuentan igual
       const canon = (t) => d.canon.get(t) || t;
-      return t0 === primera || canon(t0) === canon(primera) ||
+      return t0 === primera || canon(t0) === canon(primera) || t0 === primeraParte ||
              (n === 1 && t0.startsWith(primera)) ||
              (t0.length >= 5 && primera.startsWith(t0));
     };
@@ -391,13 +468,15 @@
     if (idCodigoExacto >= 0) candidatos.add(idCodigoExacto);
 
     for (const id of candidatos) {
-      const a = acumulado.get(id) || { cubiertos: 0, palabras: 0, puntos: 0 };
+      const a = acumulado.get(id) || nuevo();
       // Para "falta una" se exige al menos una palabra (no alcanza con coincidir
       // solo en una medida: "valvula 1/2" no debe traer todo lo que sea 1/2)
-      const tienePalabra = palabrasEnConsulta === 0 || a.palabras > 0;
+      const tienePalabra = palabrasEnConsulta === 0 || a.palabras > 0 || a.mitades > 0;
       const completo = n > 0 && a.cubiertos === n;
-      const parcial = !completo && a.cubiertos >= minimo && tienePalabra;
-      const articulo = (completo || parcial) && empiezaConPrimera(id);
+      // Una compuesta a medias (CUBRE AGUJERO para "cubre cerco") cuenta como la
+      // palabra que falta, pero nunca como artículo
+      const parcial = !completo && a.cubiertos + (a.mitades ? 1 : 0) >= minimo && tienePalabra;
+      const articulo = (completo || (parcial && !a.mitades)) && empiezaConPrimera(id);
       let grupo = 0;
       if (id === idCodigoExacto) grupo = GRUPO.codigoExacto;
       // Quien escribe las letras de un código ("ros", "plasti") busca esa línea:
@@ -408,11 +487,14 @@
       else if (completo) grupo = GRUPO.menciona;
       else if (prefijosCodigo.has(id)) grupo = GRUPO.codigoPrefijo;
       else if (parcial) grupo = GRUPO.mencionaParcial;
-      if (grupo) resultados.push({ id: id, grupo: grupo, puntos: a.puntos });
+      if (grupo) resultados.push({ id: id, grupo: grupo, puntos: a.puntos, abreviadas: a.abreviadas });
     }
 
-    // Dentro de cada grupo: por nombre, leyendo la abreviatura como la palabra buscada
-    // ("MANGUER PLAS REF" se ordena junto a "MANGUERA PLAS REF"), con números en orden natural
+    // Dentro de cada grupo: primero los que tienen las palabras escritas completas
+    // (o recién empezadas), después los que las tienen solo abreviadas ("TORNI" para
+    // "torniquete"); luego por puntos y por nombre, leyendo la abreviatura como la
+    // palabra buscada ("MANGUER PLAS REF" se ordena junto a "MANGUERA PLAS REF"), con
+    // números en orden natural
     for (const r of resultados) r.clave = claveOrden(d, r.id, primera);
     // La línea de código va solo por código, en orden natural, sin mirar los puntos
     // (los que además coinciden por descripción tienen puntos y desordenarían la línea).
@@ -421,7 +503,7 @@
     resultados.sort((x, y) => (y.grupo - x.grupo) ||
       (x.grupo === GRUPO.lineaCodigo
         ? COLADOR_CODIGO.compare(codigoOrden(x.id), codigoOrden(y.id))
-        : (y.puntos - x.puntos) || COLADOR.compare(x.clave, y.clave)) ||
+        : (x.abreviadas - y.abreviadas) || (y.puntos - x.puntos) || COLADOR.compare(x.clave, y.clave)) ||
       (x.id - y.id));
     return resultados;
   }
