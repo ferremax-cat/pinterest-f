@@ -66,8 +66,11 @@ function conTokenVigente(payload) {
   return { ...payload, token: sessionStorage.getItem('authToken') };
 }
 
-/** intentos: se anota la duracion y el resultado de cada intento. */
-async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO, intentos = []) {
+/**
+ * intentos: se anota la duracion y el resultado de cada intento.
+ * externa: senal para cortar la llamada desde afuera (solo las de segundo plano).
+ */
+async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO, intentos = [], externa) {
   let ultimoError;
   let tiemposAgotados = 0;
 
@@ -78,6 +81,7 @@ async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO,
     // esperar un minuto antes de volver a probar
     const control = new AbortController();
     const corte = setTimeout(() => control.abort(), margen);
+    externa?.addEventListener('abort', () => control.abort(), { once: true });
 
     try {
       const r = await fetch(URL_API, {
@@ -103,6 +107,9 @@ async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO,
 
     } catch (e) {
       clearTimeout(corte);
+      // Cortada desde afuera (una de segundo plano que cede el paso): no es
+      // una falla ni se reintenta
+      if (externa?.aborted) throw e;
       const porTiempo = e.name === 'AbortError';
       ultimoError = porTiempo ? new Error('tiempo_agotado') : e;
       if (porTiempo) tiemposAgotados++;
@@ -131,6 +138,12 @@ async function llamarApiDirecto(payload, reintentos = 3, margen = TIEMPO_MAXIMO,
 // Google rechazaba alguna con su pagina de error
 let cola = Promise.resolve();
 
+// Para las llamadas de segundo plano (ver llamarEnSegundoPlano). La cola no
+// los lee: un error en este conteo solo puede demorar al segundo plano
+let enCola = 0;              // llamadas normales esperando o en curso
+let ultimaActividad = 0;
+let fondoEnCurso = null;     // AbortController de la de segundo plano en curso
+
 function encolar(payload, reintentos, margen) {
   const med = { pedido: performance.now(), inicio: 0, intentos: [] };
 
@@ -139,6 +152,22 @@ function encolar(payload, reintentos, margen) {
     return llamarApiDirecto(payload, reintentos, margen, med.intentos);
   });
   cola = tarea.catch(() => {});
+
+  // Rama aparte, como la medicion: la de segundo plano cede el paso
+  try {
+    enCola++;
+    ultimaActividad = performance.now();
+    fondoEnCurso?.abort();
+  } catch (e) {
+    // Nunca afecta a esta llamada ni a las siguientes
+  }
+  const fin = () => {
+    try {
+      enCola = Math.max(0, enCola - 1);
+      ultimaActividad = performance.now();
+    } catch (e) {}
+  };
+  tarea.then(fin, fin);
 
   // Rama aparte: no cambia lo que recibe quien llamo ni demora su respuesta
   tarea.then(
@@ -176,6 +205,64 @@ export async function llamarApi(payload, reintentos = 3, margen) {
   return r;
 }
 
+// ---------- llamadas en segundo plano ----------
+// Consultas que pueden esperar (el historial del cliente). Nunca demoran a las
+// demas: salen solo con la cola vacia y despues de un rato sin llamadas, y si
+// llega otra mientras estan en curso se cortan en el acto y se prueban mas
+// tarde. Son consultas: cortarlas no cambia nada en el servidor
+
+const QUIETO_MS = 1500;
+const MARGEN_FONDO = 10000;
+const VUELTAS_FONDO = 4;
+// Si la cola no se vacia en este tiempo, se desiste
+const ESPERA_MAXIMA_FONDO_MS = 60 * 1000;
+
+/**
+ * armar(): el payload con el token del momento, al salir. sigueVigente(): si da
+ * false mientras espera, no sale (por ejemplo, el vendedor cambio de cliente).
+ * Rechaza con 'cedido' si no encontro un hueco, 'descartado' si dejo de servir,
+ * o con el error de la falla.
+ */
+export async function llamarEnSegundoPlano(armar, sigueVigente = () => true) {
+  const desde = performance.now();
+  let fallos = 0;
+  for (let vuelta = 0; vuelta < VUELTAS_FONDO; vuelta++) {
+    // Entre esta espera y el fetch no hay ningun await: nadie se mete en el medio
+    for (;;) {
+      const quieto = performance.now() - Math.max(ultimaActividad, desde);
+      if (enCola === 0 && quieto >= QUIETO_MS) break;
+      if (performance.now() - desde > ESPERA_MAXIMA_FONDO_MS) throw new Error('cedido');
+      await esperar(enCola > 0 ? 300 : Math.max(50, QUIETO_MS - quieto));
+    }
+    if (!sigueVigente()) throw new Error('descartado');
+    if (tokenPorVencer()) {
+      await renovarToken('vence en menos de 30 minutos');
+      continue;
+    }
+
+    const payload = armar();
+    const control = new AbortController();
+    const med = { pedido: performance.now(), inicio: performance.now(), intentos: [] };
+    fondoEnCurso = control;
+    try {
+      const r = await llamarApiDirecto(payload, 0, MARGEN_FONDO, med.intentos, control.signal);
+      medirLenta(payload, med, r?.ok === false ? `ok:false (${r.error})` : 'ok');
+      if (r?.ok === false && r.error === 'token_invalido' && await renovarToken('token_invalido')) continue;
+      return r;
+    } catch (e) {
+      if (!control.signal.aborted) {
+        medirLenta(payload, med, `falla: ${e?.message || e}`);
+        if (++fallos > 1) throw e;
+      } else {
+        console.info(`[Api] ${payload.accion}: cedió el paso a otra llamada`);
+      }
+    } finally {
+      if (fondoEnCurso === control) fondoEnCurso = null;
+    }
+  }
+  throw new Error('cedido');
+}
+
 /**
  * Registra la llamada si tardo mas que UMBRAL_LENTA_MS: cuanto espero en la
  * cola, cuanto tardo la llamada (reintentos y esperas incluidos) y cada
@@ -202,4 +289,4 @@ function medirLenta(payload, med, resultado) {
   }, 0);
 }
 
-window.Api = { llamar: llamarApi, URL: URL_API };
+window.Api = { llamar: llamarApi, llamarEnSegundoPlano, URL: URL_API };

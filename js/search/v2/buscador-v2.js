@@ -636,7 +636,8 @@
   // anterior). Recién ahí se pasa al índice nuevo, si hay uno listo: todas las
   // tandas de una misma búsqueda salen del mismo índice.
   // opciones.marcas: un objeto que se completa con nombre(texto) y codigo(codigo),
-  // que devuelven los tramos a resaltar (ver buscarEnDatos)
+  // que devuelven los tramos a resaltar (ver buscarEnDatos).
+  // opciones.comprados: lo que ya compró el cliente elegido (ver subirComprados)
   async function buscar(consulta, opciones) {
     if (pendiente && opciones && opciones.primeraTanda) {
       datos = pendiente;
@@ -644,7 +645,28 @@
       console.log('[BuscadorV2] usando el índice ' + datos.version);
     }
     const d = await cargar();
-    return buscarEnDatos(d, consulta, opciones && opciones.marcas).map((r) => d.productos[r.id][0]);
+    const resultados = buscarEnDatos(d, consulta, opciones && opciones.marcas);
+    return subirComprados(d, resultados, opciones && opciones.comprados).map((r) => d.productos[r.id][0]);
+  }
+
+  // Historial del cliente (variante a): dentro de cada grupo de relevancia, primero
+  // los artículos que el cliente ya compró. Entre ellos, y entre los demás, queda el
+  // orden de siempre; no cambia los grupos ni saca resultados. comprados: un Map o
+  // Set con los códigos de productos.json (los de historial-cliente.js)
+  function subirComprados(d, resultados, comprados) {
+    if (!comprados || !comprados.size) return resultados;
+    const salida = [];
+    for (let i = 0; i < resultados.length;) {
+      let j = i;
+      while (j < resultados.length && resultados[j].grupo === resultados[i].grupo) j++;
+      const otros = [];
+      for (let k = i; k < j; k++) {
+        (comprados.has(d.productos[resultados[k].id][0]) ? salida : otros).push(resultados[k]);
+      }
+      for (const r of otros) salida.push(r);
+      i = j;
+    }
+    return salida;
   }
 
   // ---------------------------------------------------------------------
@@ -796,7 +818,8 @@
     _evaluarCasosBusqueda: evaluarCasosBusqueda,
     _evaluarCasosNormalizacion: evaluarCasosNormalizacion,
     _prepararDatos: prepararDatos,
-    _normalizarConMapa: normalizarConMapa
+    _normalizarConMapa: normalizarConMapa,
+    _subirComprados: subirComprados
   };
 
   if (USAR_BUSQUEDA_V2 && typeof document !== 'undefined') {
