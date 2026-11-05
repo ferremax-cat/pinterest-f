@@ -292,6 +292,39 @@ nav .iconos img{
      background: var(--rojoHover);
 }
 
+/* Historial del cliente elegido (js/historial-cliente.js): "Comprado 28/10 · 2 u."
+   debajo del nombre, en la franja blanca, fuera de la foto. Más específico que
+   ".top-row span", que pinta de blanco */
+.container-img .top-row.con-compra{
+     flex-direction: column;
+     gap: 2px;
+}
+
+.container-img .top-row .compra-cliente{
+     align-self: stretch;
+     padding: 0;
+     color: #2f5f86;
+     font-size: 11.5px;
+     font-weight: 600;
+     line-height: 1.3;
+     text-align: center;
+     white-space: normal;
+     overflow-wrap: anywhere;
+}
+
+.container-img .top-row .compra-cliente i{
+     margin-right: 4px;
+     font-size: 10.5px;
+}
+
+@media screen and (max-width: 480px) {
+     /* Con dos columnas el nombre va alineado a la izquierda */
+     .container-img .top-row .compra-cliente{
+          font-size: 10.5px;
+          text-align: left;
+     }
+}
+
 .container-img .bottom-row{
      position: absolute;
      bottom: 80px;

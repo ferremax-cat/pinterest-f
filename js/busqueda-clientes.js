@@ -247,6 +247,9 @@ class BusquedaClientes {
                 galleryContainer.innerHTML = this.galleryBackupHTML;
                 galleryContainer.style.display = '';
                 this.galleryBackupHTML = null;
+                // Las líneas "Comprado" guardadas pueden ser de otro cliente: se
+                // repintan con el historial del elegido (o se sacan si no llegó)
+                window.HistorialCliente?.pintarTarjetas();
                 console.log('[Búsqueda Clientes] ✅ Galería restaurada');
                 
                 // Reposicionar

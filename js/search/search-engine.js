@@ -1233,6 +1233,11 @@ if (queryTokens.length > 1) {
   };
 }
 
+// Historial del cliente con que se ordenó la búsqueda en pantalla: se toma en la
+// primera tanda y las del scroll usan el mismo, para que el orden no cambie a mitad
+// de camino (si llega en el medio, lo usa la búsqueda siguiente)
+let compradosDeLaBusqueda = null;
+
 // Búsqueda con el buscador v2 (js/search/v2/buscador-v2.js). Mismo contrato
 // que la búsqueda por texto de performSearch: pagina de a 30, arma los items
 // con loadSpecificProducts y dibuja con displayResults. Solo cambian qué
@@ -1267,10 +1272,13 @@ async function buscarConV2(query, offset = 0, limit = 30) {
   // Lo que el buscador encontró en cada producto, para el resaltado (ver BuscadorV2.buscar)
   const marcas = {};
   let codigos;
+  if (offset === 0) compradosDeLaBusqueda = window.HistorialCliente?.comprados() || null;
   try {
     // Primera tanda: si hay un índice nuevo descargado, el buscador lo empieza a
     // usar acá; las tandas del scroll siguen con el mismo índice
-    codigos = await window.BuscadorV2.buscar(consulta, { primeraTanda: offset === 0, marcas: marcas });
+    codigos = await window.BuscadorV2.buscar(consulta, {
+      primeraTanda: offset === 0, marcas: marcas, comprados: compradosDeLaBusqueda
+    });
   } catch (error) {
     // Falló la descarga del índice: el motor la reintenta en la próxima búsqueda
     console.error('[search-engine] Buscador v2: no se pudo buscar', error);
@@ -1625,6 +1633,9 @@ function displayNoResults(query) {
           
           // Añadir el item a la galería
           galleryContainer.appendChild(galleryItem);
+
+          // Cliente elegido: "Comprado 28/10 · 2 u." debajo del nombre (historial-cliente.js)
+          window.HistorialCliente?.pintar(galleryItem);
 
                     // Precio unificado: se resuelve segun la lista vigente (cliente
           // logueado, o el que el vendedor tenga seleccionado)
