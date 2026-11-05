@@ -10,6 +10,9 @@ Corre en orden todo lo que hay que actualizar cada dia, aunque un paso falle:
   5. Finanzas: hoja de la planilla y cache del servidor (necesita el 4)
   6. Usuarios: JSON desde los Excel de usuarios y funcionalidades
   7. Usuarios: hoja de la planilla y cache del servidor (necesita el 6)
+  8. Historial de compras: copia VENTAS.DBF del sistema de gestion (solo
+     lectura) y lo sube a la hoja de la planilla y a la cache del servidor
+     (scripts/historial_compras.py). No escribe archivos del repositorio
 
 Un paso que necesita otro que fallo se omite (no se carga un JSON viejo a la
 planilla). Al final muestra un resumen: que salio bien, que fallo, que quedo
@@ -106,6 +109,18 @@ PASOS = [
         'si_aviso': ('La caché del servidor no se limpió: un usuario nuevo puede tardar hasta 6 horas '
                      'en poder entrar, y las bajas o cambios de rol en aplicarse. Volvé a correr este '
                      'paso o abrí la URL de limpiar_cache_usr.'),
+    },
+    {
+        'clave': 'historial',
+        'nombre': 'Historial de compras: hoja de la planilla y caché del servidor',
+        'comando': [PY, 'scripts/historial_compras.py'],
+        'avisos': [r'^\s*AVISO\b'],
+        'si_falla': ('El buscador sigue con el historial de compras de la última vez que salió bien '
+                     '(o sin historial). Revisá el acceso a \\\\Madre\\c\\SMM\\VENTAS.DBF y la copia '
+                     'en C:\\analisis_vtas.'),
+        'si_aviso': ('No se pudo copiar el DBF del sistema (sigue la copia anterior, con la fecha en el '
+                     'registro), el DBF no se actualizó, o la caché del servidor no se limpió: revisá '
+                     'el registro.'),
     },
 ]
 
