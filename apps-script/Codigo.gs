@@ -915,6 +915,100 @@ function accionPedidoDetalle(body) {
   return responder({ ok: true, id, cliente, nombre: String(cabecera[3]), lineas });
 }
 
+// ---------- historial de compras del cliente ----------
+
+// Una fila por cliente: cuenta, actualizado, articulos y el historial de 12
+// meses comprimido (gzip y base64). La escribe scripts/historial_compras.py
+const HOJA_HISTORIAL = 'historial';
+const ROLES_HISTORIAL = ['admin', 'vendedor_estandar'];
+// En la cache, para un cliente sin fila: asi no se busca en la hoja cada vez
+const SIN_HISTORIAL = '-';
+
+/**
+ * Historial descomprimido de una cuenta, o null si no tiene. Formato v2:
+ * { v: 2, act, a: [[codigo, fecha, cantidad, precio, veces, intervalo,
+ * cantidadTipica], ...] }. Se lee solo la fila de la cuenta, y el texto
+ * comprimido queda 6 horas en la cache.
+ */
+function getHistorialCliente(cuenta) {
+  const cache = CacheService.getScriptCache();
+  const clave = 'hist_' + cuenta;
+
+  let comprimido = cache.get(clave);
+  if (comprimido === null) {
+    comprimido = SIN_HISTORIAL;
+    const hoja = SpreadsheetApp.openById(PLANILLA_ID).getSheetByName(HOJA_HISTORIAL);
+    if (hoja && hoja.getLastRow() > 1) {
+      const celda = hoja.getRange(2, 1, hoja.getLastRow() - 1, 1)
+        .createTextFinder(cuenta).matchEntireCell(true).findNext();
+      if (celda) comprimido = String(hoja.getRange(celda.getRow(), 4).getValue()) || SIN_HISTORIAL;
+    }
+    cache.put(clave, comprimido, 21600);
+  }
+  if (comprimido === SIN_HISTORIAL) return null;
+
+  const blob = Utilities.newBlob(Utilities.base64Decode(comprimido), 'application/x-gzip');
+  return JSON.parse(Utilities.ungzip(blob).getDataAsString('UTF-8'));
+}
+
+/**
+ * Lo que compro un cliente en los ultimos 12 meses, para el buscador y la
+ * tarjeta: solo a un admin o al vendedor del cliente. Ni el precio ni los
+ * datos de reposicion (veces, intervalo, cantidad tipica) salen del servidor:
+ * el navegador recibe codigo, fecha y cantidad de la ultima compra.
+ */
+function accionHistorialCliente(body) {
+  const p = verificarToken(body.token);
+  if (!p) return responder({ ok: false, error: 'token_invalido' });
+  const rol = String(p.rol || '').trim();
+  if (!ROLES_HISTORIAL.includes(rol)) return responder({ ok: false, error: 'rol_sin_permiso' });
+
+  const cuenta = String(body.cuenta || '').trim();
+  if (!cuenta) return responder({ ok: false, error: 'falta_cuenta' });
+
+  // Un vendedor solo ve SUS clientes: el mismo control que finanzas, con el
+  // codigo del token firmado contra la columna Vendedor de la planilla
+  if (rol === 'vendedor_estandar') {
+    const datos = getFinanzasCliente(cuenta);
+    if (!datos || datos.vendedor !== p.cod) return responder({ ok: false, error: 'cliente_de_otro_vendedor' });
+  }
+
+  const h = getHistorialCliente(cuenta);
+  return responder({
+    ok: true,
+    cuenta: cuenta,
+    actualizado: h ? h.act : '',
+    // Solo los tres primeros campos, nombrados uno por uno: lo que se agregue
+    // a la celda despues tampoco sale
+    articulos: h ? h.a.map(x => [x[0], x[1], x[2]]) : []
+  });
+}
+
+function limpiarCacheHistorial() {
+  // Las cuentas con historial y todas las de finanzas: las que no tenian
+  // fila tienen guardada la marca SIN_HISTORIAL
+  const ss = SpreadsheetApp.openById(PLANILLA_ID);
+  const claves = new Set();
+  [HOJA_HISTORIAL, 'finanzas'].forEach(nombre => {
+    const hoja = ss.getSheetByName(nombre);
+    if (!hoja || hoja.getLastRow() < 2) return;
+    hoja.getRange(2, 1, hoja.getLastRow() - 1, 1).getValues().forEach(f => {
+      const c = String(f[0]).trim();
+      if (c) claves.add('hist_' + c);
+    });
+  });
+
+  const lista = [...claves];
+  const cache = CacheService.getScriptCache();
+  for (let i = 0; i < lista.length; i += 500) cache.removeAll(lista.slice(i, i + 500));
+  console.log('Cache de historial limpiada:', lista.length, 'cuentas');
+}
+
+function probarHistorial() {
+  const h = getHistorialCliente('40147');
+  console.log('Cuenta 40147: ' + (h ? h.a.length + ' articulos, actualizado ' + h.act : 'sin historial'));
+}
+
 // ---------- entrada ----------
 
 function doPost(e) {
@@ -932,6 +1026,7 @@ function doPost(e) {
     if (accion === 'pedidos_para_imprimir') return accionPedidosParaImprimir(body);
     if (accion === 'marcar_impresos') return accionMarcarImpresos(body);
     if (accion === 'intento_impresion') return accionIntentoImpresion(body);
+    if (accion === 'historial_cliente') return accionHistorialCliente(body);
 
     return responder({ ok: false, error: 'accion_desconocida' });
   } catch (err) {
@@ -946,7 +1041,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v32-cache-usuarios' });
+      return responder({ ok: true, version: 'v33-historial' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -954,6 +1049,10 @@ function doGet(e) {
     }
     if (accion === 'limpiar_cache_usr') {
        limpiarCacheUsuarios();
+       return responder({ ok: true, limpiado: true });
+    }
+    if (accion === 'limpiar_cache_hist') {
+       limpiarCacheHistorial();
        return responder({ ok: true, limpiado: true });
     }
     return responder({ ok: false, error: 'usar POST para acciones con datos' });
