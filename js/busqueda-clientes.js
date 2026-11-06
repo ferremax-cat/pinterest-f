@@ -603,6 +603,8 @@ class BusquedaClientes {
             const barraInfo = document.getElementById('barra-info-contextual');
             if (barraInfo && !barraInfo.textContent.trim()) {
                 barraInfo.innerHTML = this.barraInfoHTML;
+                // El aviso "Ver primero lo que compró" era de la búsqueda anterior
+                barraInfo.querySelector('#aviso-comprados')?.remove();
                 barraInfo.classList.add('visible');
                 console.log('[Búsqueda Clientes] Barra de resultados restaurada');
 
