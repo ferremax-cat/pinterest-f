@@ -952,10 +952,13 @@ function getHistorialCliente(cuenta) {
 }
 
 /**
- * Lo que compro un cliente en los ultimos 12 meses, para el buscador y la
- * tarjeta: solo a un admin o al vendedor del cliente. Ni el precio ni los
- * datos de reposicion (veces, intervalo, cantidad tipica) salen del servidor:
- * el navegador recibe codigo, fecha y cantidad de la ultima compra.
+ * Lo que compro un cliente en los ultimos 12 meses, para el buscador, la
+ * tarjeta y los habituales: solo a un admin o al vendedor del cliente. Ni el
+ * precio, ni el intervalo, ni los comprobantes salen del servidor: el navegador
+ * recibe codigo, fecha y cantidad de la ultima compra de cada articulo, y las
+ * dos listas que arma la rutina (celda v3): habituales [codigo, veces, cantidad
+ * tipica, ultima, desde cuando le toca] y dejo de comprar [codigo, veces,
+ * cantidad tipica, ultima]. Con una celda v2 las listas van vacias.
  */
 function accionHistorialCliente(body) {
   const p = verificarToken(body.token);
@@ -973,14 +976,26 @@ function accionHistorialCliente(body) {
     if (!datos || datos.vendedor !== p.cod) return responder({ ok: false, error: 'cliente_de_otro_vendedor' });
   }
 
-  const h = getHistorialCliente(cuenta);
+  // Cliente de prueba, solo para un admin: con la clave historial_prueba de
+  // config, recibe el historial de esa cuenta, para probar el carrito con
+  // datos reales y pedidos de prueba (PRU). Vacia: no cambia nada
+  let fuente = cuenta;
+  if (rol === 'admin') {
+    const cp = cuentaPrueba();
+    const de = String(getConfig().historial_prueba || '').trim();
+    if (cp && de && cuenta === cp) fuente = de;
+  }
+
+  const h = getHistorialCliente(fuente);
   return responder({
     ok: true,
     cuenta: cuenta,
     actualizado: h ? h.act : '',
-    // Solo los tres primeros campos, nombrados uno por uno: lo que se agregue
-    // a la celda despues tampoco sale
-    articulos: h ? h.a.map(x => [x[0], x[1], x[2]]) : []
+    // Campo por campo, nombrados uno por uno: lo que se agregue a la celda
+    // despues (precios, comprobantes) tampoco sale
+    articulos: h ? h.a.map(x => [x[0], x[1], x[2]]) : [],
+    habituales: h && Array.isArray(h.hab) ? h.hab.map(x => [x[0], x[1], x[2], x[3], x[4]]) : [],
+    dejo: h && Array.isArray(h.dej) ? h.dej.map(x => [x[0], x[1], x[2], x[3]]) : []
   });
 }
 
@@ -1041,7 +1056,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v33-historial' });
+      return responder({ ok: true, version: 'v34-habituales' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
