@@ -30,6 +30,40 @@ let todos = false;     // "Ver los 10"
 let desplegadoDe = null;
 const angosta = () => window.matchMedia('(max-width: 600px)').matches;
 
+// ---------- foco en el buscador de articulos ----------
+
+const buscador = () => document.querySelector('nav input[type="text"]');
+
+/** A la vista: ni el ni sus contenedores estan ocultos */
+function visible(el) {
+  for (let e = el; e && e !== document.body; e = e.parentElement) {
+    if (e.hidden) return false;
+    const cs = getComputedStyle(e);
+    if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+  }
+  return true;
+}
+
+/**
+ * Despues de que el vendedor cierra la lista (o agrega desde el desplegable),
+ * el cursor vuelve al buscador de articulos, listo para seguir cargando. No se
+ * mueve si el buscador no esta a la vista o es el de clientes, si hay un panel
+ * encima (carrito u hoja) o si el vendedor ya esta en otro campo. No borra ni
+ * selecciona el texto, y no desplaza la pagina. Se llama dentro del toque: en
+ * el iPhone, solo asi se abre el teclado.
+ */
+function enfocarBuscador() {
+  const b = buscador();
+  if (!b || b.disabled || document.body.classList.contains('modo-busqueda-clientes') || !visible(b)) return;
+  if (document.getElementById('carrito-panel')?.style.display === 'flex' || document.querySelector('.hj-fondo')) return;
+  const a = document.activeElement;
+  if (a && a !== document.body && a !== b && a !== boton && !a.closest?.('.hab-desplegable')) return;
+  try { b.focus({ preventScroll: true }); } catch (e) { b.focus(); }
+  // Si quedo texto seleccionado (por ejemplo, de antes), el cursor al final:
+  // una tecla no reemplaza la busqueda
+  try { if (b.selectionStart !== b.selectionEnd) b.setSelectionRange(b.value.length, b.value.length); } catch (e) {}
+}
+
 function puedeVer() {
   const rol = sessionStorage.getItem('authRol') || window.menuFuncionalidades?.usuarioActual?.rol || '';
   return ROLES.includes(rol);
@@ -191,7 +225,7 @@ function crearIcono() {
   boton.setAttribute('aria-haspopup', 'dialog');
   boton.setAttribute('aria-expanded', 'false');
   boton.innerHTML = '<i class="fas fa-clipboard-list" aria-hidden="true"></i><span class="hab-punto" hidden></span>';
-  boton.addEventListener('click', e => { e.stopPropagation(); abierto ? cerrarLista() : abrirLista(); });
+  boton.addEventListener('click', e => { e.stopPropagation(); abierto ? cerrarLista(true) : abrirLista(); });
   nombre.after(boton);
   return boton;
 }
@@ -243,7 +277,11 @@ function pintarLista() {
   abierto.cuerpo.querySelector('.hab-ver')?.addEventListener('click', () => { todos = true; pintarLista(); });
   abierto.cuerpo.querySelectorAll('.hab-agregar').forEach(b => b.addEventListener('click', () => {
     b.disabled = true;
+    const enDesplegable = !!abierto?.desplegable;
     agregar(b.dataset.sku, 'habitual_lista');   // carrito:cambio la vuelve a pintar
+    // Computadora: el cursor al buscador y la lista sigue abierta. Celular: el
+    // foco no se mueve (el teclado taparia la lista)
+    if (enDesplegable) enfocarBuscador();
   }));
 }
 
@@ -260,11 +298,26 @@ function abrirLista() {
     caja.style.top = (barra.bottom + 4) + 'px';
     caja.style.left = Math.max(8, Math.min(boton.getBoundingClientRect().left, window.innerWidth - 396)) + 'px';
     document.body.appendChild(caja);
-    const afuera = e => { if (!caja.contains(e.target) && !boton.contains(e.target)) cerrarLista(); };
-    const tecla = e => { if (e.key === 'Escape') cerrarLista(); };
+    const afuera = e => {
+      if (caja.contains(e.target) || boton.contains(e.target)) return;
+      cerrarLista();
+      // El foco, en el clic de este mismo toque (sigue siendo del vendedor: en
+      // una tablet abre el teclado). En pointerdown no sirve: el mousedown sobre
+      // algo que no toma el foco lo vuelve a sacar. En burbuja: si lo tocado
+      // abrio el carrito o tomo el foco, enfocarBuscador no lo roba. Sin clic
+      // (arrastre o scroll), a los 700 ms
+      const despues = () => {
+        document.removeEventListener('click', despues);
+        clearTimeout(espera);
+        enfocarBuscador();
+      };
+      const espera = setTimeout(despues, 700);
+      document.addEventListener('click', despues);
+    };
+    const tecla = e => { if (e.key === 'Escape') cerrarLista(true); };
     document.addEventListener('pointerdown', afuera, true);
     document.addEventListener('keydown', tecla);
-    abierto = { cuerpo: caja, cerrar: () => {
+    abierto = { cuerpo: caja, desplegable: true, cerrar: () => {
       document.removeEventListener('pointerdown', afuera, true);
       document.removeEventListener('keydown', tecla);
       caja.remove();
@@ -273,7 +326,14 @@ function abrirLista() {
     // Celular: la hoja aparte que ya usan las observaciones
     const nombre = window.Precios?.getClienteVista()?.nombre || '';
     const h = abrirHoja({ titulo: nombre ? `Habituales · ${nombre}` : 'Habituales',
-      alCerrar: () => { abierto = null; boton?.setAttribute('aria-expanded', 'false'); } });
+      alCerrar: () => {
+        // La cerro la hoja misma (flecha de volver o Escape): fue el vendedor.
+        // Si la cerro cerrarLista, abierto ya esta en null y decide ella
+        const delVendedor = abierto !== null;
+        abierto = null;
+        boton?.setAttribute('aria-expanded', 'false');
+        if (delVendedor) enfocarBuscador();
+      } });
     h.cuerpo.classList.add('hab-en-hoja');
     abierto = { cuerpo: h.cuerpo, cerrar: h.cerrar };
   }
@@ -281,12 +341,17 @@ function abrirLista() {
   pintarLista();
 }
 
-function cerrarLista() {
+/**
+ * delVendedor: la cerro el vendedor (icono, Escape): el foco va al buscador.
+ * Sin el (cambio de cliente, carrito abierto, sin listas), el foco no se mueve
+ */
+function cerrarLista(delVendedor = false) {
   const a = abierto;
   if (!a) return;
   abierto = null;
   a.cerrar();
   boton?.setAttribute('aria-expanded', 'false');
+  if (delVendedor) enfocarBuscador();
 }
 
 // ---------- enganche ----------
@@ -298,5 +363,5 @@ document.addEventListener('cliente:cambio', () => {
   preparar();
 });
 document.addEventListener('carrito:cambio', () => { if (abierto) pintarLista(); });
-document.addEventListener('carrito:abrir', cerrarLista);
+document.addEventListener('carrito:abrir', () => cerrarLista());
 preparar();
