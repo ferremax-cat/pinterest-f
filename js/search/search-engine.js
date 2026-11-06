@@ -1233,17 +1233,24 @@ if (queryTokens.length > 1) {
   };
 }
 
-// Historial del cliente con que se ordenó la búsqueda en pantalla: se toma en la
-// primera tanda y las del scroll usan el mismo, para que el orden no cambie a mitad
-// de camino (si llega en el medio, lo usa la búsqueda siguiente)
-let compradosDeLaBusqueda = null;
+// La búsqueda que está en pantalla: la consulta y el historial del cliente con que
+// se ordenó. Se fija al dibujar la primera tanda, y las tandas del scroll usan ese
+// mismo historial: así el orden no cambia a mitad de camino. Si el historial llega
+// después, ver alLlegarHistorial
+let pantalla = null;   // { consulta, comprados }
+const LIMITE_TANDA = 30;
 
 // Búsqueda con el buscador v2 (js/search/v2/buscador-v2.js). Mismo contrato
 // que la búsqueda por texto de performSearch: pagina de a 30, arma los items
 // con loadSpecificProducts y dibuja con displayResults. Solo cambian qué
 // productos se muestran y en qué orden.
-async function buscarConV2(query, offset = 0, limit = 30) {
+// opciones.antesDeDibujar: si devuelve false, no dibuja y devuelve null.
+// opciones.sinSalto: acomoda las tarjetas en el mismo cuadro (ver alLlegarHistorial)
+async function buscarConV2(query, offset = 0, limit = 30, opciones = {}) {
   const consulta = String(query || '').trim();
+
+  // Una búsqueda nueva saca el aviso "Ver primero lo que compró"
+  if (offset === 0) quitarAvisoComprados();
 
   // Consulta vacía: lo mismo que hoy
   if (!consulta) {
@@ -1251,11 +1258,19 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     return;
   }
 
+  // Primera tanda: el historial de ahora. Tandas del scroll: el de lo que está en
+  // pantalla; si mientras se esperaba se volvió a dibujar la primera tanda (otra
+  // búsqueda o la misma rehecha), esta tanda ya no corresponde
+  const base = pantalla;
+  const comprados = offset === 0
+    ? (window.HistorialCliente?.comprados() || null)
+    : (base ? base.comprados : null);
+
   // Si mientras se esperaba el usuario cambió el texto, este resultado ya no
   // sirve. Vale también para las tandas del scroll: una tanda de la búsqueda
   // anterior no se agrega a la nueva (ni a la galería si se vació el campo)
   const vigente = () =>
-    !searchInput || searchInput.value.trim() === consulta;
+    (!searchInput || searchInput.value.trim() === consulta) && (offset === 0 || pantalla === base);
 
   // Términos para el resaltado: el mismo criterio que la búsqueda por texto
   const queryTokens = consulta.toLowerCase().split(/\s+/).filter(token => token.length >= 3);
@@ -1265,6 +1280,7 @@ async function buscarConV2(query, offset = 0, limit = 30) {
   // (displayNoResults escribe en #results-container, que no existe en la página)
   const mostrarSinResultados = () => {
     if (offset === 0) {
+      pantalla = { consulta, comprados };
       displayResults([], consulta, queryTokens, { offset: 0, limit, total: 0, hasMore: false });
     }
   };
@@ -1272,12 +1288,11 @@ async function buscarConV2(query, offset = 0, limit = 30) {
   // Lo que el buscador encontró en cada producto, para el resaltado (ver BuscadorV2.buscar)
   const marcas = {};
   let codigos;
-  if (offset === 0) compradosDeLaBusqueda = window.HistorialCliente?.comprados() || null;
   try {
     // Primera tanda: si hay un índice nuevo descargado, el buscador lo empieza a
     // usar acá; las tandas del scroll siguen con el mismo índice
     codigos = await window.BuscadorV2.buscar(consulta, {
-      primeraTanda: offset === 0, marcas: marcas, comprados: compradosDeLaBusqueda
+      primeraTanda: offset === 0, marcas: marcas, comprados: comprados
     });
   } catch (error) {
     // Falló la descarga del índice: el motor la reintenta en la próxima búsqueda
@@ -1328,6 +1343,15 @@ async function buscarConV2(query, offset = 0, limit = 30) {
   // loadSpecificProducts también tarda: volver a comprobar antes de dibujar
   if (!vigente()) return;
 
+  // El historial llegó mientras se buscaba: se busca otra vez con él (es local,
+  // unos 2 ms) en lugar de dibujar un orden que ya quedó viejo
+  if (offset === 0 && !comprados && window.HistorialCliente?.comprados()?.size) {
+    return buscarConV2(query, 0, limit, opciones);
+  }
+  if (opciones.antesDeDibujar && !opciones.antesDeDibujar()) return null;
+
+  if (offset === 0) pantalla = { consulta, comprados };
+
   // La consulta tal como se escribió: #load-more-button la guarda y el scroll
   // vuelve a pedir exactamente lo mismo
   displayResults(matchingItems, consulta, queryTokens, {
@@ -1337,6 +1361,12 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     hasMore: offset + limit < totalResults
   }, marcas);
 
+  // Rehecha con el historial: las tarjetas se acomodan antes de que se pinte la
+  // pantalla, sin esperar los 100-200 ms del MutationObserver de catalogo.html
+  if (opciones.sinSalto && typeof window.applyPinterestLayout === 'function') {
+    window.applyPinterestLayout();
+  }
+
   return {
     items: matchingItems,
     total: totalResults,
@@ -1345,6 +1375,135 @@ async function buscarConV2(query, offset = 0, limit = 30) {
     hasMore: offset + limit < totalResults
   };
 }
+
+// ---------- el historial llega con una búsqueda en pantalla ----------
+// El vendedor elige el cliente y busca enseguida: la búsqueda sale antes que el
+// historial, que api.js pide en segundo plano. Cuando llega:
+//  - si lo cargado no cambia con el historial, las tandas del scroll lo empiezan
+//    a usar y no se toca nada en pantalla;
+//  - si cambia y el vendedor está arriba y quieto, la búsqueda se rehace sola;
+//  - si no, aparece en la barra de resultados "Ver primero lo que compró".
+// Nada de esto llama al servidor: la búsqueda es local
+
+const QUIETO_MS = 1500;
+let ultimaInteraccion = 0;
+let apoyado = false;   // dedo o botón del mouse apretado
+
+const anotarInteraccion = () => { ultimaInteraccion = performance.now(); };
+const soltar = () => { apoyado = false; anotarInteraccion(); };
+const enCaptura = { capture: true, passive: true };
+['pointerdown', 'touchstart'].forEach(tipo =>
+  window.addEventListener(tipo, () => { apoyado = true; anotarInteraccion(); }, enCaptura));
+['pointerup', 'pointercancel', 'touchend', 'touchcancel'].forEach(tipo =>
+  window.addEventListener(tipo, soltar, enCaptura));
+// scroll en captura también recibe el de los paneles; wheel llega antes que el scroll
+['scroll', 'wheel'].forEach(tipo => window.addEventListener(tipo, anotarInteraccion, enCaptura));
+// Si se suelta fuera de la ventana, el pointerup no llega
+window.addEventListener('blur', soltar);
+const conMouse = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+// Arriba, sin tocar ni hacer clic hace 1,5 s, sin el mouse sobre las tarjetas y
+// sin el foco del teclado en una de ellas: si las tarjetas cambian de lugar, no
+// puede tocar una por otra
+function vendedorQuieto() {
+  if (apoyado || performance.now() - ultimaInteraccion < QUIETO_MS) return false;
+  if (window.scrollY > window.innerHeight / 4) return false;
+  const galeria = document.querySelector('.gallery-container');
+  if (!galeria) return false;
+  if (conMouse.matches && galeria.matches(':hover')) return false;
+  return !galeria.contains(document.activeElement);
+}
+
+function codigosEnPantalla() {
+  return Array.from(document.querySelectorAll('.gallery-container .gallery-item[data-product-code]'),
+                    el => el.dataset.productCode);
+}
+
+async function alLlegarHistorial() {
+  const comprados = window.HistorialCliente?.comprados();
+  const consulta = searchInput ? searchInput.value.trim() : '';
+  // Solo una búsqueda v2 de este mismo texto, dibujada sin historial y fuera del
+  // modo clientes (ahí la galería está guardada y oculta)
+  if (!comprados || !comprados.size || !pantalla || pantalla.comprados || !consulta ||
+      pantalla.consulta !== consulta || document.body.classList.contains('modo-busqueda-clientes')) return;
+
+  const base = pantalla;
+  let nuevos;
+  try {
+    // Mismo índice que lo que está en pantalla (sin primeraTanda)
+    nuevos = await window.BuscadorV2.buscar(consulta, { comprados });
+  } catch (error) {
+    return;
+  }
+  if (pantalla !== base || searchInput.value.trim() !== consulta) return;
+
+  // Lo cargado se lee recién ahora: mientras se buscaba pudo dibujarse una tanda
+  // del orden anterior. De acá a la decisión no hay esperas
+  const enPantalla = codigosEnPantalla();
+
+  // Lo cargado queda igual: las tandas siguientes salen con el historial. Un objeto
+  // nuevo descarta la tanda que ya estuviera en camino con el orden anterior
+  if (enPantalla.every((codigo, i) => codigo === nuevos[i])) {
+    pantalla = { consulta, comprados };
+    console.log('[Historial] Lo cargado no cambia: las tandas siguientes ya lo usan');
+    return;
+  }
+
+  if (vendedorQuieto()) {
+    // Se vuelve a mirar justo antes de dibujar: loadSpecificProducts puede tardar
+    const hecha = await buscarConV2(consulta, 0, LIMITE_TANDA,
+                                    { antesDeDibujar: vendedorQuieto, sinSalto: true });
+    if (hecha !== null) {
+      console.log('[Historial] Búsqueda rehecha con el historial');
+      return;
+    }
+    // Empezó a tocar en el medio: el aviso, si la búsqueda sigue siendo la misma
+    if (pantalla !== base || searchInput.value.trim() !== consulta) return;
+  }
+  mostrarAvisoComprados(consulta);
+}
+
+function quitarAvisoComprados() {
+  document.getElementById('aviso-comprados')?.remove();
+}
+
+// El botón va en la barra de resultados, antes de Limpiar. Se va con la búsqueda
+// siguiente (buscarConV2 y displayResults rehacen la barra) o al cambiar de cliente
+function mostrarAvisoComprados(consulta) {
+  const mensaje = document.getElementById('mensaje-busqueda');
+  if (!mensaje || document.getElementById('aviso-comprados')) return;
+
+  const boton = document.createElement('button');
+  boton.type = 'button';
+  boton.id = 'aviso-comprados';
+  boton.className = 'aviso-comprados';
+  boton.title = 'Poner primero, en cada grupo, lo que este cliente ya compró';
+  const icono = document.createElement('i');
+  icono.className = 'fas fa-history';
+  icono.setAttribute('aria-hidden', 'true');
+  const largo = document.createElement('span');
+  largo.className = 'texto-largo';
+  largo.textContent = 'Ver primero lo que compró';
+  const corto = document.createElement('span');
+  corto.className = 'texto-corto';
+  corto.textContent = 'Comprados';
+  boton.append(icono, largo, corto);
+
+  boton.addEventListener('click', async () => {
+    quitarAvisoComprados();
+    if (!searchInput || searchInput.value.trim() !== consulta ||
+        document.body.classList.contains('modo-busqueda-clientes')) return;
+    await buscarConV2(consulta, 0, LIMITE_TANDA, { sinSalto: true });
+    // Al principio de los resultados, en el mismo cuadro que el dibujo nuevo
+    window.scrollTo(0, 0);
+  });
+
+  mensaje.insertBefore(boton, document.getElementById('boton-limpiar-busqueda'));
+  console.log('[Historial] Aviso "Ver primero lo que compró"');
+}
+
+document.addEventListener('historial:listo', alLlegarHistorial);
+document.addEventListener('cliente:cambio', quitarAvisoComprados);
 
 
 

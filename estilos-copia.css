@@ -1088,6 +1088,57 @@ nav .iconos img{
     box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
 }
 
+/* "Ver primero lo que compró" (search-engine.js, alLlegarHistorial), junto a
+   Limpiar. Siempre en un renglón: si la barra crece, tapa las primeras tarjetas
+   (la galería baja 80 px fijos, body.barra-visible) */
+.barra-info-content .aviso-comprados {
+    margin-left: auto;
+    flex: 0 0 auto;
+    min-height: 32px;   /* el alto de Limpiar: la barra no cambia de alto */
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    background: transparent;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.barra-info-content .aviso-comprados:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.barra-info-content .aviso-comprados i {
+    margin-right: 6px;
+}
+
+.barra-info-content .aviso-comprados .texto-corto {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    /* Con el aviso, "N resultados" le deja lugar y no pasa a otro renglón */
+    .barra-info-content .mensaje-busqueda:has(.aviso-comprados) .mensaje-contenido {
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .barra-info-content .aviso-comprados {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+    .barra-info-content .aviso-comprados .texto-largo { display: none; }
+    .barra-info-content .aviso-comprados .texto-corto { display: inline; }
+}
+
 /* Ajustar galería para que no quede tapada por la barra */
 .gallery-container {
     /* margin-top: 60px;  /* Espacio para la barra cuando esté visible */

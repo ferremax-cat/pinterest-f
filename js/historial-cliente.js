@@ -9,7 +9,8 @@
  *
  * Lo usan:
  *  - search-engine.js: el buscador v2 pone primero, dentro de cada grupo de
- *    resultados, lo que el cliente ya compro (comprados);
+ *    resultados, lo que el cliente ya compro (comprados). Si llega con una
+ *    busqueda en pantalla, la rehace o muestra un aviso (historial:listo);
  *  - la tarjeta de resultados: "Comprado 28/10 · 2 u." debajo del nombre (pintar).
  * Mientras no llega, o si falla, todo funciona como hoy.
  */
@@ -60,6 +61,9 @@ async function pedir() {
     };
     console.log(`[Historial] ${actual.articulos.size} artículos comprados (actualizado ${d.actualizado || '-'})`);
     pintarTarjetas();
+    // search-engine.js: si hay una búsqueda en pantalla hecha sin historial, la
+    // rehace o muestra el aviso "Ver primero lo que compró" (alLlegarHistorial)
+    document.dispatchEvent(new CustomEvent('historial:listo'));
   } catch (err) {
     // cedido: no hubo un hueco sin otras llamadas; descartado: cambio el cliente.
     // Se vuelve a pedir con el proximo cliente:cambio o auth:token-listo
