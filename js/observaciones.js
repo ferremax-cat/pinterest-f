@@ -94,7 +94,8 @@ export function falta(def, o) {
   if (o.items.some(it => !(Number(it.cantidad) > 0))) return 'falta una cantidad';
   if (llevaPrecio(def)) {
     const it = o.items.find(x => faltaPrecioLibre(x) || precioItem(x).precio === null);
-    if (it) return faltaPrecioLibre(it) ? 'falta escribir un precio especial' : `falta el precio de ${it.sku}`;
+    if (it) return faltaPrecioLibre(it) ? 'falta escribir un precio especial'
+      : `no se encontró el precio de ${it.sku} (elegí Precio especial o quitalo)`;
   }
   return '';
 }
@@ -123,6 +124,22 @@ const listaCliente = () => window.Precios?.getClienteVista()?.lista || '';
 
 /** Misma cuenta que las lineas del pedido (Carrito.precioAjustado) */
 const precioItem = it => window.Carrito?.precioAjustado?.(it) || { precioBase: null, precio: null, descEfectivo: 0 };
+
+/**
+ * Trae a memoria los articulos que no estan (cache local, sin servidor) y
+ * espera: el catalogo en memoria es solo el del grupo del cliente, y el
+ * buscador del editor encuentra todo el catalogo. Lo mismo que hacen el
+ * carrito y el panel al confirmar. Nunca lanza
+ */
+async function asegurarEnMemoria(skus) {
+  const faltan = [...new Set(skus)].filter(s => !window.productManager?.getProduct(s));
+  if (!faltan.length) return;
+  try {
+    await window.productManagerInstance?.loadSpecificProducts(faltan);
+  } catch (e) {
+    console.warn('[Observaciones] No se pudieron cargar los artículos:', e);
+  }
+}
 
 /** Precio especial elegido sin escribir el precio */
 const faltaPrecioLibre = it => it.mecanismo === 'precio_libre' && !(Number(it.precioLibre) > 0);
@@ -306,6 +323,19 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
   const lados = def?.efecto === 'ajuste' ? LADOS : [{ lado: '', titulo: 'Artículos' }];
   const consultas = {};   // lado -> numero de la ultima busqueda (vale solo la ultima)
   let error = '';
+  const cargados = new Set();   // articulos cuya carga a memoria ya termino
+  let guardando = false;
+
+  // Espera la carga y actualiza solo el texto del precio de cada articulo:
+  // redibujar le sacaria el cursor a la cantidad que se esta escribiendo
+  async function cargarArticulos(skus) {
+    await asegurarEnMemoria(skus);
+    skus.forEach(s => cargados.add(s));
+    h.cuerpo.querySelectorAll('.ob-precio-ref[data-k]').forEach(ref => {
+      const it = o.items[ref.dataset.k];
+      if (it) ref.textContent = refPrecio(it);
+    });
+  }
 
   function htmlItems(lado) {
     const del = o.items.map((it, k) => ({ it, k })).filter(x => (x.it.lado || '') === lado);
@@ -359,7 +389,11 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     const p = precioItem(it);
     const suLista = p.precioBase ? ` · su lista ${listaCli}: ${fmtPesos(p.precioBase)}` : '';
     if (faltaPrecioLibre(it)) return 'Escribí el precio especial' + suLista;
-    if (p.precio === null) return 'Sin precio de lista';
+    if (p.precio === null) {
+      return cargados.has(it.sku)
+        ? 'No se encontró el precio: elegí Precio especial o quitá el artículo'
+        : 'Buscando el precio…';
+    }
 
     const libre = it.mecanismo === 'precio_libre';
     const lista = it.mecanismo === 'otra_lista' && it.listaForzada ? it.listaForzada : listaCli;
@@ -403,12 +437,12 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
   function agregar(lado, sku, nombre) {
     const k = o.items.findIndex(it => it.sku === sku && (it.lado || '') === lado);
     if (k < 0) o.items.push({ sku, nombre, cantidad: '', lado, ...(llevaPrecio(def) ? PRECIO_INICIAL : {}) });
-    // A memoria para su precio de lista (cache local, sin servidor)
-    window.productManagerInstance?.loadSpecificProducts?.([sku])?.catch?.(() => {});
     // Si ya estaba, se va a su cantidad en lugar de repetirlo
     const n = k < 0 ? o.items.length - 1 : k;
     error = '';
     pintar(`.ob-cant[data-k="${n}"]`);
+    // A memoria para su precio de lista: al llegar se completa el precio
+    cargarArticulos([sku]);
   }
 
   h.cuerpo.addEventListener('input', async e => {
@@ -519,10 +553,30 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
     }
   });
 
-  h.pie.addEventListener('click', e => {
+  h.pie.addEventListener('click', async e => {
     if (e.target.closest('.ob-quitar')) { alQuitar(); return; }
     if (e.target.closest('.ob-cancelar')) { h.cerrar(); return; }
-    if (e.target.closest('.ob-guardar')) {
+    const boton = e.target.closest('.ob-guardar');
+    if (boton) {
+      if (guardando) return;
+      // Articulos sin precio todavia: se espera su carga antes de controlar
+      const sinPrecio = llevaPrecio(def)
+        ? o.items.filter(it => !faltaPrecioLibre(it) && precioItem(it).precio === null).map(it => it.sku)
+        : [];
+      if (sinPrecio.length) {
+        guardando = true;
+        boton.disabled = true;
+        boton.textContent = 'Buscando precios…';
+        try {
+          await cargarArticulos(sinPrecio);
+        } finally {
+          guardando = false;
+        }
+        // Se cerro la hoja mientras tanto: no se guarda
+        if (!h.cuerpo.isConnected) return;
+        boton.disabled = false;
+        boton.textContent = 'Guardar';
+      }
       error = falta(def, o);
       if (error) { pintar(); return; }
       o.items = o.items.map(it => ({ ...it, cantidad: Number(it.cantidad) }));
@@ -535,6 +589,9 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
   // teclado: tapara la mitad de los articulos que se quieren revisar
   const revisando = !!alQuitar;
   pintar(!revisando || esAncha() ? '.ob-art-buscar' : null);
+  // Los articulos que ya trae (al reabrirla, o despues de recargar la pagina,
+  // cuando en memoria quedo solo el grupo del cliente): a memoria para su precio
+  if (o.items.length) cargarArticulos(o.items.map(it => it.sku));
   // Si el mapa de fotos todavia no habia llegado, se completan al llegar
   fotosListas.then(() => ponerFotos(h.cuerpo));
 }
