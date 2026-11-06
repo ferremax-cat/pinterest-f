@@ -170,7 +170,12 @@ function ultimaModificacion(cliente, lineas) {
 
 // ---------- operaciones ----------
 
-export function agregar(sku, cantidad, cliente) {
+/**
+ * opc.sugerido: de donde vino el articulo ('habitual': sugerencia del carrito;
+ * 'habitual_lista': lista de la barra). Solo en una linea nueva; al confirmar va
+ * a origen_linea. Los demas llamados no lo pasan y todo sigue igual
+ */
+export function agregar(sku, cantidad, cliente, opc = {}) {
 
   if (faltaCliente()) {
     document.dispatchEvent(new CustomEvent('carrito:sin-cliente'));
@@ -233,7 +238,8 @@ export function agregar(sku, cantidad, cliente) {
       img,
       precioResp,
       listaResp,
-      agregado: Date.now()
+      agregado: Date.now(),
+      ...(opc.sugerido ? { sugerido: String(opc.sugerido) } : {})
     });
   }
 

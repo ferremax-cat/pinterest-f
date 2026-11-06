@@ -9,6 +9,7 @@
  */
 
 import * as Obs from './observaciones.js';
+import * as Hab from './habituales.js';
 
 const fmt = n => '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 2 });
 const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -464,6 +465,7 @@ function vistaVendedor() {
       <div class="cp-lista">${lineas.length ? filas : bloqueObs}</div>
       ${lineas.length ? bloqueObs : ''}
       <div class="cp-pie">
+        ${lineas.length && !moviendo ? Hab.htmlCarrito(lineas.map(l => l.sku)) : ''}
         <div class="cp-desc-total">
           <span class="cp-total-rot">Al total</span>
           <select class="cp-desc-pedido">
@@ -599,6 +601,9 @@ function conectar(cont) {
 
   cont.querySelector('.cp-confirmar')?.addEventListener('click', confirmarPedido);
 
+  // "¿Se olvida algo?": agrega con la cantidad que suele llevar (js/habituales.js)
+  Hab.conectarCarrito(cont);
+
   // Menu de tres puntos: por ahora solo Mover y Quitar
   cont.querySelectorAll('.cp-menu').forEach(b => {
     b.addEventListener('click', () => abrirMenu(b));
@@ -618,7 +623,8 @@ function conectar(cont) {
       return;
     }
 
-    const id = window.imageLoader?.imageMap?.[sku];
+    // imageMap es un Map: con [sku] nunca encontraba nada
+    const id = window.imageLoader?.imageMap?.get?.(sku);
     if (id) d.style.backgroundImage = `url(https://lh3.googleusercontent.com/d/${id}=w120)`;
   });
 
@@ -951,7 +957,7 @@ function confirmarVaciar() {
 // Campos que puede tener una linea guardada del carrito, de esta version y
 // de las anteriores (agregar(), ajustarLinea(), marcarPrevia())
 const CAMPOS_LINEA = ['sku', 'cantidad', 'orden', 'nombre', 'bulto', 'img', 'precioResp',
-  'listaResp', 'agregado', 'mecanismo', 'listaForzada', 'precioLibre', 'descuento', 'cantVendedor'];
+  'listaResp', 'agregado', 'mecanismo', 'listaForzada', 'precioLibre', 'descuento', 'cantVendedor', 'sugerido'];
 
 /**
  * Registra en el formulario de fallos un error al preparar o confirmar el
@@ -1085,11 +1091,15 @@ async function confirmarPedido() {
       }
       const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
 
-      // En una revision, registrar de donde vino cada linea
+      // De donde vino cada linea: una sugerencia de habituales ('habitual' o
+      // 'habitual_lista', aun en una revision: la agrego el vendedor) o, en una
+      // revision, el cliente, el vendedor o los dos. Lo demas, vacio como siempre
       const origenSkus = window.Carrito.getOrigen() ? window.Carrito.getOrigenSkus() : null;
-      const origenDe = (l) => !origenSkus ? ''
-        : !origenSkus.includes(l.sku) ? 'vendedor'
-        : (l.cantVendedor ? 'ambos' : 'cliente');
+      const origenDe = (l) => {
+        const delCliente = !!origenSkus && origenSkus.includes(l.sku);
+        if (l.sugerido && !delCliente) return l.sugerido;
+        return !origenSkus ? '' : !delCliente ? 'vendedor' : (l.cantVendedor ? 'ambos' : 'cliente');
+      };
 
       etapa = 'armar';
       pedido = {
@@ -1247,6 +1257,17 @@ function ajustarAltura() {
 // detail: { desde: 'pendientes' } cuando se abre desde el icono de pendientes
 document.addEventListener('carrito:abrir', e => abrir(e.detail || {}));
 document.addEventListener('carrito:cambio', dibujar);
+
+// Llegaron los habituales con el panel abierto: se agrega solo el bloque, sin
+// redibujar (no se pierde lo que se esta escribiendo ni la pantalla de exito)
+document.addEventListener('habituales:listo', () => {
+  const cont = document.getElementById('carrito-panel');
+  if (cont?.style.display !== 'flex' || moviendo || !esVendedor() || !cont.querySelector('.cp-fila')) return;
+  const pie = cont.querySelector('.cp-pie');
+  if (!pie || pie.querySelector('.cp-sug')) return;
+  pie.insertAdjacentHTML('afterbegin', Hab.htmlCarrito(window.Carrito.leer().map(l => l.sku)));
+  Hab.conectarCarrito(pie);
+});
 // Intentar varias veces: el rol tarda en estar disponible al cargar
 [500, 1500, 3000].forEach(ms => setTimeout(() => { if (!config && esVendedor()) cargarConfig(); }, ms));
 

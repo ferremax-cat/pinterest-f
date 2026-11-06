@@ -11,13 +11,17 @@
  *  - search-engine.js: el buscador v2 pone primero, dentro de cada grupo de
  *    resultados, lo que el cliente ya compro (comprados). Si llega con una
  *    busqueda en pantalla, la rehace o muestra un aviso (historial:listo);
- *  - la tarjeta de resultados: "Comprado 28/10 · 2 u." debajo del nombre (pintar).
+ *  - la tarjeta de resultados: "Comprado 28/10 · 2 u." debajo del nombre (pintar);
+ *  - js/habituales.js: el icono Habituales de la barra y la sugerencia del
+ *    carrito, con las listas que arma la rutina (listas()).
  * Mientras no llega, o si falla, todo funciona como hoy.
  */
 
 const ROLES = ['admin', 'vendedor_estandar'];
 
-let actual = null;     // { cuenta, articulos: Map(codigo -> { fecha, cantidad }) }
+// { cuenta, actualizado, articulos: Map(codigo -> { fecha, cantidad }),
+//   habituales: [{ sku, veces, tipica, ultima, toca }], dejo: [{ sku, veces, tipica, ultima }] }
+let actual = null;
 let pidiendo = '';     // cuenta cuyo historial se esta pidiendo
 
 function cuentaElegida() {
@@ -55,9 +59,16 @@ async function pedir() {
       console.warn('[Historial] No se pudo traer el historial:', d?.error);
       return;
     }
+    // Con un servidor sin las listas llegan vacias
+    const fila = x => ({ sku: String(x[0]), veces: Number(x[1]) || 0, tipica: Number(x[2]) || 0,
+      ultima: String(x[3] || ''), toca: String(x[4] || '') });
     actual = {
       cuenta,
-      articulos: new Map((d.articulos || []).map(a => [a[0], { fecha: a[1], cantidad: a[2] }]))
+      actualizado: d.actualizado || '',
+      articulos: new Map((d.articulos || []).map(a => [a[0], { fecha: a[1], cantidad: a[2] }])),
+      // Ya armadas por la rutina; las muestra js/habituales.js
+      habituales: (d.habituales || []).map(fila),
+      dejo: (d.dejo || []).map(fila)
     };
     console.log(`[Historial] ${actual.articulos.size} artículos comprados (actualizado ${d.actualizado || '-'})`);
     pintarTarjetas();
@@ -119,7 +130,14 @@ function pintarTarjetas() {
   document.querySelectorAll('.gallery-item[data-historial]').forEach(pintar);
 }
 
-window.HistorialCliente = { comprados, pintar, pintarTarjetas };
+/** Habituales y dejó de comprar del cliente elegido, o null si no llegaron. */
+function listas() {
+  return actual && actual.cuenta === cuentaElegida()
+    ? { cuenta: actual.cuenta, actualizado: actual.actualizado, habituales: actual.habituales, dejo: actual.dejo }
+    : null;
+}
+
+window.HistorialCliente = { comprados, listas, pintar, pintarTarjetas };
 
 // setClienteVista y limpiarClienteVista (precios.js) avisan con cliente:cambio;
 // el personal recibe el token un rato despues de entrar (sesion.js)
