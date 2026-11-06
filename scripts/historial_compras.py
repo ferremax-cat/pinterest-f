@@ -11,7 +11,9 @@ HISTORIAL DE COMPRAS POR CLIENTE -> hoja 'historial' de Ferremax Sistema
    lista de articulos del catalogo que compro: fecha, cantidad y precio neto
    unitario con IVA de la ultima compra, y para futuras alertas de reposicion,
    cuantas veces lo compro, el intervalo tipico entre compras y la cantidad
-   tipica por compra.
+   tipica por compra. Tambien las listas ya armadas de habituales (hasta 10) y
+   dejo de comprar (hasta 5, sin los articulos de temporada fuera de su
+   temporada, con un perfil de 24 meses de todas las ventas).
 3. Lo sube a la hoja 'historial': una fila por cliente, con el resumen
    comprimido en una celda, para que el servidor (accion historial_cliente)
    lea una sola fila.
@@ -43,6 +45,7 @@ FERREMAX_VENTAS_DBF (la copia).
 import base64
 import gzip
 import json
+import math
 import os
 import re
 import shutil
@@ -82,6 +85,10 @@ SCOPES = [
 ]
 
 DIAS = 365
+# Perfil de temporada de cada articulo: las ventas de 24 meses de todos los clientes
+DIAS_PERFIL = 730
+MAX_HABITUALES = 10
+MAX_DEJO = 5
 # Una celda de Google Sheets admite 50.000 caracteres: se deja margen
 MAX_CELDA = 49000
 # Si el DBF termina hace mas dias que esto, el sistema dejo de exportarlo
@@ -219,8 +226,10 @@ def copiar_dbf(origen, copia):
 
 # ---------- lectura de la copia ----------
 
-def leer_dbf(ruta, desde):
-    """Renglones vigentes con FECHA >= desde ('AAAAMMDD'), y la ultima fecha del archivo."""
+def leer_dbf(ruta, desde, desde_perfil=None):
+    """Renglones vigentes con FECHA >= desde ('AAAAMMDD'), la ultima fecha del
+    archivo y, para el perfil de temporada, las compras (fecha, cuenta, articulo)
+    con desde_perfil <= FECHA < desde: cantidad positiva y sin notas de credito."""
     with open(ruta, 'rb') as f:
         cab = f.read(32)
         total, largo_cab, largo_reg = struct.unpack('<IHH', cab[4:12])
@@ -236,7 +245,7 @@ def leer_dbf(ruta, desde):
         if faltan:
             raise ValueError('al DBF le faltan los campos ' + ', '.join(faltan))
 
-        filas, ultima, leidos = [], '', 0
+        filas, viejas, ultima, leidos = [], [], '', 0
         while leidos < total:
             cuantos = min(20000, total - leidos)
             bloque = f.read(largo_reg * cuantos)
@@ -249,6 +258,10 @@ def leer_dbf(ruta, desde):
                 if fecha > ultima:
                     ultima = fecha
                 if fecha < desde:
+                    if desde_perfil and fecha >= desde_perfil:
+                        txt = lambda c: r[campos[c]].decode('latin1').strip()
+                        if numero(txt('CANTIDAD')) > 0 and not txt('COMPTE').upper().startswith('NC'):
+                            viejas.append((fecha, txt('CUENTA'), txt('ARTICULO')))
                     continue
                 txt = lambda c: r[campos[c]].decode('latin1').strip()
                 filas.append({
@@ -257,7 +270,7 @@ def leer_dbf(ruta, desde):
                     'cantidad': numero(txt('CANTIDAD')), 'precio': numero(txt('PRECIO')),
                     'importe': numero(txt('IMPORTE')), 'iva': numero(txt('IVA')),
                 })
-    return filas, ultima
+    return filas, ultima, viejas
 
 
 def compactar(codigo):
@@ -349,14 +362,72 @@ def armar_historial(filas, unir):
     return hist, len(descuento), sin_calcular
 
 
-def comprimir(articulos, actualizado):
-    """Celda de un cliente: {"v":2,"act":fecha,"a":[[codigo, fecha, cantidad, precio,
-    veces, intervalo, cantidad_tipica], ...]} de la compra mas reciente a la mas
-    vieja, en gzip y base64. Si no entra en una celda quedan los mas recientes.
+def fuera_de_temporada(filas, viejas, unir, mes):
+    """Articulos de temporada que este mes estan fuera de su temporada. Perfil
+    mensual de cada articulo con las compras cliente-dia de 24 meses (todos los
+    clientes); de temporada si sus 3 meses seguidos mas fuertes suman el 50 % o
+    mas, y fuera de temporada si este mes vende menos de la mitad de un mes
+    promedio (12 x participacion del mes < 0,5). Solo con 20 compras o mas."""
+    compras = {(f['fecha'], f['cuenta'], f['articulo']) for f in filas
+               if f['cantidad'] > 0 and not f['compte'].upper().startswith('NC')}
+    compras.update(viejas)
+    dias = set()
+    perfil = defaultdict(lambda: [0] * 12)
+    for fecha, cuenta, articulo in compras:
+        codigo = unir(articulo)
+        clave = (fecha, cuenta_app(cuenta), codigo)
+        if codigo and clave not in dias:
+            dias.add(clave)
+            perfil[codigo][int(fecha[4:6]) - 1] += 1
+    fuera = set()
+    for codigo, p in perfil.items():
+        total = sum(p)
+        if total < 20:
+            continue
+        fuertes = max(p[m] + p[(m + 1) % 12] + p[(m + 2) % 12] for m in range(12))
+        if fuertes / total >= 0.5 and 12 * p[mes - 1] / total < 0.5:
+            fuera.add(codigo)
+    return fuera
+
+
+def listas_reposicion(articulos, hoy, fuera):
+    """Habituales y dejo de comprar de un cliente, con sus articulos de
+    armar_historial ({codigo: [fecha, cantidad, precio, veces, intervalo, tipica]}).
+    habituales: hasta 10 con 3 compras o mas (dias distintos), por veces y, a igual
+      cantidad, por la compra mas reciente: [codigo, veces, tipica, ultima, toca],
+      con toca = ultima + intervalo (dias enteros, hacia arriba): desde ese dia le toca.
+    dejo: hasta 5 con 3 compras o mas y sin comprar hace 3 intervalos o mas, sin
+      los de temporada fuera de temporada: [codigo, veces, tipica, ultima]."""
+    con = sorted(((c, v) for c, v in articulos.items() if v[3] >= 3 and v[4] is not None),
+                 key=lambda x: (x[1][3], x[1][0], x[0]), reverse=True)
+    habituales, dejo = [], []
+    for codigo, (ultima, _, _, veces, intervalo, tipica) in con:
+        dia = date.fromisoformat(ultima)
+        if len(habituales) < MAX_HABITUALES:
+            toca = (dia + timedelta(days=math.ceil(intervalo))).isoformat()
+            habituales.append([codigo, veces, tipica, ultima, toca])
+        if len(dejo) < MAX_DEJO and (hoy - dia).days >= 3 * intervalo and codigo not in fuera:
+            dejo.append([codigo, veces, tipica, ultima])
+    return habituales, dejo
+
+
+def comprimir(articulos, actualizado, habituales=(), dejo=()):
+    """Celda de un cliente, en gzip y base64:
+      {"v":3, "act":fecha,
+       "a":[[codigo, fecha, cantidad, precio, veces, intervalo, cantidad_tipica], ...],
+       "hab":[[codigo, veces, cantidad_tipica, ultima, toca], ...],
+       "dej":[[codigo, veces, cantidad_tipica, ultima], ...]}
+    'a' va de la compra mas reciente a la mas vieja; si no entra en una celda se
+    recortan sus mas viejas (hab y dej quedan enteras).
+    Formato extensible: quien lee usa solo las claves y posiciones que conoce. Lo
+    nuevo va en claves nuevas o al final de cada fila; nunca se cambia el
+    significado ni la posicion de un campo, asi el servidor publicado sigue
+    funcionando. 'v' sube con cada agregado, pero ningun lector la exige.
     Devuelve (texto, articulos incluidos)."""
     lista = sorted(([c] + v for c, v in articulos.items()), key=lambda x: x[1], reverse=True)
     while True:
-        datos = json.dumps({'v': 2, 'act': actualizado, 'a': lista}, separators=(',', ':'), ensure_ascii=False)
+        datos = json.dumps({'v': 3, 'act': actualizado, 'a': lista, 'hab': list(habituales), 'dej': list(dejo)},
+                           separators=(',', ':'), ensure_ascii=False)
         texto = base64.b64encode(gzip.compress(datos.encode('utf-8'), mtime=0)).decode('ascii')
         if len(texto) <= MAX_CELDA:
             return texto, len(lista)
@@ -450,8 +521,10 @@ def main():
     with open(CATALOGO, encoding='utf-8') as f:
         unir = preparar_union(list(json.load(f).keys()))
     hoy = date.today()
-    filas, ultima = leer_dbf(ruta, (hoy - timedelta(days=DIAS)).strftime('%Y%m%d'))
-    print(f'Leidos {len(filas)} renglones de los ultimos 12 meses')
+    filas, ultima, viejas = leer_dbf(ruta, (hoy - timedelta(days=DIAS)).strftime('%Y%m%d'),
+                                     (hoy - timedelta(days=DIAS_PERFIL - 1)).strftime('%Y%m%d'))
+    print(f'Leidos {len(filas)} renglones de los ultimos 12 meses y {len(viejas)} compras '
+          'de los 12 anteriores (para la temporada)')
     if not ultima.strip():
         print('ERROR: el DBF no tiene renglones con fecha')
         sys.exit(1)
@@ -461,10 +534,14 @@ def main():
               'el sistema de gestion no lo actualizo')
 
     hist, con_descuento, sin_calcular = armar_historial(filas, unir)
+    fuera = fuera_de_temporada(filas, viejas, unir, hoy.month)
     actualizado = hoy.isoformat()
-    filas_hoja, recortados = [], 0
+    filas_hoja, recortados, con_hab, con_dej = [], 0, 0, 0
     for cuenta in sorted(hist):
-        texto, incluidos = comprimir(hist[cuenta], actualizado)
+        habituales, dejo = listas_reposicion(hist[cuenta], hoy, fuera)
+        con_hab += bool(habituales)
+        con_dej += bool(dejo)
+        texto, incluidos = comprimir(hist[cuenta], actualizado, habituales, dejo)
         if incluidos < len(hist[cuenta]):
             recortados += 1
         filas_hoja.append([cuenta, actualizado, incluidos, texto])
@@ -476,6 +553,8 @@ def main():
     print(f'{len(filas_hoja)} clientes | artículos: {sum(f[2] for f in filas_hoja)} | '
           f'comprobantes con descuento: {con_descuento} (sin poder calcularlo: {sin_calcular})')
     print(f'Celda: mediana {largos[len(largos) // 2]} caracteres, la mas grande {largos[-1]} (limite {MAX_CELDA})')
+    print(f'Habituales: {con_hab} clientes | dejó de comprar: {con_dej} clientes | '
+          f'artículos fuera de temporada este mes: {len(fuera)}')
     if recortados:
         print(f'AVISO: {recortados} cliente(s) no entraban en una celda: quedaron sus compras mas recientes')
 
