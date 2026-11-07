@@ -3,10 +3,13 @@
  *
  * Usa las dos listas que trae historial_cliente (js/historial-cliente.js), ya
  * armadas por scripts/historial_compras.py con 12 meses de compras:
- *  - habituales: hasta 10 articulos que compra seguido (3 compras o mas), con la
- *    cantidad que suele llevar y desde que fecha "le toca";
- *  - dejo: hasta 5 que compraba seguido y hace mas de 3 intervalos que no lleva
- *    (sin los de temporada fuera de su temporada). Solo informacion.
+ *  - habituales: hasta 20 articulos que compra seguido (3 compras o mas), con la
+ *    cantidad que suele llevar y desde que fecha "le toca". Si lleva 3 intervalos
+ *    o mas sin comprarlo, "Hace mucho que no lo pide" (lejos) en lugar de "Le toca";
+ *  - dejo: hasta 10 de los que siguen (nunca uno de habituales) que compraba
+ *    seguido y hace 3 intervalos o mas que no lleva. Solo informacion.
+ * Los de temporada fuera de su temporada que hace mucho que no compra no vienen
+ * en ninguna de las dos.
  * Muestra el icono "Habituales" en la barra del cliente (con un punto si hay
  * "dejo de comprar") con su lista, y arma la sugerencia "¿Se olvida algo?" del
  * carrito. No consulta al servidor: nombres y fotos salen de productos.json y
@@ -24,7 +27,8 @@ let listo = null;      // { cuenta, actualizado, habituales, dejo }, con nombre 
 let turno = 0;         // descarta una preparacion vieja si cambio el cliente
 let boton = null;      // icono de la barra
 let abierto = null;    // lista abierta: { cuerpo, cerrar }
-let todos = false;     // "Ver los 10"
+let todos = false;      // "Ver los N" de Suele llevar: todos los habituales
+let todosDejo = false;  // "Ver los N" de Dejó de comprar
 // Celular: el bloque del carrito arranca plegado. Cuenta del cliente para el
 // que el vendedor lo desplego (solo en memoria; al cambiar de cliente se pliega)
 let desplegadoDe = null;
@@ -80,13 +84,24 @@ const utc = iso => { const [a, m, d] = String(iso).split('-').map(Number); retur
 function hoyUtc() { const h = new Date(); return Date.UTC(h.getFullYear(), h.getMonth(), h.getDate()); }
 const diasDesde = iso => Math.round((hoyUtc() - utc(iso)) / 864e5);
 export const leToca = x => !!x.toca && hoyUtc() >= utc(x.toca);
+/**
+ * Lleva 3 intervalos o mas sin comprarlo. El intervalo es toca - ultima (dias
+ * enteros, hacia arriba): la misma regla con la que la rutina arma "dejo"
+ */
+export function lejos(x) {
+  if (!x.toca || !x.ultima) return false;
+  const intervalo = Math.round((utc(x.toca) - utc(x.ultima)) / 864e5);
+  return intervalo > 0 && diasDesde(x.ultima) >= 3 * intervalo;
+}
 export const cantidadSugerida = x => Math.max(1, Math.round(Number(x.tipica) || 1));
 
 function hace(iso) {
   const n = diasDesde(iso);
   return n <= 0 ? 'hoy' : n === 1 ? 'hace 1 día' : `hace ${n} días`;
 }
-const marca = x => (leToca(x) ? '<span class="hab-toca">Le toca</span> · ' : '') + hace(x.ultima);
+const marca = x => lejos(x)
+  ? `<span class="hab-lejos">Hace mucho que no lo pide</span> (${diasDesde(x.ultima)} días)`
+  : (leToca(x) ? '<span class="hab-toca">Le toca</span> · ' : '') + hace(x.ultima);
 const fechaCorta = iso => { const [a, m, d] = String(iso).split('-'); return `${d}/${m}/${String(a).slice(2)}`; };
 
 /** La foto de la tarjeta si esta en pantalla; si no, la del catalogo de imagenes */
@@ -121,10 +136,13 @@ async function preparar() {
     const id = fotos[x.sku] || fotos[x.sku.toUpperCase()] || fotos[x.sku.toLowerCase()];
     return { ...x, nombre: p.name || x.sku, foto: id ? `https://lh3.googleusercontent.com/d/${id}=w120` : '' };
   };
+  // Una celda de la rutina anterior puede traer un habitual tambien en "dejo":
+  // queda solo en habituales (con "Hace mucho que no lo pide")
+  const enHab = new Set(l.habituales.map(x => x.sku.toUpperCase()));
   listo = {
     cuenta: l.cuenta, actualizado: l.actualizado,
     habituales: l.habituales.map(conDatos).filter(Boolean),
-    dejo: l.dejo.map(conDatos).filter(Boolean)
+    dejo: l.dejo.filter(x => !enHab.has(x.sku.toUpperCase())).map(conDatos).filter(Boolean)
   };
 
   // En memoria, desde el productos.json ya descargado: al agregarlos tienen nombre y precio
@@ -151,14 +169,15 @@ async function agregar(sku, origen) {
 // ---------- carrito ----------
 
 /**
- * Hasta n habituales que no estan en el pedido ni en "dejo de comprar" (esos
- * casi nunca se compran ese dia: se muestran solo en la lista de la barra)
+ * Hasta n habituales que no estan en el pedido, ni en "dejo de comprar", ni
+ * llevan 3 intervalos o mas sin comprarse (esos casi nunca se compran ese dia:
+ * se muestran solo en la lista de la barra)
  */
 export function sugerencias(enPedido, n = 3) {
   const v = vigentes();
   if (!v) return [];
   const ya = new Set([...enPedido, ...v.dejo.map(x => x.sku)].map(s => String(s).toUpperCase()));
-  return v.habituales.filter(x => !ya.has(x.sku.toUpperCase())).slice(0, n);
+  return v.habituales.filter(x => !ya.has(x.sku.toUpperCase()) && !lejos(x)).slice(0, n);
 }
 
 /**
@@ -235,8 +254,13 @@ function pintarIcono() {
   if (!b) return;
   const v = vigentes();
   b.hidden = !v || (!v.habituales.length && !v.dejo.length);
-  b.querySelector('.hab-punto').hidden = !v?.dejo.length;
-  const texto = v?.dejo.length ? 'Habituales (hay artículos que dejó de comprar)' : 'Habituales';
+  // El punto avisa que hay algo para preguntarle: "dejo de comprar" o un
+  // habitual que hace mucho que no pide
+  const aviso = !!v && (v.dejo.length > 0 || v.habituales.some(lejos));
+  b.querySelector('.hab-punto').hidden = !aviso;
+  const texto = !aviso ? 'Habituales'
+    : v.dejo.length ? 'Habituales (hay artículos que dejó de comprar)'
+    : 'Habituales (hay artículos que hace mucho que no pide)';
   b.title = texto;
   b.setAttribute('aria-label', texto);
   if (b.hidden) cerrarLista();
@@ -257,15 +281,20 @@ function htmlLista(v) {
              title="Agregar ${cantidadSugerida(x)}: la cantidad que suele llevar">+ ${cantidadSugerida(x)}</button>`}
     </div>`;
   const hab = todos ? v.habituales : v.habituales.slice(0, 3);
+  const dejo = todosDejo ? v.dejo : v.dejo.slice(0, 3);
+  // "Ver los N" de cada lista, con la cantidad real (sin los que ya no estan en el catalogo)
+  const ver = (lista, abierta, cual) => !abierta && lista.length > 3
+    ? `<button type="button" class="hab-ver" data-lista="${cual}">Ver los ${lista.length}</button>` : '';
   return `
     ${v.habituales.length ? `
       <p class="hab-tit">Suele llevar</p>
       ${hab.map(x => fila(x, true)).join('')}
-      ${!todos && v.habituales.length > 3 ? `<button type="button" class="hab-ver">Ver los ${v.habituales.length}</button>` : ''}` : ''}
+      ${ver(v.habituales, todos, 'hab')}` : ''}
     ${v.dejo.length ? `
       <p class="hab-tit">Dejó de comprar</p>
       <p class="hab-nota">Para preguntarle: hace más del triple de lo habitual que no lo lleva.</p>
-      ${v.dejo.map(x => fila(x, false)).join('')}` : ''}
+      ${dejo.map(x => fila(x, false)).join('')}
+      ${ver(v.dejo, todosDejo, 'dejo')}` : ''}
     <p class="hab-pie">Compras de los últimos 12 meses${v.actualizado ? ` · actualizado ${fechaCorta(v.actualizado)}` : ''}</p>`;
 }
 
@@ -274,7 +303,10 @@ function pintarLista() {
   const v = vigentes();
   if (!v) { cerrarLista(); return; }
   abierto.cuerpo.innerHTML = htmlLista(v);
-  abierto.cuerpo.querySelector('.hab-ver')?.addEventListener('click', () => { todos = true; pintarLista(); });
+  abierto.cuerpo.querySelectorAll('.hab-ver').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.lista === 'dejo') todosDejo = true; else todos = true;
+    pintarLista();
+  }));
   abierto.cuerpo.querySelectorAll('.hab-agregar').forEach(b => b.addEventListener('click', () => {
     b.disabled = true;
     const enDesplegable = !!abierto?.desplegable;
@@ -287,7 +319,7 @@ function pintarLista() {
 
 function abrirLista() {
   if (!vigentes() || !boton) return;
-  todos = false;
+  todos = false; todosDejo = false;
   if (esAncha()) {
     // Computadora: desplegable debajo de la barra, alineado con el icono
     const caja = document.createElement('div');

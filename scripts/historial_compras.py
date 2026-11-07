@@ -11,9 +11,10 @@ HISTORIAL DE COMPRAS POR CLIENTE -> hoja 'historial' de Ferremax Sistema
    lista de articulos del catalogo que compro: fecha, cantidad y precio neto
    unitario con IVA de la ultima compra, y para futuras alertas de reposicion,
    cuantas veces lo compro, el intervalo tipico entre compras y la cantidad
-   tipica por compra. Tambien las listas ya armadas de habituales (hasta 10) y
-   dejo de comprar (hasta 5, sin los articulos de temporada fuera de su
-   temporada, con un perfil de 24 meses de todas las ventas).
+   tipica por compra. Tambien las listas ya armadas de habituales (hasta 20) y
+   dejo de comprar (hasta 10, sin repetir habituales), sin los articulos de
+   temporada fuera de su temporada que hace mucho que no compra (perfil de 24
+   meses de todas las ventas).
 3. Lo sube a la hoja 'historial': una fila por cliente, con el resumen
    comprimido en una celda, para que el servidor (accion historial_cliente)
    lea una sola fila.
@@ -87,8 +88,8 @@ SCOPES = [
 DIAS = 365
 # Perfil de temporada de cada articulo: las ventas de 24 meses de todos los clientes
 DIAS_PERFIL = 730
-MAX_HABITUALES = 10
-MAX_DEJO = 5
+MAX_HABITUALES = 20
+MAX_DEJO = 10
 # Una celda de Google Sheets admite 50.000 caracteres: se deja margen
 MAX_CELDA = 49000
 # Si el DBF termina hace mas dias que esto, el sistema dejo de exportarlo
@@ -393,20 +394,30 @@ def fuera_de_temporada(filas, viejas, unir, mes):
 def listas_reposicion(articulos, hoy, fuera):
     """Habituales y dejo de comprar de un cliente, con sus articulos de
     armar_historial ({codigo: [fecha, cantidad, precio, veces, intervalo, tipica]}).
-    habituales: hasta 10 con 3 compras o mas (dias distintos), por veces y, a igual
-      cantidad, por la compra mas reciente: [codigo, veces, tipica, ultima, toca],
-      con toca = ultima + intervalo (dias enteros, hacia arriba): desde ese dia le toca.
-    dejo: hasta 5 con 3 compras o mas y sin comprar hace 3 intervalos o mas, sin
-      los de temporada fuera de temporada: [codigo, veces, tipica, ultima]."""
+    habituales: hasta MAX_HABITUALES con 3 compras o mas (dias distintos), por veces
+      y, a igual cantidad, por la compra mas reciente: [codigo, veces, tipica, ultima,
+      toca], con toca = ultima + intervalo (dias enteros, hacia arriba): desde ese dia
+      le toca.
+    dejo: hasta MAX_DEJO de los que siguen (nunca uno que ya este en habituales), con
+      3 compras o mas y sin comprar hace 3 intervalos o mas: [codigo, veces, tipica, ultima].
+    Un articulo de temporada fuera de su temporada que lleva 3 intervalos o mas sin
+    comprarse no va a ninguna de las dos (no es una alarma: vuelve en su temporada),
+    y su lugar lo ocupa el siguiente.
+    Los 3 intervalos se cuentan con el intervalo entero (hacia arriba), el mismo que
+    la app saca de toca - ultima: asi la app marca "Hace mucho que no lo pide" en
+    habituales con la misma regla y el mismo dia."""
     con = sorted(((c, v) for c, v in articulos.items() if v[3] >= 3 and v[4] is not None),
                  key=lambda x: (x[1][3], x[1][0], x[0]), reverse=True)
     habituales, dejo = [], []
     for codigo, (ultima, _, _, veces, intervalo, tipica) in con:
         dia = date.fromisoformat(ultima)
+        dias_int = math.ceil(intervalo)
+        lejos = (hoy - dia).days >= 3 * dias_int
+        if lejos and codigo in fuera:
+            continue
         if len(habituales) < MAX_HABITUALES:
-            toca = (dia + timedelta(days=math.ceil(intervalo))).isoformat()
-            habituales.append([codigo, veces, tipica, ultima, toca])
-        if len(dejo) < MAX_DEJO and (hoy - dia).days >= 3 * intervalo and codigo not in fuera:
+            habituales.append([codigo, veces, tipica, ultima, (dia + timedelta(days=dias_int)).isoformat()])
+        elif len(dejo) < MAX_DEJO and lejos:
             dejo.append([codigo, veces, tipica, ultima])
     return habituales, dejo
 
