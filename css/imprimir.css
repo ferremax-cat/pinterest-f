@@ -503,6 +503,13 @@ tr.im-prueba { background: #fffbeb; }
   box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
 }
 
+/* Pedidos incompletos: como el bloque sin confirmar, en rojo y sin botones */
+.im-incompletos { background: #fef2f2; border-color: #dc2626; }
+.im-incompletos .im-sc-cab { color: #dc2626; }
+.im-incompletos .im-sc-tarjeta { border-left-color: #dc2626; grid-template-columns: minmax(0, 1fr); }
+/* Lineas sin cabecera: ids en monoespaciado, faciles de copiar */
+.im-huerfanas-ids { margin: 0; padding-left: 18px; font-family: monospace; font-size: 12px; word-break: break-all; user-select: all; }
+
 .im-sc-info { min-width: 0; }
 
 .im-sc-datos {
