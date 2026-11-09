@@ -9,7 +9,7 @@
  * servidor con window.Api.llamar, igual que el catalogo.
  */
 
-import { precargar, imprimir as imprimirHojas, confirmarExistentes, cargarClientes } from './imprimir-hojas.js';
+import { precargar, imprimir as imprimirHojas, confirmarExistentes, cargarClientes, esIncompleto } from './imprimir-hojas.js';
 import { pedirToken } from './sesion.js';
 
 // Oficina imprime aunque no arme pedidos: no sirve Carrito.puedePedir()
@@ -26,6 +26,9 @@ const seleccion = new Set();
 // Pendientes con un intento de impresion que nadie confirmo: van en un
 // bloque aparte y no se pueden seleccionar
 let sinConfirmar = [];
+
+// Pedidos guardados sin todas sus lineas: bloque aparte, en rojo, sin seleccion
+let incompletos = [];
 
 // Pedidos tal como llegan del servidor (id -> pedido): las hojas impresas
 // necesitan las lineas y los totales, que la tabla no guarda
@@ -179,6 +182,8 @@ function aFila(p) {
     vendedor: p.vendedor ?? '',
     // lineas es la lista de articulos: la cantidad viene aparte
     cantLineas: Number(p.cantLineas) || 0,
+    lineasLlegaron: Array.isArray(p.lineas) ? p.lineas.length : 0,
+    incompleto: esIncompleto(p),
     // Observaciones nuevas: "Solo obs." sin articulos, "+ obs." con articulos
     nObs: Array.isArray(p.observaciones) ? p.observaciones.length : 0,
     totalNeto: fmtPesos(p.totalNeto),
@@ -250,7 +255,7 @@ const mismoRango = (a, b) => a.desde === b.desde && a.hasta === b.hasta && a.pru
 /** Mensaje cuando la consulta no trajo pedidos para la tabla */
 function mensajeLista() {
   return pedidos.length ? '' :
-    sinConfirmar.length ? 'No hay otros pedidos para imprimir.' :
+    sinConfirmar.length || incompletos.length ? 'No hay otros pedidos para imprimir.' :
     modo === 'pendientes' ? 'No hay pedidos pendientes de imprimir.'
                           : 'No hay pedidos impresos en esas fechas.';
 }
@@ -263,6 +268,7 @@ function mensajeLista() {
 function aplicarResultado(r) {
   pedidos = r.pedidos;
   sinConfirmar = r.sinConfirmar;
+  incompletos = r.incompletos || [];
   crudos = r.crudos;
   estadoConsulta = mensajeLista();
   dibujar();
@@ -310,6 +316,7 @@ async function consultar({ enFondo = false } = {}) {
   if (!enFondo) {
     pedidos = [];
     sinConfirmar = [];
+    incompletos = [];
     crudos = new Map();
     seleccion.clear();
     dibujar();
@@ -371,10 +378,13 @@ async function consultar({ enFondo = false } = {}) {
   }
 
   const filas = (d.pedidos || []).map(aFila);
-  // En Pendientes, los de impresion sin confirmar van aparte
+  // Los incompletos van aparte en las dos pestañas; en Pendientes, tambien
+  // los de impresion sin confirmar
+  const completos = filas.filter(f => !f.incompleto);
   const resultado = {
-    pedidos: pestana === 'pendientes' ? filas.filter(f => !f.intento) : filas,
-    sinConfirmar: pestana === 'pendientes' ? filas.filter(f => f.intento) : [],
+    incompletos: filas.filter(f => f.incompleto),
+    pedidos: pestana === 'pendientes' ? completos.filter(f => !f.intento) : completos,
+    sinConfirmar: pestana === 'pendientes' ? completos.filter(f => f.intento) : [],
     crudos: new Map((d.pedidos || []).map(p => [String(p.id), p])),
     rango
   };
@@ -461,6 +471,7 @@ function dibujar() {
       ${impresos ? `<td class="c-impreso">${esc(p.fechaImpresion)}</td><td class="c-impreso-por">${esc(p.impresoPor)}</td>` : ''}
     </tr>`).join('');
 
+  dibujarIncompletos();
   dibujarSinConfirmar();
   dibujarTitulo(lista.length);
   dibujarFiltros(lista.length);
@@ -474,7 +485,7 @@ function dibujar() {
  */
 function dibujarTitulo(nVisibles) {
   const titulo = $('im-titulo-lista');
-  const mostrar = sinConfirmar.length > 0 || (filtroActivo() && pedidos.length > 0);
+  const mostrar = sinConfirmar.length > 0 || incompletos.length > 0 || (filtroActivo() && pedidos.length > 0);
   titulo.hidden = !mostrar;
   if (!mostrar) return;
   const nombre = modo === 'impresos' ? 'Impresos' : 'Para imprimir';
@@ -526,6 +537,34 @@ function dibujarFiltros(nVisibles) {
 const SVG_ADVERTENCIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
   <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
 </svg>`;
+
+/**
+ * Bloque "Pedidos incompletos": se guardaron sin todas sus lineas (falla de
+ * Google al guardar). No se pueden seleccionar ni imprimir: hay que avisar al
+ * vendedor para que lo vuelva a cargar. No se filtra, como el de sin confirmar
+ */
+function dibujarIncompletos() {
+  const bloque = $('im-incompletos');
+  bloque.hidden = !incompletos.length;
+  if (!incompletos.length) { bloque.innerHTML = ''; return; }
+  const tarjetas = incompletos.map(p => `
+    <div class="im-sc-tarjeta" data-id="${esc(p.id)}">
+      <div class="im-sc-info">
+        <p class="im-sc-datos">
+          <b class="im-sc-numero">N° ${esc(p.numero)}</b>
+          <span class="im-sc-cliente">${esc(nombreDe(p))}</span>
+          <span class="im-sc-meta">Cuenta ${esc(p.cuenta)} · Vendedor ${esc(p.vendedor)} · ${esc(p.fecha)} · ${esc(p.totalNeto)}</span>
+        </p>
+        <p class="im-sc-intento">Pedido incompleto: llegaron ${p.lineasLlegaron} de ${p.cantLineas} líneas.${
+          modo === 'impresos' ? ' Figura como impreso: esas hojas salieron incompletas.' : ''}</p>
+      </div>
+    </div>`).join('');
+  bloque.innerHTML = `
+    <div class="im-sc-cab">${SVG_ADVERTENCIA}<h2>Pedidos incompletos (${incompletos.length})</h2></div>
+    <p class="im-sc-texto">Se guardaron sin todas sus líneas y no se pueden imprimir.
+      Avisale al vendedor para que vuelva a cargar el pedido.</p>
+    <div class="im-sc-lista">${tarjetas}</div>`;
+}
 
 /** Bloque "Impresion sin confirmar", arriba de la lista de Pendientes. */
 function dibujarSinConfirmar() {
@@ -751,8 +790,13 @@ async function iniciar() {
   titulo.id = 'im-titulo-lista';
   titulo.className = 'im-titulo-lista';
   titulo.hidden = true;
-  // Arriba de los filtros: el bloque sin confirmar no se filtra
-  $('im-filtros').before(bloque, titulo);
+  // Pedidos incompletos: arriba de todo, en rojo
+  const incomp = document.createElement('section');
+  incomp.id = 'im-incompletos';
+  incomp.className = 'im-sinconf im-incompletos';
+  incomp.hidden = true;
+  // Arriba de los filtros: los bloques de incompletos y sin confirmar no se filtran
+  $('im-filtros').before(incomp, bloque, titulo);
 
   $('im-bandeja').hidden = false;
   configurarEventos();

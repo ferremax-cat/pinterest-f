@@ -1187,7 +1187,11 @@ async function confirmarPedido() {
         ? 'Tu sesión venció. Volvé a iniciar sesión y tocá Reintentar.'
         : resp.error === 'id_con_otro_contenido'
           ? 'Este pedido figura guardado (N° ' + resp.numero + ') con otro contenido. Consultá con la oficina antes de continuar.'
-          : 'El servidor respondió con un error (' + resp.error + '). Tocá Reintentar en unos minutos.';
+          // Quedaron lineas de un intento anterior distintas a este pedido:
+          // reintentar no lo arregla
+          : resp.error === 'lineas_con_otro_contenido'
+            ? 'Este pedido quedó guardado a medias con otro contenido. Consultá con la oficina antes de continuar.'
+            : 'El servidor respondió con un error (' + resp.error + '). Tocá Reintentar en unos minutos.';
       dibujar();
       return;
     }

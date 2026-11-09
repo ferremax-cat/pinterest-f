@@ -1026,10 +1026,30 @@ let opciones = {};
 // tandas): al cerrar se le pasan a la bandeja para sacarlos de Pendientes
 let impresosConfirmados = new Set();
 
+/**
+ * Pedido guardado sin todas sus lineas (el servidor escribio la cabecera y
+ * fallo al escribir las lineas): no se imprime. Los de solo observaciones
+ * tienen cantLineas 0
+ */
+export function esIncompleto(p) {
+  return (Number(p?.cantLineas) || 0) > (Array.isArray(p?.lineas) ? p.lineas.length : 0);
+}
+
 /** Arma e imprime los pedidos elegidos, en tandas de TAMANO_TANDA. */
 export function imprimir(pedidos, opc = {}) {
   pedidos = (pedidos || []).filter(Boolean);
   if (!pedidos.length || trabajando) return;
+
+  // Resguardo: la bandeja no deja elegirlos. No se imprime ninguno de la tanda
+  const incompletos = pedidos.filter(esIncompleto);
+  if (incompletos.length) {
+    opciones = {};
+    impresosConfirmados = new Set();
+    mostrarAviso(`No se imprimió: ${incompletos.length === 1 ? 'el pedido' : 'los pedidos'} N° ` +
+      `${incompletos.map(p => p.numero || '—').join(', ')} ${incompletos.length === 1 ? 'está incompleto' : 'están incompletos'}. ` +
+      'Avisale al vendedor para que lo vuelva a cargar.', [{ texto: 'Cerrar', principal: true, accion: cerrar }]);
+    return;
+  }
 
   opciones = opc;
   impresosConfirmados = new Set();
@@ -1260,7 +1280,7 @@ async function anularIntento() {
  * con el mismo circuito que una tanda de un solo pedido.
  */
 export function confirmarExistentes(pedido, opc = {}) {
-  if (!pedido || trabajando) return;
+  if (!pedido || trabajando || esIncompleto(pedido)) return;
 
   opciones = opc;
   impresosConfirmados = new Set();

@@ -620,13 +620,165 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
   return res;
 }
 
-/** Escribe en una fila los valores por nombre de encabezado (los que existan) */
-function escribirPorEncabezado(hoja, fila, valores) {
-  const enc = hoja.getRange(1, 1, 1, hoja.getLastColumn()).getValues()[0].map(x => String(x).trim());
-  Object.keys(valores).forEach(k => {
-    const c = enc.indexOf(k);
-    if (c >= 0) hoja.getRange(fila, c + 1).setValue(valores[k]);
+// ---------- guardar pedido: orden de escritura, reintentos e idempotencia ----------
+// Orden: lineas, observaciones y al final la cabecera. Que exista la cabecera
+// confirma que el pedido esta completo. Cada escritura revisa antes lo que ya
+// esta con ese id y escribe solo lo que falta: asi se puede reintentar sin
+// duplicar (Google puede informar una falla aunque haya escrito).
+
+// "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
+// se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
+const PAUSAS_REINTENTO_MS = [1000, 2000];
+const ERROR_TRANSITORIO = /Hojas de c[aá]lculo fall[oó]|Spreadsheets failed|timed out|tiempo de espera|se agot[oó] el tiempo|Internal error|error interno|Service error|error del servicio|Service unavailable|vuelve a intentarlo|try again/i;
+
+/** Corre escribir() y la confirma con flush; ante un error transitorio, lo repite */
+function conReintentos(escribir, que) {
+  for (let i = 0; ; i++) {
+    try {
+      const r = escribir();
+      SpreadsheetApp.flush();   // que la falla aparezca aca, no en la escritura siguiente
+      return r;
+    } catch (err) {
+      const msg = String((err && err.message) || err);
+      if (i >= PAUSAS_REINTENTO_MS.length || !ERROR_TRANSITORIO.test(msg)) throw err;
+      console.warn('guardar_pedido: reintento ' + (i + 1) + ' (' + que + '): ' + msg);
+      Utilities.sleep(PAUSAS_REINTENTO_MS[i]);
+    }
+  }
+}
+
+/**
+ * Filas de una hoja con ese id en la columna A, como [numero de fila, valores].
+ * TextFinder busca en Google sin traer la hoja entera (pedidos_lineas es la
+ * mas grande); se lee solo el tramo entre la primera y la ultima que aparece.
+ */
+function filasConId(hoja, id, nCols) {
+  const ultima = hoja.getLastRow();
+  if (ultima < 2) return [];
+  const celdas = hoja.getRange(2, 1, ultima - 1, 1)
+    .createTextFinder(String(id)).matchEntireCell(true).matchCase(true).findAll();
+  if (!celdas.length) return [];
+  const nums = celdas.map(c => c.getRow());
+  const desde = Math.min.apply(null, nums);
+  const hasta = Math.max.apply(null, nums);
+  return hoja.getRange(desde, 1, hasta - desde + 1, nCols).getValues()
+    .map((v, k) => [desde + k, v])
+    .filter(x => String(x[1][0]).trim() === String(id));
+}
+
+/** Filas de pedidos_lineas de un pedido (orden 1..n), con el color de cada una */
+function filasLineasPedido(ped, sem) {
+  return ped.lineas.map((l, i) => ([
+    ped.id,
+    i + 1,
+    l.sku,
+    l.nombre || '',
+    l.cantidad,
+    ped.lista || '',
+    l.listaAplicada || ped.lista || '',
+    l.mecanismo || 'lista_cliente',
+    l.precioBase || 0,
+    l.precio || 0,
+    l.descEfectivo || 0,
+    l.subtotal || 0,
+    l.origenLinea || '',
+    sem.colores[i] || '',
+    // desc_linea_pct (columna O): el porcentaje que eligio el vendedor.
+    // Sin el dato (navegador sin actualizar) queda vacio, no 0
+    l.descuentoLinea === undefined || l.descuentoLinea === null || l.descuentoLinea === ''
+      ? '' : Number(l.descuentoLinea) || 0
+  ]));
+}
+
+/**
+ * Escribe las lineas que todavia no estan (por su orden). Las de un intento
+ * anterior se conservan: el reintento manda el mismo pedido con el mismo id.
+ * Si una ya escrita tiene otro sku u otra cantidad, no escribe nada y lanza
+ * 'lineas_con_otro_contenido'. Devuelve cuantas escribio.
+ */
+function escribirLineasFaltantes(hLin, id, filas) {
+  if (!filas.length) return 0;
+  const porOrden = {};
+  filas.forEach(f => { porOrden[f[1]] = f; });
+  const ya = new Set();
+  filasConId(hLin, id, 5).forEach(x => {
+    const v = x[1];
+    const orden = Number(v[1]) || 0;
+    const f = porOrden[orden];
+    if (f && (String(v[2]).trim().toUpperCase() !== String(f[2]).trim().toUpperCase() ||
+              Number(v[4]) !== Number(f[4]))) {
+      throw new Error('lineas_con_otro_contenido');
+    }
+    ya.add(orden);
   });
+  const faltan = filas.filter(f => !ya.has(f[1]));
+  if (faltan.length) {
+    hLin.getRange(hLin.getLastRow() + 1, 1, faltan.length, faltan[0].length).setValues(faltan);
+  }
+  return faltan.length;
+}
+
+/** La hoja de observaciones de pedidos, si tiene las columnas en orden; si no, null */
+function hojaObsPedidos(ss) {
+  const h = ss.getSheetByName(HOJA_PED_OBS);
+  if (!h) return null;
+  const enc = h.getRange(1, 1, 1, COLS_PED_OBS.length).getValues()[0].map(x => String(x).trim());
+  return COLS_PED_OBS.some((n, k) => enc[k] !== n) ? null : h;
+}
+
+/** Filas de pedidos_observaciones: una por articulo; las que no llevan articulos, una sin sku */
+function filasObsPedido(id, fecha, cuenta, etiqueta, obs) {
+  const filas = [];
+  obs.forEach((o, k) => {
+    (o.items.length ? o.items : [null]).forEach((it, j) => filas.push([
+      id, fecha, cuenta, etiqueta, k + 1, o.clave, o.codigo, o.texto, o.grupo, o.efecto,
+      it ? it.lado : '', it ? j + 1 : '', it ? it.sku : '', it ? it.nombre : '',
+      it ? it.cantidad : '', it ? it.precioLista : '',
+      it ? it.mecanismo : '', it ? it.listaAplicada : '', it ? it.descLinea : '', it ? it.precioUnitario : ''
+    ]));
+  });
+  return filas;
+}
+
+/**
+ * Lo mismo con las observaciones: clave orden_obs + orden_item. Si un intento
+ * anterior las escribio con otro numero (otro pedido tomo ese numero mientras
+ * tanto), se corrige la columna numero. Devuelve cuantas escribio.
+ */
+function escribirObsFaltantes(hObs, id, filas, etiqueta) {
+  const clave = f => f[4] + '|' + f[11];
+  const ya = new Set();
+  filasConId(hObs, id, COLS_PED_OBS.length).forEach(x => {
+    ya.add(clave(x[1]));
+    if (String(x[1][3]) !== String(etiqueta)) hObs.getRange(x[0], 4).setValue(etiqueta);
+  });
+  const faltan = filas.filter(f => !ya.has(clave(f)));
+  if (faltan.length) {
+    hObs.getRange(hObs.getLastRow() + 1, 1, faltan.length, COLS_PED_OBS.length).setValues(faltan);
+  }
+  return faltan.length;
+}
+
+/**
+ * Escribe la cabecera si todavia no esta, en una sola fila (appendRow): las
+ * primeras columnas por posicion y las que siguen por nombre de encabezado
+ * (semaforo_base, desc_total_extra_pct; las demas, vacias). Devuelve true si
+ * la escribio.
+ */
+function escribirCabeceraSiFalta(hCab, id, fila, porNombre) {
+  if (filasConId(hCab, id, 1).length) return false;
+  const enc = hCab.getRange(1, 1, 1, hCab.getLastColumn()).getValues()[0].map(x => String(x).trim());
+  const completa = fila.slice();
+  for (let c = fila.length; c < enc.length; c++) {
+    completa.push(Object.prototype.hasOwnProperty.call(porNombre, enc[c]) ? porNombre[enc[c]] : '');
+  }
+  hCab.appendRow(completa);
+  return true;
+}
+
+/** Estado "anulado..." (a mano, en la planilla): el pedido no se muestra para imprimir ni revisar */
+function esAnulado(estado) {
+  return String(estado || '').trim().toLowerCase().indexOf('anulado') === 0;
 }
 
 function accionGuardarPedido(body) {
@@ -681,43 +833,69 @@ function accionGuardarPedido(body) {
   const ss = SpreadsheetApp.openById(PLANILLA_ID);
   const hCab = ss.getSheetByName('pedidos_cabecera');
   const hLin = ss.getSheetByName('pedidos_lineas');
+  const filasLin = filasLineasPedido(ped, sem);
 
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
 
-    // Idempotencia: si ya existe ese id, no duplicar. Pero si el contenido
-    // no coincide con lo guardado, avisar en vez de responder exito en silencio
+    // Idempotencia: si ya existe la cabecera con ese id, no se duplica. Si el
+    // contenido no coincide, se avisa en vez de responder exito en silencio.
+    // Si coincide, se completan las lineas y observaciones que falten (una
+    // falla de Google despues de escribir la cabecera, como pasaba cuando la
+    // cabecera se escribia primero) y se responde exito
     const filasCab = hCab.getRange(1, 1, Math.max(hCab.getLastRow(), 1), COL_NUMERO).getValues();
     for (let i = 1; i < filasCab.length; i++) {
       if (String(filasCab[i][0]).trim() === String(ped.id)) {
         const mismasLineas = Number(filasCab[i][7]) === ped.lineas.length;
         const mismoTotal = Math.abs(Number(filasCab[i][10]) - Number(ped.totalNeto || 0)) < 0.01;
         const numGuardado = etiquetaGuardada(filasCab[i][COL_NUMERO - 1], i);
-        if (mismasLineas && mismoTotal) {
-          return responder({ ok: true, duplicado: true, numero: numGuardado, id: ped.id });
+        if (!mismasLineas || !mismoTotal) {
+          return responder({ ok: false, error: 'id_con_otro_contenido', numero: numGuardado, id: ped.id });
         }
-        return responder({ ok: false, error: 'id_con_otro_contenido', numero: numGuardado, id: ped.id });
+        let completadas = conReintentos(() => escribirLineasFaltantes(hLin, ped.id, filasLin), 'lineas');
+        const hObsDup = obs.length ? hojaObsPedidos(ss) : null;
+        if (hObsDup) {
+          const fechaCab = filasCab[i][1] instanceof Date ? filasCab[i][1] : new Date();
+          const filasObs = filasObsPedido(ped.id, fechaCab, cuenta, numGuardado, obs);
+          completadas += conReintentos(() => escribirObsFaltantes(hObsDup, ped.id, filasObs, numGuardado), 'observaciones');
+        }
+        if (completadas) console.warn('guardar_pedido: ' + ped.id + ' completado con ' + completadas + ' filas');
+        return responder({ ok: true, duplicado: true, numero: numGuardado, id: ped.id,
+                           ...(completadas ? { completadas } : {}) });
       }
     }
 
     // Con observaciones, su hoja tiene que estar bien armada antes de escribir nada
-    let hObs = null;
-    if (obs.length) {
-      hObs = ss.getSheetByName(HOJA_PED_OBS);
-      const enc = hObs ? hObs.getRange(1, 1, 1, COLS_PED_OBS.length).getValues()[0].map(x => String(x).trim()) : [];
-      if (COLS_PED_OBS.some((n, k) => enc[k] !== n)) {
-        return responder({ ok: false, error: 'faltan_columnas_obs' });
-      }
+    const hObs = obs.length ? hojaObsPedidos(ss) : null;
+    if (obs.length && !hObs) {
+      return responder({ ok: false, error: 'faltan_columnas_obs' });
     }
 
     const ahora = new Date();
     // El cliente de prueba lleva su propia numeracion (PRU-n, guardada como
-    // texto): no consume ni altera la de los pedidos reales
+    // texto): no consume ni altera la de los pedidos reales. El contador se
+    // guarda recien despues de la cabecera: un intento fallido no consume numero
     const prueba = cuenta === cuentaPrueba();
     const numero = prueba ? siguienteNumeroPrueba(hCab) : siguienteNumeroPedido(hCab);
+    const etiqueta = prueba ? numero : etiquetaPedido(numero);
 
-    hCab.appendRow([
+    // 1. Lineas y observaciones. Si algo falla aca o en la cabecera, no queda
+    // cabecera: la app reintenta con el mismo id y se completa lo que falte
+    conReintentos(() => escribirLineasFaltantes(hLin, ped.id, filasLin), 'lineas');
+    if (obs.length) {
+      const filasObs = filasObsPedido(ped.id, ahora, cuenta, etiqueta, obs);
+      conReintentos(() => escribirObsFaltantes(hObs, ped.id, filasObs, etiqueta), 'observaciones');
+    }
+
+    // 2. La cabecera, al final: que exista confirma que el pedido esta completo.
+    // semaforo_base: criterio del semaforo (vacio en los pedidos viejos, que se
+    // midieron sobre el bruto). desc_total_extra_pct: segundo descuento sobre
+    // el total, en cascada (solo junto con el -7%)
+    const extra = Number(ped.descuentoExtra) || 0;
+    const porNombre = { semaforo_base: 'neto' };
+    if (extra) porNombre.desc_total_extra_pct = extra;
+    const filaCab = [
       ped.id,
       ahora,
       cuenta,
@@ -748,66 +926,21 @@ function accionGuardarPedido(body) {
       '',                          // impreso_por
       String(p.rol || '').trim(),   // rol_creador
       numero                       // numero
-    ]);
-
-    // Columnas por nombre de encabezado: no dependen de su posicion.
-    // semaforo_base: criterio del semaforo (vacio en los pedidos viejos,
-    // que se midieron sobre el bruto). desc_total_extra_pct: segundo
-    // descuento sobre el total, en cascada (solo junto con el -7%)
-    const extra = Number(ped.descuentoExtra) || 0;
-    const columnasNuevas = { semaforo_base: 'neto' };
-    if (extra) columnasNuevas.desc_total_extra_pct = extra;
-    escribirPorEncabezado(hCab, hCab.getLastRow(), columnasNuevas);
-
-    const filas = ped.lineas.map((l, i) => ([
-      ped.id,
-      i + 1,
-      l.sku,
-      l.nombre || '',
-      l.cantidad,
-      ped.lista || '',
-      l.listaAplicada || ped.lista || '',
-      l.mecanismo || 'lista_cliente',
-      l.precioBase || 0,
-      l.precio || 0,
-      l.descEfectivo || 0,
-      l.subtotal || 0,
-      l.origenLinea || '',
-      sem.colores[i] || '',
-      // desc_linea_pct (columna O): el porcentaje que eligio el vendedor.
-      // Sin el dato (navegador sin actualizar) queda vacio, no 0
-      l.descuentoLinea === undefined || l.descuentoLinea === null || l.descuentoLinea === ''
-        ? '' : Number(l.descuentoLinea) || 0
-    ]));
-
-    if (filas.length) {
-      hLin.getRange(hLin.getLastRow() + 1, 1, filas.length, filas[0].length).setValues(filas);
-    }
-
-    // Una fila por articulo de cada observacion; las que no llevan articulos, una fila sin sku
-    if (obs.length) {
-      const etiqueta = prueba ? numero : etiquetaPedido(numero);
-      const filasObs = [];
-      obs.forEach((o, k) => {
-        (o.items.length ? o.items : [null]).forEach((it, j) => filasObs.push([
-          ped.id, ahora, cuenta, etiqueta, k + 1, o.clave, o.codigo, o.texto, o.grupo, o.efecto,
-          it ? it.lado : '', it ? j + 1 : '', it ? it.sku : '', it ? it.nombre : '',
-          it ? it.cantidad : '', it ? it.precioLista : '',
-          it ? it.mecanismo : '', it ? it.listaAplicada : '', it ? it.descLinea : '', it ? it.precioUnitario : ''
-        ]));
-      });
-      hObs.getRange(hObs.getLastRow() + 1, 1, filasObs.length, COLS_PED_OBS.length).setValues(filasObs);
-    }
+    ];
+    conReintentos(() => escribirCabeceraSiFalta(hCab, ped.id, filaCab, porNombre), 'cabecera');
+    guardarUltimoNumero(prueba, numero);
 
     return responder({
       ok: true,
       id: ped.id,
-      numero: prueba ? numero : etiquetaPedido(numero),
+      numero: etiqueta,
       prueba,
       fecha: ahora.toISOString()
     });
 
   } catch (err) {
+    const msg = String((err && err.message) || err);
+    if (msg === 'lineas_con_otro_contenido') return responder({ ok: false, error: msg, id: ped.id });
     return responder({ ok: false, error: String(err) });
   } finally {
     try { lock.releaseLock(); } catch (e) {}
@@ -830,10 +963,12 @@ function accionPedidosPendientes(body) {
   const ss = SpreadsheetApp.openById(PLANILLA_ID);
   const cab = ss.getSheetByName('pedidos_cabecera').getDataRange().getValues();
 
+  // Una revision anulada no cuenta: el pedido del cliente vuelve a quedar
+  // para revisar. Columna estado: O (14)
   const revisados = new Set();
   for (let i = 1; i < cab.length; i++) {
     const origen = String(cab[i][15]).trim();
-    if (origen) revisados.add(origen);
+    if (origen && !esAnulado(cab[i][14])) revisados.add(origen);
   }
 
   // Vendedor de cada cliente, para mostrar solo los propios
@@ -854,6 +989,7 @@ function accionPedidosPendientes(body) {
     const cliente = String(f[2]).trim();
 
     if (!id || revisados.has(id)) continue;
+    if (esAnulado(f[14])) continue;                  // anulado a mano en la planilla
     if (String(f[5]).trim() !== cliente) continue;   // lo cargo un vendedor
     if (p.rol === 'vendedor_estandar' && vendedorDe[cliente] !== p.cod) continue;
     const prueba = esPedidoPrueba(f[COL_NUMERO - 1], cliente, cp);
@@ -1056,7 +1192,7 @@ function doGet(e) {
       return responder({ ok: true, mensaje: 'API Ferremax operativa', hora: new Date().toISOString() });
     }
     if (accion === 'version') {
-      return responder({ ok: true, version: 'v34-habituales' });
+      return responder({ ok: true, version: 'v35-pedido-completo' });
     }
     if (accion === 'limpiar_cache_fin') {
        limpiarCacheFinanzas();
@@ -1169,7 +1305,9 @@ function accionPedidosParaImprimir(body) {
     obs: c('obs_libre'), origen: c('id_pedido_origen'), revision: c('revision'), lista: c('lista'),
     impreso: c('impreso'), fechaImp: c('fecha_impresion'), impresoPor: c('impreso_por'),
     rolCreador: c('rol_creador'), numero: c('numero'),
-    intento: c('intento_impresion'), intentoPor: c('intento_por')
+    intento: c('intento_impresion'), intentoPor: c('intento_por'),
+    // Sin el encabezado, la columna O, donde la escribe guardar_pedido
+    estado: c('estado') >= 0 ? c('estado') : 14
   };
   if (I.impreso < 0 || I.fechaImp < 0 || I.rolCreador < 0) {
     return responder({ ok: false, error: 'faltan_columnas' });
@@ -1194,6 +1332,11 @@ function accionPedidosParaImprimir(body) {
   for (let i = 1; i < cab.length; i++) {
     const f = cab[i];
     if (!f[I.id]) continue;
+
+    // Anulado a mano en la planilla ("anulado", "Anulado: incompleto"...): no
+    // aparece en ninguna pestaña ni en el bloque de incompletos, ni sirve de
+    // precio anterior para las observaciones
+    if (esAnulado(f[I.estado])) continue;
 
     // Solo pedidos armados o revisados por un vendedor o administrador
     const rc = String(f[I.rolCreador] || '').trim();
@@ -1482,12 +1625,12 @@ function etiquetaGuardada(valor, respaldo) {
  * las filas: aunque se borren o archiven pedidos, nunca se repite un numero.
  * Como resguardo, nunca queda por debajo del mayor numero ya guardado.
  * Los pedidos de prueba ("PRU-n", texto) no cuentan: Number() les da 0.
- * Se llama siempre dentro del bloqueo de guardar_pedido.
+ * Solo lo calcula: el contador se guarda con guardarUltimoNumero, despues de
+ * escribir la cabecera (un intento fallido no consume numero). Se llama
+ * siempre dentro del bloqueo de guardar_pedido.
  */
 function siguienteNumeroPedido(hCab) {
-  const props = PropertiesService.getScriptProperties();
-  let ultimo = Number(props.getProperty('ultimo_numero_pedido')) || 0;
-
+  let ultimo = Number(PropertiesService.getScriptProperties().getProperty('ultimo_numero_pedido')) || 0;
   const filas = hCab.getLastRow();
   if (filas > 1) {
     hCab.getRange(2, COL_NUMERO, filas - 1, 1).getValues().forEach(r => {
@@ -1495,21 +1638,16 @@ function siguienteNumeroPedido(hCab) {
       if (v > ultimo) ultimo = v;
     });
   }
-
-  const siguiente = ultimo + 1;
-  props.setProperty('ultimo_numero_pedido', String(siguiente));
-  return siguiente;
+  return ultimo + 1;
 }
 
 /**
  * Siguiente numero de prueba ("PRU-n"), con su propio contador: nunca toca
  * el de los pedidos reales. El mismo resguardo: nunca por debajo del mayor
- * PRU- ya guardado. Se llama siempre dentro del bloqueo de guardar_pedido.
+ * PRU- ya guardado. Solo lo calcula, como siguienteNumeroPedido.
  */
 function siguienteNumeroPrueba(hCab) {
-  const props = PropertiesService.getScriptProperties();
-  let ultimo = Number(props.getProperty('ultimo_numero_prueba')) || 0;
-
+  let ultimo = Number(PropertiesService.getScriptProperties().getProperty('ultimo_numero_prueba')) || 0;
   const filas = hCab.getLastRow();
   if (filas > 1) {
     hCab.getRange(2, COL_NUMERO, filas - 1, 1).getValues().forEach(r => {
@@ -1518,10 +1656,22 @@ function siguienteNumeroPrueba(hCab) {
       if (v > ultimo) ultimo = v;
     });
   }
+  return PREFIJO_PRUEBA + (ultimo + 1);
+}
 
-  const siguiente = ultimo + 1;
-  props.setProperty('ultimo_numero_prueba', String(siguiente));
-  return PREFIJO_PRUEBA + siguiente;
+/**
+ * Guarda el contador despues de escribir la cabecera. Si Google falla aca, el
+ * pedido ya esta guardado: no se responde error (el resguardo por el mayor
+ * numero de la hoja evita repetirlo)
+ */
+function guardarUltimoNumero(prueba, numero) {
+  try {
+    const n = prueba ? Number(String(numero).slice(PREFIJO_PRUEBA.length)) : Number(numero);
+    PropertiesService.getScriptProperties()
+      .setProperty(prueba ? 'ultimo_numero_prueba' : 'ultimo_numero_pedido', String(n));
+  } catch (e) {
+    console.warn('guardar_pedido: no se guardo el contador de numero: ' + e);
+  }
 }
 
 /**
