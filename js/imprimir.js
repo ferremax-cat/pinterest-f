@@ -30,6 +30,11 @@ let sinConfirmar = [];
 // Pedidos guardados sin todas sus lineas: bloque aparte, en rojo, sin seleccion
 let incompletos = [];
 
+// Lineas en pedidos_lineas sin su cabecera (solo admin y oficina: el servidor
+// no lo manda a los demas). { total, pedidos: [{ id, lineas }] }, hasta 20 ids
+const SIN_CABECERA = { total: 0, pedidos: [] };
+let sinCabecera = SIN_CABECERA;
+
 // Pedidos tal como llegan del servidor (id -> pedido): las hojas impresas
 // necesitan las lineas y los totales, que la tabla no guarda
 let crudos = new Map();
@@ -269,6 +274,7 @@ function aplicarResultado(r) {
   pedidos = r.pedidos;
   sinConfirmar = r.sinConfirmar;
   incompletos = r.incompletos || [];
+  sinCabecera = r.sinCabecera || SIN_CABECERA;
   crudos = r.crudos;
   estadoConsulta = mensajeLista();
   dibujar();
@@ -317,6 +323,7 @@ async function consultar({ enFondo = false } = {}) {
     pedidos = [];
     sinConfirmar = [];
     incompletos = [];
+    sinCabecera = SIN_CABECERA;
     crudos = new Map();
     seleccion.clear();
     dibujar();
@@ -382,6 +389,7 @@ async function consultar({ enFondo = false } = {}) {
   // los de impresion sin confirmar
   const completos = filas.filter(f => !f.incompleto);
   const resultado = {
+    sinCabecera: d.lineasSinCabecera?.total > 0 ? d.lineasSinCabecera : SIN_CABECERA,
     incompletos: filas.filter(f => f.incompleto),
     pedidos: pestana === 'pendientes' ? completos.filter(f => !f.intento) : completos,
     sinConfirmar: pestana === 'pendientes' ? completos.filter(f => f.intento) : [],
@@ -471,6 +479,7 @@ function dibujar() {
       ${impresos ? `<td class="c-impreso">${esc(p.fechaImpresion)}</td><td class="c-impreso-por">${esc(p.impresoPor)}</td>` : ''}
     </tr>`).join('');
 
+  dibujarSinCabecera();
   dibujarIncompletos();
   dibujarSinConfirmar();
   dibujarTitulo(lista.length);
@@ -485,7 +494,8 @@ function dibujar() {
  */
 function dibujarTitulo(nVisibles) {
   const titulo = $('im-titulo-lista');
-  const mostrar = sinConfirmar.length > 0 || incompletos.length > 0 || (filtroActivo() && pedidos.length > 0);
+  const mostrar = sinConfirmar.length > 0 || incompletos.length > 0 || sinCabecera.total > 0 ||
+    (filtroActivo() && pedidos.length > 0);
   titulo.hidden = !mostrar;
   if (!mostrar) return;
   const nombre = modo === 'impresos' ? 'Impresos' : 'Para imprimir';
@@ -543,6 +553,21 @@ const SVG_ADVERTENCIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="c
  * Google al guardar). No se pueden seleccionar ni imprimir: hay que avisar al
  * vendedor para que lo vuelva a cargar. No se filtra, como el de sin confirmar
  */
+function dibujarSinCabecera() {
+  const bloque = $('im-huerfanas');
+  const { total, pedidos: lista } = sinCabecera;
+  bloque.hidden = !total;
+  if (!total) { bloque.innerHTML = ''; return; }
+  const resto = total - lista.length;
+  bloque.innerHTML = `
+    <div class="im-sc-cab">${SVG_ADVERTENCIA}<h2>Líneas guardadas sin cabecera (${total} ${total === 1 ? 'pedido' : 'pedidos'})</h2></div>
+    <p class="im-sc-texto">Hay líneas en pedidos_lineas sin su cabecera: esos pedidos no aparecen en la bandeja.
+      Si acabás de guardar un pedido, actualizá: puede estar terminando de guardarse. Si siguen apareciendo, avisá a sistemas.</p>
+    <ul class="im-huerfanas-ids">${lista.map(x =>
+      `<li>${esc(x.id)} (${Number(x.lineas) || 0} ${Number(x.lineas) === 1 ? 'línea' : 'líneas'})</li>`).join('')}</ul>
+    ${resto > 0 ? `<p class="im-sc-texto">y ${resto} más</p>` : ''}`;
+}
+
 function dibujarIncompletos() {
   const bloque = $('im-incompletos');
   bloque.hidden = !incompletos.length;
@@ -796,7 +821,12 @@ async function iniciar() {
   incomp.className = 'im-sinconf im-incompletos';
   incomp.hidden = true;
   // Arriba de los filtros: los bloques de incompletos y sin confirmar no se filtran
-  $('im-filtros').before(incomp, bloque, titulo);
+  // Lineas sin cabecera (admin y oficina): arriba de todo, en rojo
+  const huerf = document.createElement('section');
+  huerf.id = 'im-huerfanas';
+  huerf.className = 'im-sinconf im-incompletos';
+  huerf.hidden = true;
+  $('im-filtros').before(huerf, incomp, bloque, titulo);
 
   $('im-bandeja').hidden = false;
   configurarEventos();
