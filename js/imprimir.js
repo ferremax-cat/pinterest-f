@@ -9,7 +9,7 @@
  * servidor con window.Api.llamar, igual que el catalogo.
  */
 
-import { precargar, imprimir as imprimirHojas, confirmarExistentes, cargarClientes, esIncompleto } from './imprimir-hojas.js';
+import { precargar, imprimir as imprimirHojas, confirmarExistentes, cargarClientes, esIncompleto, imprimirAlta } from './imprimir-hojas.js';
 import { pedirToken } from './sesion.js';
 
 // Oficina imprime aunque no arme pedidos: no sirve Carrito.puedePedir()
@@ -34,6 +34,12 @@ let incompletos = [];
 // no lo manda a los demas). { total, pedidos: [{ id, lineas }] }, hasta 20 ids
 const SIN_CABECERA = { total: 0, pedidos: [] };
 let sinCabecera = SIN_CABECERA;
+
+// Clientes nuevos sin numero de cuenta: bloque aparte, sin imprimir el pedido,
+// con su hoja de alta. asignando: la tarjeta en la que oficina o admin estan
+// cargando la cuenta ({ id, paso: 'escribir' | 'confirmar' | 'enviando', cuenta, error })
+let altas = [];
+let asignando = null;
 
 // Pedidos tal como llegan del servidor (id -> pedido): las hojas impresas
 // necesitan las lineas y los totales, que la tabla no guarda
@@ -189,6 +195,11 @@ function aFila(p) {
     cantLineas: Number(p.cantLineas) || 0,
     lineasLlegaron: Array.isArray(p.lineas) ? p.lineas.length : 0,
     incompleto: esIncompleto(p),
+    // Cliente nuevo sin cuenta: numero es el ALTA-n; datosAlta, los del comercio
+    faltaCuenta: p.faltaCuenta === true,
+    alta: String(p.alta || ''),
+    datosAlta: p.datosAlta || null,
+    totalNum: Number(p.totalNeto) || 0,
     // Observaciones nuevas: "Solo obs." sin articulos, "+ obs." con articulos
     nObs: Array.isArray(p.observaciones) ? p.observaciones.length : 0,
     totalNeto: fmtPesos(p.totalNeto),
@@ -260,7 +271,7 @@ const mismoRango = (a, b) => a.desde === b.desde && a.hasta === b.hasta && a.pru
 /** Mensaje cuando la consulta no trajo pedidos para la tabla */
 function mensajeLista() {
   return pedidos.length ? '' :
-    sinConfirmar.length || incompletos.length ? 'No hay otros pedidos para imprimir.' :
+    sinConfirmar.length || incompletos.length || altas.length ? 'No hay otros pedidos para imprimir.' :
     modo === 'pendientes' ? 'No hay pedidos pendientes de imprimir.'
                           : 'No hay pedidos impresos en esas fechas.';
 }
@@ -275,6 +286,9 @@ function aplicarResultado(r) {
   sinConfirmar = r.sinConfirmar;
   incompletos = r.incompletos || [];
   sinCabecera = r.sinCabecera || SIN_CABECERA;
+  altas = r.altas || [];
+  // La tarjeta que se estaba completando sigue abierta si el alta sigue
+  if (asignando && !altas.some(a => a.id === asignando.id)) asignando = null;
   crudos = r.crudos;
   estadoConsulta = mensajeLista();
   dibujar();
@@ -324,6 +338,7 @@ async function consultar({ enFondo = false } = {}) {
     sinConfirmar = [];
     incompletos = [];
     sinCabecera = SIN_CABECERA;
+    altas = [];
     crudos = new Map();
     seleccion.clear();
     dibujar();
@@ -385,12 +400,13 @@ async function consultar({ enFondo = false } = {}) {
   }
 
   const filas = (d.pedidos || []).map(aFila);
-  // Los incompletos van aparte en las dos pestañas; en Pendientes, tambien
-  // los de impresion sin confirmar
-  const completos = filas.filter(f => !f.incompleto);
+  // Los clientes nuevos sin cuenta y los incompletos van aparte en las dos
+  // pestañas; en Pendientes, tambien los de impresion sin confirmar
+  const completos = filas.filter(f => !f.incompleto && !f.faltaCuenta);
   const resultado = {
     sinCabecera: d.lineasSinCabecera?.total > 0 ? d.lineasSinCabecera : SIN_CABECERA,
-    incompletos: filas.filter(f => f.incompleto),
+    altas: filas.filter(f => f.faltaCuenta),
+    incompletos: filas.filter(f => f.incompleto && !f.faltaCuenta),
     pedidos: pestana === 'pendientes' ? completos.filter(f => !f.intento) : completos,
     sinConfirmar: pestana === 'pendientes' ? completos.filter(f => f.intento) : [],
     crudos: new Map((d.pedidos || []).map(p => [String(p.id), p])),
@@ -480,6 +496,7 @@ function dibujar() {
     </tr>`).join('');
 
   dibujarSinCabecera();
+  dibujarAltas();
   dibujarIncompletos();
   dibujarSinConfirmar();
   dibujarTitulo(lista.length);
@@ -494,7 +511,7 @@ function dibujar() {
  */
 function dibujarTitulo(nVisibles) {
   const titulo = $('im-titulo-lista');
-  const mostrar = sinConfirmar.length > 0 || incompletos.length > 0 || sinCabecera.total > 0 ||
+  const mostrar = sinConfirmar.length > 0 || incompletos.length > 0 || sinCabecera.total > 0 || altas.length > 0 ||
     (filtroActivo() && pedidos.length > 0);
   titulo.hidden = !mostrar;
   if (!mostrar) return;
@@ -553,6 +570,124 @@ const SVG_ADVERTENCIA = `<svg viewBox="0 0 24 24" width="20" height="20" fill="c
  * Google al guardar). No se pueden seleccionar ni imprimir: hay que avisar al
  * vendedor para que lo vuelva a cargar. No se filtra, como el de sin confirmar
  */
+/**
+ * Bloque "Falta número de cuenta": pedidos de clientes nuevos. El pedido no
+ * se imprime; su hoja de alta si (cualquiera que use la bandeja). Oficina y
+ * admin cargan el numero de cuenta que crea administracion: el pedido toma
+ * numero APP y pasa a la lista normal. No se filtra
+ */
+function dibujarAltas() {
+  const bloque = $('im-altas');
+  bloque.hidden = !altas.length;
+  if (!altas.length) { bloque.innerHTML = ''; return; }
+  const puedeCargar = veTodos();
+  const tarjetas = altas.map(p => {
+    const a = p.datosAlta || {};
+    const imp = a.impresa ? fechaYHora(a.fechaImpresion) : null;
+    return `
+    <div class="im-sc-tarjeta" data-id="${esc(p.id)}">
+      <div class="im-sc-info">
+        <p class="im-sc-datos">
+          <b class="im-sc-numero">${esc(p.alta || p.numero)}</b>
+          <span class="im-sc-cliente">${esc(a.comercio || p.cliente)}</span>
+          <span class="im-sc-meta">${esc(a.localidad || '')} · Vendedor ${esc(p.vendedor)} · Fórmula ${esc(a.formula || '—')} ·
+            ${esc(p.fecha)} · ${esc(p.totalNeto)}</span>
+        </p>
+        <p class="im-sc-intento">${imp
+          ? `Hoja de alta impresa el ${esc(imp.fecha)} a las ${esc(imp.hora)}${a.impresoPor ? ` (${esc(a.impresoPor)})` : ''}.`
+          : 'Hoja de alta sin imprimir.'} El pedido se imprime después de cargar el número de cuenta.</p>
+        ${asignando?.id === p.id ? htmlAsignar(p) : ''}
+      </div>
+      <div class="im-sc-botones">
+        <button type="button" class="im-alta-imprimir">${a.impresa ? 'Reimprimir hoja de alta' : 'Imprimir hoja de alta'}</button>
+        ${puedeCargar && asignando?.id !== p.id ? '<button type="button" class="im-alta-cargar">Cargar número de cuenta</button>' : ''}
+      </div>
+    </div>`;
+  }).join('');
+  bloque.innerHTML = `
+    <div class="im-sc-cab">${SVG_ADVERTENCIA}<h2>Falta número de cuenta (${altas.length})</h2></div>
+    <p class="im-sc-texto">Clientes nuevos: imprimí la hoja de alta y llevala a administración. Cuando crean la
+      cuenta, ${puedeCargar ? 'cargá el número acá' : 'oficina carga el número'}; recién entonces se imprime el pedido.</p>
+    <div class="im-sc-lista">${tarjetas}</div>`;
+}
+
+/** Carga del numero de cuenta, en la tarjeta: escribir, confirmar, enviar */
+function htmlAsignar(p) {
+  const s = asignando;
+  const comercio = p.datosAlta?.comercio || p.cliente;
+  if (s.paso === 'escribir') {
+    return `
+      <div class="im-alta-asignar">
+        <label>N° de cuenta
+          <input type="text" class="im-alta-cuenta" inputmode="numeric" maxlength="7" autocomplete="off" value="${esc(s.cuenta || '')}">
+        </label>
+        <button type="button" class="im-alta-seguir">Seguir</button>
+        <button type="button" class="im-alta-cancelar">Cancelar</button>
+        ${s.error ? `<p class="im-alta-error">${esc(s.error)}</p>` : ''}
+      </div>`;
+  }
+  // Una cuenta que ya esta en el padron es de otro cliente: lo esperable para
+  // un cliente nuevo es que todavia no figure
+  const existente = clientes?.[s.cuenta]?.name;
+  return `
+    <div class="im-alta-asignar">
+      <p class="im-alta-pregunta">¿Asignar la cuenta <b>${esc(s.cuenta)}</b> a <b>${esc(comercio)}</b> (${esc(p.alta || p.numero)})?</p>
+      ${existente ? `<p class="im-alta-error">Atención: la cuenta ${esc(s.cuenta)} ya figura en el padrón como
+        «${esc(existente)}». Revisá que sea la que creó administración para este comercio.</p>` : ''}
+      <button type="button" class="im-alta-confirmar"${s.paso === 'enviando' ? ' disabled' : ''}>${s.paso === 'enviando' ? 'Asignando…' : 'Sí, asignar'}</button>
+      <button type="button" class="im-alta-volver"${s.paso === 'enviando' ? ' disabled' : ''}>Volver</button>
+      ${s.error ? `<p class="im-alta-error">${esc(s.error)}</p>` : ''}
+    </div>`;
+}
+
+const ERRORES_ASIGNAR = {
+  cuenta_invalida: 'El número de cuenta tiene que tener solo dígitos.',
+  cuenta_puente: 'Esa es una cuenta puente de clientes nuevos: hace falta la cuenta definitiva.',
+  cuenta_prueba: 'Esa es la cuenta de prueba.',
+  ya_asignada: 'Este pedido ya tiene cuenta. Actualizá la bandeja.',
+  no_encontrado: 'El pedido ya no está. Actualizá la bandeja.',
+  rol_sin_permiso: 'Tu usuario no puede cargar números de cuenta.',
+  verificacion_fallida: 'No se pudo confirmar el cambio. Probá de nuevo: no se duplica nada.',
+  token_invalido: 'Tu sesión venció. Volvé a iniciar sesión.'
+};
+
+async function asignarCuenta(id) {
+  const s = asignando;
+  if (!s || s.id !== id) return;
+  s.paso = 'enviando';
+  s.error = '';
+  dibujarAltas();
+  let d = null;
+  try {
+    d = await window.Api.llamar({ accion: 'asignar_cuenta', token: sessionStorage.getItem('authToken'),
+      id, cuenta: s.cuenta }, 2, 20000);
+  } catch (e) {
+    console.error('[Imprimir] Sin respuesta al asignar la cuenta:', e);
+  }
+  if (asignando !== s) return;
+  if (d?.ok) {
+    asignando = null;
+    avisarBreve(`${d.alta || 'El alta'} quedó como pedido N° ${d.numero} (cuenta ${d.cuenta}). Ya se puede imprimir.`);
+    consultar({ enFondo: true });
+    return;
+  }
+  s.paso = 'confirmar';
+  s.error = d ? (ERRORES_ASIGNAR[d.error] || `El servidor respondió con un error (${d.error}).`)
+    : 'No hay conexión con el servidor. Probá de nuevo: no se duplica nada.';
+  dibujarAltas();
+}
+
+/** Aviso flotante breve, en el mismo estilo que los del catalogo */
+function avisarBreve(texto) {
+  document.querySelectorAll('.im-aviso-breve').forEach(a => a.remove());
+  const av = document.createElement('div');
+  av.className = 'im-aviso-breve';
+  av.setAttribute('role', 'status');
+  av.textContent = texto;
+  document.body.appendChild(av);
+  setTimeout(() => av.remove(), 6000);
+}
+
 function dibujarSinCabecera() {
   const bloque = $('im-huerfanas');
   const { total, pedidos: lista } = sinCabecera;
@@ -740,6 +875,49 @@ function configurarEventos() {
     if (tr) alternar(tr.dataset.id);
   });
 
+  // Clientes nuevos: hoja de alta y carga del numero de cuenta
+  $('im-altas').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    const id = btn?.closest('[data-id]')?.dataset.id;
+    if (!btn || !id) return;
+    if (btn.classList.contains('im-alta-imprimir')) {
+      const crudo = crudos.get(id);
+      // Al cerrar, la bandeja se actualiza: muestra quien imprimio la hoja
+      if (crudo) imprimirAlta(crudo, { alTerminar: () => consultar({ enFondo: true }) });
+      return;
+    }
+    if (btn.classList.contains('im-alta-cargar')) {
+      asignando = { id, paso: 'escribir', cuenta: '', error: '' };
+      dibujarAltas();
+      $('im-altas').querySelector('.im-alta-cuenta')?.focus();
+      return;
+    }
+    if (!asignando || asignando.id !== id) return;
+    if (btn.classList.contains('im-alta-cancelar')) {
+      asignando = null;
+      dibujarAltas();
+    } else if (btn.classList.contains('im-alta-seguir')) {
+      const cuenta = String($('im-altas').querySelector('.im-alta-cuenta')?.value || '').trim();
+      asignando.cuenta = cuenta;
+      asignando.error = /^\d{1,7}$/.test(cuenta) ? '' : 'Escribí el número de cuenta: solo dígitos.';
+      if (!asignando.error) asignando.paso = 'confirmar';
+      dibujarAltas();
+    } else if (btn.classList.contains('im-alta-volver')) {
+      asignando.paso = 'escribir';
+      asignando.error = '';
+      dibujarAltas();
+    } else if (btn.classList.contains('im-alta-confirmar')) {
+      asignarCuenta(id);
+    }
+  });
+  // Enter en el numero de cuenta: Seguir
+  $('im-altas').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.classList?.contains('im-alta-cuenta')) {
+      e.preventDefault();
+      $('im-altas').querySelector('.im-alta-seguir')?.click();
+    }
+  });
+
   $('im-sinconf').addEventListener('click', e => {
     const btn = e.target.closest('button');
     const crudo = crudos.get(btn?.closest('[data-id]')?.dataset.id);
@@ -826,7 +1004,12 @@ async function iniciar() {
   huerf.id = 'im-huerfanas';
   huerf.className = 'im-sinconf im-incompletos';
   huerf.hidden = true;
-  $('im-filtros').before(huerf, incomp, bloque, titulo);
+  // Clientes nuevos sin numero de cuenta: despues de los rojos
+  const sinCta = document.createElement('section');
+  sinCta.id = 'im-altas';
+  sinCta.className = 'im-sinconf im-altas';
+  sinCta.hidden = true;
+  $('im-filtros').before(huerf, incomp, sinCta, bloque, titulo);
 
   $('im-bandeja').hidden = false;
   configurarEventos();

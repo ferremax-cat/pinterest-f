@@ -1040,6 +1040,17 @@ export function imprimir(pedidos, opc = {}) {
   pedidos = (pedidos || []).filter(Boolean);
   if (!pedidos.length || trabajando) return;
 
+  // Resguardo: un cliente nuevo sin cuenta no se imprime (la bandeja no lo ofrece)
+  const sinCuenta = pedidos.filter(p => p.faltaCuenta === true);
+  if (sinCuenta.length) {
+    opciones = {};
+    impresosConfirmados = new Set();
+    mostrarAviso(`No se imprimió: ${sinCuenta.map(p => p.numero || p.alta || '—').join(', ')} ` +
+      `${sinCuenta.length === 1 ? 'no tiene' : 'no tienen'} número de cuenta. Primero hay que cargarlo desde la bandeja.`,
+      [{ texto: 'Cerrar', principal: true, accion: cerrar }]);
+    return;
+  }
+
   // Resguardo: la bandeja no deja elegirlos. No se imprime ninguno de la tanda
   const incompletos = pedidos.filter(esIncompleto);
   if (incompletos.length) {
@@ -1300,6 +1311,86 @@ export function confirmarExistentes(pedido, opc = {}) {
     'Hacelo solo si alguien verificó que las hojas existen; si no aparecen, usá Imprimir de nuevo.</p>' +
     `<div class="ih-aviso-ficha">${ficha}</div>`,
   'ih-aviso-pregunta');
+}
+
+// ---------- hoja de alta de cliente ----------
+
+/**
+ * Hoja de alta de un cliente nuevo (pedido con faltaCuenta y datosAlta): los
+ * datos del comercio, la formula y el total del pedido, con renglones para el
+ * numero de cuenta que asigna administracion. Una sola hoja
+ */
+function htmlAlta(p) {
+  const a = p.datosAlta || {};
+  const fila = (etiqueta, valor) => `<tr><th>${etiqueta}</th><td>${esc(valor)}</td></tr>`;
+  return `
+    <section class="ih-hoja ih-alta">
+      <div class="ih-alta-cab">
+        <p class="ih-alta-tit">ALTA DE CLIENTE</p>
+        <p class="ih-alta-num">${esc(p.alta || a.alta || '')}</p>
+      </div>
+      <p class="ih-alta-meta">Pedido del ${esc(fmtFechaHora(p.fecha))} · Vendedor ${esc(p.vendedor)} ·
+        cargado en la cuenta ${esc(a.cuentaPuente || p.cliente)} · ${plural(Number(p.cantLineas) || 0, 'línea', 'líneas')}</p>
+      <table class="ih-alta-datos">
+        ${fila('Comercio', a.comercio)}${fila('Apellido', a.apellido)}${fila('Contacto', a.contacto)}
+        ${fila('Domicilio', a.domicilio)}${fila('Localidad', a.localidad)}${fila('Teléfono', a.telefono)}
+        ${fila('Horario', a.horario)}${fila('Fórmula', a.formula)}${fila('Total del pedido', fmtPesos(p.totalNeto))}
+      </table>
+      <div class="ih-alta-renglon"><span>N° de cuenta asignado:</span><span class="ih-alta-linea"></span></div>
+      <div class="ih-alta-renglon"><span>Firma y aclaración (administración):</span><span class="ih-alta-linea"></span></div>
+      <p class="ih-alta-pie">Con el número de cuenta: cargarlo en la bandeja de impresión (bloque «Falta número de
+        cuenta», «Cargar número de cuenta»). Recién entonces se imprime el pedido.</p>
+    </section>`;
+}
+
+/**
+ * Imprime la hoja de alta y pregunta si salio: si salio, se registra quien y
+ * cuando (marcar_alta_impresa; repetirlo es seguro, el servidor conserva la
+ * primera fecha). opc.alTerminar: se llama al cerrar, como en imprimir()
+ */
+export function imprimirAlta(pedido, opc = {}) {
+  if (!pedido?.datosAlta || trabajando) return;
+  opciones = opc;
+  impresosConfirmados = new Set();
+  tandas = [];
+  contenedor().innerHTML = htmlAlta(pedido);
+  mostrarAviso('Hoja de alta · abriendo el diálogo de impresión…');
+  imprimirConTitulo();
+  preguntarAlta(pedido);
+}
+
+function preguntarAlta(p) {
+  mostrarAviso(`¿Salió la hoja de alta ${p.alta || ''}?`, [
+    { texto: 'Sí, salió', principal: true, accion: () => marcarAlta(p) },
+    { texto: 'Repetir', accion: () => { imprimirConTitulo(); preguntarAlta(p); } },
+    { texto: 'No salió', accion: cerrar }
+  ], `<div class="ih-aviso-ficha">${esc(p.datosAlta?.comercio || '')} · ${esc(p.datosAlta?.localidad || '')}</div>`,
+  'ih-aviso-pregunta');
+}
+
+async function marcarAlta(p) {
+  trabajando = true;
+  mostrarAviso('Registrando la impresión de la hoja de alta…');
+  let d = null;
+  try {
+    d = await window.Api.llamar({
+      accion: 'marcar_alta_impresa',
+      token: sessionStorage.getItem('authToken'),
+      ids: [String(p.id)]
+    }, 2, 20000);
+  } catch (e) {
+    console.error('[Hojas] Sin respuesta al marcar la hoja de alta:', e);
+  }
+  trabajando = false;
+  if (d?.ok) { cerrar(); return; }
+  mostrarAviso(d?.error === 'token_invalido'
+    ? 'Tu sesión venció. Volvé a iniciar sesión: no se registró la impresión de la hoja de alta.'
+    : 'No se pudo registrar la impresión de la hoja de alta (' +
+      (d ? `el servidor respondió con un error: ${d.error}` : 'no hay conexión con el servidor') + ').',
+  [
+    { texto: 'Reintentar', principal: true, accion: () => marcarAlta(p) },
+    { texto: 'Cerrar', accion: cerrar }
+  ]);
 }
 
 /**

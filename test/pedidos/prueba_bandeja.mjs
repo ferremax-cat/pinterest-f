@@ -17,7 +17,9 @@ const dom = new JSDOM(html, { url: 'https://ferremax.test/imprimir.html', preten
 const w = dom.window;
 for (const k of ['window', 'document', 'sessionStorage', 'localStorage', 'CustomEvent', 'Event', 'HTMLElement', 'Node', 'getComputedStyle', 'requestAnimationFrame'])
   globalThis[k] = k === 'window' ? w : w[k];
-globalThis.fetch = async () => ({ ok: true, json: async () => ({}) });
+// El padron (clientes_permisos.json) con una cuenta, para el aviso de cuenta existente
+globalThis.fetch = async url => ({ ok: true, json: async () => (String(url).includes('clientes_permisos')
+  ? { 5555: { name: 'Ferretería Vieja' } } : {}) });
 sessionStorage.setItem('authToken', 't');
 sessionStorage.setItem('authVence', String(Date.now() + 3600e3));
 sessionStorage.setItem('authRol', 'oficina');
@@ -52,7 +54,7 @@ ver('tabla: solo los completos (A y el de solo obs D)', JSON.stringify(filas()) 
 ver('bloque incompletos: B, C y F (F aunque tenga intento)', JSON.stringify(incomp()) === '["B","C","F"]', JSON.stringify(incomp()));
 ver('bloque sin confirmar: solo E', JSON.stringify(sinconf()) === '["E"]', JSON.stringify(sinconf()));
 ver('bloque incompletos visible, arriba del de sin confirmar', !$('#im-incompletos').hidden &&
-  $('#im-incompletos').nextElementSibling === $('#im-sinconf'));
+  !!($('#im-incompletos').compareDocumentPosition($('#im-sinconf')) & 4));
 ver('titulo con la cantidad', $('#im-incompletos h2').textContent === 'Pedidos incompletos (3)');
 ver('texto: avisar al vendedor', $('#im-incompletos .im-sc-texto').textContent.includes('Avisale al vendedor'));
 const tB = $('#im-incompletos [data-id="B"]').textContent;
@@ -127,6 +129,121 @@ ver('V9 un pedido: "1 pedido" y el id escapado', $('#im-huerfanas h2').textConte
 huerf = { total: 0, pedidos: [] };
 $('#im-actualizar').click(); await tick(20);
 ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas').innerHTML);
+
+// B. Clientes nuevos sin numero de cuenta (bloque "Falta número de cuenta")
+{
+  const antesB = ok + fallas;
+  const llamadasB = [];
+  let respAsignar = null;
+  const apiAntes = w.Api.llamar;
+  w.Api.llamar = async b => {
+    llamadasB.push(b);
+    if (b.accion === 'asignar_cuenta') return respAsignar;
+    if (b.accion === 'marcar_alta_impresa') return { ok: true, marcados: 1 };
+    return apiAntes(b);
+  };
+  let impresiones = 0;
+  w.print = () => { impresiones++; };
+  const datosAlta = { alta: 'ALTA-1', comercio: 'Ferretería <El> Tornillo', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E', cuentaPuente: '157', vendedor: 'V1',
+    impresa: false, fechaImpresion: '', impresoPor: '' };
+  const pAlta = ped('AL1', 'ALTA-1', 2, 2, { cliente: '157', faltaCuenta: true, alta: 'ALTA-1', datosAlta, totalNeto: 1234.5 });
+  respuesta = { pendientes: [PEND[0], pAlta], impresos: [] };
+  huerf = null;
+  $('#im-actualizar').click(); await tick(20);
+  const altasT = () => $$('#im-altas .im-sc-tarjeta').map(t => t.dataset.id);
+  const tA = () => $('#im-altas [data-id="AL1"]');
+
+  ver('B1 bloque "Falta número de cuenta (1)" con la tarjeta', !$('#im-altas').hidden && $('#im-altas h2').textContent === 'Falta número de cuenta (1)' &&
+    JSON.stringify(altasT()) === '["AL1"]');
+  ver('B1 el alta no esta en la tabla ni en incompletos', JSON.stringify(filas()) === '["A"]' && !incomp().includes('AL1'));
+  const txt = tA().textContent;
+  ver('B1 tarjeta: ALTA-1, comercio (escapado), localidad, vendedor, formula y total', txt.includes('ALTA-1') && txt.includes('Ferretería <El> Tornillo') &&
+    !tA().querySelector('el') && txt.includes('Rafaela') && txt.includes('Vendedor V1') && txt.includes('Fórmula E') && txt.includes('1.234,50'), txt);
+  ver('B1 "Hoja de alta sin imprimir" y botones: imprimir y cargar (oficina)', txt.includes('Hoja de alta sin imprimir') &&
+    !!tA().querySelector('.im-alta-imprimir') && !!tA().querySelector('.im-alta-cargar'));
+  ver('B1 orden: incompletos y altas antes de "sin confirmar"', !!($('#im-altas').compareDocumentPosition($('#im-sinconf')) & 4));
+  $('#im-todos').click();
+  ver('B1 "Seleccionar todos" no toma el alta', $('#im-contador').textContent === '1 seleccionado', $('#im-contador').textContent);
+  $('#im-todos').click();
+
+  // Hoja de alta
+  tA().querySelector('.im-alta-imprimir').click(); await tick();
+  const hoja = $('#ih-hojas').textContent;
+  ver('B2 hoja de alta: titulo, ALTA-1, los datos, la formula y el total', hoja.includes('ALTA DE CLIENTE') && hoja.includes('ALTA-1') &&
+    hoja.includes('Ferretería <El> Tornillo') && hoja.includes('3492 555555') && hoja.includes('8 a 12') && hoja.includes('Fórmula') &&
+    hoja.includes('1.234,50') && hoja.includes('N° de cuenta asignado') && !$('#ih-hojas el'), hoja.slice(0, 200));
+  ver('B2 se abrio el dialogo de impresion y pregunta si salio', impresiones === 1 && $('#ih-aviso .ih-aviso-texto').textContent === '¿Salió la hoja de alta ALTA-1?');
+  const consultasAntes = llamadasB.filter(b => b.accion === 'pedidos_para_imprimir').length;
+  $$('#ih-aviso button').find(b => b.textContent === 'Sí, salió').click(); await tick(20);
+  const marca = llamadasB.find(b => b.accion === 'marcar_alta_impresa');
+  ver('B2 "Sí, salió": registra la impresion de la hoja (marcar_alta_impresa con su id)', JSON.stringify(marca?.ids) === '["AL1"]');
+  ver('B2 al cerrar: aviso oculto y la bandeja se actualiza', $('#ih-aviso').hidden &&
+    llamadasB.filter(b => b.accion === 'pedidos_para_imprimir').length > consultasAntes);
+
+  // Hoja impresa: la tarjeta lo dice
+  pAlta.datosAlta = { ...datosAlta, impresa: true, fechaImpresion: '2026-11-10T13:05:00Z', impresoPor: 'Ana' };
+  $('#im-actualizar').click(); await tick(20);
+  ver('B2 tarjeta: "Hoja de alta impresa el ... (Ana)" y "Reimprimir"', /Hoja de alta impresa el 10\/11\/2026 a las 10:05 \(Ana\)/.test(tA().textContent) &&
+    tA().querySelector('.im-alta-imprimir').textContent === 'Reimprimir hoja de alta', tA().textContent);
+
+  // Cargar el numero de cuenta
+  tA().querySelector('.im-alta-cargar').click();
+  ver('B3 cargar: aparece el campo y desaparece el boton', !!tA().querySelector('.im-alta-cuenta') && !tA().querySelector('.im-alta-cargar'));
+  tA().querySelector('.im-alta-cuenta').value = '43a';
+  tA().querySelector('.im-alta-seguir').click();
+  ver('B3 con letras: error y no avanza', tA().querySelector('.im-alta-error')?.textContent.includes('solo dígitos') && !!tA().querySelector('.im-alta-cuenta'));
+  tA().querySelector('.im-alta-cuenta').value = '4321';
+  tA().querySelector('.im-alta-seguir').click();
+  ver('B3 confirmar: "¿Asignar la cuenta 4321 a Ferretería <El> Tornillo (ALTA-1)?" sin advertencia', tA().querySelector('.im-alta-pregunta')?.textContent ===
+    '¿Asignar la cuenta 4321 a Ferretería <El> Tornillo (ALTA-1)?' && !tA().querySelector('.im-alta-error'), tA().querySelector('.im-alta-pregunta')?.textContent);
+  tA().querySelector('.im-alta-volver').click();
+  ver('B3 volver: el campo conserva 4321', tA().querySelector('.im-alta-cuenta')?.value === '4321');
+  tA().querySelector('.im-alta-cuenta').dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  ver('B3 Enter en el campo equivale a Seguir', !!tA().querySelector('.im-alta-confirmar'));
+  // Error del servidor
+  respAsignar = { ok: false, error: 'ya_asignada' };
+  tA().querySelector('.im-alta-confirmar').click(); await tick(10);
+  ver('B3 error del servidor: mensaje en la tarjeta y sigue en confirmar', tA().querySelector('.im-alta-error')?.textContent.includes('ya tiene cuenta') &&
+    !!tA().querySelector('.im-alta-confirmar'));
+  // Exito: el pedido pasa a la tabla
+  respAsignar = { ok: true, id: 'AL1', cuenta: '4321', numero: 'APP-9', alta: 'ALTA-1' };
+  const asignado = ped('AL1', 'APP-9', 2, 2, { cliente: '4321', nombreCliente: 'Ferretería <El> Tornillo', faltaCuenta: false, alta: 'ALTA-1' });
+  respuesta = { pendientes: [PEND[0], asignado], impresos: [] };
+  tA().querySelector('.im-alta-confirmar').click(); await tick(20);
+  const ult = llamadasB.filter(b => b.accion === 'asignar_cuenta').at(-1);
+  ver('B3 asignar_cuenta con el id y la cuenta', ult?.id === 'AL1' && ult?.cuenta === '4321');
+  ver('B3 aviso: "ALTA-1 quedó como pedido N° APP-9 (cuenta 4321)"', $('.im-aviso-breve')?.textContent.startsWith('ALTA-1 quedó como pedido N° APP-9 (cuenta 4321)'));
+  ver('B3 la bandeja se actualiza: el pedido ya esta en la tabla y el bloque se va', filas().includes('AL1') && $('#im-altas').hidden);
+
+  // Cuenta que ya existe en el padron
+  respuesta = { pendientes: [PEND[0], pAlta], impresos: [] };
+  $('#im-actualizar').click(); await tick(20);
+  tA().querySelector('.im-alta-cargar').click();
+  tA().querySelector('.im-alta-cuenta').value = '5555';
+  tA().querySelector('.im-alta-seguir').click();
+  ver('B4 cuenta que ya figura en el padron: advertencia con su nombre', tA().querySelector('.im-alta-error')?.textContent.includes('ya figura en el padrón como') &&
+    tA().textContent.includes('«Ferretería Vieja»'), tA().textContent);
+  tA().querySelector('.im-alta-volver').click();
+  tA().querySelector('.im-alta-cancelar').click();
+  ver('B4 cancelar: vuelve el boton', !!tA().querySelector('.im-alta-cargar') && !tA().querySelector('.im-alta-cuenta'));
+
+  // Resguardo: el pedido sin cuenta no se imprime
+  Hojas.imprimir([pAlta]); await tick();
+  ver('B5 imprimir() con un alta sin cuenta: avisa y no imprime', $('#ih-aviso .ih-aviso-texto').textContent.includes('no tiene número de cuenta') && impresiones === 1);
+  $$('#ih-aviso button').find(b => b.textContent === 'Cerrar').click();
+
+  // Vendedor: imprime la hoja, no carga la cuenta
+  sessionStorage.setItem('authRol', 'vendedor_estandar');
+  $('#im-actualizar').click(); await tick(20);
+  ver('B6 vendedor: ve el alta y la hoja, sin "Cargar número de cuenta"', !!tA()?.querySelector('.im-alta-imprimir') && !tA().querySelector('.im-alta-cargar') &&
+    $('#im-altas .im-sc-texto').textContent.includes('oficina carga el número'));
+  sessionStorage.setItem('authRol', 'oficina');
+
+  w.Api.llamar = apiAntes;
+  respuesta = { pendientes: PEND, impresos: IMPR };
+  console.log(`Casos de altas en la bandeja: ${ok + fallas - antesB}`);
+}
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
 process.exit(fallas ? 1 : 0);

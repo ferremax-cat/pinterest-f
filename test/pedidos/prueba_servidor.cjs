@@ -24,7 +24,10 @@ const ENC_CAB = ['id_pedido', 'timestamp', 'cliente', 'nombre_cliente', 'vendedo
   'total_bruto', 'desc_total_pct', 'total_neto', 'desc_efectivo_global', 'motivo_obs', 'obs_libre', 'estado',
   'id_pedido_origen', 'revision', 'lista', 'cupo', 'excedente', 'semaforo', 'verde', 'amarillo', 'rojo', 'pg_prom_3m',
   'impreso', 'fecha_impresion', 'impreso_por', 'rol_creador', 'numero',
-  'semaforo_base', 'desc_total_extra_pct', 'intento_impresion', 'intento_por'];
+  'semaforo_base', 'desc_total_extra_pct', 'intento_impresion', 'intento_por', 'alta'];
+const ENC_ALTAS = ['id_pedido', 'alta', 'fecha', 'vendedor', 'cuenta_puente', 'comercio', 'apellido', 'contacto',
+  'domicilio', 'localidad', 'telefono', 'horario', 'formula', 'total_neto', 'cuenta_asignada', 'fecha_asignacion',
+  'asignada_por', 'numero_pedido', 'impreso', 'fecha_impresion', 'impreso_por'];
 const ENC_LIN = ['id_pedido', 'orden', 'sku', 'nombre', 'cantidad', 'lista_cliente', 'lista_aplicada', 'mecanismo',
   'precio_base', 'precio_unitario', 'desc_efectivo_linea', 'subtotal', 'origen_linea', 'color', 'desc_linea_pct'];
 const ENC_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave', 'codigo', 'texto', 'grupo', 'efecto',
@@ -38,6 +41,7 @@ function reiniciar() {
     pedidos_lineas: [ENC_LIN.slice()],
     pedidos_observaciones: [ENC_OBS.slice()],
     registro_guardados: [ENC_REG.slice()],
+    altas_clientes: [ENC_ALTAS.slice()],
     finanzas: [['cuenta', 'nombre', 'vendedor'], ['100', 'Cliente 100', 'V1'], ['200', 'Cliente 200', 'V1'], ['999', 'Prueba', 'V1']]
   };
   registro = [];      // [hoja, operacion] de cada escritura que se hizo
@@ -144,13 +148,15 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(archivo, 'utf8'), ctx);
 
 // ---------- usuarios, clientes, observaciones ----------
-const tokens = { vend: { rol: 'vendedor_estandar', cod: 'V1', usr: 'V1' }, admin: { rol: 'admin', cod: 'ADM', usr: 'ADM' },
+const tokens = { vend: { rol: 'vendedor_estandar', cod: 'V1', usr: 'V1' }, vend2: { rol: 'vendedor_estandar', cod: 'V2', usr: 'V2' }, admin: { rol: 'admin', cod: 'ADM', usr: 'ADM' },
   cli: { rol: 'cliente_estandar', cod: '100', usr: '100' }, ofi: { rol: 'oficina', cod: 'OF', usr: 'OF' } };
 ctx.verificarToken = t => tokens[t] || null;
 ctx.getFinanzasCliente = c => ({ 100: { vendedor: 'V1', nombre: 'Cliente 100', cupoMes: 1000, pgProm3M: 5 },
   200: { vendedor: 'V1', nombre: 'Cliente 200', cupoMes: 0, pgProm3M: 0 },
-  999: { vendedor: 'V1', nombre: 'Prueba', cupoMes: 500, pgProm3M: 0 } }[c] || null);
-ctx.getConfig = () => ({ cuenta_prueba: '999' });
+  999: { vendedor: 'V1', nombre: 'Prueba', cupoMes: 500, pgProm3M: 0 },
+  157: { vendedor: 'V1', nombre: 'NUEVO CLIENTE RF', cupoMes: 0, pgProm3M: 0 },
+  158: { vendedor: 'V2', nombre: 'NUEVO CLIENTE JG', cupoMes: 0, pgProm3M: 0 } }[c] || null);
+ctx.getConfig = () => ({ cuenta_prueba: '999', cuentas_alta: '157,158,159' });
 ctx.buscarUsuario = c => ({ nombre: 'Usuario ' + c });
 ctx.getObservaciones = () => [
   { clave: '113', codigo: '113', texto: 'MERCADERIA EN MAL ESTADO', grupo: 'mercaderia', efecto: 'informativa', activa: true },
@@ -521,7 +527,7 @@ r = guardar(p);
 const g = regDe(p.id)[0] || [];
 ver('V7 una fila con las 10 columnas', regDe(p.id).length === 1 && g.length === 10);
 ver('V7 valores: fecha, id, numero, cuenta, lineas, neto, fila, ok, version, duracion', Object.prototype.toString.call(g[0]) === '[object Date]' && g[1] === p.id && g[2] === 'APP-1' && g[3] === '100' &&
-  g[4] === 3 && g[5] === 1200 && g[6] === filaDe(p.id) && g[7] === 'ok' && g[8] === 'v36-pedido-verificado' && typeof g[9] === 'number' && g[9] >= 0, JSON.stringify(g));
+  g[4] === 3 && g[5] === 1200 && g[6] === filaDe(p.id) && g[7] === 'ok' && /^v3\d-/.test(g[8]) && typeof g[9] === 'number' && g[9] >= 0, JSON.stringify(g));
 guardar(p);
 ver('V7 reenvio: "duplicado"', regDe(p.id).at(-1)?.[7] === 'duplicado');
 guardar({ ...p, totalNeto: 1 });
@@ -622,6 +628,158 @@ if (typeof ctx.guardarFaltantes === 'function') {
   r = guardar(p);
   ver('V12 flush final que falla: ok igual', r.ok && cabDe(p.id).length === 1 && inyectar[0].veces === 0, JSON.stringify(r));
   console.log(`Casos de optimizacion (v36b): ${ok + fallas - antes12}`);
+}
+
+// V13. Clientes nuevos (altas): cuenta puente, ALTA-n, bandeja, hoja de alta y asignacion de cuenta
+{
+  const antes13 = ok + fallas;
+  const COLA = ENC_ALTAS;
+  const A = n => COLA.indexOf(n);
+  const altaDe = id => hojas.altas_clientes.slice(1).filter(r => r[0] === id);
+  const datos = (formula = 'E', extra = {}) => ({ comercio: 'Ferretería El Tornillo', apellido: 'Gómez', contacto: 'Juan',
+    domicilio: 'San Martín 123', localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12 y 16 a 20', formula, ...extra });
+  const pedAlta = (n = 2, extra = {}) => pedido(n, { cliente: '157', lista: 'E', alta: datos('E'), ...extra });
+  const escr = () => registro.filter(x => x[1] !== 'flush' && x[0] !== 'registro_guardados').length;
+
+  // Rechazos antes de escribir
+  reiniciar();
+  ver('A1 cuenta puente sin datos del comercio: faltan_datos_alta', guardar(pedido(1, { cliente: '157', lista: 'E' })).error === 'faltan_datos_alta');
+  ver('A1 datos incompletos (sin telefono): datos_alta_incompletos', guardar(pedAlta(1, { alta: datos('E', { telefono: '  ' }) })).error === 'datos_alta_incompletos');
+  ver('A1 formula distinta de la lista del pedido: formula_alta_invalida', guardar(pedAlta(1, { alta: datos('D') })).error === 'formula_alta_invalida');
+  ver('A1 formula que no existe: formula_alta_invalida', guardar(pedAlta(1, { lista: 'Z', alta: datos('Z') })).error === 'formula_alta_invalida');
+  ver('A1 datos de alta en una cuenta normal: alta_no_permitida', guardar(pedido(1, { alta: datos('D'), lista: 'D' })).error === 'alta_no_permitida');
+  ver('A1 cuenta puente de otro vendedor: cliente_de_otro_vendedor', guardar(pedAlta(1, { cliente: '158' })).error === 'cliente_de_otro_vendedor');
+  ver('A1 rechazos: nada escrito', escr() === 0);
+
+  // Alta valida
+  reiniciar();
+  let pa = pedAlta(3, { observaciones: [{ clave: 'PAGA', items: [] }] });
+  let r = guardar(pa);
+  const fa = cabDe(pa.id)[0] || [];
+  ver('A2 alta: ok, ALTA-1 y alta true', r.ok && r.numero === 'ALTA-1' && r.alta === true && !r.duplicado, JSON.stringify(r));
+  ver('A2 cabecera: cuenta puente, comercio, falta_cuenta, numero = ALTA-1 (sin APP)', fa[C('cliente')] === '157' && fa[C('nombre_cliente')] === 'Ferretería El Tornillo' &&
+    fa[C('estado')] === 'falta_cuenta' && fa[C('numero')] === 'ALTA-1' && fa[C('alta')] === 'ALTA-1', JSON.stringify(fa));
+  ver('A2 semaforo rojo (sin cupo) y lista E', fa[C('semaforo')] === 'rojo' && fa[C('cupo')] === 0 && fa[C('lista')] === 'E' &&
+    lin(pa.id).every(x => x[13] === 'rojo'));
+  ver('A2 lineas y observacion escritas (obs con ALTA-1)', lin(pa.id).length === 3 && obsDe(pa.id).length === 1 && obsDe(pa.id)[0][3] === 'ALTA-1');
+  const fal = altaDe(pa.id)[0] || [];
+  ver('A2 fila de altas_clientes con los datos del comercio', fal[A('alta')] === 'ALTA-1' && fal[A('vendedor')] === 'V1' && fal[A('cuenta_puente')] === '157' &&
+    fal[A('comercio')] === 'Ferretería El Tornillo' && fal[A('telefono')] === '3492 555555' && fal[A('formula')] === 'E' && fal[A('total_neto')] === 1200 &&
+    fal[A('cuenta_asignada')] === '' && fal.length === COLA.length, JSON.stringify(fal));
+  ver('A2 la fila del alta va antes que la cabecera', registro.findIndex(x => x[0] === 'altas_clientes') < registro.findIndex(x => x[0] === 'pedidos_cabecera'));
+  ver('A2 no consume numero APP; si el de altas', !props.ultimo_numero_pedido && props.ultimo_numero_alta === '1');
+  ver('A2 registro: ALTA-1, "ok, alta sin cuenta"', regDe(pa.id)[0]?.[2] === 'ALTA-1' && regDe(pa.id)[0]?.[7] === 'ok, alta sin cuenta');
+  r = guardar(pa);
+  ver('A2 reenvio: duplicado con ALTA-1 y alta true, sin escribir', r.ok && r.duplicado && r.numero === 'ALTA-1' && r.alta === true && altaDe(pa.id).length === 1);
+  ver('A2 un pedido normal despues: APP-1 (la numeracion no se movio)', guardar(pedido(1)).numero === 'APP-1');
+  ver('A2 la segunda alta: ALTA-2', guardar(pedAlta(1)).numero === 'ALTA-2');
+
+  // Texto que empieza con = + - @: queda como texto
+  reiniciar();
+  const ps = pedAlta(1, { alta: datos('E', { comercio: '=HIPERVINCULO("x")', telefono: '+54 9 3492 555555' }) });
+  guardar(ps);
+  ver('A3 comercio y telefono que empiezan con = o +: con apostrofo (texto)', altaDe(ps.id)[0]?.[A('comercio')] === "'=HIPERVINCULO(\"x\")" &&
+    altaDe(ps.id)[0]?.[A('telefono')] === "'+54 9 3492 555555" && cabDe(ps.id)[0][C('nombre_cliente')] === "'=HIPERVINCULO(\"x\")");
+
+  // Fila del alta "fantasma"
+  reiniciar();
+  pa = pedAlta(2);
+  falla('altas_clientes', 'appendRow', { fantasma: true });
+  r = guardar(pa);
+  ver('A4 fila del alta fantasma una vez: ok y 1 fila', r.ok && altaDe(pa.id).length === 1 && cabDe(pa.id).length === 1, JSON.stringify(r));
+  reiniciar();
+  pa = pedAlta(2);
+  falla('altas_clientes', 'appendRow', { fantasma: true, veces: 99 });
+  r = guardar(pa);
+  ver('A4 siempre: verificacion_fallida, sin consumir ALTA, registro "sin datos del alta"', !r.ok && r.error === 'verificacion_fallida' &&
+    !props.ultimo_numero_alta && /sin datos del alta/.test(regDe(pa.id)[0]?.[7] || ''), JSON.stringify([r, regDe(pa.id)[0]?.[7]]));
+  inyectar = [];
+  r = guardar(pa);
+  ver('A4 reintento de la app: duplicado que completa la fila del alta', r.ok && r.duplicado && r.numero === 'ALTA-1' && altaDe(pa.id).length === 1, JSON.stringify(r));
+  reiniciar();
+  const pfa = pedAlta(1);
+  falla('altas_clientes', 'appendRow', { fantasma: true, veces: 99 });
+  guardar(pfa);
+  inyectar = [];
+  ver('A4 otra alta mientras la fallida espera su reintento: ALTA-2 (no repite el numero)', guardar(pedAlta(1)).numero === 'ALTA-2');
+  ver('A4 la fallida reintenta y conserva su ALTA-1', guardar(pfa).numero === 'ALTA-1' && altaDe(pfa.id)[0]?.[A('alta')] === 'ALTA-1');
+  reiniciar();
+  delete hojas.altas_clientes;
+  ver('A4 sin la hoja altas_clientes: faltan_columnas_alta, sin escribir', guardar(pedAlta(1)).error === 'faltan_columnas_alta' && escr() === 0);
+
+  // Bandeja
+  reiniciar();
+  const pAlta = pedAlta(2, { observaciones: [{ clave: 'PAGA', items: [] }] }); guardar(pAlta);
+  const pNorm = pedido(1); guardar(pNorm);
+  const imp = t => ctx.accionPedidosParaImprimir({ token: t, modo: 'pendientes' });
+  let bo = imp('ofi').pedidos.find(x => x.id === pAlta.id);
+  ver('A5 bandeja: falta cuenta, numero ALTA-1, alta ALTA-1', bo?.faltaCuenta === true && bo.numero === 'ALTA-1' && bo.alta === 'ALTA-1', JSON.stringify(bo && { n: bo.numero, f: bo.faltaCuenta }));
+  ver('A5 bandeja: datos del comercio y hoja sin imprimir', bo?.datosAlta?.comercio === 'Ferretería El Tornillo' && bo.datosAlta.formula === 'E' &&
+    bo.datosAlta.horario === '8 a 12 y 16 a 20' && bo.datosAlta.impresa === false && bo.datosAlta.cuentaPuente === '157', JSON.stringify(bo?.datosAlta));
+  ver('A5 bandeja: trae sus lineas', bo?.lineas.length === 2);
+  ver('A5 el normal no tiene datos de alta', imp('ofi').pedidos.find(x => x.id === pNorm.id)?.faltaCuenta === false);
+  ver('A5 su vendedor lo ve; otro vendedor no', imp('vend').pedidos.some(x => x.id === pAlta.id) && !imp('vend2').pedidos.some(x => x.id === pAlta.id));
+  ver('A5 pedidos de clientes para revisar: no aparece', !ctx.accionPedidosPendientes({ token: 'vend' }).pedidos.some(x => x.id === pAlta.id));
+
+  // No se imprime el pedido
+  r = ctx.accionMarcarImpresos({ token: 'ofi', ids: [pAlta.id] });
+  ver('A6 marcar impresos: no lo marca (faltaCuenta 1)', r.ok && r.marcados === 0 && r.faltaCuenta === 1 && cabDe(pAlta.id)[0][C('impreso')] === '');
+  r = ctx.accionIntentoImpresion({ token: 'ofi', ids: [pAlta.id] });
+  ver('A6 intento de impresion: no lo registra (faltaCuenta 1)', r.ok && r.registrados === 0 && r.faltaCuenta === 1);
+
+  // Hoja de alta impresa
+  ver('A7 otro vendedor no marca la hoja de alta ajena', ctx.accionMarcarAltaImpresa({ token: 'vend2', ids: [pAlta.id] }).marcados === 0);
+  r = ctx.accionMarcarAltaImpresa({ token: 'ofi', ids: [pAlta.id] });
+  const fai = altaDe(pAlta.id)[0];
+  ver('A7 oficina marca la hoja de alta: SI, fecha y quien', r.ok && r.marcados === 1 && fai[A('impreso')] === 'SI' &&
+    Object.prototype.toString.call(fai[A('fecha_impresion')]) === '[object Date]' && fai[A('impreso_por')] === 'OF');
+  const primera = fai[A('fecha_impresion')];
+  r = ctx.accionMarcarAltaImpresa({ token: 'admin', ids: [pAlta.id] });
+  ver('A7 reimprimir: conserva la primera fecha y quien', r.yaMarcados === 1 && altaDe(pAlta.id)[0][A('fecha_impresion')] === primera && altaDe(pAlta.id)[0][A('impreso_por')] === 'OF');
+  bo = imp('ofi').pedidos.find(x => x.id === pAlta.id);
+  ver('A7 la bandeja muestra quien y cuando imprimio la hoja', bo.datosAlta.impresa === true && bo.datosAlta.impresoPor === 'Usuario OF' && !!bo.datosAlta.fechaImpresion);
+
+  // Asignar la cuenta
+  const asig = (t, cuenta, id = pAlta.id) => ctx.accionAsignarCuenta({ token: t, id, cuenta });
+  ver('A8 el vendedor no asigna cuentas', asig('vend', '4321').error === 'rol_sin_permiso');
+  ver('A8 cuenta con letras: cuenta_invalida', asig('ofi', '43a1').error === 'cuenta_invalida');
+  ver('A8 otra cuenta puente: cuenta_puente', asig('ofi', '158').error === 'cuenta_puente');
+  ver('A8 la cuenta de prueba: cuenta_prueba', asig('ofi', '999').error === 'cuenta_prueba');
+  ver('A8 un id que no existe: no_encontrado', asig('ofi', '4321', 'nada').error === 'no_encontrado');
+  ver('A8 un pedido normal (ya tiene cuenta): ya_asignada', asig('ofi', '4321', pNorm.id).error === 'ya_asignada');
+  r = asig('ofi', '4321');
+  const fc2 = cabDe(pAlta.id)[0];
+  ver('A8 asignada: ok, APP-2 (el siguiente) y ALTA-1', r.ok && r.numero === 'APP-2' && r.alta === 'ALTA-1' && r.cuenta === '4321', JSON.stringify(r));
+  ver('A8 cabecera: cuenta 4321, nombre del comercio, recibido, numero 2, alta sigue', fc2[C('cliente')] === '4321' &&
+    fc2[C('nombre_cliente')] === 'Ferretería El Tornillo' && fc2[C('estado')] === 'recibido' && fc2[C('numero')] === 2 && fc2[C('alta')] === 'ALTA-1');
+  ver('A8 semaforo sigue rojo y el alta lo distingue', fc2[C('semaforo')] === 'rojo' && fc2[C('alta')] === 'ALTA-1');
+  const fa2 = altaDe(pAlta.id)[0];
+  ver('A8 altas_clientes: cuenta asignada, fecha, quien y numero de pedido', fa2[A('cuenta_asignada')] === '4321' && fa2[A('asignada_por')] === 'OF' &&
+    fa2[A('numero_pedido')] === 'APP-2' && Object.prototype.toString.call(fa2[A('fecha_asignacion')]) === '[object Date]');
+  ver('A8 observaciones: cliente 4321 y numero APP-2', obsDe(pAlta.id).every(o => o[2] === '4321' && o[3] === 'APP-2'));
+  ver('A8 lineas sin cambios', lin(pAlta.id).length === 2);
+  ver('A8 consume el numero APP y registra', props.ultimo_numero_pedido === '2' && regDe(pAlta.id).at(-1)?.[7] === 'cuenta asignada (ALTA-1, antes 157)');
+  ver('A8 repetir con la misma cuenta: ok, mismo numero, yaAsignada', (() => { const x = asig('ofi', '4321'); return x.ok && x.yaAsignada && x.numero === 'APP-2'; })());
+  ver('A8 otra cuenta despues: ya_asignada', asig('ofi', '5555').error === 'ya_asignada');
+  bo = imp('ofi').pedidos.find(x => x.id === pAlta.id);
+  ver('A8 bandeja: ahora es un pedido normal, APP-2, cuenta 4321', bo && !bo.faltaCuenta && bo.numero === 'APP-2' && bo.cliente === '4321');
+  ver('A8 su vendedor lo sigue viendo aunque 4321 no este en finanzas', imp('vend').pedidos.some(x => x.id === pAlta.id));
+  r = ctx.accionMarcarImpresos({ token: 'ofi', ids: [pAlta.id] });
+  ver('A8 ahora si se marca impreso', r.marcados === 1);
+  r = guardar(pAlta);
+  ver('A8 reenvio tardio de la app: duplicado con APP-2', r.ok && r.duplicado && r.numero === 'APP-2' && !r.alta, JSON.stringify(r));
+
+  // Asignar con la cabecera "fantasma": no se confirma, no consume numero
+  reiniciar();
+  const pf = pedAlta(1); guardar(pf);
+  falla('pedidos_cabecera', 'setValue', { fantasma: true, veces: 99 });
+  r = asig('ofi', '4321', pf.id);
+  ver('A9 asignar sin poder verificar: verificacion_fallida, sin consumir numero', !r.ok && r.error === 'verificacion_fallida' && !props.ultimo_numero_pedido, JSON.stringify(r));
+  inyectar = [];
+  r = asig('ofi', '4321', pf.id);
+  ver('A9 reintento: ok APP-1', r.ok && r.numero === 'APP-1', JSON.stringify(r));
+
+  console.log(`Casos de altas: ${ok + fallas - antes13}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);

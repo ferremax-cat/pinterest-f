@@ -10,6 +10,8 @@
 
 import * as Obs from './observaciones.js';
 import * as Hab from './habituales.js';
+// Cliente nuevo en una cuenta puente: datos del comercio (lo usa tambien busqueda-clientes.js)
+import * as Alta from './alta-cliente.js';
 
 const fmt = n => '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 2 });
 const escHtml = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -456,7 +458,7 @@ function vistaVendedor() {
     <div class="cp-caja">
       <div class="cp-cab">
         <div>
-          <p class="cp-titulo">${cliente?.nombre || 'Pedido'}</p>
+          <p class="cp-titulo">${escHtml(cliente?.nombre || 'Pedido')}</p>
           <p class="cp-sub-titulo">${cliente ? 'Lista ' + cliente.lista + ' · ' : ''}${lineas.length} artículo${lineas.length !== 1 ? 's' : ''}${obsLista.length ? ` · ${obsLista.length} obs.` : ''}</p>
         </div>
         <button class="cp-cerrar" title="Cerrar">&times;</button>
@@ -824,7 +826,10 @@ const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   'cliente_no_encontrado', 'cliente_de_otro_vendedor', 'no_autorizado',
   'rol_sin_permiso', 'observaciones_no_permitidas', 'observaciones_invalidas',
   'observacion_inactiva', 'observacion_sin_articulos', 'observacion_sin_cantidad',
-  'ajuste_incompleto', 'faltan_columnas_obs', 'observacion_sin_precio'];
+  'ajuste_incompleto', 'faltan_columnas_obs', 'observacion_sin_precio',
+  // Cliente nuevo: se rechazan antes de escribir nada
+  'faltan_datos_alta', 'datos_alta_incompletos', 'formula_alta_invalida', 'alta_no_permitida',
+  'faltan_columnas_alta'];
 
 /**
  * Vista del carrito mientras no se sabe si el pedido se guardo: no permite
@@ -1101,6 +1106,15 @@ async function confirmarPedido() {
         return !origenSkus ? '' : !delCliente ? 'vendedor' : (l.cantVendedor ? 'ambos' : 'cliente');
       };
 
+      // Cliente nuevo (cuenta puente): el pedido lleva los datos del comercio y
+      // la formula (js/alta-cliente.js). Sin ellos no se envia
+      const cuentaAlta = esVend && Alta.esCuentaAlta(cli?.cuenta) ? String(cli.cuenta) : '';
+      const datosAlta = cuentaAlta ? Alta.paraPedido(window.Carrito.getAlta(cuentaAlta)) : null;
+      if (cuentaAlta && !datosAlta) {
+        avisar('Faltan los datos del comercio: volvé a elegir la cuenta del cliente nuevo y completalos.', 'error');
+        return;
+      }
+
       etapa = 'armar';
       pedido = {
         id: nuevoId(),
@@ -1145,7 +1159,8 @@ async function confirmarPedido() {
           descuentoLinea: l.enPromo ? 0 : (Number(l.descuento) || 0),
           subtotal: l.subtotal,
           origenLinea: origenDe(l)
-        }))
+        })),
+        ...(datosAlta ? { alta: datosAlta } : {})
       };
 
       // Registrar el intento antes de enviarlo: si la respuesta no llega,
@@ -1212,15 +1227,18 @@ async function confirmarPedido() {
     window.Carrito.setAjustePedido({ descuento: 0, motivo: '', obsLibre: '', observaciones: [] });
     Obs.registrarUsos(pedido.observaciones || []);
 
+    // Cliente nuevo: todavia sin numero de pedido, con su numero de alta
+    const esAltaResp = resp.alta === true;
     const cont = document.getElementById('carrito-panel');
     cont.innerHTML = `
       <div class="cp-caja">
         <div class="cp-exito">
           <div class="cp-check">&#10003;</div>
-          <p class="cp-exito-tit">Pedido confirmado</p>
-          <p class="cp-exito-num">N° ${resp.numero}</p>
-          <p class="cp-exito-det">${nombreCli}</p>
+          <p class="cp-exito-tit">${esAltaResp ? 'Alta registrada' : 'Pedido confirmado'}</p>
+          <p class="cp-exito-num">${esAltaResp ? `${escHtml(resp.numero)} · falta número de cuenta` : `N° ${escHtml(resp.numero)}`}</p>
+          <p class="cp-exito-det">${escHtml(nombreCli)}</p>
           <p class="cp-exito-total">${pedido.lineas.length ? fmt(totalConfirmado) : 'Solo observaciones'}</p>
+          ${esAltaResp ? '<p class="cp-exito-det">Oficina carga el número de cuenta del cliente nuevo; recién entonces el pedido se imprime.</p>' : ''}
           <button class="cp-cerrar-exito">Listo</button>
         </div>
       </div>`;
