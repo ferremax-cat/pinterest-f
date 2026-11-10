@@ -727,12 +727,41 @@ const fmtFechaCorta = iso => new Date(iso).toLocaleDateString('es-AR',
 const conImporte = o => o.efecto !== 'informativa' && (o.items || []).length > 0 && o.importe !== undefined;
 const aVerificar = o => o.verificar || o.importe === null;
 
+/**
+ * Lo confirmado de una observacion que mueve importe: completa, su importe (el
+ * que calculo el servidor); incompleta (o.importe null), la suma de los
+ * articulos con precio. pendientes: articulos sin precio (VERIFICAR PRECIO).
+ * conPrecio: hay al menos un importe confirmado
+ */
+function parcialObs(o) {
+  if (o.importe !== null) return { importe: Number(o.importe) || 0, pendientes: 0, conPrecio: true };
+  let importe = 0, pendientes = 0, conPrecio = false;
+  (o.items || []).forEach(it => {
+    if (it.importe === null || it.importe === undefined) pendientes++;
+    else { importe += Number(it.importe) || 0; conPrecio = true; }
+  });
+  return { importe: Math.round(importe * 100) / 100, pendientes, conPrecio };
+}
+/** "1 artículo", "3 artículos" */
+const textoArticulos = n => `${n} ${n === 1 ? 'artículo' : 'artículos'}`;
+
+/**
+ * Titulo de la observacion en facturacion: su importe y la alerta. Si le falta
+ * algun precio pero tiene otros confirmados, el parcial y "+ N A VERIFICAR",
+ * en el mismo renglon; si no tiene ninguno, "VERIFICAR PRECIOS" como siempre
+ */
 function htmlObsTitFact(o) {
-  const imp = conImporte(o) && o.importe !== null ? fmtImporte(o.importe) : '';
+  const con = conImporte(o);
+  const par = con && o.importe === null ? parcialObs(o) : null;
+  const parcial = par && par.conPrecio && par.pendientes > 0;
+  const imp = !con ? '' : o.importe !== null ? fmtImporte(o.importe) : parcial ? fmtImporte(par.importe) : '';
+  const alerta = !con || !aVerificar(o) ? ''
+    : parcial ? `<b class="ih-verificar">+ ${par.pendientes} A VERIFICAR</b>`
+    : '<b class="ih-verificar">VERIFICAR PRECIOS</b>';
   return `<tr class="ih-obs-tit-fact"><td colspan="5"><b>${esc(o.codigo)}</b> ${esc(o.texto)}` +
     `${EFECTO_OBS[o.efecto] ? ` <span>· ${EFECTO_OBS[o.efecto]}</span>` : ''}</td>` +
     `<td class="ih-num">${imp}</td>` +
-    `<td>${conImporte(o) && aVerificar(o) ? '<b class="ih-verificar">VERIFICAR PRECIOS</b>' : ''}</td></tr>`;
+    `<td>${alerta}</td></tr>`;
 }
 
 /**
@@ -815,14 +844,23 @@ function htmlCierreFact(t) {
     ? `Descuento sobre el total (${pcts}, no alcanza a las promociones)`
     : 'Descuento sobre el total';
   // Resumen de las observaciones que mueven importe (t.obs): devoluciones,
-  // sumas, ajustes y el neto con observaciones ("A VERIFICAR" si falta algun precio)
+  // sumas y ajustes con lo confirmado, y la aclaracion de los articulos a
+  // verificar en el mismo renglon (no agrega alto). El neto: completo, "NETO CON
+  // OBSERVACIONES"; con articulos a verificar, "NETO PARCIAL" con lo confirmado
+  // (un pedido solo de observaciones sin nada confirmado: "A VERIFICAR")
   const o = t.obs;
+  const aclarar = n => (n ? ` <small class="ih-a-verificar">· + ${textoArticulos(n)} a verificar</small>` : '');
+  const filaObs = (rotulo, importe, n) =>
+    `<div><span>${rotulo}${aclarar(n)}</span><b>${importe ? fmtImporte(importe) : '—'}</b></div>`;
+  const netoObs = o ? t.neto + o.devoluciones + o.sumas + o.ajustes : 0;
   const resumenObs = o ? `
-      <div><span>Devoluciones (observaciones)</span><b>${o.devoluciones ? fmtImporte(o.devoluciones) : '—'}</b></div>
-      <div><span>Sumas (observaciones)</span><b>${o.sumas ? fmtImporte(o.sumas) : '—'}</b></div>
-      <div><span>Ajustes (observaciones)</span><b>${o.ajustes ? fmtImporte(o.ajustes) : '—'}</b></div>
-      <div class="ih-neto"><span>NETO CON OBSERVACIONES</span><b>${o.completo
-        ? fmtImporte(t.neto + o.devoluciones + o.sumas + o.ajustes) : 'A VERIFICAR'}</b></div>` : '';
+      ${filaObs('Devoluciones (observaciones)', o.devoluciones, o.pendientes.devoluciones)}
+      ${filaObs('Sumas (observaciones)', o.sumas, o.pendientes.sumas)}
+      ${filaObs('Ajustes (observaciones)', o.ajustes, o.pendientes.ajustes)}
+      ${o.completo
+        ? `<div class="ih-neto"><span>NETO CON OBSERVACIONES</span><b>${fmtImporte(netoObs)}</b></div>`
+        : `<div class="ih-neto ih-neto-parcial"><span>NETO PARCIAL <small>(falta verificar ${textoArticulos(o.pendientesTotal)})</small></span>` +
+          `<b>${t.soloObs && !o.conPrecio ? 'A VERIFICAR' : fmtImporte(netoObs)}</b></div>`}` : '';
 
   // Solo de observaciones: sin importes, el recuadro (mismo alto que los
   // totales); con importes, el resumen en ese mismo lugar
@@ -918,13 +956,28 @@ function armarPedido(p, reimpresion) {
   };
 
   // Observaciones que mueven importe (con un servidor que ya los calcula):
-  // resumen en el cierre, mas alto que los totales de siempre
+  // resumen en el cierre, mas alto que los totales de siempre. Por grupo, lo
+  // confirmado y los articulos sin precio (a verificar)
   const movidas = obs.filter(conImporte);
-  const sumaDe = ef => Math.round(movidas.filter(x => x.efecto === ef)
-    .reduce((a, x) => a + (Number(x.importe) || 0), 0) * 100) / 100;
+  const grupo = ef => {
+    const g = { importe: 0, pendientes: 0, conPrecio: false };
+    movidas.filter(x => x.efecto === ef).forEach(x => {
+      const par = parcialObs(x);
+      g.importe += par.importe;
+      g.pendientes += par.pendientes;
+      g.conPrecio = g.conPrecio || par.conPrecio;
+    });
+    g.importe = Math.round(g.importe * 100) / 100;
+    return g;
+  };
+  const gDev = grupo('descuenta'), gSum = grupo('suma'), gAju = grupo('ajuste');
+  const pendientesTotal = gDev.pendientes + gSum.pendientes + gAju.pendientes;
   totales.obs = movidas.length ? {
-    devoluciones: sumaDe('descuenta'), sumas: sumaDe('suma'), ajustes: sumaDe('ajuste'),
-    completo: movidas.every(x => x.importe !== null)
+    devoluciones: gDev.importe, sumas: gSum.importe, ajustes: gAju.importe,
+    pendientes: { devoluciones: gDev.pendientes, sumas: gSum.pendientes, ajustes: gAju.pendientes },
+    pendientesTotal,
+    conPrecio: gDev.conPrecio || gSum.conPrecio || gAju.conPrecio,
+    completo: pendientesTotal === 0
   } : null;
   const altoCierre = (totales.obs ? MM.totalesObs : MM.totales) + MM.firmasFact;
 
