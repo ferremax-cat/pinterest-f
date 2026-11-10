@@ -392,7 +392,10 @@ function filasObservaciones(obs, paraFact) {
     if (o.efecto === 'ajuste') {
       ['facturado', 'correspondia'].forEach(lado => {
         const del = items.filter(it => it.lado === lado);
-        if (del.length) filas.push({ tipo: 'obsLado', texto: LADO_OBS[lado] }, ...del.map(it => ({ tipo: 'obsItem', o, it })));
+        // La aclaracion del precio anterior, solo en lo facturado: lo que
+        // correspondia del mismo articulo sale del mismo comprobante
+        if (del.length) filas.push({ tipo: 'obsLado', texto: LADO_OBS[lado] },
+          ...del.flatMap(it => [{ tipo: 'obsItem', o, it }, ...(paraFact && lado === 'facturado' ? filasNotaOrigen(it) : [])]));
       });
       if (paraFact) {
         filas.push({ tipo: 'obsNota', texto: 'Lo que correspondía va a lista actual sin descuentos; si es el mismo artículo, al precio facturado.' });
@@ -400,13 +403,45 @@ function filasObservaciones(obs, paraFact) {
     } else {
       // foto: solo la usa la preparacion (OBS_CON_FOTO); la facturacion la ignora
       const foto = OBS_CON_FOTO.includes(String(o.codigo).trim());
-      filas.push(...items.map(it => ({ tipo: 'obsItem', o, it, foto })));
+      filas.push(...items.flatMap(it => [{ tipo: 'obsItem', o, it, foto }, ...(paraFact ? filasNotaOrigen(it) : [])]));
     }
     return filas;
   });
 }
 
 const esTituloObs = f => f.tipo === 'obsTit' || f.tipo === 'obsLado';
+
+/** 'AAAA-MM-DD...' -> 'DD/MM/AAAA': el dia tal cual (el DBF no tiene hora; sin pasar por Date) */
+const fmtDia = (d, corto) => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(d || ''));
+  return m ? `${m[3]}/${m[2]}/${corto ? m[1].slice(2) : m[1]}` : String(d || '');
+};
+/** PRa000000012345 -> PRa12345, para la columna Tipo */
+const comprobanteCorto = c => String(c || '').replace(/^([A-Za-z]{3})0+(\d)/, '$1$2');
+/** [[5, ''], [7, 'contado']] -> "−5 % y −7 % pago contado" */
+const textoDescuentos = desc => desc.map(x => `−${fmtNum(Number(x[0]) || 0)} %`).join(' y ') +
+  (desc.some(x => x[1] === 'contado') ? ' pago contado' : '');
+
+/**
+ * Renglon de aclaracion debajo de un articulo con precio anterior (solo en la
+ * hoja de facturacion): de que comprobante salio, su precio sin IVA y el
+ * descuento sobre el total que tuvo, que no esta aplicado. Del historial
+ * siempre; de un pedido de la app, solo si tuvo descuento. Un servidor
+ * anterior (sin fuente) no la lleva
+ */
+function filasNotaOrigen(it) {
+  const a = it.origen;
+  if (!a || a.tipo !== 'anterior' || !a.fuente) return [];
+  const desc = Array.isArray(a.desc) ? a.desc.filter(x => Number(x?.[0]) > 0) : [];
+  if (a.fuente === 'historial') {
+    return [{ tipo: 'obsNota', texto: `Comprobante ${a.numero} del ${fmtDia(a.fecha)}` +
+      (a.sinIva !== undefined && a.sinIva !== null ? ` · s/IVA ${fmtPesos(a.sinIva)}` : '') +
+      (desc.length ? ` · con ${textoDescuentos(desc)} (no aplicado)` : '') }];
+  }
+  return desc.length
+    ? [{ tipo: 'obsNota', texto: `Pedido ${a.numero} con ${textoDescuentos(desc)} sobre el total (no aplicado)` }]
+    : [];
+}
 
 /** Alto de un renglon del recuadro de preparacion: con foto o sin foto */
 const altoFilaObs = f => (f.tipo === 'obsItem' && f.foto ? MM.obsFilaFoto : MM.obsFila);
@@ -700,7 +735,10 @@ function htmlObsTitFact(o) {
     `<td>${conImporte(o) && aVerificar(o) ? '<b class="ih-verificar">VERIFICAR PRECIOS</b>' : ''}</td></tr>`;
 }
 
-/** Origen del precio: el pedido y su fecha, la lista actual o la alerta para quien factura */
+/**
+ * Origen del precio: el comprobante del sistema de gestion o el pedido de la
+ * app, con su fecha; la lista actual, o la alerta para quien factura
+ */
 function htmlOrigen(o, it) {
   if (!conImporte(o)) return '';
   if (!it.origen) return '<b class="ih-verificar">VERIFICAR PRECIO</b>';
@@ -712,7 +750,12 @@ function htmlOrigen(o, it) {
     const tipo = tipoDe({ mecanismo: a.mecanismo, listaAplicada: a.lista, descLinea: a.desc }) || ('Lista ' + a.lista).trim();
     return `<span class="ih-tipo">${esc(tipo)}</span>`;
   }
-  return it.origen.tipo === 'lista' ? 'Lista actual' : `${esc(it.origen.numero)} ${esc(fmtFechaCorta(it.origen.fecha))}`;
+  if (it.origen.tipo === 'lista') return 'Lista actual';
+  // Del historial del sistema de gestion: el comprobante y su dia (la fecha no tiene hora)
+  if (it.origen.fuente === 'historial') {
+    return `${esc(comprobanteCorto(it.origen.numero))} ${esc(fmtDia(it.origen.fecha, true))}`;
+  }
+  return `${esc(it.origen.numero)} ${esc(fmtFechaCorta(it.origen.fecha))}`;
 }
 
 function htmlObsItemFact(f) {

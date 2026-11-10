@@ -1,5 +1,6 @@
 // PRUEBA DE LA BANDEJA DE IMPRESION (js/imprimir.js, js/imprimir-hojas.js) con
-// jsdom: pedidos incompletos, impresion sin confirmar y lineas sin cabecera.
+// jsdom: pedidos incompletos, impresion sin confirmar, lineas sin cabecera, altas
+// y el origen del precio anterior en la hoja de facturacion.
 // Servidor simulado. Uso, desde la raiz del proyecto:
 //   node test/pedidos/prueba_bandeja.mjs
 import { readFileSync } from 'fs';
@@ -243,6 +244,75 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   w.Api.llamar = apiAntes;
   respuesta = { pendientes: PEND, impresos: IMPR };
   console.log(`Casos de altas en la bandeja: ${ok + fallas - antesB}`);
+}
+
+// =====================================================================
+// PRECIO ANTERIOR EN LA HOJA DE FACTURACION (v38): de donde salio el precio
+// (comprobante del sistema de gestion o pedido de la app), su aclaracion y
+// VERIFICAR PRECIO. Datos sinteticos.
+{
+  const antesP = ok + fallas;
+  w.print = () => {};
+  // Fecha como la manda el servidor: el dia del DBF al mediodia de Argentina
+  const hist = (numero, fecha, sinIva, desc = []) => ({ tipo: 'anterior', fuente: 'historial', numero, fecha: fecha + 'T12:00:00-03:00', sinIva, desc });
+  const app = (numero, desc = []) => ({ tipo: 'anterior', fuente: 'app', numero, fecha: '2026-11-08T15:00:00Z', desc });
+  const itm = (sku, cantidad, precio, origen, extra = {}) => ({ sku, nombre: 'Art ' + sku, cantidad, precio,
+    importe: precio === null ? null : -precio * cantidad, origen, ...extra });
+  const o116 = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -1, verificar: false, items: [
+    itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']])),
+    itm('CAS1', 1, 60.5, hist('FCa000000000500', '2026-09-10', 50, [[5, ''], [7, 'contado']])),
+    itm('SKU1', 1, 181.5, hist('PRb000000001033', '2026-10-01', 150)),
+    itm('SKU2', 1, 95.5, app('APP-1', [[7, ''], [5, '']])),
+    itm('SKU3', 1, 33, app('APP-1'))] };
+  const o119 = { clave: '119', codigo: '119', texto: 'FALTANTE', grupo: 'mercaderia', efecto: 'descuenta', importe: null, verificar: true,
+    items: [itm('NADA', 1, null, null)] };
+  const o126 = { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', importe: 11104.87, verificar: true, items: [
+    itm('EVO115TF', 1, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'facturado' }),
+    { ...itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'correspondia' }), importe: 22209.74 }] };
+  // Un servidor anterior: origen sin fuente ni aclaracion
+  const oViejo = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -100, verificar: false,
+    items: [itm('VIEJO', 1, 100, { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' })] };
+  const P1 = ped('PA1', 'APP-21', 1, 1, { observaciones: [o116, o119, o126] });
+  const P2 = ped('PA2', 'APP-22', 1, 1, { observaciones: [oViejo] });
+  // Paginado: 60 articulos con aclaracion contra los mismos sin ella
+  const muchos = conFuente => Array.from({ length: 60 }, (_, i) => itm('M' + i, 1, 10,
+    conFuente ? hist('PRa000000000' + (100 + i), '2026-10-01', 8.26) : { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' }));
+  const P3 = ped('PA3', 'APP-23', 1, 1, { observaciones: [{ ...oViejo, items: muchos(true) }] });
+  const P4 = ped('PA4', 'APP-24', 1, 1, { observaciones: [{ ...oViejo, items: muchos(false) }] });
+
+  Hojas.imprimir([P1, P2, P3, P4]);
+  await tick(60);
+  const cont = document.getElementById('ih-hojas');
+  const hojasDe = numero => [...cont.querySelectorAll('.ih-hoja, section, article')].filter(h => h.textContent.includes('N° ' + numero));
+  const notas = [...cont.querySelectorAll('tr.ih-obs-nota-fact')].map(tr => tr.textContent.trim());
+  const filaDe = (sku, n = 0) => [...cont.querySelectorAll('tr.ih-obs-item-fact')].filter(tr => tr.querySelector('.ih-tcod')?.textContent === sku)[n];
+  const tipoDe = (sku, n) => filaDe(sku, n)?.lastElementChild.textContent.trim();
+  ver('PA hojas armadas', !!cont && cont.querySelectorAll('tr.ih-obs-item-fact').length > 0, cont?.innerHTML.slice(0, 200));
+  ver('PA1 historial: Tipo con el comprobante corto y el dia', tipoDe('EVO115TF') === 'PRa12345 05/11/26', tipoDe('EVO115TF'));
+  ver('PA1 historial: precio con IVA en P. unit.', filaDe('EVO115TF')?.children[4].textContent === '$11.104,87');
+  ver('PA1 aclaracion: comprobante, dia, s/IVA y -7% pago contado sin aplicar',
+    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)'), JSON.stringify(notas));
+  ver('PA1 aclaracion en cascada: -5% y -7% pago contado',
+    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con −5 % y −7 % pago contado (no aplicado)'));
+  ver('PA1 comprobante sin descuento: aclaracion sin descuento',
+    notas.includes('Comprobante PRb000000001033 del 01/10/2026 · s/IVA $150,00'));
+  ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento sin aplicar',
+    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total (no aplicado)'), tipoDe('SKU2'));
+  ver('PA1 de la app sin descuento: sin aclaracion', tipoDe('SKU3') === 'APP-1 08/11/26' &&
+    filaDe('SKU3').nextElementSibling?.className !== 'ih-obs-nota-fact');
+  ver('PA1 la aclaracion va justo debajo de su articulo', filaDe('EVO115TF').nextElementSibling?.textContent.includes('PRa000000012345'));
+  ver('PA1 sin ninguna fuente: VERIFICAR PRECIO', tipoDe('NADA') === 'VERIFICAR PRECIO');
+  const notasEvo = notas.filter(t => t.startsWith('Comprobante PRa000000012345')).length;
+  ver('PA1 126: aclaracion solo en lo facturado (una en la 116 y una en la 126)', notasEvo === 2 &&
+    tipoDe('EVO115TF', 1) === 'PRa12345 05/11/26' && tipoDe('EVO115TF', 2) === 'PRa12345 05/11/26' &&
+    filaDe('EVO115TF', 2).nextElementSibling?.textContent.startsWith('Lo que correspondía'), notasEvo);
+  ver('PA2 servidor anterior (sin fuente): como antes, sin aclaracion', tipoDe('VIEJO') === 'APP-3 01/11/26' &&
+    filaDe('VIEJO').nextElementSibling?.className !== 'ih-obs-nota-fact');
+  ver('PA la hoja de preparacion no lleva aclaraciones', ![...cont.querySelectorAll('.ih-obs-caja')].some(x => x.textContent.includes('Comprobante')));
+  const cabFact = numero => [...cont.querySelectorAll('.ih-cab-fact, .ih-cab-cont')].filter(h => h.textContent.includes('Facturación') && h.textContent.includes('N° ' + numero)).length;
+  ver('PA paginado: las aclaraciones ocupan lugar (mas hojas con aclaracion que sin)', cabFact('APP-23') > cabFact('APP-24') && cabFact('APP-24') >= 1,
+    `${cabFact('APP-23')} vs ${cabFact('APP-24')}`);
+  console.log(`Casos de precio anterior en la hoja: ${ok + fallas - antesP}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
