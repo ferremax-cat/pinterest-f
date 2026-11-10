@@ -565,6 +565,12 @@
 
 .ih-totales b { font-variant-numeric: tabular-nums; }
 
+/* Aclaracion de los articulos a verificar: en el mismo renglon de su total,
+   chica y sin partir la linea (no agrega alto: MM.totalesObs no cambia) */
+.ih-totales > div > span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ih-totales small { font-size: 6.5pt; font-weight: 600; }
+.ih-totales .ih-neto small { font-size: 7pt; }
+
 .ih-totales .ih-neto {
   margin-top: .5mm;
   padding: .8mm 2mm;
