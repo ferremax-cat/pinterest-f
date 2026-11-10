@@ -484,8 +484,12 @@ function leerObservacionesDe(ss, ids) {
 
 /**
  * Precio e importe de cada articulo de una observacion, con su origen
- * ({ tipo: 'anterior', numero, fecha } o { tipo: 'lista' }; null: verificar).
- * - descuenta (116, 119): precio anterior; importe negativo.
+ * ({ tipo: 'anterior', fuente, numero, fecha, sinIva?, desc } o { tipo: 'lista' };
+ * null: verificar).
+ * - descuenta (116, 119): precio anterior; importe negativo. El precio anterior
+ *   es el del renglon con IVA, sin el descuento sobre el total de ese
+ *   comprobante o pedido: el descuento va aparte (desc) y no se aplica.
+ *   Con precio 0 (bonificado), a verificar.
  * - suma (117): el precio que definio el vendedor en cada articulo (lista,
  *   otra lista o precio especial, con su descuento), y es el final: sin el
  *   descuento sobre el total. Los pedidos de antes, sin ese precio: lista
@@ -496,7 +500,8 @@ function leerObservacionesDe(ss, ids) {
  * o.importe: con signo (negativo descuenta), o null si falta algun precio o
  * si es informativa. Siempre se define: la app lo usa para saber que el
  * servidor ya calcula importes.
- * anterior(sku): { precio, numero, fecha } o null.
+ * anterior(sku): { precio, fuente ('historial' o 'app'), numero, fecha,
+ * sinIva? (solo del historial), desc: [[porcentaje, 'contado' o ''], ...] } o null.
  */
 function calcularImportesObs(o, factorTotal, anterior) {
   o.importe = null;
@@ -505,7 +510,10 @@ function calcularImportesObs(o, factorTotal, anterior) {
 
   let total = 0;
   let completo = true;
-  const desde = a => (a ? { tipo: 'anterior', numero: a.numero, fecha: a.fecha } : null);
+  const desde = a => (a ? Object.assign({ tipo: 'anterior', fuente: a.fuente || 'app', numero: a.numero,
+    fecha: a.fecha, desc: a.desc || [] }, a.sinIva !== undefined ? { sinIva: a.sinIva } : {}) : null);
+  // Bonificado (precio 0): el importe sale 0, pero quien factura lo tiene que mirar
+  const revisarBonificado = a => { if (a && !(a.precio > 0)) o.verificar = true; };
   const poner = (it, precio, origen, signo) => {
     it.precio = precio;
     it.origen = precio === null ? null : origen;
@@ -530,6 +538,7 @@ function calcularImportesObs(o, factorTotal, anterior) {
       const a = anterior(it.sku);
       if (it.lado === 'facturado') facturado[it.sku] = a;
       poner(it, a ? a.precio : null, desde(a), -1);
+      revisarBonificado(a);
     }
   });
   if (o.efecto === 'ajuste') {
@@ -628,7 +637,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v37-altas';
+const VERSION_API = 'v38-precio-anterior';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1612,6 +1621,88 @@ function getHistorialCliente(cuenta) {
   return JSON.parse(Utilities.ungzip(blob).getDataAsString('UTF-8'));
 }
 
+// Compras de cada articulo por cliente, para el precio anterior de las
+// observaciones (columna E de historial, la escribe scripts/historial_compras.py):
+// { v: 1, act, k: [[comprobante, fecha, descuentos?], ...],
+//   c: { codigo: [[k, cantidad, precio sin IVA, iva?], ...] } }, de la compra mas
+// reciente a la mas vieja. Nunca sale tal cual del servidor
+const COL_COMPRAS = 5;
+const ENC_COMPRAS = 'compras';
+
+/** PRa12345 -> PRa000000012345 (la rutina le saca los ceros para que ocupe menos) */
+function comprobanteLargo(c) {
+  const t = String(c || '').trim();
+  const m = /^([A-Za-z]{3})(\d+)$/.exec(t);
+  return m && m[2].length <= 12 ? m[1] + ('000000000000' + m[2]).slice(-12) : t;
+}
+
+/**
+ * Celda de compras -> { CODIGO: [{ comprobante, fecha, cantidad, sinIva, iva,
+ * desc }, ...] }, o null si no hay o no se puede leer (no frena la bandeja).
+ */
+function descomprimirCompras(texto) {
+  if (!texto || texto === SIN_HISTORIAL) return null;
+  try {
+    const blob = Utilities.newBlob(Utilities.base64Decode(texto), 'application/x-gzip');
+    const d = JSON.parse(Utilities.ungzip(blob).getDataAsString('UTF-8'));
+    const k = Array.isArray(d.k) ? d.k : [];
+    const res = {};
+    Object.keys(d.c || {}).forEach(cod => {
+      const compras = (Array.isArray(d.c[cod]) ? d.c[cod] : []).map(x => {
+        const comp = k[x[0]] || [];
+        return { comprobante: comprobanteLargo(comp[0]), fecha: String(comp[1] || ''),
+                 desc: Array.isArray(comp[2]) ? comp[2] : [],
+                 cantidad: Number(x[1]) || 0, sinIva: Number(x[2]) || 0,
+                 iva: x.length > 3 && x[3] !== null && x[3] !== '' ? Number(x[3]) : 21 };
+      }).filter(x => x.comprobante && /^\d{4}-\d{2}-\d{2}$/.test(x.fecha));
+      if (compras.length) res[String(cod).trim().toUpperCase()] = compras;
+    });
+    return res;
+  } catch (e) {
+    console.warn('Compras del historial ilegibles:', String(e).slice(0, 80));
+    return null;
+  }
+}
+
+/**
+ * Compras de varias cuentas: cuenta -> resultado de descomprimirCompras. Un
+ * cache.getAll; solo si falta alguna se lee la hoja (la columna A una vez y la
+ * celda E de cada cuenta que falta), y queda 6 horas en la cache. Si la hoja
+ * falla, esas cuentas van sin compras y no se guarda nada en la cache.
+ */
+function getComprasClientes(cuentas) {
+  const lista = Array.from(new Set(cuentas.map(c => String(c || '').trim()).filter(Boolean)));
+  const res = {};
+  if (!lista.length) return res;
+  const cache = CacheService.getScriptCache();
+  let textos = {};
+  try { textos = cache.getAll(lista.map(c => 'comp_' + c)) || {}; } catch (e) { textos = {}; }
+  const faltan = lista.filter(c => typeof textos['comp_' + c] !== 'string');
+  if (faltan.length) {
+    try {
+      const nuevos = {};
+      faltan.forEach(c => { nuevos['comp_' + c] = SIN_HISTORIAL; });
+      const hoja = SpreadsheetApp.openById(PLANILLA_ID).getSheetByName(HOJA_HISTORIAL);
+      const ultima = hoja ? hoja.getLastRow() : 0;
+      // Sin la columna compras (rutina anterior): sin compras, el precio sale de la app
+      if (ultima > 1 && hoja.getLastColumn() >= COL_COMPRAS &&
+          String(hoja.getRange(1, COL_COMPRAS).getValue()).trim() === ENC_COMPRAS) {
+        const fila = {};
+        hoja.getRange(2, 1, ultima - 1, 1).getValues().forEach((f, i) => { fila[String(f[0]).trim()] = i + 2; });
+        faltan.forEach(c => {
+          if (fila[c]) nuevos['comp_' + c] = String(hoja.getRange(fila[c], COL_COMPRAS).getValue() || '') || SIN_HISTORIAL;
+        });
+      }
+      try { cache.putAll(nuevos, 21600); } catch (e) {}
+      Object.assign(textos, nuevos);
+    } catch (e) {
+      console.warn('No se pudieron leer las compras del historial:', String(e).slice(0, 80));
+    }
+  }
+  lista.forEach(c => { res[c] = descomprimirCompras(textos['comp_' + c]); });
+  return res;
+}
+
 /**
  * Lo que compro un cliente en los ultimos 12 meses, para el buscador, la
  * tarjeta y los habituales: solo a un admin o al vendedor del cliente. Ni el
@@ -1653,7 +1744,8 @@ function accionHistorialCliente(body) {
     cuenta: cuenta,
     actualizado: h ? h.act : '',
     // Campo por campo, nombrados uno por uno: lo que se agregue a la celda
-    // despues (precios, comprobantes) tampoco sale
+    // despues (precios, comprobantes) tampoco sale. Las compras (columna E)
+    // no se leen aca
     articulos: h ? h.a.map(x => [x[0], x[1], x[2]]) : [],
     habituales: h && Array.isArray(h.hab) ? h.hab.map(x => [x[0], x[1], x[2], x[3], x[4]]) : [],
     dejo: h && Array.isArray(h.dej) ? h.dej.map(x => [x[0], x[1], x[2], x[3]]) : []
@@ -1670,7 +1762,7 @@ function limpiarCacheHistorial() {
     if (!hoja || hoja.getLastRow() < 2) return;
     hoja.getRange(2, 1, hoja.getLastRow() - 1, 1).getValues().forEach(f => {
       const c = String(f[0]).trim();
-      if (c) claves.add('hist_' + c);
+      if (c) { claves.add('hist_' + c); claves.add('comp_' + c); }
     });
   });
 
@@ -1890,7 +1982,10 @@ function accionPedidosParaImprimir(body) {
         prueba,
         ts: f[I.ts] instanceof Date ? f[I.ts] : new Date(f[I.ts]),
         numero: etiquetaGuardada(I.numero >= 0 ? f[I.numero] : '', i),
-        neto: Number(f[I.neto]) || 0
+        neto: Number(f[I.neto]) || 0,
+        // Su descuento sobre el total, para la aclaracion (no se aplica)
+        descPct: Number(f[I.descPct]) || 0,
+        descExtra: I.descExtra >= 0 ? Number(f[I.descExtra]) || 0 : 0
       };
     }
 
@@ -1974,12 +2069,30 @@ function accionPedidosParaImprimir(body) {
     cliente + '|' + (prueba ? 1 : 0) + '|' + String(sku).trim().toUpperCase();
   const buscados = {};
   const clientesBuscan = new Set();
+  // Cuenta del historial del sistema de gestion de cada pedido: la suya; la de
+  // historial_prueba (config) para la cuenta de prueba; ninguna para un alta
+  // sin cuenta (su cuenta puente mezcla comercios distintos)
+  let histPrueba = null;
+  const cuentaHistDe = pd => {
+    if (pd.faltaCuenta) return '';
+    if (cp && pd.cliente === cp) {
+      if (histPrueba === null) histPrueba = String(getConfig().historial_prueba || '').trim();
+      return histPrueba;
+    }
+    return pd.cliente;
+  };
+  const cuentasHist = new Set();
   pedidos.forEach(pd => pd.observaciones.forEach(o => o.items.forEach(it => {
     if (o.efecto === 'descuenta' || (o.efecto === 'ajuste' && it.lado === 'facturado')) {
       buscados[claveBusqueda(pd.cliente, pd.prueba, it.sku)] = true;
       clientesBuscan.add(pd.cliente);
+      const ch = cuentaHistDe(pd);
+      if (ch) cuentasHist.add(ch);
     }
   })));
+  // Las compras del historial, solo de los clientes que lo necesitan (sin
+  // observaciones de precio anterior, ningun acceso)
+  const comprasDe = cuentasHist.size ? getComprasClientes(Array.from(cuentasHist)) : {};
 
   const lin = ss.getSheetByName('pedidos_lineas').getDataRange().getValues();
   const encL = lin[0].map(x => String(x).trim());
@@ -1991,7 +2104,6 @@ function accionPedidosParaImprimir(body) {
     sub: cl('subtotal'), descSel: cl('desc_linea_pct')
   };
   const porId = {};
-  const sumas = {};        // id previo -> { bruto, promo }: su descuento sobre el total
   const apariciones = {};  // clave de busqueda -> [{ id, pu, enPromo }]
   for (let i = 1; i < lin.length; i++) {
     const r = lin[i];
@@ -2003,11 +2115,7 @@ function accionPedidosParaImprimir(body) {
     // Solo los pedidos previos de los clientes que lo necesitan
     const pv = previos[id];
     if (pv && clientesBuscan.has(pv.cliente)) {
-      const sub = Number(r[L.sub]) || 0;
       const enPromo = String(r[L.mec] || '') === 'promocion';
-      const s = sumas[id] = sumas[id] || { bruto: 0, promo: 0 };
-      s.bruto += sub;
-      if (enPromo) s.promo += sub;
       const k = claveBusqueda(pv.cliente, pv.prueba, r[L.sku]);
       if (buscados[k]) (apariciones[k] = apariciones[k] || []).push({ id, pu: Number(r[L.pu]) || 0, enPromo });
     }
@@ -2030,13 +2138,32 @@ function accionPedidosParaImprimir(body) {
     });
   }
   /**
-   * Precio neto unitario del pedido impreso mas reciente del cliente con ese
-   * articulo, anterior al pedido que se imprime (una reimpresion da el mismo
-   * precio): precio_unitario con el descuento sobre el total, que sale de los
-   * totales del pedido (los dos descuentos en cascada); las lineas en
-   * promocion no lo llevan
+   * Precio anterior de un articulo para el cliente del pedido, con IVA y sin
+   * el descuento sobre el total (va aparte, en desc, y no se aplica):
+   * 1. Historial del sistema de gestion (lo realmente facturado): la compra mas
+   *    reciente de las ultimas 3, de un dia anterior al del pedido (la factura
+   *    de este mismo pedido nunca cuenta). PRECIO x (1 + IVA/100), a 2 decimales.
+   * 2. Si no esta: el pedido impreso de la app mas reciente, anterior al que se
+   *    imprime (una reimpresion da el mismo precio): su precio_unitario, con
+   *    los descuentos sobre el total de ese pedido como aclaracion (las lineas
+   *    en promocion no los llevan).
+   * 3. Si no: null (VERIFICAR PRECIO).
    */
+  const diaDe = iso => Utilities.formatDate(new Date(iso), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
   function precioAnterior(pd, sku) {
+    const compras = comprasDe[cuentaHistDe(pd)];
+    const delHist = compras && compras[String(sku).trim().toUpperCase()];
+    if (delHist) {
+      const dia = diaDe(pd.fecha);
+      const c = delHist.find(x => x.fecha < dia);
+      if (c) {
+        // El DBF no tiene hora: el mediodia de Argentina, para que ninguna
+        // pantalla lo corra al dia anterior por la zona horaria
+        return { fuente: 'historial', precio: Math.round(c.sinIva * (1 + c.iva / 100) * 100) / 100,
+                 sinIva: c.sinIva, numero: c.comprobante, fecha: c.fecha + 'T12:00:00-03:00', desc: c.desc };
+      }
+    }
+
     const antesDe = new Date(pd.fecha);
     let mejor = null;
     (apariciones[claveBusqueda(pd.cliente, pd.prueba, sku)] || []).forEach(a => {
@@ -2046,10 +2173,9 @@ function accionPedidosParaImprimir(body) {
     });
     if (!mejor) return null;
     const pv = previos[mejor.id];
-    const s = sumas[mejor.id];
-    const factor = mejor.enPromo ? 1 : factorDescuentoTotal(
-      [{ subtotal: s.bruto - s.promo }, { subtotal: s.promo, mecanismo: 'promocion' }], pv.neto);
-    return { precio: Math.round(mejor.pu * factor * 100) / 100, numero: pv.numero, fecha: pv.ts.toISOString() };
+    const desc = mejor.enPromo ? [] : [pv.descPct, pv.descExtra].filter(x => x > 0).map(x => [x, '']);
+    return { fuente: 'app', precio: Math.round(mejor.pu * 100) / 100, numero: pv.numero,
+             fecha: pv.ts.toISOString(), desc };
   }
 
   pedidos.forEach(pd => {

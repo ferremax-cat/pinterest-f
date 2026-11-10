@@ -7,6 +7,9 @@
 //   node test/pedidos/prueba_servidor.cjs                    prueba apps-script/Codigo.gs
 //   node test/pedidos/prueba_servidor.cjs otra/copia.gs      prueba otra copia del servidor
 //   node test/pedidos/prueba_servidor.cjs --contar           llamadas a la planilla de un guardado
+// Tambien el precio anterior de las observaciones (116, 119, 126): historial del
+// sistema de gestion (hoja historial, columna compras, con datos sinteticos) y
+// pedidos impresos de la app.
 // Termina con codigo 1 si alguna prueba falla.
 const fs = require('fs');
 const vm = require('vm');
@@ -72,6 +75,12 @@ const A_LA_PLANILLA = ['getValues', 'getValue', 'setValues', 'setValue', 'append
   'flush', 'getLastRow', 'getLastColumn', 'getDataRange'];
 let porOp = {};
 const cuenta = op => { llamadas++; porOp[op] = (porOp[op] || 0) + 1; };
+// Hojas abiertas (getSheetByName) y una que falla al abrirse, para el precio anterior
+const hojasPedidas = [];
+let hojaQueFalla = null;
+// Cache del script: apagada salvo en los casos del precio anterior (los demas
+// casos la usaban vacia, como antes)
+const cacheSim = { activa: false, datos: {}, getAll: null };
 
 function hoja(nombre) {
   const filas = () => hojas[nombre];
@@ -132,7 +141,11 @@ const ctx = {
   console: { log() {}, warn() {}, error: console.error },
   Logger: { log() {} },
   SpreadsheetApp: {
-    openById: () => { cuenta('openById'); return { getSheetByName: n => (cuenta('getSheetByName'), hojas[n] ? hoja(n) : null) }; },
+    openById: () => { cuenta('openById'); return { getSheetByName: n => {
+      cuenta('getSheetByName'); hojasPedidas.push(n);
+      if (n === hojaQueFalla) throw new Error('Exception: Service Spreadsheets failed');
+      return hojas[n] ? hoja(n) : null;
+    } }; },
     flush: () => { cuenta('flush'); revisarFalla('*', 'flush', () => {}); }
   },
   LockService: { getScriptLock: () => ({ waitLock() {}, releaseLock() {} }) },
@@ -140,8 +153,24 @@ const ctx = {
     getProperty: k => (k in props ? props[k] : null),
     setProperty: (k, v) => { if (falloProp) throw new Error('Exception: Service error: Properties'); props[k] = v; }
   }) },
-  Utilities: { sleep: ms => pausas.push(ms) },
-  CacheService: { getScriptCache: () => ({ get: () => null, put() {}, remove() {}, removeAll() {} }) },
+  Utilities: {
+    sleep: ms => pausas.push(ms),
+    base64Decode: t => Buffer.from(String(t), 'base64'),
+    newBlob: bytes => ({ bytes }),
+    ungzip: blob => ({ getDataAsString: () => require('zlib').gunzipSync(blob.bytes).toString('utf8') }),
+    formatDate: (d, zona, formato) => {
+      if (formato !== 'yyyy-MM-dd') throw new Error('formato no simulado: ' + formato);
+      return new Intl.DateTimeFormat('en-CA', { timeZone: zona }).format(d);
+    }
+  },
+  CacheService: { getScriptCache: () => ({
+    get: k => (cacheSim.activa && k in cacheSim.datos ? cacheSim.datos[k] : null),
+    getAll: ks => { if (cacheSim.getAll) cacheSim.getAll(ks);
+      const r = {}; if (cacheSim.activa) ks.forEach(k => { if (k in cacheSim.datos) r[k] = cacheSim.datos[k]; }); return r; },
+    put: (k, v) => { if (cacheSim.activa) cacheSim.datos[k] = v; },
+    putAll: o => { if (cacheSim.activa) Object.assign(cacheSim.datos, o); },
+    remove: k => { delete cacheSim.datos[k]; },
+    removeAll: ks => { ks.forEach(k => { delete cacheSim.datos[k]; }); } }) },
   ContentService: { MimeType: { JSON: 'json' }, createTextOutput: t => ({ setMimeType: () => JSON.parse(t) }) }
 };
 vm.createContext(ctx);
@@ -780,6 +809,205 @@ if (typeof ctx.guardarFaltantes === 'function') {
   ver('A9 reintento: ok APP-1', r.ok && r.numero === 'APP-1', JSON.stringify(r));
 
   console.log(`Casos de altas: ${ok + fallas - antes13}`);
+}
+
+// =====================================================================
+// PRECIO ANTERIOR (v38): historial del sistema de gestion (columna compras de
+// la hoja historial) y, de respaldo, los pedidos impresos de la app. Datos
+// sinteticos: ninguna cuenta ni comprobante real.
+if (!SOLO_CASO_REAL) {
+  const antesH = ok + fallas;
+  const zlib = require('zlib');
+  // Dia de Argentina, n dias atras (negativo: adelante)
+  const dia = n => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Argentina/Buenos_Aires' })
+    .format(new Date(Date.now() - n * 86400000));
+  const celda = obj => zlib.gzipSync(Buffer.from(JSON.stringify(obj), 'utf8')).toString('base64');
+  const COMPRAS_100 = { v: 1, act: dia(0),
+    k: [['PRa12345', dia(5), [[7, 'contado']]], ['PRb1033', dia(40)], ['FCa500', dia(60), [[5, ''], [7, 'contado']]],
+        ['PRa80000', dia(0)], ['PRa90000', dia(-1)], ['PRa1', dia(100)]],
+    c: { EVO115TF: [[3, 1, 9999], [0, 2, 9177.58], [1, 1, 8000]],   // la de hoy no cuenta: queda la del dia 5
+         SKU1: [[1, 1, 150]],                                         // tambien esta en un pedido impreso de la app
+         CAS1: [[2, 3, 50]],                                          // comprobante con -5% y -7% en cascada
+         BONIF: [[1, 2, 0]],                                          // bonificado
+         FUT: [[4, 1, 1], [5, 1, 20]],                                // la de manana no cuenta
+         'tyro41f-16-5662': [[1, 1, 10]],                             // clave en minusculas
+         IVA105: [[1, 1, 100, 10.5]],                                 // IVA distinto de 21
+         SOLOHOY: [[3, 1, 5]] } };                                    // solo del dia del pedido: va a la app o a verificar
+  const ENC_HIST = ['cuenta', 'actualizado', 'articulos', 'historial', 'compras'];
+  const filaD = celda({ v: 3, act: dia(0), a: [['EVO115TF', dia(5), 2, 10327.2, 3, 20, 2]], hab: [], dej: [] });
+  const ponerHistorial = (compras = celda(COMPRAS_100), enc = ENC_HIST) => {
+    hojas.historial = [enc.slice(), ['100', dia(0), 8, filaD, compras], ['200', dia(0), 1, filaD, celda({ v: 1, act: dia(0), k: [['PRa5', dia(3)]], c: { SKU1: [[0, 1, 77]] } })]]
+      .map(f => f.slice(0, enc.length));
+  };
+  ctx.getObservaciones = () => [
+    { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', activa: true },
+    { clave: '119', codigo: '119', texto: 'FALTANTE', grupo: 'mercaderia', efecto: 'descuenta', activa: true },
+    { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', activa: true },
+    { clave: '113', codigo: '113', texto: 'MERCADERIA EN MAL ESTADO', grupo: 'mercaderia', efecto: 'informativa', activa: true },
+    { clave: 'PAGA', codigo: '', texto: 'PAGA TOTAL DE BOLETA', grupo: 'condiciones', efecto: 'informativa', activa: true }];
+  const configAntes = ctx.getConfig;
+  ctx.getConfig = () => ({ cuenta_prueba: '999', cuentas_alta: '157,158,159', historial_prueba: '100' });
+  const bandeja = (t = 'ofi', extra = {}) => ctx.accionPedidosParaImprimir({ token: t, modo: 'pendientes', ...extra });
+  const obsDePedido = (r, id) => (r.pedidos.find(x => x.id === id) || {}).observaciones || [];
+  const item = (o, sku, lado) => o.items.find(x => x.sku === sku && (!lado || x.lado === lado));
+  const ayer = () => new Date(Date.now() - 86400000);
+
+  // Un pedido impreso de la app de ayer, con -7% y ademas -5%, y una linea en promocion
+  reiniciar(); ponerHistorial();
+  const pApp = pedido(3, { descuentoTotal: 7, descuentoExtra: 5 });
+  pApp.lineas[0].precio = 120;               // SKU1: la app dice 120, el historial 150
+  pApp.lineas[1].precio = 95.5;              // SKU2: solo en la app
+  pApp.lineas[2].mecanismo = 'promocion';    // SKU3: en promocion, sin descuento sobre el total
+  pApp.lineas[2].precio = 33;
+  let r = guardar(pApp);
+  ver('H0 pedido de la app guardado', r.ok, JSON.stringify(r));
+  hojas.pedidos_cabecera.find(f => f[0] === pApp.id)[C('timestamp')] = ayer();
+  ctx.accionMarcarImpresos({ token: 'ofi', ids: [pApp.id] });
+
+  // El pedido que se imprime: 116 con varios articulos
+  const p1 = pedido(1, { observaciones: [{ clave: '116', items: ['EVO115TF', 'SKU1', 'SKU2', 'SKU3', 'CAS1', 'TYRO41F-16-5662', 'FUT', 'IVA105']
+    .map((sku, i) => ({ sku, cantidad: sku === 'EVO115TF' ? 2 : 1 })) }] });
+  r = guardar(p1);
+  ver('H0 pedido con la 116 guardado', r.ok, JSON.stringify(r));
+  const p2 = pedido(1, { observaciones: [{ clave: '116', items: [{ sku: 'NADA', cantidad: 1 }, { sku: 'SOLOHOY', cantidad: 1 }] }] });
+  guardar(p2);
+  const p3 = pedido(1, { observaciones: [{ clave: '119', items: [{ sku: 'BONIF', cantidad: 2 }] }] });
+  guardar(p3);
+  const p4 = pedido(1, { observaciones: [{ clave: '126', items: [{ sku: 'EVO115TF', cantidad: 1, lado: 'facturado' },
+    { sku: 'EVO115TF', cantidad: 2, lado: 'correspondia', precioLista: 12000 }] }] });
+  guardar(p4);
+  const p5 = pedido(2, { cliente: '200' });   // sin observaciones
+  guardar(p5);
+
+  const pedidasCache = [];
+  cacheSim.activa = true; cacheSim.datos = {}; cacheSim.getAll = keys => pedidasCache.push(...keys);
+  hojasPedidas.length = 0;
+  let b = bandeja();
+  let o = obsDePedido(b, p1.id)[0];
+  let it = item(o, 'EVO115TF');
+  ver('H1 del historial: precio = round(PRECIO x 1,21) = 11.104,87', it?.precio === 11104.87, JSON.stringify(it));
+  ver('H1 importe negativo de 2 unidades: -22.209,74', it?.importe === -22209.74);
+  ver('H1 origen: historial, comprobante de 15, fecha, s/IVA', it?.origen?.tipo === 'anterior' && it.origen.fuente === 'historial' &&
+    it.origen.numero === 'PRa000000012345' && it.origen.fecha === dia(5) + 'T12:00:00-03:00' && it.origen.sinIva === 9177.58, JSON.stringify(it?.origen));
+  ver('H2 la compra del mismo dia del pedido no cuenta (factura de este pedido)', it?.origen?.numero !== 'PRa000000080000');
+  ver('H3 con -7% pago contado como aclaracion, sin aplicar', JSON.stringify(it?.origen?.desc) === '[[7,"contado"]]' && it.precio === 11104.87);
+  it = item(o, 'SKU1');
+  ver('H4 el historial manda sobre el pedido impreso de la app', it?.precio === 181.5 && it.origen.fuente === 'historial' && it.origen.numero === 'PRb000000001033', JSON.stringify(it));
+  ver('H4 comprobante sin descuento: desc vacio', Array.isArray(it?.origen?.desc) && it.origen.desc.length === 0);
+  it = item(o, 'SKU2');
+  ver('H5 de la app: precio de la linea, sin el descuento sobre el total', it?.precio === 95.5 && it.origen.fuente === 'app' && it.origen.numero === 'APP-1', JSON.stringify(it));
+  ver('H5 de la app: aclaracion -7% y -5% del pedido', JSON.stringify(it?.origen?.desc) === '[[7,""],[5,""]]', JSON.stringify(it?.origen?.desc));
+  ver('H5 de la app: sin s/IVA', it?.origen && !('sinIva' in it.origen));
+  it = item(o, 'SKU3');
+  ver('H6 de la app en promocion: sin aclaracion de descuento', it?.precio === 33 && it.origen.fuente === 'app' && it.origen.desc.length === 0, JSON.stringify(it));
+  it = item(o, 'CAS1');
+  ver('H7 en cascada: -5% y -7% pago contado, sin aplicar', it?.precio === 60.5 && JSON.stringify(it.origen.desc) === '[[5,""],[7,"contado"]]', JSON.stringify(it));
+  it = item(o, 'TYRO41F-16-5662');
+  ver('H8 codigo en minusculas en la celda: se encuentra igual', it?.precio === 12.1 && it.origen.fuente === 'historial', JSON.stringify(it));
+  it = item(o, 'FUT');
+  ver('H9 la compra de manana no cuenta: la anterior', it?.precio === 24.2 && it.origen.numero === 'PRa000000000001' && it.origen.fecha === dia(100) + 'T12:00:00-03:00', JSON.stringify(it));
+  it = item(o, 'IVA105');
+  ver('H10 IVA 10,5: 110,50', it?.precio === 110.5, JSON.stringify(it));
+  ver('H11 la observacion: importe completo y sin verificar', o.importe === Math.round((-22209.74 - 181.5 - 95.5 - 33 - 60.5 - 12.1 - 24.2 - 110.5) * 100) / 100 && o.verificar === false, `${o.importe} ${o.verificar}`);
+
+  o = obsDePedido(b, p2.id)[0];
+  ver('H12 sin ninguna fuente: precio null, origen null, importe null, a verificar', item(o, 'NADA')?.precio === null &&
+    item(o, 'NADA').origen === null && o.importe === null && o.verificar === true, JSON.stringify(o));
+  ver('H12 solo comprado el mismo dia: tampoco (VERIFICAR PRECIO)', item(o, 'SOLOHOY')?.origen === null);
+  o = obsDePedido(b, p3.id)[0];
+  ver('H13 119 bonificado (precio 0): a verificar', item(o, 'BONIF')?.precio === 0 && item(o, 'BONIF').origen.fuente === 'historial' && o.verificar === true, JSON.stringify(o));
+  o = obsDePedido(b, p4.id)[0];
+  ver('H14 126: lo facturado y lo que correspondia, del mismo comprobante', item(o, 'EVO115TF', 'facturado')?.precio === 11104.87 &&
+    item(o, 'EVO115TF', 'correspondia')?.precio === 11104.87 && item(o, 'EVO115TF', 'correspondia').origen.numero === 'PRa000000012345' &&
+    o.importe === 11104.87 && o.verificar === true, JSON.stringify(o));
+  ver('H15 solo se piden las compras de los clientes que lo necesitan', JSON.stringify(pedidasCache) === '["comp_100"]', JSON.stringify(pedidasCache));
+  ver('H15 y quedan en la cache', typeof cacheSim.datos.comp_100 === 'string' && !('comp_200' in cacheSim.datos));
+  const lecturas1 = hojasPedidas.filter(n => n === 'historial').length;
+  ver('H15 la hoja historial se abre una vez', lecturas1 === 1, lecturas1);
+
+  hojasPedidas.length = 0;
+  const b2 = bandeja();
+  ver('H16 segunda consulta desde la cache: sin abrir la hoja historial, mismos precios', !hojasPedidas.includes('historial') &&
+    JSON.stringify(obsDePedido(b2, p1.id)) === JSON.stringify(obsDePedido(b, p1.id)));
+
+  // El vendedor ve lo mismo de su cliente
+  const bv = bandeja('vend');
+  ver('H17 el vendedor del cliente ve el mismo origen', item(obsDePedido(bv, p1.id)[0], 'EVO115TF')?.origen?.numero === 'PRa000000012345');
+
+  // historial_cliente no devuelve nada de la columna compras
+  const hc = ctx.accionHistorialCliente({ token: 'admin', cuenta: '100' });
+  ver('H18 historial_cliente: los mismos campos, sin compras ni comprobantes', hc.ok && JSON.stringify(Object.keys(hc)) ===
+    '["ok","cuenta","actualizado","articulos","habituales","dejo"]' && !JSON.stringify(hc).includes('PRa') && JSON.stringify(hc.articulos) === `[["EVO115TF","${dia(5)}",2]]`, JSON.stringify(hc));
+
+  // Sin observaciones de precio anterior: ningun acceso nuevo
+  reiniciar(); ponerHistorial();
+  guardar(pedido(2)); guardar(pedido(1, { observaciones: [{ clave: '113', items: [{ sku: 'A1', cantidad: 1 }] }] }));
+  cacheSim.datos = {}; pedidasCache.length = 0; hojasPedidas.length = 0;
+  llamadas = 0; bandeja(); const conHist = llamadas;
+  ver('H19 sin 116/119/126: ni la hoja historial ni la cache', !hojasPedidas.includes('historial') && pedidasCache.length === 0);
+  delete hojas.historial;
+  llamadas = 0; bandeja();
+  ver('H19 y las mismas llamadas a la planilla que sin historial', llamadas === conHist, `${llamadas} vs ${conHist}`);
+
+  // Celda danada, columna compras que todavia no existe, hoja que falla: cae a la app sin error
+  for (const [nombre, preparar] of [['celda dañada', () => ponerHistorial('esto no es gzip')],
+    ['rutina anterior (sin columna compras)', () => ponerHistorial(undefined, ENC_HIST.slice(0, 4))],
+    ['sin hoja historial', () => { delete hojas.historial; }]]) {
+    reiniciar(); preparar(); cacheSim.datos = {};
+    const pa = pedido(1); pa.lineas[0].sku = 'EVO115TF'; pa.lineas[0].precio = 11000;
+    guardar(pa); hojas.pedidos_cabecera.find(f => f[0] === pa.id)[C('timestamp')] = ayer();
+    ctx.accionMarcarImpresos({ token: 'ofi', ids: [pa.id] });
+    const pb = pedido(1, { observaciones: [{ clave: '116', items: [{ sku: 'EVO115TF', cantidad: 1 }] }] });
+    guardar(pb);
+    let rb;
+    try { rb = bandeja(); } catch (e) { rb = { ok: false, error: String(e) }; }
+    const x = rb.ok && item(obsDePedido(rb, pb.id)[0], 'EVO115TF');
+    ver(`H20 ${nombre}: sin error, precio de la app`, x && x.precio === 11000 && x.origen.fuente === 'app', JSON.stringify(rb.ok ? x : rb));
+  }
+  // La hoja falla al leer: tampoco queda guardado "sin historial" en la cache
+  reiniciar(); ponerHistorial(); cacheSim.datos = {};
+  hojaQueFalla = 'historial';
+  const pc = pedido(1, { observaciones: [{ clave: '116', items: [{ sku: 'EVO115TF', cantidad: 1 }] }] });
+  guardar(pc);
+  r = bandeja();
+  ver('H21 la hoja historial falla: VERIFICAR PRECIO, sin error y sin guardar en la cache', r.ok &&
+    item(obsDePedido(r, pc.id)[0], 'EVO115TF').origen === null && !('comp_100' in cacheSim.datos), JSON.stringify(cacheSim.datos));
+  hojaQueFalla = null;
+  r = bandeja();
+  ver('H21 cuando vuelve: del historial', item(obsDePedido(r, pc.id)[0], 'EVO115TF')?.origen?.fuente === 'historial');
+
+  // Pedido de prueba: el historial de la cuenta de historial_prueba (config)
+  reiniciar(); ponerHistorial(); cacheSim.datos = {};
+  const pp = pedido(1, { cliente: '999', observaciones: [{ clave: '116', items: [{ sku: 'EVO115TF', cantidad: 1 }] }] });
+  r = guardar(pp, 'admin');
+  r = bandeja('admin', { verPruebas: true });
+  ver('H22 pedido de prueba: usa el historial de historial_prueba', item(obsDePedido(r, pp.id)[0], 'EVO115TF')?.origen?.numero === 'PRa000000012345', JSON.stringify(obsDePedido(r, pp.id)));
+  ctx.getConfig = () => ({ cuenta_prueba: '999', cuentas_alta: '157,158,159' });
+  cacheSim.datos = {};
+  r = bandeja('admin', { verPruebas: true });
+  ver('H22 sin historial_prueba: VERIFICAR PRECIO', item(obsDePedido(r, pp.id)[0], 'EVO115TF')?.origen === null);
+  ctx.getConfig = () => ({ cuenta_prueba: '999', cuentas_alta: '157,158,159', historial_prueba: '100' });
+
+  // Alta sin cuenta: no busca en el historial de la cuenta puente
+  reiniciar(); ponerHistorial(); cacheSim.datos = {}; pedidasCache.length = 0;
+  hojas.historial.push(['157', dia(0), 1, filaD, celda(COMPRAS_100)]);
+  const datosAlta = { comercio: 'Ferretería El Tornillo', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E' };
+  const pAl = pedido(1, { cliente: '157', lista: 'E', alta: datosAlta, observaciones: [{ clave: '116', items: [{ sku: 'EVO115TF', cantidad: 1 }] }] });
+  r = guardar(pAl);
+  ver('H23 alta guardada', r.ok && r.alta, JSON.stringify(r));
+  r = bandeja();
+  ver('H23 alta sin cuenta: no lee el historial de la cuenta puente', item(obsDePedido(r, pAl.id)[0], 'EVO115TF')?.origen === null && pedidasCache.length === 0, JSON.stringify(pedidasCache));
+
+  // limpiar_cache_hist borra tambien las compras
+  cacheSim.datos = { comp_100: 'x', hist_100: 'y' };
+  ponerHistorial();
+  ctx.limpiarCacheHistorial();
+  ver('H24 limpiar la cache del historial borra tambien las compras', !('comp_100' in cacheSim.datos) && !('hist_100' in cacheSim.datos));
+
+  cacheSim.activa = false; cacheSim.datos = {}; cacheSim.getAll = null;
+  ctx.getConfig = configAntes;
+  console.log(`Casos de precio anterior: ${ok + fallas - antesH}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
