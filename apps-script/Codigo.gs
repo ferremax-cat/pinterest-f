@@ -487,9 +487,11 @@ function leerObservacionesDe(ss, ids) {
  * ({ tipo: 'anterior', fuente, numero, fecha, sinIva?, desc } o { tipo: 'lista' };
  * null: verificar).
  * - descuenta (116, 119): precio anterior; importe negativo. El precio anterior
- *   es el del renglon con IVA, sin el descuento sobre el total de ese
- *   comprobante o pedido: el descuento va aparte (desc) y no se aplica.
- *   Con precio 0 (bonificado), a verificar.
+ *   es el del renglon con IVA con el descuento sobre el total de ese
+ *   comprobante o pedido aplicado (desc, en cascada): la nota de credito se
+ *   hace con ese mismo descuento. Con precio 0 (bonificado) o con un descuento
+ *   que en el comprobante no alcanzo a todos los renglones (descParcial), a
+ *   verificar.
  * - suma (117): el precio que definio el vendedor en cada articulo (lista,
  *   otra lista o precio especial, con su descuento), y es el final: sin el
  *   descuento sobre el total. Los pedidos de antes, sin ese precio: lista
@@ -501,8 +503,31 @@ function leerObservacionesDe(ss, ids) {
  * si es informativa. Siempre se define: la app lo usa para saber que el
  * servidor ya calcula importes.
  * anterior(sku): { precio, fuente ('historial' o 'app'), numero, fecha,
- * sinIva? (solo del historial), desc: [[porcentaje, 'contado' o ''], ...] } o null.
+ * sinIva? (solo del historial), desc: [[porcentaje, 'contado' o ''], ...],
+ * precioRenglon (sin el descuento), descAplicado, descParcial } o null.
  */
+/**
+ * Redondeo a dos decimales como el sistema de gestion: los ,5 se alejan del
+ * cero (tambien en los negativos) y sin el error de coma flotante (57,475 da
+ * 57,48, no 57,47). Nunca devuelve -0
+ */
+function r2(x) {
+  const n = Number(x) || 0;
+  return (Math.sign(n) * Math.round(Number((Math.abs(n) * 100).toFixed(6))) / 100) || 0;
+}
+
+/**
+ * Precio unitario con los descuentos sobre el total aplicados en orden
+ * ([[5, ''], [7, 'contado']]: primero 5 % y despues 7 %), redondeando a dos
+ * decimales en cada paso, como el sistema de gestion
+ */
+function aplicarDescuentos(precio, desc) {
+  return (desc || []).reduce((p, d) => {
+    const pct = Number(d && d[0]) || 0;
+    return pct > 0 ? r2(p * (1 - pct / 100)) : p;
+  }, r2(precio));
+}
+
 function calcularImportesObs(o, factorTotal, anterior) {
   o.importe = null;
   o.verificar = o.efecto === 'ajuste';
@@ -511,13 +536,18 @@ function calcularImportesObs(o, factorTotal, anterior) {
   let total = 0;
   let completo = true;
   const desde = a => (a ? Object.assign({ tipo: 'anterior', fuente: a.fuente || 'app', numero: a.numero,
-    fecha: a.fecha, desc: a.desc || [] }, a.sinIva !== undefined ? { sinIva: a.sinIva } : {}) : null);
-  // Bonificado (precio 0): el importe sale 0, pero quien factura lo tiene que mirar
-  const revisarBonificado = a => { if (a && !(a.precio > 0)) o.verificar = true; };
+    fecha: a.fecha, desc: a.desc || [] }, a.sinIva !== undefined ? { sinIva: a.sinIva } : {},
+    a.precioRenglon !== undefined ? { precioRenglon: a.precioRenglon, descAplicado: !!a.descAplicado,
+      descParcial: !!a.descParcial } : {}) : null);
+  // Bonificado (precio 0) o descuento parcial en el comprobante: el importe sale,
+  // pero quien factura lo tiene que mirar
+  const revisarBonificado = a => { if (a && (!(a.precio > 0) || a.descParcial)) o.verificar = true; };
   const poner = (it, precio, origen, signo) => {
     it.precio = precio;
     it.origen = precio === null ? null : origen;
-    it.importe = precio === null ? null : Math.round(signo * precio * it.cantidad * 100) / 100;
+    // Precio unitario (ya con dos decimales) por la cantidad, redondeado como el
+    // sistema de gestion; el signo va aparte (-2,5 redondea a -3, no a -2)
+    it.importe = precio === null ? null : (signo * r2(precio * it.cantidad)) || 0;
     if (it.importe === null) completo = false;
     else total += it.importe;
   };
@@ -637,7 +667,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v38-precio-anterior';
+const VERSION_API = 'v40-desc-aplicado';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1652,6 +1682,8 @@ function descomprimirCompras(texto) {
         const comp = k[x[0]] || [];
         return { comprobante: comprobanteLargo(comp[0]), fecha: String(comp[1] || ''),
                  desc: Array.isArray(comp[2]) ? comp[2] : [],
+                 // El descuento no alcanzo a todos los renglones del comprobante
+                 parcial: comp[3] === 1 || comp[3] === true,
                  cantidad: Number(x[1]) || 0, sinIva: Number(x[2]) || 0,
                  iva: x.length > 3 && x[3] !== null && x[3] !== '' ? Number(x[3]) : 21 };
       }).filter(x => x.comprobante && /^\d{4}-\d{2}-\d{2}$/.test(x.fecha));
@@ -2138,15 +2170,20 @@ function accionPedidosParaImprimir(body) {
     });
   }
   /**
-   * Precio anterior de un articulo para el cliente del pedido, con IVA y sin
-   * el descuento sobre el total (va aparte, en desc, y no se aplica):
+   * Precio anterior de un articulo para el cliente del pedido, con IVA y con
+   * el descuento sobre el total de ese comprobante o pedido aplicado (la nota
+   * de credito se hace con ese mismo descuento), en cascada y a dos decimales
+   * en cada paso (aplicarDescuentos). precioRenglon: el del renglon, sin el
+   * descuento, para la aclaracion:
    * 1. Historial del sistema de gestion (lo realmente facturado): la compra mas
    *    reciente de las ultimas 3, de un dia anterior al del pedido (la factura
-   *    de este mismo pedido nunca cuenta). PRECIO x (1 + IVA/100), a 2 decimales.
+   *    de este mismo pedido nunca cuenta). Renglon: PRECIO x (1 + IVA/100), a 2
+   *    decimales; con los descuentos del comprobante (desc). descParcial: el
+   *    descuento no alcanzo a todos los renglones del comprobante (a verificar).
    * 2. Si no esta: el pedido impreso de la app mas reciente, anterior al que se
-   *    imprime (una reimpresion da el mismo precio): su precio_unitario, con
-   *    los descuentos sobre el total de ese pedido como aclaracion (las lineas
-   *    en promocion no los llevan).
+   *    imprime (una reimpresion da el mismo precio): su precio_unitario con los
+   *    descuentos sobre el total de ese pedido (las lineas en promocion no los
+   *    llevan).
    * 3. Si no: null (VERIFICAR PRECIO).
    */
   const diaDe = iso => Utilities.formatDate(new Date(iso), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
@@ -2159,7 +2196,9 @@ function accionPedidosParaImprimir(body) {
       if (c) {
         // El DBF no tiene hora: el mediodia de Argentina, para que ninguna
         // pantalla lo corra al dia anterior por la zona horaria
-        return { fuente: 'historial', precio: Math.round(c.sinIva * (1 + c.iva / 100) * 100) / 100,
+        const renglon = r2(c.sinIva * (1 + c.iva / 100));
+        return { fuente: 'historial', precio: aplicarDescuentos(renglon, c.desc), precioRenglon: renglon,
+                 descAplicado: c.desc.some(d => Number(d[0]) > 0), descParcial: !!c.parcial,
                  sinIva: c.sinIva, numero: c.comprobante, fecha: c.fecha + 'T12:00:00-03:00', desc: c.desc };
       }
     }
@@ -2174,7 +2213,9 @@ function accionPedidosParaImprimir(body) {
     if (!mejor) return null;
     const pv = previos[mejor.id];
     const desc = mejor.enPromo ? [] : [pv.descPct, pv.descExtra].filter(x => x > 0).map(x => [x, '']);
-    return { fuente: 'app', precio: Math.round(mejor.pu * 100) / 100, numero: pv.numero,
+    const renglon = r2(mejor.pu);
+    return { fuente: 'app', precio: aplicarDescuentos(renglon, desc), precioRenglon: renglon,
+             descAplicado: desc.length > 0, descParcial: false, numero: pv.numero,
              fecha: pv.ts.toISOString(), desc };
   }
 

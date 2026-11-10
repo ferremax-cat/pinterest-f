@@ -46,7 +46,11 @@ Que se cuenta:
     descuento del comprobante): lo que suman los renglones de descuento sobre
     el resto del comprobante;
   - compras (columna E): PRECIO tal cual, sin IVA y sin el descuento sobre el
-    total; el descuento va aparte, con el porcentaje que dice su NOMBRE;
+    total; el descuento va aparte, con el porcentaje que dice su NOMBRE (el
+    servidor lo aplica al precio, como la nota de credito). Si el importe del
+    descuento no coincide con ese porcentaje sobre el resto del comprobante (no
+    alcanzo a todos los renglones), el comprobante queda marcado como parcial y
+    la hoja de facturacion pide verificarlo;
   - de VENTAS.DBF solo se leen los campos de CAMPOS (UTILIDAD nunca).
 
 Uso:
@@ -421,9 +425,43 @@ def descuentos_comprobante(filas, unir):
     return dict(res)
 
 
-def armar_compras(filas, unir, descuentos):
+# Diferencia admitida entre el descuento del comprobante y su porcentaje: centavos de redondeo
+TOLERANCIA_DESCUENTO = 0.05
+
+
+def descuentos_parciales(filas, unir, descuentos):
+    """Comprobantes cuyo descuento sobre el total no es el porcentaje de su NOMBRE
+    sobre el resto del comprobante (en cascada, el segundo sobre lo que queda
+    despues del primero), con TOLERANCIA_DESCUENTO pesos: el descuento no
+    alcanzo a todos los renglones (o no se puede comprobar, sin base). Aplicar
+    el porcentaje a un renglon que quizas no lo llevo acreditaria de menos.
+    Devuelve el conjunto de (compte, cuenta)."""
+    base, montos = defaultdict(float), defaultdict(list)
+    for f in filas:
+        k = (f['compte'], f['cuenta'])
+        if k not in descuentos:
+            continue
+        if es_descuento_total(f, unir):
+            montos[k].append(-f['importe'])
+        else:
+            base[k] += f['importe']
+    parciales = set()
+    for k, desc in descuentos.items():
+        resto = base[k]
+        if resto <= 0 or len(montos[k]) != len(desc):
+            parciales.add(k)
+            continue
+        for (pct, _), monto in zip(desc, montos[k]):
+            if abs(monto - resto * pct / 100) > TOLERANCIA_DESCUENTO:
+                parciales.add(k)
+                break
+            resto -= monto
+    return parciales
+
+
+def armar_compras(filas, unir, descuentos, parciales=frozenset()):
     """cuenta -> {codigo: [(fecha 'AAAA-MM-DD', compte, cantidad, precio sin IVA,
-    iva, descuentos), ...]}: las ultimas MAX_COMPRAS compras, de la mas reciente a
+    iva, descuentos, parcial), ...]}: las ultimas MAX_COMPRAS compras, de la mas reciente a
     la mas vieja, una por comprobante (dos renglones del mismo articulo en un
     comprobante se suman, con el precio del ultimo). Mismas reglas que el
     historial: cantidad positiva, sin notas de credito, solo del catalogo."""
@@ -438,8 +476,9 @@ def armar_compras(filas, unir, descuentos):
         fecha = f'{f["fecha"][:4]}-{f["fecha"][4:6]}-{f["fecha"][6:]}'
         previa = por[cuenta][codigo].pop(f['compte'], None)
         cantidad = round((previa[2] if previa else 0) + f['cantidad'], 2)
+        k = (f['compte'], f['cuenta'])
         por[cuenta][codigo][f['compte']] = (fecha, f['compte'], cantidad, round(f['precio'], 2), f['iva'],
-                                            descuentos.get((f['compte'], f['cuenta']), []))
+                                            descuentos.get(k, []), k in parciales)
     res = {}
     for cuenta, articulos in por.items():
         res[cuenta] = {}
@@ -459,7 +498,7 @@ def comprobante_corto(compte):
 def comprimir_compras(articulos, actualizado):
     """Celda de compras (columna E) de un cliente, en gzip y base64:
       {"v":1, "act":fecha,
-       "k":[[comprobante, fecha, descuentos?], ...],
+       "k":[[comprobante, fecha, descuentos?, 1 si el descuento fue parcial?], ...],
        "c":{codigo: [[k, cantidad, precio sin IVA, iva?], ...], ...}}
     Las compras de cada articulo van de la mas reciente a la mas vieja; k es el
     indice del comprobante en "k" (un comprobante con muchos articulos se guarda
@@ -472,11 +511,12 @@ def comprimir_compras(articulos, actualizado):
         indice, k, c = {}, [], {}
         for codigo, compras in lista:
             fila = []
-            for fecha, compte, cantidad, precio, iva, desc in compras:
+            for fecha, compte, cantidad, precio, iva, desc, parcial in compras:
                 clave = (compte, fecha)
                 if clave not in indice:
                     indice[clave] = len(k)
-                    k.append([comprobante_corto(compte), fecha] + ([desc] if desc else []))
+                    k.append([comprobante_corto(compte), fecha] + ([desc] if desc else [])
+                             + ([1] if desc and parcial else []))
                 fila.append([indice[clave], cantidad, precio] + ([iva] if iva != 21 else []))
             c[codigo] = fila
         datos = json.dumps({'v': 1, 'act': actualizado, 'k': k, 'c': c}, separators=(',', ':'), ensure_ascii=False)
@@ -672,7 +712,8 @@ def main():
     hist, con_descuento, sin_calcular = armar_historial(filas, unir)
     fuera = fuera_de_temporada(filas, viejas, unir, hoy.month)
     descuentos = descuentos_comprobante(filas, unir)
-    compras = armar_compras(filas, unir, descuentos)
+    parciales = descuentos_parciales(filas, unir, descuentos)
+    compras = armar_compras(filas, unir, descuentos, parciales)
     actualizado = hoy.isoformat()
     filas_hoja, recortados, con_hab, con_dej, recortados_c, largos_c = [], 0, 0, 0, 0, []
     for cuenta in sorted(hist):
@@ -702,7 +743,7 @@ def main():
     largos_c.sort()
     print(f'Compras (precio anterior): celda mediana {largos_c[len(largos_c) // 2]} caracteres, la mas grande '
           f'{largos_c[-1]} | comprobantes con descuento sobre el total: {len(descuentos)} '
-          f'({sum(len(v) > 1 for v in descuentos.values())} en cascada)')
+          f'({sum(len(v) > 1 for v in descuentos.values())} en cascada, {len(parciales)} parciales: a verificar)')
     if recortados_c:
         print(f'AVISO: las compras de {recortados_c} cliente(s) no entraban en una celda: quedaron las mas recientes')
 

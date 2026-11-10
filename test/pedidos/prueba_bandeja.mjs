@@ -259,17 +259,19 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   const app = (numero, desc = []) => ({ tipo: 'anterior', fuente: 'app', numero, fecha: '2026-11-08T15:00:00Z', desc });
   const itm = (sku, cantidad, precio, origen, extra = {}) => ({ sku, nombre: 'Art ' + sku, cantidad, precio,
     importe: precio === null ? null : -precio * cantidad, origen, ...extra });
+  // Como lo manda el servidor v40: el precio con el descuento aplicado y el del renglon aparte
+  const v40 = (o, renglon, parcial = false) => ({ ...o, precioRenglon: renglon, descAplicado: o.desc.length > 0, descParcial: parcial });
   const o116 = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -1, verificar: false, items: [
-    itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']])),
-    itm('CAS1', 1, 60.5, hist('FCa000000000500', '2026-09-10', 50, [[5, ''], [7, 'contado']])),
-    itm('SKU1', 1, 181.5, hist('PRb000000001033', '2026-10-01', 150)),
-    itm('SKU2', 1, 95.5, app('APP-1', [[7, ''], [5, '']])),
-    itm('SKU3', 1, 33, app('APP-1'))] };
+    itm('EVO115TF', 2, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87)),
+    itm('CAS1', 1, 53.46, v40(hist('FCa000000000500', '2026-09-10', 50, [[5, ''], [7, 'contado']]), 60.5)),
+    itm('SKU1', 1, 181.5, v40(hist('PRb000000001033', '2026-10-01', 150), 181.5)),
+    itm('SKU2', 1, 84.38, v40(app('APP-1', [[7, ''], [5, '']]), 95.5)),
+    itm('SKU3', 1, 33, v40(app('APP-1'), 33))] };
   const o119 = { clave: '119', codigo: '119', texto: 'FALTANTE', grupo: 'mercaderia', efecto: 'descuenta', importe: null, verificar: true,
     items: [itm('NADA', 1, null, null)] };
-  const o126 = { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', importe: 11104.87, verificar: true, items: [
-    itm('EVO115TF', 1, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'facturado' }),
-    { ...itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'correspondia' }), importe: 22209.74 }] };
+  const o126 = { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', importe: 10327.53, verificar: true, items: [
+    itm('EVO115TF', 1, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87), { lado: 'facturado' }),
+    { ...itm('EVO115TF', 2, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87), { lado: 'correspondia' }), importe: 20655.06 }] };
   // Un servidor anterior: origen sin fuente ni aclaracion
   const oViejo = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -100, verificar: false,
     items: [itm('VIEJO', 1, 100, { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' })] };
@@ -280,8 +282,20 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
     conFuente ? hist('PRa000000000' + (100 + i), '2026-10-01', 8.26) : { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' }));
   const P3 = ped('PA3', 'APP-23', 1, 1, { observaciones: [{ ...oViejo, items: muchos(true) }] });
   const P4 = ped('PA4', 'APP-24', 1, 1, { observaciones: [{ ...oViejo, items: muchos(false) }] });
+  // Un servidor v38: el precio del renglon y el descuento "no aplicado" (la app nueva lo muestra como antes)
+  const P5 = ped('PA5', 'APP-25', 1, 1, { observaciones: [{ ...oViejo, importe: -11200.37, items: [
+    itm('V38H', 1, 11104.87, hist('PRa000000012346', '2026-11-05', 9177.58, [[7, 'contado']])),
+    itm('V38A', 1, 95.5, app('APP-2', [[7, ''], [5, '']]))] }] });
+  // v40: descuento parcial en el comprobante y un pedido de la app con un solo descuento
+  const P6 = ped('PA6', 'APP-26', 1, 1, { observaciones: [{ ...oViejo, importe: -159.03, verificar: true, items: [
+    itm('PARC', 1, 112.53, v40(hist('PRa000000066666', '2026-11-02', 100, [[7, 'contado']]), 121, true)),
+    itm('SKU4', 1, 46.5, v40(app('APP-3', [[7, '']]), 50))] }] });
+  // v40 con los totales parciales (v39): un articulo con descuento y otro a verificar
+  const P7 = ped('PA7', 'APP-27', 1, 1, { totalBruto: 100, totalNeto: 100, observaciones: [{ ...oViejo, importe: null, verificar: true, items: [
+    itm('EVO115TF', 1, 10327.53, v40(hist('PRa000000012347', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87)),
+    itm('NADA2', 1, null, null)] }] });
 
-  Hojas.imprimir([P1, P2, P3, P4]);
+  Hojas.imprimir([P1, P2, P3, P4, P5, P6, P7]);
   await tick(60);
   const cont = document.getElementById('ih-hojas');
   const hojasDe = numero => [...cont.querySelectorAll('.ih-hoja, section, article')].filter(h => h.textContent.includes('N° ' + numero));
@@ -290,15 +304,20 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   const tipoDe = (sku, n) => filaDe(sku, n)?.lastElementChild.textContent.trim();
   ver('PA hojas armadas', !!cont && cont.querySelectorAll('tr.ih-obs-item-fact').length > 0, cont?.innerHTML.slice(0, 200));
   ver('PA1 historial: Tipo con el comprobante corto y el dia', tipoDe('EVO115TF') === 'PRa12345 05/11/26', tipoDe('EVO115TF'));
-  ver('PA1 historial: precio con IVA en P. unit.', filaDe('EVO115TF')?.children[4].textContent === '$11.104,87');
-  ver('PA1 aclaracion: comprobante, dia, s/IVA y -7% pago contado sin aplicar',
-    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)'), JSON.stringify(notas));
-  ver('PA1 aclaracion en cascada: -5% y -7% pago contado',
-    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con −5 % y −7 % pago contado (no aplicado)'));
+  ver('PA1 historial: P. unit. con el descuento aplicado y su importe', filaDe('EVO115TF')?.children[4].textContent === '$10.327,53' &&
+    filaDe('EVO115TF')?.children[5].textContent === '−$20.655,06', filaDe('EVO115TF')?.textContent);
+  ver('PA1 aclaracion: comprobante, dia, s/IVA y el -7% del comprobante aplicado (renglon)',
+    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con el −7 % del comprobante aplicado (renglón $11.104,87)'), JSON.stringify(notas));
+  ver('PA1 aclaracion en cascada: -5% y -7% del comprobante aplicados',
+    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con el −5 % y −7 % del comprobante aplicados (renglón $60,50)'));
+  ver('PA1 cascada: P. unit. 53,46', filaDe('CAS1')?.children[4].textContent === '$53,46');
   ver('PA1 comprobante sin descuento: aclaracion sin descuento',
     notas.includes('Comprobante PRb000000001033 del 01/10/2026 · s/IVA $150,00'));
-  ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento sin aplicar',
-    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total (no aplicado)'), tipoDe('SKU2'));
+  ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento aplicado',
+    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total aplicados (precio de la línea $95,50)') &&
+    filaDe('SKU2')?.children[4].textContent === '$84,38', tipoDe('SKU2'));
+  ver('PA1 ya no dice "(no aplicado)" con un servidor v40', !notas.some(t => t.includes('no aplicado') && !t.includes('12346') && !t.startsWith('Pedido APP-2')),
+    JSON.stringify(notas));
   ver('PA1 de la app sin descuento: sin aclaracion', tipoDe('SKU3') === 'APP-1 08/11/26' &&
     filaDe('SKU3').nextElementSibling?.className !== 'ih-obs-nota-fact');
   ver('PA1 la aclaracion va justo debajo de su articulo', filaDe('EVO115TF').nextElementSibling?.textContent.includes('PRa000000012345'));
@@ -309,6 +328,17 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
     filaDe('EVO115TF', 2).nextElementSibling?.textContent.startsWith('Lo que correspondía'), notasEvo);
   ver('PA2 servidor anterior (sin fuente): como antes, sin aclaracion', tipoDe('VIEJO') === 'APP-3 01/11/26' &&
     filaDe('VIEJO').nextElementSibling?.className !== 'ih-obs-nota-fact');
+  ver('PA5 servidor v38: el renglon y "(no aplicado)", como antes',
+    notas.includes('Comprobante PRa000000012346 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)') &&
+    notas.includes('Pedido APP-2 con −7 % y −5 % sobre el total (no aplicado)') && filaDe('V38H')?.children[4].textContent === '$11.104,87', JSON.stringify(notas));
+  ver('PA6 descuento parcial: aplicado y "verificar" en la aclaracion',
+    notas.includes('Comprobante PRa000000066666 del 02/11/2026 · s/IVA $100,00 · con el −7 % del comprobante aplicado (renglón $121,00) · descuento parcial en el comprobante: verificar'),
+    JSON.stringify(notas));
+  ver('PA6 de la app con un descuento: "aplicado" en singular',
+    notas.includes('Pedido APP-3 con −7 % sobre el total aplicado (precio de la línea $50,00)'), JSON.stringify(notas));
+  const t7 = hojasDe('APP-27').map(h => h.querySelector('.ih-totales')).find(Boolean)?.textContent.replace(/\s+/g, ' ') || '';
+  ver('PA7 totales parciales: lo confirmado ya con el descuento y el pendiente aparte', t7.includes('−$10.327,53') &&
+    t7.includes('+ 1 artículo a verificar') && t7.includes('NETO PARCIAL'), t7);
   ver('PA la hoja de preparacion no lleva aclaraciones', ![...cont.querySelectorAll('.ih-obs-caja')].some(x => x.textContent.includes('Comprobante')));
   const cabFact = numero => [...cont.querySelectorAll('.ih-cab-fact, .ih-cab-cont')].filter(h => h.textContent.includes('Facturación') && h.textContent.includes('N° ' + numero)).length;
   ver('PA paginado: las aclaraciones ocupan lugar (mas hojas con aclaracion que sin)', cabFact('APP-23') > cabFact('APP-24') && cabFact('APP-24') >= 1,

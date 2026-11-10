@@ -418,29 +418,40 @@ const fmtDia = (d, corto) => {
 };
 /** PRa000000012345 -> PRa12345, para la columna Tipo */
 const comprobanteCorto = c => String(c || '').replace(/^([A-Za-z]{3})0+(\d)/, '$1$2');
-/** [[5, ''], [7, 'contado']] -> "−5 % y −7 % pago contado" */
-const textoDescuentos = desc => desc.map(x => `−${fmtNum(Number(x[0]) || 0)} %`).join(' y ') +
-  (desc.some(x => x[1] === 'contado') ? ' pago contado' : '');
+/** [[5, ''], [7, 'contado']] -> "−5 % y −7 %" */
+const listaDescuentos = desc => desc.map(x => `−${fmtNum(Number(x[0]) || 0)} %`).join(' y ');
+/** [[5, ''], [7, 'contado']] -> "−5 % y −7 % pago contado" (servidor v38, sin aplicar) */
+const textoDescuentos = desc => listaDescuentos(desc) + (desc.some(x => x[1] === 'contado') ? ' pago contado' : '');
 
 /**
  * Renglon de aclaracion debajo de un articulo con precio anterior (solo en la
- * hoja de facturacion): de que comprobante salio, su precio sin IVA y el
- * descuento sobre el total que tuvo, que no esta aplicado. Del historial
- * siempre; de un pedido de la app, solo si tuvo descuento. Un servidor
- * anterior (sin fuente) no la lleva
+ * hoja de facturacion): de que comprobante salio, su precio sin IVA (el del
+ * renglon) y el descuento sobre el total que tuvo. Del historial siempre; de
+ * un pedido de la app, solo si tuvo descuento. Un servidor anterior (sin
+ * fuente) no la lleva.
+ * Servidor v40 (descAplicado): el precio ya tiene el descuento aplicado, como
+ * la nota de credito; la aclaracion dice el precio del renglon sin el. Servidor
+ * v38 (sin descAplicado): el precio es el del renglon y el descuento "no
+ * aplicado". descParcial: el descuento no alcanzo a todos los renglones del
+ * comprobante
  */
 function filasNotaOrigen(it) {
   const a = it.origen;
   if (!a || a.tipo !== 'anterior' || !a.fuente) return [];
   const desc = Array.isArray(a.desc) ? a.desc.filter(x => Number(x?.[0]) > 0) : [];
+  const aplicado = a.descAplicado === true && desc.length > 0;
+  const aplicados = desc.length > 1 ? 'aplicados' : 'aplicado';
   if (a.fuente === 'historial') {
     return [{ tipo: 'obsNota', texto: `Comprobante ${a.numero} del ${fmtDia(a.fecha)}` +
       (a.sinIva !== undefined && a.sinIva !== null ? ` · s/IVA ${fmtPesos(a.sinIva)}` : '') +
-      (desc.length ? ` · con ${textoDescuentos(desc)} (no aplicado)` : '') }];
+      (aplicado ? ` · con el ${listaDescuentos(desc)} del comprobante ${aplicados} (renglón ${fmtPesos(a.precioRenglon)})`
+        : desc.length ? ` · con ${textoDescuentos(desc)} (no aplicado)` : '') +
+      (a.descParcial === true ? ' · descuento parcial en el comprobante: verificar' : '') }];
   }
-  return desc.length
-    ? [{ tipo: 'obsNota', texto: `Pedido ${a.numero} con ${textoDescuentos(desc)} sobre el total (no aplicado)` }]
-    : [];
+  if (!desc.length) return [];
+  return [{ tipo: 'obsNota', texto: aplicado
+    ? `Pedido ${a.numero} con ${listaDescuentos(desc)} sobre el total ${aplicados} (precio de la línea ${fmtPesos(a.precioRenglon)})`
+    : `Pedido ${a.numero} con ${textoDescuentos(desc)} sobre el total (no aplicado)` }];
 }
 
 /** Alto de un renglon del recuadro de preparacion: con foto o sin foto */
