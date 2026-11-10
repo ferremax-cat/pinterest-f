@@ -34,3 +34,10 @@ export { config };
 // Prueba con vendedores: mientras este en true, los clientes ven el catalogo
 // sin carrito ni promociones y entran sin el login por servidor
 export const SOLO_VENDEDORES = true;
+
+// Cuentas puente para cargar pedidos de ferreterias que todavia no son
+// clientes (una por vendedor; las crea administracion en el sistema de
+// gestion). Al elegir una se piden los datos del comercio (js/alta-cliente.js).
+// Tiene que coincidir con la clave cuentas_alta de la hoja config: el servidor
+// es el que manda y rechaza un pedido que no coincida
+export const CUENTAS_ALTA = ['157', '158', '159'];

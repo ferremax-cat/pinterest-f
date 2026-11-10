@@ -9,8 +9,9 @@
 import { join } from 'path';
 import { RAIZ, JSDOM, prepararModulos } from './preparar.mjs';
 const importar = prepararModulos(
-  ['historial-cliente.js', 'habituales.js', 'carrito.js', 'carrito-panel.js', 'observaciones.js', 'hoja.js', 'datos-catalogo.js'],
-  { 'config.js': '// Reemplazo minimo para la prueba\nexport const SOLO_VENDEDORES = false;\n',
+  ['historial-cliente.js', 'habituales.js', 'carrito.js', 'carrito-panel.js', 'observaciones.js', 'hoja.js', 'datos-catalogo.js',
+    'alta-cliente.js'],
+  { 'config.js': '// Reemplazo minimo para la prueba\nexport const SOLO_VENDEDORES = false;\nexport const CUENTAS_ALTA = [\'157\'];\n',
     'sesion.js': '// Reemplazo minimo para la prueba\nexport const pedirToken = () => Promise.resolve(null);\n' });
 
 let ok = 0, fallas = 0;
@@ -533,6 +534,117 @@ cuentaVista = '7'; ponerCupo('7');
   w.Api.llamar = llamarAntes;
   $('#carrito-panel .cp-cerrar-exito')?.click();
   C.vaciar();
+}
+
+// P. Cliente nuevo (js/alta-cliente.js): formulario, alta a medias, pedido con los datos del comercio
+{
+  const antesP = ok + fallas;
+  const AC = w.AltaCliente;
+  const llenar = (datos) => {
+    const f = $('.alta-form');
+    Object.entries(datos).forEach(([k, v]) => {
+      if (k === 'formula') { const r = f.querySelector(`input[name="formula"][value="${v}"]`); if (r) r.checked = true; }
+      else f.elements[k].value = v;
+    });
+  };
+  const enviar = () => $('.alta-form').dispatchEvent(new w.Event('submit', { cancelable: true, bubbles: true }));
+  const DATOS = { comercio: 'Ferretería <b>Nueva</b>', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E' };
+  C.vaciar('157');
+
+  ver('P1 cuentas puente: 157 si, 100 no', AC?.esCuentaAlta('157') === true && AC.esCuentaAlta('100') === false);
+
+  // Formulario
+  let prom = AC.pedirDatos('157');
+  await tick();
+  ver('P2 formulario: 7 campos y las formulas D, E, F', $$('.alta-form .alta-campo input').length === 7 &&
+    JSON.stringify($$('.alta-form input[name="formula"]').map(r => r.value)) === '["D","E","F"]');
+  enviar(); await tick();
+  ver('P2 vacio: no se cierra y dice que falta', !!$('.alta-form') && $('.alta-error').textContent.startsWith('Falta completar: nombre del comercio') &&
+    $('.alta-error').textContent.includes('la fórmula'), $('.alta-error')?.textContent);
+  llenar({ ...DATOS, formula: '' });
+  enviar(); await tick();
+  ver('P2 sin formula: sigue pidiendola', !!$('.alta-form') && $('.alta-error').textContent === 'Falta completar: la fórmula.');
+  llenar(DATOS);
+  enviar(); await tick();
+  let r = await prom;
+  ver('P2 completo: devuelve los datos y cierra', r?.comercio === DATOS.comercio && r.formula === 'E' && !$('.alta-form'));
+  ver('P2 quedan guardados con el carrito de la 157', C.getAlta('157')?.telefono === '3492 555555');
+
+  // Cerrar sin completar
+  C.vaciar('157');
+  prom = AC.pedirDatos('157');
+  await tick();
+  $('.hj-volver').click();
+  ver('P3 cerrar el formulario: null y nada guardado', (await prom) === null && C.getAlta('157') === null);
+
+  // Alta a medias: seguir
+  C.setAlta(DATOS, '157');
+  C.agregar('P001', 2, '157');
+  prom = AC.pedirDatos('157');
+  await tick();
+  ver('P4 alta a medias: pregunta con el comercio y los articulos', $('.alta-pregunta')?.textContent.includes('Tenés un alta a medias: «Ferretería <b>Nueva</b>», con 1 artículo') &&
+    !$('.alta-pregunta b b') && $('.alta-pregunta').textContent.includes('Empezar otro descarta el carrito'), $('.alta-pregunta')?.textContent);
+  $$('.alta-pregunta button').find(b => b.dataset.r === 'seguir').click(); await tick();
+  ver('P4 seguir: el formulario con los datos y el aviso de la formula', $('.alta-form')?.elements.comercio.value === DATOS.comercio &&
+    $('.alta-form input[value="E"]').checked && $('.alta-form').textContent.includes('cambian los precios'));
+  enviar(); await tick();
+  r = await prom;
+  ver('P4 el carrito sigue con su articulo', r?.comercio === DATOS.comercio && C.leer('157').length === 1);
+
+  // Alta a medias: empezar otro
+  prom = AC.pedirDatos('157');
+  await tick();
+  $$('.alta-pregunta button').find(b => b.dataset.r === 'otro').click(); await tick();
+  ver('P5 empezar otro: carrito y datos anteriores descartados, formulario vacio', C.leer('157').length === 0 && C.getAlta('157') === null &&
+    $('.alta-form')?.elements.comercio.value === '');
+  $('.hj-volver').click();
+  ver('P5 y cerrar: null', (await prom) === null);
+
+  // Restaurar (recarga)
+  C.setAlta(DATOS, '157');
+  ver('P6 restaurando: los guardados, sin preguntar', (await AC.pedirDatos('157', { restaurando: true }))?.comercio === DATOS.comercio && !$('.alta-pregunta'));
+  C.vaciar('157');
+  ver('P6 restaurando sin datos: null', (await AC.pedirDatos('157', { restaurando: true })) === null && !$('.alta-form'));
+
+  // Pedido en la cuenta puente
+  const precioAntes = w.Precios.getClienteVista;
+  w.Precios.getClienteVista = () => ({ cuenta: '157', lista: 'E', nombre: DATOS.comercio, alta: true });
+  ponerCupo('157');
+  const apiAntes = w.Api.llamar;
+  let enviado = null, respGuardar = { ok: true, id: 'x', numero: 'ALTA-1', alta: true };
+  w.Api.llamar = async b => (b.accion === 'guardar_pedido' ? (enviado = b.pedido, respGuardar) : apiAntes(b));
+
+  C.agregar('P001', 2, '157');
+  w.CarritoPanel.abrir(); await tick(10);
+  ver('P7 panel: el titulo es el comercio, escapado', $('#carrito-panel .cp-titulo')?.textContent === DATOS.comercio && !$('#carrito-panel .cp-titulo b'));
+  $('#carrito-panel .cp-confirmar').click(); await tick(20);
+  ver('P7 sin datos del comercio: avisa y no envia', !enviado && !C.getPendiente('157'));
+
+  C.setAlta(DATOS, '157');
+  $('#carrito-panel .cp-confirmar').click(); await tick(20);
+  ver('P8 el pedido lleva los datos del comercio y la formula', enviado?.cliente === '157' && enviado.alta?.comercio === DATOS.comercio &&
+    enviado.alta.formula === 'E' && enviado.alta.horario === '8 a 12' && enviado.lista === 'E', JSON.stringify(enviado?.alta));
+  const exito = $('#carrito-panel .cp-exito')?.textContent || '';
+  ver('P8 pantalla: "Alta registrada", "ALTA-1 · falta número de cuenta" y el aviso', exito.includes('Alta registrada') &&
+    exito.includes('ALTA-1 · falta número de cuenta') && exito.includes('Oficina carga el número de cuenta'), exito);
+  ver('P8 carrito vaciado y datos del comercio borrados', C.leer('157').length === 0 && C.getAlta('157') === null && !C.getPendiente('157'));
+  $('#carrito-panel .cp-cerrar-exito')?.click();
+
+  // Rechazo del servidor antes de escribir
+  C.setAlta(DATOS, '157');
+  C.agregar('P001', 1, '157');
+  enviado = null;
+  respGuardar = { ok: false, error: 'datos_alta_incompletos' };
+  w.CarritoPanel.abrir(); await tick(10);
+  $('#carrito-panel .cp-confirmar').click(); await tick(20);
+  ver('P9 rechazo datos_alta_incompletos: no queda pendiente, el carrito sigue', !!enviado && !C.getPendiente('157') && C.leer('157').length === 1);
+  C.vaciar('157');
+
+  // Un pedido normal no lleva alta
+  w.Precios.getClienteVista = precioAntes;
+  w.Api.llamar = apiAntes;
+  console.log(`Casos de cliente nuevo en la app: ${ok + fallas - antesP}`);
 }
 
 // 10. Usuario cliente: nada, y la foto de respaldo (E7)

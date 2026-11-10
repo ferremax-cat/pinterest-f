@@ -42,6 +42,12 @@ function actualizarFinanzas(cuenta) {
                 disponible: d.disponible,
                 esRevendedor: d.esRevendedor
             };
+            // Cliente nuevo: la barra sigue con el nombre del comercio, no con
+            // el de la cuenta puente ("NUEVO CLIENTE RF")
+            const enVista = window.Precios?.getClienteVista();
+            if (enVista?.alta && String(enVista.cuenta) === String(cuenta)) {
+                actualizados.nombre = `${enVista.nombre} (cliente nuevo)`;
+            }
 
             // Solo guardar si el dato llego: si no, dejar vacio para
             // que el panel vuelva a intentarlo
@@ -518,19 +524,40 @@ class BusquedaClientes {
     /**
      * Seleccionar un cliente y mostrar su salud financiera
      */
-    async seleccionarCliente(cuenta) {
+    async seleccionarCliente(cuenta, opc = {}) {
         console.log('[Búsqueda Clientes] Cliente seleccionado:', cuenta);
-        
+
         const cliente = this.clientesData[cuenta];
-        
+
         if (!cliente) {
             console.error('[Búsqueda Clientes] Cliente no encontrado:', cuenta);
             return;
         }
-        
+
+        // Cliente nuevo: en la cuenta puente del vendedor se piden primero los
+        // datos del comercio y la formula (js/alta-cliente.js). Sin completarlos
+        // no queda ningun cliente elegido: ni precios ni carrito
+        const rolVendedor = sessionStorage.getItem('authRol')
+            || window.menuFuncionalidades?.usuarioActual?.rol || '';
+        let alta = null;
+        if (rolVendedor !== 'cliente_estandar') {
+            const modulo = await esperarAltaCliente();
+            if (modulo?.esCuentaAlta(cuenta)) {
+                alta = await modulo.pedirDatos(cuenta, { restaurando: !!opc.restaurando });
+                if (!alta) {
+                    if (opc.restaurando) window.Precios?.limpiarClienteVista();
+                    return;
+                }
+            } else if (!modulo && /^nuevo cliente/i.test(cliente.nombre || '')) {
+                // Sin el modulo no se puede pedir el formulario: no se elige
+                console.error('[Búsqueda Clientes] No se cargó js/alta-cliente.js');
+                return;
+            }
+        }
+
         // Preparar datos para la barra de salud financiera
         const datosFinancieros = {
-            nombre: cliente.nombre,
+            nombre: alta ? `${alta.comercio} (cliente nuevo)` : cliente.nombre,
             pgProm3M: cliente.pgProm3M,
             comproMes: cliente.comproMes,
             saldoTotal: cliente.saldoTotal,
@@ -547,8 +574,11 @@ class BusquedaClientes {
             || window.menuFuncionalidades?.usuarioActual?.rol
             || '';
         if (window.Precios && rol !== 'cliente_estandar') {
-            // El nombre de finanzas, el mismo que muestra la barra
-            const aplicado = await window.Precios.setClienteVista(cuenta, cliente.nombre);
+            // El nombre de finanzas, el mismo que muestra la barra. Cliente nuevo:
+            // el nombre del comercio y la formula elegida
+            const aplicado = alta
+                ? await window.Precios.setClienteVista(cuenta, alta.comercio, { lista: alta.formula, alta: true })
+                : await window.Precios.setClienteVista(cuenta, cliente.nombre);
             if (!aplicado) {
                 const av = document.createElement('div');
                 av.textContent = 'El cliente ' + cuenta + ' no tiene lista de precios asignada';
@@ -782,8 +812,21 @@ async function restaurarClienteEnVista() {
     const inst = window.busquedaClientes;
     if (!inst?.clientesData?.[cli.cuenta]) return;
 
-    await inst.seleccionarCliente(cli.cuenta);
+    // Cliente nuevo: se restaura con los datos guardados, sin preguntar
+    await inst.seleccionarCliente(cli.cuenta, { restaurando: true });
     console.log('[Búsqueda Clientes] Cliente restaurado tras recarga:', cli.cuenta);
+}
+
+/**
+ * js/alta-cliente.js es un modulo (lo carga carrito-panel.js) y este archivo
+ * no: puede no estar listo en el primer instante. Se espera hasta 3 s; casi
+ * siempre ya esta y no se espera nada
+ */
+async function esperarAltaCliente() {
+    for (let i = 0; !window.AltaCliente && i < 15; i++) {
+        await new Promise(r => setTimeout(r, 200));
+    }
+    return window.AltaCliente || null;
 }
 
 setTimeout(restaurarClienteEnVista, 1500);

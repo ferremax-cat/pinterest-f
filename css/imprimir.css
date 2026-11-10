@@ -891,3 +891,19 @@ tr.im-prueba { background: #fffbeb; }
     border-radius: var(--radio);
   }
 }
+
+/* ---------- clientes nuevos: falta numero de cuenta (js/imprimir.js, dibujarAltas) ---------- */
+.im-alta-asignar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; margin-top: 8px; }
+.im-alta-asignar label { display: flex; flex-direction: column; gap: 3px; font-size: 13px; font-weight: 600; }
+.im-alta-cuenta { width: 130px; height: 38px; padding: 0 10px; border: 1px solid #999; border-radius: 6px; font-size: 16px; }
+.im-alta-asignar button { min-height: 38px; padding: 0 14px; border: 1px solid #999; border-radius: 6px; background: #fff; font-weight: 600; cursor: pointer; }
+.im-alta-asignar .im-alta-seguir,
+.im-alta-asignar .im-alta-confirmar { border-color: #16a34a; background: #16a34a; color: #fff; }
+.im-alta-asignar button:disabled { opacity: .6; cursor: default; }
+.im-alta-pregunta { flex-basis: 100%; margin: 0; font-size: 14px; }
+.im-alta-error { flex-basis: 100%; margin: 0; color: #dc2626; font-size: 13px; font-weight: 600; }
+.im-aviso-breve {
+  position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); z-index: 99999;
+  max-width: 90vw; padding: 12px 18px; border-radius: 8px; background: #333; color: #fff;
+  font-size: 14px; text-align: center; box-shadow: 0 4px 14px rgba(0, 0, 0, .3);
+}
