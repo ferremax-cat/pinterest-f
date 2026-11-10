@@ -43,3 +43,27 @@
     border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, .3);
   }
 }
+
+/* ---- cliente nuevo: datos del comercio (js/alta-cliente.js) ---- */
+.alta-form, .alta-pregunta { display: flex; flex-direction: column; gap: 10px; padding: 12px 16px 16px; }
+.alta-nota { margin: 0; font-size: 13px; color: #555; }
+.alta-texto { margin: 0; font-size: 14px; line-height: 1.45; }
+.alta-campo { display: flex; flex-direction: column; gap: 3px; font-size: 13px; font-weight: 600; color: #333; }
+.alta-campo input {
+  height: 40px; padding: 0 10px; border: 1px solid #ccc; border-radius: 6px;
+  font-size: 15px; font-weight: 400;
+}
+.alta-campo input:focus { outline: 2px solid #2563eb; outline-offset: 0; border-color: #2563eb; }
+.alta-campo input.alta-falta { border-color: #dc2626; }
+.alta-formula { display: flex; gap: 18px; margin: 0; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; }
+.alta-formula legend { padding: 0 4px; font-size: 13px; font-weight: 600; color: #333; }
+.alta-formula label { display: flex; align-items: center; gap: 6px; min-height: 36px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.alta-formula input { width: 20px; height: 20px; }
+.alta-error { margin: 0; color: #dc2626; font-size: 13px; font-weight: 600; }
+.alta-botones { display: flex; flex-wrap: wrap; gap: 10px; }
+.alta-btn {
+  min-height: 44px; padding: 0 16px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
+  border: 1px solid #ccc; background: #fff; color: #333;
+}
+.alta-btn-principal { border: none; background: #e60023; color: #fff; }
+.alta-btn-peligro { border: 1px solid #dc2626; background: #fff; color: #dc2626; }

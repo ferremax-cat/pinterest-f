@@ -261,10 +261,35 @@ export function vaciar(cliente) {
   localStorage.removeItem(claveCarrito(cliente) + '::origenSkus');
   localStorage.removeItem(claveCarrito(cliente) + '::pendiente');
   localStorage.removeItem(claveCarrito(cliente) + '::ajuste');
+  localStorage.removeItem(claveCarrito(cliente) + '::alta');
   localStorage.removeItem(claveCarrito(cliente) + '::mod');
   document.dispatchEvent(new CustomEvent('carrito:cambio', {
     detail: { cliente: cliente || getClienteDestino(), lineas: [] }
   }));
+}
+
+// ---------- cliente nuevo (js/alta-cliente.js) ----------
+// En una cuenta puente, los datos del comercio y la formula viajan con su
+// carrito: sobreviven a una recarga, van en el pedido y se borran con vaciar()
+
+export function getAlta(cliente) {
+  try {
+    const raw = localStorage.getItem(claveCarrito(cliente) + '::alta');
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/** false si el carrito tiene un pedido pendiente de confirmar (no se cambia) */
+export function setAlta(alta, cliente) {
+  if (getPendiente(cliente)) {
+    avisarBloqueado(cliente);
+    return false;
+  }
+  localStorage.setItem(claveCarrito(cliente) + '::alta', JSON.stringify(alta));
+  marcarModificado(cliente);
+  return true;
 }
 
 
@@ -1066,5 +1091,5 @@ window.Carrito = {
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, precioAjustado, getAjustePedido, setAjustePedido, DESC_CON_EXTRA, DESC_EXTRA,
   getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,
-  getPendiente, setPendiente, borrarPendiente,
+  getPendiente, setPendiente, borrarPendiente, getAlta, setAlta,
 };

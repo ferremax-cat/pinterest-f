@@ -37,19 +37,23 @@ export function getClienteVista() {
  * Fija el cliente cuyos precios se muestran y repinta lo visible.
  * nombre: el de clientes_finanzas.json, que es el actual (se regenera desde
  * el sistema de gestion); si no viene, el de clientes_permisos.json.
- * La lista de precios sigue saliendo de clientes_permisos.json.
+ * La lista de precios sigue saliendo de clientes_permisos.json, salvo en un
+ * cliente nuevo (cuenta puente): opc.lista es la formula elegida en el
+ * formulario del comercio (js/alta-cliente.js) y opc.alta lo marca.
  * @returns {Promise<object|null>} datos del cliente aplicado
  */
-export async function setClienteVista(cuenta, nombre) {
+export async function setClienteVista(cuenta, nombre, opc = {}) {
   const permisos = await cargarPermisos();
   const datos = permisos[String(cuenta)];
+  const lista = opc.lista || datos?.priceList;
 
-  if (!datos || !datos.priceList) {
+  if (!lista) {
     console.warn('[Precios] Sin lista de precios para la cuenta', cuenta);
     return null;
   }
 
-  const info = { cuenta: String(cuenta), lista: datos.priceList, nombre: nombre || datos.name || '' };
+  const info = { cuenta: String(cuenta), lista, nombre: nombre || datos?.name || '',
+                 ...(opc.alta ? { alta: true } : {}) };
   sessionStorage.setItem('clienteVista', JSON.stringify(info));
   // El disponible es de cada cliente: al cambiar hay que descartarlo
   sessionStorage.removeItem('disponibleCliente');

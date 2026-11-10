@@ -780,3 +780,20 @@
     padding: 12px 16px;
   }
 }
+
+/* ---------- hoja de alta de cliente (js/imprimir-hojas.js, htmlAlta) ---------- */
+.ih-alta { padding: 6mm 4mm; font-size: 11pt; line-height: 1.35; }
+.ih-alta-cab {
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding-bottom: 2mm; border-bottom: .8mm solid #000;
+}
+.ih-alta-tit { margin: 0; font-size: 18pt; font-weight: 800; letter-spacing: .06em; }
+.ih-alta-num { margin: 0; font-size: 18pt; font-weight: 800; }
+.ih-alta-meta { margin: 3mm 0 5mm; font-size: 10pt; }
+.ih-alta-datos { width: 100%; border-collapse: collapse; }
+.ih-alta-datos th, .ih-alta-datos td { padding: 3mm 2mm; border: .3mm solid #000; text-align: left; vertical-align: top; }
+.ih-alta-datos th { width: 45mm; font-weight: 700; }
+.ih-alta-datos td { font-size: 12pt; overflow-wrap: anywhere; }
+.ih-alta-renglon { display: flex; align-items: flex-end; gap: 3mm; margin-top: 12mm; font-weight: 700; }
+.ih-alta-linea { flex: 1; height: 8mm; border-bottom: .4mm solid #000; }
+.ih-alta-pie { margin-top: 10mm; font-size: 9pt; }
