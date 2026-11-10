@@ -556,7 +556,7 @@ r = guardar(p);
 const g = regDe(p.id)[0] || [];
 ver('V7 una fila con las 10 columnas', regDe(p.id).length === 1 && g.length === 10);
 ver('V7 valores: fecha, id, numero, cuenta, lineas, neto, fila, ok, version, duracion', Object.prototype.toString.call(g[0]) === '[object Date]' && g[1] === p.id && g[2] === 'APP-1' && g[3] === '100' &&
-  g[4] === 3 && g[5] === 1200 && g[6] === filaDe(p.id) && g[7] === 'ok' && /^v3\d-/.test(g[8]) && typeof g[9] === 'number' && g[9] >= 0, JSON.stringify(g));
+  g[4] === 3 && g[5] === 1200 && g[6] === filaDe(p.id) && g[7] === 'ok' && /^v\d+-/.test(g[8]) && typeof g[9] === 'number' && g[9] >= 0, JSON.stringify(g));
 guardar(p);
 ver('V7 reenvio: "duplicado"', regDe(p.id).at(-1)?.[7] === 'duplicado');
 guardar({ ...p, totalNeto: 1 });
@@ -824,7 +824,9 @@ if (!SOLO_CASO_REAL) {
   const celda = obj => zlib.gzipSync(Buffer.from(JSON.stringify(obj), 'utf8')).toString('base64');
   const COMPRAS_100 = { v: 1, act: dia(0),
     k: [['PRa12345', dia(5), [[7, 'contado']]], ['PRb1033', dia(40)], ['FCa500', dia(60), [[5, ''], [7, 'contado']]],
-        ['PRa80000', dia(0)], ['PRa90000', dia(-1)], ['PRa1', dia(100)]],
+        ['PRa80000', dia(0)], ['PRa90000', dia(-1)], ['PRa1', dia(100)],
+        ['PRa55555', dia(12), [[5, '']]],                           // 6: el ejemplo, con -5 %
+        ['PRa66666', dia(8), [[7, 'contado']], 1]],                 // 7: descuento parcial en el comprobante
     c: { EVO115TF: [[3, 1, 9999], [0, 2, 9177.58], [1, 1, 8000]],   // la de hoy no cuenta: queda la del dia 5
          SKU1: [[1, 1, 150]],                                         // tambien esta en un pedido impreso de la app
          CAS1: [[2, 3, 50]],                                          // comprobante con -5% y -7% en cascada
@@ -832,7 +834,10 @@ if (!SOLO_CASO_REAL) {
          FUT: [[4, 1, 1], [5, 1, 20]],                                // la de manana no cuenta
          'tyro41f-16-5662': [[1, 1, 10]],                             // clave en minusculas
          IVA105: [[1, 1, 100, 10.5]],                                 // IVA distinto de 21
-         SOLOHOY: [[3, 1, 5]] } };                                    // solo del dia del pedido: va a la app o a verificar
+         SOLOHOY: [[3, 1, 5]],                                        // solo del dia del pedido: va a la app o a verificar
+         EJEMPLO: [[6, 1, 257347.11]],                                // renglon 311.390,00 con -5 %: 295.820,50
+         PARC: [[7, 1, 100]],                                         // renglon 121,00 con -7 % parcial
+         MEDIO: [[1, 1, 0.124]] } };                                  // 0,15 por 2,5: 0,375 redondea a 0,38
   const ENC_HIST = ['cuenta', 'actualizado', 'articulos', 'historial', 'compras'];
   const filaD = celda({ v: 3, act: dia(0), a: [['EVO115TF', dia(5), 2, 10327.2, 3, 20, 2]], hab: [], dej: [] });
   const ponerHistorial = (compras = celda(COMPRAS_100), enc = ENC_HIST) => {
@@ -878,6 +883,15 @@ if (!SOLO_CASO_REAL) {
   guardar(p4);
   const p5 = pedido(2, { cliente: '200' });   // sin observaciones
   guardar(p5);
+  const p6 = pedido(1, { observaciones: [{ clave: '119', items: [{ sku: 'EVO115TF', cantidad: 1 }, { sku: 'EJEMPLO', cantidad: 1 }] }] });
+  guardar(p6);
+  const p7 = pedido(1, { observaciones: [{ clave: '119', items: [{ sku: 'PARC', cantidad: 1 }] }] });
+  guardar(p7);
+  const p8 = pedido(1, { observaciones: [{ clave: '126', items: [{ sku: 'EVO115TF', cantidad: 1, lado: 'facturado' },
+    { sku: 'OTRO', cantidad: 1, lado: 'correspondia', precioLista: 500 }] }] });
+  guardar(p8);
+  const p9 = pedido(1, { observaciones: [{ clave: '116', items: [{ sku: 'MEDIO', cantidad: 2.5 }] }] });
+  guardar(p9);
 
   const pedidasCache = [];
   cacheSim.activa = true; cacheSim.datos = {}; cacheSim.getAll = keys => pedidasCache.push(...keys);
@@ -885,30 +899,36 @@ if (!SOLO_CASO_REAL) {
   let b = bandeja();
   let o = obsDePedido(b, p1.id)[0];
   let it = item(o, 'EVO115TF');
-  ver('H1 del historial: precio = round(PRECIO x 1,21) = 11.104,87', it?.precio === 11104.87, JSON.stringify(it));
-  ver('H1 importe negativo de 2 unidades: -22.209,74', it?.importe === -22209.74);
+  ver('H1 del historial con el -7 % del comprobante aplicado: 11.104,87 x 0,93 = 10.327,53', it?.precio === 10327.53, JSON.stringify(it));
+  ver('H1 importe negativo de 2 unidades: -20.655,06', it?.importe === -20655.06, it?.importe);
+  ver('H1 renglon sin el descuento: 11.104,87, descuento aplicado', it?.origen?.precioRenglon === 11104.87 && it.origen.descAplicado === true &&
+    it.origen.descParcial === false, JSON.stringify(it?.origen));
   ver('H1 origen: historial, comprobante de 15, fecha, s/IVA', it?.origen?.tipo === 'anterior' && it.origen.fuente === 'historial' &&
     it.origen.numero === 'PRa000000012345' && it.origen.fecha === dia(5) + 'T12:00:00-03:00' && it.origen.sinIva === 9177.58, JSON.stringify(it?.origen));
   ver('H2 la compra del mismo dia del pedido no cuenta (factura de este pedido)', it?.origen?.numero !== 'PRa000000080000');
-  ver('H3 con -7% pago contado como aclaracion, sin aplicar', JSON.stringify(it?.origen?.desc) === '[[7,"contado"]]' && it.precio === 11104.87);
+  ver('H3 el -7% pago contado del comprobante, aplicado', JSON.stringify(it?.origen?.desc) === '[[7,"contado"]]' && it.precio === 10327.53);
   it = item(o, 'SKU1');
   ver('H4 el historial manda sobre el pedido impreso de la app', it?.precio === 181.5 && it.origen.fuente === 'historial' && it.origen.numero === 'PRb000000001033', JSON.stringify(it));
   ver('H4 comprobante sin descuento: desc vacio', Array.isArray(it?.origen?.desc) && it.origen.desc.length === 0);
+  ver('H4 sin descuento: el precio es el del renglon, sin descuento aplicado', it?.origen?.precioRenglon === 181.5 && it.origen.descAplicado === false);
   it = item(o, 'SKU2');
-  ver('H5 de la app: precio de la linea, sin el descuento sobre el total', it?.precio === 95.5 && it.origen.fuente === 'app' && it.origen.numero === 'APP-1', JSON.stringify(it));
+  ver('H5 de la app con -7 % y -5 % en cascada: 95,50 -> 88,82 -> 84,38', it?.precio === 84.38 && it.origen.fuente === 'app' && it.origen.numero === 'APP-1' &&
+    it.origen.precioRenglon === 95.5 && it.origen.descAplicado === true, JSON.stringify(it));
   ver('H5 de la app: aclaracion -7% y -5% del pedido', JSON.stringify(it?.origen?.desc) === '[[7,""],[5,""]]', JSON.stringify(it?.origen?.desc));
   ver('H5 de la app: sin s/IVA', it?.origen && !('sinIva' in it.origen));
   it = item(o, 'SKU3');
-  ver('H6 de la app en promocion: sin aclaracion de descuento', it?.precio === 33 && it.origen.fuente === 'app' && it.origen.desc.length === 0, JSON.stringify(it));
+  ver('H6 de la app en promocion: sin descuento', it?.precio === 33 && it.origen.fuente === 'app' && it.origen.desc.length === 0 &&
+    it.origen.descAplicado === false, JSON.stringify(it));
   it = item(o, 'CAS1');
-  ver('H7 en cascada: -5% y -7% pago contado, sin aplicar', it?.precio === 60.5 && JSON.stringify(it.origen.desc) === '[[5,""],[7,"contado"]]', JSON.stringify(it));
+  ver('H7 en cascada, redondeando cada paso: 60,50 -> 57,48 (57,475) -> 53,46', it?.precio === 53.46 && it.origen.precioRenglon === 60.5 &&
+    JSON.stringify(it.origen.desc) === '[[5,""],[7,"contado"]]', JSON.stringify(it));
   it = item(o, 'TYRO41F-16-5662');
   ver('H8 codigo en minusculas en la celda: se encuentra igual', it?.precio === 12.1 && it.origen.fuente === 'historial', JSON.stringify(it));
   it = item(o, 'FUT');
   ver('H9 la compra de manana no cuenta: la anterior', it?.precio === 24.2 && it.origen.numero === 'PRa000000000001' && it.origen.fecha === dia(100) + 'T12:00:00-03:00', JSON.stringify(it));
   it = item(o, 'IVA105');
   ver('H10 IVA 10,5: 110,50', it?.precio === 110.5, JSON.stringify(it));
-  ver('H11 la observacion: importe completo y sin verificar', o.importe === Math.round((-22209.74 - 181.5 - 95.5 - 33 - 60.5 - 12.1 - 24.2 - 110.5) * 100) / 100 && o.verificar === false, `${o.importe} ${o.verificar}`);
+  ver('H11 la observacion: importe completo (con los descuentos) y sin verificar', o.importe === -21154.2 && o.verificar === false, `${o.importe} ${o.verificar}`);
 
   o = obsDePedido(b, p2.id)[0];
   ver('H12 sin ninguna fuente: precio null, origen null, importe null, a verificar', item(o, 'NADA')?.precio === null &&
@@ -917,9 +937,27 @@ if (!SOLO_CASO_REAL) {
   o = obsDePedido(b, p3.id)[0];
   ver('H13 119 bonificado (precio 0): a verificar', item(o, 'BONIF')?.precio === 0 && item(o, 'BONIF').origen.fuente === 'historial' && o.verificar === true, JSON.stringify(o));
   o = obsDePedido(b, p4.id)[0];
-  ver('H14 126: lo facturado y lo que correspondia, del mismo comprobante', item(o, 'EVO115TF', 'facturado')?.precio === 11104.87 &&
-    item(o, 'EVO115TF', 'correspondia')?.precio === 11104.87 && item(o, 'EVO115TF', 'correspondia').origen.numero === 'PRa000000012345' &&
-    o.importe === 11104.87 && o.verificar === true, JSON.stringify(o));
+  ver('H14 126: lo facturado y lo que correspondia, del mismo comprobante y con el mismo descuento', item(o, 'EVO115TF', 'facturado')?.precio === 10327.53 &&
+    item(o, 'EVO115TF', 'correspondia')?.precio === 10327.53 && item(o, 'EVO115TF', 'correspondia').origen.numero === 'PRa000000012345' &&
+    o.importe === 10327.53 && o.verificar === true, JSON.stringify(o));
+  // v40: descuento del comprobante aplicado
+  o = obsDePedido(b, p6.id)[0];
+  ver('D1 119 con el descuento del comprobante: -10.327,53', item(o, 'EVO115TF')?.importe === -10327.53, JSON.stringify(item(o, 'EVO115TF')));
+  it = item(o, 'EJEMPLO');
+  ver('D2 el ejemplo: renglon 311.390,00 con -5 % = 295.820,50, s/IVA del renglon', it?.precio === 295820.5 && it.origen.precioRenglon === 311390 &&
+    it.origen.sinIva === 257347.11 && it.importe === -295820.5, JSON.stringify(it));
+  ver('D2 sin descuento parcial: la 119 no queda a verificar', o.verificar === false && item(o, 'EJEMPLO').origen.descParcial === false);
+  o = obsDePedido(b, p7.id)[0];
+  it = item(o, 'PARC');
+  ver('D3 descuento parcial: se aplica igual (121 x 0,93 = 112,53), marcado y a verificar', it?.precio === 112.53 && it.origen.descParcial === true &&
+    o.verificar === true && o.importe === -112.53, JSON.stringify(o));
+  o = obsDePedido(b, p8.id)[0];
+  ver('D4 126 con otro articulo: lo facturado con descuento, lo que correspondia a lista actual sin descuento',
+    item(o, 'EVO115TF', 'facturado')?.precio === 10327.53 && item(o, 'OTRO', 'correspondia')?.precio === 500 &&
+    item(o, 'OTRO', 'correspondia').origen?.tipo === 'lista' && o.importe === Math.round((500 - 10327.53) * 100) / 100, JSON.stringify(o));
+  o = obsDePedido(b, p9.id)[0];
+  ver('D5 redondeo de un importe negativo con ,5: 0,15 x 2,5 = 0,375 -> -0,38 (no -0,37)', item(o, 'MEDIO')?.importe === -0.38 && item(o, 'MEDIO').precio === 0.15,
+    JSON.stringify(item(o, 'MEDIO')));
   ver('H15 solo se piden las compras de los clientes que lo necesitan', JSON.stringify(pedidasCache) === '["comp_100"]', JSON.stringify(pedidasCache));
   ver('H15 y quedan en la cache', typeof cacheSim.datos.comp_100 === 'string' && !('comp_200' in cacheSim.datos));
   const lecturas1 = hojasPedidas.filter(n => n === 'historial').length;

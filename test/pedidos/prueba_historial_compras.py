@@ -120,6 +120,10 @@ R = [
     dict(renglon('PRa000000000099', 2, '00100', 'EVO115TF', 'DISCO EVOLUTION 115', 1, 2), _borrado=True),
     # Otra cuenta, con IVA 10,5
     renglon('PRb000000000020', 15, '00200', 'A1', 'ARTICULO UNO', 4, 200, iva=10.5),
+    # Otra cuenta: el -7 % solo sobre la mitad del comprobante (descuento parcial)
+    renglon('PRa000000000014', 12, '00300', 'EVO115TF', 'DISCO EVOLUTION 115', 1, 1000),
+    renglon('PRa000000000014', 12, '00300', 'A1', 'ARTICULO UNO', 1, 1000),
+    descuento('PRa000000000014', 12, '00300', '00007', 'DESCUENTO 7% POR PAGO CONT.', 1000, 7),
 ]
 
 tmp = Path(tempfile.mkdtemp(prefix='ferremax-prueba-hist-'))
@@ -146,8 +150,8 @@ try:
     ver('exacto y desconocido como antes', unir('EVO115TF') == 'EVO115TF' and unir('X-NO-ESTA') is None)
 
     es_desc = [f['articulo'] for f in filas if hc.es_descuento_total(f, unir)]
-    ver('renglones de descuento: 00007, 00005 y 00007 (por nombre y cantidad, no por codigo ni CONTAB)',
-        sorted(es_desc) == ['00005', '00007', '00007'], es_desc)
+    ver('renglones de descuento: 00007, 00005, 00007 y el 00007 parcial (por nombre y cantidad, no por codigo ni CONTAB)',
+        sorted(es_desc) == ['00005', '00007', '00007', '00007'], es_desc)
     ver('00119 "MERCADERIA RETIRADA A DESCONTAR" no es descuento sobre el total',
         not any(hc.es_descuento_total(f, unir) for f in filas if f['articulo'] == '00119'))
     desc = hc.descuentos_comprobante(filas, unir)
@@ -155,9 +159,14 @@ try:
     ver('cascada de C2: [[5, ""], [7, contado]] en orden', desc.get((C2, '00100')) == [[5, ''], [7, 'contado']])
     ver('C3 y C4 sin descuento', (C3, '00100') not in desc and (C4, '00100') not in desc)
 
-    compras = hc.armar_compras(filas, unir, desc)
+    parciales = hc.descuentos_parciales(filas, unir, desc)
+    ver('descuento parcial: solo el comprobante cuyo -7 % no cierra con su base', parciales == {('PRa000000000014', '00300')}, parciales)
+    ver('el -7 % de C1 y la cascada de C2 cierran: no son parciales', (C1, '00100') not in parciales and (C2, '00100') not in parciales)
+    compras = hc.armar_compras(filas, unir, desc, parciales)
     evo = compras['100']['EVO115TF']
-    ver('cuenta sin ceros adelante (100)', set(compras) == {'100', '200'}, list(compras))
+    ver('cuenta sin ceros adelante (100)', set(compras) == {'100', '200', '300'}, list(compras))
+    ver('la compra del comprobante parcial queda marcada; las otras no', compras['300']['EVO115TF'][0][6] is True and
+        all(c[6] is False for c in evo))
     ver('EVO: las ultimas 3, de la mas reciente a la mas vieja (sin la NC, ni la borrada, ni la de hace 40 dias)',
         [c[1] for c in evo] == [C4, C3, C2], [c[1] for c in evo])
     ver('EVO en C3: la devolucion (cantidad negativa) no resta ni es compra', evo[1][2] == 3)
@@ -183,6 +192,10 @@ try:
     texto2, _ = hc.comprimir_compras(compras['200'], iso(0))
     d2 = json.loads(gzip.decompress(base64.b64decode(texto2)).decode('utf-8'))
     ver('celda: IVA 10,5 como cuarto valor', d2['c']['A1'][0] == [0, 4, 200, 10.5], d2)
+    ver('celda: sin marca de parcial en los comprobantes que cierran', all(len(x) <= 3 for x in k))
+    texto3p, _ = hc.comprimir_compras(compras['300'], iso(0))
+    d3p = json.loads(gzip.decompress(base64.b64decode(texto3p)).decode('utf-8'))
+    ver('celda: el comprobante parcial lleva un 1 como cuarto valor', d3p['k'] == [['PRa14', iso(12), [[7, 'contado']], 1]], d3p['k'])
     ver('celda: sin cuentas ni nombres de clientes', '00100' not in json.dumps(d) and 'cuenta' not in json.dumps(d))
 
     # Recorte: con una celda chica se van los articulos de compra mas vieja
@@ -196,7 +209,7 @@ try:
     # El historial de la columna D sigue igual: precio neto con IVA y el descuento del comprobante
     hist, con_desc, _ = hc.armar_historial(filas, unir)
     ver('columna D: EVO ultima compra C4 a 9500 x 1,21 (sin descuento)', hist['100']['EVO115TF'][:3] == [iso(10), 1, 11495.0], hist['100']['EVO115TF'])
-    ver('columna D: comprobantes con descuento (C1 y C2)', con_desc == 2, con_desc)
+    ver('columna D: comprobantes con descuento (C1, C2 y el parcial)', con_desc == 3, con_desc)
     ver('columna D: A1 de C1 con el -7%', round(100 * 1.21 * 0.93, 2) == 112.53)
 
     # main con --sin-subir: no conecta, no escribe la hoja y solo muestra cantidades
@@ -220,7 +233,8 @@ try:
     s = salida.getvalue()
     ver('--sin-subir: termina bien sin conectar', error is None and not conecto, (error, s[-300:]))
     ver('--sin-subir: muestra las cifras de compras', 'Compras (precio anterior)' in s and 'en cascada' in s, s[-400:])
-    ver('por pantalla ninguna cuenta ni comprobante', not any(x in s for x in ('00100', '00200', 'PRa', 'FCb')), s)
+    ver('--sin-subir: cuenta los descuentos parciales', '1 parciales: a verificar' in s, s[-400:])
+    ver('por pantalla ninguna cuenta ni comprobante', not any(x in s for x in ('00100', '00200', '00300', 'PRa', 'FCb')), s)
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
 

@@ -1,6 +1,7 @@
 // PRUEBA DE LA BANDEJA DE IMPRESION (js/imprimir.js, js/imprimir-hojas.js) con
 // jsdom: pedidos incompletos, impresion sin confirmar, lineas sin cabecera, altas
-// y el origen del precio anterior en la hoja de facturacion.
+// el origen del precio anterior y los totales de observaciones con articulos a
+// verificar en la hoja de facturacion.
 // Servidor simulado. Uso, desde la raiz del proyecto:
 //   node test/pedidos/prueba_bandeja.mjs
 import { readFileSync } from 'fs';
@@ -258,17 +259,19 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   const app = (numero, desc = []) => ({ tipo: 'anterior', fuente: 'app', numero, fecha: '2026-11-08T15:00:00Z', desc });
   const itm = (sku, cantidad, precio, origen, extra = {}) => ({ sku, nombre: 'Art ' + sku, cantidad, precio,
     importe: precio === null ? null : -precio * cantidad, origen, ...extra });
+  // Como lo manda el servidor v40: el precio con el descuento aplicado y el del renglon aparte
+  const v40 = (o, renglon, parcial = false) => ({ ...o, precioRenglon: renglon, descAplicado: o.desc.length > 0, descParcial: parcial });
   const o116 = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -1, verificar: false, items: [
-    itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']])),
-    itm('CAS1', 1, 60.5, hist('FCa000000000500', '2026-09-10', 50, [[5, ''], [7, 'contado']])),
-    itm('SKU1', 1, 181.5, hist('PRb000000001033', '2026-10-01', 150)),
-    itm('SKU2', 1, 95.5, app('APP-1', [[7, ''], [5, '']])),
-    itm('SKU3', 1, 33, app('APP-1'))] };
+    itm('EVO115TF', 2, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87)),
+    itm('CAS1', 1, 53.46, v40(hist('FCa000000000500', '2026-09-10', 50, [[5, ''], [7, 'contado']]), 60.5)),
+    itm('SKU1', 1, 181.5, v40(hist('PRb000000001033', '2026-10-01', 150), 181.5)),
+    itm('SKU2', 1, 84.38, v40(app('APP-1', [[7, ''], [5, '']]), 95.5)),
+    itm('SKU3', 1, 33, v40(app('APP-1'), 33))] };
   const o119 = { clave: '119', codigo: '119', texto: 'FALTANTE', grupo: 'mercaderia', efecto: 'descuenta', importe: null, verificar: true,
     items: [itm('NADA', 1, null, null)] };
-  const o126 = { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', importe: 11104.87, verificar: true, items: [
-    itm('EVO115TF', 1, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'facturado' }),
-    { ...itm('EVO115TF', 2, 11104.87, hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), { lado: 'correspondia' }), importe: 22209.74 }] };
+  const o126 = { clave: '126', codigo: '126', texto: 'FACTURADO DISTINTO', grupo: 'mercaderia', efecto: 'ajuste', importe: 10327.53, verificar: true, items: [
+    itm('EVO115TF', 1, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87), { lado: 'facturado' }),
+    { ...itm('EVO115TF', 2, 10327.53, v40(hist('PRa000000012345', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87), { lado: 'correspondia' }), importe: 20655.06 }] };
   // Un servidor anterior: origen sin fuente ni aclaracion
   const oViejo = { clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: -100, verificar: false,
     items: [itm('VIEJO', 1, 100, { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' })] };
@@ -279,8 +282,20 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
     conFuente ? hist('PRa000000000' + (100 + i), '2026-10-01', 8.26) : { tipo: 'anterior', numero: 'APP-3', fecha: '2026-11-01T15:00:00Z' }));
   const P3 = ped('PA3', 'APP-23', 1, 1, { observaciones: [{ ...oViejo, items: muchos(true) }] });
   const P4 = ped('PA4', 'APP-24', 1, 1, { observaciones: [{ ...oViejo, items: muchos(false) }] });
+  // Un servidor v38: el precio del renglon y el descuento "no aplicado" (la app nueva lo muestra como antes)
+  const P5 = ped('PA5', 'APP-25', 1, 1, { observaciones: [{ ...oViejo, importe: -11200.37, items: [
+    itm('V38H', 1, 11104.87, hist('PRa000000012346', '2026-11-05', 9177.58, [[7, 'contado']])),
+    itm('V38A', 1, 95.5, app('APP-2', [[7, ''], [5, '']]))] }] });
+  // v40: descuento parcial en el comprobante y un pedido de la app con un solo descuento
+  const P6 = ped('PA6', 'APP-26', 1, 1, { observaciones: [{ ...oViejo, importe: -159.03, verificar: true, items: [
+    itm('PARC', 1, 112.53, v40(hist('PRa000000066666', '2026-11-02', 100, [[7, 'contado']]), 121, true)),
+    itm('SKU4', 1, 46.5, v40(app('APP-3', [[7, '']]), 50))] }] });
+  // v40 con los totales parciales (v39): un articulo con descuento y otro a verificar
+  const P7 = ped('PA7', 'APP-27', 1, 1, { totalBruto: 100, totalNeto: 100, observaciones: [{ ...oViejo, importe: null, verificar: true, items: [
+    itm('EVO115TF', 1, 10327.53, v40(hist('PRa000000012347', '2026-11-05', 9177.58, [[7, 'contado']]), 11104.87)),
+    itm('NADA2', 1, null, null)] }] });
 
-  Hojas.imprimir([P1, P2, P3, P4]);
+  Hojas.imprimir([P1, P2, P3, P4, P5, P6, P7]);
   await tick(60);
   const cont = document.getElementById('ih-hojas');
   const hojasDe = numero => [...cont.querySelectorAll('.ih-hoja, section, article')].filter(h => h.textContent.includes('N° ' + numero));
@@ -289,15 +304,20 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   const tipoDe = (sku, n) => filaDe(sku, n)?.lastElementChild.textContent.trim();
   ver('PA hojas armadas', !!cont && cont.querySelectorAll('tr.ih-obs-item-fact').length > 0, cont?.innerHTML.slice(0, 200));
   ver('PA1 historial: Tipo con el comprobante corto y el dia', tipoDe('EVO115TF') === 'PRa12345 05/11/26', tipoDe('EVO115TF'));
-  ver('PA1 historial: precio con IVA en P. unit.', filaDe('EVO115TF')?.children[4].textContent === '$11.104,87');
-  ver('PA1 aclaracion: comprobante, dia, s/IVA y -7% pago contado sin aplicar',
-    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)'), JSON.stringify(notas));
-  ver('PA1 aclaracion en cascada: -5% y -7% pago contado',
-    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con −5 % y −7 % pago contado (no aplicado)'));
+  ver('PA1 historial: P. unit. con el descuento aplicado y su importe', filaDe('EVO115TF')?.children[4].textContent === '$10.327,53' &&
+    filaDe('EVO115TF')?.children[5].textContent === '−$20.655,06', filaDe('EVO115TF')?.textContent);
+  ver('PA1 aclaracion: comprobante, dia, s/IVA y el -7% del comprobante aplicado (renglon)',
+    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con el −7 % del comprobante aplicado (renglón $11.104,87)'), JSON.stringify(notas));
+  ver('PA1 aclaracion en cascada: -5% y -7% del comprobante aplicados',
+    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con el −5 % y −7 % del comprobante aplicados (renglón $60,50)'));
+  ver('PA1 cascada: P. unit. 53,46', filaDe('CAS1')?.children[4].textContent === '$53,46');
   ver('PA1 comprobante sin descuento: aclaracion sin descuento',
     notas.includes('Comprobante PRb000000001033 del 01/10/2026 · s/IVA $150,00'));
-  ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento sin aplicar',
-    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total (no aplicado)'), tipoDe('SKU2'));
+  ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento aplicado',
+    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total aplicados (precio de la línea $95,50)') &&
+    filaDe('SKU2')?.children[4].textContent === '$84,38', tipoDe('SKU2'));
+  ver('PA1 ya no dice "(no aplicado)" con un servidor v40', !notas.some(t => t.includes('no aplicado') && !t.includes('12346') && !t.startsWith('Pedido APP-2')),
+    JSON.stringify(notas));
   ver('PA1 de la app sin descuento: sin aclaracion', tipoDe('SKU3') === 'APP-1 08/11/26' &&
     filaDe('SKU3').nextElementSibling?.className !== 'ih-obs-nota-fact');
   ver('PA1 la aclaracion va justo debajo de su articulo', filaDe('EVO115TF').nextElementSibling?.textContent.includes('PRa000000012345'));
@@ -308,11 +328,169 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
     filaDe('EVO115TF', 2).nextElementSibling?.textContent.startsWith('Lo que correspondía'), notasEvo);
   ver('PA2 servidor anterior (sin fuente): como antes, sin aclaracion', tipoDe('VIEJO') === 'APP-3 01/11/26' &&
     filaDe('VIEJO').nextElementSibling?.className !== 'ih-obs-nota-fact');
+  ver('PA5 servidor v38: el renglon y "(no aplicado)", como antes',
+    notas.includes('Comprobante PRa000000012346 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)') &&
+    notas.includes('Pedido APP-2 con −7 % y −5 % sobre el total (no aplicado)') && filaDe('V38H')?.children[4].textContent === '$11.104,87', JSON.stringify(notas));
+  ver('PA6 descuento parcial: aplicado y "verificar" en la aclaracion',
+    notas.includes('Comprobante PRa000000066666 del 02/11/2026 · s/IVA $100,00 · con el −7 % del comprobante aplicado (renglón $121,00) · descuento parcial en el comprobante: verificar'),
+    JSON.stringify(notas));
+  ver('PA6 de la app con un descuento: "aplicado" en singular',
+    notas.includes('Pedido APP-3 con −7 % sobre el total aplicado (precio de la línea $50,00)'), JSON.stringify(notas));
+  const t7 = hojasDe('APP-27').map(h => h.querySelector('.ih-totales')).find(Boolean)?.textContent.replace(/\s+/g, ' ') || '';
+  ver('PA7 totales parciales: lo confirmado ya con el descuento y el pendiente aparte', t7.includes('−$10.327,53') &&
+    t7.includes('+ 1 artículo a verificar') && t7.includes('NETO PARCIAL'), t7);
   ver('PA la hoja de preparacion no lleva aclaraciones', ![...cont.querySelectorAll('.ih-obs-caja')].some(x => x.textContent.includes('Comprobante')));
   const cabFact = numero => [...cont.querySelectorAll('.ih-cab-fact, .ih-cab-cont')].filter(h => h.textContent.includes('Facturación') && h.textContent.includes('N° ' + numero)).length;
   ver('PA paginado: las aclaraciones ocupan lugar (mas hojas con aclaracion que sin)', cabFact('APP-23') > cabFact('APP-24') && cabFact('APP-24') >= 1,
     `${cabFact('APP-23')} vs ${cabFact('APP-24')}`);
   console.log(`Casos de precio anterior en la hoja: ${ok + fallas - antesP}`);
+}
+
+// =====================================================================
+// TOTALES DE OBSERVACIONES CON ARTICULOS A VERIFICAR (v39): lo confirmado por
+// grupo, la aclaracion de los pendientes, el neto parcial y el parcial en el
+// titulo de cada observacion. Datos sinteticos.
+{
+  const antesT = ok + fallas;
+  w.print = () => {};
+  // La impresion anterior termina de armarse y pregunta si salio: se espera
+  // (hasta 3 s) y se cierra con la ultima opcion ("No se imprimió nada")
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+  const cerrarAvisos = async () => {
+    for (let k = 0; k < 60 && !$('#ih-aviso')?.hidden; k++) {
+      const bs = $$('#ih-aviso button');
+      if (bs.length) bs[bs.length - 1].click();
+      await espera(50); await tick(10);
+    }
+  };
+  const it = (sku, importe, extra = {}) => ({ sku, nombre: 'Art ' + sku, cantidad: 1, precio: importe === null ? null : Math.abs(importe),
+    importe, origen: importe === null ? null : { tipo: 'lista' }, ...extra });
+  // importe de la observacion como lo arma el servidor: null si falta algun precio
+  const obsDe = (clave, efecto, items, extra = {}) => ({ clave, codigo: clave, texto: 'OBS ' + clave, grupo: 'mercaderia', efecto,
+    importe: items.some(x => x.importe === null) ? null : Math.round(items.reduce((a, x) => a + x.importe, 0) * 100) / 100,
+    verificar: efecto === 'ajuste' || items.some(x => x.importe === null), items, ...extra });
+  const conObs = (id, numero, observaciones, extra = {}) => ped(id, numero, 1, 1, { totalBruto: 100, totalNeto: 100, observaciones, ...extra });
+  const soloObs = (id, numero, observaciones) => ped(id, numero, 0, 0, { totalBruto: 0, totalNeto: 0, observaciones });
+
+  // Primera tanda (se imprime de a 10)
+  const casos = [
+    // Todo confirmado en los tres grupos (la 126 con VERIFICAR PRECIOS en su titulo)
+    conObs('T1', 'APP-31', [obsDe('116', 'descuenta', [it('A', -200)]), obsDe('117', 'suma', [it('B', 50)]),
+      obsDe('126', 'ajuste', [it('C', -70, { lado: 'facturado' }), it('D', 100, { lado: 'correspondia' })])]),
+    // El ejemplo real: una 116 con un articulo del historial y otro a verificar
+    conObs('T2', 'APP-32', [obsDe('116', 'descuenta', [it('EVO115TF', -11104.87), it('NADA', null)])]),
+    // Devoluciones todo a verificar
+    conObs('T3', 'APP-33', [obsDe('116', 'descuenta', [it('N1', null), it('N2', null)])]),
+    // Sumas parte a verificar
+    conObs('T4', 'APP-34', [obsDe('117', 'suma', [it('B', 50), it('N3', null)])]),
+    // Ajustes parte a verificar (lo facturado sin precio; lo que correspondia, a lista)
+    conObs('T5', 'APP-35', [obsDe('126', 'ajuste', [it('N4', null, { lado: 'facturado' }), it('E', 300, { lado: 'correspondia' })])]),
+    // Ajustes todo a verificar
+    conObs('T6', 'APP-36', [obsDe('126', 'ajuste', [it('N5', null, { lado: 'facturado' }), it('N5', null, { lado: 'correspondia' })])]),
+    // Varios grupos a la vez
+    conObs('T7', 'APP-37', [obsDe('116', 'descuenta', [it('A', -100), it('N6', null)]), obsDe('117', 'suma', [it('B', 50), it('N7', null)]),
+      obsDe('126', 'ajuste', [it('C', -70, { lado: 'facturado' }), it('D', 100, { lado: 'correspondia' })])]),
+    // Solo observaciones: parte a verificar y todo a verificar
+    soloObs('T8', 'APP-38', [obsDe('116', 'descuenta', [it('A', -100), it('N8', null)])]),
+    soloObs('T9', 'APP-39', [obsDe('116', 'descuenta', [it('N9', null)])]),
+    // Bonificado (precio 0): a verificar en su titulo, pero no es un articulo sin precio
+    conObs('T10', 'APP-40', [obsDe('119', 'descuenta', [it('BON', 0)], { verificar: true })])
+  ];
+  // Segunda tanda
+  const casos2 = [
+    // Sin observaciones: -7% y ademas -5%, con una linea en promocion
+    ped('T11', 'APP-41', 2, 2, { totalBruto: 1000, totalNeto: 883.5, descTotalPct: 7, descTotalExtraPct: 5,
+      lineas: [{ orden: 1, sku: 'S1', nombre: 'Art', cantidad: 1, subtotal: 900 }, { orden: 2, sku: 'S2', nombre: 'Art', cantidad: 1, subtotal: 100, mecanismo: 'promocion' }] }),
+    // De prueba, con articulos a verificar
+    conObs('T12', 'PRU-5', [obsDe('116', 'descuenta', [it('A', -100), it('N10', null)])], { prueba: true }),
+    // Paginado: 60 lineas, con articulos a verificar y sin
+    ped('T13', 'APP-43', 60, 60, { totalBruto: 600, totalNeto: 600, observaciones: [obsDe('116', 'descuenta', [it('A', -100), it('N11', null)])] }),
+    ped('T14', 'APP-44', 60, 60, { totalBruto: 600, totalNeto: 600, observaciones: [obsDe('116', 'descuenta', [it('A', -100), it('Z', -5)])] })
+  ];
+
+  let cont = null;
+  const hojas = numero => [...cont.querySelectorAll('section.ih-hoja')].filter(s => s.textContent.includes('N° ' + numero));
+  const caja = numero => hojas(numero).map(s => s.querySelector('.ih-totales')).find(Boolean);
+  const renglon = (numero, rotulo) => [...(caja(numero)?.children || [])].find(d => d.querySelector('span')?.textContent.startsWith(rotulo));
+  const imp = (numero, rotulo) => renglon(numero, rotulo)?.querySelector('b')?.textContent.trim();
+  const acl = (numero, rotulo) => renglon(numero, rotulo)?.querySelector('small')?.textContent.trim() || '';
+  // Rotulo e importe del neto, separados por " | "
+  const neto = numero => {
+    const n = caja(numero)?.querySelector('.ih-neto');
+    return n ? n.querySelector('span').textContent.replace(/\s+/g, ' ').trim() + ' | ' + n.querySelector('b').textContent.trim() : '';
+  };
+  const titulo = (numero, clave) => [...cont.querySelectorAll('tr.ih-obs-tit-fact')].filter(tr => hojas(numero).some(s => s.contains(tr)))
+    .find(tr => tr.firstElementChild.textContent.startsWith(clave + ' '));
+  const titImp = (numero, clave) => titulo(numero, clave)?.children[1].textContent.trim();
+  const titAlerta = (numero, clave) => titulo(numero, clave)?.children[2].textContent.trim();
+
+  await cerrarAvisos();
+  Hojas.imprimir(casos, { reimpresion: true });
+  await tick(80);
+  cont = document.getElementById('ih-hojas');
+  ver('T hojas armadas', !!caja('APP-31'), cont?.innerHTML.slice(0, 200));
+  // T1: todo confirmado, como hoy
+  ver('T1 todo confirmado: los tres grupos con su importe, sin aclaracion', imp('APP-31', 'Devoluciones') === '−$200,00' &&
+    imp('APP-31', 'Sumas') === '$50,00' && imp('APP-31', 'Ajustes') === '$30,00' && !caja('APP-31').textContent.includes('verificar'),
+    caja('APP-31')?.textContent);
+  ver('T1 NETO CON OBSERVACIONES con el total (100 - 200 + 50 + 30)', neto('APP-31') === 'NETO CON OBSERVACIONES | −$20,00', neto('APP-31'));
+  ver('T1 titulos: importe de cada uno; la 126 sigue con VERIFICAR PRECIOS', titImp('APP-31', '116') === '−$200,00' && titAlerta('APP-31', '116') === '' &&
+    titImp('APP-31', '126') === '$30,00' && titAlerta('APP-31', '126') === 'VERIFICAR PRECIOS');
+  // T2: el ejemplo real
+  ver('T2 Devoluciones: lo confirmado y "+ 1 artículo a verificar"', imp('APP-32', 'Devoluciones') === '−$11.104,87' &&
+    acl('APP-32', 'Devoluciones') === '· + 1 artículo a verificar', `${imp('APP-32', 'Devoluciones')} | ${acl('APP-32', 'Devoluciones')}`);
+  ver('T2 Sumas y Ajustes sin aclaracion', imp('APP-32', 'Sumas') === '—' && acl('APP-32', 'Sumas') === '' && acl('APP-32', 'Ajustes') === '');
+  ver('T2 NETO PARCIAL (falta verificar 1 artículo) = 100 - 11.104,87', neto('APP-32') === 'NETO PARCIAL (falta verificar 1 artículo) | −$11.004,87', neto('APP-32'));
+  ver('T2 ya no dice A VERIFICAR ni NETO CON OBSERVACIONES', !caja('APP-32').textContent.includes('A VERIFICAR') && !caja('APP-32').textContent.includes('NETO CON'));
+  ver('T2 titulo de la 116: el parcial y "+ 1 A VERIFICAR"', titImp('APP-32', '116') === '−$11.104,87' && titAlerta('APP-32', '116') === '+ 1 A VERIFICAR',
+    `${titImp('APP-32', '116')} | ${titAlerta('APP-32', '116')}`);
+  ver('T2 la linea sin precio sigue con VERIFICAR PRECIO', hojas('APP-32').some(s => [...s.querySelectorAll('tr.ih-obs-item-fact')]
+    .some(tr => tr.textContent.includes('NADA') && tr.lastElementChild.textContent.trim() === 'VERIFICAR PRECIO')));
+  // T3: todo a verificar en un grupo
+  ver('T3 Devoluciones todo a verificar: "—" y "+ 2 artículos a verificar"', imp('APP-33', 'Devoluciones') === '—' &&
+    acl('APP-33', 'Devoluciones') === '· + 2 artículos a verificar');
+  ver('T3 NETO PARCIAL con lo confirmado (los articulos: $100,00)', neto('APP-33') === 'NETO PARCIAL (falta verificar 2 artículos) | $100,00', neto('APP-33'));
+  ver('T3 titulo sin nada confirmado: vacio y VERIFICAR PRECIOS', titImp('APP-33', '116') === '' && titAlerta('APP-33', '116') === 'VERIFICAR PRECIOS');
+  // T4, T5, T6: sumas y ajustes
+  ver('T4 Sumas parte a verificar', imp('APP-34', 'Sumas') === '$50,00' && acl('APP-34', 'Sumas') === '· + 1 artículo a verificar' &&
+    titImp('APP-34', '117') === '$50,00' && titAlerta('APP-34', '117') === '+ 1 A VERIFICAR');
+  ver('T5 Ajustes parte a verificar', imp('APP-35', 'Ajustes') === '$300,00' && acl('APP-35', 'Ajustes') === '· + 1 artículo a verificar' &&
+    titImp('APP-35', '126') === '$300,00' && titAlerta('APP-35', '126') === '+ 1 A VERIFICAR');
+  ver('T6 Ajustes todo a verificar', imp('APP-36', 'Ajustes') === '—' && acl('APP-36', 'Ajustes') === '· + 2 artículos a verificar' &&
+    titAlerta('APP-36', '126') === 'VERIFICAR PRECIOS');
+  // T7: varios grupos
+  ver('T7 varios grupos: cada uno con lo suyo', imp('APP-37', 'Devoluciones') === '−$100,00' && acl('APP-37', 'Devoluciones').includes('1 artículo') &&
+    imp('APP-37', 'Sumas') === '$50,00' && acl('APP-37', 'Sumas').includes('1 artículo') && imp('APP-37', 'Ajustes') === '$30,00' && acl('APP-37', 'Ajustes') === '');
+  ver('T7 NETO PARCIAL: 100 - 100 + 50 + 30, falta verificar 2', neto('APP-37') === 'NETO PARCIAL (falta verificar 2 artículos) | $80,00', neto('APP-37'));
+  // T8, T9: solo observaciones
+  ver('T8 solo observaciones, parte a verificar: el recuadro y el neto parcial', caja('APP-38')?.textContent.includes('PEDIDO SOLO DE OBSERVACIONES') &&
+    imp('APP-38', 'Devoluciones') === '−$100,00' && neto('APP-38') === 'NETO PARCIAL (falta verificar 1 artículo) | −$100,00', neto('APP-38'));
+  ver('T9 solo observaciones, todo a verificar: A VERIFICAR con la aclaracion', imp('APP-39', 'Devoluciones') === '—' &&
+    neto('APP-39') === 'NETO PARCIAL (falta verificar 1 artículo) | A VERIFICAR', neto('APP-39'));
+  // T10: bonificado
+  ver('T10 bonificado: no es un articulo a verificar (NETO CON OBSERVACIONES)', neto('APP-40').startsWith('NETO CON OBSERVACIONES') &&
+    !caja('APP-40').textContent.includes('a verificar') && titAlerta('APP-40', '119') === 'VERIFICAR PRECIOS');
+  // Reimpresion y hoja unica
+  ver('T12 reimpresion: el renglon de reimpresion sigue en la preparacion', hojas('APP-32')[0]?.textContent.toLowerCase().includes('reimpres'));
+  ver('T13 hoja unica: se decide igual con y sin pendientes', hojas('APP-32').length === hojas('APP-31').length);
+
+  await cerrarAvisos();
+  Hojas.imprimir(casos2, { reimpresion: true });
+  await tick(80);
+  cont = document.getElementById('ih-hojas');
+  // T11: sin observaciones, como hoy
+  const t11 = caja('APP-41')?.textContent.replace(/\s+/g, ' ');
+  ver('T11 sin observaciones: bruto, promocion, descuento en cascada y TOTAL NETO', t11?.includes('Total bruto$1.000,00') &&
+    t11.includes('Líneas en promoción$100,00') && t11.includes('Descuento sobre el total (7 % y además 5 %, no alcanza a las promociones)−$116,50') &&
+    t11.includes('TOTAL NETO$883,50') && !t11.includes('observaciones') && !t11.includes('verificar'), t11);
+  // T12: prueba
+  ver('T12 de prueba: marca de agua y el mismo neto parcial', hojas('PRU-5').length > 0 && hojas('PRU-5').every(s => s.querySelector('.ih-marca-prueba')) &&
+    neto('PRU-5') === 'NETO PARCIAL (falta verificar 1 artículo) | $0,00', neto('PRU-5'));
+  // T13, T14: el paginado no cambia con los articulos a verificar
+  const nFact = numero => [...cont.querySelectorAll('.ih-cab-fact, .ih-cab-cont')].filter(h => h.textContent.includes('Facturación') && h.textContent.includes('N° ' + numero)).length;
+  ver('T13 paginado: las mismas hojas de facturacion con y sin articulos a verificar', nFact('APP-43') === nFact('APP-44') && nFact('APP-43') >= 1,
+    `${nFact('APP-43')} vs ${nFact('APP-44')}`);
+  console.log(`Casos de totales de observaciones: ${ok + fallas - antesT}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
