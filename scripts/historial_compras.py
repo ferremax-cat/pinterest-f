@@ -15,9 +15,14 @@ HISTORIAL DE COMPRAS POR CLIENTE -> hoja 'historial' de Ferremax Sistema
    dejo de comprar (hasta 10, sin repetir habituales), sin los articulos de
    temporada fuera de su temporada que hace mucho que no compra (perfil de 24
    meses de todas las ventas).
-3. Lo sube a la hoja 'historial': una fila por cliente, con el resumen
-   comprimido en una celda, para que el servidor (accion historial_cliente)
-   lea una sola fila.
+3. Para el precio anterior de las observaciones (116, 119, 126), las ultimas
+   3 compras de cada articulo por cliente: fecha, comprobante, cantidad,
+   precio unitario SIN IVA y sin el descuento sobre el total (PRECIO del DBF),
+   y los descuentos sobre el total que tuvo el comprobante. El servidor lo lee
+   al imprimir la hoja de facturacion (pedidos_para_imprimir).
+4. Lo sube a la hoja 'historial': una fila por cliente, con el resumen
+   comprimido en una celda (columna D, accion historial_cliente) y las compras
+   en otra (columna E, compras), para que el servidor lea una sola fila.
 
 Son datos sensibles: no se escriben en ningun archivo del repositorio. Por
 pantalla (y en el registro de la rutina) solo salen cantidades, nunca cuentas
@@ -29,11 +34,20 @@ Que se cuenta:
   - solo articulos del catalogo (json/productos.json): asi quedan afuera los
     conceptos (descuentos, redondeos, fletes). El sistema corta los codigos a
     13 caracteres: uno de 13 se une con el unico del catalogo que empieza
-    asi; si no esta igual, se prueba sin espacios ni signos (forma compacta);
-  - precio neto unitario con IVA = PRECIO x (1 + IVA/100) x (1 - descuento del
-    comprobante). El descuento sobre el total va en renglones aparte del mismo
-    comprobante, fuera del catalogo, con cantidad negativa y el nombre
-    "DESCUENTO ...": es lo que suman sobre el resto del comprobante.
+    asi, y si son varios, con el unico de ellos que tiene el mismo nombre
+    (NOMBRE del DBF); si no esta igual, se prueba sin espacios ni signos
+    (forma compacta);
+  - el descuento sobre el total va en renglones aparte del mismo comprobante:
+    cantidad negativa, fuera del catalogo y un NOMBRE "DESCUENTO 7% ..." (los
+    codigos varian: 00007, 00005, 00010...; CONTAB no sirve, porque "IVA
+    VENTA" tambien aparece en articulos). Nunca son compras de un articulo.
+    Puede haber dos, en cascada (5% y despues 7%);
+  - precio neto unitario con IVA (columna D) = PRECIO x (1 + IVA/100) x (1 -
+    descuento del comprobante): lo que suman los renglones de descuento sobre
+    el resto del comprobante;
+  - compras (columna E): PRECIO tal cual, sin IVA y sin el descuento sobre el
+    total; el descuento va aparte, con el porcentaje que dice su NOMBRE;
+  - de VENTAS.DBF solo se leen los campos de CAMPOS (UTILIDAD nunca).
 
 Uso:
     python scripts/historial_compras.py                (lo corre la rutina diaria)
@@ -76,7 +90,7 @@ DBF_POR_DEFECTO = r'C:\analisis_vtas\VENTAS.DBF'
 
 PLANILLA_ID = '1U91v6CVHmlaF3wjRhxSpyxtvP6RE0YNicZHrNRVMso4'
 HOJA = 'historial'
-ENCABEZADOS = ['cuenta', 'actualizado', 'articulos', 'historial']
+ENCABEZADOS = ['cuenta', 'actualizado', 'articulos', 'historial', 'compras']
 URL_API = ('https://script.google.com/macros/s/'
            'AKfycbzuT4PB1Rqw935-AkjtMnd_nR0lR-bWQS56Dbvh-jVi-P-n0Kdca1Rez61DsYxc7f8/exec')
 
@@ -92,6 +106,8 @@ MAX_HABITUALES = 20
 MAX_DEJO = 10
 # Una celda de Google Sheets admite 50.000 caracteres: se deja margen
 MAX_CELDA = 49000
+# Compras por articulo y cliente para el precio anterior (columna E)
+MAX_COMPRAS = 3
 # Si el DBF termina hace mas dias que esto, el sistema dejo de exportarlo
 DIAS_DBF_VIEJO = 3
 # Si el original cambia mientras se copia (el sistema esta escribiendo)
@@ -99,6 +115,8 @@ INTENTOS_COPIA = 3
 ESPERA_COPIA_S = 5
 FILAS_POR_ENVIO = 100
 ES_DESCUENTO = re.compile(r'^\s*DESC', re.I)
+PORCENTAJE = re.compile(r'(\d+(?:[.,]\d+)?)\s*%')
+ES_CONTADO = re.compile(r'CONT|EFECTIVO', re.I)
 CAMPOS = ('COMPTE', 'FECHA', 'CUENTA', 'ARTICULO', 'NOMBRE', 'CANTIDAD', 'PRECIO', 'IMPORTE', 'IVA')
 
 
@@ -278,29 +296,46 @@ def compactar(codigo):
     return re.sub(r'[^A-Z0-9]', '', codigo.upper())
 
 
-def preparar_union(codigos):
-    """Funcion: articulo del DBF -> codigo del catalogo, o None."""
+def normalizar_nombre(nombre):
+    """Para comparar el NOMBRE del DBF (40 caracteres) con el del catalogo."""
+    return re.sub(r'\s+', ' ', str(nombre or '')).strip().upper()[:40].rstrip()
+
+
+def preparar_union(codigos, nombres=None):
+    """Funcion: (articulo del DBF, NOMBRE del DBF) -> codigo del catalogo, o None.
+    nombres: {codigo: nombre del catalogo}, para desempatar los codigos cortados
+    a 13 que empiezan igual que varios del catalogo (sin nombres, no se unen)."""
     exacto = {c.upper(): c for c in codigos}
     por13, compacto = defaultdict(list), defaultdict(list)
     for c in codigos:
         if len(c) > 13:
             por13[c[:13].upper()].append(c)
         compacto[compactar(c)].append(c)
-    memo = {}
+    nombres = nombres or {}
+    memo, memo_nombre = {}, {}
 
-    def unir(articulo):
-        if articulo not in memo:
-            a = articulo.upper()
-            if a in exacto:
-                r = exacto[a]
-            elif len(a) == 13 and a in por13:
-                # Codigo cortado por el sistema: solo si un unico codigo empieza asi
-                r = por13[a][0] if len(por13[a]) == 1 else None
-            else:
-                v = compacto.get(compactar(a), [])
-                r = v[0] if len(v) == 1 else None
-            memo[articulo] = r
-        return memo[articulo]
+    def unir(articulo, nombre=None):
+        if articulo in memo:
+            return memo[articulo]
+        a = articulo.upper()
+        if len(a) == 13 and a not in exacto and len(por13.get(a, ())) > 1:
+            # Cortado y ambiguo: el unico de los candidatos con el mismo nombre.
+            # Sin nombre o sin uno solo que coincida, no se une (nunca se adivina)
+            clave = (a, normalizar_nombre(nombre))
+            if clave not in memo_nombre:
+                v = [c for c in por13[a] if clave[1] and normalizar_nombre(nombres.get(c)) == clave[1]]
+                memo_nombre[clave] = v[0] if len(v) == 1 else None
+            return memo_nombre[clave]
+        if a in exacto:
+            r = exacto[a]
+        elif len(a) == 13 and a in por13:
+            # Codigo cortado por el sistema: un unico codigo empieza asi
+            r = por13[a][0]
+        else:
+            v = compacto.get(compactar(a), [])
+            r = v[0] if len(v) == 1 else None
+        memo[articulo] = r
+        return r
 
     return unir
 
@@ -321,7 +356,7 @@ def armar_historial(filas, unir):
     base, desc = defaultdict(float), defaultdict(float)
     for f in filas:
         k = (f['compte'], f['cuenta'])
-        if f['cantidad'] < 0 and unir(f['articulo']) is None and ES_DESCUENTO.match(f['nombre']):
+        if es_descuento_total(f, unir):
             desc[k] -= f['importe']
         else:
             base[k] += f['importe']
@@ -338,7 +373,7 @@ def armar_historial(filas, unir):
     compras = sorted((f for f in filas if f['cantidad'] > 0 and not f['compte'].upper().startswith('NC')),
                      key=lambda f: (f['fecha'], f['compte']))
     for f in compras:
-        codigo = unir(f['articulo'])
+        codigo = unir(f['articulo'], f['nombre'])
         if not codigo:
             continue
         neto = f['precio'] * (1 + f['iva'] / 100) * (1 - descuento.get((f['compte'], f['cuenta']), 0))
@@ -361,6 +396,94 @@ def armar_historial(filas, unir):
             tipica = round(median(q for q, _ in dias.values()), 2)
             hist[cuenta][codigo] = [ultima, dias[ultima][0], dias[ultima][1], len(fechas), intervalo, tipica]
     return hist, len(descuento), sin_calcular
+
+
+def es_descuento_total(f, unir):
+    """Renglon de descuento sobre el total del comprobante: cantidad negativa,
+    fuera del catalogo y NOMBRE "DESCUENTO 7% ...". Nunca es la compra de un
+    articulo (la devolucion de un articulo si esta en el catalogo, y
+    "MERCADERIA RETIRADA A DESCONTAR" no empieza con DESC)."""
+    return (f['cantidad'] < 0 and ES_DESCUENTO.match(f['nombre']) is not None
+            and PORCENTAJE.search(f['nombre']) is not None and unir(f['articulo'], f['nombre']) is None)
+
+
+def descuentos_comprobante(filas, unir):
+    """(compte, cuenta) -> [[porcentaje, 'contado' o ''], ...] en el orden del
+    DBF (dos: en cascada). El porcentaje es el que dice el NOMBRE, que es lo que
+    ve quien factura (no se recalcula)."""
+    res = defaultdict(list)
+    for f in filas:
+        if f['compte'].upper().startswith('NC') or not es_descuento_total(f, unir):
+            continue
+        pct = float(PORCENTAJE.search(f['nombre']).group(1).replace(',', '.'))
+        res[(f['compte'], f['cuenta'])].append(
+            [int(pct) if pct == int(pct) else pct, 'contado' if ES_CONTADO.search(f['nombre']) else ''])
+    return dict(res)
+
+
+def armar_compras(filas, unir, descuentos):
+    """cuenta -> {codigo: [(fecha 'AAAA-MM-DD', compte, cantidad, precio sin IVA,
+    iva, descuentos), ...]}: las ultimas MAX_COMPRAS compras, de la mas reciente a
+    la mas vieja, una por comprobante (dos renglones del mismo articulo en un
+    comprobante se suman, con el precio del ultimo). Mismas reglas que el
+    historial: cantidad positiva, sin notas de credito, solo del catalogo."""
+    por = defaultdict(lambda: defaultdict(dict))   # cuenta -> codigo -> compte -> compra
+    compras = sorted((f for f in filas if f['cantidad'] > 0 and not f['compte'].upper().startswith('NC')),
+                     key=lambda f: (f['fecha'], f['compte']))
+    for f in compras:
+        codigo = unir(f['articulo'], f['nombre'])
+        if not codigo:
+            continue
+        cuenta = cuenta_app(f['cuenta'])
+        fecha = f'{f["fecha"][:4]}-{f["fecha"][4:6]}-{f["fecha"][6:]}'
+        previa = por[cuenta][codigo].pop(f['compte'], None)
+        cantidad = round((previa[2] if previa else 0) + f['cantidad'], 2)
+        por[cuenta][codigo][f['compte']] = (fecha, f['compte'], cantidad, round(f['precio'], 2), f['iva'],
+                                            descuentos.get((f['compte'], f['cuenta']), []))
+    res = {}
+    for cuenta, articulos in por.items():
+        res[cuenta] = {}
+        for codigo, porcomp in articulos.items():
+            # Orden de (fecha, compte): las ultimas son las mas recientes
+            ordenadas = sorted(porcomp.values(), key=lambda x: (x[0], x[1]))
+            res[cuenta][codigo] = ordenadas[-MAX_COMPRAS:][::-1]
+    return res
+
+
+def comprobante_corto(compte):
+    """PRa000000012345 -> PRa12345 (el servidor lo vuelve a 15 con ceros)."""
+    m = re.match(r'^([A-Za-z]{3})0*(\d+)$', compte)
+    return m.group(1) + m.group(2) if m and len(compte) == 15 else compte
+
+
+def comprimir_compras(articulos, actualizado):
+    """Celda de compras (columna E) de un cliente, en gzip y base64:
+      {"v":1, "act":fecha,
+       "k":[[comprobante, fecha, descuentos?], ...],
+       "c":{codigo: [[k, cantidad, precio sin IVA, iva?], ...], ...}}
+    Las compras de cada articulo van de la mas reciente a la mas vieja; k es el
+    indice del comprobante en "k" (un comprobante con muchos articulos se guarda
+    una vez); iva, solo si no es 21. descuentos: [[porcentaje, 'contado' o ''],
+    ...], solo si el comprobante los tuvo. Si no entra en una celda, se recortan
+    los articulos de compra mas vieja (la columna D no se toca).
+    Devuelve (texto, articulos incluidos)."""
+    lista = sorted(articulos.items(), key=lambda kv: (kv[1][0][0], kv[0]), reverse=True)
+    while True:
+        indice, k, c = {}, [], {}
+        for codigo, compras in lista:
+            fila = []
+            for fecha, compte, cantidad, precio, iva, desc in compras:
+                clave = (compte, fecha)
+                if clave not in indice:
+                    indice[clave] = len(k)
+                    k.append([comprobante_corto(compte), fecha] + ([desc] if desc else []))
+                fila.append([indice[clave], cantidad, precio] + ([iva] if iva != 21 else []))
+            c[codigo] = fila
+        datos = json.dumps({'v': 1, 'act': actualizado, 'k': k, 'c': c}, separators=(',', ':'), ensure_ascii=False)
+        texto = base64.b64encode(gzip.compress(datos.encode('utf-8'), mtime=0)).decode('ascii')
+        if len(texto) <= MAX_CELDA or not lista:
+            return texto, len(lista)
+        lista = lista[:int(len(lista) * 0.9)]
 
 
 def fuera_de_temporada(filas, viejas, unir, mes):
@@ -471,6 +594,7 @@ def subir(planilla, filas):
         sys.exit(1)   # ya se aviso: queda la hoja anterior
 
     hoja.clear()
+    # Con la columna compras, una mas que antes: resize la agrega
     hoja.resize(rows=len(filas) + 1, cols=len(ENCABEZADOS))
     # RAW: la cuenta y la fecha quedan como texto, tal cual
     hoja.update(values=[ENCABEZADOS], range_name='A1', value_input_option='RAW')
@@ -530,7 +654,8 @@ def main():
 
     # 2. Historial de 12 meses
     with open(CATALOGO, encoding='utf-8') as f:
-        unir = preparar_union(list(json.load(f).keys()))
+        catalogo = json.load(f)
+    unir = preparar_union(list(catalogo.keys()), {c: (v or {}).get('name', '') for c, v in catalogo.items()})
     hoy = date.today()
     filas, ultima, viejas = leer_dbf(ruta, (hoy - timedelta(days=DIAS)).strftime('%Y%m%d'),
                                      (hoy - timedelta(days=DIAS_PERFIL - 1)).strftime('%Y%m%d'))
@@ -546,8 +671,10 @@ def main():
 
     hist, con_descuento, sin_calcular = armar_historial(filas, unir)
     fuera = fuera_de_temporada(filas, viejas, unir, hoy.month)
+    descuentos = descuentos_comprobante(filas, unir)
+    compras = armar_compras(filas, unir, descuentos)
     actualizado = hoy.isoformat()
-    filas_hoja, recortados, con_hab, con_dej = [], 0, 0, 0
+    filas_hoja, recortados, con_hab, con_dej, recortados_c, largos_c = [], 0, 0, 0, 0, []
     for cuenta in sorted(hist):
         habituales, dejo = listas_reposicion(hist[cuenta], hoy, fuera)
         con_hab += bool(habituales)
@@ -555,7 +682,11 @@ def main():
         texto, incluidos = comprimir(hist[cuenta], actualizado, habituales, dejo)
         if incluidos < len(hist[cuenta]):
             recortados += 1
-        filas_hoja.append([cuenta, actualizado, incluidos, texto])
+        texto_c, incluidos_c = comprimir_compras(compras.get(cuenta, {}), actualizado)
+        if incluidos_c < len(compras.get(cuenta, {})):
+            recortados_c += 1
+        largos_c.append(len(texto_c))
+        filas_hoja.append([cuenta, actualizado, incluidos, texto, texto_c])
     if not filas_hoja:
         print('ERROR: ningun cliente con compras del catalogo en los ultimos 12 meses')
         sys.exit(1)
@@ -568,6 +699,12 @@ def main():
           f'artículos fuera de temporada este mes: {len(fuera)}')
     if recortados:
         print(f'AVISO: {recortados} cliente(s) no entraban en una celda: quedaron sus compras mas recientes')
+    largos_c.sort()
+    print(f'Compras (precio anterior): celda mediana {largos_c[len(largos_c) // 2]} caracteres, la mas grande '
+          f'{largos_c[-1]} | comprobantes con descuento sobre el total: {len(descuentos)} '
+          f'({sum(len(v) > 1 for v in descuentos.values())} en cascada)')
+    if recortados_c:
+        print(f'AVISO: las compras de {recortados_c} cliente(s) no entraban en una celda: quedaron las mas recientes')
 
     # 3. Planilla y cache del servidor
     if '--sin-subir' in sys.argv:
