@@ -418,39 +418,48 @@ const fmtDia = (d, corto) => {
 };
 /** PRa000000012345 -> PRa12345, para la columna Tipo */
 const comprobanteCorto = c => String(c || '').replace(/^([A-Za-z]{3})0+(\d)/, '$1$2');
-/** [[5, ''], [7, 'contado']] -> "−5 % y −7 %" */
-const listaDescuentos = desc => desc.map(x => `−${fmtNum(Number(x[0]) || 0)} %`).join(' y ');
+/** [[5, ''], [7, 'contado']] -> "− 5 % y − 7 %" (la cuenta de la aclaracion) */
+const listaDescuentos = desc => desc.map(x => `− ${fmtNum(Number(x[0]) || 0)} %`).join(' y ');
 /** [[5, ''], [7, 'contado']] -> "−5 % y −7 % pago contado" (servidor v38, sin aplicar) */
-const textoDescuentos = desc => listaDescuentos(desc) + (desc.some(x => x[1] === 'contado') ? ' pago contado' : '');
+const textoDescuentos = desc => desc.map(x => `−${fmtNum(Number(x[0]) || 0)} %`).join(' y ') +
+  (desc.some(x => x[1] === 'contado') ? ' pago contado' : '');
 
 /**
  * Renglon de aclaracion debajo de un articulo con precio anterior (solo en la
- * hoja de facturacion): de que comprobante salio, su precio sin IVA (el del
- * renglon) y el descuento sobre el total que tuvo. Del historial siempre; de
- * un pedido de la app, solo si tuvo descuento. Un servidor anterior (sin
- * fuente) no la lleva.
- * Servidor v40 (descAplicado): el precio ya tiene el descuento aplicado, como
- * la nota de credito; la aclaracion dice el precio del renglon sin el. Servidor
- * v38 (sin descAplicado): el precio es el del renglon y el descuento "no
- * aplicado". descParcial: el descuento no alcanzo a todos los renglones del
- * comprobante
+ * hoja de facturacion), en el orden de la cuenta: del precio del renglon sin
+ * IVA al precio de la linea. Del historial siempre; de un pedido de la app,
+ * solo si tuvo descuento. Un servidor anterior (sin fuente) no la lleva.
+ *   Comprobante N del D · renglón $Y s/IVA → $X c/IVA − 7 % del comprobante = $Z
+ *   Pedido APP-n · precio de la línea $X − 7 % sobre el total = $Z
+ * Y: sinIva; X: precioRenglon (el renglon con IVA, sin el descuento); Z:
+ * it.precio, el precio de la linea (P. unit.). descParcial: el descuento no
+ * alcanzo a todos los renglones del comprobante (" · descuento parcial:
+ * verificar", corto para que entre en un renglon).
+ * Servidor v38 (sin descAplicado): el precio es el del renglon y el descuento
+ * "no aplicado", como entonces
  */
 function filasNotaOrigen(it) {
   const a = it.origen;
   if (!a || a.tipo !== 'anterior' || !a.fuente) return [];
   const desc = Array.isArray(a.desc) ? a.desc.filter(x => Number(x?.[0]) > 0) : [];
   const aplicado = a.descAplicado === true && desc.length > 0;
-  const aplicados = desc.length > 1 ? 'aplicados' : 'aplicado';
+  const conIva = a.precioRenglon !== undefined && a.precioRenglon !== null ? a.precioRenglon : it.precio;
   if (a.fuente === 'historial') {
-    return [{ tipo: 'obsNota', texto: `Comprobante ${a.numero} del ${fmtDia(a.fecha)}` +
-      (a.sinIva !== undefined && a.sinIva !== null ? ` · s/IVA ${fmtPesos(a.sinIva)}` : '') +
-      (aplicado ? ` · con el ${listaDescuentos(desc)} del comprobante ${aplicados} (renglón ${fmtPesos(a.precioRenglon)})`
-        : desc.length ? ` · con ${textoDescuentos(desc)} (no aplicado)` : '') +
-      (a.descParcial === true ? ' · descuento parcial en el comprobante: verificar' : '') }];
+    if (desc.length && !aplicado) {
+      // Servidor v38
+      return [{ tipo: 'obsNota', texto: `Comprobante ${a.numero} del ${fmtDia(a.fecha)}` +
+        (a.sinIva !== undefined && a.sinIva !== null ? ` · s/IVA ${fmtPesos(a.sinIva)}` : '') +
+        ` · con ${textoDescuentos(desc)} (no aplicado)` }];
+    }
+    return [{ tipo: 'obsNota', texto: `Comprobante ${a.numero} del ${fmtDia(a.fecha)} · renglón ` +
+      (a.sinIva !== undefined && a.sinIva !== null ? `${fmtPesos(a.sinIva)} s/IVA → ` : '') +
+      `${fmtPesos(conIva)} c/IVA` +
+      (aplicado ? ` ${listaDescuentos(desc)} del comprobante = ${fmtPesos(it.precio)}` : '') +
+      (a.descParcial === true ? ' · descuento parcial: verificar' : '') }];
   }
   if (!desc.length) return [];
   return [{ tipo: 'obsNota', texto: aplicado
-    ? `Pedido ${a.numero} con ${listaDescuentos(desc)} sobre el total ${aplicados} (precio de la línea ${fmtPesos(a.precioRenglon)})`
+    ? `Pedido ${a.numero} · precio de la línea ${fmtPesos(conIva)} ${listaDescuentos(desc)} sobre el total = ${fmtPesos(it.precio)}`
     : `Pedido ${a.numero} con ${textoDescuentos(desc)} sobre el total (no aplicado)` }];
 }
 
