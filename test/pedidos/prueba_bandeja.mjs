@@ -306,15 +306,15 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   ver('PA1 historial: Tipo con el comprobante corto y el dia', tipoDe('EVO115TF') === 'PRa12345 05/11/26', tipoDe('EVO115TF'));
   ver('PA1 historial: P. unit. con el descuento aplicado y su importe', filaDe('EVO115TF')?.children[4].textContent === '$10.327,53' &&
     filaDe('EVO115TF')?.children[5].textContent === '−$20.655,06', filaDe('EVO115TF')?.textContent);
-  ver('PA1 aclaracion: comprobante, dia, s/IVA y el -7% del comprobante aplicado (renglon)',
-    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · s/IVA $9.177,58 · con el −7 % del comprobante aplicado (renglón $11.104,87)'), JSON.stringify(notas));
-  ver('PA1 aclaracion en cascada: -5% y -7% del comprobante aplicados',
-    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · s/IVA $50,00 · con el −5 % y −7 % del comprobante aplicados (renglón $60,50)'));
+  ver('PA1 aclaracion en el orden de la cuenta: s/IVA -> c/IVA - 7 % = precio de la linea',
+    notas.includes('Comprobante PRa000000012345 del 05/11/2026 · renglón $9.177,58 s/IVA → $11.104,87 c/IVA − 7 % del comprobante = $10.327,53'), JSON.stringify(notas));
+  ver('PA1 aclaracion en cascada: - 5 % y - 7 % del comprobante',
+    notas.includes('Comprobante FCa000000000500 del 10/09/2026 · renglón $50,00 s/IVA → $60,50 c/IVA − 5 % y − 7 % del comprobante = $53,46'), JSON.stringify(notas));
   ver('PA1 cascada: P. unit. 53,46', filaDe('CAS1')?.children[4].textContent === '$53,46');
-  ver('PA1 comprobante sin descuento: aclaracion sin descuento',
-    notas.includes('Comprobante PRb000000001033 del 01/10/2026 · s/IVA $150,00'));
+  ver('PA1 comprobante sin descuento: s/IVA -> c/IVA',
+    notas.includes('Comprobante PRb000000001033 del 01/10/2026 · renglón $150,00 s/IVA → $181,50 c/IVA'), JSON.stringify(notas));
   ver('PA1 de la app con descuento: Tipo con el pedido y aclaracion del descuento aplicado',
-    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 con −7 % y −5 % sobre el total aplicados (precio de la línea $95,50)') &&
+    tipoDe('SKU2') === 'APP-1 08/11/26' && notas.includes('Pedido APP-1 · precio de la línea $95,50 − 7 % y − 5 % sobre el total = $84,38') &&
     filaDe('SKU2')?.children[4].textContent === '$84,38', tipoDe('SKU2'));
   ver('PA1 ya no dice "(no aplicado)" con un servidor v40', !notas.some(t => t.includes('no aplicado') && !t.includes('12346') && !t.startsWith('Pedido APP-2')),
     JSON.stringify(notas));
@@ -331,11 +331,22 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   ver('PA5 servidor v38: el renglon y "(no aplicado)", como antes',
     notas.includes('Comprobante PRa000000012346 del 05/11/2026 · s/IVA $9.177,58 · con −7 % pago contado (no aplicado)') &&
     notas.includes('Pedido APP-2 con −7 % y −5 % sobre el total (no aplicado)') && filaDe('V38H')?.children[4].textContent === '$11.104,87', JSON.stringify(notas));
-  ver('PA6 descuento parcial: aplicado y "verificar" en la aclaracion',
-    notas.includes('Comprobante PRa000000066666 del 02/11/2026 · s/IVA $100,00 · con el −7 % del comprobante aplicado (renglón $121,00) · descuento parcial en el comprobante: verificar'),
+  ver('PA6 descuento parcial: la cuenta y "descuento parcial: verificar" al final',
+    notas.includes('Comprobante PRa000000066666 del 02/11/2026 · renglón $100,00 s/IVA → $121,00 c/IVA − 7 % del comprobante = $112,53 · descuento parcial: verificar'),
     JSON.stringify(notas));
-  ver('PA6 de la app con un descuento: "aplicado" en singular',
-    notas.includes('Pedido APP-3 con −7 % sobre el total aplicado (precio de la línea $50,00)'), JSON.stringify(notas));
+  ver('PA6 de la app con un descuento',
+    notas.includes('Pedido APP-3 · precio de la línea $50,00 − 7 % sobre el total = $46,50'), JSON.stringify(notas));
+  // Las notas del servidor v40: ninguna con el texto anterior, y el "= $Z" igual al P. unit. de su fila
+  const notasV40 = notas.filter(t => !t.includes('no aplicado') && (t.startsWith('Comprobante') || t.startsWith('Pedido')));
+  ver('PA las notas v40 ya no dicen "(renglón" ni "aplicado", y llevan la flecha', notasV40.length >= 6 &&
+    notasV40.every(t => !t.includes('(renglón') && !t.includes('aplicad')) && notasV40.filter(t => t.startsWith('Comprobante')).every(t => t.includes(' → ')),
+    JSON.stringify(notasV40));
+  const igualPUnit = [...cont.querySelectorAll('tr.ih-obs-nota-fact')].filter(tr => tr.textContent.includes(' = $')).every(tr => {
+    let fila = tr.previousElementSibling;
+    while (fila && !fila.classList.contains('ih-obs-item-fact')) fila = fila.previousElementSibling;
+    return fila && tr.textContent.trim().split(' = ')[1].split(' ·')[0] === fila.children[4].textContent;
+  });
+  ver('PA el "= $Z" de cada nota es el P. unit. de su fila', igualPUnit);
   const t7 = hojasDe('APP-27').map(h => h.querySelector('.ih-totales')).find(Boolean)?.textContent.replace(/\s+/g, ' ') || '';
   ver('PA7 totales parciales: lo confirmado ya con el descuento y el pendiente aparte', t7.includes('−$10.327,53') &&
     t7.includes('+ 1 artículo a verificar') && t7.includes('NETO PARCIAL'), t7);
