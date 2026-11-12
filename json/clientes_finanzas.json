@@ -5,10 +5,10 @@
       "numero_cuenta": "949",
       "vendedor": "IC",
       "pgProm3M": 37931359.05,
-      "comproMes": 9434598.16,
-      "saldoTotal": 52101062.4,
+      "comproMes": 9388730.36,
+      "saldoTotal": 52055194.6,
       "pagoMes": 7400000.0,
-      "cupoMes": 28496760.89,
+      "cupoMes": 28542628.69,
       "ultOperacion": "11/11/2026"
     },
     "20271": {
@@ -17,10 +17,10 @@
       "vendedor": "JG",
       "pgProm3M": 3855815.433333334,
       "comproMes": 730756.31,
-      "saldoTotal": 8373485.51,
-      "pagoMes": 2000000.0,
+      "saldoTotal": 7773485.51,
+      "pagoMes": 2600000.0,
       "cupoMes": 3125059.123333334,
-      "ultOperacion": "10/11/2026"
+      "ultOperacion": "11/11/2026"
     },
     "90679": {
       "nombre": "EL COLO CLIENTE",
@@ -32,17 +32,6 @@
       "pagoMes": 2182950.0,
       "cupoMes": 6929814.183333334,
       "ultOperacion": "06/11/2026"
-    },
-    "70114": {
-      "nombre": "FERRETERIA FERRECAS",
-      "numero_cuenta": "70114",
-      "vendedor": "JG",
-      "pgProm3M": 5816666.666666667,
-      "comproMes": 3621715.36,
-      "saldoTotal": 5296795.58,
-      "pagoMes": 2000000.0,
-      "cupoMes": 2194951.306666667,
-      "ultOperacion": "11/11/2026"
     },
     "20241": {
       "nombre": "LOS CHAQUEÑOS FERRET",
@@ -88,17 +77,6 @@
       "cupoMes": 2991443.95,
       "ultOperacion": "07/11/2026"
     },
-    "90660": {
-      "nombre": "VILLEGAS FERRETERIA",
-      "numero_cuenta": "90660",
-      "vendedor": "RF",
-      "pgProm3M": 2683333.333333333,
-      "comproMes": 1370410.75,
-      "saldoTotal": 4366209.77,
-      "pagoMes": 600000.0,
-      "cupoMes": 1312922.583333333,
-      "ultOperacion": "11/11/2026"
-    },
     "10165": {
       "nombre": "FRETES FERRETERIA",
       "numero_cuenta": "10165",
@@ -109,6 +87,28 @@
       "pagoMes": 1000000.0,
       "cupoMes": 1913291.77,
       "ultOperacion": "05/11/2026"
+    },
+    "70114": {
+      "nombre": "FERRETERIA FERRECAS",
+      "numero_cuenta": "70114",
+      "vendedor": "JG",
+      "pgProm3M": 5816666.666666667,
+      "comproMes": 3844292.25,
+      "saldoTotal": 3819372.47,
+      "pagoMes": 3700000.0,
+      "cupoMes": 1972374.416666667,
+      "ultOperacion": "12/11/2026"
+    },
+    "90660": {
+      "nombre": "VILLEGAS FERRETERIA",
+      "numero_cuenta": "90660",
+      "vendedor": "RF",
+      "pgProm3M": 2683333.333333333,
+      "comproMes": 1370410.75,
+      "saldoTotal": 3676209.77,
+      "pagoMes": 1290000.0,
+      "cupoMes": 1312922.583333333,
+      "ultOperacion": "11/11/2026"
     },
     "20397": {
       "nombre": "CORRALON SAN JORGE",
@@ -121,50 +121,6 @@
       "cupoMes": 7821412.006666667,
       "ultOperacion": "06/11/2026"
     },
-    "60281": {
-      "nombre": "CASA MAXIMO",
-      "numero_cuenta": "60281",
-      "vendedor": "CS",
-      "pgProm3M": 2950000.0,
-      "comproMes": 1862781.76,
-      "saldoTotal": 3205339.45,
-      "pagoMes": 994700.0,
-      "cupoMes": 1087218.24,
-      "ultOperacion": "11/11/2026"
-    },
-    "70113": {
-      "nombre": "ILUMINARTE",
-      "numero_cuenta": "70113",
-      "vendedor": "RF",
-      "pgProm3M": 2237300.0,
-      "comproMes": 678264.38,
-      "saldoTotal": 3137335.41,
-      "pagoMes": 600000.0,
-      "cupoMes": 1559035.62,
-      "ultOperacion": "09/11/2026"
-    },
-    "61001": {
-      "nombre": "FERRIYAN 2 FERRETERI",
-      "numero_cuenta": "61001",
-      "vendedor": "RF",
-      "pgProm3M": 1500000.0,
-      "comproMes": 521101.29,
-      "saldoTotal": 3054785.82,
-      "pagoMes": 400000.0,
-      "cupoMes": 978898.71,
-      "ultOperacion": "11/11/2026"
-    },
-    "1021": {
-      "nombre": "FERRETERIA GERMAN",
-      "numero_cuenta": "1021",
-      "vendedor": "CS",
-      "pgProm3M": 1580102.0,
-      "comproMes": 869529.04,
-      "saldoTotal": 3011053.4,
-      "pagoMes": 430000.0,
-      "cupoMes": 710572.96,
-      "ultOperacion": "09/11/2026"
-    },
     "20380": {
       "nombre": "FERRETERIA PITU",
       "numero_cuenta": "20380",
@@ -174,6 +130,17 @@
       "saldoTotal": 2916129.27,
       "pagoMes": 0.0,
       "cupoMes": 281257.91,
+      "ultOperacion": "11/11/2026"
+    },
+    "61001": {
+      "nombre": "FERRIYAN 2 FERRETERI",
+      "numero_cuenta": "61001",
+      "vendedor": "RF",
+      "pgProm3M": 1500000.0,
+      "comproMes": 521101.29,
+      "saldoTotal": 2854785.82,
+      "pagoMes": 600000.0,
+      "cupoMes": 978898.71,
       "ultOperacion": "11/11/2026"
     },
     "20284": {
@@ -209,16 +176,16 @@
       "cupoMes": 470733.1166666667,
       "ultOperacion": "11/11/2026"
     },
-    "20238": {
-      "nombre": "LOS PEQUES FERRETERI",
-      "numero_cuenta": "20238",
-      "vendedor": "RF",
-      "pgProm3M": 1333333.333333333,
-      "comproMes": 1152731.43,
-      "saldoTotal": 2653977.18,
-      "pagoMes": 300000.0,
-      "cupoMes": 180601.9033333333,
-      "ultOperacion": "07/11/2026"
+    "1021": {
+      "nombre": "FERRETERIA GERMAN",
+      "numero_cuenta": "1021",
+      "vendedor": "CS",
+      "pgProm3M": 1580102.0,
+      "comproMes": 869529.04,
+      "saldoTotal": 2654053.4,
+      "pagoMes": 787000.0,
+      "cupoMes": 710572.96,
+      "ultOperacion": "11/11/2026"
     },
     "20228": {
       "nombre": "PABLO GISELA CORRALO",
@@ -231,6 +198,28 @@
       "cupoMes": 1180039.92,
       "ultOperacion": "05/11/2026"
     },
+    "70113": {
+      "nombre": "ILUMINARTE",
+      "numero_cuenta": "70113",
+      "vendedor": "RF",
+      "pgProm3M": 2237300.0,
+      "comproMes": 678264.38,
+      "saldoTotal": 2587335.41,
+      "pagoMes": 1150000.0,
+      "cupoMes": 1559035.62,
+      "ultOperacion": "11/11/2026"
+    },
+    "60281": {
+      "nombre": "CASA MAXIMO",
+      "numero_cuenta": "60281",
+      "vendedor": "CS",
+      "pgProm3M": 2950000.0,
+      "comproMes": 1862781.76,
+      "saldoTotal": 2555339.45,
+      "pagoMes": 1644700.0,
+      "cupoMes": 1087218.24,
+      "ultOperacion": "11/11/2026"
+    },
     "61012": {
       "nombre": "EL TREBOL FERRETERIA",
       "numero_cuenta": "61012",
@@ -242,16 +231,16 @@
       "cupoMes": 1202604.25,
       "ultOperacion": "06/11/2026"
     },
-    "60253": {
-      "nombre": "FERRETERIA EMILIANO",
-      "numero_cuenta": "60253",
-      "vendedor": "CS",
-      "pgProm3M": 2183333.333333333,
-      "comproMes": 1923463.35,
-      "saldoTotal": 2424592.31,
-      "pagoMes": 400000.0,
-      "cupoMes": 259869.9833333334,
-      "ultOperacion": "10/11/2026"
+    "20238": {
+      "nombre": "LOS PEQUES FERRETERI",
+      "numero_cuenta": "20238",
+      "vendedor": "RF",
+      "pgProm3M": 1333333.333333333,
+      "comproMes": 1152731.43,
+      "saldoTotal": 2353977.18,
+      "pagoMes": 600000.0,
+      "cupoMes": 180601.9033333333,
+      "ultOperacion": "11/11/2026"
     },
     "20309": {
       "nombre": "LATINA FERRETERIA",
@@ -275,17 +264,6 @@
       "cupoMes": 438940.7400000001,
       "ultOperacion": "09/11/2026"
     },
-    "40139": {
-      "nombre": "ENCINA FERRETERIA",
-      "numero_cuenta": "40139",
-      "vendedor": "RF",
-      "pgProm3M": 743970.0,
-      "comproMes": 1405202.14,
-      "saldoTotal": 2201445.55,
-      "pagoMes": 300000.0,
-      "cupoMes": -661232.1400000001,
-      "ultOperacion": "11/11/2026"
-    },
     "70103": {
       "nombre": "CERAMICA SAN EDUARDO",
       "numero_cuenta": "70103",
@@ -296,6 +274,17 @@
       "pagoMes": 0.0,
       "cupoMes": 790932.6166666663,
       "ultOperacion": "09/11/2026"
+    },
+    "50808": {
+      "nombre": "CORRALON LA CURVA",
+      "numero_cuenta": "50808",
+      "vendedor": "RF",
+      "pgProm3M": 2022500.0,
+      "comproMes": 673713.26,
+      "saldoTotal": 2167196.66,
+      "pagoMes": 500000.0,
+      "cupoMes": 1348786.74,
+      "ultOperacion": "11/11/2026"
     },
     "20290": {
       "nombre": "CONSTRUCTORA SYS SA",
@@ -308,17 +297,6 @@
       "cupoMes": 1646666.666666667,
       "ultOperacion": "31/10/2026"
     },
-    "237": {
-      "nombre": "PAROISSIEN FERRETERI",
-      "numero_cuenta": "237",
-      "vendedor": "JG",
-      "pgProm3M": 1733333.333333333,
-      "comproMes": 139784.22,
-      "saldoTotal": 2126564.83,
-      "pagoMes": 300000.0,
-      "cupoMes": 1593549.113333333,
-      "ultOperacion": "10/11/2026"
-    },
     "946": {
       "nombre": "FABIAN FERRETERIA",
       "numero_cuenta": "946",
@@ -329,28 +307,6 @@
       "pagoMes": 360000.0,
       "cupoMes": 882011.6466666667,
       "ultOperacion": "11/11/2026"
-    },
-    "20101": {
-      "nombre": "J.R. FERRETERIA",
-      "numero_cuenta": "20101",
-      "vendedor": "JG",
-      "pgProm3M": 2758333.333333333,
-      "comproMes": 499607.34,
-      "saldoTotal": 2051568.45,
-      "pagoMes": 800000.0,
-      "cupoMes": 2258725.993333334,
-      "ultOperacion": "10/11/2026"
-    },
-    "50808": {
-      "nombre": "CORRALON LA CURVA",
-      "numero_cuenta": "50808",
-      "vendedor": "RF",
-      "pgProm3M": 2022500.0,
-      "comproMes": 480382.78,
-      "saldoTotal": 1973866.18,
-      "pagoMes": 500000.0,
-      "cupoMes": 1542117.22,
-      "ultOperacion": "09/11/2026"
     },
     "969": {
       "nombre": "CORRALON LINCH",
@@ -363,16 +319,16 @@
       "cupoMes": 583111.7033333334,
       "ultOperacion": "07/11/2026"
     },
-    "1018": {
-      "nombre": "EL CORDOBES FERRETER",
-      "numero_cuenta": "1018",
-      "vendedor": "RF",
-      "pgProm3M": 811666.6666666666,
-      "comproMes": 389887.05,
-      "saldoTotal": 1928337.53,
-      "pagoMes": 300000.0,
-      "cupoMes": 421779.6166666666,
-      "ultOperacion": "10/11/2026"
+    "60253": {
+      "nombre": "FERRETERIA EMILIANO",
+      "numero_cuenta": "60253",
+      "vendedor": "CS",
+      "pgProm3M": 2183333.333333333,
+      "comproMes": 1923463.35,
+      "saldoTotal": 1924592.31,
+      "pagoMes": 900000.0,
+      "cupoMes": 259869.9833333334,
+      "ultOperacion": "11/11/2026"
     },
     "60275": {
       "nombre": "FERRETERIA GALLELLI",
@@ -385,6 +341,28 @@
       "cupoMes": 73073.15999999992,
       "ultOperacion": "10/11/2026"
     },
+    "237": {
+      "nombre": "PAROISSIEN FERRETERI",
+      "numero_cuenta": "237",
+      "vendedor": "JG",
+      "pgProm3M": 1733333.333333333,
+      "comproMes": 139784.22,
+      "saldoTotal": 1726564.83,
+      "pagoMes": 700000.0,
+      "cupoMes": 1593549.113333333,
+      "ultOperacion": "11/11/2026"
+    },
+    "40139": {
+      "nombre": "ENCINA FERRETERIA",
+      "numero_cuenta": "40139",
+      "vendedor": "RF",
+      "pgProm3M": 743970.0,
+      "comproMes": 1410899.82,
+      "saldoTotal": 1707143.23,
+      "pagoMes": 800000.0,
+      "cupoMes": -666929.8200000001,
+      "ultOperacion": "11/11/2026"
+    },
     "20260": {
       "nombre": "CORRALON 1001",
       "numero_cuenta": "20260",
@@ -396,16 +374,16 @@
       "cupoMes": 930616.9366666666,
       "ultOperacion": "05/11/2026"
     },
-    "61004": {
-      "nombre": "CASA MIGUEL FERRETER",
-      "numero_cuenta": "61004",
+    "1018": {
+      "nombre": "EL CORDOBES FERRETER",
+      "numero_cuenta": "1018",
       "vendedor": "RF",
-      "pgProm3M": 710000.0,
-      "comproMes": 94686.23000000001,
-      "saldoTotal": 1627489.9,
-      "pagoMes": 150000.0,
-      "cupoMes": 615313.77,
-      "ultOperacion": "05/11/2026"
+      "pgProm3M": 811666.6666666666,
+      "comproMes": 389887.05,
+      "saldoTotal": 1628337.53,
+      "pagoMes": 600000.0,
+      "cupoMes": 421779.6166666666,
+      "ultOperacion": "11/11/2026"
     },
     "952": {
       "nombre": "ADRIAN MARQUES FERRE",
@@ -417,17 +395,6 @@
       "pagoMes": 300000.0,
       "cupoMes": 846317.6433333333,
       "ultOperacion": "09/11/2026"
-    },
-    "50623": {
-      "nombre": "FERRETERIA LAPLACE",
-      "numero_cuenta": "50623",
-      "vendedor": "RF",
-      "pgProm3M": 961333.3333333334,
-      "comproMes": 526677.92,
-      "saldoTotal": 1583391.55,
-      "pagoMes": 300000.0,
-      "cupoMes": 434655.4133333333,
-      "ultOperacion": "05/11/2026"
     },
     "20116": {
       "nombre": "DE LA FUENTE FERRETE",
@@ -473,71 +440,38 @@
       "cupoMes": 231535.9466666668,
       "ultOperacion": "09/11/2026"
     },
-    "20096": {
-      "nombre": "LA QUINTA MATERIALES",
-      "numero_cuenta": "20096",
-      "vendedor": "JG",
-      "pgProm3M": 3066666.666666667,
-      "comproMes": 532912.25,
-      "saldoTotal": 1484856.84,
-      "pagoMes": 700000.0,
-      "cupoMes": 2533754.416666667,
-      "ultOperacion": "11/11/2026"
-    },
-    "1017": {
-      "nombre": "FERRETERIA ULISES",
-      "numero_cuenta": "1017",
-      "vendedor": "JG",
-      "pgProm3M": 746000.0,
-      "comproMes": 703808.31,
-      "saldoTotal": 1473012.05,
-      "pagoMes": 500000.0,
-      "cupoMes": 42191.68999999994,
-      "ultOperacion": "11/11/2026"
-    },
     "1027": {
       "nombre": "FERRETERIA GARAY",
       "numero_cuenta": "1027",
       "vendedor": "CS",
       "pgProm3M": 1483333.333333333,
-      "comproMes": 976346.56,
-      "saldoTotal": 1462453.93,
+      "comproMes": 1005021.09,
+      "saldoTotal": 1491128.46,
       "pagoMes": 400000.0,
-      "cupoMes": 506986.7733333332,
+      "cupoMes": 478312.2433333332,
       "ultOperacion": "11/11/2026"
     },
-    "60300": {
-      "nombre": "FERRETERIA HUMBERTO",
-      "numero_cuenta": "60300",
+    "61004": {
+      "nombre": "CASA MIGUEL FERRETER",
+      "numero_cuenta": "61004",
+      "vendedor": "RF",
+      "pgProm3M": 710000.0,
+      "comproMes": 94686.23000000001,
+      "saldoTotal": 1477489.9,
+      "pagoMes": 300000.0,
+      "cupoMes": 615313.77,
+      "ultOperacion": "11/11/2026"
+    },
+    "1030": {
+      "nombre": "FERRETERIA CONTRERAS",
+      "numero_cuenta": "1030",
       "vendedor": "CS",
-      "pgProm3M": 1137900.0,
-      "comproMes": 1424659.74,
-      "saldoTotal": 1424596.0,
-      "pagoMes": 180200.0,
-      "cupoMes": -286759.74,
-      "ultOperacion": "04/11/2026"
-    },
-    "60139": {
-      "nombre": "VICTOR FERRETERIA",
-      "numero_cuenta": "60139",
-      "vendedor": "RF",
-      "pgProm3M": 883333.3333333334,
-      "comproMes": 141242.14,
-      "saldoTotal": 1393447.06,
-      "pagoMes": 200000.0,
-      "cupoMes": 742091.1933333334,
-      "ultOperacion": "04/11/2026"
-    },
-    "40151": {
-      "nombre": "FERRETERIA LUJAN",
-      "numero_cuenta": "40151",
-      "vendedor": "RF",
-      "pgProm3M": 1083333.333333333,
-      "comproMes": 287595.35,
-      "saldoTotal": 1345535.3,
-      "pagoMes": 0.0,
-      "cupoMes": 795737.9833333333,
-      "ultOperacion": "11/11/2026"
+      "pgProm3M": 1176754.666666667,
+      "comproMes": 837677.06,
+      "saldoTotal": 1473776.73,
+      "pagoMes": 300000.0,
+      "cupoMes": 339077.6066666667,
+      "ultOperacion": "12/11/2026"
     },
     "20319": {
       "nombre": "LU-MI FERRETERIA",
@@ -560,6 +494,17 @@
       "pagoMes": 500000.0,
       "cupoMes": 651643.0133333332,
       "ultOperacion": "05/11/2026"
+    },
+    "50623": {
+      "nombre": "FERRETERIA LAPLACE",
+      "numero_cuenta": "50623",
+      "vendedor": "RF",
+      "pgProm3M": 961333.3333333334,
+      "comproMes": 526677.92,
+      "saldoTotal": 1333391.55,
+      "pagoMes": 550000.0,
+      "cupoMes": 434655.4133333333,
+      "ultOperacion": "11/11/2026"
     },
     "20374": {
       "nombre": "NAVARRO FERRETERIA",
@@ -594,17 +539,6 @@
       "cupoMes": 91571.12666666668,
       "ultOperacion": "11/11/2026"
     },
-    "60292": {
-      "nombre": "FERRETERIA ALFA",
-      "numero_cuenta": "60292",
-      "vendedor": "CS",
-      "pgProm3M": 1112000.0,
-      "comproMes": 1128712.86,
-      "saldoTotal": 1301932.04,
-      "pagoMes": 200000.0,
-      "cupoMes": -16712.8600000001,
-      "ultOperacion": "10/11/2026"
-    },
     "60280": {
       "nombre": "FERRETERIA EL TALA",
       "numero_cuenta": "60280",
@@ -615,28 +549,6 @@
       "pagoMes": 200000.0,
       "cupoMes": 1412591.823333333,
       "ultOperacion": "03/11/2026"
-    },
-    "20246": {
-      "nombre": "RAFAEL  FERRETERIA",
-      "numero_cuenta": "20246",
-      "vendedor": "RF",
-      "pgProm3M": 2496666.666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 1273264.37,
-      "pagoMes": 420000.0,
-      "cupoMes": 2496666.666666667,
-      "ultOperacion": "04/11/2026"
-    },
-    "60302": {
-      "nombre": "FERRETERIA L y C",
-      "numero_cuenta": "60302",
-      "vendedor": "CS",
-      "pgProm3M": 1463276.753333333,
-      "comproMes": 930509.87,
-      "saldoTotal": 1264876.32,
-      "pagoMes": 300000.0,
-      "cupoMes": 532766.8833333332,
-      "ultOperacion": "10/11/2026"
     },
     "20303": {
       "nombre": "CORRALON NICOL",
@@ -649,17 +561,6 @@
       "cupoMes": 363333.3333333333,
       "ultOperacion": "03/11/2026"
     },
-    "10163": {
-      "nombre": "CORRALON ESCALISE",
-      "numero_cuenta": "10163",
-      "vendedor": "RF",
-      "pgProm3M": 916666.6666666666,
-      "comproMes": 607321.0399999999,
-      "saldoTotal": 1261787.15,
-      "pagoMes": 0.0,
-      "cupoMes": 309345.6266666667,
-      "ultOperacion": "11/11/2026"
-    },
     "90671": {
       "nombre": "CLAVIJO OSCAR ALBERT",
       "numero_cuenta": "90671",
@@ -671,15 +572,15 @@
       "cupoMes": 467098.6666666667,
       "ultOperacion": "21/10/2026"
     },
-    "1030": {
-      "nombre": "FERRETERIA CONTRERAS",
-      "numero_cuenta": "1030",
-      "vendedor": "CS",
-      "pgProm3M": 1176754.666666667,
-      "comproMes": 588712.0800000001,
-      "saldoTotal": 1224811.75,
-      "pagoMes": 300000.0,
-      "cupoMes": 588042.5866666667,
+    "20101": {
+      "nombre": "J.R. FERRETERIA",
+      "numero_cuenta": "20101",
+      "vendedor": "JG",
+      "pgProm3M": 2758333.333333333,
+      "comproMes": 499607.34,
+      "saldoTotal": 1201568.45,
+      "pagoMes": 1650000.0,
+      "cupoMes": 2258725.993333334,
       "ultOperacion": "11/11/2026"
     },
     "60124": {
@@ -704,16 +605,16 @@
       "cupoMes": 1373333.333333333,
       "ultOperacion": "05/11/2026"
     },
-    "60286": {
-      "nombre": "FERRETERIA CASERES A",
-      "numero_cuenta": "60286",
-      "vendedor": "CS",
-      "pgProm3M": 716666.6666666666,
-      "comproMes": 0.0,
-      "saldoTotal": 1194600.8,
-      "pagoMes": 0.0,
-      "cupoMes": 716666.6666666666,
-      "ultOperacion": "29/10/2026"
+    "60139": {
+      "nombre": "VICTOR FERRETERIA",
+      "numero_cuenta": "60139",
+      "vendedor": "RF",
+      "pgProm3M": 883333.3333333334,
+      "comproMes": 141242.14,
+      "saldoTotal": 1193447.06,
+      "pagoMes": 400000.0,
+      "cupoMes": 742091.1933333334,
+      "ultOperacion": "11/11/2026"
     },
     "20180": {
       "nombre": "R.R FERRETERIA",
@@ -770,28 +671,6 @@
       "cupoMes": -14924.09333333332,
       "ultOperacion": "03/11/2026"
     },
-    "233": {
-      "nombre": "FERRETERIA IMPERIO",
-      "numero_cuenta": "233",
-      "vendedor": "JG",
-      "pgProm3M": 2908583.883333333,
-      "comproMes": 595493.94,
-      "saldoTotal": 1144444.25,
-      "pagoMes": 1320657.42,
-      "cupoMes": 2313089.943333333,
-      "ultOperacion": "09/11/2026"
-    },
-    "1016": {
-      "nombre": "FERRETERIA FERREMAX",
-      "numero_cuenta": "1016",
-      "vendedor": "JG",
-      "pgProm3M": 553333.3333333334,
-      "comproMes": 918737.19,
-      "saldoTotal": 1142104.55,
-      "pagoMes": 200000.0,
-      "cupoMes": -365403.8566666666,
-      "ultOperacion": "11/11/2026"
-    },
     "70118": {
       "nombre": "FERRETERIA VALVERDE",
       "numero_cuenta": "70118",
@@ -803,37 +682,15 @@
       "cupoMes": -591322.4633333334,
       "ultOperacion": "09/11/2026"
     },
-    "992": {
-      "nombre": "EL NEGRO FERRETERIA",
-      "numero_cuenta": "992",
-      "vendedor": "JG",
-      "pgProm3M": 250000.0,
-      "comproMes": 1013243.91,
-      "saldoTotal": 1127317.35,
-      "pagoMes": 100000.0,
-      "cupoMes": -763243.91,
-      "ultOperacion": "11/11/2026"
-    },
-    "963": {
-      "nombre": "CORDERO J.CARLOS FER",
-      "numero_cuenta": "963",
-      "vendedor": "RF",
-      "pgProm3M": 2333333.333333333,
-      "comproMes": 617532.57,
-      "saldoTotal": 1118012.62,
-      "pagoMes": 757000.0,
-      "cupoMes": 1715800.763333334,
-      "ultOperacion": "09/11/2026"
-    },
-    "20166": {
-      "nombre": "CASA LEO FERRETERIA",
-      "numero_cuenta": "20166",
-      "vendedor": "JG",
-      "pgProm3M": 606666.6666666666,
-      "comproMes": 395017.41,
-      "saldoTotal": 1101387.46,
-      "pagoMes": 150000.0,
-      "cupoMes": 211649.2566666666,
+    "60300": {
+      "nombre": "FERRETERIA HUMBERTO",
+      "numero_cuenta": "60300",
+      "vendedor": "CS",
+      "pgProm3M": 1137900.0,
+      "comproMes": 1424659.74,
+      "saldoTotal": 1124596.0,
+      "pagoMes": 480200.0,
+      "cupoMes": -286759.74,
       "ultOperacion": "11/11/2026"
     },
     "20137": {
@@ -867,6 +724,17 @@
       "saldoTotal": 1089157.94,
       "pagoMes": 165300.0,
       "cupoMes": -441930.0133333333,
+      "ultOperacion": "11/11/2026"
+    },
+    "40151": {
+      "nombre": "FERRETERIA LUJAN",
+      "numero_cuenta": "40151",
+      "vendedor": "RF",
+      "pgProm3M": 1083333.333333333,
+      "comproMes": 309469.68,
+      "saldoTotal": 1067409.63,
+      "pagoMes": 300000.0,
+      "cupoMes": 773863.6533333333,
       "ultOperacion": "11/11/2026"
     },
     "70102": {
@@ -924,6 +792,17 @@
       "cupoMes": 466666.6666666667,
       "ultOperacion": "23/10/2026"
     },
+    "60302": {
+      "nombre": "FERRETERIA L y C",
+      "numero_cuenta": "60302",
+      "vendedor": "CS",
+      "pgProm3M": 1463276.753333333,
+      "comproMes": 930509.87,
+      "saldoTotal": 1014876.32,
+      "pagoMes": 550000.0,
+      "cupoMes": 532766.8833333332,
+      "ultOperacion": "11/11/2026"
+    },
     "70117": {
       "nombre": "FERRETERIA ANIBAL",
       "numero_cuenta": "70117",
@@ -957,16 +836,27 @@
       "cupoMes": 1229588.413333333,
       "ultOperacion": "02/11/2026"
     },
-    "60165": {
-      "nombre": "NA-FA FERRETERIA",
-      "numero_cuenta": "60165",
+    "60286": {
+      "nombre": "FERRETERIA CASERES A",
+      "numero_cuenta": "60286",
       "vendedor": "CS",
-      "pgProm3M": 650000.0,
-      "comproMes": 596438.23,
-      "saldoTotal": 982441.55,
-      "pagoMes": 150000.0,
-      "cupoMes": 53561.77000000002,
-      "ultOperacion": "10/11/2026"
+      "pgProm3M": 716666.6666666666,
+      "comproMes": 0.0,
+      "saldoTotal": 994600.8,
+      "pagoMes": 200000.0,
+      "cupoMes": 716666.6666666666,
+      "ultOperacion": "11/11/2026"
+    },
+    "50820": {
+      "nombre": "FERRETERIA LA PETY",
+      "numero_cuenta": "50820",
+      "vendedor": "RF",
+      "pgProm3M": 211666.6666666667,
+      "comproMes": 90087.83,
+      "saldoTotal": 985592.56,
+      "pagoMes": 0.0,
+      "cupoMes": 121578.8366666667,
+      "ultOperacion": "12/11/2026"
     },
     "20291": {
       "nombre": "EL PROGRESO FERRETER",
@@ -979,27 +869,16 @@
       "cupoMes": 701900.0,
       "ultOperacion": "30/10/2026"
     },
-    "1039": {
-      "nombre": "FERRETERIA PERICO",
-      "numero_cuenta": "1039",
-      "vendedor": "CS",
-      "pgProm3M": 860000.0,
-      "comproMes": 304110.19,
-      "saldoTotal": 965503.55,
-      "pagoMes": 200000.0,
-      "cupoMes": 555889.81,
-      "ultOperacion": "09/11/2026"
-    },
-    "60248": {
-      "nombre": "FERRETERIA BECO",
-      "numero_cuenta": "60248",
-      "vendedor": "CS",
-      "pgProm3M": 471278.0,
-      "comproMes": 529852.98,
-      "saldoTotal": 962789.52,
-      "pagoMes": 470000.0,
-      "cupoMes": -58574.97999999998,
-      "ultOperacion": "10/11/2026"
+    "1017": {
+      "nombre": "FERRETERIA ULISES",
+      "numero_cuenta": "1017",
+      "vendedor": "JG",
+      "pgProm3M": 746000.0,
+      "comproMes": 703808.31,
+      "saldoTotal": 973012.05,
+      "pagoMes": 1000000.0,
+      "cupoMes": 42191.68999999994,
+      "ultOperacion": "11/11/2026"
     },
     "1044": {
       "nombre": "FERRETERIA LIBER",
@@ -1012,6 +891,17 @@
       "cupoMes": 504346.7333333334,
       "ultOperacion": "09/11/2026"
     },
+    "992": {
+      "nombre": "EL NEGRO FERRETERIA",
+      "numero_cuenta": "992",
+      "vendedor": "JG",
+      "pgProm3M": 250000.0,
+      "comproMes": 1013243.91,
+      "saldoTotal": 927317.35,
+      "pagoMes": 300000.0,
+      "cupoMes": -763243.91,
+      "ultOperacion": "11/11/2026"
+    },
     "50819": {
       "nombre": "DON COTY FERRETERIA",
       "numero_cuenta": "50819",
@@ -1023,6 +913,17 @@
       "cupoMes": 280812.15,
       "ultOperacion": "06/11/2026"
     },
+    "1016": {
+      "nombre": "FERRETERIA FERREMAX",
+      "numero_cuenta": "1016",
+      "vendedor": "JG",
+      "pgProm3M": 553333.3333333334,
+      "comproMes": 918737.19,
+      "saldoTotal": 918604.55,
+      "pagoMes": 423500.0,
+      "cupoMes": -365403.8566666666,
+      "ultOperacion": "11/11/2026"
+    },
     "20236": {
       "nombre": "FERRETERIA S Y D",
       "numero_cuenta": "20236",
@@ -1033,17 +934,6 @@
       "pagoMes": 100000.0,
       "cupoMes": 996666.6666666666,
       "ultOperacion": "05/11/2026"
-    },
-    "20113": {
-      "nombre": "EL VIRREY CORRALON d",
-      "numero_cuenta": "20113",
-      "vendedor": "JG",
-      "pgProm3M": 936666.6666666666,
-      "comproMes": 249324.63,
-      "saldoTotal": 912527.11,
-      "pagoMes": 0.0,
-      "cupoMes": 687342.0366666666,
-      "ultOperacion": "11/11/2026"
     },
     "50224": {
       "nombre": "JUANCHI CORDERO FERR",
@@ -1100,17 +990,6 @@
       "cupoMes": 42399.84666666668,
       "ultOperacion": "05/11/2026"
     },
-    "50820": {
-      "nombre": "FERRETERIA LA PETY",
-      "numero_cuenta": "50820",
-      "vendedor": "RF",
-      "pgProm3M": 211666.6666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 895504.73,
-      "pagoMes": 0.0,
-      "cupoMes": 211666.6666666667,
-      "ultOperacion": "30/10/2026"
-    },
     "962": {
       "nombre": "AZ FERRTERIA",
       "numero_cuenta": "962",
@@ -1144,15 +1023,15 @@
       "cupoMes": 355862.3133333334,
       "ultOperacion": "05/11/2026"
     },
-    "20148": {
-      "nombre": "FLORES FERRETERIA",
-      "numero_cuenta": "20148",
+    "20166": {
+      "nombre": "CASA LEO FERRETERIA",
+      "numero_cuenta": "20166",
       "vendedor": "JG",
-      "pgProm3M": 1244666.666666667,
-      "comproMes": 547077.81,
-      "saldoTotal": 881856.42,
-      "pagoMes": 400000.0,
-      "cupoMes": 697588.8566666667,
+      "pgProm3M": 606666.6666666666,
+      "comproMes": 309515.59,
+      "saldoTotal": 865885.64,
+      "pagoMes": 300000.0,
+      "cupoMes": 297151.0766666667,
       "ultOperacion": "11/11/2026"
     },
     "20379": {
@@ -1166,15 +1045,26 @@
       "cupoMes": 543333.3333333334,
       "ultOperacion": "05/11/2026"
     },
+    "10163": {
+      "nombre": "CORRALON ESCALISE",
+      "numero_cuenta": "10163",
+      "vendedor": "RF",
+      "pgProm3M": 916666.6666666666,
+      "comproMes": 607321.0399999999,
+      "saldoTotal": 861787.15,
+      "pagoMes": 400000.0,
+      "cupoMes": 309345.6266666667,
+      "ultOperacion": "11/11/2026"
+    },
     "60196": {
       "nombre": "WORO 2 FERRETERIA",
       "numero_cuenta": "60196",
       "vendedor": "JG",
       "pgProm3M": 499364.3333333333,
-      "comproMes": 432553.61,
-      "saldoTotal": 855291.45,
+      "comproMes": 437134.09,
+      "saldoTotal": 859871.93,
       "pagoMes": 120000.0,
-      "cupoMes": 66810.72333333333,
+      "cupoMes": 62230.24333333329,
       "ultOperacion": "10/11/2026"
     },
     "60133": {
@@ -1210,6 +1100,17 @@
       "cupoMes": 450333.3333333333,
       "ultOperacion": "22/10/2026"
     },
+    "60165": {
+      "nombre": "NA-FA FERRETERIA",
+      "numero_cuenta": "60165",
+      "vendedor": "CS",
+      "pgProm3M": 650000.0,
+      "comproMes": 596438.23,
+      "saldoTotal": 832441.55,
+      "pagoMes": 300000.0,
+      "cupoMes": 53561.77000000002,
+      "ultOperacion": "11/11/2026"
+    },
     "20318": {
       "nombre": "CASA DAMIAN",
       "numero_cuenta": "20318",
@@ -1232,6 +1133,39 @@
       "cupoMes": -69977.16666666663,
       "ultOperacion": "11/11/2026"
     },
+    "60248": {
+      "nombre": "FERRETERIA BECO",
+      "numero_cuenta": "60248",
+      "vendedor": "CS",
+      "pgProm3M": 471278.0,
+      "comproMes": 529852.98,
+      "saldoTotal": 822789.52,
+      "pagoMes": 610000.0,
+      "cupoMes": -58574.97999999998,
+      "ultOperacion": "11/11/2026"
+    },
+    "20246": {
+      "nombre": "RAFAEL  FERRETERIA",
+      "numero_cuenta": "20246",
+      "vendedor": "RF",
+      "pgProm3M": 2496666.666666667,
+      "comproMes": 0.0,
+      "saldoTotal": 822264.37,
+      "pagoMes": 871000.0,
+      "cupoMes": 2496666.666666667,
+      "ultOperacion": "11/11/2026"
+    },
+    "1039": {
+      "nombre": "FERRETERIA PERICO",
+      "numero_cuenta": "1039",
+      "vendedor": "CS",
+      "pgProm3M": 860000.0,
+      "comproMes": 304110.19,
+      "saldoTotal": 815503.55,
+      "pagoMes": 350000.0,
+      "cupoMes": 555889.81,
+      "ultOperacion": "11/11/2026"
+    },
     "20110": {
       "nombre": "MATEO (2) FERRETERIA",
       "numero_cuenta": "20110",
@@ -1243,17 +1177,6 @@
       "cupoMes": 1276920.433333333,
       "ultOperacion": "09/11/2026"
     },
-    "60198": {
-      "nombre": "MATERIALES EL CHILEN",
-      "numero_cuenta": "60198",
-      "vendedor": "CS",
-      "pgProm3M": 184096.3333333333,
-      "comproMes": 519206.16,
-      "saldoTotal": 806951.36,
-      "pagoMes": 210000.0,
-      "cupoMes": -335109.8266666667,
-      "ultOperacion": "10/11/2026"
-    },
     "20331": {
       "nombre": "LA ESQUINA FERRETERI",
       "numero_cuenta": "20331",
@@ -1264,6 +1187,17 @@
       "pagoMes": 150000.0,
       "cupoMes": 190124.7366666667,
       "ultOperacion": "06/11/2026"
+    },
+    "60292": {
+      "nombre": "FERRETERIA ALFA",
+      "numero_cuenta": "60292",
+      "vendedor": "CS",
+      "pgProm3M": 1112000.0,
+      "comproMes": 1128712.86,
+      "saldoTotal": 801932.04,
+      "pagoMes": 700000.0,
+      "cupoMes": -16712.8600000001,
+      "ultOperacion": "11/11/2026"
     },
     "60288": {
       "nombre": "FERRETERIA ARGENTINA",
@@ -1320,27 +1254,16 @@
       "cupoMes": 428352.89,
       "ultOperacion": "06/11/2026"
     },
-    "40145": {
-      "nombre": "SANITARIO ANTONIO",
-      "numero_cuenta": "40145",
-      "vendedor": "RF",
-      "pgProm3M": 681583.3333333334,
-      "comproMes": 0.0,
-      "saldoTotal": 784449.69,
-      "pagoMes": 0.0,
-      "cupoMes": 681583.3333333334,
-      "ultOperacion": "14/10/2026"
-    },
-    "60258": {
-      "nombre": "FERRETERIA CLAUDIO (",
-      "numero_cuenta": "60258",
-      "vendedor": "CS",
-      "pgProm3M": 636666.6666666666,
-      "comproMes": 250873.6,
-      "saldoTotal": 783441.79,
-      "pagoMes": 0.0,
-      "cupoMes": 385793.0666666667,
-      "ultOperacion": "10/11/2026"
+    "20096": {
+      "nombre": "LA QUINTA MATERIALES",
+      "numero_cuenta": "20096",
+      "vendedor": "JG",
+      "pgProm3M": 3066666.666666667,
+      "comproMes": 532912.25,
+      "saldoTotal": 784856.84,
+      "pagoMes": 1400000.0,
+      "cupoMes": 2533754.416666667,
+      "ultOperacion": "11/11/2026"
     },
     "90658": {
       "nombre": "FERRETERIA DEL OESTE",
@@ -1353,60 +1276,16 @@
       "cupoMes": -104863.91,
       "ultOperacion": "05/11/2026"
     },
-    "940": {
-      "nombre": "EL 44 FERRETERIA",
-      "numero_cuenta": "940",
-      "vendedor": "JG",
-      "pgProm3M": 883333.3333333334,
-      "comproMes": 176743.28,
-      "saldoTotal": 779561.99,
-      "pagoMes": 400000.0,
-      "cupoMes": 706590.0533333333,
-      "ultOperacion": "04/11/2026"
-    },
     "933": {
       "nombre": "FERRETERIA D3",
       "numero_cuenta": "933",
       "vendedor": "JG",
       "pgProm3M": 256666.6666666667,
-      "comproMes": 43791.42,
-      "saldoTotal": 775185.69,
-      "pagoMes": 50000.0,
-      "cupoMes": 212875.2466666666,
-      "ultOperacion": "06/11/2026"
-    },
-    "20256": {
-      "nombre": "LAYMAR FERRETERIA",
-      "numero_cuenta": "20256",
-      "vendedor": "RF",
-      "pgProm3M": 1050000.0,
-      "comproMes": 0.0,
-      "saldoTotal": 769549.8,
-      "pagoMes": 200000.0,
-      "cupoMes": 1050000.0,
-      "ultOperacion": "04/11/2026"
-    },
-    "1009": {
-      "nombre": "SUPERMERCADO LAS HER",
-      "numero_cuenta": "1009",
-      "vendedor": "RF",
-      "pgProm3M": 427266.6666666667,
-      "comproMes": 120536.95,
-      "saldoTotal": 764834.19,
-      "pagoMes": 300000.0,
-      "cupoMes": 306729.7166666667,
-      "ultOperacion": "09/11/2026"
-    },
-    "90621": {
-      "nombre": "MORINICO FERRETERIA",
-      "numero_cuenta": "90621",
-      "vendedor": "CS",
-      "pgProm3M": 729325.3333333334,
-      "comproMes": 659406.06,
-      "saldoTotal": 758164.99,
-      "pagoMes": 200000.0,
-      "cupoMes": 69919.27333333332,
-      "ultOperacion": "10/11/2026"
+      "comproMes": 74755.56,
+      "saldoTotal": 756149.83,
+      "pagoMes": 100000.0,
+      "cupoMes": 181911.1066666667,
+      "ultOperacion": "12/11/2026"
     },
     "1012": {
       "nombre": "CORRALON CURTO MARTI",
@@ -1441,28 +1320,6 @@
       "cupoMes": 460170.32,
       "ultOperacion": "07/11/2026"
     },
-    "60244": {
-      "nombre": "FERRETERIA MARTINEZ",
-      "numero_cuenta": "60244",
-      "vendedor": "CS",
-      "pgProm3M": 623833.3333333334,
-      "comproMes": 322148.93,
-      "saldoTotal": 734863.66,
-      "pagoMes": 200000.0,
-      "cupoMes": 301684.4033333334,
-      "ultOperacion": "10/11/2026"
-    },
-    "60257": {
-      "nombre": "FERRETERIA EL PAISA",
-      "numero_cuenta": "60257",
-      "vendedor": "CS",
-      "pgProm3M": 1216963.666666667,
-      "comproMes": 290009.47,
-      "saldoTotal": 734494.74,
-      "pagoMes": 179100.0,
-      "cupoMes": 926954.1966666668,
-      "ultOperacion": "10/11/2026"
-    },
     "60222": {
       "nombre": "FERRETERIA AFFRE",
       "numero_cuenta": "60222",
@@ -1484,6 +1341,28 @@
       "pagoMes": 0.0,
       "cupoMes": 466537.5566666666,
       "ultOperacion": "08/10/2026"
+    },
+    "60198": {
+      "nombre": "MATERIALES EL CHILEN",
+      "numero_cuenta": "60198",
+      "vendedor": "CS",
+      "pgProm3M": 184096.3333333333,
+      "comproMes": 519206.16,
+      "saldoTotal": 714763.36,
+      "pagoMes": 302188.0,
+      "cupoMes": -335109.8266666667,
+      "ultOperacion": "11/11/2026"
+    },
+    "20113": {
+      "nombre": "EL VIRREY CORRALON d",
+      "numero_cuenta": "20113",
+      "vendedor": "JG",
+      "pgProm3M": 936666.6666666666,
+      "comproMes": 249324.63,
+      "saldoTotal": 712527.11,
+      "pagoMes": 200000.0,
+      "cupoMes": 687342.0366666666,
+      "ultOperacion": "11/11/2026"
     },
     "993": {
       "nombre": "LOS 22 FERRETERIA",
@@ -1529,27 +1408,16 @@
       "cupoMes": 557666.6666666666,
       "ultOperacion": "30/10/2026"
     },
-    "1001": {
-      "nombre": "FERRETERIA CAÑUELAS",
-      "numero_cuenta": "1001",
-      "vendedor": "RF",
-      "pgProm3M": 513333.3333333333,
-      "comproMes": 179356.78,
-      "saldoTotal": 684664.09,
-      "pagoMes": 0.0,
-      "cupoMes": 333976.5533333333,
-      "ultOperacion": "07/11/2026"
-    },
-    "50622": {
-      "nombre": "LAFE-RRETERIA PONTEV",
-      "numero_cuenta": "50622",
-      "vendedor": "RF",
-      "pgProm3M": 266666.6666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 680264.13,
-      "pagoMes": 100000.0,
-      "cupoMes": 266666.6666666667,
-      "ultOperacion": "04/11/2026"
+    "20148": {
+      "nombre": "FLORES FERRETERIA",
+      "numero_cuenta": "20148",
+      "vendedor": "JG",
+      "pgProm3M": 1244666.666666667,
+      "comproMes": 715670.2600000001,
+      "saldoTotal": 680448.87,
+      "pagoMes": 770000.0,
+      "cupoMes": 528996.4066666666,
+      "ultOperacion": "12/11/2026"
     },
     "20128": {
       "nombre": "EN LO DE HUGO FERRET",
@@ -1562,27 +1430,27 @@
       "cupoMes": 840267.94,
       "ultOperacion": "10/11/2026"
     },
-    "961": {
-      "nombre": "CHICHO FERRETERIA",
-      "numero_cuenta": "961",
-      "vendedor": "RF",
-      "pgProm3M": 482000.0,
-      "comproMes": 177246.87,
-      "saldoTotal": 659470.37,
-      "pagoMes": 0.0,
-      "cupoMes": 304753.13,
-      "ultOperacion": "07/11/2026"
-    },
     "60225": {
       "nombre": "MATERIALES AGUILAR",
       "numero_cuenta": "60225",
       "vendedor": "JG",
       "pgProm3M": 846666.6666666666,
-      "comproMes": 82331.35,
-      "saldoTotal": 646609.84,
+      "comproMes": 91528.05,
+      "saldoTotal": 655806.54,
       "pagoMes": 0.0,
-      "cupoMes": 764335.3166666667,
+      "cupoMes": 755138.6166666666,
       "ultOperacion": "10/11/2026"
+    },
+    "1009": {
+      "nombre": "SUPERMERCADO LAS HER",
+      "numero_cuenta": "1009",
+      "vendedor": "RF",
+      "pgProm3M": 427266.6666666667,
+      "comproMes": 120536.95,
+      "saldoTotal": 644834.19,
+      "pagoMes": 420000.0,
+      "cupoMes": 306729.7166666667,
+      "ultOperacion": "11/11/2026"
     },
     "90708": {
       "nombre": "ALAN VAZQUEZ",
@@ -1639,27 +1507,16 @@
       "cupoMes": 102277.8033333333,
       "ultOperacion": "10/11/2026"
     },
-    "70638": {
-      "nombre": "FERRETERIA MAGNUM",
-      "numero_cuenta": "70638",
+    "50825": {
+      "nombre": "FERRETERIA V Y F",
+      "numero_cuenta": "50825",
       "vendedor": "RF",
-      "pgProm3M": 413333.3333333333,
-      "comproMes": 313993.24,
-      "saldoTotal": 613767.01,
-      "pagoMes": 100000.0,
-      "cupoMes": 99340.09333333332,
-      "ultOperacion": "11/11/2026"
-    },
-    "20103": {
-      "nombre": "ELEUTERIO FERNANDEZ",
-      "numero_cuenta": "20103",
-      "vendedor": "RF",
-      "pgProm3M": 853291.6666666666,
-      "comproMes": 372648.3,
-      "saldoTotal": 597391.33,
-      "pagoMes": 70000.0,
-      "cupoMes": 480643.3666666666,
-      "ultOperacion": "11/11/2026"
+      "pgProm3M": 513133.3333333333,
+      "comproMes": 224611.43,
+      "saldoTotal": 604468.49,
+      "pagoMes": 0.0,
+      "cupoMes": 288521.9033333333,
+      "ultOperacion": "12/11/2026"
     },
     "60308": {
       "nombre": "FERRETERIA RyV",
@@ -1705,6 +1562,17 @@
       "cupoMes": 444704.2233333334,
       "ultOperacion": "07/11/2026"
     },
+    "60258": {
+      "nombre": "FERRETERIA CLAUDIO (",
+      "numero_cuenta": "60258",
+      "vendedor": "CS",
+      "pgProm3M": 636666.6666666666,
+      "comproMes": 250873.6,
+      "saldoTotal": 583441.79,
+      "pagoMes": 200000.0,
+      "cupoMes": 385793.0666666667,
+      "ultOperacion": "11/11/2026"
+    },
     "20204": {
       "nombre": "FERREPITER FERRETERI",
       "numero_cuenta": "20204",
@@ -1726,17 +1594,6 @@
       "pagoMes": 0.0,
       "cupoMes": 233333.3333333333,
       "ultOperacion": "12/10/2026"
-    },
-    "60241": {
-      "nombre": "FERRETERIA LA LUZ",
-      "numero_cuenta": "60241",
-      "vendedor": "CS",
-      "pgProm3M": 1417168.666666667,
-      "comproMes": 366386.66,
-      "saldoTotal": 566382.19,
-      "pagoMes": 224260.0,
-      "cupoMes": 1050782.006666667,
-      "ultOperacion": "04/11/2026"
     },
     "60130": {
       "nombre": "MATIAS FERRETERIA",
@@ -1793,6 +1650,17 @@
       "cupoMes": 893527.0233333332,
       "ultOperacion": "07/11/2026"
     },
+    "70119": {
+      "nombre": "CORRALON NANO",
+      "numero_cuenta": "70119",
+      "vendedor": "JG",
+      "pgProm3M": 162700.0,
+      "comproMes": 549577.67,
+      "saldoTotal": 549473.39,
+      "pagoMes": 112000.0,
+      "cupoMes": -386877.67,
+      "ultOperacion": "12/11/2026"
+    },
     "50812": {
       "nombre": "CORRALON RH",
       "numero_cuenta": "50812",
@@ -1848,6 +1716,17 @@
       "cupoMes": 235768.32,
       "ultOperacion": "05/11/2026"
     },
+    "50622": {
+      "nombre": "LAFE-RRETERIA PONTEV",
+      "numero_cuenta": "50622",
+      "vendedor": "RF",
+      "pgProm3M": 266666.6666666667,
+      "comproMes": 0.0,
+      "saldoTotal": 530264.13,
+      "pagoMes": 250000.0,
+      "cupoMes": 266666.6666666667,
+      "ultOperacion": "11/11/2026"
+    },
     "20386": {
       "nombre": "CARMEN EL PORTUGUES",
       "numero_cuenta": "20386",
@@ -1891,6 +1770,17 @@
       "pagoMes": 200000.0,
       "cupoMes": 299000.0,
       "ultOperacion": "09/11/2026"
+    },
+    "70638": {
+      "nombre": "FERRETERIA MAGNUM",
+      "numero_cuenta": "70638",
+      "vendedor": "RF",
+      "pgProm3M": 413333.3333333333,
+      "comproMes": 313993.24,
+      "saldoTotal": 513767.01,
+      "pagoMes": 200000.0,
+      "cupoMes": 99340.09333333332,
+      "ultOperacion": "11/11/2026"
     },
     "60295": {
       "nombre": "FERRETERIA FERREMAR",
@@ -1991,16 +1881,16 @@
       "cupoMes": 314689.6333333334,
       "ultOperacion": "09/11/2026"
     },
-    "50825": {
-      "nombre": "FERRETERIA V Y F",
-      "numero_cuenta": "50825",
-      "vendedor": "RF",
-      "pgProm3M": 513133.3333333333,
-      "comproMes": 111448.1,
-      "saldoTotal": 491305.16,
-      "pagoMes": 0.0,
-      "cupoMes": 401685.2333333333,
-      "ultOperacion": "07/11/2026"
+    "233": {
+      "nombre": "FERRETERIA IMPERIO",
+      "numero_cuenta": "233",
+      "vendedor": "JG",
+      "pgProm3M": 2908583.883333333,
+      "comproMes": 595493.94,
+      "saldoTotal": 488194.25,
+      "pagoMes": 1976907.42,
+      "cupoMes": 2313089.943333333,
+      "ultOperacion": "11/11/2026"
     },
     "10168": {
       "nombre": "FERRETERIA UNIVERSO",
@@ -2035,6 +1925,17 @@
       "cupoMes": 33226.32000000001,
       "ultOperacion": "09/11/2026"
     },
+    "60244": {
+      "nombre": "FERRETERIA MARTINEZ",
+      "numero_cuenta": "60244",
+      "vendedor": "CS",
+      "pgProm3M": 623833.3333333334,
+      "comproMes": 322148.93,
+      "saldoTotal": 484863.66,
+      "pagoMes": 450000.0,
+      "cupoMes": 301684.4033333334,
+      "ultOperacion": "11/11/2026"
+    },
     "60163": {
       "nombre": "NAHUEL FERRETERIA",
       "numero_cuenta": "60163",
@@ -2045,6 +1946,28 @@
       "pagoMes": 300000.0,
       "cupoMes": 479412.9,
       "ultOperacion": "10/11/2026"
+    },
+    "940": {
+      "nombre": "EL 44 FERRETERIA",
+      "numero_cuenta": "940",
+      "vendedor": "JG",
+      "pgProm3M": 883333.3333333334,
+      "comproMes": 176743.28,
+      "saldoTotal": 479561.99,
+      "pagoMes": 700000.0,
+      "cupoMes": 706590.0533333333,
+      "ultOperacion": "11/11/2026"
+    },
+    "50818": {
+      "nombre": "EL URU FERRETERIA",
+      "numero_cuenta": "50818",
+      "vendedor": "RF",
+      "pgProm3M": 883333.3333333334,
+      "comproMes": 224814.68,
+      "saldoTotal": 470742.63,
+      "pagoMes": 400000.0,
+      "cupoMes": 658518.6533333333,
+      "ultOperacion": "12/11/2026"
     },
     "987": {
       "nombre": "LA HERRADURA FERRETE",
@@ -2057,6 +1980,28 @@
       "cupoMes": 684333.3333333334,
       "ultOperacion": "09/11/2026"
     },
+    "90621": {
+      "nombre": "MORINICO FERRETERIA",
+      "numero_cuenta": "90621",
+      "vendedor": "CS",
+      "pgProm3M": 729325.3333333334,
+      "comproMes": 659406.06,
+      "saldoTotal": 458164.99,
+      "pagoMes": 500000.0,
+      "cupoMes": 69919.27333333332,
+      "ultOperacion": "11/11/2026"
+    },
+    "961": {
+      "nombre": "CHICHO FERRETERIA",
+      "numero_cuenta": "961",
+      "vendedor": "RF",
+      "pgProm3M": 482000.0,
+      "comproMes": 177246.87,
+      "saldoTotal": 455970.37,
+      "pagoMes": 203500.0,
+      "cupoMes": 304753.13,
+      "ultOperacion": "11/11/2026"
+    },
     "90706": {
       "nombre": "MOTOS COCO XL",
       "numero_cuenta": "90706",
@@ -2068,6 +2013,28 @@
       "cupoMes": 211095.2,
       "ultOperacion": "05/11/2026"
     },
+    "50826": {
+      "nombre": "RODOLFO FERRETERIA",
+      "numero_cuenta": "50826",
+      "vendedor": "RF",
+      "pgProm3M": 683333.3333333334,
+      "comproMes": 123533.34,
+      "saldoTotal": 448604.86,
+      "pagoMes": 0.0,
+      "cupoMes": 559799.9933333334,
+      "ultOperacion": "12/11/2026"
+    },
+    "20103": {
+      "nombre": "ELEUTERIO FERNANDEZ",
+      "numero_cuenta": "20103",
+      "vendedor": "RF",
+      "pgProm3M": 853291.6666666666,
+      "comproMes": 372648.3,
+      "saldoTotal": 447391.33,
+      "pagoMes": 220000.0,
+      "cupoMes": 480643.3666666666,
+      "ultOperacion": "11/11/2026"
+    },
     "20178": {
       "nombre": "DON PANCHO FERRETERI",
       "numero_cuenta": "20178",
@@ -2078,6 +2045,17 @@
       "pagoMes": 70000.0,
       "cupoMes": 220136.01,
       "ultOperacion": "09/11/2026"
+    },
+    "1001": {
+      "nombre": "FERRETERIA CAÑUELAS",
+      "numero_cuenta": "1001",
+      "vendedor": "RF",
+      "pgProm3M": 513333.3333333333,
+      "comproMes": 179356.78,
+      "saldoTotal": 444664.09,
+      "pagoMes": 240000.0,
+      "cupoMes": 333976.5533333333,
+      "ultOperacion": "11/11/2026"
     },
     "50607": {
       "nombre": "LA BOTICA FERRETERIA",
@@ -2123,16 +2101,27 @@
       "cupoMes": 614549.0066666666,
       "ultOperacion": "06/11/2026"
     },
-    "60190": {
-      "nombre": "LA TORRE FERRETERIA",
-      "numero_cuenta": "60190",
-      "vendedor": "CS",
-      "pgProm3M": 720630.0,
-      "comproMes": 430638.49,
-      "saldoTotal": 423201.64,
-      "pagoMes": 245000.0,
-      "cupoMes": 289991.51,
-      "ultOperacion": "10/11/2026"
+    "20146": {
+      "nombre": "EL CABURE-I CORRALON",
+      "numero_cuenta": "20146",
+      "vendedor": "JG",
+      "pgProm3M": 351733.3333333333,
+      "comproMes": 300208.47,
+      "saldoTotal": 427524.79,
+      "pagoMes": 100000.0,
+      "cupoMes": 51524.86333333328,
+      "ultOperacion": "12/11/2026"
+    },
+    "40124": {
+      "nombre": "EL TATA FERRETERIA",
+      "numero_cuenta": "40124",
+      "vendedor": "RF",
+      "pgProm3M": 1305666.666666667,
+      "comproMes": 205364.21,
+      "saldoTotal": 426242.45,
+      "pagoMes": 0.0,
+      "cupoMes": 1100302.456666667,
+      "ultOperacion": "12/11/2026"
     },
     "1006": {
       "nombre": "CORRALON LA ESTACION",
@@ -2156,6 +2145,17 @@
       "cupoMes": 167448.1066666667,
       "ultOperacion": "07/11/2026"
     },
+    "963": {
+      "nombre": "CORDERO J.CARLOS FER",
+      "numero_cuenta": "963",
+      "vendedor": "RF",
+      "pgProm3M": 2333333.333333333,
+      "comproMes": 617532.57,
+      "saldoTotal": 418012.62,
+      "pagoMes": 1457000.0,
+      "cupoMes": 1715800.763333334,
+      "ultOperacion": "11/11/2026"
+    },
     "20179": {
       "nombre": "DOBALE CORRALON",
       "numero_cuenta": "20179",
@@ -2166,17 +2166,6 @@
       "pagoMes": 0.0,
       "cupoMes": -219464.9133333334,
       "ultOperacion": "03/11/2026"
-    },
-    "60202": {
-      "nombre": "FERRETERIA CEBALLO",
-      "numero_cuenta": "60202",
-      "vendedor": "CS",
-      "pgProm3M": 670731.0,
-      "comproMes": 283533.24,
-      "saldoTotal": 412233.32,
-      "pagoMes": 300000.0,
-      "cupoMes": 387197.76,
-      "ultOperacion": "10/11/2026"
     },
     "90668": {
       "nombre": "PABLO ARAUJO",
@@ -2200,28 +2189,6 @@
       "cupoMes": 506224.2533333334,
       "ultOperacion": "04/11/2026"
     },
-    "20146": {
-      "nombre": "EL CABURE-I CORRALON",
-      "numero_cuenta": "20146",
-      "vendedor": "JG",
-      "pgProm3M": 351733.3333333333,
-      "comproMes": 280228.95,
-      "saldoTotal": 407545.27,
-      "pagoMes": 100000.0,
-      "cupoMes": 71504.3833333333,
-      "ultOperacion": "05/11/2026"
-    },
-    "60272": {
-      "nombre": "EMMA FERRETERIA",
-      "numero_cuenta": "60272",
-      "vendedor": "CS",
-      "pgProm3M": 577161.6666666666,
-      "comproMes": 315382.39,
-      "saldoTotal": 400502.03,
-      "pagoMes": 150000.0,
-      "cupoMes": 261779.2766666666,
-      "ultOperacion": "10/11/2026"
-    },
     "60278": {
       "nombre": "J.A FERRETERIA",
       "numero_cuenta": "60278",
@@ -2232,6 +2199,17 @@
       "pagoMes": 100000.0,
       "cupoMes": -83089.28333333327,
       "ultOperacion": "10/11/2026"
+    },
+    "60257": {
+      "nombre": "FERRETERIA EL PAISA",
+      "numero_cuenta": "60257",
+      "vendedor": "CS",
+      "pgProm3M": 1216963.666666667,
+      "comproMes": 290009.47,
+      "saldoTotal": 391914.74,
+      "pagoMes": 521680.0,
+      "cupoMes": 926954.1966666668,
+      "ultOperacion": "11/11/2026"
     },
     "20395": {
       "nombre": "FERRETERIA RITA",
@@ -2343,15 +2321,15 @@
       "cupoMes": 40000.0,
       "ultOperacion": "27/08/2026"
     },
-    "40124": {
-      "nombre": "EL TATA FERRETERIA",
-      "numero_cuenta": "40124",
+    "20256": {
+      "nombre": "LAYMAR FERRETERIA",
+      "numero_cuenta": "20256",
       "vendedor": "RF",
-      "pgProm3M": 1305666.666666667,
-      "comproMes": 147060.3,
-      "saldoTotal": 367938.54,
-      "pagoMes": 0.0,
-      "cupoMes": 1158606.366666667,
+      "pgProm3M": 1050000.0,
+      "comproMes": 0.0,
+      "saldoTotal": 369549.8,
+      "pagoMes": 600000.0,
+      "cupoMes": 1050000.0,
       "ultOperacion": "11/11/2026"
     },
     "951": {
@@ -2375,17 +2353,6 @@
       "pagoMes": 100000.0,
       "cupoMes": 127569.0233333333,
       "ultOperacion": "11/11/2026"
-    },
-    "40143": {
-      "nombre": "EL TAURO FERRETERIA",
-      "numero_cuenta": "40143",
-      "vendedor": "RF",
-      "pgProm3M": 88666.66666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 353565.71,
-      "pagoMes": 250000.0,
-      "cupoMes": 88666.66666666667,
-      "ultOperacion": "03/11/2026"
     },
     "1052": {
       "nombre": "FERRETERIA RAMASOLI",
@@ -2420,17 +2387,6 @@
       "cupoMes": -2674.606666666659,
       "ultOperacion": "04/11/2026"
     },
-    "70119": {
-      "nombre": "CORRALON NANO",
-      "numero_cuenta": "70119",
-      "vendedor": "JG",
-      "pgProm3M": 162700.0,
-      "comproMes": 328946.27,
-      "saldoTotal": 328841.99,
-      "pagoMes": 112000.0,
-      "cupoMes": -166246.27,
-      "ultOperacion": "11/11/2026"
-    },
     "90705": {
       "nombre": "KALO TM",
       "numero_cuenta": "90705",
@@ -2441,28 +2397,6 @@
       "pagoMes": 270000.0,
       "cupoMes": 420939.18,
       "ultOperacion": "05/11/2026"
-    },
-    "50818": {
-      "nombre": "EL URU FERRETERIA",
-      "numero_cuenta": "50818",
-      "vendedor": "RF",
-      "pgProm3M": 883333.3333333334,
-      "comproMes": 79737.86,
-      "saldoTotal": 325665.81,
-      "pagoMes": 400000.0,
-      "cupoMes": 803595.4733333334,
-      "ultOperacion": "09/11/2026"
-    },
-    "50826": {
-      "nombre": "RODOLFO FERRETERIA",
-      "numero_cuenta": "50826",
-      "vendedor": "RF",
-      "pgProm3M": 683333.3333333334,
-      "comproMes": 0.0,
-      "saldoTotal": 325071.52,
-      "pagoMes": 0.0,
-      "cupoMes": 683333.3333333334,
-      "ultOperacion": "29/10/2026"
     },
     "20138": {
       "nombre": "TITO FERRETERIA",
@@ -2496,17 +2430,6 @@
       "pagoMes": 200000.0,
       "cupoMes": 321036.1366666667,
       "ultOperacion": "07/11/2026"
-    },
-    "61007": {
-      "nombre": "LOS PRIMOS FERRETERI",
-      "numero_cuenta": "61007",
-      "vendedor": "RF",
-      "pgProm3M": 540349.3266666667,
-      "comproMes": 314630.89,
-      "saldoTotal": 314594.22,
-      "pagoMes": 357687.0,
-      "cupoMes": 225718.4366666666,
-      "ultOperacion": "04/11/2026"
     },
     "60128": {
       "nombre": "EL CORTIJO FERRETERI",
@@ -2551,17 +2474,6 @@
       "pagoMes": 147935.0,
       "cupoMes": -65265.20666666667,
       "ultOperacion": "09/11/2026"
-    },
-    "936": {
-      "nombre": "EL VALLECITO CORRALO",
-      "numero_cuenta": "936",
-      "vendedor": "JG",
-      "pgProm3M": 435384.9533333333,
-      "comproMes": 135627.77,
-      "saldoTotal": 307936.53,
-      "pagoMes": 200000.0,
-      "cupoMes": 299757.1833333333,
-      "ultOperacion": "11/11/2026"
     },
     "20169": {
       "nombre": "CHARLY FERRETERIA",
@@ -2629,17 +2541,6 @@
       "cupoMes": 160458.9966666666,
       "ultOperacion": "10/11/2026"
     },
-    "20361": {
-      "nombre": "P y P FERRETERIA",
-      "numero_cuenta": "20361",
-      "vendedor": "RF",
-      "pgProm3M": 1415300.0,
-      "comproMes": 290200.62,
-      "saldoTotal": 290196.83,
-      "pagoMes": 362300.0,
-      "cupoMes": 1125099.38,
-      "ultOperacion": "04/11/2026"
-    },
     "90714": {
       "nombre": "GRAMA COMERCIAL",
       "numero_cuenta": "90714",
@@ -2650,17 +2551,6 @@
       "pagoMes": 0.0,
       "cupoMes": 1133065.5,
       "ultOperacion": "31/10/2026"
-    },
-    "60219": {
-      "nombre": "EL PELADO CORRALON",
-      "numero_cuenta": "60219",
-      "vendedor": "CS",
-      "pgProm3M": 445600.0,
-      "comproMes": 0.0,
-      "saldoTotal": 288120.17,
-      "pagoMes": 100000.0,
-      "cupoMes": 445600.0,
-      "ultOperacion": "04/11/2026"
     },
     "20258": {
       "nombre": "EMPRENDIMIENTOS DAMA",
@@ -2683,17 +2573,6 @@
       "pagoMes": 0.0,
       "cupoMes": 66666.66666666667,
       "ultOperacion": "25/09/2026"
-    },
-    "70100": {
-      "nombre": "TROILO FERRETERIA",
-      "numero_cuenta": "70100",
-      "vendedor": "JG",
-      "pgProm3M": 246666.6666666667,
-      "comproMes": 132737.81,
-      "saldoTotal": 283623.51,
-      "pagoMes": 50000.0,
-      "cupoMes": 113928.8566666667,
-      "ultOperacion": "11/11/2026"
     },
     "10137": {
       "nombre": "FERRETERIA GASTON",
@@ -2738,6 +2617,17 @@
       "pagoMes": 88500.0,
       "cupoMes": 421170.9333333334,
       "ultOperacion": "10/11/2026"
+    },
+    "60190": {
+      "nombre": "LA TORRE FERRETERIA",
+      "numero_cuenta": "60190",
+      "vendedor": "CS",
+      "pgProm3M": 720630.0,
+      "comproMes": 430638.49,
+      "saldoTotal": 269201.64,
+      "pagoMes": 399000.0,
+      "cupoMes": 289991.51,
+      "ultOperacion": "11/11/2026"
     },
     "60242": {
       "nombre": "FERRETERIA DOBLE C",
@@ -2794,17 +2684,6 @@
       "cupoMes": 340985.6566666666,
       "ultOperacion": "06/11/2026"
     },
-    "938": {
-      "nombre": "QUIROGA FERRETERIA",
-      "numero_cuenta": "938",
-      "vendedor": "JG",
-      "pgProm3M": 166433.3333333333,
-      "comproMes": 257521.03,
-      "saldoTotal": 257479.06,
-      "pagoMes": 92800.0,
-      "cupoMes": -91087.69666666668,
-      "ultOperacion": "11/11/2026"
-    },
     "60211": {
       "nombre": "GUTIERREZ FERRETERIA",
       "numero_cuenta": "60211",
@@ -2826,6 +2705,17 @@
       "pagoMes": 0.0,
       "cupoMes": -123733.4533333333,
       "ultOperacion": "07/11/2026"
+    },
+    "60241": {
+      "nombre": "FERRETERIA LA LUZ",
+      "numero_cuenta": "60241",
+      "vendedor": "CS",
+      "pgProm3M": 1417168.666666667,
+      "comproMes": 366386.66,
+      "saldoTotal": 249982.19,
+      "pagoMes": 540660.0,
+      "cupoMes": 1050782.006666667,
+      "ultOperacion": "11/11/2026"
     },
     "20127": {
       "nombre": "SERVI-TEC",
@@ -2882,17 +2772,6 @@
       "cupoMes": 363552.71,
       "ultOperacion": "09/11/2026"
     },
-    "20281": {
-      "nombre": "PEDRO IVAN FERRETERI",
-      "numero_cuenta": "20281",
-      "vendedor": "RF",
-      "pgProm3M": 231397.6666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 235490.47,
-      "pagoMes": 150000.0,
-      "cupoMes": 231397.6666666667,
-      "ultOperacion": "04/11/2026"
-    },
     "90509": {
       "nombre": "JUAN DIAZ",
       "numero_cuenta": "90509",
@@ -2915,17 +2794,6 @@
       "cupoMes": 407675.5133333334,
       "ultOperacion": "10/11/2026"
     },
-    "920": {
-      "nombre": "ESTERCITA FERRETERIA",
-      "numero_cuenta": "920",
-      "vendedor": "RF",
-      "pgProm3M": 455859.9233333333,
-      "comproMes": 142538.51,
-      "saldoTotal": 230705.13,
-      "pagoMes": 100000.0,
-      "cupoMes": 313321.4133333333,
-      "ultOperacion": "06/11/2026"
-    },
     "60150": {
       "nombre": "FERRETERIA ALVAREZ",
       "numero_cuenta": "60150",
@@ -2937,16 +2805,16 @@
       "cupoMes": 194115.4566666667,
       "ultOperacion": "05/11/2026"
     },
-    "20201": {
-      "nombre": "POSAMAY JAVIER FERRE",
-      "numero_cuenta": "20201",
-      "vendedor": "RF",
-      "pgProm3M": 272000.0,
-      "comproMes": 42077.27,
-      "saldoTotal": 229327.48,
-      "pagoMes": 70000.0,
-      "cupoMes": 229922.73,
-      "ultOperacion": "05/11/2026"
+    "70100": {
+      "nombre": "TROILO FERRETERIA",
+      "numero_cuenta": "70100",
+      "vendedor": "JG",
+      "pgProm3M": 246666.6666666667,
+      "comproMes": 132737.81,
+      "saldoTotal": 223623.51,
+      "pagoMes": 110000.0,
+      "cupoMes": 113928.8566666667,
+      "ultOperacion": "11/11/2026"
     },
     "70115": {
       "nombre": "FERRETERIA ROSITA (L",
@@ -3036,6 +2904,17 @@
       "cupoMes": 52233.33333333334,
       "ultOperacion": "21/09/2026"
     },
+    "60272": {
+      "nombre": "EMMA FERRETERIA",
+      "numero_cuenta": "60272",
+      "vendedor": "CS",
+      "pgProm3M": 577161.6666666666,
+      "comproMes": 315382.39,
+      "saldoTotal": 200502.03,
+      "pagoMes": 350000.0,
+      "cupoMes": 261779.2766666666,
+      "ultOperacion": "11/11/2026"
+    },
     "1005": {
       "nombre": "COR.CORRADO AGUSTINA",
       "numero_cuenta": "1005",
@@ -3091,6 +2970,28 @@
       "cupoMes": 145700.0,
       "ultOperacion": "02/11/2026"
     },
+    "60219": {
+      "nombre": "EL PELADO CORRALON",
+      "numero_cuenta": "60219",
+      "vendedor": "CS",
+      "pgProm3M": 445600.0,
+      "comproMes": 0.0,
+      "saldoTotal": 188120.17,
+      "pagoMes": 200000.0,
+      "cupoMes": 445600.0,
+      "ultOperacion": "11/11/2026"
+    },
+    "20109": {
+      "nombre": "VITO FERRETERIA",
+      "numero_cuenta": "20109",
+      "vendedor": "JG",
+      "pgProm3M": 169266.6666666667,
+      "comproMes": 134392.74,
+      "saldoTotal": 186819.29,
+      "pagoMes": 0.0,
+      "cupoMes": 34873.92666666667,
+      "ultOperacion": "12/11/2026"
+    },
     "33": {
       "nombre": "AMADEO",
       "numero_cuenta": "33",
@@ -3101,17 +3002,6 @@
       "pagoMes": 0.0,
       "cupoMes": 285303.1066666667,
       "ultOperacion": "04/11/2026"
-    },
-    "980": {
-      "nombre": "CORRALON CABEZON PER",
-      "numero_cuenta": "980",
-      "vendedor": "JG",
-      "pgProm3M": 273333.3333333333,
-      "comproMes": 0.0,
-      "saldoTotal": 175690.47,
-      "pagoMes": 0.0,
-      "cupoMes": 273333.3333333333,
-      "ultOperacion": "28/10/2026"
     },
     "1013": {
       "nombre": "FERRETERIA BICENTENA",
@@ -3135,16 +3025,16 @@
       "cupoMes": 197666.6666666667,
       "ultOperacion": "03/11/2026"
     },
-    "20140": {
-      "nombre": "FERRETERIA HUGUITO",
-      "numero_cuenta": "20140",
-      "vendedor": "JG",
-      "pgProm3M": 156000.0,
-      "comproMes": 214661.83,
-      "saldoTotal": 171439.43,
-      "pagoMes": 40000.0,
-      "cupoMes": -58661.82999999999,
-      "ultOperacion": "04/11/2026"
+    "20201": {
+      "nombre": "POSAMAY JAVIER FERRE",
+      "numero_cuenta": "20201",
+      "vendedor": "RF",
+      "pgProm3M": 272000.0,
+      "comproMes": 42077.27,
+      "saldoTotal": 169327.48,
+      "pagoMes": 130000.0,
+      "cupoMes": 229922.73,
+      "ultOperacion": "11/11/2026"
     },
     "40150": {
       "nombre": "KIOSCO MARCELO MENDE",
@@ -3156,6 +3046,28 @@
       "pagoMes": 0.0,
       "cupoMes": 21733.33333333333,
       "ultOperacion": "16/09/2026"
+    },
+    "60202": {
+      "nombre": "FERRETERIA CEBALLO",
+      "numero_cuenta": "60202",
+      "vendedor": "CS",
+      "pgProm3M": 670731.0,
+      "comproMes": 283533.24,
+      "saldoTotal": 160733.32,
+      "pagoMes": 551500.0,
+      "cupoMes": 387197.76,
+      "ultOperacion": "11/11/2026"
+    },
+    "936": {
+      "nombre": "EL VALLECITO CORRALO",
+      "numero_cuenta": "936",
+      "vendedor": "JG",
+      "pgProm3M": 435384.9533333333,
+      "comproMes": 154700.95,
+      "saldoTotal": 154709.71,
+      "pagoMes": 372300.0,
+      "cupoMes": 280684.0033333333,
+      "ultOperacion": "12/11/2026"
     },
     "50806": {
       "nombre": "L Y M FERRETERIA",
@@ -3223,6 +3135,17 @@
       "cupoMes": 366666.6666666667,
       "ultOperacion": "14/09/2026"
     },
+    "20281": {
+      "nombre": "PEDRO IVAN FERRETERI",
+      "numero_cuenta": "20281",
+      "vendedor": "RF",
+      "pgProm3M": 231397.6666666667,
+      "comproMes": 0.0,
+      "saldoTotal": 135490.47,
+      "pagoMes": 250000.0,
+      "cupoMes": 231397.6666666667,
+      "ultOperacion": "11/11/2026"
+    },
     "20320": {
       "nombre": "LUCENA JULIAN FERRET",
       "numero_cuenta": "20320",
@@ -3245,6 +3168,17 @@
       "cupoMes": 1294987.816666667,
       "ultOperacion": "07/11/2026"
     },
+    "20140": {
+      "nombre": "FERRETERIA HUGUITO",
+      "numero_cuenta": "20140",
+      "vendedor": "JG",
+      "pgProm3M": 156000.0,
+      "comproMes": 214661.83,
+      "saldoTotal": 131439.43,
+      "pagoMes": 80000.0,
+      "cupoMes": -58661.82999999999,
+      "ultOperacion": "11/11/2026"
+    },
     "50836": {
       "nombre": "FERRETERIA MAESTRO",
       "numero_cuenta": "50836",
@@ -3255,17 +3189,6 @@
       "pagoMes": 55326.51,
       "cupoMes": 0.0,
       "ultOperacion": "09/11/2026"
-    },
-    "60162": {
-      "nombre": "JON-LUC FERRETERIA",
-      "numero_cuenta": "60162",
-      "vendedor": "CS",
-      "pgProm3M": 681100.0,
-      "comproMes": 130271.73,
-      "saldoTotal": 130252.66,
-      "pagoMes": 156300.0,
-      "cupoMes": 550828.27,
-      "ultOperacion": "04/11/2026"
     },
     "40147": {
       "nombre": "ATR FERRETERIA",
@@ -3366,6 +3289,28 @@
       "cupoMes": 170000.0,
       "ultOperacion": "22/10/2026"
     },
+    "40143": {
+      "nombre": "EL TAURO FERRETERIA",
+      "numero_cuenta": "40143",
+      "vendedor": "RF",
+      "pgProm3M": 88666.66666666667,
+      "comproMes": 0.0,
+      "saldoTotal": 103565.71,
+      "pagoMes": 500000.0,
+      "cupoMes": 88666.66666666667,
+      "ultOperacion": "11/11/2026"
+    },
+    "938": {
+      "nombre": "QUIROGA FERRETERIA",
+      "numero_cuenta": "938",
+      "vendedor": "JG",
+      "pgProm3M": 166433.3333333333,
+      "comproMes": 257521.03,
+      "saldoTotal": 103279.06,
+      "pagoMes": 247000.0,
+      "cupoMes": -91087.69666666668,
+      "ultOperacion": "11/11/2026"
+    },
     "10107": {
       "nombre": "GONZALEZ FERRETERIA",
       "numero_cuenta": "10107",
@@ -3376,6 +3321,17 @@
       "pagoMes": 0.0,
       "cupoMes": 75333.33333333333,
       "ultOperacion": "21/10/2026"
+    },
+    "920": {
+      "nombre": "ESTERCITA FERRETERIA",
+      "numero_cuenta": "920",
+      "vendedor": "RF",
+      "pgProm3M": 455859.9233333333,
+      "comproMes": 142538.51,
+      "saldoTotal": 100005.13,
+      "pagoMes": 230700.0,
+      "cupoMes": 313321.4133333333,
+      "ultOperacion": "11/11/2026"
     },
     "20337": {
       "nombre": "FERRETERIA LAS MELLI",
@@ -3465,6 +3421,17 @@
       "cupoMes": -29459.12666666667,
       "ultOperacion": "09/11/2026"
     },
+    "980": {
+      "nombre": "CORRALON CABEZON PER",
+      "numero_cuenta": "980",
+      "vendedor": "JG",
+      "pgProm3M": 273333.3333333333,
+      "comproMes": 0.0,
+      "saldoTotal": 75690.47,
+      "pagoMes": 100000.0,
+      "cupoMes": 273333.3333333333,
+      "ultOperacion": "11/11/2026"
+    },
     "20324": {
       "nombre": "CASA MAIA",
       "numero_cuenta": "20324",
@@ -3552,28 +3519,6 @@
       "pagoMes": 0.0,
       "cupoMes": 293504.3333333333,
       "ultOperacion": "26/10/2026"
-    },
-    "20372": {
-      "nombre": "LA MATANCITA FERRETE",
-      "numero_cuenta": "20372",
-      "vendedor": "RF",
-      "pgProm3M": 418501.6666666667,
-      "comproMes": 123557.46,
-      "saldoTotal": 53570.59,
-      "pagoMes": 172500.0,
-      "cupoMes": 294944.2066666667,
-      "ultOperacion": "09/11/2026"
-    },
-    "20109": {
-      "nombre": "VITO FERRETERIA",
-      "numero_cuenta": "20109",
-      "vendedor": "JG",
-      "pgProm3M": 169266.6666666667,
-      "comproMes": 0.0,
-      "saldoTotal": 52426.55,
-      "pagoMes": 0.0,
-      "cupoMes": 169266.6666666667,
-      "ultOperacion": "29/10/2026"
     },
     "50824": {
       "nombre": "FERRETERIA LA CAROSI",
@@ -3850,6 +3795,17 @@
       "cupoMes": 197666.6666666667,
       "ultOperacion": "29/10/2026"
     },
+    "20361": {
+      "nombre": "P y P FERRETERIA",
+      "numero_cuenta": "20361",
+      "vendedor": "RF",
+      "pgProm3M": 1415300.0,
+      "comproMes": 290200.62,
+      "saldoTotal": 196.83,
+      "pagoMes": 652300.0,
+      "cupoMes": 1125099.38,
+      "ultOperacion": "11/11/2026"
+    },
     "20094": {
       "nombre": "CORRALON EL ATALAYA",
       "numero_cuenta": "20094",
@@ -3970,6 +3926,17 @@
       "pagoMes": 566500.0,
       "cupoMes": 711366.6666666666,
       "ultOperacion": "03/11/2026"
+    },
+    "20372": {
+      "nombre": "LA MATANCITA FERRETE",
+      "numero_cuenta": "20372",
+      "vendedor": "RF",
+      "pgProm3M": 418501.6666666667,
+      "comproMes": 123557.46,
+      "saldoTotal": 12.59,
+      "pagoMes": 226058.0,
+      "cupoMes": 294944.2066666667,
+      "ultOperacion": "11/11/2026"
     },
     "60109": {
       "nombre": "CERAMICA SANTA MARTA",
@@ -4103,230 +4070,10 @@
       "cupoMes": 157487.0,
       "ultOperacion": "28/10/2026"
     },
-    "1025": {
-      "nombre": "MADERERA SERGIO",
-      "numero_cuenta": "1025",
-      "vendedor": "CS",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60263": {
-      "nombre": "FERRETERIA D-TUTO",
-      "numero_cuenta": "60263",
-      "vendedor": "SD",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "302": {
-      "nombre": "PIVAS MIRIAM",
-      "numero_cuenta": "302",
-      "vendedor": "TT",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "1004": {
-      "nombre": "FERRETERIA SAN JUAN",
-      "numero_cuenta": "1004",
+    "947": {
+      "nombre": "EL 47 CORRALON DE MA",
+      "numero_cuenta": "947",
       "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "50618": {
-      "nombre": "GUSTAVO",
-      "numero_cuenta": "50618",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90663": {
-      "nombre": "LA SALVADORA FERRETE",
-      "numero_cuenta": "90663",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20150": {
-      "nombre": "MEDINA ADRIAN FERRET",
-      "numero_cuenta": "20150",
-      "vendedor": "IC",
-      "pgProm3M": 144643.0866666667,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 234031.8,
-      "cupoMes": 144643.0866666667,
-      "ultOperacion": "02/11/2026"
-    },
-    "20253": {
-      "nombre": "FERRETERIA 17 SEPTIE",
-      "numero_cuenta": "20253",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "61204": {
-      "nombre": "CORRALON EL 10",
-      "numero_cuenta": "61204",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20158": {
-      "nombre": "CORRALON EVITA 2",
-      "numero_cuenta": "20158",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90698": {
-      "nombre": "ELI STRAK DISTRIBUCI",
-      "numero_cuenta": "90698",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "935": {
-      "nombre": "FERRETERIA MARIO",
-      "numero_cuenta": "935",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90712": {
-      "nombre": "FERRETERIA",
-      "numero_cuenta": "90712",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90682": {
-      "nombre": "MR CONSTRUCCIONES",
-      "numero_cuenta": "90682",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "301": {
-      "nombre": "MEDINA DISTRIBUIDORA",
-      "numero_cuenta": "301",
-      "vendedor": "TT",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20091": {
-      "nombre": "EL POLACO FERRETERIA",
-      "numero_cuenta": "20091",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "50630": {
-      "nombre": "FERRETERIA BENJAMIN",
-      "numero_cuenta": "50630",
-      "vendedor": "CS",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "157": {
-      "nombre": "NUEVO CLIENTE RF",
-      "numero_cuenta": "157",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "10/11/2026"
-    },
-    "20161": {
-      "nombre": "TONY FERRETERIA",
-      "numero_cuenta": "20161",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60214": {
-      "nombre": "FERRETERIA ARGAÑARAZ",
-      "numero_cuenta": "60214",
-      "vendedor": "SD",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90672": {
-      "nombre": "BULONERA LAS HERAS",
-      "numero_cuenta": "90672",
-      "vendedor": "IC",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
@@ -4345,9 +4092,20 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "956": {
-      "nombre": "LOS POZOS FERRETERIA",
-      "numero_cuenta": "956",
+    "20286": {
+      "nombre": "COOPERATIVA IDECAN L",
+      "numero_cuenta": "20286",
+      "vendedor": "IS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60147": {
+      "nombre": "FERRETERIA ZENGARO(E",
+      "numero_cuenta": "60147",
       "vendedor": "RF",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
@@ -4356,196 +4114,9 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "50822": {
-      "nombre": "FERRETERIA VIKINGO M",
-      "numero_cuenta": "50822",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90713": {
-      "nombre": "SANTO DOMINGO",
-      "numero_cuenta": "90713",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "19/05/2026"
-    },
-    "50619": {
-      "nombre": "LO DE FACU FERRETERI",
-      "numero_cuenta": "50619",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60266": {
-      "nombre": "FERRETERIA EL PUENTE",
-      "numero_cuenta": "60266",
-      "vendedor": "CS",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "18/05/2026"
-    },
-    "60185": {
-      "nombre": "CORRALON P.H.B",
-      "numero_cuenta": "60185",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90665": {
-      "nombre": "EL FONDO FERRETERIA",
-      "numero_cuenta": "90665",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60274": {
-      "nombre": "ELECTRICA LOLY",
-      "numero_cuenta": "60274",
-      "vendedor": "RF",
-      "pgProm3M": 140677.46,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 140677.46,
-      "ultOperacion": "15/08/2026"
-    },
-    "40138": {
-      "nombre": "ESCUDERO FERRETERIA",
-      "numero_cuenta": "40138",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20321": {
-      "nombre": "EL ARABE FERRETERIA",
-      "numero_cuenta": "20321",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90669": {
-      "nombre": "CONDICION: CONTADO",
-      "numero_cuenta": "90669",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "10161": {
-      "nombre": "COOP.de TRABAJO MI P",
-      "numero_cuenta": "10161",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60255": {
-      "nombre": "GUSTAVO DOMINICO FER",
-      "numero_cuenta": "60255",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "62010": {
-      "nombre": "DRIUSSI",
-      "numero_cuenta": "62010",
-      "vendedor": "RM",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "1008": {
-      "nombre": "CLEYPOLEY FERRETERIA",
-      "numero_cuenta": "1008",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20250": {
-      "nombre": "S Y S FERRETERIA",
-      "numero_cuenta": "20250",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "984": {
-      "nombre": "SUCURSAL LINCH",
-      "numero_cuenta": "984",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90701": {
-      "nombre": "JUAN DISTRIBUIDORA J",
-      "numero_cuenta": "90701",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20108": {
-      "nombre": "EL TANO FERRETERIA",
-      "numero_cuenta": "20108",
+    "20091": {
+      "nombre": "EL POLACO FERRETERIA",
+      "numero_cuenta": "20091",
       "vendedor": "JG",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
@@ -4565,42 +4136,9 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "90680": {
-      "nombre": "DELGADO SEBASTIAN",
-      "numero_cuenta": "90680",
-      "vendedor": "IC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "90601": {
-      "nombre": "MONTANIA FERRETERIA",
-      "numero_cuenta": "90601",
-      "vendedor": "DC",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20283": {
-      "nombre": "COOPERATIVA DE MARKE",
-      "numero_cuenta": "20283",
-      "vendedor": "IS",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "20171": {
-      "nombre": "MYL FERRETERIA",
-      "numero_cuenta": "20171",
+    "20158": {
+      "nombre": "CORRALON EVITA 2",
+      "numero_cuenta": "20158",
       "vendedor": "JG",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
@@ -4609,76 +4147,21 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "303": {
-      "nombre": "PRODICOM JORMAR",
-      "numero_cuenta": "303",
-      "vendedor": "TT",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60131": {
-      "nombre": "ELELOS FERRETERIA",
-      "numero_cuenta": "60131",
-      "vendedor": "RF",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "60256": {
-      "nombre": "FERRE-LIBERTAD",
-      "numero_cuenta": "60256",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "03/06/2026"
-    },
-    "159": {
-      "nombre": "NUEVO CLIENTE CS",
-      "numero_cuenta": "159",
+    "1025": {
+      "nombre": "MADERERA SERGIO",
+      "numero_cuenta": "1025",
       "vendedor": "CS",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
       "pagoMes": 0.0,
       "cupoMes": 0.0,
-      "ultOperacion": "10/11/2026"
-    },
-    "158": {
-      "nombre": "NUEVO CLIENTE JG",
-      "numero_cuenta": "158",
-      "vendedor": "JG",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "10/11/2026"
-    },
-    "20286": {
-      "nombre": "COOPERATIVA IDECAN L",
-      "numero_cuenta": "20286",
-      "vendedor": "IS",
-      "pgProm3M": 0.0,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "20099": {
-      "nombre": "O.S. FERRETERIA",
-      "numero_cuenta": "20099",
-      "vendedor": "JG",
+    "50822": {
+      "nombre": "FERRETERIA VIKINGO M",
+      "numero_cuenta": "50822",
+      "vendedor": "RF",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
@@ -4697,10 +4180,10 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "50811": {
-      "nombre": "EL COSITO DEL COSO F",
-      "numero_cuenta": "50811",
-      "vendedor": "RF",
+    "302": {
+      "nombre": "PIVAS MIRIAM",
+      "numero_cuenta": "302",
+      "vendedor": "TT",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
@@ -4708,21 +4191,21 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "60309": {
-      "nombre": "FERRETERIA VIZCA",
-      "numero_cuenta": "60309",
-      "vendedor": "CS",
-      "pgProm3M": 0.0,
+    "60274": {
+      "nombre": "ELECTRICA LOLY",
+      "numero_cuenta": "60274",
+      "vendedor": "RF",
+      "pgProm3M": 140677.46,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
       "pagoMes": 0.0,
-      "cupoMes": 0.0,
-      "ultOperacion": "29/10/2026"
+      "cupoMes": 140677.46,
+      "ultOperacion": "15/08/2026"
     },
-    "60147": {
-      "nombre": "FERRETERIA ZENGARO(E",
-      "numero_cuenta": "60147",
-      "vendedor": "RF",
+    "935": {
+      "nombre": "FERRETERIA MARIO",
+      "numero_cuenta": "935",
+      "vendedor": "JG",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
       "saldoTotal": 0.0,
@@ -4730,20 +4213,9 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
-    "7": {
-      "nombre": "CLIENTE PRUEBA-NO FA",
-      "numero_cuenta": "7",
-      "vendedor": "IC",
-      "pgProm3M": 185822.3866666667,
-      "comproMes": 0.0,
-      "saldoTotal": 0.0,
-      "pagoMes": 0.0,
-      "cupoMes": 185822.3866666667,
-      "ultOperacion": "24/10/2026"
-    },
-    "947": {
-      "nombre": "EL 47 CORRALON DE MA",
-      "numero_cuenta": "947",
+    "1008": {
+      "nombre": "CLEYPOLEY FERRETERIA",
+      "numero_cuenta": "1008",
       "vendedor": "RF",
       "pgProm3M": 0.0,
       "comproMes": 0.0,
@@ -4763,6 +4235,402 @@
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
     },
+    "90713": {
+      "nombre": "SANTO DOMINGO",
+      "numero_cuenta": "90713",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "19/05/2026"
+    },
+    "50630": {
+      "nombre": "FERRETERIA BENJAMIN",
+      "numero_cuenta": "50630",
+      "vendedor": "CS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60214": {
+      "nombre": "FERRETERIA ARGAÑARAZ",
+      "numero_cuenta": "60214",
+      "vendedor": "SD",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60256": {
+      "nombre": "FERRE-LIBERTAD",
+      "numero_cuenta": "60256",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "50618": {
+      "nombre": "GUSTAVO",
+      "numero_cuenta": "50618",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90682": {
+      "nombre": "MR CONSTRUCCIONES",
+      "numero_cuenta": "90682",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90712": {
+      "nombre": "FERRETERIA",
+      "numero_cuenta": "90712",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "158": {
+      "nombre": "NUEVO CLIENTE JG",
+      "numero_cuenta": "158",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "10/11/2026"
+    },
+    "20253": {
+      "nombre": "FERRETERIA 17 SEPTIE",
+      "numero_cuenta": "20253",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60309": {
+      "nombre": "FERRETERIA VIZCA",
+      "numero_cuenta": "60309",
+      "vendedor": "CS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "29/10/2026"
+    },
+    "301": {
+      "nombre": "MEDINA DISTRIBUIDORA",
+      "numero_cuenta": "301",
+      "vendedor": "TT",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60266": {
+      "nombre": "FERRETERIA EL PUENTE",
+      "numero_cuenta": "60266",
+      "vendedor": "CS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "18/05/2026"
+    },
+    "90672": {
+      "nombre": "BULONERA LAS HERAS",
+      "numero_cuenta": "90672",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90680": {
+      "nombre": "DELGADO SEBASTIAN",
+      "numero_cuenta": "90680",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20099": {
+      "nombre": "O.S. FERRETERIA",
+      "numero_cuenta": "20099",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20321": {
+      "nombre": "EL ARABE FERRETERIA",
+      "numero_cuenta": "20321",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90665": {
+      "nombre": "EL FONDO FERRETERIA",
+      "numero_cuenta": "90665",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90701": {
+      "nombre": "JUAN DISTRIBUIDORA J",
+      "numero_cuenta": "90701",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "157": {
+      "nombre": "NUEVO CLIENTE RF",
+      "numero_cuenta": "157",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "10/11/2026"
+    },
+    "20171": {
+      "nombre": "MYL FERRETERIA",
+      "numero_cuenta": "20171",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "7": {
+      "nombre": "CLIENTE PRUEBA-NO FA",
+      "numero_cuenta": "7",
+      "vendedor": "IC",
+      "pgProm3M": 185822.3866666667,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 185822.3866666667,
+      "ultOperacion": "24/10/2026"
+    },
+    "1004": {
+      "nombre": "FERRETERIA SAN JUAN",
+      "numero_cuenta": "1004",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "40138": {
+      "nombre": "ESCUDERO FERRETERIA",
+      "numero_cuenta": "40138",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "62010": {
+      "nombre": "DRIUSSI",
+      "numero_cuenta": "62010",
+      "vendedor": "RM",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "50811": {
+      "nombre": "EL COSITO DEL COSO F",
+      "numero_cuenta": "50811",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "10161": {
+      "nombre": "COOP.de TRABAJO MI P",
+      "numero_cuenta": "10161",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90669": {
+      "nombre": "CONDICION: CONTADO",
+      "numero_cuenta": "90669",
+      "vendedor": "IC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60131": {
+      "nombre": "ELELOS FERRETERIA",
+      "numero_cuenta": "60131",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "303": {
+      "nombre": "PRODICOM JORMAR",
+      "numero_cuenta": "303",
+      "vendedor": "TT",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "61204": {
+      "nombre": "CORRALON EL 10",
+      "numero_cuenta": "61204",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20283": {
+      "nombre": "COOPERATIVA DE MARKE",
+      "numero_cuenta": "20283",
+      "vendedor": "IS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "50619": {
+      "nombre": "LO DE FACU FERRETERI",
+      "numero_cuenta": "50619",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20108": {
+      "nombre": "EL TANO FERRETERIA",
+      "numero_cuenta": "20108",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90601": {
+      "nombre": "MONTANIA FERRETERIA",
+      "numero_cuenta": "90601",
+      "vendedor": "DC",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90698": {
+      "nombre": "ELI STRAK DISTRIBUCI",
+      "numero_cuenta": "90698",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60255": {
+      "nombre": "GUSTAVO DOMINICO FER",
+      "numero_cuenta": "60255",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
     "20278": {
       "nombre": "COOP.DE TBJ.EL OESTE",
       "numero_cuenta": "20278",
@@ -4773,6 +4641,105 @@
       "pagoMes": 0.0,
       "cupoMes": 0.0,
       "ultOperacion": "03/06/2026"
+    },
+    "60185": {
+      "nombre": "CORRALON P.H.B",
+      "numero_cuenta": "60185",
+      "vendedor": "JG",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "60263": {
+      "nombre": "FERRETERIA D-TUTO",
+      "numero_cuenta": "60263",
+      "vendedor": "SD",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20161": {
+      "nombre": "TONY FERRETERIA",
+      "numero_cuenta": "20161",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "984": {
+      "nombre": "SUCURSAL LINCH",
+      "numero_cuenta": "984",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "90663": {
+      "nombre": "LA SALVADORA FERRETE",
+      "numero_cuenta": "90663",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20250": {
+      "nombre": "S Y S FERRETERIA",
+      "numero_cuenta": "20250",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "20150": {
+      "nombre": "MEDINA ADRIAN FERRET",
+      "numero_cuenta": "20150",
+      "vendedor": "IC",
+      "pgProm3M": 144643.0866666667,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 234031.8,
+      "cupoMes": 144643.0866666667,
+      "ultOperacion": "02/11/2026"
+    },
+    "956": {
+      "nombre": "LOS POZOS FERRETERIA",
+      "numero_cuenta": "956",
+      "vendedor": "RF",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "03/06/2026"
+    },
+    "159": {
+      "nombre": "NUEVO CLIENTE CS",
+      "numero_cuenta": "159",
+      "vendedor": "CS",
+      "pgProm3M": 0.0,
+      "comproMes": 0.0,
+      "saldoTotal": 0.0,
+      "pagoMes": 0.0,
+      "cupoMes": 0.0,
+      "ultOperacion": "10/11/2026"
     },
     "10166": {
       "nombre": "FERRETERIA LA HORMIG",
@@ -4817,6 +4784,17 @@
       "pagoMes": 0.0,
       "cupoMes": 0.0,
       "ultOperacion": "15/05/2026"
+    },
+    "60162": {
+      "nombre": "JON-LUC FERRETERIA",
+      "numero_cuenta": "60162",
+      "vendedor": "CS",
+      "pgProm3M": 681100.0,
+      "comproMes": 130271.73,
+      "saldoTotal": -0.34,
+      "pagoMes": 286553.0,
+      "cupoMes": 550828.27,
+      "ultOperacion": "11/11/2026"
     },
     "50625": {
       "nombre": "PEHUEN FERRETERIA",
@@ -4883,6 +4861,17 @@
       "pagoMes": 0.0,
       "cupoMes": 940202.0,
       "ultOperacion": "19/10/2026"
+    },
+    "61007": {
+      "nombre": "LOS PRIMOS FERRETERI",
+      "numero_cuenta": "61007",
+      "vendedor": "RF",
+      "pgProm3M": 540349.3266666667,
+      "comproMes": 314630.89,
+      "saldoTotal": -35.78,
+      "pagoMes": 672317.0,
+      "cupoMes": 225718.4366666666,
+      "ultOperacion": "11/11/2026"
     },
     "1046": {
       "nombre": "BELISARIO FERRETERIA",
@@ -5037,6 +5026,17 @@
       "pagoMes": 0.0,
       "cupoMes": 213212.1733333333,
       "ultOperacion": "01/09/2026"
+    },
+    "40145": {
+      "nombre": "SANITARIO ANTONIO",
+      "numero_cuenta": "40145",
+      "vendedor": "RF",
+      "pgProm3M": 681583.3333333334,
+      "comproMes": 0.0,
+      "saldoTotal": -550.31,
+      "pagoMes": 785000.0,
+      "cupoMes": 681583.3333333334,
+      "ultOperacion": "11/11/2026"
     },
     "60159": {
       "nombre": "EL ARROYO CORRALON",
