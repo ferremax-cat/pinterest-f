@@ -284,6 +284,15 @@ class ProductManager {
   }
 
   /**
+   * Guarda en la sesion los productos en memoria, con los que agrego
+   * loadSpecificProducts. Lo usa destacados.js cuando cambian los destacados:
+   * sin esto, al recargar la pestaña la galeria no encuentra su nombre ni su precio
+   */
+  guardarEstado() {
+    this.#saveState();
+  }
+
+  /**
    * Carga datos desde el cache
    * @private
    * @param {Object} cachedData - Datos cacheados
