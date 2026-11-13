@@ -742,21 +742,23 @@ def handle_git_conflicts(file_path):
 
 
 
-def escribir_version_productos():
+# Archivos cuya huella va en json/version.json: el navegador revisa ese archivo
+# cada 15 minutos (js/frescura-precios.js) y solo baja el que cambio
+HUELLAS_VERSION = (
+    ('productos', 'json/productos.json'),               # precios (frescura-precios.js)
+    ('catalogo_grupos', 'json/catalogo_grupos.json'),   # destacados (destacados.js)
+)
+
+
+def escribir_version():
     """
-    json/version.json: huella de productos.json, para que el navegador
-    detecte que cambiaron los precios sin descargar el archivo completo.
-    'generado' solo cambia si cambia el contenido: el workflow corre cada
-    hora y solo commitea si hay cambios.
+    json/version.json: huella de productos.json y de catalogo_grupos.json, para
+    que el navegador detecte que cambiaron los precios o los destacados sin
+    descargar los archivos completos. El 'generado' de cada uno solo cambia si
+    cambia su contenido: el workflow corre cada hora y solo commitea si hay
+    cambios. Conserva las demas claves (indice, de generar_indice_busqueda.py).
     """
-    ruta_productos = 'json/productos.json'
     ruta_version = 'json/version.json'
-    if not os.path.exists(ruta_productos):
-        return
-
-    with open(ruta_productos, 'rb') as f:
-        huella = hashlib.sha256(f.read()).hexdigest()[:16]
-
     anterior = {}
     if os.path.exists(ruta_version):
         try:
@@ -765,16 +767,25 @@ def escribir_version_productos():
         except Exception:
             anterior = {}
 
-    if anterior.get('productos', {}).get('huella') == huella:
-        return   # sin cambios: no tocar el archivo
+    cambios = []
+    for clave, ruta in HUELLAS_VERSION:
+        if not os.path.exists(ruta):
+            continue
+        with open(ruta, 'rb') as f:
+            huella = hashlib.sha256(f.read()).hexdigest()[:16]
+        if anterior.get(clave, {}).get('huella') == huella:
+            continue   # sin cambios: queda su 'generado'
+        anterior[clave] = {
+            'huella': huella,
+            'generado': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+        }
+        cambios.append(f'{clave} {huella}')
 
-    anterior['productos'] = {
-        'huella': huella,
-        'generado': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-    }
+    if not cambios:
+        return   # sin cambios: no tocar el archivo
     with open(ruta_version, 'w', encoding='utf-8') as f:
         json.dump(anterior, f, indent=2)
-    print(f'version.json actualizado: productos {huella}')
+    print('version.json actualizado: ' + ', '.join(cambios))
 
 
 def main():
@@ -789,9 +800,9 @@ def main():
     update_from_local()
     update_margenes_from_sheets()
 
-    # El navegador la usa para saber si tiene que actualizar los precios
+    # El navegador la usa para saber si tiene que actualizar los precios y los destacados
     try:
-        escribir_version_productos()
+        escribir_version()
     except Exception as e:
         print(f'Error escribiendo version.json: {e}')
 
