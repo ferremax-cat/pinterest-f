@@ -11,9 +11,13 @@
  * cambian una vez por dia), nunca con el panel del carrito abierto, y la
  * descarga se hace en un tiempo muerto del navegador. Solo se avisa si
  * cambio el precio de algo que el usuario tiene en el carrito.
+ *
+ * La misma lectura de version.json revisa tambien los destacados de la
+ * galeria (catalogo_grupos.json, ver destacados.js).
  */
 
 import { reemplazarProductos } from './datos-catalogo.js';
+import { revisarDestacados } from './destacados.js';
 
 const PRIMERA_MS = 10 * 60 * 1000;     // primera revision despues de cargar
 const CADA_MS = 15 * 60 * 1000;        // revision periodica
@@ -58,33 +62,45 @@ async function revisar({ manual = false } = {}) {
     const version = await r.json();
     // La misma lectura le sirve al buscador v2 para saber si cambió su índice
     document.dispatchEvent(new CustomEvent('version:leida', { detail: version }));
-    const v = version?.productos;
-    if (!v?.huella || !v.generado) return;
-
-    const generado = Date.parse(v.generado);
-    const cargados = Number(sessionStorage.getItem('productos_cargados')) || 0;
-    if (generado < cargados - MARGEN_MS) return;   // ya estan al dia
-
-    await enTiempoMuerto();
-
-    // La huella en la URL evita la copia vieja de la cache HTTP
-    const datos = await (await fetch(`./json/productos.json?v=${encodeURIComponent(v.huella)}`)).json();
-    // La misma descarga queda como copia compartida: lo que se cargue despues
-    // (busqueda, carrito, promos) usa los precios nuevos sin bajarlo otra vez
-    reemplazarProductos(datos);
-    const { actualizados, cambios } = pm.actualizarDesde(datos);
-
-    window.Precios?.repintarTodos();
-    document.dispatchEvent(new CustomEvent('precios:actualizados', { detail: { cambios } }));
-    console.info(`[Precios] productos.json cambió (${v.generado}): ${actualizados} productos ` +
-      `actualizados, ${cambios.length} con otro precio`);
-
-    avisarSiCambioElPedido(cambios);
+    try {
+      await actualizarPrecios(version?.productos);
+    } catch (e) {
+      console.warn('[Precios] No se pudo actualizar los precios:', e);
+    }
+    // Despues de los precios: si cambiaron los dos, los destacados nuevos toman
+    // los precios nuevos. No lanza
+    await revisarDestacados(version?.catalogo_grupos);
   } catch (e) {
     console.warn('[Precios] No se pudo revisar la versión de productos:', e);
   } finally {
     revisando = false;
   }
+}
+
+/** v: version.productos. Si productos.json cambio, lo baja y actualiza la memoria */
+async function actualizarPrecios(v) {
+  const pm = window.productManager;
+  if (!v?.huella || !v.generado) return;
+
+  const generado = Date.parse(v.generado);
+  const cargados = Number(sessionStorage.getItem('productos_cargados')) || 0;
+  if (generado < cargados - MARGEN_MS) return;   // ya estan al dia
+
+  await enTiempoMuerto();
+
+  // La huella en la URL evita la copia vieja de la cache HTTP
+  const datos = await (await fetch(`./json/productos.json?v=${encodeURIComponent(v.huella)}`)).json();
+  // La misma descarga queda como copia compartida: lo que se cargue despues
+  // (busqueda, carrito, promos) usa los precios nuevos sin bajarlo otra vez
+  reemplazarProductos(datos);
+  const { actualizados, cambios } = pm.actualizarDesde(datos);
+
+  window.Precios?.repintarTodos();
+  document.dispatchEvent(new CustomEvent('precios:actualizados', { detail: { cambios } }));
+  console.info(`[Precios] productos.json cambió (${v.generado}): ${actualizados} productos ` +
+    `actualizados, ${cambios.length} con otro precio`);
+
+  avisarSiCambioElPedido(cambios);
 }
 
 /**
