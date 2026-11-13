@@ -753,6 +753,32 @@
         "PREMIUM",
         "PREMIUM TOP"
       ]
+    },
+    "ROD125": {
+      "tipoLista": "F",
+      "precio": 15755.9,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "ROD127": {
+      "tipoLista": "F",
+      "precio": 15755.9,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
     }
   }
 }
