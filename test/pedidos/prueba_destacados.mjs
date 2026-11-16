@@ -12,7 +12,7 @@ import { join } from 'path';
 import { RAIZ, JSDOM, prepararModulos } from './preparar.mjs';
 
 // Sin destacados.js (control con el codigo anterior) se prueba igual lo que hay
-const modulos = ['frescura-precios.js', 'datos-catalogo.js'];
+const modulos = ['frescura-precios.js', 'datos-catalogo.js', 'aviso-pedido.js'];
 if (existsSync(join(RAIZ, 'js', 'destacados.js'))) modulos.push('destacados.js');
 const importar = prepararModulos(modulos);
 

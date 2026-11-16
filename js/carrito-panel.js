@@ -406,7 +406,7 @@ function vistaVendedor() {
         <div class="cp-barra" style="background:${barra}"></div>
           <div class="cp-desc">
           <p class="cp-nombre" style="color:${col}">${l.nombre || l.sku}</p>
-          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}${l.cantVendedor ? ' · <span class="cp-previa">vos tenías ' + l.cantVendedor + '</span>' : ''}${origenSkus && !origenSkus.includes(l.sku) ? ' · <span class="cp-previa">agregado por vos</span>' : ''}</p>
+          <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${disponible !== null ? ' · acum. ' + fmt(acum) : ''}${l.enPromo ? ' · <span class="cp-promo">' + textoPromo(l) + '</span>' : (l.descEfectivo ? ' · <span class="cp-ajustado">' + (l.listaForzada ? 'lista ' + l.listaForzada + ' · ' : '') + (l.descEfectivo > 0 ? '-' : '+') + Math.abs(l.descEfectivo) + '%</span>' : '')}${l.cantVendedor ? ' · <span class="cp-previa">vos tenías ' + l.cantVendedor + '</span>' : ''}${origenSkus && !origenSkus.includes(l.sku) ? ' · <span class="cp-previa">agregado por vos</span>' : ''}</p>
         </div>
         <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
         <span class="cp-sub" style="color:${col}">${l.subtotal !== null ? fmt(l.subtotal) : '--'}</span>
@@ -522,7 +522,7 @@ function vistaCliente() {
     <div class="cp-img" data-sku="${l.sku}"${l.img ? ` style="background-image:url(${l.img})"` : ''}></div>
       <div class="cp-desc-cli">
         <p class="cp-nombre-cli">${l.nombre || l.sku}</p>
-        <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${l.enPromo ? ' · <span class="cp-promo">Promo</span>' : ''}</p>
+        <p class="cp-meta">${l.sku}${l.bulto ? ' · bulto ' + l.bulto : ''}${l.enPromo ? ' · <span class="cp-promo">' + textoPromo(l) + '</span>' : ''}</p>
         <div class="cp-linea-cli">
           <input type="number" min="1" class="cp-cant" value="${l.cantidad}" data-sku="${l.sku}">
           <span class="cp-unit">${l.precio !== null ? fmt(l.precio) : '--'} c/u</span>
@@ -703,15 +703,29 @@ function abrirMenu(btn) {
   const l = window.Carrito.detalle().find(x => x.sku === sku);
   if (!l) return;
 
-  // Las lineas en promocion tienen precio cerrado: solo se puede mover o quitar
+  // Articulo con promocion vigente: el vendedor puede otorgar un escalon
+  // aunque la cantidad no lo alcance (Carrito.otorgarPromo)
+  const promo = window.Promos?.promoDe(sku);
+  const selPromo = promo ? htmlSelectorPromo(l, promo) : '';
+  const conectarSelPromo = pan => {
+    pan.querySelector('.cp-promo-tramo')?.addEventListener('change', (e) => {
+      window.Carrito.otorgarPromo(sku, e.target.value || null);
+      dibujar();
+    });
+  };
+
+  // Las lineas en promocion tienen precio cerrado: solo el selector de tramo y
+  // mover. Los ajustes de linea quedan guardados, dormidos, y vuelven a regir
+  // si la linea sale de la promocion
   if (l.enPromo) {
     const pan = document.createElement('div');
     pan.className = 'cp-panel-menu';
     pan.innerHTML = `
-      <span class="cp-ref">Precio de promoción: no admite ajustes</span>
+      ${selPromo}
       <button class="cp-mover" data-sku="${sku}">Mover</button>`;
     fila.insertAdjacentElement('afterend', pan);
     pan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    conectarSelPromo(pan);
     pan.querySelector('.cp-mover').addEventListener('click', () => {
       moviendo = sku;
       dibujar();
@@ -745,7 +759,7 @@ function abrirMenu(btn) {
   const pan = document.createElement('div');
   pan.className = 'cp-panel-menu';
   pan.innerHTML = `
-    
+    ${selPromo}
     <select class="cp-lista" data-sku="${sku}">${opcListas}</select>
     <input type="number" class="cp-precio-libre" data-sku="${sku}" placeholder="Precio"
     value="${l.precioLibre || ''}" style="display:${mec === 'precio_libre' ? '' : 'none'}">
@@ -805,10 +819,40 @@ function abrirMenu(btn) {
 
   pan.querySelector('.cp-desc-linea').addEventListener('change', aplicar);
 
+  conectarSelPromo(pan);
+
   pan.querySelector('.cp-mover').addEventListener('click', () => {
     moviendo = sku;
     dibujar();
   });
+}
+
+/**
+ * Selector de promocion del menu de la linea: "Por cantidad" (lo que
+ * corresponda), "Precio de promocion" (solo por debajo del minimo) y cada
+ * tramo de la escalera, cualquiera, no solo el siguiente. Los tramos que la
+ * cantidad ya alcanza van deshabilitados: corresponden solos, no se otorgan.
+ * Queda elegido lo otorgado (l.promoDesde de detalle) o "Por cantidad"
+ */
+function htmlSelectorPromo(l, promo) {
+  const otorgado = l.otorgado ? l.promoDesde : null;
+  const pct = d => String(d).replace('.', ',');
+  const sel = v => (otorgado === v ? ' selected' : '');
+  const opciones = ['<option value="">Por cantidad (precio que corresponda)</option>'];
+  if (l.cantidad < promo.cantidadMinima) {
+    opciones.push(`<option value="${promo.cantidadMinima}"${sel(promo.cantidadMinima)}>Precio de promoción</option>`);
+  }
+  promo.tramos.forEach(t => {
+    const ya = l.cantidad >= t.desde;
+    opciones.push(`<option value="${t.desde}"${ya ? ' disabled' : sel(t.desde)}>` +
+      `${t.desde} o más: −${pct(t.desc)} %${ya ? ' (ya corresponde)' : ''}</option>`);
+  });
+  return `<select class="cp-promo-tramo" data-sku="${l.sku}" title="Promoción">${opciones.join('')}</select>`;
+}
+
+/** Meta de una linea en promocion: "Promo", "Promo −5 %", "Promo −5 % otorgado", "Promo otorgado" */
+function textoPromo(l) {
+  return 'Promo' + (l.promoPct ? ` −${String(l.promoPct).replace('.', ',')} %` : '') + (l.otorgado ? ' otorgado' : '');
 }
 
 function nuevoId() {
@@ -1148,15 +1192,22 @@ async function confirmarPedido() {
           sku: l.sku,
           nombre: l.nombre,
           cantidad: l.cantidad,
-          listaAplicada: l.listaForzada || d.lista,
+          // En promocion la lista no se aplico: la del cliente, aunque haya una
+          // forzada dormida (antes se guardaba la forzada: ver corte en G)
+          listaAplicada: l.enPromo ? d.lista : (l.listaForzada || d.lista),
           // Registrar la promocion: sin esto el precio rebajado queda sin motivo
           mecanismo: l.enPromo ? 'promocion' : (l.mecanismo || 'lista_cliente'),
           precioBase: l.precioBase,
           precio: l.precio,
           descEfectivo: l.descEfectivo,
           // El porcentaje que eligio el vendedor (desc_efectivo_linea mezcla la
-          // diferencia de lista con este descuento). En promocion no se aplica: 0
-          descuentoLinea: l.enPromo ? 0 : (Number(l.descuento) || 0),
+          // diferencia de lista con este descuento). En promocion, el % del
+          // tramo sobre el precio especial (0 sin tramo)
+          descuentoLinea: l.enPromo ? (l.promoPct || 0) : (Number(l.descuento) || 0),
+          // Linea en promocion: precio especial base (columna P) y desde que
+          // cantidad rige lo aplicado (Q; null en una promocion sin tramos por cantidad)
+          precioPromo: l.enPromo ? l.precioEspecial : null,
+          promoDesde: l.enPromo ? (l.promoDesde ?? null) : null,
           subtotal: l.subtotal,
           origenLinea: origenDe(l)
         })),

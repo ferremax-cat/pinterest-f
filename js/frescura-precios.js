@@ -18,6 +18,7 @@
 
 import { reemplazarProductos } from './datos-catalogo.js';
 import { revisarDestacados } from './destacados.js';
+import { preciosDelPedido, avisarCambiosDelPedido } from './aviso-pedido.js';
 
 const PRIMERA_MS = 10 * 60 * 1000;     // primera revision despues de cargar
 const CADA_MS = 15 * 60 * 1000;        // revision periodica
@@ -25,7 +26,6 @@ const REINTENTO_PANEL_MS = 30 * 1000;  // con el panel abierto, volver a probar
 // Margen por la cache HTTP del servidor (unos 10 min): si el archivo se
 // genero poco antes de cargar los precios, la copia cargada pudo ser la vieja
 const MARGEN_MS = 15 * 60 * 1000;
-const AVISO_MS = 5000;
 
 let revisando = false;
 let reintentoProgramado = false;
@@ -93,6 +93,8 @@ async function actualizarPrecios(v) {
   // La misma descarga queda como copia compartida: lo que se cargue despues
   // (busqueda, carrito, promos) usa los precios nuevos sin bajarlo otra vez
   reemplazarProductos(datos);
+  // Foto de los precios del pedido antes de cambiarlos, para el aviso
+  const antes = preciosDelPedido();
   const { actualizados, cambios } = pm.actualizarDesde(datos);
 
   window.Precios?.repintarTodos();
@@ -100,38 +102,8 @@ async function actualizarPrecios(v) {
   console.info(`[Precios] productos.json cambió (${v.generado}): ${actualizados} productos ` +
     `actualizados, ${cambios.length} con otro precio`);
 
-  avisarSiCambioElPedido(cambios);
-}
-
-/**
- * Avisa solo si cambio el precio de algun articulo del carrito actual, con
- * la lista que se le aplica (la del cliente en vista o la del usuario). Si
- * no hay nada cargado o no cambio, la actualizacion queda en silencio.
- */
-function avisarSiCambioElPedido(cambios) {
-  if (!cambios.length || !window.Carrito) return;
-
-  const enCarrito = new Set(window.Carrito.leer().map(l => String(l.sku).toUpperCase()));
-  if (!enCarrito.size) return;
-
-  const lista = window.Precios?.getClienteVista()?.lista || window.productManager?.clientData?.priceList;
-  const n = cambios.filter(c => enCarrito.has(c.codigo) &&
-    (lista ? Number(c.antes[lista]) !== Number(c.despues[lista]) : true)).length;
-  if (!n) return;
-
-  // Mismo estilo que los avisos flotantes de la app, en gris informativo
-  const av = document.createElement('div');
-  av.className = 'aviso-precios';
-  av.textContent = n === 1
-    ? 'Se actualizaron los precios: 1 artículo de tu pedido cambió de precio.'
-    : `Se actualizaron los precios: ${n} artículos de tu pedido cambiaron de precio.`;
-  av.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
-      'bottom:80px;background:#333;color:#fff;padding:12px 18px;' +
-      'border-radius:8px;font-size:13px;z-index:99999;text-align:center;' +
-      'max-width:90vw;box-shadow:0 4px 14px rgba(0,0,0,.3)';
-  document.querySelectorAll('.aviso-precios').forEach(a => a.remove());
-  document.body.appendChild(av);
-  setTimeout(() => av.remove(), AVISO_MS);
+  // Solo si cambio el precio de alguna linea del pedido en vista (aviso-pedido.js)
+  avisarCambiosDelPedido(antes, 'los precios');
 }
 
 // Primera revision a los 10 minutos; despues, cada 15

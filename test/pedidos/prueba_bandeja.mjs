@@ -504,5 +504,114 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   console.log(`Casos de totales de observaciones: ${ok + fallas - antesT}`);
 }
 
+// =====================================================================
+// DETALLE DE PROMOCIONES (v41-promo-tramos): el bloque al final de la
+// facturacion, la columna Aplicacion, el orden (el de la tabla, no por N°),
+// Tipo "Promo -5%" y los pedidos anteriores. Datos sinteticos.
+{
+  const antesD = ok + fallas;
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+  const cerrarAvisos = async () => {
+    for (let k = 0; k < 60 && !$('#ih-aviso')?.hidden; k++) {
+      const bs = $$('#ih-aviso button');
+      if (bs.length) bs[bs.length - 1].click();
+      await espera(50); await tick(10);
+    }
+  };
+  const lp = (orden, sku, cantidad, precioUnitario, descLinea, precioPromo, promoDesde) => ({ orden, sku, nombre: 'Art ' + sku, cantidad,
+    mecanismo: 'promocion', listaCliente: 'D', listaAplicada: 'D', precioUnitario, subtotal: Math.round(precioUnitario * cantidad * 100) / 100,
+    descLinea, precioPromo, promoDesde });
+  const normal = (orden, sku) => ({ orden, sku, nombre: 'Art ' + sku, cantidad: 1, mecanismo: 'lista_cliente', listaCliente: 'D',
+    listaAplicada: 'D', precioUnitario: 100, subtotal: 100, descLinea: 0 });
+  // En el pedido, el orden 1..6 no es el de la tabla (piso, prefijo y codigo)
+  const conPromo = [
+    lp(1, 'SF08003', 30, 14372.01, 0, 14372.01, null),     // sin tramo
+    lp(2, 'ROD125', 6, 14968.11, 5, 15755.9, 5),            // por cantidad (5+)
+    lp(3, 'EA5305AZ', 3, 28025.86, 5, 29500.9, 5),          // otorgado (tramo 5+)
+    lp(4, 'SF08000', 20, 7186, 0, 7186, 30),                // otorgado (min. 30)
+    lp(5, 'ROD127', 3, 15755.9, 0, 15755.9, 1),             // por cantidad (min. 1): con tramos, por debajo del primero
+    normal(6, 'ZZ1')
+  ];
+  const sumaDe = ls => Math.round(ls.reduce((a, l) => a + l.subtotal, 0) * 100) / 100;
+  const casos = [
+    ped('D1', 'APP-51', 6, 6, { totalBruto: sumaDe(conPromo), totalNeto: sumaDe(conPromo), lineas: conPromo }),
+    // Pedido anterior a los tramos: promocion sin precio_promo ni promo_desde
+    ped('D2', 'APP-52', 2, 2, { totalBruto: 200, totalNeto: 200, lineas: [
+      { ...normal(1, 'VIEJA'), mecanismo: 'promocion', descLinea: 0 }, normal(2, 'ZZ2')] }),
+    // Sin promociones
+    ped('D3', 'APP-53', 1, 1, { totalBruto: 100, totalNeto: 100, lineas: [normal(1, 'ZZ3')] }),
+    // App vieja en cache: una linea en promocion sin precio_promo, junto a una nueva
+    ped('D4', 'APP-54', 2, 2, { totalBruto: 300, totalNeto: 300, lineas: [
+      lp(1, 'ROD125', 6, 14968.11, 5, 15755.9, 5), { ...normal(2, 'VIEJA'), mecanismo: 'promocion', descLinea: 0 }] }),
+    // Paginado: 70 lineas normales y 3 en promocion; el mismo pedido sin los datos de promocion
+    ped('D5', 'APP-55', 73, 73, { totalBruto: 7300, totalNeto: 7300, lineas: [
+      ...Array.from({ length: 70 }, (_, i) => normal(i + 1, 'N' + String(i + 1).padStart(3, '0'))),
+      lp(71, 'ROD125', 6, 14968.11, 5, 15755.9, 5), lp(72, 'EA5305AZ', 3, 28025.86, 5, 29500.9, 5), lp(73, 'SF08000', 20, 7186, 0, 7186, 30)] }),
+    ped('D6', 'APP-56', 73, 73, { totalBruto: 7300, totalNeto: 7300, lineas: [
+      ...Array.from({ length: 70 }, (_, i) => normal(i + 1, 'N' + String(i + 1).padStart(3, '0'))),
+      ...[71, 72, 73].map(n => ({ ...normal(n, 'P' + n), mecanismo: 'promocion', descLinea: 0 }))] })
+  ];
+
+  await cerrarAvisos();
+  Hojas.imprimir(casos, {});
+  await tick(80);
+  const cont = document.getElementById('ih-hojas');
+  const hojasN = numero => [...cont.querySelectorAll('section.ih-hoja')].filter(s => s.textContent.includes('N° ' + numero));
+  const filasDe = (numero, sel) => hojasN(numero).flatMap(s => [...s.querySelectorAll(sel)]);
+  const items = numero => filasDe(numero, 'tr.ih-promo-item-fact').map(tr => [...tr.children].map(td => td.textContent.trim()));
+  const det = items('APP-51');
+  const deSku = sku => det.find(c => c[1] === sku) || [];
+
+  ver('D1 el bloque: titulo y encabezado', filasDe('APP-51', 'tr.ih-promo-cab-fact').length === 1 &&
+    filasDe('APP-51', 'tr.ih-promo-cab-fact')[0].textContent.includes('DETALLE DE PROMOCIONES') &&
+    filasDe('APP-51', 'tr.ih-promo-enc-fact')[0]?.textContent.replace(/\s+/g, ' ').includes('P. especial · Desc.'));
+  ver('D1 un renglon por linea en promocion (no la normal)', det.length === 5 && !deSku('ZZ1').length, JSON.stringify(det));
+  ver('D1 por cantidad: ROD125 x6, P. especial y -5 %, P. unit. y Aplicacion', JSON.stringify(deSku('ROD125')) ===
+    JSON.stringify(['2', 'ROD125', '6', 'P. especial $15.755,90 · −5 %', '$14.968,11', '$89.808,66', 'por cantidad (5+)']), JSON.stringify(deSku('ROD125')));
+  ver('D1 otorgado un tramo: EA5305AZ x3', deSku('EA5305AZ')[6] === 'otorgado (tramo 5+)' && deSku('EA5305AZ')[3] === 'P. especial $29.500,90 · −5 %',
+    JSON.stringify(deSku('EA5305AZ')));
+  ver('D1 otorgado el precio especial por debajo del minimo: SF08000 x20', deSku('SF08000')[6] === 'otorgado (mín. 30)' &&
+    deSku('SF08000')[3] === 'P. especial $7.186,00 · —', JSON.stringify(deSku('SF08000')));
+  ver('D1 promocion sin tramos: SF08003', deSku('SF08003')[6] === 'sin tramo', JSON.stringify(deSku('SF08003')));
+  ver('D1 con tramos, por debajo del primero: por cantidad (mín. 1)', deSku('ROD127')[6] === 'por cantidad (mín. 1)', JSON.stringify(deSku('ROD127')));
+  // El orden del bloque es el de la tabla de articulos de arriba, NO por N°
+  const ordenTabla = filasDe('APP-51', '.ih-tabla tbody tr').filter(tr => !tr.className && tr.querySelector('.ih-tcod'))
+    .map(tr => tr.querySelector('.ih-tcod').textContent.trim()).filter(s => s !== 'ZZ1');
+  ver('D1 orden del bloque = orden de la tabla de arriba (piso, prefijo y codigo)', JSON.stringify(det.map(c => c[1])) === JSON.stringify(ordenTabla),
+    `${det.map(c => c[1])} | ${ordenTabla}`);
+  ver('D1 el N° no va ordenado (va salteado, como en la tabla)', JSON.stringify(det.map(c => Number(c[0]))) !==
+    JSON.stringify(det.map(c => Number(c[0])).sort((a, b) => a - b)), det.map(c => c[0]).join());
+  ver('D1 el bloque va despues de los articulos', (() => {
+    const tr = filasDe('APP-51', 'tr');
+    const iCab = tr.findIndex(x => x.classList.contains('ih-promo-cab-fact'));
+    return iCab > 0 && tr.slice(iCab).every(x => !x.querySelector('.ih-tipo'));
+  })());
+  // Tipo en la tabla de articulos
+  const tipoDeSku = (numero, sku) => filasDe(numero, '.ih-tabla tbody tr').find(tr => !tr.className && tr.querySelector('.ih-tcod')?.textContent.trim() === sku)
+    ?.lastElementChild.textContent.trim();
+  ver('D1 Tipo: "Promo -5%" con tramo y "Promo" sin tramo', tipoDeSku('APP-51', 'ROD125') === 'Promo -5%' && tipoDeSku('APP-51', 'SF08000') === 'Promo',
+    `${tipoDeSku('APP-51', 'ROD125')} | ${tipoDeSku('APP-51', 'SF08000')}`);
+  ver('D2 pedido anterior a los tramos: sin bloque y Tipo "Promo"', !filasDe('APP-52', 'tr.ih-promo-cab-fact').length &&
+    tipoDeSku('APP-52', 'VIEJA') === 'Promo');
+  ver('D3 sin promociones: sin bloque', !filasDe('APP-53', 'tr.ih-promo-cab-fact').length);
+  ver('D4 linea en promocion sin precio_promo en un pedido nuevo: "—" y "sin datos"',
+    JSON.stringify(items('APP-54').find(c => c[1] === 'VIEJA')?.slice(3)) === JSON.stringify(['—', '$100,00', '$100,00', 'sin datos']),
+    JSON.stringify(items('APP-54')));
+  ver('D4 la otra linea sigue con su detalle', items('APP-54').find(c => c[1] === 'ROD125')?.[6] === 'por cantidad (5+)');
+  // Paginado: el titulo nunca queda solo al pie, el bloque entra entero y cuenta en las hojas
+  const secD5 = hojasN('APP-55');
+  const conTitulo = secD5.find(s => s.querySelector('tr.ih-promo-cab-fact'));
+  ver('D5 el titulo del bloque baja con su primer renglon', !!conTitulo && !!conTitulo.querySelector('tr.ih-promo-item-fact'));
+  const tablaD5 = filasDe('APP-55', '.ih-tabla tbody tr').filter(tr => !tr.className && tr.querySelector('.ih-tcod'))
+    .map(tr => tr.querySelector('.ih-tcod').textContent.trim()).filter(s => ['ROD125', 'EA5305AZ', 'SF08000'].includes(s));
+  ver('D5 los 3 renglones del bloque, en el orden de la tabla (aunque el bloque cambie de hoja)', items('APP-55').length === 3 &&
+    JSON.stringify(items('APP-55').map(c => c[1])) === JSON.stringify(tablaD5), `${items('APP-55').map(c => c[1])} | ${tablaD5}`);
+  const nFact = numero => hojasN(numero).filter(s => s.textContent.includes('Facturación')).length;
+  ver('D5 el bloque ocupa lugar en el paginado (no menos hojas que sin el)', nFact('APP-55') >= nFact('APP-56') && nFact('APP-56') >= 1,
+    `${nFact('APP-55')} vs ${nFact('APP-56')}`);
+  ver('D6 mismo pedido sin datos de promocion: sin bloque', !filasDe('APP-56', 'tr.ih-promo-cab-fact').length);
+  console.log(`Casos de detalle de promociones: ${ok + fallas - antesD}`);
+}
+
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
 process.exit(fallas ? 1 : 0);

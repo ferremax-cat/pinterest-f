@@ -5,6 +5,7 @@ import os
 import requests
 import re
 import hashlib
+import numbers
 from datetime import datetime  # Agregamos esta importación
 
 # Antes de pisar un JSON, comparar la cantidad de registros (ver guardia_registros.py)
@@ -366,44 +367,216 @@ def process_groups():
         except Exception as e:
             print(f'Error procesando grupos: {e}')
 
-def process_promotions():
-    """Procesa PROMOCIONES.xlsx y genera promotions.json"""
+# Tramos de las promociones: pares de columnas cant_1/desc_1, cant_2/desc_2, ...
+# (sin distinguir mayusculas; puede haber huecos en la numeracion)
+PAR_TRAMO = re.compile(r'^(cant|desc)_(\d+)$', re.IGNORECASE)
+
+
+def _vacia(x):
+    """Celda sin dato: vacia, NaN o texto en blanco (nunca 0)"""
+    if x is None:
+        return True
+    if isinstance(x, str):
+        return not x.strip()
     try:
-        # Leer Excel
-        df = pd.read_excel('excel/PROMOCIONES.xlsx')
+        return bool(pd.isna(x))
+    except (TypeError, ValueError):
+        return False
 
-        # Convertir todas las columnas de tipo datetime a cadenas 
-        for column in df.select_dtypes(include=['datetime']): 
-            df[column] = df[column].astype(str)
-        
-        # Procesar datos
-        promotions_data = {"promotions": {}}
-        for _, row in df.iterrows():
-            code = row['CODIGO_PRODUCTO']
 
-              
-             # Truncar el precio para eliminar los decimales
+def _numero(x):
+    """La celda como float si es un numero (int, float o los de numpy); si no, None.
+    Con celdas vacias pandas trae la columna como float64: 2 llega como 2.0"""
+    if isinstance(x, bool) or not isinstance(x, numbers.Number):
+        return None
+    return float(x)
+
+
+def _entero(x):
+    """La celda como int si es un entero, aunque llegue como 2.0; si no, None"""
+    n = _numero(x)
+    return int(n) if n is not None and n == int(n) else None
+
+
+def _fmt_pct(d):
+    return str(int(d)) if d == int(d) else str(d).replace('.', ',')
+
+
+def armar_promociones(df):
+    """
+    Arma promociones.json desde el DataFrame de excel/PROMOCIONES.xlsx.
+    Devuelve (datos, errores): errores es una lista de textos con la fila de
+    Excel y el codigo; si no esta vacia, no hay que publicar nada.
+
+    Unidades: CANTIDAD_MINIMA y los cant_i estan en unidades sueltas, las del
+    casillero de cantidad del vendedor (el bulto es solo una referencia).
+    Por debajo de CANTIDAD_MINIMA no hay promocion (lista del cliente); desde
+    el minimo, PRECIO_ESPECIAL; desde cant_i, PRECIO_ESPECIAL - desc_i %.
+
+    Una fila sin tramos sale igual que antes (mismas claves y valores); con
+    tramos agrega "tramos": [{"desde": 5, "desc": 5}, ...], ordenados.
+    Son errores: un par incompleto, una cantidad que no es entero >= 1, un
+    porcentaje no numerico o fuera de (0, 100) (entre 0 y 1: celda con formato
+    %), una cantidad repetida, un tramo por debajo de CANTIDAD_MINIMA, un tramo
+    mayor con igual o menos descuento, PRECIO_ESPECIAL vacio, no numerico o
+    <= 0, y un CODIGO_PRODUCTO repetido. Los tramos desordenados se ordenan.
+    """
+    df = df.copy()
+    # Las fechas como texto (VIGENCIA_HASTA: "2026-11-30")
+    for column in df.select_dtypes(include=['datetime']):
+        df[column] = df[column].astype(str)
+
+    errores = []
+
+    # Pares de columnas de tramos
+    pares = {}
+    for col in df.columns:
+        m = PAR_TRAMO.match(str(col).strip())
+        if m:
+            pares.setdefault(int(m.group(2)), {})[m.group(1).lower()] = col
+    for n, p in sorted(pares.items()):
+        if 'cant' not in p or 'desc' not in p:
+            falta = 'desc' if 'cant' in p else 'cant'
+            errores.append(f'columnas: falta {falta}_{n} (los tramos van de a pares cant_{n} / desc_{n})')
+
+    promotions = {}
+    filas_de = {}
+    for i, row in df.reset_index(drop=True).iterrows():
+        fila = i + 2   # fila de Excel: el encabezado es la 1
+        code = row['CODIGO_PRODUCTO']
+
+        def error(motivo):
+            errores.append(f'fila {fila} ({code}): {motivo}')
+
+        if code in filas_de:
+            error(f'código repetido (también en la fila {filas_de[code]})')
+        else:
+            filas_de[code] = fila
+
+        # Precio especial a 2 decimales (el que usa la app y la base de los tramos)
+        precio = _numero(row['PRECIO_ESPECIAL'])
+        if precio is None or pd.isna(precio) or precio <= 0:
+            error(f'PRECIO_ESPECIAL = {row["PRECIO_ESPECIAL"]!r}: tiene que ser un número mayor que 0')
             precio = 0
-            if isinstance(row['PRECIO_ESPECIAL'], (int, float)):
-                precio = round(float(row['PRECIO_ESPECIAL']), 2)
+        else:
+            precio = round(precio, 2)
 
-            cantidad_minima = 1
-            if isinstance(row.get('CANTIDAD_MINIMA'), (int, float)):
-                cantidad_minima = int(row['CANTIDAD_MINIMA'])
+        # Sin dato, 1 (como antes); 30.0 vale como 30
+        cantidad_minima = 1
+        if not _vacia(row.get('CANTIDAD_MINIMA')):
+            cantidad_minima = _entero(row['CANTIDAD_MINIMA'])
+            if cantidad_minima is None or cantidad_minima < 1:
+                error(f'CANTIDAD_MINIMA = {row["CANTIDAD_MINIMA"]!r}: tiene que ser un entero mayor o igual a 1')
+                cantidad_minima = 1
 
-            promotions_data["promotions"][code] = {
-                "tipoLista": row['TIPO_LISTA'],
-                "precio": precio,
-                "cantidadMinima": cantidad_minima,
-                "vigencia": row['VIGENCIA_HASTA'],
-                "grupos": [g.strip() for g in str(row['GRUPOS']).split('.') if g.strip()]
-            }
-            
+        tramos = []
+        for n, p in sorted(pares.items()):
+            if 'cant' not in p or 'desc' not in p:
+                continue
+            c, d = row[p['cant']], row[p['desc']]
+            if _vacia(c) and _vacia(d):
+                continue
+            if _vacia(c) or _vacia(d):
+                error(f'tramo {n}: falta {"cant" if _vacia(c) else "desc"}_{n} (están de a pares)')
+                continue
+            desde = _entero(c)
+            if desde is None or desde < 1:
+                error(f'cant_{n} = {c!r}: tiene que ser un entero mayor o igual a 1')
+                continue
+            pct = _numero(d)
+            if pct is None:
+                error(f'desc_{n} = {d!r}: no es un número')
+                continue
+            if 0 < pct < 1:
+                error(f'desc_{n} = {d!r}: parece una celda con formato %; cargar el número (5, no 5 %)')
+                continue
+            if not 0 < pct < 100:
+                error(f'desc_{n} = {d!r}: el porcentaje tiene que ser mayor que 0 y menor que 100')
+                continue
+            tramos.append((desde, int(pct) if pct == int(pct) else round(pct, 2)))
+
+        tramos.sort()
+        cantidades = [t[0] for t in tramos]
+        repetidas = sorted({x for x in cantidades if cantidades.count(x) > 1})
+        if repetidas:
+            error(f'cantidad repetida en los tramos: {", ".join(map(str, repetidas))}')
+        bajo_minimo = [x for x in cantidades if x < cantidad_minima]
+        if bajo_minimo:
+            error(f'tramo desde {", ".join(map(str, bajo_minimo))} por debajo de CANTIDAD_MINIMA ({cantidad_minima})')
+        for (c1, d1), (c2, d2) in zip(tramos, tramos[1:]):
+            if c2 > c1 and d2 <= d1:
+                error(f'el tramo desde {c2} tiene {_fmt_pct(d2)} %, que no es más que el de {c1} ({_fmt_pct(d1)} %)')
+
+        promo = {
+            "tipoLista": row['TIPO_LISTA'],
+            "precio": precio,
+            "cantidadMinima": cantidad_minima,
+            "vigencia": row['VIGENCIA_HASTA'],
+            "grupos": [g.strip() for g in str(row['GRUPOS']).split('.') if g.strip()]
+        }
+        if tramos:
+            promo["tramos"] = [{"desde": c, "desc": d} for c, d in tramos]
+        promotions[code] = promo
+
+    return {"promotions": promotions}, errores
+
+
+def validar_promociones():
+    """
+    --validar-promociones: lee excel/PROMOCIONES.xlsx con armar_promociones y
+    muestra las filas, los errores y si el resultado es identico al
+    json/promociones.json publicado. No escribe nada ni bloquea.
+    Codigo 0 si no hay errores.
+    """
+    df = pd.read_excel('excel/PROMOCIONES.xlsx')
+    datos, errores = armar_promociones(df)
+    con_tramos = sum(1 for p in datos['promotions'].values() if 'tramos' in p)
+    print(f'{len(df)} filas, {len(errores)} errores, {con_tramos} con tramos')
+    for e in errores:
+        print('  ' + e)
+    # Mismo texto que escribiria guardia.escribir_json(..., indent=2)
+    nuevo = json.dumps(datos, indent=2)
+    try:
+        with open('json/promociones.json', encoding='utf-8') as f:
+            publicado = f.read()
+    except OSError:
+        publicado = None
+    if publicado is None:
+        print('No hay json/promociones.json publicado para comparar')
+    elif nuevo == publicado:
+        print('Idéntico al json/promociones.json publicado')
+    else:
+        print('DISTINTO del json/promociones.json publicado' +
+              (' (mismo contenido, otro formato)' if json.loads(publicado) == json.loads(nuevo) else ''))
+    return 1 if errores else 0
+
+
+def process_promotions():
+    """
+    Procesa excel/PROMOCIONES.xlsx y genera json/promociones.json con
+    armar_promociones (precio especial a 2 decimales, tramos por cantidad).
+    Con un error de carga (tramos, precio especial, codigo repetido) no
+    escribe nada: queda el anterior, se muestran los errores con la fila y el
+    codigo, y la corrida termina con codigo 1 (guardia.bloquear; --forzar no
+    lo saltea). Para revisar el Excel sin escribir: --validar-promociones
+    """
+    try:
+        df = pd.read_excel('excel/PROMOCIONES.xlsx')
+        promotions_data, errores = armar_promociones(df)
+        if errores:
+            for e in errores:
+                print('  ' + e)
+            guardia.bloquear('promociones.json',
+                             f'{len(errores)} error(es) de carga en excel/PROMOCIONES.xlsx (ver arriba)')
+
         # Guardar JSON
         guardia.escribir_json('json/promociones.json', promotions_data, indent=2)
-            
+
         print('promociones.json generado exitosamente')
-            
+
+    except guardia.EscrituraBloqueada:
+        # La toma update_from_local y la corrida termina con codigo 1
+        raise
     except Exception as e:
         print(f'Error procesando promociones: {e}')
 
@@ -747,6 +920,7 @@ def handle_git_conflicts(file_path):
 HUELLAS_VERSION = (
     ('productos', 'json/productos.json'),               # precios (frescura-precios.js)
     ('catalogo_grupos', 'json/catalogo_grupos.json'),   # destacados (destacados.js)
+    ('promociones', 'json/promociones.json'),           # promociones (promociones.js)
 )
 
 
@@ -800,7 +974,8 @@ def main():
     update_from_local()
     update_margenes_from_sheets()
 
-    # El navegador la usa para saber si tiene que actualizar los precios y los destacados
+    # El navegador la usa para saber si tiene que actualizar los precios, los
+    # destacados y las promociones
     try:
         escribir_version()
     except Exception as e:
@@ -811,6 +986,9 @@ if __name__ == "__main__":
     if '--solo-imagenes' in sys.argv:
         print('Modo: solo actualización de catálogo de imágenes')
         process_image_catalog_local()
+    elif '--validar-promociones' in sys.argv:
+        # Solo lee y muestra: no escribe ningun archivo
+        sys.exit(validar_promociones())
     else:
         main()
     # Si algun archivo no se escribio para no pisar datos buenos: codigo 1
