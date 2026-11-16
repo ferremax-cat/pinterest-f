@@ -101,6 +101,16 @@ def escribir_json(ruta, datos, contar=contar_registros, encoding='utf-8', **opci
     os.replace(temporal, ruta)
 
 
+def bloquear(nombre, motivo):
+    """Frena la escritura por datos invalidos (no por cantidad de registros):
+    queda el archivo anterior y la corrida termina con codigo 1. A diferencia
+    de revisar(), --forzar no lo saltea: un dato mal cargado no se publica."""
+    texto = f'{nombre}: {motivo}. No se escribio: quedo el anterior.'
+    _bloqueos.append(texto)
+    print('BLOQUEADO: ' + texto)
+    raise EscrituraBloqueada(texto)
+
+
 def hubo_bloqueos():
     return bool(_bloqueos)
 

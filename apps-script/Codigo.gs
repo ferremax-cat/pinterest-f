@@ -667,7 +667,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v40-desc-aplicado';
+const VERSION_API = 'v41-promo-tramos';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1029,8 +1029,17 @@ function filasConId(hoja, id, nCols) {
     .filter(x => String(x[1][0]).trim() === String(id));
 }
 
-/** Filas de pedidos_lineas de un pedido (orden 1..n), con el color de cada una */
+/**
+ * Filas de pedidos_lineas de un pedido (orden 1..n), con el color de cada una.
+ * Se escriben por posicion, columnas A a Q: P (precio_promo) y Q (promo_desde)
+ * van despues de O (desc_linea_pct), asi A a O no se mueven.
+ * desc_linea_pct tiene dos significados segun mecanismo: en una linea normal,
+ * el % que eligio el vendedor sobre la lista aplicada (precio_base si es
+ * lista_cliente); en 'promocion', el % del tramo sobre precio_promo (0 sin
+ * tramo, y siempre 0 en las promociones guardadas antes de los tramos)
+ */
 function filasLineasPedido(ped, sem) {
+  const enPromo = l => l.mecanismo === 'promocion';
   return ped.lineas.map((l, i) => ([
     ped.id,
     i + 1,
@@ -1049,7 +1058,17 @@ function filasLineasPedido(ped, sem) {
     // desc_linea_pct (columna O): el porcentaje que eligio el vendedor.
     // Sin el dato (navegador sin actualizar) queda vacio, no 0
     l.descuentoLinea === undefined || l.descuentoLinea === null || l.descuentoLinea === ''
-      ? '' : Number(l.descuentoLinea) || 0
+      ? '' : Number(l.descuentoLinea) || 0,
+    // precio_promo (P): precio especial base de una linea en promocion, el de
+    // promociones.json al confirmar (el del Excel redondeado a 2 decimales, no
+    // otro). En promocion, desc_linea_pct es el % del tramo sobre este precio.
+    // Vacia en las demas lineas y en los pedidos anteriores
+    enPromo(l) && Number(l.precioPromo) > 0 ? Math.round(Number(l.precioPromo) * 100) / 100 : '',
+    // promo_desde (Q): desde que cantidad rige lo aplicado (el tramo, o la
+    // cantidad minima si se otorgo el precio especial). Cantidad menor que Q:
+    // otorgado por el vendedor. Vacia: promocion sin tramos que corresponde por
+    // cantidad, o linea que no esta en promocion
+    enPromo(l) && Number(l.promoDesde) > 0 ? Math.floor(Number(l.promoDesde)) : ''
   ]));
 }
 
@@ -2133,8 +2152,13 @@ function accionPedidosParaImprimir(body) {
     id: cl('id_pedido'), orden: cl('orden'), sku: cl('sku'), nombre: cl('nombre'),
     cant: cl('cantidad'), listaCli: cl('lista_cliente'), listaApl: cl('lista_aplicada'),
     mec: cl('mecanismo'), pu: cl('precio_unitario'), desc: cl('desc_efectivo_linea'),
-    sub: cl('subtotal'), descSel: cl('desc_linea_pct')
+    sub: cl('subtotal'), descSel: cl('desc_linea_pct'),
+    // Detalle de promociones (columnas P y Q): -1 si la hoja no las tiene
+    pp: cl('precio_promo'), pd: cl('promo_desde')
   };
+  // Celda numerica por nombre de columna; null si falta la columna o esta vacia
+  const numOpc = (r, c) => (c >= 0 && r[c] !== '' && r[c] !== null && r[c] !== undefined
+    ? Number(r[c]) || null : null);
   const porId = {};
   const apariciones = {};  // clave de busqueda -> [{ id, pu, enPromo }]
   for (let i = 1; i < lin.length; i++) {
@@ -2166,7 +2190,11 @@ function accionPedidosParaImprimir(body) {
       // Porcentaje elegido por el vendedor; null en los pedidos sin ese dato
       descLinea: L.descSel >= 0 && r[L.descSel] !== '' && r[L.descSel] !== null
         ? Number(r[L.descSel]) || 0 : null,
-      subtotal: Number(r[L.sub]) || 0
+      subtotal: Number(r[L.sub]) || 0,
+      // Linea en promocion: precio especial base y desde que cantidad rige lo
+      // aplicado; null en los pedidos anteriores (el bloque no aparece)
+      precioPromo: numOpc(r, L.pp),
+      promoDesde: numOpc(r, L.pd)
     });
   }
   /**
