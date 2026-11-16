@@ -172,7 +172,7 @@
     "ROT98128": {
       "tipoLista": "F",
       "precio": 117804.09,
-      "cantidadMinima": 2,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -180,12 +180,18 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 2,
+          "desc": 5
+        }
       ]
     },
     "ROT98127": {
       "tipoLista": "F",
       "precio": 117804.09,
-      "cantidadMinima": 2,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -193,12 +199,18 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 2,
+          "desc": 5
+        }
       ]
     },
     "SF16012": {
       "tipoLista": "F",
       "precio": 47949.9,
-      "cantidadMinima": 2,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -206,12 +218,18 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 2,
+          "desc": 5
+        }
       ]
     },
     "SF16001": {
       "tipoLista": "F",
       "precio": 37086.7,
-      "cantidadMinima": 2,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -219,12 +237,18 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 2,
+          "desc": 5
+        }
       ]
     },
     "EA5305AZ": {
       "tipoLista": "F",
       "precio": 29500.9,
-      "cantidadMinima": 3,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -232,12 +256,18 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "EA5310AZ": {
       "tipoLista": "F",
       "precio": 29500.9,
-      "cantidadMinima": 3,
+      "cantidadMinima": 1,
       "vigencia": "2026-11-30",
       "grupos": [
         "RECURRENTE_300K-400K",
@@ -245,6 +275,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "AR855300": {
@@ -284,6 +320,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 12,
+          "desc": 5
+        }
       ]
     },
     "EVEL525": {
@@ -297,6 +339,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 12,
+          "desc": 5
+        }
       ]
     },
     "EVEL526": {
@@ -310,6 +358,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 12,
+          "desc": 5
+        }
       ]
     },
     "EVEL508": {
@@ -323,6 +377,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 12,
+          "desc": 5
+        }
       ]
     },
     "EVEL510": {
@@ -336,6 +396,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 12,
+          "desc": 5
+        }
       ]
     },
     "NPCPN134": {
@@ -349,6 +415,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "NPCPN194": {
@@ -362,6 +434,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "NPCPN254": {
@@ -375,6 +453,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "GLAP12-2-25": {
@@ -401,6 +485,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "BK6-1042": {
@@ -414,6 +504,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "BK6-1045": {
@@ -427,6 +523,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 3,
+          "desc": 5
+        }
       ]
     },
     "CONOP09002": {
@@ -765,6 +867,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 5,
+          "desc": 5
+        }
       ]
     },
     "ROD127": {
@@ -778,6 +886,12 @@
         "RECURRENTE_>_500K",
         "PREMIUM",
         "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 5,
+          "desc": 5
+        }
       ]
     }
   }
