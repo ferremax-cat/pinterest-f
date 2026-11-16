@@ -318,10 +318,13 @@ function textoBulto(cant, bulk) {
 
 /**
  * Leyenda del precio aplicado en la columna Tipo de la facturacion.
- * descLinea: el porcentaje que eligio el vendedor (0 sin descuento o en
- * promocion; null en los pedidos guardados antes de registrarlo, que
- * muestran lo mismo que antes, sin porcentaje). Precio especial se abrevia
- * "P. especial" para que entre con la cascada (-11,65%).
+ * descLinea (desc_linea_pct) tiene dos significados segun el mecanismo: en
+ * una linea normal, el porcentaje que eligio el vendedor (0 sin descuento);
+ * en 'promocion', el % del tramo sobre el precio especial (precio_promo; 0
+ * sin tramo y siempre 0 en las promociones anteriores a los tramos, que
+ * siguen diciendo "Promo"). null en los pedidos guardados antes de
+ * registrarlo, que muestran lo mismo que antes, sin porcentaje. Precio
+ * especial se abrevia "P. especial" para que entre con la cascada (-11,65%).
  */
 function tipoDe(l) {
   const letra = x => String(x ?? '').trim().toUpperCase();
@@ -329,7 +332,8 @@ function tipoDe(l) {
   const pct = Number(l.descLinea) > 0 ? ` -${fmtNum(l.descLinea)}%` : '';
 
   switch (l.mecanismo) {
-    case 'promocion': return 'Promo';
+    // "Promo -5%" con tramo; el detalle (precio especial, desde) va en el bloque
+    case 'promocion': return 'Promo' + pct;
     // Abreviado: "P. especial -11,65%" (la mas larga) entra en la columna Tipo
     case 'precio_libre': return 'P. especial' + pct;
     case 'otra_lista': return ('Lista ' + letra(l.listaAplicada)).trim() + pct;
@@ -369,6 +373,56 @@ function filasFacturacion(pisos) {
     { tipo: 'piso', piso: pi.nombre, total: pi.items.length },
     ...pi.items.map(it => ({ tipo: 'linea', piso: pi.nombre, it }))
   ]);
+}
+
+// ---------- detalle de promociones (facturacion) ----------
+
+/**
+ * Renglones del bloque "DETALLE DE PROMOCIONES", al final de la tabla de
+ * facturacion (despues de las observaciones): una por linea en promocion, con
+ * el precio especial base, el % del tramo y si le correspondio por cantidad o
+ * lo otorgo el vendedor, para el control de quien factura.
+ * ORDEN: el MISMO que la tabla de articulos de arriba (piso, prefijo y codigo,
+ * de agruparPorPiso), NO por N°. Es a proposito: la facturacion sigue el orden
+ * de la hoja de preparacion, porque quien factura va siguiendo esa orden; por
+ * eso el N° aparece salteado. No "corregirlo" ordenando por N°.
+ * Solo si alguna linea en promocion trae precio_promo: los pedidos anteriores
+ * a los tramos no lo tienen y no muestran el bloque.
+ */
+function filasDetallePromos(pisos) {
+  const items = pisos.flatMap(pi => pi.items).filter(it => it.linea.mecanismo === 'promocion');
+  if (!items.some(it => Number(it.linea.precioPromo) > 0)) return [];
+  return [{ tipo: 'promoCab' }, { tipo: 'promoEnc' }, ...items.map(it => ({ tipo: 'promoItem', it }))];
+}
+
+/**
+ * Columna Aplicacion del detalle. Q (promoDesde): desde que cantidad rige lo
+ * aplicado; O (descLinea): el % del tramo. Sin precio_promo (app vieja en
+ * cache): "sin datos". "mín." abreviado para que entre en los 28 mm
+ */
+function aplicacionPromo(l, cantidad) {
+  if (!(Number(l.precioPromo) > 0)) return 'sin datos';
+  const q = Number(l.promoDesde) || 0;
+  if (!q) return 'sin tramo';
+  const conTramo = Number(l.descLinea) > 0;
+  if (cantidad >= q) return conTramo ? `por cantidad (${fmtNum(q)}+)` : `por cantidad (mín. ${fmtNum(q)})`;
+  return conTramo ? `otorgado (tramo ${fmtNum(q)}+)` : `otorgado (mín. ${fmtNum(q)})`;
+}
+
+function htmlPromoItemFact(it) {
+  const l = it.linea;
+  const pp = Number(l.precioPromo) > 0 ? Number(l.precioPromo) : null;
+  const pct = Number(l.descLinea) > 0 ? `−${fmtNum(l.descLinea)} %` : '—';
+  const renglones = renglonesFact(it);
+  return `<tr class="ih-promo-item-fact"${renglones > 1 ? ` style="height:calc(var(--ih-fila-fact) * ${renglones})"` : ''}>
+      <td class="ih-n">${it.n}</td>
+      <td class="ih-tcod">${esc(it.sku)}</td>
+      <td class="ih-num">${fmtNum(it.cantidad)}</td>
+      <td>${pp ? `P. especial ${fmtPesos(pp)} · ${pct}` : '—'}</td>
+      <td class="ih-num">${fmtPesos(l.precioUnitario)}</td>
+      <td class="ih-num">${fmtPesos(l.subtotal)}</td>
+      <td class="ih-promo-apl">${esc(aplicacionPromo(l, it.cantidad))}</td>
+    </tr>`;
 }
 
 // ---------- observaciones ----------
@@ -544,9 +598,11 @@ const renglonesFact = it => Math.max(1, Math.ceil(it.sku.length / COD_POR_RENGLO
 /** Alto en mm de un renglon de facturacion: titulo de piso o linea */
 // Titulos (piso, observaciones) en un renglon fino; lineas y articulos de observaciones, segun su codigo
 const ALTO_TITULO_FACT = { piso: () => MM.pisoFact, obsLado: () => MM.pisoFact,
-  obsCab: () => MM.obsTitFact, obsTit: () => MM.obsTitFact, obsNota: () => MM.pisoFact };
+  obsCab: () => MM.obsTitFact, obsTit: () => MM.obsTitFact, obsNota: () => MM.pisoFact,
+  promoCab: () => MM.obsTitFact, promoEnc: () => MM.pisoFact };
 const altoFilaFact = f => (ALTO_TITULO_FACT[f.tipo] ? ALTO_TITULO_FACT[f.tipo]() : renglonesFact(f.it) * MM.filaFact);
-const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem';
+// Los renglones del detalle de promociones no son titulos: el titulo del bloque baja con el primero
+const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem' && f.tipo !== 'promoItem';
 
 /**
  * Hojas de facturacion: totales y firmas al final de la ultima.
@@ -830,6 +886,10 @@ function htmlTablaFact(filas, continua) {
     if (f.tipo === 'obsLado') return `<tr class="ih-obs-lado-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
     if (f.tipo === 'obsItem') return htmlObsItemFact(f);
     if (f.tipo === 'obsNota') return `<tr class="ih-obs-nota-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
+    if (f.tipo === 'promoCab') return '<tr class="ih-promo-cab-fact"><td colspan="7"><b>DETALLE DE PROMOCIONES</b></td></tr>';
+    if (f.tipo === 'promoEnc') return '<tr class="ih-promo-enc-fact"><td>N°</td><td>Código</td><td class="ih-num">Cant.</td>' +
+      '<td>P. especial · Desc.</td><td class="ih-num">P. unit.</td><td class="ih-num">Subtotal</td><td>Aplicación</td></tr>';
+    if (f.tipo === 'promoItem') return htmlPromoItemFact(f.it);
     const it = f.it;
     const l = it.linea;
     const tipo = tipoDe(l);
@@ -958,7 +1018,9 @@ function armarPedido(p, reimpresion) {
   const filasObs = filasObservaciones(obs);
   // En facturacion, el recuadro va despues de los articulos, en la misma tabla
   // (con la nota de la 126)
-  const filasFact = filasFacturacion(pisos).concat(obs.length ? [{ tipo: 'obsCab' }, ...filasObservaciones(obs, true)] : []);
+  const filasFact = filasFacturacion(pisos).concat(obs.length ? [{ tipo: 'obsCab' }, ...filasObservaciones(obs, true)] : [])
+    // Al final, el detalle de promociones, en el orden de la tabla (ver filasDetallePromos)
+    .concat(filasDetallePromos(pisos));
 
   const sumaSub = lineas.reduce((a, it) => a + (Number(it.linea.subtotal) || 0), 0);
   const bruto = Number(p.totalBruto) || sumaSub;

@@ -198,6 +198,11 @@ export function agregar(sku, cantidad, cliente, opc = {}) {
 
   if (existente) {
     existente.cantidad = cant;
+    // Un tramo otorgado que ya corresponde por cantidad deja de contar como
+    // otorgado y se borra (el precio no cambia: ahora lo da la cantidad). Si
+    // despues se baja la cantidad, el descuento NO vuelve solo, a proposito:
+    // hay que otorgarlo de nuevo desde el menu de la linea
+    if (existente.promoOtorgado && cant >= existente.promoOtorgado) delete existente.promoOtorgado;
   } else {
        
     const p = window.productManager?.getProduct(codigo);
@@ -350,20 +355,32 @@ export function detalle(cliente) {
         return { ...l, precioBase: null, precio: null, subtotal: null, descEfectivo: 0 };
       }
 
-      // La promocion manda sobre cualquier ajuste: es un precio cerrado
-      const promo = window.Promos?.promoDe(l.sku);
-      const enPromo = !!promo && l.cantidad >= promo.cantidadMinima;
+      // La promocion manda sobre cualquier ajuste: es un precio cerrado. Lo que
+      // corresponde por cantidad, o el escalon que otorgo el vendedor si la
+      // cantidad todavia no lo alcanza (un tramo que ya no existe se ignora).
+      // Los ajustes de linea (lista, precio especial libre, descuento) quedan
+      // guardados, dormidos, y vuelven a regir cuando la linea sale de la promocion
+      const auto = window.Promos?.precioSegunCantidad(l.sku, l.cantidad) || null;
+      const dado = l.promoOtorgado && l.cantidad < l.promoOtorgado
+        ? window.Promos?.precioDeEscalon(l.sku, l.promoOtorgado) || null : null;
+      const pr = dado || auto;
 
-      if (enPromo) {
-        const precio = promo.precio;
+      if (pr) {
+        // promo_desde: desde que cantidad rige lo aplicado. Vacio solo en una
+        // promocion sin tramos que corresponde por cantidad
+        const promoDesde = (dado || pr.conTramos) ? pr.desde : null;
         return {
           ...l,
           precioBase: base,
-          precio,
-          subtotal: Math.round(precio * l.cantidad * 100) / 100,
-          descEfectivo: base ? Math.round((1 - precio / base) * 1000) / 10 : 0,
+          precio: pr.precio,
+          subtotal: Math.round(pr.precio * l.cantidad * 100) / 100,
+          descEfectivo: base ? Math.round((1 - pr.precio / base) * 1000) / 10 : 0,
           enPromo: true,
-          cantidadMinima: promo.cantidadMinima
+          otorgado: !!dado,
+          promoPct: pr.pct,
+          promoDesde,
+          precioEspecial: pr.precioEspecial,
+          cantidadMinima: pr.cantidadMinima
         };
       }
 
@@ -530,16 +547,21 @@ function abrirCampoCantidad(btn, sku) {
     const n = parseInt(input.value, 10) || 0;
     const lista = window.Precios?.precioLista(sku) || 0;
     const fmt = window.Precios.formatearPrecio;
+    // La misma cuenta que el carrito (promociones.js): lo que corresponde por cantidad
+    const pr = window.Promos.precioSegunCantidad(sku, n);
+    const sig = window.Promos.siguienteTramo(sku, n);
+    const pct = d => String(d).replace('.', ',');
+    const proximo = sig ? `<span class="linea-precio">Desde ${sig.desde} u.: −${pct(sig.desc)} %</span>` : '';
 
-    if (n >= promo.cantidadMinima) {
-      const ahorro = (lista - promo.precio) * n;
+    if (pr) {
+      const ahorro = (lista - pr.precio) * n;
       avisoPromo.innerHTML =
-        `<b class="precio-promo">${fmt(promo.precio)}</b> c/u` +
-        `<span class="linea-ahorro">Ahorrás ${fmt(ahorro)}</span>`;
+        `<b class="precio-promo">${fmt(pr.precio)}</b> c/u${pr.pct ? ` (−${pct(pr.pct)} %)` : ''}` +
+        `<span class="linea-ahorro">Ahorrás ${fmt(ahorro)}</span>` + proximo;
       avisoPromo.className = 'aviso-promo activa';
     } else {
       avisoPromo.innerHTML =
-        `x${promo.cantidadMinima} u. → <b class="precio-promo">${fmt(promo.precio)}</b> c/u`;
+        `x${promo.cantidadMinima} u. → <b class="precio-promo">${fmt(promo.precio)}</b> c/u` + proximo;
       avisoPromo.className = 'aviso-promo';
     }
   }
@@ -748,7 +770,62 @@ document.addEventListener('carrito:cambio', () => {
   document.querySelectorAll('.btn-carrito').forEach(btn => {
     if (btn.dataset.sku) refrescarIcono(btn, btn.dataset.sku);
   });
+  // La cinta de promocion muestra el precio con la cantidad cargada (precios.js)
+  if (window.Precios?.pintarCinta) {
+    document.querySelectorAll('.price-tag[data-sku]').forEach(tag => {
+      window.Precios.pintarCinta(tag.parentElement, tag.dataset.sku);
+    });
+  }
 });
+
+// ---------- promocion otorgada por el vendedor ----------
+
+/**
+ * El vendedor otorga un escalon de la promocion aunque la cantidad no lo
+ * alcance: un tramo (desde = su cantidad) o el precio especial por debajo del
+ * minimo (desde = CANTIDAD_MINIMA). null o vacio: "Por cantidad". Un escalon
+ * que no existe o que la cantidad ya alcanza no se guarda (es el automatico).
+ * Se guarda en la linea (promoOtorgado), asi sobrevive a una recarga; la linea
+ * sigue siendo mecanismo 'promocion'. Los ajustes de linea no se tocan
+ */
+export function otorgarPromo(sku, desde, cliente) {
+  if (getPendiente(cliente)) {
+    avisarBloqueado(cliente);
+    return null;
+  }
+  const codigo = String(sku).trim().toUpperCase();
+  const lineas = leer(cliente);
+  const l = lineas.find(x => x.sku === codigo);
+  if (!l) return null;
+
+  const d = Number(desde) || 0;
+  if (d && l.cantidad < d && window.Promos?.precioDeEscalon(codigo, d)) l.promoOtorgado = d;
+  else delete l.promoOtorgado;
+
+  guardar(lineas, cliente);
+  return l;
+}
+
+/**
+ * Despues de actualizar las promociones (promociones.js): borra los tramos
+ * otorgados que ya no existen, en el carrito en vista. Solo ese: el grupo de
+ * la promocion es el del cliente en vista, asi que en otro carrito no se puede
+ * saber. En los demas, detalle() igual ignora un escalon que no existe.
+ * Devuelve cuantos borro.
+ */
+export function limpiarOtorgadosInvalidos(cliente) {
+  if (getPendiente(cliente)) return 0;
+  const lineas = leer(cliente);
+  let n = 0;
+  lineas.forEach(l => {
+    if (l.promoOtorgado && !window.Promos?.precioDeEscalon(l.sku, l.promoOtorgado)) {
+      delete l.promoOtorgado;
+      n++;
+    }
+  });
+  if (n) guardar(lineas, cliente);
+  return n;
+}
 
 // ---------- ajustes de precio (solo vendedor) ----------
 
@@ -1090,6 +1167,7 @@ window.Carrito = {
   cantidadDe, cantidadItems, detalle, detalleVerificado, total, totales, carritosAbiertos, descartarViejos,
   ponerIcono, crearBotonFlotante, refrescarBotonFlotante,
   ajustarLinea, precioAjustado, getAjustePedido, setAjustePedido, DESC_CON_EXTRA, DESC_EXTRA,
+  otorgarPromo, limpiarOtorgadosInvalidos,
   getOrigen, setOrigen, marcarPrevia, getOrigenSkus, carritoHabilitado, puedePedir,
   getPendiente, setPendiente, borrarPendiente, getAlta, setAlta,
 };

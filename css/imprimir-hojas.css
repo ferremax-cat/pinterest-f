@@ -101,6 +101,15 @@
 .ih-totales.ih-totales-obs { height: var(--ih-totales-obs); }
 .ih-totales > .ih-solo-obs-linea { justify-content: flex-start; font-weight: 800; letter-spacing: .06em; }
 .ih-tabla tr.ih-obs-nota-fact td { font-size: 6.5pt; font-style: italic; }
+
+/* Detalle de promociones al final de la facturacion: titulo como el de
+   observaciones (MM.obsTitFact), encabezado en un renglon fino (MM.pisoFact) */
+.ih-tabla tr.ih-promo-cab-fact { height: var(--ih-obs-tit-fact); }
+.ih-tabla tr.ih-promo-cab-fact td { border-top: .6mm solid #000; border-bottom: .3mm solid #000; font-size: 7.5pt; letter-spacing: .08em; }
+.ih-tabla tr.ih-promo-enc-fact { height: var(--ih-piso-fact); }
+.ih-tabla tr.ih-promo-enc-fact td { font-size: 6.5pt; font-weight: 700; text-transform: uppercase; }
+/* Aplicacion: "otorgado (tramo 100+)" entra en los 28 mm utiles de la columna */
+.ih-tabla td.ih-promo-apl { font-size: 6.5pt; font-weight: 700; }
 /* Alerta para quien factura: borde y mayusculas, se ve en blanco y negro */
 .ih-verificar { padding: 0 1mm; border: .4mm solid #000; font-size: 6.5pt; font-weight: 800; }
 

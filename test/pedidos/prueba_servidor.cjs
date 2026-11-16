@@ -32,7 +32,8 @@ const ENC_ALTAS = ['id_pedido', 'alta', 'fecha', 'vendedor', 'cuenta_puente', 'c
   'domicilio', 'localidad', 'telefono', 'horario', 'formula', 'total_neto', 'cuenta_asignada', 'fecha_asignacion',
   'asignada_por', 'numero_pedido', 'impreso', 'fecha_impresion', 'impreso_por'];
 const ENC_LIN = ['id_pedido', 'orden', 'sku', 'nombre', 'cantidad', 'lista_cliente', 'lista_aplicada', 'mecanismo',
-  'precio_base', 'precio_unitario', 'desc_efectivo_linea', 'subtotal', 'origen_linea', 'color', 'desc_linea_pct'];
+  'precio_base', 'precio_unitario', 'desc_efectivo_linea', 'subtotal', 'origen_linea', 'color', 'desc_linea_pct',
+  'precio_promo', 'promo_desde'];
 const ENC_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave', 'codigo', 'texto', 'grupo', 'efecto',
   'lado', 'orden_item', 'sku', 'nombre', 'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario'];
 
@@ -1046,6 +1047,61 @@ if (!SOLO_CASO_REAL) {
   cacheSim.activa = false; cacheSim.datos = {}; cacheSim.getAll = null;
   ctx.getConfig = configAntes;
   console.log(`Casos de precio anterior: ${ok + fallas - antesH}`);
+}
+
+// =====================================================================
+// v41-promo-tramos: columnas P (precio_promo) y Q (promo_desde) de pedidos_lineas
+{
+  const antesP = ok + fallas;
+  reiniciar();
+  const pp = pedido(3, { descuentoTotal: 10 });
+  // SKU1: tramo de 5 otorgado con 1 unidad (precio especial 100, -5 %)
+  Object.assign(pp.lineas[0], { mecanismo: 'promocion', cantidad: 1, precio: 95, subtotal: 95,
+    descuentoLinea: 5, precioPromo: 100, promoDesde: 5 });
+  // SKU2: promocion sin tramos que corresponde por cantidad
+  Object.assign(pp.lineas[1], { mecanismo: 'promocion', cantidad: 2, precio: 100, subtotal: 200,
+    descuentoLinea: 0, precioPromo: 100, promoDesde: null });
+  // SKU3: linea normal; aunque lleguen datos de promocion, P y Q quedan vacias
+  Object.assign(pp.lineas[2], { precioPromo: 50, promoDesde: 3 });
+  pp.totalBruto = 695;
+  pp.totalNeto = 655;   // solo SKU3 lleva el -10 %: 95 + 200 + 400 x 0,9
+  const rp = guardar(pp);
+  ver('P0 pedido con lineas en promocion guardado', rp.ok, JSON.stringify(rp));
+  const fl = lin(pp.id);
+  ver('P1 cada fila tiene 17 columnas (A a Q)', fl.length === 3 && fl.every(f => f.length === 17), JSON.stringify(fl));
+  ver('P2 promocion con tramo: O = 5 (% del tramo), P = 100, Q = 5', fl[0][7] === 'promocion' && fl[0][14] === 5 &&
+    fl[0][15] === 100 && fl[0][16] === 5, JSON.stringify(fl[0]));
+  ver('P3 promocion sin tramo: P = 100 y Q vacia', fl[1][14] === 0 && fl[1][15] === 100 && fl[1][16] === '', JSON.stringify(fl[1]));
+  ver('P4 linea normal: P y Q vacias aunque lleguen datos', fl[2][15] === '' && fl[2][16] === '', JSON.stringify(fl[2]));
+  ver('P5 las columnas A a O no se movieron', JSON.stringify(fl[2].slice(0, 15)) ===
+    JSON.stringify([pp.id, 3, 'SKU3', 'Art 3', 3, 'D', 'D', 'lista_cliente', 100, 100, 0, 400, '', fl[2][13], 0]) &&
+    ['verde', 'amarillo', 'rojo'].includes(fl[2][13]), JSON.stringify(fl[2]));
+  // Semaforo sobre el neto: las lineas en promocion (tambien la otorgada) sin el factor del -10 %
+  const fc = cabDe(pp.id)[0];
+  ver('P6 semaforo: la promocion queda fuera del descuento sobre el total (655 en verde)', fc[C('verde')] === 655 &&
+    fc[C('total_neto')] === 655, `${fc[C('verde')]} ${fc[C('total_neto')]}`);
+  const regPP = hojas.registro_guardados.slice(1).find(f => f[1] === pp.id);
+  ver('P7 version del servidor: v41-promo-tramos', regPP?.[8] === 'v41-promo-tramos', regPP?.[8]);
+
+  const bp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
+  const lp = (bp.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
+  const de = s => lp.find(x => x.sku === s) || {};
+  ver('P8 a la impresion: precioPromo, promoDesde y el % del tramo', de('SKU1').precioPromo === 100 && de('SKU1').promoDesde === 5 &&
+    de('SKU1').descLinea === 5 && de('SKU1').precioUnitario === 95, JSON.stringify(de('SKU1')));
+  ver('P9 sin tramo: promoDesde null', de('SKU2').precioPromo === 100 && de('SKU2').promoDesde === null, JSON.stringify(de('SKU2')));
+  ver('P10 linea normal: precioPromo y promoDesde null', de('SKU3').precioPromo === null && de('SKU3').promoDesde === null, JSON.stringify(de('SKU3')));
+
+  // Una fila vieja (15 columnas, sin P ni Q) y una hoja sin esos encabezados: null, sin error
+  const vieja = fl[0].slice(0, 15);
+  vieja[0] = 'viejo';
+  hojas.pedidos_lineas.push(vieja);
+  hojas.pedidos_lineas[0] = ENC_LIN.slice(0, 15);
+  const bv = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
+  const lv = (bv.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
+  ver('P11 hoja sin los encabezados P y Q: precioPromo y promoDesde null, sin error', bv.ok !== false && lv.length === 3 &&
+    lv.every(x => x.precioPromo === null && x.promoDesde === null), JSON.stringify(lv));
+  hojas.pedidos_lineas[0] = ENC_LIN.slice();
+  console.log(`Casos de promociones con tramos: ${ok + fallas - antesP}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);

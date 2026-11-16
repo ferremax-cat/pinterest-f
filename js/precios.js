@@ -190,40 +190,72 @@ export function pintarPrecio(elemento, sku) {
   }
 
 
-    // Cinta de promocion: el precio de la pildora sigue siendo el de lista,
-  // la cinta avisa que hay un precio especial por cantidad
-  if (window.Promos && window.Carrito?.carritoHabilitado()) {
-    const fila2 = elemento.parentElement;
-    const cont2 = fila2?.parentElement;
-    const promo = window.Promos.promoDe(sku);
-
-    let cinta = cont2?.querySelector(':scope > .cinta-promo');
-    
-
-        if (promo && cont2) {
-      if (!cinta) {
-        cinta = document.createElement('div');
-        cinta.className = 'cinta-promo';
-        cinta.style.cssText = 'position:absolute !important;top:18px !important;' +
-          'left:0 !important;width:auto !important;height:auto !important;' +
-          'z-index:20 !important;background:#639922 !important;color:#fff !important;' +
-          'font-size:11px !important;font-weight:600 !important;' +
-          'padding:3px 10px 3px 8px !important;border-radius:0 12px 12px 0 !important;' +
-          'box-shadow:0 1px 4px rgba(0,0,0,.3) !important;margin:0 !important;';
-        cont2.appendChild(cinta);
-      }
-      // Actualizar siempre: la cantidad minima puede cambiar segun el cliente
-      cinta.textContent = `Promo desde ${promo.cantidadMinima} u.`;
-    } else {
-      cinta?.remove();
-    }
-  }
+  // Cinta de promocion: el precio de la pildora sigue siendo el de lista
+  pintarCinta(elemento.parentElement, sku);
 
   // El precio cambia el ancho disponible para el codigo y el alto de la
   // pildora: se acomoda en la proxima pasada, junto con los demas precios.
   // El ancho de la pildora tambien lo fija esa pasada, antes de pintar
   acomodarPildoras();
   return true;
+}
+
+/**
+ * Cinta de promocion sobre la imagen de la tarjeta. fila: el contenedor del
+ * precio (.bottom-row); la cinta va en el de la imagen, como el icono del
+ * carrito. El precio de la pildora sigue siendo el de lista: la cinta avisa
+ * que hay promocion y sus tramos, y con una cantidad cargada que alcanza la
+ * promocion, el precio c/u por cantidad (lo otorgado en una linea no se
+ * muestra aca: es una decision del renglon). Siempre arranca con el minimo,
+ * porque el precio de promocion rige desde ahi y el tramo se suma encima:
+ *   sin tramos:     "Promo desde 30 u."
+ *   con un tramo:   "Promo desde 1 u. · 5+: extra −5 %"
+ *   con dos:        "Promo desde 1 u. · 5+: extra −5 % · 10+: −8 %"
+ *   con cantidad:   "Promo desde 1 u. · 6 u.: $14.968,11 c/u"
+ * Ancho maximo hasta antes del icono del carrito (arriba a la derecha: 8 px
+ * del borde y 34 de ancho, mas 6 de aire) y hasta dos renglones; lo que no
+ * entre se corta con "…". Esta apoyada sobre la foto: no cambia el alto de la
+ * tarjeta. El texto entero va tambien en el title.
+ * La llaman pintarPrecio y carrito.js en cada carrito:cambio
+ */
+export function pintarCinta(fila, sku) {
+  if (!window.Promos || !window.Carrito?.carritoHabilitado()) return;
+  const cont = fila?.parentElement;
+  if (!cont) return;
+
+  const promo = window.Promos.promoDe(sku);
+  let cinta = cont.querySelector(':scope > .cinta-promo');
+  if (!promo) {
+    cinta?.remove();
+    return;
+  }
+  if (!cinta) {
+    cinta = document.createElement('div');
+    cinta.className = 'cinta-promo';
+    cinta.style.cssText = 'position:absolute !important;top:18px !important;' +
+      'left:0 !important;width:auto !important;height:auto !important;' +
+      // Hasta antes del icono del carrito, y como mucho dos renglones con "…"
+      'box-sizing:border-box !important;max-width:calc(100% - 48px) !important;' +
+      'white-space:normal !important;line-height:1.25 !important;overflow:hidden !important;' +
+      'display:-webkit-box !important;-webkit-box-orient:vertical !important;' +
+      '-webkit-line-clamp:2 !important;line-clamp:2 !important;' +
+      'z-index:20 !important;background:#639922 !important;color:#fff !important;' +
+      'font-size:11px !important;font-weight:600 !important;' +
+      'padding:3px 10px 3px 8px !important;border-radius:0 12px 12px 0 !important;' +
+      'box-shadow:0 1px 4px rgba(0,0,0,.3) !important;margin:0 !important;';
+    cont.appendChild(cinta);
+  }
+
+  // Actualizar siempre: la promocion y la cantidad pueden cambiar
+  // Con una cantidad cargada que alcanza la promocion, su precio c/u; si no,
+  // los tramos ("5+: extra −5 %")
+  const cant = window.Carrito.cantidadDe?.(sku) || 0;
+  const pr = cant ? window.Promos.precioSegunCantidad(sku, cant) : null;
+  const tramos = window.Promos.textoTramos(promo, true);
+  const texto = `Promo desde ${promo.cantidadMinima} u.` +
+    (pr ? ` · ${cant} u.: ${formatearPrecio(pr.precio)} c/u` : tramos ? ` · ${tramos}` : '');
+  cinta.textContent = texto;
+  cinta.title = texto;
 }
 
 /**
@@ -353,7 +385,7 @@ document.fonts?.ready.then(() => acomodarPildoras());
 
 // Disponible tambien sin modulos, para las rutas que estan en catalogo.html.
 // _acomodarAhora: una pasada inmediata, solo para medir desde la consola
-window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio,
+window.Precios = { precioLista, precioMostrado, formatearPrecio, pintarPrecio, pintarCinta,
 setClienteVista, getClienteVista, limpiarClienteVista, repintarTodos, acomodarPildoras,
 _acomodarAhora: acomodarAhora
  };

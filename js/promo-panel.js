@@ -2,8 +2,13 @@
  * PANEL DE PROMOCIONES
  *
  * Icono en la barra superior con el contador de promociones activas del
- * cliente. Al abrirlo muestra la lista y permite cargar la cantidad minima
- * de una vez, que es lo que el cliente quiere si le interesa la promo.
+ * cliente. Al abrirlo muestra la lista, con los tramos por cantidad, y
+ * permite cargar la cantidad minima de una vez, que es lo que el cliente
+ * quiere si le interesa la promo. El "+" carga el minimo, no el primer tramo:
+ * el minimo es la puerta de la promocion y el tramo compromete mas unidades
+ * de un toque; los tramos se ven en la fila, en el dialogo y en la cinta.
+ * Si las promociones cambian con la pagina abierta (promociones.js avisa con
+ * promos:actualizadas), el icono y la lista abierta se rehacen.
  */
 
 const SVG_TAG = `<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor">
@@ -67,6 +72,8 @@ function filasHtml(activas) {
     const prod = window.productManager?.getProduct(p.sku);
     const lista = window.Precios?.precioLista(p.sku);
     const enCarrito = window.Carrito?.cantidadDe(p.sku) || 0;
+    // "5 o más: −5 % · 10 o más: −8 %": se suman al precio de promocion
+    const tramos = window.Promos?.textoTramos(p) || '';
 
     return `
       <div class="pp-fila">
@@ -77,6 +84,7 @@ function filasHtml(activas) {
             <b>${fmt(p.precio)}</b> desde ${p.cantidadMinima} u.
             ${lista ? `<span class="pp-lista">lista ${fmt(lista)}</span>` : ''}
           </p>
+          ${tramos ? `<p class="pp-meta pp-tramos">Extra por cantidad: ${tramos}</p>` : ''}
         </div>
         <button class="pp-add ${enCarrito ? 'pp-cargado' : ''}" data-sku="${p.sku}"
                 data-min="${p.cantidadMinima}" title="Cargar ${p.cantidadMinima} unidades">
@@ -169,9 +177,32 @@ function dibujarLista(cont, activas) {
   });
 }
 
+/**
+ * Promociones nuevas con la pagina abierta: el contador del icono y, si la
+ * lista esta abierta, sus filas y la cabecera. Si ya no queda ninguna, se cierra
+ */
+function refrescarPorPromos() {
+  crearIcono();
+  const cont = document.getElementById('panel-promos');
+  if (!cont || abriendo) return;
+  const activas = window.Promos?.promosActivas() || [];
+  if (!activas.length) {
+    cont.remove();
+    return;
+  }
+  const venceMin = activas.map(p => p.vigencia).filter(Boolean).sort()[0];
+  const sub = cont.querySelector('.pp-sub');
+  if (sub) {
+    sub.textContent = `${activas.length} producto${activas.length !== 1 ? 's' : ''}` +
+      (venceMin ? ' · hasta el ' + venceMin.split('-').reverse().join('/') : '');
+  }
+  dibujarLista(cont, activas);
+}
+
 // El icono depende del cliente activo: rehacerlo cuando cambia
 document.addEventListener('carrito:cambio', crearIcono);
 document.addEventListener('cliente:cambio', crearIcono);
+document.addEventListener('promos:actualizadas', refrescarPorPromos);
 setTimeout(crearIcono, 1800);
 
 window.PromoPanel = { crearIcono, abrirPanel };
