@@ -9,6 +9,7 @@ Uso, desde la raiz del proyecto:
     python test/pedidos/prueba_version_app.py
 Termina con codigo 1 si alguna prueba falla.
 """
+import contextlib
 import io
 import json
 import os
@@ -59,12 +60,49 @@ ARCHIVOS = {
     'scripts/excel_to_json.py': 'print(1)\n',
 }
 
+seguidos_real = va.archivos_seguidos
 tmp = Path(tempfile.mkdtemp(prefix='version_app_'))
 try:
     for rel, texto in ARCHIVOS.items():
         p = tmp / rel
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(texto, encoding='utf-8', newline='\n')
+
+    # ---------- git ls-files: la funcion real en una carpeta que no es repositorio ----------
+    err = io.StringIO()
+    with contextlib.redirect_stderr(err):
+        r = seguidos_real(tmp)
+    ver('sin repositorio: archivos_seguidos da None', r is None, r)
+    ver('sin repositorio: avisa por la salida de error', 'AVISO: no se pudo usar git ls-files' in err.getvalue(), err.getvalue())
+
+    # En la carpeta sintetica, git simulado: primero "sin git" (la lista sale
+    # del disco, en silencio), que es el camino de casi toda esta prueba
+    va.archivos_seguidos = lambda raiz: None
+    lista_disco = va.archivos_de_la_app(tmp)
+    h_disco = va.calcular_huella(tmp)
+
+    # Un .js en el disco que git no sigue no cambia la huella
+    seguidos = set(lista_disco)
+    va.archivos_seguidos = lambda raiz: set(seguidos)
+    ver('git sigue todo: la misma lista que el disco', va.archivos_de_la_app(tmp) == lista_disco)
+    (tmp / 'js' / 'temporal.js').write_text('var x = 1;\n', encoding='utf-8')
+    ver('un .js no seguido por git no entra en la lista', 'js/temporal.js' not in va.archivos_de_la_app(tmp))
+    ver('un .js no seguido por git no cambia la huella', va.calcular_huella(tmp) == h_disco)
+    va.archivos_seguidos = lambda raiz: None
+    ver('sin git, el mismo .js si entra (lista del disco)', 'js/temporal.js' in va.archivos_de_la_app(tmp) and
+        va.calcular_huella(tmp) != h_disco)
+    (tmp / 'js' / 'temporal.js').unlink()
+
+    # Un archivo que git sigue pero que no esta en el disco no entra
+    va.archivos_seguidos = lambda raiz: set(seguidos) | {'js/borrado.js'}
+    ver('seguido por git pero borrado del disco: no entra', 'js/borrado.js' not in va.archivos_de_la_app(tmp) and
+        va.calcular_huella(tmp) == h_disco)
+    # Lo que git sigue fuera de los patrones tampoco entra
+    va.archivos_seguidos = lambda raiz: set(seguidos) | {'json/productos.json', 'scripts/excel_to_json.py', 'test-login.html'}
+    ver('seguido por git pero fuera de los patrones: no entra', va.archivos_de_la_app(tmp) == lista_disco)
+
+    # El resto de la prueba, con la lista del disco
+    va.archivos_seguidos = lambda raiz: None
 
     # ---------- que archivos entran ----------
     lista = va.archivos_de_la_app(tmp)
@@ -177,7 +215,15 @@ try:
     ver('sin version.json: se crea con "app"',
         codigo == 0 and json.loads(ruta_ver.read_text(encoding='utf-8')).get('app', {}).get('huella') == va.calcular_huella(tmp))
 finally:
+    va.archivos_seguidos = seguidos_real
     shutil.rmtree(tmp, ignore_errors=True)
+
+# ---------- el proyecto real: la lista sale de git ls-files ----------
+seguidos_proyecto = va.archivos_seguidos(RAIZ)
+ver('proyecto real: git ls-files responde', seguidos_proyecto is not None)
+if (RAIZ / 'js' / 'modificaciones-temp.js').exists():
+    ver('proyecto real: js/modificaciones-temp.js (ignorado por git) no entra en la huella',
+        'js/modificaciones-temp.js' not in va.archivos_de_la_app(RAIZ))
 
 # ---------- cobertura sobre el proyecto real (solo lectura) ----------
 # Todo lo local que cargan las paginas y los import de js/ tiene que estar en
