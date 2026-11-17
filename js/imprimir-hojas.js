@@ -1154,7 +1154,19 @@ function mostrarAviso(texto, botones, detalleHtml, clase) {
   });
 }
 
+/**
+ * Bandeja ocupada: impresion, reimpresion, confirmacion de hojas existentes u
+ * hoja de alta en curso. Mientras tanto la app no se recarga sola
+ * (actualizacion-app.js; la condicion la registra imprimir.js). Se pone en los
+ * tres puntos de entrada, despues de sus resguardos, y se borra en cerrar(),
+ * por donde terminan todos los caminos (terminar, cancelar, errores)
+ */
+function marcarOcupada() {
+  document.body.dataset.ocupadoBandeja = '1';
+}
+
 function cerrar() {
+  delete document.body.dataset.ocupadoBandeja;
   const av = document.getElementById('ih-aviso');
   if (av) av.hidden = true;
   const cont = document.getElementById('ih-hojas');
@@ -1217,6 +1229,8 @@ export function esIncompleto(p) {
 export function imprimir(pedidos, opc = {}) {
   pedidos = (pedidos || []).filter(Boolean);
   if (!pedidos.length || trabajando) return;
+  // Impresion y reimpresion (y "Imprimir de nuevo") entran por aca
+  marcarOcupada();
 
   // Resguardo: un cliente nuevo sin cuenta no se imprime (la bandeja no lo ofrece)
   const sinCuenta = pedidos.filter(p => p.faltaCuenta === true);
@@ -1470,6 +1484,7 @@ async function anularIntento() {
  */
 export function confirmarExistentes(pedido, opc = {}) {
   if (!pedido || trabajando || esIncompleto(pedido)) return;
+  marcarOcupada();
 
   opciones = opc;
   impresosConfirmados = new Set();
@@ -1528,6 +1543,7 @@ function htmlAlta(p) {
  */
 export function imprimirAlta(pedido, opc = {}) {
   if (!pedido?.datosAlta || trabajando) return;
+  marcarOcupada();
   opciones = opc;
   impresosConfirmados = new Set();
   tandas = [];

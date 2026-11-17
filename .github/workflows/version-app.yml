@@ -1,0 +1,62 @@
+name: Version de la app
+# La pagina lleva escrita su propia version (js/version-app.js) y la compara
+# con la publicada en json/version.json ("app"): asi una pestaña abierta con
+# codigo viejo se entera y se actualiza (js/actualizacion-app.js). Este
+# workflow calcula la version (huella de los js, css y html) con
+# scripts/version_app.py y la commitea en production, la rama que publica
+# GitHub Pages. js/version-app.js no se edita a mano.
+on:
+  push:
+    branches: [production]
+    # *.html y *.css: solo los de la raiz. Incluye json/version.json para
+    # reponer "app" si un merge la saca; el commit del bot lo vuelve a
+    # disparar una vez, calcula lo mismo y no commitea (no hay bucle)
+    paths:
+      - '*.html'
+      - '*.css'
+      - 'js/**'
+      - 'css/**'
+      - 'fontawesome/css/**'
+      - 'json/version.json'
+      - 'scripts/version_app.py'
+  # Red de seguridad: GitHub guarda una sola corrida en espera por grupo de
+  # concurrencia y descarta la mas vieja. Corre en la rama por defecto (por
+  # eso el checkout pide production de forma explicita)
+  schedule:
+    - cron: '30 * * * *'
+  workflow_dispatch:
+
+# El mismo grupo que update-json.yml: los dos bots nunca empujan a la vez
+concurrency:
+  group: update-json
+  cancel-in-progress: false
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      # La punta de production, siempre (el cron corre en la rama por defecto).
+      # El PAT queda guardado por el checkout y es el que usa el git push de
+      # abajo (no el GITHUB_TOKEN): asi el push dispara la publicacion de Pages
+      - uses: actions/checkout@v5
+        with:
+          ref: production
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      # Solo biblioteca estandar. Si version.json no se puede leer, no escribe
+      # nada y el paso falla (run en rojo)
+      - name: Calcular la version de la app
+        run: python scripts/version_app.py
+
+      - name: Commit de la version
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add js/version-app.js json/version.json
+          # Solo si cambio algo
+          git diff --staged --quiet || (git commit -m "Version de la app" && git push origin HEAD:production)

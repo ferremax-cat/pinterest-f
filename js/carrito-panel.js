@@ -1086,6 +1086,10 @@ async function confirmarPedido() {
   let etapa = 'inicio';
 
   try {
+    // Enviando: la app no se recarga sola ni con "Actualizar" (actualizacion-app.js),
+    // porque cortaria la llamada. Dentro del try: el finally la borra siempre
+    document.body.dataset.enviandoPedido = '1';
+
     // Con una confirmacion pendiente se reenvia exactamente el mismo pedido,
     // con el mismo id: el servidor lo reconoce y no lo duplica
     const pend = window.Carrito.getPendiente();
@@ -1308,6 +1312,8 @@ async function confirmarPedido() {
       avisar('No se pudo preparar el pedido. El carrito quedó guardado. Probá de nuevo y, si se repite, avisá.', 'error');
     }
   } finally {
+    // Tambien si fallo o quedo la confirmacion pendiente
+    delete document.body.dataset.enviandoPedido;
     btn.disabled = false;
     btn.textContent = textoOriginal;
   }

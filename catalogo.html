@@ -17,6 +17,9 @@
      <link rel="stylesheet" href="css/habituales.css">
      <!-- Agregamos la librería XLSX -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+     <!-- Version de esta pagina (window.VERSION_APP), antes de cualquier modulo.
+          GENERADO por scripts/version_app.py: ver js/actualizacion-app.js -->
+     <script src="js/version-app.js"></script>
 </head>
 
 <body>
@@ -4255,6 +4258,8 @@
      <!-- Nuevo modulo que controla precios -->
      <script type="module" src="js/precios.js"></script>
      <script type="module" src="js/frescura-precios.js"></script>
+     <!-- Version nueva publicada: franja y recarga sola (escucha version:leida de frescura-precios.js) -->
+     <script type="module" src="js/actualizacion-app.js"></script>
      <script type="module" src="js/carrito.js"></script>
      <script type="module" src="js/carrito-panel.js"></script>
      <script type="module" src="js/registro-fallos.js"></script>

@@ -19,8 +19,13 @@ jobs:
   convert-excel-to-json:
     runs-on: ubuntu-latest
     steps:
+      # La punta de la rama, no el commit que disparo el evento: si "Version de
+      # la app" (version-app.yml, mismo grupo de concurrencia) empujo antes, el
+      # push de abajo se rechazaria (non-fast-forward). En schedule y
+      # workflow_dispatch ya era asi
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.ref_name }}
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Python
