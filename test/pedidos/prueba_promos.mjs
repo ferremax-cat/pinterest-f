@@ -331,6 +331,50 @@ ver('envio con tramos, por debajo del primero: promoDesde = minimo', env('UNO').
 ver('envio linea normal: precioPromo y promoDesde null', env('NORMAL').mecanismo === 'lista_cliente' && env('NORMAL').precioPromo === null &&
   env('NORMAL').promoDesde === null, JSON.stringify(env('NORMAL')));
 
+// Marca de envio (body[data-enviando-pedido]): la app no se recarga sola ni con
+// "Actualizar" mientras se guarda (actualizacion-app.js). Se borra siempre
+{
+  const llamarOk = w.Api.llamar;
+  let marcaDurante = null;
+  const conMarca = respuesta => async body => {
+    if (body.accion === 'guardar_pedido') {
+      marcaDurante = document.body.dataset.enviandoPedido;
+      return respuesta(body);
+    }
+    return { ok: true };
+  };
+  C.vaciar(); C.agregar('NORMAL', 1);
+  w.Api.llamar = conMarca(b => llamarOk(b));
+  await abrirPanel();
+  ver('marca de envio: antes de confirmar no esta', document.body.dataset.enviandoPedido === undefined);
+  await confirmar();
+  ver('marca de envio: puesta durante el envio', marcaDurante === '1', marcaDurante);
+  ver('marca de envio: borrada al terminar bien', document.body.dataset.enviandoPedido === undefined);
+
+  // Sin respuesta: queda la confirmacion pendiente y la marca se borra igual
+  marcaDurante = null;
+  C.agregar('NORMAL', 1);
+  w.Api.llamar = conMarca(() => { throw new Error('sin conexion'); });
+  await abrirPanel();
+  $('#carrito-panel .cp-confirmar').click(); await tick(30);
+  ver('marca de envio: puesta aunque el envio falle', marcaDurante === '1');
+  ver('marca de envio: borrada con la confirmacion pendiente', !!C.getPendiente() && document.body.dataset.enviandoPedido === undefined);
+
+  // Error del servidor al reintentar: sigue pendiente, la marca se borra
+  marcaDurante = null;
+  w.Api.llamar = conMarca(() => ({ ok: false, error: 'algo' }));
+  $('#carrito-panel .cp-reintentar').click(); await tick(30);
+  ver('marca de envio: borrada con un error del servidor', marcaDurante === '1' && !!C.getPendiente() &&
+    document.body.dataset.enviandoPedido === undefined);
+
+  // Reintento bien: se guarda y queda limpio para lo que sigue
+  w.Api.llamar = conMarca(b => llamarOk(b));
+  $('#carrito-panel .cp-reintentar').click(); await tick(30);
+  $('#carrito-panel .cp-cerrar-exito')?.click(); await tick();
+  ver('marca de envio: reintento guardado, sin pendiente ni marca', !C.getPendiente() && document.body.dataset.enviandoPedido === undefined);
+  w.Api.llamar = llamarOk;
+}
+
 // =====================================================================
 // 8. Cinta de la tarjeta y panel de promociones
 C.vaciar();

@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/imprimir.css">
     <link rel="stylesheet" href="css/imprimir-hojas.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+    <!-- Version de esta pagina (window.VERSION_APP), antes de cualquier modulo.
+         GENERADO por scripts/version_app.py: ver js/actualizacion-app.js -->
+    <script src="js/version-app.js"></script>
 </head>
 
 <body>
@@ -41,6 +44,8 @@
             <div class="im-sinc">
                 <span id="im-sinc-texto" class="im-sinc-texto" aria-live="polite"></span>
                 <button type="button" id="im-actualizar" class="im-actualizar">Actualizar</button>
+                <!-- Version de la app (la pinta js/actualizacion-app.js) -->
+                <span id="im-version" class="im-version" style="font-size:11px;color:#888">Versión</span>
             </div>
 
             <!-- Filtros de la lista: se aplican en el navegador, en las dos pestañas -->
@@ -94,6 +99,9 @@
 
     <!-- api.js primero: define window.Api antes de que lo use la bandeja -->
     <script type="module" src="js/api.js"></script>
+    <!-- Antes de imprimir.js: define window.ActualizacionApp, donde la bandeja
+         registra su condicion y su lectura de version.json -->
+    <script type="module" src="js/actualizacion-app.js"></script>
     <script type="module" src="js/imprimir.js"></script>
 
 </body>

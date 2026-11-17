@@ -14,6 +14,8 @@ import { RAIZ, JSDOM, prepararModulos } from './preparar.mjs';
 // Sin destacados.js (control con el codigo anterior) se prueba igual lo que hay
 const modulos = ['frescura-precios.js', 'datos-catalogo.js', 'aviso-pedido.js'];
 if (existsSync(join(RAIZ, 'js', 'destacados.js'))) modulos.push('destacados.js');
+// El ultimo toque lo lleva actividad.js (lo importa destacados.js)
+if (existsSync(join(RAIZ, 'js', 'actividad.js'))) modulos.push('actividad.js');
 const importar = prepararModulos(modulos);
 
 let ok = 0, fallas = 0;

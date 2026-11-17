@@ -172,6 +172,7 @@ class FuncionalidadesMenu {
                     <p>No hay funcionalidades disponibles</p>
                 </div>
             `;
+            this.agregarRenglonVersion(menuContent);
             return;
         }
         
@@ -191,8 +192,27 @@ class FuncionalidadesMenu {
             
             menuContent.appendChild(item);
         });
-        
+
+        this.agregarRenglonVersion(menuContent);
         console.log('✅ Menú generado con', this.funcionalidadesDisponibles.length, 'items');
+    }
+
+    /**
+     * Ultimo renglon del menu, no clickeable: la version de la app que corre
+     * en esta pagina. Lo pinta js/actualizacion-app.js (y "actualizar" si hay
+     * una nueva); el menu puede generarse antes o despues de que cargue ese
+     * modulo, por eso lo pintan los dos. Va tambien sin funcionalidades.
+     */
+    agregarRenglonVersion(menuContent) {
+        const renglon = document.createElement('div');
+        renglon.className = 'menu-version';
+        renglon.id = 'menu-version';
+        renglon.style.cssText = 'padding:8px 14px;font-size:11px;color:#888;' +
+            'border-top:1px solid #eee;cursor:default';
+        renglon.textContent = 'Versión ' + (window.VERSION_APP?.huella
+            ? String(window.VERSION_APP.huella).slice(0, 6) : 'sin versión');
+        menuContent.appendChild(renglon);
+        window.ActualizacionApp?.pintarEnMenu?.();
     }
 
     /**

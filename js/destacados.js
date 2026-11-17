@@ -16,6 +16,7 @@
  * recarga o "Limpiar" ya la usan.
  */
 import { imagenes } from './datos-catalogo.js';
+import { sinTocarHace } from './actividad.js';
 
 // Cache HTTP del servidor (unos 10 min), como en frescura-precios.js
 const MARGEN_MS = 15 * 60 * 1000;
@@ -38,11 +39,7 @@ let huellaRevisada = null;   // ultima huella ya resuelta en esta pestaña
 let pendientes = null;       // lista nueva que falta pintar
 let reintento = 0;
 
-// Ultima vez que el usuario toco la pagina
-let ultimoToque = -Infinity;
-const anotar = () => { ultimoToque = performance.now(); };
-['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll']
-  .forEach(t => window.addEventListener(t, anotar, { capture: true, passive: true }));
+// La ultima vez que el usuario toco la pagina la lleva actividad.js
 const conMouse = window.matchMedia?.('(hover: hover) and (pointer: fine)');
 
 const enTiempoMuerto = () => new Promise(r =>
@@ -118,7 +115,7 @@ function muestraDestacados(galeria) {
 /** Que el cambio no le mueva una tarjeta que esta mirando o por tocar */
 function quieto(galeria) {
   if (document.getElementById('carrito-panel')?.style.display === 'flex') return false;
-  if (performance.now() - ultimoToque < QUIETO_MS) return false;
+  if (!sinTocarHace(QUIETO_MS)) return false;
   if (window.scrollY > window.innerHeight / 4) return false;
   if (conMouse?.matches && galeria.matches(':hover')) return false;
   return !galeria.contains(document.activeElement);

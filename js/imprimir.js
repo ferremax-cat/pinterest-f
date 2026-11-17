@@ -1022,4 +1022,26 @@ async function iniciar() {
   });
 }
 
+/**
+ * Version de la app (js/actualizacion-app.js, cargado antes en imprimir.html).
+ * La bandeja no tiene frescura-precios.js: lee version.json por su cuenta cada
+ * 15 minutos, solo visible, y al volver a la ventana. No se recarga sola con
+ * algo a medio hacer: si una de estas condiciones lanza un error, cuenta como
+ * bloqueada (actualizacion-app.js), nunca como libre
+ */
+function prepararActualizacion() {
+  const app = window.ActualizacionApp;
+  if (!app) return;
+  app.agregarCondicion(() => {
+    const aviso = document.getElementById('ih-aviso');
+    return seleccion.size === 0                            // pedidos marcados (Set del modulo)
+      && !asignando                                        // carga del numero de cuenta de un alta abierta
+      && !document.body.dataset.ocupadoBandeja             // impresion, reimpresion, confirmacion u hoja de alta (imprimir-hojas.js)
+      && !(aviso && !aviso.hidden)                         // aviso o pregunta de imprimir-hojas en pantalla
+      && !$('im-buscar')?.value.trim();                    // buscador de la bandeja (id="im-buscar")
+  });
+  app.leerVersionCada(15 * 60 * 1000);
+}
+
+prepararActualizacion();
 iniciar();
