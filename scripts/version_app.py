@@ -11,7 +11,16 @@ en json/version.json (clave "app"), que el navegador ya lee cada 15 minutos
 La version es una huella de todos los archivos de la app (ARCHIVOS_DE_LA_APP):
 cambia cuando cambia cualquiera de ellos, sin acordarse de nada. La calcula el
 workflow "Version de la app" (.github/workflows/version-app.yml) en cada push
-a production; js/version-app.js NO se edita a mano.
+a production; js/version-app.js lo mantiene SOLO el bot: no se edita a mano ni
+se corre este script sin --comprobar fuera del workflow.
+
+La lista de archivos sale de git ls-files (lo que esta en el repositorio),
+filtrada con ARCHIVOS_DE_LA_APP: un archivo local que git no sigue (por
+ejemplo, js/modificaciones-temp.js, ignorado en .gitignore) no entra, y la
+huella local da la misma que la del runner. ls-files lista el INDICE: un
+archivo nuevo sin git add todavia no entra. Si git no esta o falla (por
+ejemplo, en una carpeta que no es un repositorio), la lista sale del disco
+y se avisa por la salida de error.
 
 - huella: sha256 de (ruta + contenido) de cada archivo, en orden, con el
   contenido de CRLF a LF (da lo mismo en Windows y en el runner de Linux).
@@ -31,6 +40,7 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -50,8 +60,30 @@ ARCHIVOS_DE_LA_APP = (
 )
 
 
+def archivos_seguidos(raiz=RAIZ):
+    """
+    Rutas relativas (con /) de los archivos que git sigue en raiz (git ls-files),
+    o None si git no esta o el comando falla. Es el unico comando de git del script.
+    """
+    try:
+        r = subprocess.run(['git', 'ls-files', '-z'], cwd=str(raiz), capture_output=True, timeout=60)
+    except (OSError, subprocess.SubprocessError) as e:
+        motivo = str(e)
+    else:
+        if r.returncode == 0:
+            return {p for p in r.stdout.decode('utf-8', errors='replace').split('\0') if p}
+        motivo = r.stderr.decode('utf-8', errors='replace').strip() or f'codigo {r.returncode}'
+    print(f'AVISO: no se pudo usar git ls-files ({motivo}); la lista sale del disco '
+          'y puede incluir archivos que git no sigue', file=sys.stderr)
+    return None
+
+
 def archivos_de_la_app(raiz=RAIZ):
-    """Rutas relativas (con /), ordenadas, de los archivos que forman la version"""
+    """
+    Rutas relativas (con /), ordenadas, de los archivos que forman la version:
+    los del disco que cumplen ARCHIVOS_DE_LA_APP y que git sigue. Sin git, los
+    del disco (archivos_seguidos avisa)
+    """
     raiz = Path(raiz)
     rutas = set()
     for patron in ARCHIVOS_DE_LA_APP:
@@ -62,6 +94,9 @@ def archivos_de_la_app(raiz=RAIZ):
             if rel == RUTA_JS or (patron == '*.html' and p.name.startswith('test-')):
                 continue
             rutas.add(rel)
+    seguidos = archivos_seguidos(raiz)
+    if seguidos is not None:
+        rutas &= seguidos
     return sorted(rutas)
 
 
@@ -138,7 +173,8 @@ def actualizar(raiz=RAIZ, comprobar=False):
             print(f'DESACTUALIZADO: la huella actual es {huella}; '
                   f'version-app.js tiene {js["huella"] if js else "nada"}, '
                   f'version.json tiene {app.get("huella") if app else "nada"}. '
-                  'Correr python scripts/version_app.py')
+                  'En desarrollo es normal: la actualiza el bot en production. '
+                  'No correr sin --comprobar.')
             return 1
         print(f'Al dia: {huella} ({generado})')
         return 0
