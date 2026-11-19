@@ -298,16 +298,23 @@ function limpiarCacheConfig() {
 const HOJA_OBS = 'observaciones';
 const HOJA_PED_OBS = 'pedidos_observaciones';
 // Columnas de pedidos_observaciones, en este orden: una fila por articulo
-// (las observaciones sin articulos, una fila sin sku)
+// (las observaciones sin articulos, una fila sin sku). detalle: el texto que
+// arma el servidor con los datos de la observacion (la de entrega: "jueves 20/11 · RF")
 const COLS_PED_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave',
   'codigo', 'texto', 'grupo', 'efecto', 'lado', 'orden_item', 'sku', 'nombre',
-  'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario'];
+  'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario', 'detalle'];
 // Precio de la 117: mecanismos y descuentos que acepta (11,65 = -7% y ademas -5%)
 const MECANISMOS_117 = ['lista_cliente', 'otra_lista', 'precio_libre'];
 const DESC_117 = [0, 5, 7, 11.65];
-const EFECTOS_OBS = ['informativa', 'descuenta', 'suma', 'ajuste'];
+// entrega: la entrega especial (dia y quien entrega). La app la reconoce por
+// el efecto, no por el codigo; una sola fila activa (dejarUnaEntrega)
+const EFECTOS_OBS = ['informativa', 'descuenta', 'suma', 'ajuste', 'entrega'];
 const MAX_OBS = 20;
 const MAX_ITEMS_OBS = 60;
+// Entrega especial: dias por getUTCDay (0 = domingo, sin entrega) y rango de fechas
+const DIAS_ENTREGA = ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sa'];
+const NOMBRES_DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const MAX_DIAS_ENTREGA = 180;
 
 function normalizarObs(s) {
   return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
@@ -336,20 +343,80 @@ function getObservaciones() {
       const texto = I.texto >= 0 ? String(f[I.texto] || '').trim() : '';
       if (!texto) continue;
       const codigo = I.codigo >= 0 ? String(f[I.codigo] || '').trim() : '';
-      const efecto = normalizarObs(f[I.efecto]);
+      const efecto = EFECTOS_OBS.indexOf(normalizarObs(f[I.efecto])) >= 0 ? normalizarObs(f[I.efecto]) : 'informativa';
       lista.push({
         clave: codigo || texto,
         codigo,
         texto,
-        // Las de Mercaderia llevan articulos; las de Condiciones, nada mas
-        grupo: normalizarObs(f[I.grupo]) === 'mercaderia' ? 'mercaderia' : 'condiciones',
-        efecto: EFECTOS_OBS.indexOf(efecto) >= 0 ? efecto : 'informativa',
+        // Las de Mercaderia llevan articulos; las de Condiciones, nada mas. La
+        // de entrega no lleva articulos: Condiciones aunque la hoja diga otra cosa
+        grupo: efecto !== 'entrega' && normalizarObs(f[I.grupo]) === 'mercaderia' ? 'mercaderia' : 'condiciones',
+        efecto,
         activa: I.activa < 0 || String(f[I.activa]).trim().toUpperCase() === 'SI'
       });
     }
   }
+  dejarUnaEntrega(lista);
   cache.put('obs_catalogo', JSON.stringify(lista), 3600);
   return lista;
+}
+
+/**
+ * El efecto entrega va en una sola fila activa: si hay mas, queda la primera
+ * (en el orden de la hoja) y las demas pasan a inactivas, con aviso en el
+ * registro. La app no las ofrece y guardar_pedido las rechaza
+ */
+function dejarUnaEntrega(lista) {
+  let vista = false;
+  lista.forEach(o => {
+    if (o.efecto !== 'entrega' || !o.activa) return;
+    if (vista) {
+      o.activa = false;
+      console.warn('Observaciones: mas de una fila activa con efecto entrega; se ignora la ' + o.clave);
+    }
+    vista = true;
+  });
+  return lista;
+}
+
+/**
+ * Datos de la entrega especial que manda el navegador: { fecha: 'AAAA-MM-DD',
+ * dia: 'lu'..'sa' (el boton que se toco) o '' (otra fecha), quien: sigla }.
+ * Aca, lo que no depende del dia de hoy: una fecha real, nunca un domingo, y
+ * dia, si viene, el de la fecha. El rango contra hoy (entregaEnRango) se
+ * controla en guardar_pedido despues de buscar el id: un reintento de un
+ * pedido ya guardado no se rechaza aunque la fecha haya pasado.
+ * Devuelve { detalle: 'jueves 20/11 · RF', ms: la fecha en UTC } o { error }
+ */
+function validarEntrega(ent) {
+  if (!ent || typeof ent !== 'object') return { error: 'entrega_incompleta' };
+  const fecha = String(ent.fecha || '').trim();
+  const quien = String(ent.quien || '').trim().toUpperCase();
+  const dia = String(ent.dia || '').trim().toLowerCase();
+  if (!fecha || !/^[A-Z]{1,4}$/.test(quien)) return { error: 'entrega_incompleta' };
+
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fecha);
+  if (!m) return { error: 'entrega_fecha_invalida' };
+  // Sin zona horaria: la fecha tal cual, en UTC
+  const t = Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  const d = new Date(t);
+  if (d.getUTCFullYear() !== Number(m[1]) || d.getUTCMonth() !== Number(m[2]) - 1 || d.getUTCDate() !== Number(m[3])) {
+    return { error: 'entrega_fecha_invalida' };
+  }
+  const n = d.getUTCDay();
+  if (n === 0 || (dia && DIAS_ENTREGA[n] !== dia)) return { error: 'entrega_fecha_invalida' };
+  return { detalle: NOMBRES_DIA[n] + ' ' + m[3] + '/' + m[2] + ' · ' + quien, ms: t };
+}
+
+/**
+ * La fecha de la entrega (ms, UTC, de validarEntrega) de ayer (margen por la
+ * hora del celular) a hoy + MAX_DIAS_ENTREGA, con la hora de Argentina
+ */
+function entregaEnRango(ms) {
+  const h = Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd').split('-').map(Number);
+  const hoy = Date.UTC(h[0], h[1] - 1, h[2]);
+  const DIA_MS = 86400000;
+  return ms >= hoy - DIA_MS && ms <= hoy + MAX_DIAS_ENTREGA * DIA_MS;
 }
 
 /**
@@ -371,6 +438,16 @@ function validarObservaciones(entrada) {
     const e = entrada[k] || {};
     const def = catalogo[String(e.clave || '').trim()];
     if (!def || !def.activa) return { error: 'observacion_inactiva' };
+
+    // La entrega especial: una por pedido, con fecha y quien entrega
+    let detalle = '', entregaMs = null;
+    if (def.efecto === 'entrega') {
+      if (obs.some(o => o.efecto === 'entrega')) return { error: 'entrega_repetida' };
+      const ve = validarEntrega(e.entrega);
+      if (ve.error) return ve;
+      detalle = ve.detalle;
+      entregaMs = ve.ms;
+    }
 
     const items = [];
     if (def.grupo === 'mercaderia') {
@@ -415,15 +492,21 @@ function validarObservaciones(entrada) {
       }
     }
     obs.push({ clave: def.clave, codigo: def.codigo, texto: def.texto, grupo: def.grupo,
-               efecto: def.efecto, items });
+               efecto: def.efecto, items, detalle,
+               // Solo la de entrega: su fecha, para entregaEnRango (no se escribe)
+               ...(entregaMs !== null ? { entregaMs } : {}) });
   }
   return { obs };
 }
 
-/** Resumen de texto para motivo_obs (compatibilidad): "113 MERCADERIA ... (2 art.) · PAGA TOTAL DE BOLETA" */
+/**
+ * Resumen de texto para motivo_obs (compatibilidad): "113 MERCADERIA ... (2 art.)
+ * · PAGA TOTAL DE BOLETA · 170 ENTREGA ESPECIAL (jueves 20/11 · RF)"
+ */
 function resumenObservaciones(obs) {
   return obs.map(o => (o.codigo ? o.codigo + ' ' : '') + o.texto +
-    (o.items.length ? ' (' + o.items.length + ' art.)' : '')).join(' · ');
+    (o.items.length ? ' (' + o.items.length + ' art.)' : '') +
+    (o.detalle ? ' (' + o.detalle + ')' : '')).join(' · ');
 }
 
 /**
@@ -452,7 +535,9 @@ function leerObservacionesDe(ss, ids) {
     if (!o) {
       o = { orden, clave, codigo: String(r[C.codigo] || ''),
             texto: String(r[C.texto] || ''), grupo: String(r[C.grupo] || ''),
-            efecto: String(r[C.efecto] || 'informativa'), items: [] };
+            efecto: String(r[C.efecto] || 'informativa'),
+            // Los pedidos de antes de la columna: vacio
+            detalle: String(r[C.detalle] || ''), items: [] };
       lista.push(o);
     }
     o.orden = Math.min(o.orden, orden);
@@ -667,7 +752,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v41-promo-tramos';
+const VERSION_API = 'v42-entrega';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1088,7 +1173,8 @@ function filasObsPedido(id, fecha, cuenta, etiqueta, obs) {
       id, fecha, cuenta, etiqueta, k + 1, o.clave, o.codigo, o.texto, o.grupo, o.efecto,
       it ? it.lado : '', it ? j + 1 : '', it ? it.sku : '', it ? it.nombre : '',
       it ? it.cantidad : '', it ? it.precioLista : '',
-      it ? it.mecanismo : '', it ? it.listaAplicada : '', it ? it.descLinea : '', it ? it.precioUnitario : ''
+      it ? it.mecanismo : '', it ? it.listaAplicada : '', it ? it.descLinea : '', it ? it.precioUnitario : '',
+      o.detalle || ''
     ]));
   });
   return filas;
@@ -1423,6 +1509,20 @@ function accionGuardarPedido(body) {
     const hAltas = alta ? hojaAltas(ss) : null;
     if (alta && !hAltas) {
       return responder({ ok: false, error: 'faltan_columnas_alta' });
+    }
+
+    // Entrega especial fuera de fecha (de ayer a hoy + 180): se rechaza solo si
+    // de este pedido no hay nada escrito, y entonces entrega_vencida garantiza
+    // que no se guardo nada (la app lo manda a corregir). Uno ya guardado salio
+    // arriba por el camino de duplicado; uno que un intento anterior dejo a
+    // medias ya habia pasado este control con su fecha: se completa. Las
+    // lecturas de mas, solo en este caso raro
+    const ent = obs.find(o => o.efecto === 'entrega');
+    if (ent && !entregaEnRango(ent.entregaMs)) {
+      const hayAlgo = filasDeId(hLin, ped.id).length > 0 ||
+        (hObs && filasDeId(hObs, ped.id).length > 0) ||
+        (hAltas && filasDeId(hAltas, ped.id).length > 0);
+      if (!hayAlgo) return responder({ ok: false, error: 'entrega_vencida' });
     }
 
     const ahora = new Date();

@@ -443,6 +443,10 @@ function filasObservaciones(obs, paraFact) {
       return { ...it, sku, nombre: it.nombre || datos.productos[sku]?.name || '' };
     });
     const filas = [{ tipo: 'obsTit', o }];
+    // El detalle (la entrega: "jueves 20/11 · RF"), en su propio renglon debajo
+    // del titulo: en el mismo, un texto largo lo dejaria fuera (los renglones
+    // no se parten, lo que no entra se recorta). No es titulo: baja con el suyo
+    if (o.detalle) filas.push({ tipo: 'obsDet', o, texto: o.detalle });
     if (o.efecto === 'ajuste') {
       ['facturado', 'correspondia'].forEach(lado => {
         const del = items.filter(it => it.lado === lado);
@@ -597,12 +601,14 @@ const renglonesFact = it => Math.max(1, Math.ceil(it.sku.length / COD_POR_RENGLO
 
 /** Alto en mm de un renglon de facturacion: titulo de piso o linea */
 // Titulos (piso, observaciones) en un renglon fino; lineas y articulos de observaciones, segun su codigo
+// (obsDet, el detalle de una observacion: como su titulo)
 const ALTO_TITULO_FACT = { piso: () => MM.pisoFact, obsLado: () => MM.pisoFact,
-  obsCab: () => MM.obsTitFact, obsTit: () => MM.obsTitFact, obsNota: () => MM.pisoFact,
+  obsCab: () => MM.obsTitFact, obsTit: () => MM.obsTitFact, obsDet: () => MM.obsTitFact, obsNota: () => MM.pisoFact,
   promoCab: () => MM.obsTitFact, promoEnc: () => MM.pisoFact };
 const altoFilaFact = f => (ALTO_TITULO_FACT[f.tipo] ? ALTO_TITULO_FACT[f.tipo]() : renglonesFact(f.it) * MM.filaFact);
-// Los renglones del detalle de promociones no son titulos: el titulo del bloque baja con el primero
-const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem' && f.tipo !== 'promoItem';
+// Los renglones del detalle de promociones no son titulos: el titulo del bloque baja con el primero.
+// El detalle de una observacion tampoco: su titulo nunca queda al pie sin el
+const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem' && f.tipo !== 'promoItem' && f.tipo !== 'obsDet';
 
 /**
  * Hojas de facturacion: totales y firmas al final de la ultima.
@@ -702,6 +708,7 @@ function htmlObsPrep(b) {
         `${EFECTO_OBS[f.o.efecto] ? ` <span>· ${EFECTO_OBS[f.o.efecto]}</span>` : ''}</div>`;
     }
     if (f.tipo === 'obsLado') return `<div class="ih-obs-lado">${esc(f.texto)}</div>`;
+    if (f.tipo === 'obsDet') return `<div class="ih-obs-det">${esc(f.texto)}</div>`;
     // Cuadradito para tildar en el deposito, como OK en los articulos; en
     // las de OBS_CON_FOTO, con la foto (la misma de la grilla)
     return `<div class="ih-obs-item${f.foto ? ' ih-obs-item-foto' : ''}"><i></i>${f.foto ? htmlFoto(f.it.sku) : ''}` +
@@ -884,6 +891,7 @@ function htmlTablaFact(filas, continua) {
     if (f.tipo === 'obsCab') return '<tr class="ih-obs-cab-fact"><td colspan="7"><b>OBSERVACIONES</b></td></tr>';
     if (f.tipo === 'obsTit') return htmlObsTitFact(f.o);
     if (f.tipo === 'obsLado') return `<tr class="ih-obs-lado-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
+    if (f.tipo === 'obsDet') return `<tr class="ih-obs-det-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
     if (f.tipo === 'obsItem') return htmlObsItemFact(f);
     if (f.tipo === 'obsNota') return `<tr class="ih-obs-nota-fact"><td></td><td colspan="6">${esc(f.texto)}</td></tr>`;
     if (f.tipo === 'promoCab') return '<tr class="ih-promo-cab-fact"><td colspan="7"><b>DETALLE DE PROMOCIONES</b></td></tr>';

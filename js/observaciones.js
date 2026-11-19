@@ -8,11 +8,15 @@
  *   catalogo (BuscadorV2), con cantidad obligatoria.
  * - La de ajuste (126) lleva lo facturado y lo que correspondia, por separado.
  * - Las de Condiciones no llevan nada mas.
+ * - La de entrega especial (efecto 'entrega', la 170) lleva el dia y quien
+ *   entrega: la reconoce el efecto, no el codigo.
  * Se guardan en el ajuste del carrito (Carrito.getAjustePedido().observaciones):
  *   { id, clave, items: [{ sku, nombre, cantidad, lado, mecanismo?, listaForzada?,
- *     precioLibre?, descuento?, descuentoExtra? }] }
+ *     precioLibre?, descuento?, descuentoExtra? }], entrega? }
  * (lado: 'facturado' o 'correspondia', solo en la de ajuste; los campos de
- * precio, los mismos que una linea del pedido, solo en la 117).
+ * precio, los mismos que una linea del pedido, solo en la 117; entrega:
+ * { fecha: 'AAAA-MM-DD', dia: 'lu'..'sa' o '' (otra fecha), quien: sigla },
+ * solo en la de entrega).
  */
 
 import { abrirHoja, esAncha } from './hoja.js';
@@ -21,7 +25,8 @@ const LADOS = [
   { lado: 'facturado', titulo: 'Lo facturado' },
   { lado: 'correspondia', titulo: 'Lo que correspondía' }
 ];
-const EFECTO_TEXTO = { informativa: 'Informativa', descuenta: 'Descuenta', suma: 'Suma', ajuste: 'Ajuste' };
+const EFECTO_TEXTO = { informativa: 'Informativa', descuenta: 'Descuenta', suma: 'Suma', ajuste: 'Ajuste',
+  entrega: 'Día y quién entrega' };
 const MAX_RESULTADOS = 30;
 const CLAVE_USO = 'obsUso';
 
@@ -67,6 +72,78 @@ export const defDe = (config, clave) => (catalogo(config) || []).find(d => d.cla
 /** "113 MERCADERIA ENTREGADA" */
 export const nombreObs = def => (def.codigo ? def.codigo + ' ' : '') + def.texto;
 
+// ---------- entrega especial (efecto 'entrega') ----------
+
+/** La de entrega: el dia y quien entrega, sin articulos */
+export const esEntrega = def => def?.efecto === 'entrega';
+
+// Por getDay(): 0 = domingo (sin entrega). Los botones: lu a sa
+const DIAS = ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sa'];
+const NOMBRES_DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+  'septiembre', 'octubre', 'noviembre', 'diciembre'];
+// Hasta cuantos dias adelante (el mismo tope que el servidor)
+const MAX_DIAS_ENTREGA = 180;
+// Diferencia entre el reloj del dispositivo y el del servidor a partir de la cual se avisa
+const RELOJ_MAL_MS = 12 * 3600 * 1000;
+
+const dos = n => String(n).padStart(2, '0');
+// Fechas 'AAAA-MM-DD' con la hora local del dispositivo (sin toISOString: no se corren por el UTC)
+const aIso = d => `${d.getFullYear()}-${dos(d.getMonth() + 1)}-${dos(d.getDate())}`;
+const deIso = iso => {
+  const [y, m, d] = String(iso).split('-').map(Number);
+  return new Date(y, m - 1, d);
+};
+const masDias = (iso, n) => {
+  const d = deIso(iso);
+  return aIso(new Date(d.getFullYear(), d.getMonth(), d.getDate() + n));
+};
+/** Hoy en el dispositivo, 'AAAA-MM-DD' */
+export const hoyIso = () => aIso(new Date());
+
+/** La proxima vez que cae ese dia ('lu'..'sa') desde hoy, hoy incluido: 'AAAA-MM-DD' */
+export function proximoDia(dia, hoy = hoyIso()) {
+  const n = DIAS.indexOf(dia);
+  return masDias(hoy, (n - deIso(hoy).getDay() + 7) % 7);
+}
+
+/** "ju 20/11 · RF" (el renglon del panel) */
+export function fmtEntregaCorta(e) {
+  if (!e?.fecha) return '';
+  const d = deIso(e.fecha);
+  return `${DIAS[d.getDay()]} ${dos(d.getDate())}/${dos(d.getMonth() + 1)}${e.quien ? ' · ' + e.quien : ''}`;
+}
+
+/** "jueves 20 de noviembre de 2026" (la confirmacion de la hoja) */
+export function fmtEntregaLarga(fecha) {
+  const d = deIso(fecha);
+  return `${NOMBRES_DIA[d.getDay()]} ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`;
+}
+
+/**
+ * Vendedores de funcionalidades_usuarios.json: rol vendedor_estandar con
+ * codigo (los clientes y los admin no tienen), sin repetir, por sigla:
+ * [{ codigo: 'CS', nombre: 'CHRISTIAN' }, ...]
+ */
+export function vendedores(datos) {
+  const vistos = new Set();
+  return Object.values(datos?.usuarios || {})
+    .filter(u => u && u.rol === 'vendedor_estandar')
+    .map(u => ({ codigo: String(u.codigo || '').trim().toUpperCase(), nombre: String(u.nombre || '').trim() }))
+    .filter(v => v.codigo && !vistos.has(v.codigo) && vistos.add(v.codigo))
+    .sort((a, b) => a.codigo.localeCompare(b.codigo));
+}
+
+/** Lo que le falta a la entrega para poder confirmar, o '' (hoy: para las pruebas) */
+export function faltaEntrega(e, hoy = hoyIso()) {
+  if (!e?.fecha || !/^\d{4}-\d{2}-\d{2}$/.test(e.fecha)) return 'falta el día';
+  if (!e.quien) return 'falta quién entrega';
+  if (e.fecha < hoy) return 'la fecha de entrega ya pasó: elegí otro día';
+  if (deIso(e.fecha).getDay() === 0) return 'los domingos no hay entrega';
+  if (e.fecha > masDias(hoy, MAX_DIAS_ENTREGA)) return `la fecha de entrega es de más de ${MAX_DIAS_ENTREGA} días`;
+  return '';
+}
+
 // ---------- mas usadas (en este navegador) ----------
 
 function usos() {
@@ -85,6 +162,7 @@ export function registrarUsos(observaciones) {
 /** Lo que le falta a una observacion para poder confirmar el pedido, o '' */
 export function falta(def, o) {
   if (!def) return 'ya no está en la lista';
+  if (esEntrega(def)) return faltaEntrega(o.entrega);
   if (def.grupo !== 'mercaderia') return '';
   if (!o.items.length) return 'faltan artículos';
   if (def.efecto === 'ajuste') {
@@ -188,7 +266,8 @@ export function htmlLista(config, lista, importeDe) {
     const f = falta(def, o);
     const n = o.items.length;
     const imp = importeDe ? importeDe(o, def) : null;
-    const det = f || (def?.grupo === 'mercaderia' ? `${n} ${n === 1 ? 'art.' : 'arts.'}` : '');
+    const det = f || (def?.grupo === 'mercaderia' ? `${n} ${n === 1 ? 'art.' : 'arts.'}`
+      : esEntrega(def) ? fmtEntregaCorta(o.entrega) : '');
     return `
       <button type="button" class="cp-obs-linea${f ? ' cp-obs-falta' : ''}" data-obs="${esc(o.id)}">
         <span class="cp-obs-cod">${esc(def?.codigo || '')}</span>
@@ -258,6 +337,18 @@ export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExist
    */
   function elegir(def) {
     const existente = actuales.find(o => o.clave === def.clave);
+    // Entrega: una por pedido; si ya esta, se corrige esa misma
+    if (esEntrega(def)) {
+      if (existente) {
+        editarEntregaEn(h, def, JSON.parse(JSON.stringify(existente)), {
+          alGuardar: o => { h.cerrar(); alGuardarExistente(o); }
+        });
+      } else {
+        const nueva = { id: nuevoId(), clave: def.clave, items: [], entrega: { fecha: '', dia: '', quien: '' } };
+        editarEntregaEn(h, def, nueva, { alGuardar: o => { h.cerrar(); alAgregar(o); } });
+      }
+      return;
+    }
     if (def.grupo !== 'mercaderia') {
       h.cerrar();
       if (!existente) alAgregar({ id: nuevoId(), clave: def.clave, items: [] });
@@ -299,8 +390,8 @@ export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExist
 export function abrirEditor(config, o, { alGuardar, alQuitar }) {
   const def = defDe(config, o.clave);
   const h = abrirHoja({ titulo: def ? nombreObs(def) : o.clave });
-  // Se edita una copia: Volver descarta los cambios
-  editarEn(h, def, JSON.parse(JSON.stringify(o)), {
+  // Se edita una copia: Volver descarta los cambios. La entrega tiene su propia hoja
+  (esEntrega(def) ? editarEntregaEn : editarEn)(h, def, JSON.parse(JSON.stringify(o)), {
     alGuardar: x => { h.cerrar(); alGuardar(x); },
     alQuitar: () => { h.cerrar(); alQuitar(); }
   });
@@ -594,4 +685,173 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
   if (o.items.length) cargarArticulos(o.items.map(it => it.sku));
   // Si el mapa de fotos todavia no habia llegado, se completan al llegar
   fotosListas.then(() => ponerFotos(h.cuerpo));
+}
+
+// ---------- hoja de la entrega ----------
+
+/** "ROBERTO" -> "Roberto" */
+const nombrePropio = s => String(s || '').toLowerCase().replace(/(^|\s)\S/g, c => c.toUpperCase());
+
+/** La sigla de quien tiene la sesion abierta ('' si no tiene: un admin, la oficina) */
+function siglaSesion() {
+  try { return String(sessionStorage.getItem('authCodigo') || '').trim().toUpperCase(); } catch (e) { return ''; }
+}
+
+/**
+ * Hoja de la entrega especial: el dia y quien entrega, los dos obligatorios.
+ * - Dia: seis botones (lu a sa), cada uno la proxima vez que cae ese dia, hoy
+ *   incluido, con la fecha en chico; "Otra fecha" abre un calendario. Siempre
+ *   se guarda la fecha real.
+ * - Quien: los vendedores de funcionalidades_usuarios.json (DatosCatalogo.usuarios);
+ *   al llegar la lista se marca la sigla de la sesion, si esta en ella y
+ *   todavia no hay ninguna elegida.
+ * - Abajo, la fecha completa (con el año) y, si el reloj del dispositivo
+ *   difiere del servidor mas de 12 h, un aviso.
+ * Se edita una copia. Guardar: si paso la medianoche desde que se pintaron
+ * los botones, recalcula la fecha del dia elegido y, si cambio, avisa y no
+ * guarda; despues controla con falta(), como la 117.
+ */
+function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
+  h.ponerTitulo(def ? nombreObs(def) : o.clave);
+  const e = o.entrega = { fecha: '', dia: '', quien: '', ...(o.entrega || {}) };
+  let otra = !!e.fecha && !e.dia;      // la fecha salio del calendario
+  let estado = 'cargando';             // de la lista: cargando, listo, vacia o error
+  let lista = [];
+  let desfase = null;                  // reloj del dispositivo menos el del servidor (ms)
+  let hoyPintado = '';                 // el dia con el que se calcularon los botones
+  let error = '';
+  let aviso = '';
+
+  async function cargar() {
+    estado = 'cargando';
+    pintar();
+    try {
+      if (!window.DatosCatalogo?.usuarios) throw new Error('falta DatosCatalogo.usuarios');
+      const r = await window.DatosCatalogo.usuarios();
+      lista = vendedores(r.datos);
+      desfase = r.desfaseMs;
+      estado = lista.length ? 'listo' : 'vacia';
+    } catch (err) {
+      console.warn('[Observaciones] No se pudo leer la lista de vendedores:', err);
+      lista = [];
+      estado = 'error';
+    }
+    // Se cerro la hoja mientras tanto
+    if (!h.cuerpo.isConnected) return;
+    if (!e.quien && estado === 'listo') {
+      const propia = siglaSesion();
+      if (propia && lista.some(v => v.codigo === propia)) e.quien = propia;
+    }
+    pintar();
+  }
+
+  function htmlQuien() {
+    if (estado === 'cargando') return '<p class="ob-nota">Cargando vendedores…</p>';
+    // La ya elegida que no esta en la lista (un vendedor que se dio de baja) se sigue viendo
+    const botones = lista.concat(e.quien && !lista.some(v => v.codigo === e.quien) ? [{ codigo: e.quien, nombre: '' }] : []);
+    const falla = estado === 'error' || estado === 'vacia'
+      ? `<p class="ob-ent-falla">No se pudo leer la lista de vendedores.
+           <button type="button" class="hj-btn ob-ent-reintentar">Reintentar</button></p>` : '';
+    return falla + (botones.length ? `<div class="ob-ent-vends">${botones.map(v => `
+      <button type="button" class="ob-ent-vend${v.codigo === e.quien ? ' ob-ent-sel' : ''}" data-quien="${esc(v.codigo)}"
+        aria-pressed="${v.codigo === e.quien}">
+        <span class="ob-ent-sigla">${esc(v.codigo)}</span><span class="ob-ent-chico">${esc(nombrePropio(v.nombre))}</span>
+      </button>`).join('')}</div>` : '');
+  }
+
+  function pintar(enfocar) {
+    const hoy = hoyIso();
+    hoyPintado = hoy;
+    const dias = DIAS.slice(1).map(d => {
+      const f = deIso(proximoDia(d, hoy));
+      const sel = !otra && e.dia === d;
+      return `<button type="button" class="ob-ent-dia${sel ? ' ob-ent-sel' : ''}" data-dia="${d}" aria-pressed="${sel}">
+        <span class="ob-ent-nom">${d}</span><span class="ob-ent-chico">${dos(f.getDate())}/${dos(f.getMonth() + 1)}</span>
+      </button>`;
+    }).join('');
+    const v = lista.find(x => x.codigo === e.quien);
+    const resumen = e.fecha
+      ? `Entrega el <b>${esc(fmtEntregaLarga(e.fecha))}</b>${e.quien ? ` · ${esc(e.quien)}${v?.nombre ? ` (${esc(nombrePropio(v.nombre))})` : ''}` : ''}`
+      : 'Elegí el día y quién entrega.';
+    const relojMal = desfase !== null && Math.abs(desfase) > RELOJ_MAL_MS;
+    const fechaServidor = relojMal ? new Date(Date.now() - desfase) : null;
+
+    h.cuerpo.innerHTML = `
+      <p class="ob-nota">Para una entrega fuera del día fijo del cliente.</p>
+      ${relojMal ? `<p class="ob-ent-reloj" role="alert">La fecha de este dispositivo parece estar mal (hoy es
+        ${dos(fechaServidor.getDate())}/${dos(fechaServidor.getMonth() + 1)}/${fechaServidor.getFullYear()}).
+        Revisala antes de elegir el día.</p>` : ''}
+      <p class="ob-lado-tit">Día</p>
+      <div class="ob-ent-dias">${dias}</div>
+      <button type="button" class="hj-btn ob-ent-otra${otra ? ' ob-ent-sel' : ''}" aria-pressed="${otra}">Otra fecha</button>
+      ${otra ? `<input type="date" class="ob-ent-fecha" min="${hoy}" max="${masDias(hoy, MAX_DIAS_ENTREGA)}"
+        value="${esc(e.fecha)}" aria-label="Fecha de entrega">` : ''}
+      <p class="ob-lado-tit">Quién entrega</p>
+      ${htmlQuien()}
+      <p class="ob-ent-resumen">${resumen}</p>
+      ${aviso ? `<p class="ob-ent-aviso" role="alert">${esc(aviso)}</p>` : ''}
+      ${error ? `<p class="ob-error" role="alert">${esc(error.charAt(0).toUpperCase() + error.slice(1))}.</p>` : ''}`;
+    h.pie.hidden = false;
+    h.pie.innerHTML =
+      (alQuitar ? '<button type="button" class="hj-btn-peligro ob-quitar">Quitar observación</button>' : '') +
+      '<button type="button" class="hj-btn ob-cancelar">Cancelar</button><button type="button" class="hj-btn-prim ob-guardar">Guardar</button>';
+    if (enfocar) h.cuerpo.querySelector(enfocar)?.focus();
+  }
+
+  h.cuerpo.addEventListener('click', ev => {
+    const dia = ev.target.closest('.ob-ent-dia');
+    const vend = ev.target.closest('.ob-ent-vend');
+    error = '';
+    aviso = '';
+    if (dia) {
+      otra = false;
+      e.dia = dia.dataset.dia;
+      e.fecha = proximoDia(e.dia, hoyIso());
+      pintar();
+    } else if (ev.target.closest('.ob-ent-otra')) {
+      // Del boton de un dia al calendario: la fecha se elige de nuevo
+      if (!otra) { e.dia = ''; e.fecha = ''; }
+      otra = true;
+      pintar('.ob-ent-fecha');
+    } else if (vend) {
+      e.quien = vend.dataset.quien;
+      pintar();
+    } else if (ev.target.closest('.ob-ent-reintentar')) {
+      cargar();
+    }
+  });
+
+  h.cuerpo.addEventListener('change', ev => {
+    if (!ev.target.closest('.ob-ent-fecha')) return;
+    e.fecha = ev.target.value || '';
+    e.dia = '';
+    error = '';
+    aviso = '';
+    pintar();
+  });
+
+  h.pie.addEventListener('click', ev => {
+    if (ev.target.closest('.ob-quitar')) { alQuitar(); return; }
+    if (ev.target.closest('.ob-cancelar')) { h.cerrar(); return; }
+    if (!ev.target.closest('.ob-guardar')) return;
+    // Paso la medianoche con la hoja abierta: los botones tenian las fechas de
+    // ayer. El dia elegido se recalcula; si cambia la fecha, se avisa y no se guarda
+    const hoy = hoyIso();
+    if (hoy !== hoyPintado) {
+      const antes = e.fecha;
+      if (e.dia) e.fecha = proximoDia(e.dia, hoy);
+      if (e.fecha !== antes) {
+        error = '';
+        aviso = `Cambió el día mientras la hoja estaba abierta: "${e.dia}" ahora es el ` +
+          `${fmtEntregaLarga(e.fecha)}. Revisalo y tocá Guardar de nuevo.`;
+        pintar();
+        return;
+      }
+    }
+    error = falta(def, o);
+    if (error) { aviso = ''; pintar(); return; }
+    alGuardar(o);
+  });
+
+  cargar();
 }

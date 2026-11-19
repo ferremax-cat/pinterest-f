@@ -35,7 +35,8 @@ const ENC_LIN = ['id_pedido', 'orden', 'sku', 'nombre', 'cantidad', 'lista_clien
   'precio_base', 'precio_unitario', 'desc_efectivo_linea', 'subtotal', 'origen_linea', 'color', 'desc_linea_pct',
   'precio_promo', 'promo_desde'];
 const ENC_OBS = ['id_pedido', 'fecha', 'cliente', 'numero', 'orden_obs', 'clave', 'codigo', 'texto', 'grupo', 'efecto',
-  'lado', 'orden_item', 'sku', 'nombre', 'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario'];
+  'lado', 'orden_item', 'sku', 'nombre', 'cantidad', 'precio_lista', 'mecanismo', 'lista_aplicada', 'desc_linea_pct', 'precio_unitario',
+  'detalle'];
 
 const ENC_REG = ['fecha_hora', 'id_pedido', 'numero', 'cuenta', 'cant_lineas', 'total_neto', 'fila_cabecera', 'verificacion', 'version', 'duracion_ms'];
 let hojas, registro, inyectar, pausas, props, falloProp, llamadas = 0;
@@ -188,6 +189,8 @@ ctx.getFinanzasCliente = c => ({ 100: { vendedor: 'V1', nombre: 'Cliente 100', c
   158: { vendedor: 'V2', nombre: 'NUEVO CLIENTE JG', cupoMes: 0, pgProm3M: 0 } }[c] || null);
 ctx.getConfig = () => ({ cuenta_prueba: '999', cuentas_alta: '157,158,159' });
 ctx.buscarUsuario = c => ({ nombre: 'Usuario ' + c });
+// La lectura real de la hoja, para la prueba de la entrega (dejarUnaEntrega)
+const getObservacionesReal = ctx.getObservaciones;
 ctx.getObservaciones = () => [
   { clave: '113', codigo: '113', texto: 'MERCADERIA EN MAL ESTADO', grupo: 'mercaderia', efecto: 'informativa', activa: true },
   { clave: 'PAGA', codigo: '', texto: 'PAGA TOTAL DE BOLETA', grupo: 'condiciones', efecto: 'informativa', activa: true }];
@@ -1081,7 +1084,7 @@ if (!SOLO_CASO_REAL) {
   ver('P6 semaforo: la promocion queda fuera del descuento sobre el total (655 en verde)', fc[C('verde')] === 655 &&
     fc[C('total_neto')] === 655, `${fc[C('verde')]} ${fc[C('total_neto')]}`);
   const regPP = hojas.registro_guardados.slice(1).find(f => f[1] === pp.id);
-  ver('P7 version del servidor: v41-promo-tramos', regPP?.[8] === 'v41-promo-tramos', regPP?.[8]);
+  ver('P7 version del servidor: v42-entrega', regPP?.[8] === 'v42-entrega', regPP?.[8]);
 
   const bp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
   const lp = (bp.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
@@ -1102,6 +1105,162 @@ if (!SOLO_CASO_REAL) {
     lv.every(x => x.precioPromo === null && x.promoDesde === null), JSON.stringify(lv));
   hojas.pedidos_lineas[0] = ENC_LIN.slice();
   console.log(`Casos de promociones con tramos: ${ok + fallas - antesP}`);
+}
+
+// ---------- entrega especial (efecto entrega, v42) ----------
+{
+  const antesE = ok + fallas;
+  reiniciar();
+  const obsAntes = ctx.getObservaciones;
+  ctx.getObservaciones = () => [
+    { clave: '113', codigo: '113', texto: 'MERCADERIA EN MAL ESTADO', grupo: 'mercaderia', efecto: 'informativa', activa: true },
+    { clave: '170', codigo: '170', texto: 'ENTREGA ESPECIAL', grupo: 'condiciones', efecto: 'entrega', activa: true }];
+
+  // Fechas relativas a hoy en Argentina (la misma cuenta que el servidor)
+  const hoyAR = ctx.Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
+  const masDias = n => { const [y, m, d] = hoyAR.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+  const diaSem = iso => new Date(iso + 'T00:00:00Z').getUTCDay();
+  const COD = ['do', 'lu', 'ma', 'mi', 'ju', 'vi', 'sa'];
+  const NOM = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  // El primer dia que no es domingo desde hoy + k (hacia adelante o hacia atras)
+  const habil = (k, paso = 1) => { let n = k; while (diaSem(masDias(n)) === 0) n += paso; return masDias(n); };
+  const detalleDe = (iso, quien) => `${NOM[diaSem(iso)]} ${iso.slice(8, 10)}/${iso.slice(5, 7)} · ${quien}`;
+  const conEntrega = (...ents) => pedido(1, { observaciones: ents.map(e => ({ clave: '170', items: [], entrega: e })) });
+  const COL_DET = ENC_OBS.indexOf('detalle');
+  const rechazo = (nombre, ped, error) => {
+    const res = guardar(ped);
+    ver(nombre, !res.ok && res.error === error && obsDe(ped.id).length === 0 && cabDe(ped.id).length === 0, JSON.stringify(res));
+  };
+
+  // E1. Valida, con dia: fila con el detalle y resumen en motivo_obs
+  const f = habil(3);
+  p = conEntrega({ fecha: f, dia: COD[diaSem(f)], quien: 'rf' });
+  r = guardar(p);
+  ver('E1 entrega valida: ok y una fila de obs', r.ok && obsDe(p.id).length === 1, JSON.stringify(r));
+  ver('E1 detalle en la columna detalle (sigla en mayusculas)', obsDe(p.id)[0]?.[COL_DET] === detalleDe(f, 'RF'), obsDe(p.id)[0]?.[COL_DET]);
+  ver('E1 efecto y grupo de la planilla', obsDe(p.id)[0]?.[ENC_OBS.indexOf('efecto')] === 'entrega' &&
+    obsDe(p.id)[0]?.[ENC_OBS.indexOf('grupo')] === 'condiciones');
+  ver('E1 motivo_obs con el detalle', cabDe(p.id)[0]?.[C('motivo_obs')] === `170 ENTREGA ESPECIAL (${detalleDe(f, 'RF')})`,
+    cabDe(p.id)[0]?.[C('motivo_obs')]);
+  const idE1 = p.id;
+
+  // E2. Otra fecha (dia vacio), junto a otra observacion: la otra sin detalle
+  const f2 = habil(20);
+  p = pedido(1, { observaciones: [{ clave: '113', items: [{ sku: 'A1', cantidad: 1 }] },
+    { clave: '170', items: [], entrega: { fecha: f2, dia: '', quien: 'JG' } }] });
+  r = guardar(p);
+  ver('E2 otra fecha: ok, detalle solo en la entrega', r.ok && obsDe(p.id).length === 2 &&
+    obsDe(p.id)[0][COL_DET] === '' && obsDe(p.id)[1][COL_DET] === detalleDe(f2, 'JG'), JSON.stringify(obsDe(p.id)));
+  ver('E2 motivo_obs con las dos', cabDe(p.id)[0]?.[C('motivo_obs')] ===
+    `113 MERCADERIA EN MAL ESTADO (1 art.) · 170 ENTREGA ESPECIAL (${detalleDe(f2, 'JG')})`, cabDe(p.id)[0]?.[C('motivo_obs')]);
+
+  // E3. Incompleta
+  rechazo('E3 sin datos de entrega: entrega_incompleta', pedido(1, { observaciones: [{ clave: '170', items: [] }] }), 'entrega_incompleta');
+  rechazo('E3 sin fecha: entrega_incompleta', conEntrega({ fecha: '', dia: '', quien: 'RF' }), 'entrega_incompleta');
+  rechazo('E3 sin quien: entrega_incompleta', conEntrega({ fecha: f, dia: '', quien: '' }), 'entrega_incompleta');
+  rechazo('E3 quien con numeros: entrega_incompleta', conEntrega({ fecha: f, dia: '', quien: 'R1' }), 'entrega_incompleta');
+  rechazo('E3 quien de 5 letras: entrega_incompleta', conEntrega({ fecha: f, dia: '', quien: 'ABCDE' }), 'entrega_incompleta');
+
+  // E4. Fecha mal escrita o inexistente; dia que no es el de la fecha
+  rechazo('E4 fecha dd/mm/aaaa: entrega_fecha_invalida', conEntrega({ fecha: '20/11/2026', dia: '', quien: 'RF' }), 'entrega_fecha_invalida');
+  rechazo('E4 30 de febrero: entrega_fecha_invalida', conEntrega({ fecha: hoyAR.slice(0, 4) + '-02-30', dia: '', quien: 'RF' }), 'entrega_fecha_invalida');
+  const otroDia = COD[(diaSem(f) % 6) + 1];   // otro de lu..sa
+  rechazo('E4 dia que no coincide: entrega_fecha_invalida', conEntrega({ fecha: f, dia: otroDia, quien: 'RF' }), 'entrega_fecha_invalida');
+
+  // E5. Rango: de ayer a hoy + 180
+  const ayer = masDias(-1), anteayer = masDias(-2), d180 = masDias(180), d181 = masDias(181);
+  if (diaSem(ayer) !== 0) {
+    p = conEntrega({ fecha: ayer, dia: '', quien: 'RF' });
+    ver('E5 ayer: se acepta (margen por la hora del celular)', guardar(p).ok);
+  }
+  rechazo('E5 anteayer, pedido nuevo: entrega_vencida', conEntrega({ fecha: anteayer, dia: '', quien: 'RF' }), 'entrega_vencida');
+  if (diaSem(d180) !== 0) {
+    p = conEntrega({ fecha: d180, dia: '', quien: 'RF' });
+    ver('E5 hoy + 180: se acepta', guardar(p).ok);
+  }
+  rechazo('E5 hoy + 181, pedido nuevo: entrega_vencida', conEntrega({ fecha: d181, dia: '', quien: 'RF' }), 'entrega_vencida');
+
+  // E6. Domingo: nunca (tambien con dia vacio, desde otra fecha)
+  let dom = 1; while (diaSem(masDias(dom)) !== 0) dom++;
+  rechazo('E6 domingo: entrega_fecha_invalida', conEntrega({ fecha: masDias(dom), dia: '', quien: 'RF' }), 'entrega_fecha_invalida');
+  rechazo('E6 domingo con dia do: entrega_fecha_invalida', conEntrega({ fecha: masDias(dom), dia: 'do', quien: 'RF' }), 'entrega_fecha_invalida');
+
+  // E7. Una sola por pedido
+  rechazo('E7 dos entregas: entrega_repetida', conEntrega({ fecha: f, dia: '', quien: 'RF' }, { fecha: f2, dia: '', quien: 'JG' }), 'entrega_repetida');
+
+  // E8. A la impresion: el detalle; una fila vieja (sin la columna) da ''
+  const viejo = pedido(1, { observaciones: [{ clave: '113', items: [{ sku: 'A1', cantidad: 1 }] }] });
+  guardar(viejo);
+  obsDe(viejo.id).forEach(fila => { fila.length = 20; });
+  const bi = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
+  const obsImp = id => (bi.pedidos.find(x => x.id === id) || {}).observaciones || [];
+  ver('E8 a la impresion: detalle de la entrega', obsImp(idE1)[0]?.detalle === detalleDe(f, 'RF'), JSON.stringify(obsImp(idE1)));
+  ver('E8 fila vieja sin la columna: detalle vacio', obsImp(viejo.id)[0]?.detalle === '', JSON.stringify(obsImp(viejo.id)));
+
+  // E9. Hoja con el encabezado viejo (20 columnas): con observaciones se rechaza; sin, se guarda
+  hojas.pedidos_observaciones[0] = ENC_OBS.slice(0, 20);
+  rechazo('E9 encabezado sin detalle: faltan_columnas_obs', conEntrega({ fecha: f, dia: '', quien: 'RF' }), 'faltan_columnas_obs');
+  p = pedido(1);
+  ver('E9 encabezado sin detalle: un pedido sin observaciones se guarda', guardar(p).ok);
+  hojas.pedidos_observaciones[0] = ENC_OBS.slice();
+
+  // E10. La lectura real de la hoja: una sola entrega activa, siempre Condiciones
+  hojas.observaciones = [['codigo', 'texto', 'grupo', 'efecto', 'activa'],
+    ['113', 'MERCADERIA EN MAL ESTADO', 'Mercadería', 'informativa', 'SI'],
+    ['170', 'ENTREGA ESPECIAL', 'mercaderia', 'Entrega', 'SI'],
+    ['171', 'ENTREGA OTRA', 'condiciones', 'entrega', 'SI'],
+    ['172', 'ENTREGA VIEJA', 'condiciones', 'entrega', 'NO']];
+  const lr = getObservacionesReal();
+  const de = c => lr.find(x => x.clave === c) || {};
+  ver('E10 la primera entrega activa queda activa, como Condiciones', de('170').activa === true &&
+    de('170').efecto === 'entrega' && de('170').grupo === 'condiciones', JSON.stringify(de('170')));
+  ver('E10 la segunda entrega activa pasa a inactiva', de('171').activa === false, JSON.stringify(de('171')));
+  ver('E10 una inactiva sigue inactiva y las demas no cambian', de('172').activa === false &&
+    de('113').activa === true && de('113').grupo === 'mercaderia' && de('113').efecto === 'informativa');
+  hojas.observaciones = [['codigo', 'texto', 'grupo', 'efecto', 'activa'], ['113', 'MERCADERIA', 'mercaderia', 'informativa', 'SI']];
+  ver('E10 sin fila de entrega: ninguna con ese efecto', getObservacionesReal().every(x => x.efecto !== 'entrega'));
+  ver('E10 dejarUnaEntrega sin entregas: no cambia nada', JSON.stringify(ctx.dejarUnaEntrega([{ efecto: 'suma', activa: true }])) ===
+    JSON.stringify([{ efecto: 'suma', activa: true }]));
+  delete hojas.observaciones;
+
+  // E11. Reintento de un pendiente con la fecha ya vencida: el servidor "vive" 10 dias despues
+  const fdReal = ctx.Utilities.formatDate;
+  const hoyMas10 = masDias(10);
+  const conHoy = (iso, fn) => { ctx.Utilities.formatDate = () => iso; try { return fn(); } finally { ctx.Utilities.formatDate = fdReal; } };
+  reiniciar();
+  const fV = habil(2);
+  // a) Ya guardado (se perdio la respuesta): duplicado ok, sin filas de mas
+  const pg = conEntrega({ fecha: fV, dia: '', quien: 'RF' });
+  ver('E11 guardado con su fecha', guardar(pg).ok);
+  r = conHoy(hoyMas10, () => guardar(pg));
+  ver('E11 ya guardado, reintento con la fecha vencida: duplicado ok', r.ok && r.duplicado === true, JSON.stringify(r));
+  ver('E11 ya guardado: una cabecera y una fila de obs', cabDe(pg.id).length === 1 && obsDe(pg.id).length === 1);
+  // b) A medias (lineas y obs escritas, sin cabecera): se completa
+  const pm = conEntrega({ fecha: fV, dia: '', quien: 'RF' });
+  falla('pedidos_cabecera', 'appendRow', { veces: 3 });
+  r = guardar(pm);
+  ver('E11 a medias: primer intento falla, lineas y obs escritas sin cabecera', !r.ok && cabDe(pm.id).length === 0 &&
+    lin(pm.id).length === 1 && obsDe(pm.id).length === 1, JSON.stringify(r));
+  r = conHoy(hoyMas10, () => guardar(pm));
+  ver('E11 a medias, reintento con la fecha vencida: se completa', r.ok && !r.duplicado && cabDe(pm.id).length === 1 &&
+    lin(pm.id).length === 1 && obsDe(pm.id).length === 1, JSON.stringify(r));
+  ver('E11 a medias: el detalle es el de su fecha', obsDe(pm.id)[0][COL_DET] === detalleDe(fV, 'RF'));
+  // c) Nada escrito: entrega_vencida, sin escribir nada
+  const pn = conEntrega({ fecha: fV, dia: '', quien: 'RF' });
+  r = conHoy(hoyMas10, () => guardar(pn));
+  ver('E11 nada escrito: entrega_vencida y nada en las hojas', !r.ok && r.error === 'entrega_vencida' &&
+    cabDe(pn.id).length === 0 && lin(pn.id).length === 0 && obsDe(pn.id).length === 0, JSON.stringify(r));
+  // d) En fecha: ninguna lectura de mas para buscar el id
+  const pf = conEntrega({ fecha: habil(3), dia: '', quien: 'RF' });
+  const buscadasAntes = porOp.findAll || 0;
+  guardar(pf);
+  const pSin = pedido(1, { observaciones: [{ clave: '113', items: [{ sku: 'A1', cantidad: 1 }] }] });
+  const buscadasSin0 = porOp.findAll || 0; guardar(pSin);
+  ver('E11 en fecha: las mismas busquedas que un pedido con otra observacion de una fila',
+    (porOp.findAll || 0) - buscadasSin0 === buscadasSin0 - buscadasAntes, `${buscadasSin0 - buscadasAntes} vs ${(porOp.findAll || 0) - buscadasSin0}`);
+
+  ctx.getObservaciones = obsAntes;
+  console.log(`Casos de la entrega especial: ${ok + fallas - antesE}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
