@@ -871,9 +871,46 @@ const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   'rol_sin_permiso', 'observaciones_no_permitidas', 'observaciones_invalidas',
   'observacion_inactiva', 'observacion_sin_articulos', 'observacion_sin_cantidad',
   'ajuste_incompleto', 'faltan_columnas_obs', 'observacion_sin_precio',
+  // Entrega especial (observacion con efecto entrega): datos que faltan o no
+  // valen. entrega_vencida vale tambien en un reintento (ver confirmarPedido)
+  'entrega_incompleta', 'entrega_fecha_invalida', 'entrega_repetida', 'entrega_vencida',
   // Cliente nuevo: se rechazan antes de escribir nada
   'faltan_datos_alta', 'datos_alta_incompletos', 'formula_alta_invalida', 'alta_no_permitida',
   'faltan_columnas_alta'];
+
+// Texto de un rechazo; los que no estan se muestran con su codigo
+const TEXTOS_RECHAZO = {
+  entrega_incompleta: 'Falta el día o quién entrega en la entrega especial. Revisala y confirmá de nuevo.',
+  entrega_fecha_invalida: 'La fecha de la entrega especial no es válida (un domingo, o no coincide con el día elegido). Revisala y confirmá de nuevo.',
+  entrega_repetida: 'El pedido tiene dos entregas especiales: dejá una sola y confirmá de nuevo.',
+  entrega_vencida: 'La fecha de la entrega especial ya pasó y el pedido no se guardó. Elegí otro día y confirmá de nuevo.'
+};
+
+/**
+ * Entrega vencida (el servidor rechazo con entrega_vencida: no hay nada
+ * guardado de este pedido). El carrito sigue entero, porque solo se vacia al
+ * confirmarse: se borra el pendiente, la fecha de la entrega queda vacia (asi
+ * ademas el carrito queda modificado hoy y la limpieza de los de mas de 7
+ * dias no lo descarta) y se abre la entrega para elegir otro dia. Al
+ * confirmar de nuevo, el pedido sale con otro id
+ */
+function corregirEntregaVencida() {
+  window.Carrito.borrarPendiente();
+  motivoPendiente = '';
+  const aj = window.Carrito.getAjustePedido();
+  const esEnt = o => Obs.esEntrega(Obs.defDe(config, o.clave)) && o.entrega;
+  const lista = (aj.observaciones || []).map(o => esEnt(o) ? { ...o, entrega: { ...o.entrega, fecha: '', dia: '' } } : o);
+  // setAjustePedido redibuja el panel (ya sin el pendiente)
+  window.Carrito.setAjustePedido({ ...aj, observaciones: lista });
+  avisar(TEXTOS_RECHAZO.entrega_vencida, 'error');
+  const o = lista.find(esEnt);
+  if (o) {
+    Obs.abrirEditor(config, o, {
+      alGuardar: nueva => cambiarObs(l => l.map(x => x.id === nueva.id ? nueva : x)),
+      alQuitar: () => cambiarObs(l => l.filter(x => x.id !== o.id))
+    });
+  }
+}
 
 /**
  * Vista del carrito mientras no se sabe si el pedido se guardo: no permite
@@ -1182,8 +1219,11 @@ async function confirmarPedido() {
         motivo: Obs.catalogo(config) ? '' : aj.motivo,
         obsLibre: aj.obsLibre,
         // Solo clave, articulos y lado: texto, grupo y efecto los pone el servidor
+        // (tambien el texto de la entrega: de aca van solo la fecha, el dia y la sigla)
         observaciones: obsPed.map(o => ({
           clave: o.clave,
+          ...(Obs.esEntrega(Obs.defDe(config, o.clave)) && o.entrega
+            ? { entrega: { fecha: o.entrega.fecha, dia: o.entrega.dia || '', quien: o.entrega.quien } } : {}),
           items: o.items.map(it => ({
             sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '',
             // Lista actual, con los precios en memoria; sin precio, null (a verificar al facturar)
@@ -1246,10 +1286,17 @@ async function confirmarPedido() {
     console.log('[Pedido] respuesta del servidor:', resp);
 
     if (!resp.ok) {
+      // Entrega vencida: el servidor la rechaza solo si no hay nada escrito de
+      // este pedido (uno ya guardado responde ok, como duplicado), asi que
+      // vale tambien en un reintento: a corregir la entrega
+      if (resp.error === 'entrega_vencida') {
+        corregirEntregaVencida();
+        return;
+      }
       // Rechazado antes de escribir y sin intentos previos: no se guardo nada
       if (!esReintento && RECHAZOS_PREVIOS.includes(resp.error)) {
         window.Carrito.borrarPendiente();
-        avisar('No se pudo guardar: ' + resp.error, 'error');
+        avisar(TEXTOS_RECHAZO[resp.error] || 'No se pudo guardar: ' + resp.error, 'error');
         return;
       }
       // En cualquier otro caso la duda sigue: el carrito queda bloqueado
@@ -1284,6 +1331,14 @@ async function confirmarPedido() {
 
     // Cliente nuevo: todavia sin numero de pedido, con su numero de alta
     const esAltaResp = resp.alta === true;
+    // La entrega especial con la que quedo guardado: la del pedido enviado (en
+    // un reintento, la del pendiente, la misma que tiene el pedido guardado).
+    // Si ya paso (un duplicado de dias atras), se dice, para que no se suponga otra
+    const entGuardada = (pedido.observaciones || []).find(o => o.entrega)?.entrega;
+    const htmlEntrega = entGuardada?.fecha
+      ? `<p class="cp-exito-det">Entrega especial: ${escHtml(Obs.fmtEntregaLarga(entGuardada.fecha))} · ${escHtml(entGuardada.quien || '')}` +
+        `${entGuardada.fecha < Obs.hoyIso() ? ' <b>(esa fecha ya pasó: así quedó guardado)</b>' : ''}</p>`
+      : '';
     const cont = document.getElementById('carrito-panel');
     cont.innerHTML = `
       <div class="cp-caja">
@@ -1292,6 +1347,7 @@ async function confirmarPedido() {
           <p class="cp-exito-tit">${esAltaResp ? 'Alta registrada' : 'Pedido confirmado'}</p>
           <p class="cp-exito-num">${esAltaResp ? `${escHtml(resp.numero)} · falta número de cuenta` : `N° ${escHtml(resp.numero)}`}</p>
           <p class="cp-exito-det">${escHtml(nombreCli)}</p>
+          ${htmlEntrega}
           <p class="cp-exito-total">${pedido.lineas.length ? fmt(totalConfirmado) : 'Solo observaciones'}</p>
           ${esAltaResp ? '<p class="cp-exito-det">Oficina carga el número de cuenta del cliente nuevo; recién entonces el pedido se imprime.</p>' : ''}
           <button class="cp-cerrar-exito">Listo</button>

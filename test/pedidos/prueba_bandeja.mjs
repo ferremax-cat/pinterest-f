@@ -613,5 +613,125 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   console.log(`Casos de detalle de promociones: ${ok + fallas - antesD}`);
 }
 
+// =====================================================================
+// ENTREGA ESPECIAL (v42): el detalle de la observacion ("jueves 20/11 · RF")
+// va en su propio renglon debajo del titulo, en las dos hojas, y el
+// paginado nunca separa el titulo de su detalle. Datos sinteticos
+{
+  const antesE = ok + fallas;
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+  const cerrarAvisos = async () => {
+    for (let k = 0; k < 60 && !$('#ih-aviso')?.hidden; k++) {
+      const bs = $$('#ih-aviso button');
+      if (bs.length) bs[bs.length - 1].click();
+      await espera(50); await tick(10);
+    }
+  };
+  // TEXTO_REAL: el mas largo de la hoja observaciones hoy (33 caracteres).
+  // TEXTO_LARGO: caso exigente (95), por si algun dia se carga uno asi
+  const TEXTO_REAL = 'DEVOLUCION DE MERCAD. A/DESCONTAR';
+  const TEXTO_LARGO = 'MERCADERIA ENTREGADA EN OTRA SUCURSAL POR PEDIDO DEL CLIENTE CON DIFERENCIA DE PRECIO A REVISAR';
+  const DET = 'miércoles 20/11 · RF';
+  const ent = (texto = 'ENTREGA ESPECIAL') => ({ clave: '170', codigo: '170', texto, grupo: 'condiciones', efecto: 'entrega',
+    detalle: DET, importe: null, verificar: false, items: [] });
+  const o116 = n => ({ clave: '116', codigo: '116', texto: 'DEVUELVE', grupo: 'mercaderia', efecto: 'descuenta', importe: null, verificar: true,
+    detalle: '', items: Array.from({ length: n }, (_, i) => ({ sku: 'D' + i, nombre: 'Art D' + i, cantidad: 1, precio: null, importe: null, origen: null })) });
+  const paga = { clave: 'PAGA', codigo: '', texto: 'PAGA TOTAL DE BOLETA', grupo: 'condiciones', efecto: 'informativa', detalle: '', items: [] };
+
+  // E1-E4: una entrega con el texto largo, junto a otras dos (sin detalle)
+  const casos = [ped('E1', 'APP-61', 1, 1, { observaciones: [paga, ent(TEXTO_LARGO), o116(2)] })];
+  // E5: barrido para el paginado: 116 con 25 a 90 articulos y despues la entrega,
+  // asi el corte de hoja cae alguna vez justo en el titulo de la entrega
+  for (let n = 25; n <= 90; n++) casos.push(ped('EB' + n, 'APP-' + (700 + n), 1, 1, { observaciones: [o116(n), ent()] }));
+  await cerrarAvisos();
+  Hojas.imprimir(casos, { reimpresion: true });
+  await tick(120);
+  const cont = document.getElementById('ih-hojas');
+  const hojas = numero => [...cont.querySelectorAll('section.ih-hoja')].filter(s => s.textContent.includes('N° ' + numero));
+  const enHojas = (numero, sel) => hojas(numero).flatMap(s => [...s.querySelectorAll(sel)]);
+
+  // Preparacion
+  const titPrep = enHojas('APP-61', '.ih-obs-tit');
+  const t170 = titPrep.find(d => d.textContent.trim().startsWith('170 '));
+  ver('E1 prep: el titulo con el texto largo, sin el detalle en el mismo renglon', !!t170 &&
+    t170.textContent.replace(/\s+/g, ' ').trim() === '170 ' + TEXTO_LARGO, t170?.textContent);
+  ver('E1 prep: el detalle en el renglon de abajo', t170?.nextElementSibling?.classList.contains('ih-obs-det') &&
+    t170.nextElementSibling.textContent === DET, t170?.nextElementSibling?.outerHTML);
+  ver('E1 prep: solo la entrega lleva renglon de detalle', enHojas('APP-61', '.ih-obs-det').length === 1);
+
+  // Facturacion
+  const titFact = enHojas('APP-61', 'tr.ih-obs-tit-fact').find(tr => tr.firstElementChild.textContent.startsWith('170 '));
+  ver('E2 fact: el titulo con el texto largo, sin el detalle', !!titFact &&
+    titFact.firstElementChild.textContent.replace(/\s+/g, ' ').trim() === '170 ' + TEXTO_LARGO, titFact?.textContent);
+  ver('E2 fact: el detalle en la fila de abajo', titFact?.nextElementSibling?.classList.contains('ih-obs-det-fact') &&
+    titFact.nextElementSibling.textContent.trim() === DET, titFact?.nextElementSibling?.outerHTML);
+  ver('E2 fact: solo la entrega lleva fila de detalle', enHojas('APP-61', 'tr.ih-obs-det-fact').length === 1);
+
+  // E3: el alto del recuadro de preparacion cuenta el renglon del detalle (5 mm, como los demas)
+  const caja = enHojas('APP-61', '.ih-obs-caja')[0];
+  const altoCaja = Number(/\+ ([\d.]+)mm\)/.exec(caja?.getAttribute('style') || '')?.[1]);
+  const renglones = caja ? caja.querySelectorAll('.ih-obs-tit, .ih-obs-lado, .ih-obs-det, .ih-obs-item:not(.ih-obs-item-foto)').length : 0;
+  ver('E3 prep: alto del recuadro = renglones x 5 mm, con el del detalle', altoCaja === renglones * 5 && renglones === 6,
+    `${altoCaja} mm, ${renglones} renglones`);
+
+  // E3b: con el texto mas largo real, en las dos hojas: titulo solo y detalle abajo
+  const real = ped('E3', 'APP-63', 1, 1, { observaciones: [ent(TEXTO_REAL)] });
+  await cerrarAvisos();
+  Hojas.imprimir([real], { reimpresion: true });
+  await tick(60);
+  const tReal = enHojas('APP-63', '.ih-obs-tit')[0];
+  const fReal = enHojas('APP-63', 'tr.ih-obs-tit-fact')[0];
+  ver('E3b texto real, prep: "170 DEVOLUCION DE MERCAD. A/DESCONTAR" y el detalle abajo',
+    tReal?.textContent.replace(/\s+/g, ' ').trim() === '170 ' + TEXTO_REAL &&
+    tReal.nextElementSibling?.classList.contains('ih-obs-det') && tReal.nextElementSibling.textContent === DET, tReal?.parentElement?.innerHTML);
+  ver('E3b texto real, fact: el titulo y el detalle abajo',
+    fReal?.firstElementChild.textContent.replace(/\s+/g, ' ').trim() === '170 ' + TEXTO_REAL &&
+    fReal.nextElementSibling?.classList.contains('ih-obs-det-fact') && fReal.nextElementSibling.textContent.trim() === DET);
+
+  // E4: sin detalle (los pedidos de antes): ningun renglon de mas
+  const sinDet = ped('E4', 'APP-64', 1, 1, { observaciones: [paga, { ...o116(1), detalle: undefined }] });
+  await cerrarAvisos();
+  Hojas.imprimir([sinDet], { reimpresion: true });
+  await tick(60);
+  ver('E4 sin detalle: ni renglon ni fila de detalle', !document.querySelector('#ih-hojas .ih-obs-det, #ih-hojas tr.ih-obs-det-fact') &&
+    !!document.querySelector('#ih-hojas .ih-obs-tit'));
+
+  // E5: barrido del paginado. Se imprime de a 10 pedidos (una tanda) y se revisa cada tanda
+  let separadosPrep = 0, separadosFact = 0, cortePrep = 0, corteFact = 0, malMedidos = 0;
+  for (let desde = 25; desde <= 90; desde += 10) {
+    await cerrarAvisos();
+    Hojas.imprimir(casos.filter(c => /^EB/.test(c.id) && Number(c.id.slice(2)) >= desde && Number(c.id.slice(2)) < desde + 10),
+      { reimpresion: true });
+    await tick(120);
+    for (let n = desde; n < Math.min(desde + 10, 91); n++) {
+      const num = 'APP-' + (700 + n);
+      enHojas(num, '.ih-obs-tit').filter(d => d.textContent.trim().startsWith('170 ')).forEach(d => {
+        if (!d.nextElementSibling?.classList.contains('ih-obs-det')) separadosPrep++;
+        // La entrega abre el recuadro de una hoja que continua: el corte cayo justo antes
+        if (d.previousElementSibling?.classList.contains('ih-obs-caja-tit')) cortePrep++;
+      });
+      enHojas(num, 'tr.ih-obs-tit-fact').filter(tr => tr.firstElementChild.textContent.startsWith('170 ')).forEach(tr => {
+        if (!tr.nextElementSibling?.classList.contains('ih-obs-det-fact')) separadosFact++;
+        if (!tr.previousElementSibling) corteFact++;
+      });
+      // Ningun detalle sin su titulo arriba
+      enHojas(num, '.ih-obs-det').forEach(d => { if (!d.previousElementSibling?.classList.contains('ih-obs-tit')) separadosPrep++; });
+      enHojas(num, 'tr.ih-obs-det-fact').forEach(tr => { if (!tr.previousElementSibling?.classList.contains('ih-obs-tit-fact')) separadosFact++; });
+    }
+    // Cada recuadro de la tanda mide lo que suma su contenido (el paginado no se corre)
+    malMedidos += [...document.querySelectorAll('#ih-hojas .ih-obs-caja')].filter(c => {
+      const a = Number(/\+ ([\d.]+)mm\)/.exec(c.getAttribute('style') || '')?.[1]);
+      const r = c.querySelectorAll('.ih-obs-tit, .ih-obs-lado, .ih-obs-det, .ih-obs-item:not(.ih-obs-item-foto)').length * 5 +
+        c.querySelectorAll('.ih-obs-item-foto').length * 12;
+      return Math.abs(a - r) > 0.001;
+    }).length;
+  }
+  ver('E5 prep: el titulo de la entrega y su detalle nunca quedan en hojas distintas', separadosPrep === 0, separadosPrep);
+  ver('E5 fact: el titulo de la entrega y su detalle nunca quedan en hojas distintas', separadosFact === 0, separadosFact);
+  ver('E5 el barrido llega al corte: la entrega abre una hoja en prep y en fact', cortePrep > 0 && corteFact > 0, `${cortePrep} ${corteFact}`);
+  ver('E5 todos los recuadros miden lo que suman sus renglones', malMedidos === 0, malMedidos);
+  console.log(`Casos de la entrega especial: ${ok + fallas - antesE}`);
+}
+
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
 process.exit(fallas ? 1 : 0);

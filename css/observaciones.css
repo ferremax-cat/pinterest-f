@@ -94,6 +94,31 @@
 .ob-sin-art { margin: 6px 0; color: #6b7280; font-size: 13px; }
 .ob-error { margin: 12px 0 0; color: #dc2626; font-size: 13px; font-weight: 600; }
 
+/* Entrega especial: dia (grande) con su fecha (chica) y quien entrega */
+.ob-ent-dias { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.ob-ent-dia, .ob-ent-vend {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 52px; padding: 6px 2px; border: 1px solid #d1d5db; border-radius: 8px;
+  background: #fff; color: #111827; cursor: pointer; font: inherit;
+}
+.ob-ent-nom, .ob-ent-sigla { font-size: 18px; font-weight: 800; line-height: 1.1; }
+.ob-ent-chico { font-size: 11px; color: #6b7280; line-height: 1.1; }
+.ob-ent-sel { border: 2px solid #e60023; background: #fff1f2; }
+.ob-ent-otra { margin-top: 8px; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.ob-ent-otra.ob-ent-sel { color: #e60023; font-weight: 700; }
+.ob-ent-fecha {
+  display: block; margin-top: 8px; height: 40px; padding: 0 10px; box-sizing: border-box;
+  border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; background: #fff;
+}
+.ob-ent-vends { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 6px; }
+.ob-ent-falla { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0; color: #dc2626; font-size: 13px; font-weight: 600; }
+.ob-ent-falla .hj-btn { padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+.ob-ent-resumen { margin: 16px 0 0; padding: 10px 12px; border-radius: 8px; background: #f3f4f6; font-size: 14px; }
+.ob-ent-reloj, .ob-ent-aviso {
+  margin: 8px 0; padding: 8px 10px; border-radius: 8px;
+  background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; font-size: 13px; font-weight: 600;
+}
+
 /* ---------- boton flotante ---------- */
 .fab-obs {
   position: absolute; left: -6px; bottom: -3px;
