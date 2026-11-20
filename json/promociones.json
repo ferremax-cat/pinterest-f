@@ -906,6 +906,25 @@
         "PREMIUM",
         "PREMIUM TOP"
       ]
+    },
+    "HUNMFV90": {
+      "tipoLista": "F",
+      "precio": 32854.5,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ],
+      "tramos": [
+        {
+          "desde": 4,
+          "desc": 5
+        }
+      ]
     }
   }
 }
