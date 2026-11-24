@@ -925,6 +925,58 @@
           "desc": 5
         }
       ]
+    },
+    "EVOL0267": {
+      "tipoLista": "F",
+      "precio": 13810.3,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "EVOL0268": {
+      "tipoLista": "F",
+      "precio": 18506.3,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "EVOL2195": {
+      "tipoLista": "F",
+      "precio": 4275.8,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
+    },
+    "EVOL2765": {
+      "tipoLista": "F",
+      "precio": 1119.6,
+      "cantidadMinima": 1,
+      "vigencia": "2026-11-30",
+      "grupos": [
+        "RECURRENTE_300K-400K",
+        "RECURRENTE_400K-500K",
+        "RECURRENTE_>_500K",
+        "PREMIUM",
+        "PREMIUM TOP"
+      ]
     }
   }
 }
