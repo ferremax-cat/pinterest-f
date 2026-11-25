@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="login.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
     <!-- Version de esta pagina (window.VERSION_APP), para el registro de fallos.
-         Sin detector: el login lleva al catalogo, que lo tiene -->
-    <script src="js/version-app.js"></script>
+         Sin detector: el login lleva al catalogo, que lo tiene.
+         defer: no frena el armado de la pagina y corre antes que los modulos
+         (diferidos y modulos van en el orden de la pagina). Nunca async -->
+    <script defer src="js/version-app.js"></script>
 
     <!-- Scripts en orden -->
     <!-- <script src="js/config.js"></script>-->

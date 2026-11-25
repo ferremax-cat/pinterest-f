@@ -265,5 +265,26 @@ ver('cobertura: todo lo que cargan los HTML y los import de js/ esta en la huell
 ver('cobertura: catalogo.html esta en la huella', 'catalogo.html' in dentro)
 ver('cobertura: los test-*.html no estan', not any(r.startswith('test-') for r in dentro))
 
+# ----- version-app.js diferido (solo se LEEN los HTML) -----
+# Con defer no frena el armado de la pagina y sigue corriendo antes que los
+# modulos: los scripts diferidos y los modulos se ejecutan en el orden en que
+# aparecen. async romperia ese orden. Los clasicos sin defer que leen
+# VERSION_APP (funcionalidades-menu.js) lo hacen despues de DOMContentLoaded
+for pagina in ('catalogo.html', 'imprimir.html', 'login.html'):
+    texto = (RAIZ / pagina).read_text(encoding='utf-8', errors='replace')
+    texto = re.sub(r'<!--.*?-->', '', texto, flags=re.S)   # lo comentado no se carga
+    etiquetas = [(m.start(), m.group(0)) for m in re.finditer(r'<script\b[^>]*>', texto, re.I)]
+    propias = [(i, e) for i, e in etiquetas if re.search(r'''\bsrc\s*=\s*["'][^"']*version-app\.js["']''', e, re.I)]
+    ver(f'{pagina}: carga version-app.js una vez', len(propias) == 1, propias)
+    if len(propias) != 1:
+        continue
+    pos, tag = propias[0]
+    ver(f'{pagina}: version-app.js con defer', re.search(r'\sdefer\b', tag, re.I) is not None, tag)
+    ver(f'{pagina}: version-app.js sin async', re.search(r'\sasync\b', tag, re.I) is None, tag)
+    ver(f'{pagina}: version-app.js es clasico (no type="module")', re.search(r'\btype\s*=', tag, re.I) is None, tag)
+    modulos = [i for i, e in etiquetas if re.search(r'''\btype\s*=\s*["']?module''', e, re.I)]
+    ver(f'{pagina}: tiene modulos (la prueba mira algo)', bool(modulos))
+    ver(f'{pagina}: version-app.js antes que cualquier type="module"', all(pos < i for i in modulos))
+
 print(f'\n{ok}/{ok + fallas} pruebas bien')
 sys.exit(1 if fallas else 0)

@@ -8,8 +8,10 @@
     <link rel="stylesheet" href="css/imprimir-hojas.css">
     <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
     <!-- Version de esta pagina (window.VERSION_APP), antes de cualquier modulo.
-         GENERADO por scripts/version_app.py: ver js/actualizacion-app.js -->
-    <script src="js/version-app.js"></script>
+         GENERADO por scripts/version_app.py: ver js/actualizacion-app.js.
+         defer: no frena el armado de la pagina y corre antes que los modulos
+         (diferidos y modulos van en el orden de la pagina). Nunca async -->
+    <script defer src="js/version-app.js"></script>
 </head>
 
 <body>

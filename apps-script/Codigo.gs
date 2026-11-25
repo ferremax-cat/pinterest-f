@@ -283,8 +283,32 @@ function accionConfig(body) {
     // texto de arriba (observaciones) queda para la app anterior
     catalogoObservaciones: getObservaciones().filter(o => o.activa).map(o => ({
       clave: o.clave, codigo: o.codigo, texto: o.texto, grupo: o.grupo, efecto: o.efecto
-    }))
+    })),
+    // Entrega especial (170): quien entrega (config: repartidores) y quien hace
+    // el recorrido (config: repartidores_recorrido, pide "despues de quien" en
+    // un cliente nuevo). Sin las filas, listas vacias: la app usa los
+    // vendedores y no pide "despues de quien"
+    repartidores: siglasDe(cfg.repartidores),
+    repartidoresRecorrido: siglasDe(cfg.repartidores_recorrido),
+    // Cuentas que no se pueden elegir en "despues de quien": puentes y prueba
+    cuentasNoElegibles: cuentasNoElegibles()
   });
+}
+
+/** Lista de siglas de una celda de config ("RF, cs,JG|IS"): mayusculas, sin repetir, 1 a 4 letras */
+function siglasDe(texto) {
+  const res = [];
+  String(texto || '').split(/[,|\s]+/).forEach(s => {
+    const x = s.trim().toUpperCase();
+    if (/^[A-Z]{1,4}$/.test(x) && res.indexOf(x) < 0) res.push(x);
+  });
+  return res;
+}
+
+/** Cuentas que no son un cliente al que se le entrega: las puente (altas) y la de prueba */
+function cuentasNoElegibles() {
+  const cp = cuentaPrueba();
+  return cuentasAlta().concat(cp ? [cp] : []);
 }
 
 function limpiarCacheConfig() {
@@ -405,7 +429,9 @@ function validarEntrega(ent) {
   }
   const n = d.getUTCDay();
   if (n === 0 || (dia && DIAS_ENTREGA[n] !== dia)) return { error: 'entrega_fecha_invalida' };
-  return { detalle: NOMBRES_DIA[n] + ' ' + m[3] + '/' + m[2] + ' · ' + quien, ms: t };
+  return { detalle: NOMBRES_DIA[n] + ' ' + m[3] + '/' + m[2] + ' · ' + quien, ms: t, quien,
+           // La cuenta de "despues de quien" tal cual (se controla en revisarEntrega)
+           despuesDe: String(ent.despuesDe || '').trim() };
 }
 
 /**
@@ -417,6 +443,43 @@ function entregaEnRango(ms) {
   const hoy = Date.UTC(h[0], h[1] - 1, h[2]);
   const DIA_MS = 86400000;
   return ms >= hoy - DIA_MS && ms <= hoy + MAX_DIAS_ENTREGA * DIA_MS;
+}
+
+/**
+ * "Despues de quien" de una entrega (ent, la observacion validada): se pide
+ * cuando el pedido es de un cliente nuevo (cuenta puente) y entrega quien
+ * hace el recorrido (config: repartidores_recorrido). Si hace falta y la
+ * cuenta es un cliente de la hoja finanzas (no puente ni de prueba), agrega
+ * al detalle un segundo renglon "despues de: 949 FERRETERIA X", con el nombre
+ * de la hoja, nunca el del navegador. Devuelve '' o el error
+ * (entrega_falta_despues, entrega_despues_invalido). Sin hacer falta, ignora
+ * lo que venga
+ */
+function completarDespues(ent, cuenta) {
+  const pide = esCuentaAlta(cuenta) && siglasDe(getConfig().repartidores_recorrido).indexOf(ent.entregaQuien) >= 0;
+  if (!pide) return '';
+  const cta = ent.entregaDespues;
+  if (!cta) return 'entrega_falta_despues';
+  if (!/^\d{1,8}$/.test(cta) || cuentasNoElegibles().indexOf(cta) >= 0) return 'entrega_despues_invalido';
+  const cli = getFinanzasCliente(cta);
+  if (!cli || !cli.nombre) return 'entrega_despues_invalido';
+  if (ent.detalle.indexOf('\n') < 0) ent.detalle += '\ndespués de: ' + cta + ' ' + cli.nombre;
+  return '';
+}
+
+/**
+ * Controles de la entrega que dependen de hoy o de la config (se hacen en
+ * guardar_pedido despues de buscar el id): la fecha en rango, la sigla en la
+ * lista de repartidores (si la fila existe; si no, solo el formato, como
+ * antes) y "despues de quien". Completa el detalle y devuelve el primer
+ * error o ''
+ */
+function revisarEntrega(ent, cuenta) {
+  const errDespues = completarDespues(ent, cuenta);
+  if (!entregaEnRango(ent.entregaMs)) return 'entrega_vencida';
+  const lista = siglasDe(getConfig().repartidores);
+  if (lista.length && lista.indexOf(ent.entregaQuien) < 0) return 'entrega_quien_invalido';
+  return errDespues;
 }
 
 /**
@@ -440,13 +503,13 @@ function validarObservaciones(entrada) {
     if (!def || !def.activa) return { error: 'observacion_inactiva' };
 
     // La entrega especial: una por pedido, con fecha y quien entrega
-    let detalle = '', entregaMs = null;
+    let detalle = '', entrega = null;
     if (def.efecto === 'entrega') {
       if (obs.some(o => o.efecto === 'entrega')) return { error: 'entrega_repetida' };
       const ve = validarEntrega(e.entrega);
       if (ve.error) return ve;
       detalle = ve.detalle;
-      entregaMs = ve.ms;
+      entrega = { entregaMs: ve.ms, entregaQuien: ve.quien, entregaDespues: ve.despuesDe };
     }
 
     const items = [];
@@ -493,8 +556,9 @@ function validarObservaciones(entrada) {
     }
     obs.push({ clave: def.clave, codigo: def.codigo, texto: def.texto, grupo: def.grupo,
                efecto: def.efecto, items, detalle,
-               // Solo la de entrega: su fecha, para entregaEnRango (no se escribe)
-               ...(entregaMs !== null ? { entregaMs } : {}) });
+               // Solo la de entrega: fecha, sigla y cuenta de "despues de quien",
+               // para revisarEntrega (no se escriben)
+               ...(entrega || {}) });
   }
   return { obs };
 }
@@ -506,7 +570,8 @@ function validarObservaciones(entrada) {
 function resumenObservaciones(obs) {
   return obs.map(o => (o.codigo ? o.codigo + ' ' : '') + o.texto +
     (o.items.length ? ' (' + o.items.length + ' art.)' : '') +
-    (o.detalle ? ' (' + o.detalle + ')' : '')).join(' · ');
+    // El detalle puede tener dos renglones (la entrega con "despues de"): en el resumen, con " · "
+    (o.detalle ? ' (' + o.detalle.split('\n').join(' · ') + ')' : '')).join(' · ');
 }
 
 /**
@@ -752,7 +817,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v42-entrega';
+const VERSION_API = 'v43-entrega-repartidores';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1467,6 +1532,10 @@ function accionGuardarPedido(body) {
           return responder({ ok: false, error: 'id_con_otro_contenido', numero: numGuardado, id: ped.id });
         }
         const hObsDup = obs.length ? hojaObsPedidos(ss) : null;
+        // La entrega, con su "despues de quien" en el detalle por si falta
+        // escribir su fila (sin rechazar: el pedido ya esta guardado)
+        const entDup = obs.find(o => o.efecto === 'entrega');
+        if (entDup) completarDespues(entDup, cuenta);
         const fechaCab = filasCab[i][1] instanceof Date ? filasCab[i][1] : new Date();
         const filasObsDup = hObsDup ? filasObsPedido(ped.id, fechaCab, cuenta, numGuardado, obs) : [];
         // Los datos del comercio tambien se completan y se verifican
@@ -1511,18 +1580,22 @@ function accionGuardarPedido(body) {
       return responder({ ok: false, error: 'faltan_columnas_alta' });
     }
 
-    // Entrega especial fuera de fecha (de ayer a hoy + 180): se rechaza solo si
-    // de este pedido no hay nada escrito, y entonces entrega_vencida garantiza
-    // que no se guardo nada (la app lo manda a corregir). Uno ya guardado salio
-    // arriba por el camino de duplicado; uno que un intento anterior dejo a
-    // medias ya habia pasado este control con su fecha: se completa. Las
-    // lecturas de mas, solo en este caso raro
+    // Entrega especial: fecha fuera de rango (de ayer a hoy + 180), sigla que
+    // no esta en la lista de repartidores, o "despues de quien" que falta o no
+    // vale (revisarEntrega). Se rechaza solo si de este pedido no hay nada
+    // escrito, y entonces el error (entrega_vencida, entrega_quien_invalido,
+    // entrega_falta_despues, entrega_despues_invalido) garantiza que no se
+    // guardo nada: la app lo manda a corregir. Uno ya guardado salio arriba
+    // por el camino de duplicado; uno que un intento anterior dejo a medias
+    // ya habia pasado estos controles: se completa. Las lecturas de mas, solo
+    // en este caso raro
     const ent = obs.find(o => o.efecto === 'entrega');
-    if (ent && !entregaEnRango(ent.entregaMs)) {
+    const errEntrega = ent ? revisarEntrega(ent, cuenta) : '';
+    if (errEntrega) {
       const hayAlgo = filasDeId(hLin, ped.id).length > 0 ||
         (hObs && filasDeId(hObs, ped.id).length > 0) ||
         (hAltas && filasDeId(hAltas, ped.id).length > 0);
-      if (!hayAlgo) return responder({ ok: false, error: 'entrega_vencida' });
+      if (!hayAlgo) return responder({ ok: false, error: errEntrega });
     }
 
     const ahora = new Date();

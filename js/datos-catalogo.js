@@ -18,18 +18,24 @@
  * devuelve cuanto difiere el reloj del dispositivo del de GitHub Pages
  * (encabezado Date). Vale 30 minutos: despues se vuelve a leer, asi un
  * vendedor nuevo aparece sin recargar la pagina.
+ *
+ * clientes_nombres.json (cuenta, nombre y vendedor de cada cliente, sin datos
+ * financieros; lo usa "despues de quien" en la entrega) igual: revalidando y
+ * con 30 minutos de vigencia, asi un cliente nuevo cargado a la manana
+ * aparece en una pestana abierta sin cerrarla.
  */
 
 const RUTAS = {
   productos: './json/productos.json',
   imagenes: './json/catalogo_imagenes.json',
-  usuarios: './json/funcionalidades_usuarios.json'
+  usuarios: './json/funcionalidades_usuarios.json',
+  clientes: './json/clientes_nombres.json'
 };
 
-// Opciones de fetch por archivo: solo usuarios; los demas, como siempre (sin opciones)
-const OPCIONES = { usuarios: { cache: 'no-cache' } };
+// Opciones de fetch por archivo: usuarios y clientes revalidan; los demas, como siempre (sin opciones)
+const OPCIONES = { usuarios: { cache: 'no-cache' }, clientes: { cache: 'no-cache' } };
 // Cuanto vale una lectura que salio bien (sin entrada: toda la vida de la pagina)
-const VIGENCIA_MS = { usuarios: 30 * 60 * 1000 };
+const VIGENCIA_MS = { usuarios: 30 * 60 * 1000, clientes: 30 * 60 * 1000 };
 
 const promesas = {};
 const leidoEn = {};
@@ -73,10 +79,13 @@ export const usuarios = () => leer('usuarios', async r => {
   return { datos, desfaseMs: Number.isNaN(servidor) ? null : Date.now() - servidor };
 });
 
+/** clientes_nombres.json: { clientes: { cuenta: { nombre, vendedor } } } (nada financiero) */
+export const clientes = () => leer('clientes');
+
 /** Deja vigente un productos.json ya descargado (lo usa frescura-precios.js) */
 export function reemplazarProductos(datos) {
   promesas.productos = Promise.resolve(datos);
 }
 
 // Para revisar desde la consola
-window.DatosCatalogo = { productos, imagenes, usuarios, reemplazarProductos };
+window.DatosCatalogo = { productos, imagenes, usuarios, clientes, reemplazarProductos };

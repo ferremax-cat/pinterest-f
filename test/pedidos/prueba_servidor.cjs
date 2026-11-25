@@ -1084,7 +1084,7 @@ if (!SOLO_CASO_REAL) {
   ver('P6 semaforo: la promocion queda fuera del descuento sobre el total (655 en verde)', fc[C('verde')] === 655 &&
     fc[C('total_neto')] === 655, `${fc[C('verde')]} ${fc[C('total_neto')]}`);
   const regPP = hojas.registro_guardados.slice(1).find(f => f[1] === pp.id);
-  ver('P7 version del servidor: v42-entrega', regPP?.[8] === 'v42-entrega', regPP?.[8]);
+  ver('P7 version del servidor: v43-entrega-repartidores', regPP?.[8] === 'v43-entrega-repartidores', regPP?.[8]);
 
   const bp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
   const lp = (bp.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
@@ -1168,7 +1168,9 @@ if (!SOLO_CASO_REAL) {
   rechazo('E4 dia que no coincide: entrega_fecha_invalida', conEntrega({ fecha: f, dia: otroDia, quien: 'RF' }), 'entrega_fecha_invalida');
 
   // E5. Rango: de ayer a hoy + 180
-  const ayer = masDias(-1), anteayer = masDias(-2), d180 = masDias(180), d181 = masDias(181);
+  // anteayer: el primero que no es domingo de anteayer hacia atras (un domingo
+  // se rechaza antes, con entrega_fecha_invalida); d181, de ahi hacia adelante
+  const ayer = masDias(-1), anteayer = habil(-2, -1), d180 = masDias(180), d181 = habil(181);
   if (diaSem(ayer) !== 0) {
     p = conEntrega({ fecha: ayer, dia: '', quien: 'RF' });
     ver('E5 ayer: se acepta (margen por la hora del celular)', guardar(p).ok);
@@ -1261,6 +1263,114 @@ if (!SOLO_CASO_REAL) {
 
   ctx.getObservaciones = obsAntes;
   console.log(`Casos de la entrega especial: ${ok + fallas - antesE}`);
+}
+
+// ---------- entrega especial: repartidores de config y "despues de quien" (v43) ----------
+{
+  const antesR = ok + fallas;
+  const configAntes = ctx.getConfig;
+  const obsAntesR = ctx.getObservaciones;
+  ctx.getObservaciones = () => [
+    { clave: '170', codigo: '170', texto: 'ENTREGA ESPECIAL', grupo: 'condiciones', efecto: 'entrega', activa: true }];
+  const BASE = { cuenta_prueba: '999', cuentas_alta: '157,158,159' };
+  const conConfig = extra => { ctx.getConfig = () => ({ ...BASE, ...extra }); };
+  const FILAS = { repartidores: 'RF, cs,JG|IS,IS,R1', repartidores_recorrido: 'IS' };
+
+  const hoyAR = ctx.Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
+  const masDias = n => { const [y, m, d] = hoyAR.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+  const diaSem = iso => new Date(iso + 'T00:00:00Z').getUTCDay();
+  const NOM = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  let k = 3; while (diaSem(masDias(k)) === 0) k++;
+  const f = masDias(k);
+  const linea1 = quien => `${NOM[diaSem(f)]} ${f.slice(8, 10)}/${f.slice(5, 7)} · ${quien}`;
+  const DESPUES_200 = 'después de: 200 Cliente 200';
+  const COL_DET = ENC_OBS.indexOf('detalle');
+  const datosAlta = { comercio: 'Ferretería El Tornillo', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E' };
+  const entrega = (quien, despuesDe) => ({ fecha: f, dia: '', quien, ...(despuesDe !== undefined ? { despuesDe } : {}) });
+  const deCliente = (quien, despuesDe) => pedido(1, { observaciones: [{ clave: '170', items: [], entrega: entrega(quien, despuesDe) }] });
+  const deAlta = (quien, despuesDe) => pedido(1, { cliente: '157', lista: 'E', alta: datosAlta,
+    observaciones: [{ clave: '170', items: [], entrega: entrega(quien, despuesDe) }] });
+  const rechazo = (nombre, ped, error) => {
+    const res = guardar(ped);
+    ver(nombre, !res.ok && res.error === error && obsDe(ped.id).length === 0 && cabDe(ped.id).length === 0 &&
+      lin(ped.id).length === 0 && hojas.altas_clientes.slice(1).every(a => a[0] !== ped.id), JSON.stringify(res));
+  };
+  const detalleDe = ped => obsDe(ped.id)[0]?.[COL_DET];
+
+  // R1. accionConfig: las dos listas y las cuentas no elegibles
+  reiniciar();
+  conConfig(FILAS);
+  let c = ctx.accionConfig({ token: 'vend' });
+  ver('R1 config: repartidores en mayusculas, sin repetir ni siglas invalidas, en el orden de la celda',
+    JSON.stringify(c.repartidores) === '["RF","CS","JG","IS"]', JSON.stringify(c.repartidores));
+  ver('R1 config: repartidores_recorrido', JSON.stringify(c.repartidoresRecorrido) === '["IS"]');
+  ver('R1 config: cuentas no elegibles = puentes y prueba', JSON.stringify(c.cuentasNoElegibles) === '["157","158","159","999"]',
+    JSON.stringify(c.cuentasNoElegibles));
+  conConfig({});
+  c = ctx.accionConfig({ token: 'vend' });
+  ver('R1 config sin las filas: listas vacias (la app usa los vendedores, como antes)',
+    JSON.stringify(c.repartidores) === '[]' && JSON.stringify(c.repartidoresRecorrido) === '[]' && c.ok === true);
+
+  // R2. La sigla contra la lista
+  conConfig(FILAS);
+  let p = deCliente('IS');
+  ver('R2 sigla de la lista (IS) a un cliente existente: se guarda, sin "despues de"', guardar(p).ok && detalleDe(p) === linea1('IS'), detalleDe(p));
+  rechazo('R2 sigla que no esta en la lista: entrega_quien_invalido', deCliente('ZZ'), 'entrega_quien_invalido');
+  conConfig({});
+  p = deCliente('ZZ');
+  ver('R2 sin la fila repartidores: solo el formato, como antes', guardar(p).ok);
+
+  // R3. "Despues de quien": cliente nuevo y quien hace el recorrido
+  conConfig(FILAS);
+  rechazo('R3 alta + IS sin "despues de": entrega_falta_despues', deAlta('IS'), 'entrega_falta_despues');
+  rechazo('R3 alta + IS con una cuenta que no existe: entrega_despues_invalido', deAlta('IS', '555'), 'entrega_despues_invalido');
+  rechazo('R3 alta + IS con una cuenta puente: entrega_despues_invalido', deAlta('IS', '158'), 'entrega_despues_invalido');
+  rechazo('R3 alta + IS con la cuenta de prueba: entrega_despues_invalido', deAlta('IS', '999'), 'entrega_despues_invalido');
+  rechazo('R3 alta + IS con texto en vez de cuenta: entrega_despues_invalido', deAlta('IS', 'FERRETERIA'), 'entrega_despues_invalido');
+  p = deAlta('IS', '200');
+  r = guardar(p);
+  ver('R3 alta + IS con un cliente: se guarda', r.ok && r.alta === true, JSON.stringify(r));
+  ver('R3 detalle de dos renglones: la entrega y "despues de" con cuenta y nombre de la hoja',
+    detalleDe(p) === linea1('IS') + '\n' + DESPUES_200, JSON.stringify(detalleDe(p)));
+  ver('R3 motivo_obs con los dos renglones separados por " · "',
+    cabDe(p.id)[0]?.[C('motivo_obs')] === `170 ENTREGA ESPECIAL (${linea1('IS')} · ${DESPUES_200})`, cabDe(p.id)[0]?.[C('motivo_obs')]);
+  const idDespues = p.id;
+  p = deAlta('RF', '200');
+  ver('R3 alta + RF: no se pide, y lo que venga se ignora', guardar(p).ok && detalleDe(p) === linea1('RF'), detalleDe(p));
+  p = deCliente('IS', '200');
+  ver('R3 cliente existente + IS: no se pide, y lo que venga se ignora', guardar(p).ok && detalleDe(p) === linea1('IS'), detalleDe(p));
+  conConfig({ repartidores: 'RF,CS,JG,IS' });
+  p = deAlta('IS');
+  ver('R3 sin la fila repartidores_recorrido: alta + IS no pide "despues de"', guardar(p).ok && detalleDe(p) === linea1('IS'), detalleDe(p));
+
+  // R4. A la impresion (leerObservacionesDe, la lectura de la bandeja): el detalle con sus dos renglones
+  const leidas = ctx.leerObservacionesDe(ctx.SpreadsheetApp.openById(), new Set([idDespues]))[idDespues] || [];
+  ver('R4 a la impresion: el detalle con el salto de renglon', leidas[0]?.detalle === linea1('IS') + '\n' + DESPUES_200,
+    JSON.stringify(leidas));
+
+  // R5. Reintentos con la config cambiada: nunca se rechaza lo ya escrito
+  conConfig(FILAS);
+  const pg = deAlta('IS', '200');
+  ver('R5 guardado con IS', guardar(pg).ok);
+  conConfig({ repartidores: 'RF', repartidores_recorrido: 'IS' });
+  r = guardar(pg);
+  ver('R5 ya guardado, reintento con IS fuera de la lista: duplicado ok', r.ok && r.duplicado === true, JSON.stringify(r));
+  conConfig(FILAS);
+  const pm = deAlta('IS', '200');
+  falla('pedidos_cabecera', 'appendRow', { veces: 3 });
+  r = guardar(pm);
+  ver('R5 a medias: primer intento sin cabecera, con la fila de la entrega', !r.ok && cabDe(pm.id).length === 0 && obsDe(pm.id).length === 1,
+    JSON.stringify(r));
+  conConfig({ repartidores: 'RF', repartidores_recorrido: 'IS' });
+  r = guardar(pm);
+  ver('R5 a medias, reintento con IS fuera de la lista: se completa', r.ok && cabDe(pm.id).length === 1 && obsDe(pm.id).length === 1,
+    JSON.stringify(r));
+  ver('R5 a medias: el detalle con su "despues de"', detalleDe(pm) === linea1('IS') + '\n' + DESPUES_200, JSON.stringify(detalleDe(pm)));
+
+  ctx.getConfig = configAntes;
+  ctx.getObservaciones = obsAntesR;
+  console.log(`Casos de repartidores y "despues de quien": ${ok + fallas - antesR}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);
