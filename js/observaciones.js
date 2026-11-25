@@ -28,6 +28,8 @@ const LADOS = [
 const EFECTO_TEXTO = { informativa: 'Informativa', descuenta: 'Descuenta', suma: 'Suma', ajuste: 'Ajuste',
   entrega: 'Día y quién entrega' };
 const MAX_RESULTADOS = 30;
+// Resultados del buscador de clientes de "despues de quien"
+const MAX_CLIENTES = 20;
 const CLAVE_USO = 'obsUso';
 
 function esc(s) {
@@ -107,11 +109,12 @@ export function proximoDia(dia, hoy = hoyIso()) {
   return masDias(hoy, (n - deIso(hoy).getDay() + 7) % 7);
 }
 
-/** "ju 20/11 · RF" (el renglon del panel) */
+/** "ju 20/11 · RF" (el renglon del panel); con "despues de quien": "ju 20/11 · IS · después de 949" */
 export function fmtEntregaCorta(e) {
   if (!e?.fecha) return '';
   const d = deIso(e.fecha);
-  return `${DIAS[d.getDay()]} ${dos(d.getDate())}/${dos(d.getMonth() + 1)}${e.quien ? ' · ' + e.quien : ''}`;
+  return `${DIAS[d.getDay()]} ${dos(d.getDate())}/${dos(d.getMonth() + 1)}${e.quien ? ' · ' + e.quien : ''}` +
+    (e.despuesDe?.cuenta ? ` · después de ${e.despuesDe.cuenta}` : '');
 }
 
 /** "jueves 20 de noviembre de 2026" (la confirmacion de la hoja) */
@@ -134,10 +137,54 @@ export function vendedores(datos) {
     .sort((a, b) => a.codigo.localeCompare(b.codigo));
 }
 
-/** Lo que le falta a la entrega para poder confirmar, o '' (hoy: para las pruebas) */
-export function faltaEntrega(e, hoy = hoyIso()) {
+/**
+ * Contexto de la entrega que arma el panel: si el pedido es de un cliente
+ * nuevo (esAlta) y, de la config del carrito, los repartidores, quienes hacen
+ * el recorrido y las cuentas que no se pueden elegir en "despues de quien".
+ * Una config sin esas claves (anterior, o sin las filas en la hoja) da listas
+ * vacias: la lista de quien entrega sale de los vendedores y no se pide
+ * "despues de quien", como antes
+ */
+export function contextoEntrega(config, esAlta) {
+  const lista = v => (Array.isArray(v) ? v.map(x => String(x).trim()).filter(Boolean) : []);
+  return {
+    esAlta: !!esAlta,
+    repartidores: lista(config?.repartidores).map(x => x.toUpperCase()),
+    recorrido: lista(config?.repartidoresRecorrido).map(x => x.toUpperCase()),
+    noElegibles: lista(config?.cuentasNoElegibles)
+  };
+}
+
+/** Se pide "despues de quien": cliente nuevo y entrega quien hace el recorrido */
+export const pideDespues = (e, ctx) => !!ctx?.esAlta && !!e?.quien && (ctx.recorrido || []).includes(e.quien);
+
+/**
+ * Clientes para "despues de quien", de clientes_nombres.json: [{ cuenta, nombre }],
+ * por nombre, sin las cuentas puente ni la de prueba (noElegibles). Solo cuenta
+ * y nombre: el archivo no tiene datos financieros y la sigla del vendedor no se usa
+ */
+export function clientesElegibles(datos, noElegibles = []) {
+  return Object.entries(datos?.clientes || {})
+    .filter(([cuenta]) => !noElegibles.includes(String(cuenta)))
+    .map(([cuenta, c]) => ({ cuenta: String(cuenta), nombre: String(c?.nombre || '').trim() }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es') || a.cuenta.localeCompare(b.cuenta, 'es', { numeric: true }));
+}
+
+/** Clientes que coinciden con lo escrito: la cuenta empieza igual o el nombre lo contiene (sin acentos) */
+export function buscarClientes(lista, texto, max = MAX_CLIENTES) {
+  const q = sinAcentos(texto);
+  if (!q) return [];
+  return lista.filter(c => c.cuenta.startsWith(q) || sinAcentos(c.nombre).includes(q)).slice(0, max);
+}
+
+/**
+ * Lo que le falta a la entrega para poder confirmar, o '' (hoy: para las
+ * pruebas; ctx: contextoEntrega, sin el no se pide "despues de quien")
+ */
+export function faltaEntrega(e, hoy = hoyIso(), ctx = null) {
   if (!e?.fecha || !/^\d{4}-\d{2}-\d{2}$/.test(e.fecha)) return 'falta el día';
   if (!e.quien) return 'falta quién entrega';
+  if (pideDespues(e, ctx) && !e.despuesDe?.cuenta) return 'falta después de quién';
   if (e.fecha < hoy) return 'la fecha de entrega ya pasó: elegí otro día';
   if (deIso(e.fecha).getDay() === 0) return 'los domingos no hay entrega';
   if (e.fecha > masDias(hoy, MAX_DIAS_ENTREGA)) return `la fecha de entrega es de más de ${MAX_DIAS_ENTREGA} días`;
@@ -159,10 +206,13 @@ export function registrarUsos(observaciones) {
 
 // ---------- validacion ----------
 
-/** Lo que le falta a una observacion para poder confirmar el pedido, o '' */
-export function falta(def, o) {
+/**
+ * Lo que le falta a una observacion para poder confirmar el pedido, o ''.
+ * ctx (contextoEntrega, opcional): solo lo usa la entrega, para "despues de quien"
+ */
+export function falta(def, o, ctx = null) {
   if (!def) return 'ya no está en la lista';
-  if (esEntrega(def)) return faltaEntrega(o.entrega);
+  if (esEntrega(def)) return faltaEntrega(o.entrega, hoyIso(), ctx);
   if (def.grupo !== 'mercaderia') return '';
   if (!o.items.length) return 'faltan artículos';
   if (def.efecto === 'ajuste') {
@@ -260,10 +310,11 @@ export function importeEstimado(def, o) {
  * importe si ya se conoce (importeDe). Al tocarla se abre para revisar,
  * corregir o quitar.
  */
-export function htmlLista(config, lista, importeDe) {
+// ctx: contextoEntrega (opcional), para lo que le falta a la entrega
+export function htmlLista(config, lista, importeDe, ctx = null) {
   return lista.map(o => {
     const def = defDe(config, o.clave);
-    const f = falta(def, o);
+    const f = falta(def, o, ctx);
     const n = o.items.length;
     const imp = importeDe ? importeDe(o, def) : null;
     const det = f || (def?.grupo === 'mercaderia' ? `${n} ${n === 1 ? 'art.' : 'arts.'}`
@@ -287,8 +338,9 @@ export function htmlLista(config, lista, importeDe) {
  * la misma hoja.
  */
 // actuales: las observaciones que ya tiene el pedido. alGuardarExistente:
-// guarda una de esas, cuando se eligio de nuevo para sumarle articulos
-export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExistente }) {
+// guarda una de esas, cuando se eligio de nuevo para sumarle articulos.
+// ctx: contextoEntrega (solo lo usa la entrega)
+export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExistente, ctx = null }) {
   const defs = catalogo(config) || [];
   const u = usos();
   const h = abrirHoja({ titulo: 'Agregar observación' });
@@ -341,11 +393,11 @@ export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExist
     if (esEntrega(def)) {
       if (existente) {
         editarEntregaEn(h, def, JSON.parse(JSON.stringify(existente)), {
-          alGuardar: o => { h.cerrar(); alGuardarExistente(o); }
+          alGuardar: o => { h.cerrar(); alGuardarExistente(o); }, ctx
         });
       } else {
         const nueva = { id: nuevoId(), clave: def.clave, items: [], entrega: { fecha: '', dia: '', quien: '' } };
-        editarEntregaEn(h, def, nueva, { alGuardar: o => { h.cerrar(); alAgregar(o); } });
+        editarEntregaEn(h, def, nueva, { alGuardar: o => { h.cerrar(); alAgregar(o); }, ctx });
       }
       return;
     }
@@ -386,14 +438,28 @@ export function abrirSelector(config, { actuales = [], alAgregar, alGuardarExist
   campo.focus();
 }
 
-/** Hoja para revisar, corregir o quitar una observacion ya agregada */
-export function abrirEditor(config, o, { alGuardar, alQuitar }) {
+/** Hoja para revisar, corregir o quitar una observacion ya agregada (ctx: contextoEntrega, solo la entrega) */
+export function abrirEditor(config, o, { alGuardar, alQuitar, ctx = null }) {
   const def = defDe(config, o.clave);
   const h = abrirHoja({ titulo: def ? nombreObs(def) : o.clave });
   // Se edita una copia: Volver descarta los cambios. La entrega tiene su propia hoja
   (esEntrega(def) ? editarEntregaEn : editarEn)(h, def, JSON.parse(JSON.stringify(o)), {
     alGuardar: x => { h.cerrar(); alGuardar(x); },
-    alQuitar: () => { h.cerrar(); alQuitar(); }
+    alQuitar: () => { h.cerrar(); alQuitar(); },
+    ctx
+  });
+}
+
+/**
+ * Celular: al entrar a un buscador de la hoja (selector), que quede arriba de
+ * lo visible, con lugar para los resultados (se espera a que termine de abrir
+ * el teclado). Lo usan el de articulos y el de clientes de "despues de quien"
+ */
+function subirAlEnfocar(h, selector) {
+  h.cuerpo.addEventListener('focusin', e => {
+    const campo = e.target.closest(selector);
+    if (!campo || esAncha()) return;
+    setTimeout(() => { if (document.activeElement === campo) campo.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 300);
   });
 }
 
@@ -625,11 +691,7 @@ function editarEn(h, def, o, { alGuardar, alQuitar }) {
 
   // Celular: al entrar a un buscador, que quede arriba de lo visible, con
   // lugar para los resultados (se espera a que termine de abrir el teclado)
-  h.cuerpo.addEventListener('focusin', e => {
-    const campo = e.target.closest('.ob-art-buscar');
-    if (!campo || esAncha()) return;
-    setTimeout(() => { if (document.activeElement === campo) campo.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 300);
-  });
+  subirAlEnfocar(h, '.ob-art-buscar');
 
   h.cuerpo.addEventListener('click', e => {
     const art = e.target.closest('.ob-art');
@@ -702,46 +764,96 @@ function siglaSesion() {
  * - Dia: seis botones (lu a sa), cada uno la proxima vez que cae ese dia, hoy
  *   incluido, con la fecha en chico; "Otra fecha" abre un calendario. Siempre
  *   se guarda la fecha real.
- * - Quien: los vendedores de funcionalidades_usuarios.json (DatosCatalogo.usuarios);
- *   al llegar la lista se marca la sigla de la sesion, si esta en ella y
- *   todavia no hay ninguna elegida.
- * - Abajo, la fecha completa (con el año) y, si el reloj del dispositivo
- *   difiere del servidor mas de 12 h, un aviso.
+ * - Quien: la lista de repartidores de la config (ctx.repartidores, en el
+ *   orden de la celda) o, sin ella, los vendedores de funcionalidades_usuarios.json
+ *   (DatosCatalogo.usuarios), como antes. Al tener la lista se marca la sigla
+ *   de la sesion, si esta en ella y todavia no hay ninguna elegida. El JSON
+ *   de usuarios da ademas los nombres y la hora del servidor; con la lista de
+ *   la config, si falla, solo se pierden esos dos.
+ * - "Despues de quien": solo con un cliente nuevo y quien hace el recorrido
+ *   (pideDespues). Un buscador de clientes de clientes_nombres.json (cuenta y
+ *   nombre, nada financiero, sin consultar al servidor); al elegir queda a la
+ *   vista con "Cambiar". Si se cambia a quien no hace el recorrido, se borra.
+ * - Abajo, todo junto: la fecha completa (con el año), quien y "despues de";
+ *   y si el reloj del dispositivo difiere del servidor mas de 12 h, un aviso.
  * Se edita una copia. Guardar: si paso la medianoche desde que se pintaron
  * los botones, recalcula la fecha del dia elegido y, si cambio, avisa y no
  * guarda; despues controla con falta(), como la 117.
  */
-function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
+function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
   h.ponerTitulo(def ? nombreObs(def) : o.clave);
   const e = o.entrega = { fecha: '', dia: '', quien: '', ...(o.entrega || {}) };
+  const deConfig = (ctx?.repartidores || []).length > 0;
   let otra = !!e.fecha && !e.dia;      // la fecha salio del calendario
-  let estado = 'cargando';             // de la lista: cargando, listo, vacia o error
-  let lista = [];
+  // De la lista de quien entrega: cargando, listo, vacia o error. La de la
+  // config ya esta: los nombres llegan despues
+  let estado = deConfig ? 'listo' : 'cargando';
+  let lista = deConfig ? ctx.repartidores.map(codigo => ({ codigo, nombre: '' })) : [];
   let desfase = null;                  // reloj del dispositivo menos el del servidor (ms)
   let hoyPintado = '';                 // el dia con el que se calcularon los botones
   let error = '';
   let aviso = '';
+  // "Despues de quien": la lista de clientes (null: no se pidio), su estado y lo escrito
+  let clientes = null;
+  let estadoClientes = 'sin_pedir';    // sin_pedir, cargando, listo o error
+  let busqueda = '';
+  // Cursor pedido para el buscador de clientes (Cambiar) que todavia no esta
+  // (la lista de clientes no llego): se pone cuando aparece
+  let focoPendiente = false;
+
+  /** Marca la sigla de la sesion, si esta en la lista y no hay ninguna elegida */
+  function preseleccionar() {
+    if (e.quien || !lista.length) return;
+    const propia = siglaSesion();
+    if (propia && lista.some(v => v.codigo === propia)) e.quien = propia;
+  }
 
   async function cargar() {
-    estado = 'cargando';
+    if (!deConfig) estado = 'cargando';
     pintar();
     try {
       if (!window.DatosCatalogo?.usuarios) throw new Error('falta DatosCatalogo.usuarios');
       const r = await window.DatosCatalogo.usuarios();
-      lista = vendedores(r.datos);
       desfase = r.desfaseMs;
-      estado = lista.length ? 'listo' : 'vacia';
+      if (deConfig) {
+        // De la config: el JSON solo pone los nombres (IS no es usuario: queda la sigla)
+        const nombres = {};
+        Object.values(r.datos?.usuarios || {}).forEach(u => {
+          const c = String(u?.codigo || '').trim().toUpperCase();
+          if (c && !nombres[c]) nombres[c] = String(u.nombre || '').trim();
+        });
+        lista = lista.map(v => ({ ...v, nombre: nombres[v.codigo] || '' }));
+      } else {
+        lista = vendedores(r.datos);
+        estado = lista.length ? 'listo' : 'vacia';
+      }
     } catch (err) {
       console.warn('[Observaciones] No se pudo leer la lista de vendedores:', err);
-      lista = [];
-      estado = 'error';
+      if (!deConfig) {
+        lista = [];
+        estado = 'error';
+      }
     }
     // Se cerro la hoja mientras tanto
     if (!h.cuerpo.isConnected) return;
-    if (!e.quien && estado === 'listo') {
-      const propia = siglaSesion();
-      if (propia && lista.some(v => v.codigo === propia)) e.quien = propia;
+    if (estado === 'listo') preseleccionar();
+    pintar();
+  }
+
+  /** La lista de clientes de "despues de quien", una vez (Reintentar la vuelve a pedir) */
+  async function cargarClientes() {
+    estadoClientes = 'cargando';
+    pintar();
+    try {
+      if (!window.DatosCatalogo?.clientes) throw new Error('falta DatosCatalogo.clientes');
+      clientes = clientesElegibles(await window.DatosCatalogo.clientes(), ctx?.noElegibles || []);
+      estadoClientes = 'listo';
+    } catch (err) {
+      console.warn('[Observaciones] No se pudo leer la lista de clientes:', err);
+      clientes = null;
+      estadoClientes = 'error';
     }
+    if (!h.cuerpo.isConnected) return;
     pintar();
   }
 
@@ -759,7 +871,39 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
       </button>`).join('')}</div>` : '');
   }
 
+  /** Resultados del buscador de clientes: cuenta y nombre, nada mas */
+  function htmlResultados() {
+    if (!busqueda.trim()) return '';
+    const res = buscarClientes(clientes || [], busqueda);
+    return res.length ? res.map(c => `
+      <button type="button" class="ob-ent-cli" data-cuenta="${esc(c.cuenta)}" data-nombre="${esc(c.nombre)}">
+        <b>${esc(c.cuenta)}</b> <span>${esc(c.nombre)}</span>
+      </button>`).join('') : '<p class="ob-sin-art">Ningún cliente coincide.</p>';
+  }
+
+  function htmlDespues() {
+    if (!pideDespues(e, ctx)) return '';
+    let cuerpo;
+    if (e.despuesDe?.cuenta) {
+      cuerpo = `<div class="ob-ent-elegido"><span><b>${esc(e.despuesDe.cuenta)}</b> · ${esc(e.despuesDe.nombre)}</span>
+        <button type="button" class="hj-btn ob-ent-cambiar">Cambiar</button></div>`;
+    } else if (estadoClientes === 'error') {
+      cuerpo = `<p class="ob-ent-falla">No se pudo leer la lista de clientes.
+        <button type="button" class="hj-btn ob-ent-cli-reintentar">Reintentar</button></p>`;
+    } else if (estadoClientes !== 'listo') {
+      cuerpo = '<p class="ob-nota">Cargando clientes…</p>';
+    } else {
+      cuerpo = `<input type="search" class="ob-ent-cli-buscar" autocomplete="off" enterkeyhint="search"
+          placeholder="Cliente: nombre o cuenta" aria-label="Después de quién: buscar cliente" value="${esc(busqueda)}">
+        <div class="ob-ent-cli-res">${htmlResultados()}</div>`;
+    }
+    return `<p class="ob-lado-tit">Después de quién:</p>
+      <p class="ob-nota">Cliente nuevo: se le entrega justo después del cliente que elijas.</p>${cuerpo}`;
+  }
+
   function pintar(enfocar) {
+    // Si se estaba escribiendo en el buscador de clientes, sigue ahi despues de redibujar
+    const enBuscador = document.activeElement?.classList?.contains('ob-ent-cli-buscar');
     const hoy = hoyIso();
     hoyPintado = hoy;
     const dias = DIAS.slice(1).map(d => {
@@ -771,7 +915,8 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
     }).join('');
     const v = lista.find(x => x.codigo === e.quien);
     const resumen = e.fecha
-      ? `Entrega el <b>${esc(fmtEntregaLarga(e.fecha))}</b>${e.quien ? ` · ${esc(e.quien)}${v?.nombre ? ` (${esc(nombrePropio(v.nombre))})` : ''}` : ''}`
+      ? `Entrega el <b>${esc(fmtEntregaLarga(e.fecha))}</b>${e.quien ? ` · ${esc(e.quien)}${v?.nombre ? ` (${esc(nombrePropio(v.nombre))})` : ''}` : ''}` +
+        (e.despuesDe?.cuenta ? ` · después de <b>${esc(e.despuesDe.cuenta)} ${esc(e.despuesDe.nombre)}</b>` : '')
       : 'Elegí el día y quién entrega.';
     const relojMal = desfase !== null && Math.abs(desfase) > RELOJ_MAL_MS;
     const fechaServidor = relojMal ? new Date(Date.now() - desfase) : null;
@@ -788,6 +933,7 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
         value="${esc(e.fecha)}" aria-label="Fecha de entrega">` : ''}
       <p class="ob-lado-tit">Quién entrega</p>
       ${htmlQuien()}
+      ${htmlDespues()}
       <p class="ob-ent-resumen">${resumen}</p>
       ${aviso ? `<p class="ob-ent-aviso" role="alert">${esc(aviso)}</p>` : ''}
       ${error ? `<p class="ob-error" role="alert">${esc(error.charAt(0).toUpperCase() + error.slice(1))}.</p>` : ''}`;
@@ -795,12 +941,33 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
     h.pie.innerHTML =
       (alQuitar ? '<button type="button" class="hj-btn-peligro ob-quitar">Quitar observación</button>' : '') +
       '<button type="button" class="hj-btn ob-cancelar">Cancelar</button><button type="button" class="hj-btn-prim ob-guardar">Guardar</button>';
-    if (enfocar) h.cuerpo.querySelector(enfocar)?.focus();
+    if (enfocar === '.ob-ent-cli-buscar') focoPendiente = true;
+    const foco = enfocar || (enBuscador || focoPendiente ? '.ob-ent-cli-buscar' : null);
+    const campo = foco && h.cuerpo.querySelector(foco);
+    if (campo) {
+      campo.focus();
+      // El cursor al final de lo escrito
+      if (foco === '.ob-ent-cli-buscar') {
+        campo.setSelectionRange?.(campo.value.length, campo.value.length);
+        focoPendiente = false;
+      }
+    }
+    // Hace falta la lista de clientes y todavia no se pidio
+    if (pideDespues(e, ctx) && !e.despuesDe?.cuenta && estadoClientes === 'sin_pedir') cargarClientes();
+  }
+
+  /** Elige un cliente para "despues de quien" */
+  function elegirCliente(cuenta, nombre) {
+    e.despuesDe = { cuenta, nombre };
+    busqueda = '';
+    error = '';
+    pintar();
   }
 
   h.cuerpo.addEventListener('click', ev => {
     const dia = ev.target.closest('.ob-ent-dia');
     const vend = ev.target.closest('.ob-ent-vend');
+    const cli = ev.target.closest('.ob-ent-cli');
     error = '';
     aviso = '';
     if (dia) {
@@ -815,11 +982,39 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
       pintar('.ob-ent-fecha');
     } else if (vend) {
       e.quien = vend.dataset.quien;
+      // Quien no hace el recorrido no necesita "despues de quien"
+      if (!pideDespues(e, ctx)) delete e.despuesDe;
       pintar();
     } else if (ev.target.closest('.ob-ent-reintentar')) {
       cargar();
+    } else if (cli) {
+      elegirCliente(cli.dataset.cuenta, cli.dataset.nombre);
+    } else if (ev.target.closest('.ob-ent-cambiar')) {
+      delete e.despuesDe;
+      pintar('.ob-ent-cli-buscar');
+    } else if (ev.target.closest('.ob-ent-cli-reintentar')) {
+      cargarClientes();
     }
   });
+
+  // Buscador de clientes: solo se actualizan los resultados (redibujar le
+  // sacaria el teclado al celular mientras se escribe)
+  h.cuerpo.addEventListener('input', ev => {
+    const campo = ev.target.closest('.ob-ent-cli-buscar');
+    if (!campo) return;
+    busqueda = campo.value;
+    const res = h.cuerpo.querySelector('.ob-ent-cli-res');
+    if (res) res.innerHTML = htmlResultados();
+  });
+  // Enter: el primer cliente que coincide
+  h.cuerpo.addEventListener('keydown', ev => {
+    if (!ev.target.closest('.ob-ent-cli-buscar') || ev.key !== 'Enter' || ev.isComposing) return;
+    ev.preventDefault();
+    const [primero] = buscarClientes(clientes || [], busqueda);
+    if (primero) elegirCliente(primero.cuenta, primero.nombre);
+  });
+  // Celular: el mismo comportamiento que el buscador de articulos de la 117
+  subirAlEnfocar(h, '.ob-ent-cli-buscar');
 
   h.cuerpo.addEventListener('change', ev => {
     if (!ev.target.closest('.ob-ent-fecha')) return;
@@ -848,10 +1043,13 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar }) {
         return;
       }
     }
-    error = falta(def, o);
+    // Un "despues de quien" que ya no hace falta no se guarda
+    if (!pideDespues(e, ctx)) delete e.despuesDe;
+    error = falta(def, o, ctx);
     if (error) { aviso = ''; pintar(); return; }
     alGuardar(o);
   });
 
+  if (deConfig) preseleccionar();
   cargar();
 }

@@ -730,6 +730,80 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   ver('E5 fact: el titulo de la entrega y su detalle nunca quedan en hojas distintas', separadosFact === 0, separadosFact);
   ver('E5 el barrido llega al corte: la entrega abre una hoja en prep y en fact', cortePrep > 0 && corteFact > 0, `${cortePrep} ${corteFact}`);
   ver('E5 todos los recuadros miden lo que suman sus renglones', malMedidos === 0, malMedidos);
+
+  // ----- v43: detalle de dos renglones ("despues de quien") -----
+  const DET1 = 'miércoles 20/11 · IS', DET2 = 'después de: 949 FERRETERIA X';
+  const ent2 = (texto = 'ENTREGA ESPECIAL') => ({ ...ent(texto), detalle: DET1 + '\n' + DET2 });
+
+  // E6: un renglon por linea, en las dos hojas, en orden y debajo del titulo
+  const dos = ped('E6', 'APP-66', 1, 1, { observaciones: [paga, ent2(TEXTO_REAL), o116(2)] });
+  await cerrarAvisos();
+  Hojas.imprimir([dos], { reimpresion: true });
+  await tick(60);
+  const t6 = enHojas('APP-66', '.ih-obs-tit').find(d => d.textContent.trim().startsWith('170 '));
+  ver('E6 prep: titulo solo y los dos renglones abajo, en orden',
+    t6?.textContent.replace(/\s+/g, ' ').trim() === '170 ' + TEXTO_REAL &&
+    t6.nextElementSibling?.classList.contains('ih-obs-det') && t6.nextElementSibling.textContent === DET1 &&
+    t6.nextElementSibling.nextElementSibling?.classList.contains('ih-obs-det') &&
+    t6.nextElementSibling.nextElementSibling.textContent === DET2, t6?.parentElement?.innerHTML);
+  ver('E6 prep: dos renglones de detalle, ninguno con el salto de linea', enHojas('APP-66', '.ih-obs-det').length === 2 &&
+    enHojas('APP-66', '.ih-obs-det').every(d => !d.textContent.includes('\n')));
+  const f6 = enHojas('APP-66', 'tr.ih-obs-tit-fact').find(tr => tr.firstElementChild.textContent.startsWith('170 '));
+  ver('E6 fact: el titulo y las dos filas abajo, en orden',
+    f6?.nextElementSibling?.classList.contains('ih-obs-det-fact') && f6.nextElementSibling.textContent.trim() === DET1 &&
+    f6.nextElementSibling.nextElementSibling?.classList.contains('ih-obs-det-fact') &&
+    f6.nextElementSibling.nextElementSibling.textContent.trim() === DET2, f6?.parentElement?.innerHTML);
+  ver('E6 fact: dos filas de detalle', enHojas('APP-66', 'tr.ih-obs-det-fact').length === 2);
+  // E7: el alto del recuadro cuenta los dos renglones (5 mm cada uno)
+  const caja6 = enHojas('APP-66', '.ih-obs-caja')[0];
+  const alto6 = Number(/\+ ([\d.]+)mm\)/.exec(caja6?.getAttribute('style') || '')?.[1]);
+  const ren6 = caja6 ? caja6.querySelectorAll('.ih-obs-tit, .ih-obs-lado, .ih-obs-det, .ih-obs-item:not(.ih-obs-item-foto)').length : 0;
+  ver('E7 prep: alto del recuadro = renglones x 5 mm, con los dos del detalle', alto6 === ren6 * 5 && ren6 === 7, `${alto6} mm, ${ren6} renglones`);
+
+  // E8: barrido del paginado con dos renglones: el titulo y sus dos renglones
+  // nunca quedan en hojas distintas (ni el titulo solo, ni el segundo renglon solo)
+  const casos2 = [];
+  for (let n = 25; n <= 90; n++) casos2.push(ped('EC' + n, 'APP-' + (800 + n), 1, 1, { observaciones: [o116(n), ent2()] }));
+  let sep2Prep = 0, sep2Fact = 0, corte2Prep = 0, corte2Fact = 0, malMedidos2 = 0, vistos2 = 0;
+  for (let desde = 25; desde <= 90; desde += 10) {
+    await cerrarAvisos();
+    Hojas.imprimir(casos2.filter(c => Number(c.id.slice(2)) >= desde && Number(c.id.slice(2)) < desde + 10), { reimpresion: true });
+    await tick(120);
+    for (let n = desde; n < Math.min(desde + 10, 91); n++) {
+      const num = 'APP-' + (800 + n);
+      enHojas(num, '.ih-obs-tit').filter(d => d.textContent.trim().startsWith('170 ')).forEach(d => {
+        vistos2++;
+        const d1 = d.nextElementSibling, d2 = d1?.nextElementSibling;
+        if (!d1?.classList.contains('ih-obs-det') || d1.textContent !== DET1 ||
+          !d2?.classList.contains('ih-obs-det') || d2.textContent !== DET2) sep2Prep++;
+        if (d.previousElementSibling?.classList.contains('ih-obs-caja-tit')) corte2Prep++;
+      });
+      enHojas(num, 'tr.ih-obs-tit-fact').filter(tr => tr.firstElementChild.textContent.startsWith('170 ')).forEach(tr => {
+        const d1 = tr.nextElementSibling, d2 = d1?.nextElementSibling;
+        if (!d1?.classList.contains('ih-obs-det-fact') || d1.textContent.trim() !== DET1 ||
+          !d2?.classList.contains('ih-obs-det-fact') || d2.textContent.trim() !== DET2) sep2Fact++;
+        if (!tr.previousElementSibling) corte2Fact++;
+      });
+      // Ningun renglon de detalle abre una hoja: arriba, su titulo o el otro renglon
+      enHojas(num, '.ih-obs-det').forEach(d => {
+        if (!d.previousElementSibling?.classList.contains('ih-obs-tit') && !d.previousElementSibling?.classList.contains('ih-obs-det')) sep2Prep++;
+      });
+      enHojas(num, 'tr.ih-obs-det-fact').forEach(tr => {
+        if (!tr.previousElementSibling?.classList.contains('ih-obs-tit-fact') && !tr.previousElementSibling?.classList.contains('ih-obs-det-fact')) sep2Fact++;
+      });
+    }
+    malMedidos2 += [...document.querySelectorAll('#ih-hojas .ih-obs-caja')].filter(c => {
+      const a = Number(/\+ ([\d.]+)mm\)/.exec(c.getAttribute('style') || '')?.[1]);
+      const r = c.querySelectorAll('.ih-obs-tit, .ih-obs-lado, .ih-obs-det, .ih-obs-item:not(.ih-obs-item-foto)').length * 5 +
+        c.querySelectorAll('.ih-obs-item-foto').length * 12;
+      return Math.abs(a - r) > 0.001;
+    }).length;
+  }
+  ver('E8 el barrido imprimio la entrega de los 66 pedidos', vistos2 === 66, vistos2);
+  ver('E8 prep: el titulo y sus dos renglones nunca quedan en hojas distintas', sep2Prep === 0, sep2Prep);
+  ver('E8 fact: el titulo y sus dos renglones nunca quedan en hojas distintas', sep2Fact === 0, sep2Fact);
+  ver('E8 el barrido llega al corte: la entrega abre una hoja en prep y en fact', corte2Prep > 0 && corte2Fact > 0, `${corte2Prep} ${corte2Fact}`);
+  ver('E8 todos los recuadros miden lo que suman sus renglones', malMedidos2 === 0, malMedidos2);
   console.log(`Casos de la entrega especial: ${ok + fallas - antesE}`);
 }
 

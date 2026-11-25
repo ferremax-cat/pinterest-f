@@ -445,8 +445,13 @@ function filasObservaciones(obs, paraFact) {
     const filas = [{ tipo: 'obsTit', o }];
     // El detalle (la entrega: "jueves 20/11 · RF"), en su propio renglon debajo
     // del titulo: en el mismo, un texto largo lo dejaria fuera (los renglones
-    // no se parten, lo que no entra se recorta). No es titulo: baja con el suyo
-    if (o.detalle) filas.push({ tipo: 'obsDet', o, texto: o.detalle });
+    // no se parten, lo que no entra se recorta). No es titulo: baja con el suyo.
+    // Con salto de linea ("despues de: 949 FERRETERIA X"), un renglon por linea;
+    // el paginado nunca corta entre ellos (ver cortaDetalle)
+    if (o.detalle) {
+      String(o.detalle).split(/\r?\n/).filter(l => l.trim())
+        .forEach(texto => filas.push({ tipo: 'obsDet', o, texto }));
+    }
     if (o.efecto === 'ajuste') {
       ['facturado', 'correspondia'].forEach(lado => {
         const del = items.filter(it => it.lado === lado);
@@ -468,6 +473,13 @@ function filasObservaciones(obs, paraFact) {
 }
 
 const esTituloObs = f => f.tipo === 'obsTit' || f.tipo === 'obsLado';
+
+/**
+ * El corte de hoja caeria justo antes de un renglon del detalle: no puede, el
+ * titulo y todos sus renglones de detalle van juntos (las dos hojas). Con un
+ * solo renglon ya lo cubria la regla del titulo: no cambia nada
+ */
+const cortaDetalle = (filas, corte) => corte < filas.length && filas[corte].tipo === 'obsDet';
 
 /** 'AAAA-MM-DD...' -> 'DD/MM/AAAA': el dia tal cual (el DBF no tiene hora; sin pasar por Date) */
 const fmtDia = (d, corto) => {
@@ -560,7 +572,7 @@ function paginarPrep(pisos, conObs, conReimp, filasObs = []) {
       if (!hoja.bloques.length && !hoja.primera) { n = 1; alto = altoFilaObs(filasObs[k]); }
       else { hoja = nueva(false); continue; }
     }
-    while (k + n < filasObs.length && n > 1 && esTituloObs(filasObs[k + n - 1])) {
+    while (k + n < filasObs.length && n > 1 && (esTituloObs(filasObs[k + n - 1]) || cortaDetalle(filasObs, k + n))) {
       n--;
       alto -= altoFilaObs(filasObs[k + n]);
     }
@@ -640,8 +652,9 @@ function paginarFact(filas, cierre = MM.totales + MM.firmasFact) {
       j++;
     }
     // Titulos que quedaron juntos al pie (una observacion y su lado): bajan
-    // con su primer renglon. Un titulo de piso nunca llega aca solo
-    while (j < filas.length && j - 1 > i && esTituloFact(filas[j - 1])) {
+    // con su primer renglon. Un titulo de piso nunca llega aca solo. Tampoco
+    // se corta entre los renglones del detalle de una observacion
+    while (j < filas.length && j - 1 > i && (esTituloFact(filas[j - 1]) || cortaDetalle(filas, j))) {
       j--;
       alto -= altoFilaFact(filas[j]);
     }

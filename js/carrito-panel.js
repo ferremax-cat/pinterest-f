@@ -450,7 +450,7 @@ function vistaVendedor() {
   const bloqueObs = conObs ? `
       <div class="cp-obs${lineas.length ? '' : ' cp-obs-solo'}">
         ${lineas.length ? '' : '<p class="cp-solo-obs">Pedido solo de observaciones: sin artículos.</p>'}
-        ${Obs.htmlLista(config, obsLista, (o, def) => Obs.importeEstimado(def, o))}
+        ${Obs.htmlLista(config, obsLista, (o, def) => Obs.importeEstimado(def, o), ctxEntrega())}
         <button type="button" class="cp-obs-agregar">+ Agregar observación</button>
       </div>` : '';
 
@@ -670,7 +670,8 @@ function conectar(cont) {
     Obs.abrirSelector(config, {
       actuales: window.Carrito.getAjustePedido().observaciones || [],
       alAgregar: o => cambiarObs(lista => [...lista, o]),
-      alGuardarExistente: o => cambiarObs(lista => lista.map(x => x.id === o.id ? o : x))
+      alGuardarExistente: o => cambiarObs(lista => lista.map(x => x.id === o.id ? o : x)),
+      ctx: ctxEntrega()
     });
   });
   cont.querySelectorAll('.cp-obs-linea').forEach(b => b.addEventListener('click', () => {
@@ -678,7 +679,8 @@ function conectar(cont) {
     if (!o) return;
     Obs.abrirEditor(config, o, {
       alGuardar: nueva => cambiarObs(lista => lista.map(x => x.id === nueva.id ? nueva : x)),
-      alQuitar: () => cambiarObs(lista => lista.filter(x => x.id !== o.id))
+      alQuitar: () => cambiarObs(lista => lista.filter(x => x.id !== o.id)),
+      ctx: ctxEntrega()
     });
   }));
 }
@@ -687,6 +689,17 @@ function conectar(cont) {
 function cambiarObs(cambio) {
   const aj = window.Carrito.getAjustePedido();
   window.Carrito.setAjustePedido({ ...aj, observaciones: cambio(aj.observaciones || []) });
+}
+
+/**
+ * Contexto de la hoja de la entrega especial: las listas de la config
+ * (quien entrega, quien hace el recorrido, cuentas que no se pueden elegir)
+ * y si el cliente en vista es nuevo (cuenta puente). Con eso la hoja sabe si
+ * pide "despues de quien". Sin las filas en config, listas vacias: como antes
+ */
+function ctxEntrega() {
+  const cli = window.Precios?.getClienteVista();
+  return Obs.contextoEntrega(config, esVendedor() && Alta.esCuentaAlta(cli?.cuenta));
 }
 
 function abrirMenu(btn) {
@@ -872,8 +885,9 @@ const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   'observacion_inactiva', 'observacion_sin_articulos', 'observacion_sin_cantidad',
   'ajuste_incompleto', 'faltan_columnas_obs', 'observacion_sin_precio',
   // Entrega especial (observacion con efecto entrega): datos que faltan o no
-  // valen. entrega_vencida vale tambien en un reintento (ver confirmarPedido)
+  // valen. Los de ENTREGA_A_CORREGIR valen tambien en un reintento (ver confirmarPedido)
   'entrega_incompleta', 'entrega_fecha_invalida', 'entrega_repetida', 'entrega_vencida',
+  'entrega_quien_invalido', 'entrega_falta_despues', 'entrega_despues_invalido',
   // Cliente nuevo: se rechazan antes de escribir nada
   'faltan_datos_alta', 'datos_alta_incompletos', 'formula_alta_invalida', 'alta_no_permitida',
   'faltan_columnas_alta'];
@@ -883,31 +897,86 @@ const TEXTOS_RECHAZO = {
   entrega_incompleta: 'Falta el día o quién entrega en la entrega especial. Revisala y confirmá de nuevo.',
   entrega_fecha_invalida: 'La fecha de la entrega especial no es válida (un domingo, o no coincide con el día elegido). Revisala y confirmá de nuevo.',
   entrega_repetida: 'El pedido tiene dos entregas especiales: dejá una sola y confirmá de nuevo.',
-  entrega_vencida: 'La fecha de la entrega especial ya pasó y el pedido no se guardó. Elegí otro día y confirmá de nuevo.'
+  entrega_vencida: 'La fecha de la entrega especial ya pasó y el pedido no se guardó. Elegí otro día y confirmá de nuevo.',
+  entrega_quien_invalido: 'Quien entrega ya no está en la lista de repartidores y el pedido no se guardó. Elegí quién entrega y confirmá de nuevo.',
+  entrega_falta_despues: 'Falta "después de quién" en la entrega especial y el pedido no se guardó. Elegí el cliente y confirmá de nuevo.',
+  entrega_despues_invalido: 'El cliente de "después de quién" no se puede usar y el pedido no se guardó. Elegí otro cliente y confirmá de nuevo.'
 };
 
+// Rechazos de la entrega especial que se corrigen en la hoja. El servidor los
+// da solo si no hay nada escrito de este pedido (uno ya guardado responde ok,
+// como duplicado): valen tambien en un reintento
+const ENTREGA_A_CORREGIR = ['entrega_vencida', 'entrega_quien_invalido',
+  'entrega_falta_despues', 'entrega_despues_invalido'];
+
+// Rechazos que vienen de una configuracion vieja: la de la pestaña vive en
+// sessionStorage y no se vuelve a pedir, asi que la lista de quien entrega o
+// la de quien hace el recorrido pueden haber cambiado. Sin pedirla de nuevo,
+// la hoja ofreceria lo mismo que el servidor acaba de rechazar
+const PIDEN_CONFIG = ['entrega_quien_invalido', 'entrega_falta_despues'];
+
 /**
- * Entrega vencida (el servidor rechazo con entrega_vencida: no hay nada
- * guardado de este pedido). El carrito sigue entero, porque solo se vacia al
- * confirmarse: se borra el pendiente, la fecha de la entrega queda vacia (asi
- * ademas el carrito queda modificado hoy y la limpieza de los de mas de 7
- * dias no lo descarta) y se abre la entrega para elegir otro dia. Al
- * confirmar de nuevo, el pedido sale con otro id
+ * Vuelve a pedir la configuracion y la guarda, igual que al entrar a una
+ * pestaña nueva. Una sola consulta, sin reintentos: si falla (sin señal, la
+ * sesion vencida) se sigue con la que habia
  */
-function corregirEntregaVencida() {
+async function refrescarConfig() {
+  const token = sessionStorage.getItem('authToken');
+  if (!token) return;
+  try {
+    const d = await window.Api.llamar({ accion: 'config', token }, 0);
+    if (d?.ok) {
+      config = d;
+      sessionStorage.setItem('configCarrito', JSON.stringify(d));
+    }
+  } catch (e) {
+    console.warn('[Carrito] No se pudo volver a traer la configuracion:', e);
+  }
+}
+
+/** La entrega sin el dato que rechazo el servidor */
+function limpiarEntrega(e, error) {
+  if (error === 'entrega_vencida') return { ...e, fecha: '', dia: '' };
+  // Sin quien entrega, "despues de quien" tampoco vale: depende de la sigla
+  if (error === 'entrega_quien_invalido') {
+    const { despuesDe, ...resto } = e;
+    return { ...resto, quien: '' };
+  }
+  if (error === 'entrega_despues_invalido') {
+    const { despuesDe, ...resto } = e;
+    return resto;
+  }
+  // entrega_falta_despues: no hay nada que borrar, falta el dato
+  return { ...e };
+}
+
+/**
+ * Entrega a corregir (el servidor rechazo con uno de ENTREGA_A_CORREGIR: no
+ * hay nada guardado de este pedido). El carrito sigue entero, porque solo se
+ * vacia al confirmarse: se borra el pendiente, se limpia solo el dato que
+ * fallo (asi ademas el carrito queda modificado hoy y la limpieza de los de
+ * mas de 7 dias no lo descarta) y se abre la hoja de la entrega para
+ * corregirlo. Con PIDEN_CONFIG, antes se vuelve a pedir la configuracion, asi
+ * la hoja muestra las listas con las que valida el servidor. Al confirmar de
+ * nuevo, el pedido sale con otro id
+ */
+async function corregirEntrega(error) {
+  // Mientras se pide, el pendiente sigue y el boton queda deshabilitado
+  if (PIDEN_CONFIG.includes(error)) await refrescarConfig();
   window.Carrito.borrarPendiente();
   motivoPendiente = '';
   const aj = window.Carrito.getAjustePedido();
   const esEnt = o => Obs.esEntrega(Obs.defDe(config, o.clave)) && o.entrega;
-  const lista = (aj.observaciones || []).map(o => esEnt(o) ? { ...o, entrega: { ...o.entrega, fecha: '', dia: '' } } : o);
+  const lista = (aj.observaciones || []).map(o => esEnt(o) ? { ...o, entrega: limpiarEntrega(o.entrega, error) } : o);
   // setAjustePedido redibuja el panel (ya sin el pendiente)
   window.Carrito.setAjustePedido({ ...aj, observaciones: lista });
-  avisar(TEXTOS_RECHAZO.entrega_vencida, 'error');
+  avisar(TEXTOS_RECHAZO[error], 'error');
   const o = lista.find(esEnt);
   if (o) {
     Obs.abrirEditor(config, o, {
       alGuardar: nueva => cambiarObs(l => l.map(x => x.id === nueva.id ? nueva : x)),
-      alQuitar: () => cambiarObs(l => l.filter(x => x.id !== o.id))
+      alQuitar: () => cambiarObs(l => l.filter(x => x.id !== o.id)),
+      ctx: ctxEntrega()
     });
   }
 }
@@ -1173,10 +1242,11 @@ async function confirmarPedido() {
       if (faltanObs.length) {
         try { await window.productManagerInstance?.loadSpecificProducts(faltanObs); } catch (e) {}
       }
-      const incompleta = obsPed.find(o => Obs.falta(Obs.defDe(config, o.clave), o));
+      const ctx = ctxEntrega();
+      const incompleta = obsPed.find(o => Obs.falta(Obs.defDe(config, o.clave), o, ctx));
       if (incompleta) {
         const def = Obs.defDe(config, incompleta.clave);
-        avisar(`Revisá la observación ${def ? Obs.nombreObs(def) : incompleta.clave}: ${Obs.falta(def, incompleta)}.`, 'error');
+        avisar(`Revisá la observación ${def ? Obs.nombreObs(def) : incompleta.clave}: ${Obs.falta(def, incompleta, ctx)}.`, 'error');
         return;
       }
       const cd = JSON.parse(localStorage.getItem('clientData') || '{}');
@@ -1219,11 +1289,13 @@ async function confirmarPedido() {
         motivo: Obs.catalogo(config) ? '' : aj.motivo,
         obsLibre: aj.obsLibre,
         // Solo clave, articulos y lado: texto, grupo y efecto los pone el servidor
-        // (tambien el texto de la entrega: de aca van solo la fecha, el dia y la sigla)
+        // (tambien el texto de la entrega: de aca van la fecha, el dia, la sigla
+        // y, si hay "despues de quien", solo la cuenta: el nombre lo pone el servidor)
         observaciones: obsPed.map(o => ({
           clave: o.clave,
           ...(Obs.esEntrega(Obs.defDe(config, o.clave)) && o.entrega
-            ? { entrega: { fecha: o.entrega.fecha, dia: o.entrega.dia || '', quien: o.entrega.quien } } : {}),
+            ? { entrega: { fecha: o.entrega.fecha, dia: o.entrega.dia || '', quien: o.entrega.quien,
+                ...(o.entrega.despuesDe?.cuenta ? { despuesDe: String(o.entrega.despuesDe.cuenta) } : {}) } } : {}),
           items: o.items.map(it => ({
             sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '',
             // Lista actual, con los precios en memoria; sin precio, null (a verificar al facturar)
@@ -1286,11 +1358,11 @@ async function confirmarPedido() {
     console.log('[Pedido] respuesta del servidor:', resp);
 
     if (!resp.ok) {
-      // Entrega vencida: el servidor la rechaza solo si no hay nada escrito de
-      // este pedido (uno ya guardado responde ok, como duplicado), asi que
-      // vale tambien en un reintento: a corregir la entrega
-      if (resp.error === 'entrega_vencida') {
-        corregirEntregaVencida();
+      // Entrega a corregir: el servidor la rechaza solo si no hay nada escrito
+      // de este pedido (uno ya guardado responde ok, como duplicado), asi que
+      // vale tambien en un reintento
+      if (ENTREGA_A_CORREGIR.includes(resp.error)) {
+        await corregirEntrega(resp.error);
         return;
       }
       // Rechazado antes de escribir y sin intentos previos: no se guardo nada
@@ -1322,6 +1394,10 @@ async function confirmarPedido() {
     const nombreCli = cli ? cli.nombre
       : (JSON.parse(localStorage.getItem('clientData') || '{}').name || '');
 
+    // El nombre de "despues de quien" no viaja (solo la cuenta): se toma del
+    // carrito antes de vaciarlo
+    const despuesCarrito = (window.Carrito.getAjustePedido().observaciones || []).find(o => o.entrega?.despuesDe)?.entrega.despuesDe;
+
     motivoPendiente = '';
     window.Carrito.vaciar();
     // El pedido revisado deja de figurar como pendiente
@@ -1335,8 +1411,12 @@ async function confirmarPedido() {
     // un reintento, la del pendiente, la misma que tiene el pedido guardado).
     // Si ya paso (un duplicado de dias atras), se dice, para que no se suponga otra
     const entGuardada = (pedido.observaciones || []).find(o => o.entrega)?.entrega;
+    // "despues de quien": la cuenta enviada; el nombre, del carrito si es la misma
+    const ctaDespues = entGuardada?.despuesDe ? String(entGuardada.despuesDe) : '';
+    const nomDespues = ctaDespues && String(despuesCarrito?.cuenta) === ctaDespues ? despuesCarrito.nombre || '' : '';
     const htmlEntrega = entGuardada?.fecha
       ? `<p class="cp-exito-det">Entrega especial: ${escHtml(Obs.fmtEntregaLarga(entGuardada.fecha))} · ${escHtml(entGuardada.quien || '')}` +
+        `${ctaDespues ? ` · después de ${escHtml((ctaDespues + ' ' + nomDespues).trim())}` : ''}` +
         `${entGuardada.fecha < Obs.hoyIso() ? ' <b>(esa fecha ya pasó: así quedó guardado)</b>' : ''}</p>`
       : '';
     const cont = document.getElementById('carrito-panel');

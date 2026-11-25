@@ -6,7 +6,8 @@ Corre en orden todo lo que hay que actualizar cada dia, aunque un paso falle:
   1. JSON del catalogo (scripts/excel_to_json.py)
   2. Indice de busqueda (generar_indice_busqueda.py)
   3. Prueba del buscador (node js/search/v2/probar_busquedas.js), como aviso
-  4. Finanzas: JSON desde excel/clientes_finanzas.xlsx
+  4. Finanzas: JSON desde excel/clientes_finanzas.xlsx (y clientes_nombres.json,
+     solo cuenta, nombre y vendedor: los dos o ninguno)
   5. Finanzas: hoja de la planilla y cache del servidor (necesita el 4)
   6. Usuarios: JSON desde los Excel de usuarios y funcionalidades
   7. Usuarios: hoja de la planilla y cache del servidor (necesita el 6)
@@ -74,11 +75,13 @@ PASOS = [
     },
     {
         'clave': 'fin_json',
-        'nombre': 'Finanzas: JSON desde clientes_finanzas.xlsx',
+        'nombre': 'Finanzas y nombres de clientes: JSON desde clientes_finanzas.xlsx',
         'comando': [PY, 'scripts/convertir_clientes_finanzas.py'],
-        'archivos': ['json/clientes_finanzas.json'],
+        # Los dos de la misma lista, o ninguno (guardia.escribir_jsons)
+        'archivos': ['json/clientes_finanzas.json', 'json/clientes_nombres.json'],
         'errores': [r'❌'],
-        'si_falla': 'La búsqueda de clientes del catálogo muestra saldos y cupos viejos.',
+        'si_falla': ('La búsqueda de clientes del catálogo muestra saldos y cupos viejos, y en la entrega '
+                     'especial ("después de quién") faltan los clientes nuevos.'),
     },
     {
         'clave': 'fin_hoja',

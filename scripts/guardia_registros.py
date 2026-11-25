@@ -101,6 +101,38 @@ def escribir_json(ruta, datos, contar=contar_registros, encoding='utf-8', **opci
     os.replace(temporal, ruta)
 
 
+def escribir_jsons(archivos, contar=contar_registros, encoding='utf-8'):
+    """Varios JSON que tienen que quedar de acuerdo entre si (por ejemplo,
+    clientes_finanzas.json y clientes_nombres.json, de la misma lista):
+    todos o ninguno.
+    archivos: [(ruta, datos, opciones_dump), ...].
+    1. Revisa la cantidad de TODOS antes de escribir nada: si uno se bloquea,
+       no se escribe ninguno (EscrituraBloqueada).
+    2. Escribe todos a su archivo temporal: si falla uno, se borran los
+       temporales y quedan todos los anteriores.
+    3. Recien entonces los reemplaza, uno detras del otro."""
+    archivos = [(Path(r), d, o or {}) for r, d, o in archivos]
+    for ruta, datos, _ in archivos:
+        revisar(ruta.name, contar_json(ruta, contar), contar(datos))
+    temporales = []
+    try:
+        for ruta, datos, opciones in archivos:
+            ruta.parent.mkdir(parents=True, exist_ok=True)
+            temporal = ruta.with_suffix(ruta.suffix + '.tmp')
+            temporales.append(temporal)
+            with open(temporal, 'w', encoding=encoding) as f:
+                json.dump(datos, f, **opciones)
+    except BaseException:
+        for t in temporales:
+            try:
+                t.unlink()
+            except OSError:
+                pass
+        raise
+    for (ruta, _, _), temporal in zip(archivos, temporales):
+        os.replace(temporal, ruta)
+
+
 def bloquear(nombre, motivo):
     """Frena la escritura por datos invalidos (no por cantidad de registros):
     queda el archivo anterior y la corrida termina con codigo 1. A diferencia

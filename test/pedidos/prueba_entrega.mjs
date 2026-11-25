@@ -1,6 +1,7 @@
 // PRUEBA DE LA ENTREGA ESPECIAL (observacion con efecto 'entrega', la 170) con
 // jsdom y los modulos reales:
 //   1. js/datos-catalogo.js: la lista de vendedores (funcionalidades_usuarios.json)
+//      y la de clientes (clientes_nombres.json, para "despues de quien")
 //      con no-cache, el desfase del reloj, 30 minutos de vigencia, y que una
 //      falla no quede guardada; productos e imagenes sin cambios.
 //   2. js/observaciones.js y js/hoja.js: la hoja de la entrega (dias, otra
@@ -33,7 +34,7 @@ const DateReal = Date;
 const fetchReal = globalThis.fetch;
 
 // =====================================================================
-// 1. LISTA DE VENDEDORES (js/datos-catalogo.js)
+// 1. LISTAS DE VENDEDORES Y DE CLIENTES (js/datos-catalogo.js)
 {
   const antes = ok + fallas;
   const llamadas = [];
@@ -78,9 +79,23 @@ const fetchReal = globalThis.fetch;
   ver('1 productos: no vence (sigue la primera lectura buena)', de('productos').length === 2);
   ver('1 en window.DatosCatalogo', typeof globalThis.window.DatosCatalogo?.usuarios === 'function');
 
+  // clientes_nombres.json: el mismo patron (no-cache, 30 minutos, una falla no queda guardada)
+  modo = 'falla'; await m.clientes().catch(() => {});
+  modo = 'ok';
+  const cl = await m.clientes();
+  ver('1 clientes: la falla no quedo guardada; el segundo lee clientes_nombres.json', de('clientes_nombres').length === 2 &&
+    cl.url.includes('clientes_nombres.json'), JSON.stringify(de('clientes_nombres')));
+  ver('1 clientes: siempre con cache no-cache', de('clientes_nombres').every(x => x[1]?.cache === 'no-cache'));
+  await m.clientes();
+  ver('1 clientes: dentro de 30 minutos no se vuelve a pedir', de('clientes_nombres').length === 2);
+  ahora += 31 * 60 * 1000;
+  await m.clientes();
+  ver('1 clientes: pasados 30 minutos se lee de nuevo', de('clientes_nombres').length === 3);
+  ver('1 clientes en window.DatosCatalogo', typeof globalThis.window.DatosCatalogo?.clientes === 'function');
+
   Date.now = nowReal;
   globalThis.fetch = fetchReal;
-  escribir(`Casos de la lista de vendedores: ${ok + fallas - antes}`);
+  escribir(`Casos de las listas de vendedores y de clientes: ${ok + fallas - antes}`);
 }
 
 // Pagina de jsdom para las secciones 2 y 3
@@ -109,12 +124,26 @@ const USU = { usuarios: {
   }
   globalThis.Date = FechaSimulada;
   const w = pagina();
-  let modoUsu = 'ok', desfase = 0;
+  let modoUsu = 'ok', desfase = 0, modoCli = 'ok', pedidosClientes = 0;
+  // clientes_nombres.json simulado: cuenta, nombre y vendedor (nada financiero), con una
+  // cuenta puente y la de prueba, que no se pueden elegir
+  const CLIENTES = { clientes: {
+    949: { nombre: 'FERRETERIA X', vendedor: 'RF' }, 950: { nombre: 'FERRETERÍA ÑANDÚ', vendedor: 'JG' },
+    1001: { nombre: 'CORRALON SUR', vendedor: 'CS' }, 157: { nombre: 'NUEVO CLIENTE RF', vendedor: 'RF' },
+    999: { nombre: 'MS LIBERTAD FERRETERIA', vendedor: 'RF' } } };
   w.DatosCatalogo = { imagenes: async () => ({ images: {} }), productos: async () => ({}),
     usuarios: async () => {
       if (modoUsu === 'falla') throw new Error('sin red (simulada)');
       return { datos: modoUsu === 'vacia' ? { usuarios: {} } : USU, desfaseMs: desfase };
+    },
+    clientes: async () => {
+      pedidosClientes++;
+      if (modoCli === 'falla') throw new Error('sin red (simulada)');
+      return JSON.parse(JSON.stringify(CLIENTES));
     } };
+  // Ninguna consulta al servidor en la hoja (tampoco de finanzas)
+  let llamadasApi = 0;
+  w.Api = { llamar: async () => { llamadasApi++; return { ok: true }; } };
   w.Carrito = { precioAjustado: () => ({ precioBase: 100, precio: 100, precioAplicado: 100, descEfectivo: 0 }) };
   w.Precios = { getClienteVista: () => ({ lista: 'D' }) };
   w.productManager = { getProduct: () => ({}) };
@@ -268,6 +297,137 @@ const USU = { usuarios: {
   ver('2 la 113: carga de articulos', !!$('.ob-art-buscar') && /cantidad obligatoria/.test($('.ob-nota').textContent) && !$('.ob-ent-dias'));
   ver('2 la 113 sin articulos: falta igual que antes', Obs.falta(DEFS[0], { items: [] }) === 'faltan artículos');
 
+  // ----- Repartidores de config y "despues de quien" (v43) -----
+  const CFG = { repartidores: ['RF', 'CS', 'JG', 'IS'], repartidoresRecorrido: ['IS'], cuentasNoElegibles: ['157', '158', '159', '999'] };
+  const ctxAlta = Obs.contextoEntrega(CFG, true);
+  const ctxCliente = Obs.contextoEntrega(CFG, false);
+  const abrirCon = async ctx => {
+    const res = {};
+    Obs.abrirSelector(CONFIG, { actuales: [], alAgregar: o => { res.o = o; }, alGuardarExistente: () => {}, ctx });
+    clic($('.ob-opcion[data-clave="170"]')); await tick();
+    return res;
+  };
+  const escribirEn = async (texto) => {
+    const inp = $('.ob-ent-cli-buscar');
+    inp.value = texto;
+    inp.dispatchEvent(new w.Event('input', { bubbles: true }));
+    await tick();
+  };
+  const resultados = () => $$('.ob-ent-cli').map(b => b.dataset.cuenta).join();
+
+  // Contexto
+  const vacio = Obs.contextoEntrega({}, true);
+  ver('3x contexto de una config sin las claves: listas vacias', vacio.esAlta === true && !vacio.repartidores.length &&
+    !vacio.recorrido.length && !vacio.noElegibles.length);
+  ver('3x falta sin contexto: no pide "despues de quien" (como antes)',
+    Obs.faltaEntrega({ fecha: '2026-11-20', dia: 'vi', quien: 'IS' }, '2026-11-18') === '');
+  ver('3x falta con alta + IS: pide "despues de quien"',
+    Obs.faltaEntrega({ fecha: '2026-11-20', dia: 'vi', quien: 'IS' }, '2026-11-18', ctxAlta) === 'falta después de quién');
+  ver('3x falta con cliente existente + IS: no lo pide',
+    Obs.faltaEntrega({ fecha: '2026-11-20', dia: 'vi', quien: 'IS' }, '2026-11-18', ctxCliente) === '');
+  ver('3x fmtEntregaCorta con "despues de"', Obs.fmtEntregaCorta({ fecha: '2026-11-20', quien: 'IS', despuesDe: { cuenta: '949', nombre: 'X' } }) ===
+    'vi 20/11 · IS · después de 949');
+
+  // La lista sale de la config, en su orden; IS sin nombre (no es usuario); preseleccion de la sesion
+  sessionStorage.setItem('authCodigo', 'RF');
+  let r2 = await abrirCon(ctxAlta);
+  ver('3x quien entrega: la lista de la config, en el orden de la celda', $$('.ob-ent-vend').map(b => b.dataset.quien).join() === 'RF,CS,JG,IS');
+  ver('3x nombres del JSON de usuarios; IS solo la sigla', $('.ob-ent-vend[data-quien="RF"] .ob-ent-chico').textContent === 'Roberto' &&
+    $('.ob-ent-vend[data-quien="IS"] .ob-ent-chico').textContent === '');
+  ver('3x la sigla de la sesion preseleccionada (RF)', marcadas() === 'RF');
+  ver('3x con RF no aparece "despues de quien"', !/Después de quién/.test(document.querySelector('.hj-cuerpo').textContent) &&
+    !$('.ob-ent-cli-buscar'));
+  ver('3x sin "despues de" no se pidio la lista de clientes', pedidosClientes === 0);
+
+  // Con IS en un alta: el cuadro, el buscador y la lista sin puentes ni prueba
+  clic($('.ob-ent-dia[data-dia="vi"]'));
+  clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  ver('3x alta + IS: aparece "Despues de quien:" con el buscador', /Después de quién:/.test(document.querySelector('.hj-cuerpo').textContent) &&
+    !!$('.ob-ent-cli-buscar'));
+  await escribirEn('ferre');
+  ver('3x buscar "ferre": los dos clientes por nombre, sin la cuenta de prueba (999)', resultados() === '950,949', resultados());
+  ver('3x sin acentos: "nandu" encuentra FERRETERÍA ÑANDÚ', (await escribirEn('nandu'), resultados()) === '950');
+  ver('3x por cuenta: "94" encuentra 949', (await escribirEn('94'), resultados()) === '949');
+  ver('3x la cuenta puente (157) no se puede elegir', (await escribirEn('157'), resultados()) === '' && /Ningún cliente coincide/.test($('.ob-ent-cli-res').textContent));
+  await escribirEn('corralon');
+  ver('3x cada resultado: solo cuenta y nombre (ni la sigla del vendedor)', $('.ob-ent-cli').textContent.replace(/\s+/g, ' ').trim() === '1001 CORRALON SUR');
+  clic($('.ob-guardar'));
+  ver('3x sin elegir cliente no guarda: falta despues de quien', !r2.o && /Falta después de quién/.test($('.ob-error')?.textContent || ''));
+  await escribirEn('ferre');
+  clic($('.ob-ent-cli[data-cuenta="949"]'));
+  ver('3x elegido: "949 · FERRETERIA X" con Cambiar', $('.ob-ent-elegido')?.textContent.replace(/\s+/g, ' ').includes('949 · FERRETERIA X') &&
+    !!$('.ob-ent-cambiar'));
+  ver('3x confirmacion con todo junto', $('.ob-ent-resumen').textContent.replace(/\s+/g, ' ').trim() ===
+    'Entrega el viernes 20 de noviembre de 2026 · IS · después de 949 FERRETERIA X', $('.ob-ent-resumen').textContent);
+  clic($('.ob-guardar'));
+  ver('3x guarda con despuesDe { cuenta, nombre }', JSON.stringify(r2.o?.entrega) ===
+    JSON.stringify({ fecha: '2026-11-20', dia: 'vi', quien: 'IS', despuesDe: { cuenta: '949', nombre: 'FERRETERIA X' } }), JSON.stringify(r2.o?.entrega));
+  ver('3x ninguna consulta al servidor en toda la hoja', llamadasApi === 0);
+
+  // Cambiar, Enter, y pasar a RF borra el dato
+  let g2 = null;
+  Obs.abrirEditor(CONFIG, r2.o, { alGuardar: o => { g2 = o; }, alQuitar: () => {}, ctx: ctxAlta });
+  await tick();
+  ver('3x reabierta: el elegido a la vista', $('.ob-ent-elegido')?.textContent.includes('949'));
+  clic($('.ob-ent-cambiar')); await tick();
+  ver('3x Cambiar: vuelve el buscador, con el cursor', !!$('.ob-ent-cli-buscar') && document.activeElement === $('.ob-ent-cli-buscar'));
+  await escribirEn('corr');
+  $('.ob-ent-cli-buscar').dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  ver('3x Enter elige el primero', $('.ob-ent-elegido')?.textContent.includes('1001'));
+  clic($('.ob-ent-vend[data-quien="RF"]'));
+  ver('3x pasar a RF: desaparece el cuadro', !$('.ob-ent-elegido') && !$('.ob-ent-cli-buscar'));
+  clic($('.ob-guardar'));
+  ver('3x con RF se guarda sin despuesDe (la entrega igual que antes)', JSON.stringify(g2?.entrega) ===
+    JSON.stringify({ fecha: '2026-11-20', dia: 'vi', quien: 'RF' }), JSON.stringify(g2?.entrega));
+
+  // Cliente existente + IS: nunca aparece
+  r2 = await abrirCon(ctxCliente);
+  clic($('.ob-ent-dia[data-dia="vi"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  ver('3x cliente existente + IS: no aparece el cuadro', !/Después de quién/.test(document.querySelector('.hj-cuerpo').textContent));
+  clic($('.ob-guardar'));
+  ver('3x cliente existente + IS: guarda sin despuesDe', JSON.stringify(r2.o?.entrega) === JSON.stringify({ fecha: '2026-11-20', dia: 'vi', quien: 'IS' }));
+
+  // Falla la lista de clientes: Reintentar y no guarda
+  modoCli = 'falla';
+  r2 = await abrirCon(ctxAlta);
+  clic($('.ob-ent-dia[data-dia="vi"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  ver('3x falla la lista de clientes: aviso y Reintentar', /No se pudo leer la lista de clientes/.test(document.querySelector('.hj-cuerpo').textContent) &&
+    !!$('.ob-ent-cli-reintentar'));
+  clic($('.ob-guardar'));
+  ver('3x falla la lista de clientes: no guarda', !r2.o);
+  modoCli = 'ok';
+  clic($('.ob-ent-cli-reintentar')); await tick();
+  ver('3x reintento: aparece el buscador', !!$('.ob-ent-cli-buscar'));
+
+  // Falla el JSON de usuarios con la lista de la config: la lista igual esta
+  modoUsu = 'falla';
+  await abrirCon(ctxAlta);
+  ver('3x falla el JSON de usuarios: la lista de la config igual, sin Reintentar', $$('.ob-ent-vend').map(b => b.dataset.quien).join() === 'RF,CS,JG,IS' &&
+    !$('.ob-ent-reintentar') && marcadas() === 'RF');
+  modoUsu = 'ok';
+
+  // htmlLista con contexto: marca lo que falta
+  ver('3x htmlLista: alta + IS sin "despues de" queda marcada', /falta después de quién/.test(Obs.htmlLista(CONFIG,
+    [{ id: 'z', clave: '170', items: [], entrega: { fecha: '2026-11-20', dia: 'vi', quien: 'IS' } }], null, ctxAlta)));
+  ver('3x htmlLista sin contexto: igual que antes', !/falta/.test(Obs.htmlLista(CONFIG,
+    [{ id: 'z', clave: '170', items: [], entrega: { fecha: '2026-11-20', dia: 'vi', quien: 'IS' } }])));
+
+  // Celular: el buscador de clientes sube al enfocarlo, igual que el de articulos de la 117
+  const subidas = [];
+  const scrollReal = w.HTMLElement.prototype.scrollIntoView;
+  w.HTMLElement.prototype.scrollIntoView = function () { subidas.push(this.className); };
+  w.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });   // angosto
+  const enfocar = async sel => { $(sel).focus(); await new Promise(rr => setTimeout(rr, 350)); };   // focus() dispara focusin
+  await abrirCon(ctxAlta);
+  clic($('.ob-ent-dia[data-dia="vi"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  await enfocar('.ob-ent-cli-buscar');
+  Obs.abrirEditor(CONFIG, { id: 'a', clave: '117', items: [] }, { alGuardar: () => {}, alQuitar: () => {} });
+  await enfocar('.ob-art-buscar');
+  ver('3x celular: el buscador de clientes y el de articulos suben igual', subidas.length === 2 &&
+    subidas[0].includes('ob-ent-cli-buscar') && subidas[1].includes('ob-art-buscar'), JSON.stringify(subidas));
+  w.matchMedia = () => ({ matches: true, addEventListener() {}, removeEventListener() {} });
+  w.HTMLElement.prototype.scrollIntoView = scrollReal;
+
   globalThis.Date = DateReal;
   escribir(`Casos de la hoja de la entrega: ${ok + fallas - antes}`);
 }
@@ -290,6 +450,7 @@ const USU = { usuarios: {
     const u = String(url);
     const resp = d => ({ ok: true, status: 200, headers: { get: () => null }, json: async () => JSON.parse(JSON.stringify(d)) });
     if (u.includes('funcionalidades_usuarios')) return resp(USU);
+    if (u.includes('clientes_nombres')) return resp({ clientes: { 949: { nombre: 'FERRETERIA X', vendedor: 'RF' } } });
     if (u.includes('grupos_clientes')) return resp({ groups: {} });
     if (u.includes('promociones')) return resp({ promotions: {} });
     if (u.includes('imagenes')) return resp({ images: {} });
@@ -309,8 +470,12 @@ const USU = { usuarios: {
   w.menuFuncionalidades = { usuarioActual: { clave: 'V1', rol: 'vendedor_estandar' } };
   const enviados = [];
   let respuesta = () => ({ ok: true, numero: 'APP-1' });
+  // accion config: lo que responde el servidor cuando el panel la vuelve a pedir
+  let pedidosConfig = 0;
+  let configServidor = () => ({ ok: true });
   w.Api = {
     llamar: async body => {
+      if (body.accion === 'config') { pedidosConfig++; return configServidor(); }
       if (body.accion !== 'guardar_pedido') return { ok: true };
       enviados.push(JSON.parse(JSON.stringify(body.pedido)));
       return respuesta(body);
@@ -405,6 +570,110 @@ const USU = { usuarios: {
   await reintentar();
   ver('3 otro rechazo en un reintento: sigue pendiente (como antes)', !!C.getPendiente());
   ver('3 los envios sin respuesta quedaron registrados en la consola', consola.some(([k, t]) => k === 'error' && t.includes('sin conexion (simulada)')));
+  C.borrarPendiente();
+  await tick();
+
+  // ----- Repartidores de config y "despues de quien" (v43) -----
+  const cfgBase = JSON.parse(sessionStorage.getItem('configCarrito'));
+  const cfgNueva = { ...cfgBase, repartidores: ['RF', 'CS', 'JG', 'IS'], repartidoresRecorrido: ['IS'], cuentasNoElegibles: ['157', '999'] };
+  const entregaDe = () => C.getAjustePedido().observaciones[0].entrega;
+  const ponerEnt = ent => C.setAjustePedido({ ...C.getAjustePedido(), observaciones: [{ id: 'e2', clave: '170', items: [], entrega: ent }] });
+  const cerrarHoja = async () => { $('.hj-fondo .hj-volver')?.click(); await tick(); };
+  const siglasHoja = () => [...document.querySelectorAll('.hj-fondo .ob-ent-vend')].map(b => b.dataset.quien).join();
+  const fEnt = fechaEn(3);
+
+  // Envio: "despues de" viaja con la cuenta sola; el exito lo muestra con el nombre del carrito
+  C.vaciar(); C.agregar('NORMAL', 1);
+  ponerEnt({ fecha: fEnt, dia: '', quien: 'IS', despuesDe: { cuenta: '949', nombre: 'FERRETERIA X' } });
+  respuesta = () => ({ ok: true, numero: 'APP-3' });
+  await abrirPanel();
+  await confirmar();
+  ver('3x envio: despuesDe solo con la cuenta', JSON.stringify(enviados.at(-1).observaciones[0].entrega) ===
+    JSON.stringify({ fecha: fEnt, dia: '', quien: 'IS', despuesDe: '949' }), JSON.stringify(enviados.at(-1).observaciones[0].entrega));
+  ver('3x exito: "· IS · después de 949 FERRETERIA X"', /· IS · después de 949 FERRETERIA X/.test($('#carrito-panel .cp-exito')?.textContent || ''),
+    $('#carrito-panel .cp-exito')?.textContent);
+  await cerrarExito();
+  // Sin "despues de": el envio igual que antes, sin la clave
+  C.agregar('NORMAL', 1); ponerEnt({ fecha: fEnt, dia: '', quien: 'RF' });
+  await abrirPanel(); await confirmar();
+  ver('3x envio sin "despues de": sin la clave (como antes)', !('despuesDe' in enviados.at(-1).observaciones[0].entrega));
+  await cerrarExito();
+
+  // Cliente nuevo (cuenta puente 157) con la config vieja de la pestaña (sin listas)
+  sessionStorage.setItem('clienteVista', JSON.stringify({ cuenta: '157', lista: 'D', nombre: 'Cliente nuevo' }));
+  sessionStorage.setItem('disponibleDeCuenta', '157');
+  C.setAlta({ comercio: 'C', apellido: 'A', contacto: 'X', domicilio: 'D', localidad: 'L', telefono: '1', horario: 'H', formula: 'D' }, '157');
+  C.agregar('NORMAL', 1); ponerEnt({ fecha: fEnt, dia: '', quien: 'IS' });
+  configServidor = () => ({ ...cfgNueva });
+  respuesta = () => ({ ok: false, error: 'entrega_falta_despues' });
+  let antesCfg = pedidosConfig, antesEnv = enviados.length;
+  await abrirPanel();
+  await confirmar();
+  ver('3x falta_despues: se envio (la config vieja no lo pedia)', enviados.length === antesEnv + 1 && enviados.at(-1).cliente === '157');
+  ver('3x falta_despues: se volvio a pedir la config, una vez', pedidosConfig === antesCfg + 1);
+  ver('3x falta_despues: la config nueva quedo guardada en la sesion',
+    JSON.stringify(JSON.parse(sessionStorage.getItem('configCarrito')).repartidoresRecorrido) === '["IS"]');
+  ver('3x falta_despues: sin pendiente, el carrito entero, quien se conserva', !C.getPendiente() && C.leer().length === 1 && entregaDe().quien === 'IS');
+  ver('3x falta_despues: aviso legible', /Falta "después de quién"/.test($('.cp-aviso')?.textContent || ''), $('.cp-aviso')?.textContent);
+  ver('3x falta_despues: la hoja abierta con la lista nueva y el cuadro "Después de quién"', siglasHoja() === 'RF,CS,JG,IS' &&
+    /Después de quién/.test($('.hj-fondo')?.textContent || ''));
+  ver('3x falta_despues: la observacion del panel marcada con lo que falta', /falta después de quién/.test($('#carrito-panel .cp-obs-linea')?.textContent || ''));
+  await cerrarHoja();
+
+  // Con la config nueva, Confirmar no envia sin "despues de"
+  antesEnv = enviados.length;
+  await confirmar();
+  ver('3x alta + IS sin "despues de": Confirmar no envia y avisa', enviados.length === antesEnv &&
+    /falta después de quién/.test($('.cp-aviso')?.textContent || ''), $('.cp-aviso')?.textContent);
+
+  // entrega_despues_invalido: no se pide la config, se borra solo "despues de"
+  ponerEnt({ fecha: fEnt, dia: '', quien: 'IS', despuesDe: { cuenta: '949', nombre: 'FERRETERIA X' } });
+  respuesta = () => ({ ok: false, error: 'entrega_despues_invalido' });
+  antesCfg = pedidosConfig;
+  await abrirPanel(); await confirmar();
+  ver('3x despues_invalido: no se pide la config', pedidosConfig === antesCfg);
+  ver('3x despues_invalido: se borra solo "despues de"', JSON.stringify(entregaDe()) === JSON.stringify({ fecha: fEnt, dia: '', quien: 'IS' }),
+    JSON.stringify(entregaDe()));
+  ver('3x despues_invalido: la hoja abierta con el buscador de clientes', !!$('.hj-fondo .ob-ent-cli-buscar'));
+  ver('3x despues_invalido: aviso legible', /no se puede usar/.test($('.cp-aviso')?.textContent || ''));
+  await cerrarHoja();
+
+  // entrega_quien_invalido en un reintento: se pide la config, se borran quien y "despues de"
+  ponerEnt({ fecha: fEnt, dia: '', quien: 'IS', despuesDe: { cuenta: '949', nombre: 'FERRETERIA X' } });
+  respuesta = () => { throw new Error('sin conexion (simulada)'); };
+  await abrirPanel(); await confirmar();
+  const idQ = C.getPendiente()?.id;
+  respuesta = () => ({ ok: false, error: 'entrega_quien_invalido' });
+  configServidor = () => ({ ...cfgNueva, repartidores: ['RF', 'CS'] });
+  antesCfg = pedidosConfig;
+  await reintentar();
+  ver('3x quien_invalido en un reintento: mismo id y sin pendiente', enviados.at(-1).id === idQ && !C.getPendiente());
+  ver('3x quien_invalido: se volvio a pedir la config', pedidosConfig === antesCfg + 1);
+  ver('3x quien_invalido: se borran quien y "despues de", la fecha queda', JSON.stringify(entregaDe()) === JSON.stringify({ fecha: fEnt, dia: '', quien: '' }),
+    JSON.stringify(entregaDe()));
+  ver('3x quien_invalido: la hoja con la lista nueva, sin la sigla rechazada', siglasHoja() === 'RF,CS', siglasHoja());
+  ver('3x quien_invalido: aviso legible', /ya no está en la lista de repartidores/.test($('.cp-aviso')?.textContent || ''));
+  await cerrarHoja();
+
+  // La config no llega (sin señal): se sigue con la que habia y la hoja se abre igual
+  // (con RF: IS en un alta pediria "despues de" antes de enviar)
+  ponerEnt({ fecha: fEnt, dia: '', quien: 'RF' });
+  const cfgAntes = sessionStorage.getItem('configCarrito');
+  configServidor = () => { throw new Error('sin conexion (simulada)'); };
+  respuesta = () => ({ ok: false, error: 'entrega_quien_invalido' });
+  await abrirPanel(); await confirmar();
+  ver('3x config que no llega: la de la sesion queda igual', sessionStorage.getItem('configCarrito') === cfgAntes);
+  ver('3x config que no llega: sin pendiente, hoja abierta y aviso', !C.getPendiente() && !!$('.hj-fondo .ob-ent-dias') &&
+    /ya no está en la lista/.test($('.cp-aviso')?.textContent || ''));
+  await cerrarHoja();
+  // Una config rechazada (ok: false, la sesion vencida) tampoco reemplaza la que habia
+  configServidor = () => ({ ok: false, error: 'token_invalido' });
+  ponerEnt({ fecha: fEnt, dia: '', quien: 'RF' });
+  antesEnv = enviados.length;
+  await abrirPanel(); await confirmar();
+  ver('3x config con error: se envio, y la de la sesion queda igual', enviados.length === antesEnv + 1 &&
+    sessionStorage.getItem('configCarrito') === cfgAntes);
+  await cerrarHoja();
 
   globalThis.fetch = fetchReal;
   escribir(`Casos del panel del carrito: ${ok + fallas - antes}`);

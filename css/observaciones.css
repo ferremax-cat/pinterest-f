@@ -39,7 +39,7 @@
 }
 
 /* ---------- hoja ---------- */
-.ob-buscar, .ob-art-buscar {
+.ob-buscar, .ob-art-buscar, .ob-ent-cli-buscar {
   width: 100%; height: 42px; padding: 0 12px; box-sizing: border-box;
   border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px;   /* 16px: el celular no agranda la pagina */
 }
@@ -113,6 +113,19 @@
 .ob-ent-vends { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 6px; }
 .ob-ent-falla { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0; color: #dc2626; font-size: 13px; font-weight: 600; }
 .ob-ent-falla .hj-btn { padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+/* "Despues de quien": buscador de clientes (cuenta y nombre) y el elegido */
+.ob-ent-cli {
+  display: block; width: 100%; min-height: 44px; padding: 8px 4px;
+  border: none; border-bottom: 1px solid #f0f0f0; background: #fff;
+  text-align: left; font-size: 14px; color: #1f2937; cursor: pointer; overflow-wrap: anywhere;
+}
+.ob-ent-cli b { margin-right: 6px; }
+.ob-ent-elegido {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 8px 10px; border: 2px solid #e60023; border-radius: 8px; background: #fff1f2; font-size: 14px;
+}
+.ob-ent-elegido span { overflow-wrap: anywhere; }
+.ob-ent-elegido .hj-btn { flex: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
 .ob-ent-resumen { margin: 16px 0 0; padding: 10px 12px; border-radius: 8px; background: #f3f4f6; font-size: 14px; }
 .ob-ent-reloj, .ob-ent-aviso {
   margin: 8px 0; padding: 8px 10px; border-radius: 8px;
