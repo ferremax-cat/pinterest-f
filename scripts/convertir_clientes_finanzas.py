@@ -1,6 +1,8 @@
 import pandas as pd
 import json
+import numbers
 import sys
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 # Antes de pisar el JSON, comparar la cantidad de clientes (ver guardia_registros.py)
@@ -22,15 +24,33 @@ def limpiar_moneda(valor):
         return float(valor)
     return float(valor)
 
+# Numero de serie de Excel: dias desde el 30/12/1899 (1 = 01/01/1900,
+# 2958465 = 31/12/9999)
+EPOCA_EXCEL = datetime(1899, 12, 30)
+SERIE_MAX = 2958465
+
+# Aviso si, de los clientes con algo en Ult_Operacion, al menos esta
+# proporcion queda con ultOperacion vacio (dato que no se entiende como fecha)
+UMBRAL_FECHAS_PERDIDAS = 0.10
+
+
 def formatear_fecha(valor):
-    """Convierte fecha a formato dd/mm/yyyy"""
+    """Convierte fecha a formato dd/mm/yyyy (el texto que leen la app y la planilla)"""
     if pd.isna(valor):
         return ""
-    
+
     try:
-        # Si es datetime de pandas
-        if isinstance(valor, pd.Timestamp):
+        # Fecha: pd.Timestamp si toda la columna es de fechas, datetime.datetime
+        # si alguna celda no lo es (pandas deja la columna como object). Las dos
+        # son datetime: mismo formato
+        if isinstance(valor, (datetime, date)):
             return valor.strftime('%d/%m/%Y')
+        # Numero: fecha guardada como numero de serie de Excel (celda sin
+        # formato de fecha; en esta columna cualquier numero es una fecha)
+        if isinstance(valor, numbers.Real) and not isinstance(valor, bool):
+            if 1 <= valor <= SERIE_MAX:
+                return (EPOCA_EXCEL + timedelta(days=int(valor))).strftime('%d/%m/%Y')
+            return ""
         # Si es string, intentar parsear
         elif isinstance(valor, str):
             # Ya está en formato correcto
@@ -50,6 +70,32 @@ RAIZ = Path(__file__).resolve().parent.parent
 def texto(valor):
     """Celda de texto: '' si esta vacia, sin espacios de mas"""
     return '' if pd.isna(valor) else str(valor).strip()
+
+
+def avisar_fechas_perdidas(df, clientes):
+    """Aviso por la salida de error (no bloquea: la rutina lo muestra en su
+    resumen) si una proporcion alta de los clientes con algo en Ult_Operacion
+    quedo con ultOperacion vacio: el Excel trae datos que no se entienden como
+    fecha. Devuelve el texto del aviso, o None"""
+    con_dato = perdidas = 0
+    ejemplos = []
+    for _, row in df.iterrows():
+        if pd.isna(row['Ult_Operacion']):
+            continue
+        con_dato += 1
+        cuenta = str(int(row['Cliente_ID']))
+        if clientes[cuenta]['ultOperacion'] == '':
+            perdidas += 1
+            if len(ejemplos) < 5:
+                ejemplos.append(cuenta)
+    if not con_dato or perdidas < UMBRAL_FECHAS_PERDIDAS * con_dato:
+        return None
+    aviso = (f"AVISO: ultOperacion quedó vacío en {perdidas} de {con_dato} clientes que tienen "
+             f"Ult_Operacion en el Excel ({perdidas / con_dato:.0%}): esa columna trae datos que no "
+             f"se entienden como fecha (la barra de salud financiera muestra --/--/----). Revisá el "
+             f"formato de Ult_Operacion en clientes_finanzas.xlsx. Cuentas, por ejemplo: {', '.join(ejemplos)}")
+    print(aviso, file=sys.stderr, flush=True)
+    return aviso
 
 
 def nombres_de(clientes):
@@ -95,9 +141,11 @@ def convertir(excel_path, carpeta_json):
         cuenta = str(int(row['Cliente_ID']))
         
         clientes[cuenta] = {
-            "nombre": row['Nombre_Cliente'],
+            # Sin nombre: texto vacio (no NaN, que no es texto ni JSON valido)
+            "nombre": '' if pd.isna(row['Nombre_Cliente']) else row['Nombre_Cliente'],
             "numero_cuenta": cuenta,
-            "vendedor": row['Vendedor'],
+            # Sin vendedor: texto vacio, igual que nombre
+            "vendedor": '' if pd.isna(row['Vendedor']) else row['Vendedor'],
             "pgProm3M": limpiar_moneda(row['PG_Prom_3M']),
             "comproMes": limpiar_moneda(row['CP_Este_Mes']),
             "saldoTotal": limpiar_moneda(row['Saldo_Total']),
@@ -106,6 +154,10 @@ def convertir(excel_path, carpeta_json):
             "ultOperacion": formatear_fecha(row['Ult_Operacion'])  # ⭐ NUEVA LÍNEA
         }
     
+    # Fechas perdidas en silencio: aviso, no bloqueo
+    sys.stdout.flush()
+    avisar_fechas_perdidas(df, clientes)
+
     # Guardar JSON
     output = {"clientes": clientes}
 

@@ -80,8 +80,14 @@ PASOS = [
         # Los dos de la misma lista, o ninguno (guardia.escribir_jsons)
         'archivos': ['json/clientes_finanzas.json', 'json/clientes_nombres.json'],
         'errores': [r'❌'],
+        # Muchos clientes con fecha en el Excel quedaron sin ultOperacion
+        # (avisar_fechas_perdidas, por la salida de error): escribe igual
+        'avisos': [r'^\s*AVISO\b'],
         'si_falla': ('La búsqueda de clientes del catálogo muestra saldos y cupos viejos, y en la entrega '
                      'especial ("después de quién") faltan los clientes nuevos.'),
+        'si_aviso': ('Muchos clientes quedaron sin fecha de última operación (la barra de salud financiera '
+                     'muestra --/--/----): revisá el formato de la columna Ult_Operacion de '
+                     'clientes_finanzas.xlsx y volvé a correr la rutina.'),
     },
     {
         'clave': 'fin_hoja',
