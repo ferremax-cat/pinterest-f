@@ -627,7 +627,8 @@ function conectar(cont) {
 
     // imageMap es un Map: con [sku] nunca encontraba nada
     const id = window.imageLoader?.imageMap?.get?.(sku);
-    if (id) d.style.backgroundImage = `url(https://lh3.googleusercontent.com/d/${id}=w120)`;
+    // Miniatura de 120 con WebP si se puede (js/fotos.js); sin Fotos, la de siempre
+    if (id) d.style.backgroundImage = `url(${window.Fotos?.url(id, 120) ?? `https://lh3.googleusercontent.com/d/${id}=w120`})`;
   });
 
     cont.querySelectorAll('.cp-destino').forEach(f => {

@@ -51,7 +51,10 @@ const fotosListas = (window.DatosCatalogo ? window.DatosCatalogo.imagenes() : Pr
   .then(j => { fotos = j?.images || {}; })
   .catch(() => {});
 
-const urlFoto = sku => (fotos[sku] ? 'https://lh3.googleusercontent.com/d/' + fotos[sku] + '=w120' : SIN_FOTO);
+// Miniatura de 120 con WebP si se puede (js/fotos.js); sin Fotos, la de siempre
+const urlFoto = sku => (fotos[sku]
+  ? (window.Fotos?.url(fotos[sku], 120) ?? 'https://lh3.googleusercontent.com/d/' + fotos[sku] + '=w120')
+  : SIN_FOTO);
 
 /** Miniatura: si el mapa todavia no estaba, ponerFotos la completa al llegar */
 const htmlFoto = sku => `<img class="ob-foto" data-sku="${esc(sku)}" src="${esc(urlFoto(sku))}" alt=""

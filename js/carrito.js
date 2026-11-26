@@ -217,7 +217,9 @@ export function agregar(sku, cantidad, cliente, opc = {}) {
     let img = fotoCat?.currentSrc || fotoCat?.src || null;
 
     if (!img && mapaImagenes?.[codigo]) {
-      img = `https://lh3.googleusercontent.com/d/${mapaImagenes[codigo]}`;
+      // Miniatura de 120 (con WebP si se puede), no la original de hasta 1600 px
+      const id = mapaImagenes[codigo];
+      img = window.Fotos?.url(id, 120) ?? `https://lh3.googleusercontent.com/d/${id}=w120`;
     }
 
     // Mapa vacío porque falló la descarga: volver a pedirlo para los próximos
