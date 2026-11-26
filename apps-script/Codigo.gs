@@ -291,7 +291,11 @@ function accionConfig(body) {
     repartidores: siglasDe(cfg.repartidores),
     repartidoresRecorrido: siglasDe(cfg.repartidores_recorrido),
     // Cuentas que no se pueden elegir en "despues de quien": puentes y prueba
-    cuentasNoElegibles: cuentasNoElegibles()
+    cuentasNoElegibles: cuentasNoElegibles(),
+    // Dias en que el reparto sale en dos viajes (config: dias_dos_viajes,
+    // "lu,ju,sa"): ese dia, quien hace el recorrido pide viaje 1 o 2. Sin la
+    // fila, lista vacia: no se pide
+    diasDosViajes: diasDe(cfg.dias_dos_viajes)
   });
 }
 
@@ -301,6 +305,16 @@ function siglasDe(texto) {
   String(texto || '').split(/[,|\s]+/).forEach(s => {
     const x = s.trim().toUpperCase();
     if (/^[A-Z]{1,4}$/.test(x) && res.indexOf(x) < 0) res.push(x);
+  });
+  return res;
+}
+
+/** Lista de dias de una celda de config ("lu, JU|sa"): minusculas, sin repetir, solo lu a sa */
+function diasDe(texto) {
+  const res = [];
+  String(texto || '').split(/[,|\s]+/).forEach(s => {
+    const x = s.trim().toLowerCase();
+    if (DIAS_ENTREGA.indexOf(x) > 0 && res.indexOf(x) < 0) res.push(x);
   });
   return res;
 }
@@ -405,12 +419,15 @@ function dejarUnaEntrega(lista) {
 
 /**
  * Datos de la entrega especial que manda el navegador: { fecha: 'AAAA-MM-DD',
- * dia: 'lu'..'sa' (el boton que se toco) o '' (otra fecha), quien: sigla }.
- * Aca, lo que no depende del dia de hoy: una fecha real, nunca un domingo, y
- * dia, si viene, el de la fecha. El rango contra hoy (entregaEnRango) se
- * controla en guardar_pedido despues de buscar el id: un reintento de un
- * pedido ya guardado no se rechaza aunque la fecha haya pasado.
- * Devuelve { detalle: 'jueves 20/11 · RF', ms: la fecha en UTC } o { error }
+ * dia: 'lu'..'sa' (el boton que se toco) o '' (otra fecha), quien: sigla,
+ * viaje?: 1 o 2, despuesDe?: cuenta }.
+ * Aca, lo que no depende del dia de hoy ni de la config: una fecha real, nunca
+ * un domingo, dia, si viene, el de la fecha, y viaje, si viene, 1 o 2
+ * (entrega_viaje_invalido). El rango contra hoy (entregaEnRango) y si hace
+ * falta el viaje (completarViaje) se controlan en guardar_pedido despues de
+ * buscar el id: un reintento de un pedido ya guardado no se rechaza aunque la
+ * fecha haya pasado o la config haya cambiado.
+ * Devuelve { detalle: 'jueves 20/11 · RF', ms: la fecha en UTC, quien, viaje: 0, 1 o 2, despuesDe } o { error }
  */
 function validarEntrega(ent) {
   if (!ent || typeof ent !== 'object') return { error: 'entrega_incompleta' };
@@ -429,7 +446,11 @@ function validarEntrega(ent) {
   }
   const n = d.getUTCDay();
   if (n === 0 || (dia && DIAS_ENTREGA[n] !== dia)) return { error: 'entrega_fecha_invalida' };
-  return { detalle: NOMBRES_DIA[n] + ' ' + m[3] + '/' + m[2] + ' · ' + quien, ms: t, quien,
+  // Viaje: sin dato es 0 (no se eligio); si viene, 1 o 2 (tambien en texto, "2")
+  const sinViaje = ent.viaje === undefined || ent.viaje === null || ent.viaje === '';
+  const viaje = sinViaje ? 0 : Number(ent.viaje);
+  if (!sinViaje && viaje !== 1 && viaje !== 2) return { error: 'entrega_viaje_invalido' };
+  return { detalle: NOMBRES_DIA[n] + ' ' + m[3] + '/' + m[2] + ' · ' + quien, ms: t, quien, viaje,
            // La cuenta de "despues de quien" tal cual (se controla en revisarEntrega)
            despuesDe: String(ent.despuesDe || '').trim() };
 }
@@ -468,18 +489,44 @@ function completarDespues(ent, cuenta) {
 }
 
 /**
+ * Viaje de una entrega (ent, la observacion validada): se pide cuando el dia
+ * de la semana DE LA FECHA (no el boton que se toco: una "otra fecha" que cae
+ * en lunes tambien) esta en dias_dos_viajes y entrega quien hace el recorrido
+ * (repartidores_recorrido), sea el cliente nuevo o no. Si hace falta y esta,
+ * agrega " · V1" al primer renglon del detalle, junto a la sigla ("lunes 24/11
+ * · IS · V1"); va antes que completarDespues, que agrega el segundo renglon.
+ * Devuelve '' o 'entrega_falta_viaje'. Sin hacer falta, ignora lo que venga
+ */
+function completarViaje(ent) {
+  const cfg = getConfig();
+  const dia = DIAS_ENTREGA[new Date(ent.entregaMs).getUTCDay()];
+  const pide = diasDe(cfg.dias_dos_viajes).indexOf(dia) >= 0 &&
+    siglasDe(cfg.repartidores_recorrido).indexOf(ent.entregaQuien) >= 0;
+  if (!pide) return '';
+  if (!ent.entregaViaje) return 'entrega_falta_viaje';
+  if (!ent.viajePuesto) {
+    const renglones = ent.detalle.split('\n');
+    renglones[0] += ' · V' + ent.entregaViaje;
+    ent.detalle = renglones.join('\n');
+    ent.viajePuesto = true;
+  }
+  return '';
+}
+
+/**
  * Controles de la entrega que dependen de hoy o de la config (se hacen en
  * guardar_pedido despues de buscar el id): la fecha en rango, la sigla en la
  * lista de repartidores (si la fila existe; si no, solo el formato, como
- * antes) y "despues de quien". Completa el detalle y devuelve el primer
- * error o ''
+ * antes), el viaje y "despues de quien". Completa el detalle (el viaje antes,
+ * en el primer renglon) y devuelve el primer error o ''
  */
 function revisarEntrega(ent, cuenta) {
+  const errViaje = completarViaje(ent);
   const errDespues = completarDespues(ent, cuenta);
   if (!entregaEnRango(ent.entregaMs)) return 'entrega_vencida';
   const lista = siglasDe(getConfig().repartidores);
   if (lista.length && lista.indexOf(ent.entregaQuien) < 0) return 'entrega_quien_invalido';
-  return errDespues;
+  return errViaje || errDespues;
 }
 
 /**
@@ -509,7 +556,7 @@ function validarObservaciones(entrada) {
       const ve = validarEntrega(e.entrega);
       if (ve.error) return ve;
       detalle = ve.detalle;
-      entrega = { entregaMs: ve.ms, entregaQuien: ve.quien, entregaDespues: ve.despuesDe };
+      entrega = { entregaMs: ve.ms, entregaQuien: ve.quien, entregaViaje: ve.viaje, entregaDespues: ve.despuesDe };
     }
 
     const items = [];
@@ -556,8 +603,8 @@ function validarObservaciones(entrada) {
     }
     obs.push({ clave: def.clave, codigo: def.codigo, texto: def.texto, grupo: def.grupo,
                efecto: def.efecto, items, detalle,
-               // Solo la de entrega: fecha, sigla y cuenta de "despues de quien",
-               // para revisarEntrega (no se escriben)
+               // Solo la de entrega: fecha, sigla, viaje y cuenta de "despues de
+               // quien", para revisarEntrega (no se escriben)
                ...(entrega || {}) });
   }
   return { obs };
@@ -817,7 +864,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v43-entrega-repartidores';
+const VERSION_API = 'v44-entrega-viaje';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1532,10 +1579,10 @@ function accionGuardarPedido(body) {
           return responder({ ok: false, error: 'id_con_otro_contenido', numero: numGuardado, id: ped.id });
         }
         const hObsDup = obs.length ? hojaObsPedidos(ss) : null;
-        // La entrega, con su "despues de quien" en el detalle por si falta
-        // escribir su fila (sin rechazar: el pedido ya esta guardado)
+        // La entrega, con su viaje y su "despues de quien" en el detalle por si
+        // falta escribir su fila (sin rechazar: el pedido ya esta guardado)
         const entDup = obs.find(o => o.efecto === 'entrega');
-        if (entDup) completarDespues(entDup, cuenta);
+        if (entDup) { completarViaje(entDup); completarDespues(entDup, cuenta); }
         const fechaCab = filasCab[i][1] instanceof Date ? filasCab[i][1] : new Date();
         const filasObsDup = hObsDup ? filasObsPedido(ped.id, fechaCab, cuenta, numGuardado, obs) : [];
         // Los datos del comercio tambien se completan y se verifican
@@ -1581,9 +1628,10 @@ function accionGuardarPedido(body) {
     }
 
     // Entrega especial: fecha fuera de rango (de ayer a hoy + 180), sigla que
-    // no esta en la lista de repartidores, o "despues de quien" que falta o no
-    // vale (revisarEntrega). Se rechaza solo si de este pedido no hay nada
-    // escrito, y entonces el error (entrega_vencida, entrega_quien_invalido,
+    // no esta en la lista de repartidores, viaje que falta en un dia de dos
+    // viajes, o "despues de quien" que falta o no vale (revisarEntrega). Se
+    // rechaza solo si de este pedido no hay nada escrito, y entonces el error
+    // (entrega_vencida, entrega_quien_invalido, entrega_falta_viaje,
     // entrega_falta_despues, entrega_despues_invalido) garantiza que no se
     // guardo nada: la app lo manda a corregir. Uno ya guardado salio arriba
     // por el camino de duplicado; uno que un intento anterior dejo a medias

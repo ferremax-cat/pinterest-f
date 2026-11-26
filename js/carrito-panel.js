@@ -906,6 +906,7 @@ const RECHAZOS_PREVIOS = ['token_invalido', 'pedido_vacio', 'falta_cliente',
   // valen. Los de ENTREGA_A_CORREGIR valen tambien en un reintento (ver confirmarPedido)
   'entrega_incompleta', 'entrega_fecha_invalida', 'entrega_repetida', 'entrega_vencida',
   'entrega_quien_invalido', 'entrega_falta_despues', 'entrega_despues_invalido',
+  'entrega_falta_viaje', 'entrega_viaje_invalido',
   // Cliente nuevo: se rechazan antes de escribir nada
   'faltan_datos_alta', 'datos_alta_incompletos', 'formula_alta_invalida', 'alta_no_permitida',
   'faltan_columnas_alta'];
@@ -918,20 +919,23 @@ const TEXTOS_RECHAZO = {
   entrega_vencida: 'La fecha de la entrega especial ya pasó y el pedido no se guardó. Elegí otro día y confirmá de nuevo.',
   entrega_quien_invalido: 'Quien entrega ya no está en la lista de repartidores y el pedido no se guardó. Elegí quién entrega y confirmá de nuevo.',
   entrega_falta_despues: 'Falta "después de quién" en la entrega especial y el pedido no se guardó. Elegí el cliente y confirmá de nuevo.',
-  entrega_despues_invalido: 'El cliente de "después de quién" no se puede usar y el pedido no se guardó. Elegí otro cliente y confirmá de nuevo.'
+  entrega_despues_invalido: 'El cliente de "después de quién" no se puede usar y el pedido no se guardó. Elegí otro cliente y confirmá de nuevo.',
+  entrega_falta_viaje: 'Falta el viaje (1 o 2) de la entrega especial y el pedido no se guardó. Elegilo y confirmá de nuevo.',
+  entrega_viaje_invalido: 'El viaje de la entrega especial no es válido (tiene que ser 1 o 2). Revisalo y confirmá de nuevo.'
 };
 
 // Rechazos de la entrega especial que se corrigen en la hoja. El servidor los
 // da solo si no hay nada escrito de este pedido (uno ya guardado responde ok,
 // como duplicado): valen tambien en un reintento
 const ENTREGA_A_CORREGIR = ['entrega_vencida', 'entrega_quien_invalido',
-  'entrega_falta_despues', 'entrega_despues_invalido'];
+  'entrega_falta_despues', 'entrega_despues_invalido', 'entrega_falta_viaje'];
 
 // Rechazos que vienen de una configuracion vieja: la de la pestaña vive en
-// sessionStorage y se revalida recien a los 30 minutos, asi que la lista de quien entrega o
-// la de quien hace el recorrido pueden haber cambiado. Sin pedirla de nuevo,
-// la hoja ofreceria lo mismo que el servidor acaba de rechazar
-const PIDEN_CONFIG = ['entrega_quien_invalido', 'entrega_falta_despues'];
+// sessionStorage y se revalida recien a los 30 minutos, asi que la lista de
+// quien entrega, la de quien hace el recorrido o los dias de dos viajes pueden
+// haber cambiado. Sin pedirla de nuevo, la hoja ofreceria lo mismo que el
+// servidor acaba de rechazar (sin el bloque del viaje, por ejemplo)
+const PIDEN_CONFIG = ['entrega_quien_invalido', 'entrega_falta_despues', 'entrega_falta_viaje'];
 
 /**
  * Vuelve a pedir la configuracion y la guarda, igual que al entrar a una
@@ -994,17 +998,22 @@ function redibujarConConfigNueva() {
 
 /** La entrega sin el dato que rechazo el servidor */
 function limpiarEntrega(e, error) {
-  if (error === 'entrega_vencida') return { ...e, fecha: '', dia: '' };
+  // Sin fecha, el viaje tampoco vale: cada dia se divide distinto
+  if (error === 'entrega_vencida') {
+    const { viaje, ...resto } = e;
+    return { ...resto, fecha: '', dia: '' };
+  }
   // Sin quien entrega, "despues de quien" tampoco vale: depende de la sigla
   if (error === 'entrega_quien_invalido') {
-    const { despuesDe, ...resto } = e;
+    // El viaje se pide por la sigla: al elegir otra, la hoja lo vuelve a pedir si hace falta
+    const { despuesDe, viaje, ...resto } = e;
     return { ...resto, quien: '' };
   }
   if (error === 'entrega_despues_invalido') {
     const { despuesDe, ...resto } = e;
     return resto;
   }
-  // entrega_falta_despues: no hay nada que borrar, falta el dato
+  // entrega_falta_despues, entrega_falta_viaje: no hay nada que borrar, falta el dato
   return { ...e };
 }
 
@@ -1347,12 +1356,14 @@ async function confirmarPedido() {
         motivo: Obs.catalogo(config) ? '' : aj.motivo,
         obsLibre: aj.obsLibre,
         // Solo clave, articulos y lado: texto, grupo y efecto los pone el servidor
-        // (tambien el texto de la entrega: de aca van la fecha, el dia, la sigla
-        // y, si hay "despues de quien", solo la cuenta: el nombre lo pone el servidor)
+        // (tambien el texto de la entrega: de aca van la fecha, el dia, la sigla,
+        // el viaje solo si corresponde y, si hay "despues de quien", solo la
+        // cuenta: el nombre lo pone el servidor)
         observaciones: obsPed.map(o => ({
           clave: o.clave,
           ...(Obs.esEntrega(Obs.defDe(config, o.clave)) && o.entrega
             ? { entrega: { fecha: o.entrega.fecha, dia: o.entrega.dia || '', quien: o.entrega.quien,
+                ...(o.entrega.viaje && Obs.pideViaje(o.entrega, ctxEntrega()) ? { viaje: Number(o.entrega.viaje) } : {}),
                 ...(o.entrega.despuesDe?.cuenta ? { despuesDe: String(o.entrega.despuesDe.cuenta) } : {}) } } : {}),
           items: o.items.map(it => ({
             sku: it.sku, nombre: it.nombre || '', cantidad: Number(it.cantidad), lado: it.lado || '',
@@ -1474,6 +1485,7 @@ async function confirmarPedido() {
     const nomDespues = ctaDespues && String(despuesCarrito?.cuenta) === ctaDespues ? despuesCarrito.nombre || '' : '';
     const htmlEntrega = entGuardada?.fecha
       ? `<p class="cp-exito-det">Entrega especial: ${escHtml(Obs.fmtEntregaLarga(entGuardada.fecha))} · ${escHtml(entGuardada.quien || '')}` +
+        `${entGuardada.viaje ? ` · viaje ${escHtml(entGuardada.viaje)}` : ''}` +
         `${ctaDespues ? ` · después de ${escHtml((ctaDespues + ' ' + nomDespues).trim())}` : ''}` +
         `${entGuardada.fecha < Obs.hoyIso() ? ' <b>(esa fecha ya pasó: así quedó guardado)</b>' : ''}</p>`
       : '';

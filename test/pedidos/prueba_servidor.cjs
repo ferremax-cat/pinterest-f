@@ -1084,7 +1084,7 @@ if (!SOLO_CASO_REAL) {
   ver('P6 semaforo: la promocion queda fuera del descuento sobre el total (655 en verde)', fc[C('verde')] === 655 &&
     fc[C('total_neto')] === 655, `${fc[C('verde')]} ${fc[C('total_neto')]}`);
   const regPP = hojas.registro_guardados.slice(1).find(f => f[1] === pp.id);
-  ver('P7 version del servidor: v43-entrega-repartidores', regPP?.[8] === 'v43-entrega-repartidores', regPP?.[8]);
+  ver('P7 version del servidor: v44-entrega-viaje', regPP?.[8] === 'v44-entrega-viaje', regPP?.[8]);
 
   const bp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
   const lp = (bp.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
@@ -1371,6 +1371,137 @@ if (!SOLO_CASO_REAL) {
   ctx.getConfig = configAntes;
   ctx.getObservaciones = obsAntesR;
   console.log(`Casos de repartidores y "despues de quien": ${ok + fallas - antesR}`);
+}
+
+// ---------- entrega especial: viaje 1 o 2 en los dias de dos viajes (v44) ----------
+{
+  const antesV = ok + fallas;
+  const configAntes = ctx.getConfig;
+  const obsAntesV = ctx.getObservaciones;
+  ctx.getObservaciones = () => [
+    { clave: '170', codigo: '170', texto: 'ENTREGA ESPECIAL', grupo: 'condiciones', efecto: 'entrega', activa: true }];
+  const BASE = { cuenta_prueba: '999', cuentas_alta: '157,158,159', repartidores: 'RF,CS,JG,IS', repartidores_recorrido: 'IS' };
+  const conConfig = extra => { ctx.getConfig = () => ({ ...BASE, ...extra }); };
+  const DIAS2 = { dias_dos_viajes: 'lu,ju,sa' };
+
+  const hoyAR = ctx.Utilities.formatDate(new Date(), 'America/Argentina/Buenos_Aires', 'yyyy-MM-dd');
+  const masDias = n => { const [y, m, d] = hoyAR.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10); };
+  const diaSem = iso => new Date(iso + 'T00:00:00Z').getUTCDay();
+  const NOM = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  // El proximo lunes y el proximo martes desde mañana
+  const proximo = n => { let k = 1; while (diaSem(masDias(k)) !== n) k++; return masDias(k); };
+  const lunes = proximo(1), martes = proximo(2);
+  const linea1 = (f, quien) => `${NOM[diaSem(f)]} ${f.slice(8, 10)}/${f.slice(5, 7)} · ${quien}`;
+  const DESPUES_200 = 'después de: 200 Cliente 200';
+  const COL_DET = ENC_OBS.indexOf('detalle');
+  const datosAlta = { comercio: 'Ferretería El Tornillo', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E' };
+  // dia: el boton tocado ('lu'), o '' si la fecha salio del calendario ("otra fecha")
+  const entrega = (fecha, quien, viaje, extra = {}) => ({ fecha, dia: extra.dia ?? '', quien,
+    ...(viaje !== undefined ? { viaje } : {}), ...(extra.despuesDe ? { despuesDe: extra.despuesDe } : {}) });
+  const deCliente = (...a) => pedido(1, { observaciones: [{ clave: '170', items: [], entrega: entrega(...a) }] });
+  const deAlta = (...a) => pedido(1, { cliente: '157', lista: 'E', alta: datosAlta,
+    observaciones: [{ clave: '170', items: [], entrega: entrega(...a) }] });
+  const rechazo = (nombre, ped, error) => {
+    const res = guardar(ped);
+    ver(nombre, !res.ok && res.error === error && obsDe(ped.id).length === 0 && cabDe(ped.id).length === 0 &&
+      lin(ped.id).length === 0 && hojas.altas_clientes.slice(1).every(a => a[0] !== ped.id), JSON.stringify(res));
+  };
+  const detalleDe = ped => obsDe(ped.id)[0]?.[COL_DET];
+
+  // V1. accionConfig: los dias de dos viajes
+  reiniciar();
+  conConfig({ dias_dos_viajes: 'lu, JU|sa,do,xx,lu' });
+  let c = ctx.accionConfig({ token: 'vend' });
+  ver('V1 config: dias en minusculas, sin repetir, sin domingo ni lo que no es un dia',
+    JSON.stringify(c.diasDosViajes) === '["lu","ju","sa"]', JSON.stringify(c.diasDosViajes));
+  conConfig({});
+  c = ctx.accionConfig({ token: 'vend' });
+  ver('V1 config sin la fila: lista vacia', JSON.stringify(c.diasDosViajes) === '[]', JSON.stringify(c.diasDosViajes));
+
+  // V2. Cliente existente, lunes con IS
+  conConfig(DIAS2);
+  rechazo('V2 lunes + IS sin viaje: entrega_falta_viaje', deCliente(lunes, 'IS', undefined, { dia: 'lu' }), 'entrega_falta_viaje');
+  let p = deCliente(lunes, 'IS', 1, { dia: 'lu' });
+  let r = guardar(p);
+  ver('V2 lunes + IS con viaje 1: se guarda', r.ok, JSON.stringify(r));
+  ver('V2 detalle: el viaje junto a la sigla', detalleDe(p) === linea1(lunes, 'IS') + ' · V1', JSON.stringify(detalleDe(p)));
+  ver('V2 motivo_obs con el viaje', cabDe(p.id)[0]?.[C('motivo_obs')] === `170 ENTREGA ESPECIAL (${linea1(lunes, 'IS')} · V1)`,
+    cabDe(p.id)[0]?.[C('motivo_obs')]);
+
+  // V3. "Otra fecha" (sin dia) que cae en lunes: se mira la fecha, no el boton
+  rechazo('V3 otra fecha en lunes + IS sin viaje: entrega_falta_viaje', deCliente(lunes, 'IS'), 'entrega_falta_viaje');
+  p = deCliente(lunes, 'IS', 2);
+  ver('V3 otra fecha en lunes + IS con viaje 2: se guarda con V2', guardar(p).ok && detalleDe(p) === linea1(lunes, 'IS') + ' · V2',
+    JSON.stringify(detalleDe(p)));
+
+  // V4. Cuando no se pide: lo que venga se ignora
+  p = deCliente(martes, 'IS', 1, { dia: 'ma' });
+  ver('V4 martes + IS con viaje: se ignora, sin V', guardar(p).ok && detalleDe(p) === linea1(martes, 'IS'), JSON.stringify(detalleDe(p)));
+  p = deCliente(lunes, 'RF', undefined, { dia: 'lu' });
+  ver('V4 lunes + RF (no hace el recorrido): no se pide', guardar(p).ok && detalleDe(p) === linea1(lunes, 'RF'), JSON.stringify(detalleDe(p)));
+  p = deCliente(lunes, 'RF', 2, { dia: 'lu' });
+  ver('V4 lunes + RF con viaje: se ignora', guardar(p).ok && detalleDe(p) === linea1(lunes, 'RF'), JSON.stringify(detalleDe(p)));
+  conConfig({});
+  p = deCliente(lunes, 'IS', undefined, { dia: 'lu' });
+  ver('V4 sin la fila dias_dos_viajes: no se pide, como antes', guardar(p).ok && detalleDe(p) === linea1(lunes, 'IS'), JSON.stringify(detalleDe(p)));
+  conConfig({ dias_dos_viajes: '' });
+  p = deCliente(lunes, 'IS', undefined, { dia: 'lu' });
+  ver('V4 con la fila vacia: no se pide', guardar(p).ok, detalleDe(p));
+
+  // V5. Formato (antes de buscar el id): solo 1 o 2
+  conConfig(DIAS2);
+  rechazo('V5 viaje 3: entrega_viaje_invalido', deCliente(lunes, 'IS', 3, { dia: 'lu' }), 'entrega_viaje_invalido');
+  rechazo('V5 viaje "x": entrega_viaje_invalido', deCliente(lunes, 'IS', 'x', { dia: 'lu' }), 'entrega_viaje_invalido');
+  rechazo('V5 viaje -1: entrega_viaje_invalido', deCliente(lunes, 'IS', -1, { dia: 'lu' }), 'entrega_viaje_invalido');
+  rechazo('V5 viaje 1.5: entrega_viaje_invalido', deCliente(martes, 'IS', 1.5, { dia: 'ma' }), 'entrega_viaje_invalido');
+  p = deCliente(lunes, 'IS', '2', { dia: 'lu' });
+  ver('V5 viaje "2" (texto): vale como 2', guardar(p).ok && detalleDe(p) === linea1(lunes, 'IS') + ' · V2', JSON.stringify(detalleDe(p)));
+
+  // V6. Cliente nuevo, lunes con IS: el viaje y "despues de quien"
+  rechazo('V6 alta + lunes + IS con "despues de" y sin viaje: entrega_falta_viaje',
+    deAlta(lunes, 'IS', undefined, { dia: 'lu', despuesDe: '200' }), 'entrega_falta_viaje');
+  rechazo('V6 alta + lunes + IS con viaje y sin "despues de": entrega_falta_despues',
+    deAlta(lunes, 'IS', 2, { dia: 'lu' }), 'entrega_falta_despues');
+  p = deAlta(lunes, 'IS', 2, { dia: 'lu', despuesDe: '200' });
+  r = guardar(p);
+  ver('V6 alta + lunes + IS con las dos cosas: se guarda', r.ok && r.alta === true, JSON.stringify(r));
+  ver('V6 detalle de dos renglones: el viaje en el primero, "despues de" en el segundo',
+    detalleDe(p) === linea1(lunes, 'IS') + ' · V2\n' + DESPUES_200, JSON.stringify(detalleDe(p)));
+  const idAlta = p.id;
+  const leidas = ctx.leerObservacionesDe(ctx.SpreadsheetApp.openById(), new Set([idAlta]))[idAlta] || [];
+  ver('V6 a la impresion: el detalle tal cual', leidas[0]?.detalle === linea1(lunes, 'IS') + ' · V2\n' + DESPUES_200,
+    JSON.stringify(leidas));
+
+  // V7. Reintentos con la config cambiada: nunca se rechaza lo ya escrito
+  conConfig({});
+  const pg = deCliente(lunes, 'IS', undefined, { dia: 'lu' });
+  ver('V7 guardado sin la fila (no se pidio el viaje)', guardar(pg).ok);
+  conConfig(DIAS2);
+  r = guardar(pg);
+  ver('V7 ya guardado, reintento con la fila agregada: duplicado ok', r.ok && r.duplicado === true, JSON.stringify(r));
+  conConfig({});
+  const pm = deCliente(lunes, 'IS', undefined, { dia: 'lu' });
+  falla('pedidos_cabecera', 'appendRow', { veces: 3 });
+  r = guardar(pm);
+  ver('V7 a medias: primer intento sin cabecera, con la fila de la entrega', !r.ok && cabDe(pm.id).length === 0 && obsDe(pm.id).length === 1,
+    JSON.stringify(r));
+  conConfig(DIAS2);
+  r = guardar(pm);
+  ver('V7 a medias, reintento con la fila agregada: se completa', r.ok && cabDe(pm.id).length === 1 && obsDe(pm.id).length === 1,
+    JSON.stringify(r));
+  // Duplicado al que le falta la fila de la observacion: se escribe con su viaje
+  conConfig(DIAS2);
+  const pd = deCliente(lunes, 'IS', 1, { dia: 'lu' });
+  ver('V7 guardado con viaje 1', guardar(pd).ok);
+  hojas.pedidos_observaciones = hojas.pedidos_observaciones.filter(f => f[0] !== pd.id);
+  r = guardar(pd);
+  ver('V7 duplicado sin la fila de la observacion: se completa con el viaje', r.ok && r.duplicado === true &&
+    detalleDe(pd) === linea1(lunes, 'IS') + ' · V1', JSON.stringify(detalleDe(pd)));
+
+  ctx.getConfig = configAntes;
+  ctx.getObservaciones = obsAntesV;
+  console.log(`Casos del viaje 1 o 2: ${ok + fallas - antesV}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);

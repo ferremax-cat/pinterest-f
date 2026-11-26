@@ -15,7 +15,8 @@
  *     precioLibre?, descuento?, descuentoExtra? }], entrega? }
  * (lado: 'facturado' o 'correspondia', solo en la de ajuste; los campos de
  * precio, los mismos que una linea del pedido, solo en la 117; entrega:
- * { fecha: 'AAAA-MM-DD', dia: 'lu'..'sa' o '' (otra fecha), quien: sigla },
+ * { fecha: 'AAAA-MM-DD', dia: 'lu'..'sa' o '' (otra fecha), quien: sigla,
+ * viaje?: 1 o 2 (pideViaje), despuesDe?: { cuenta, nombre } (pideDespues) },
  * solo en la de entrega).
  */
 
@@ -117,11 +118,15 @@ export function proximoDia(dia, hoy = hoyIso()) {
   return masDias(hoy, (n - deIso(hoy).getDay() + 7) % 7);
 }
 
-/** "ju 20/11 · RF" (el renglon del panel); con "despues de quien": "ju 20/11 · IS · después de 949" */
+/**
+ * "ju 20/11 · RF" (el renglon del panel); con viaje y "despues de quien":
+ * "lu 24/11 · IS · V1 · después de 949"
+ */
 export function fmtEntregaCorta(e) {
   if (!e?.fecha) return '';
   const d = deIso(e.fecha);
   return `${DIAS[d.getDay()]} ${dos(d.getDate())}/${dos(d.getMonth() + 1)}${e.quien ? ' · ' + e.quien : ''}` +
+    (e.viaje ? ` · V${e.viaje}` : '') +
     (e.despuesDe?.cuenta ? ` · después de ${e.despuesDe.cuenta}` : '');
 }
 
@@ -148,10 +153,11 @@ export function vendedores(datos) {
 /**
  * Contexto de la entrega que arma el panel: si el pedido es de un cliente
  * nuevo (esAlta) y, de la config del carrito, los repartidores, quienes hacen
- * el recorrido y las cuentas que no se pueden elegir en "despues de quien".
- * Una config sin esas claves (anterior, o sin las filas en la hoja) da listas
- * vacias: la lista de quien entrega sale de los vendedores y no se pide
- * "despues de quien", como antes
+ * el recorrido, las cuentas que no se pueden elegir en "despues de quien" y
+ * los dias en que el reparto sale en dos viajes. Una config sin esas claves
+ * (anterior, o sin las filas en la hoja) da listas vacias: la lista de quien
+ * entrega sale de los vendedores y no se pide "despues de quien" ni el viaje,
+ * como antes
  */
 export function contextoEntrega(config, esAlta) {
   const lista = v => (Array.isArray(v) ? v.map(x => String(x).trim()).filter(Boolean) : []);
@@ -159,12 +165,21 @@ export function contextoEntrega(config, esAlta) {
     esAlta: !!esAlta,
     repartidores: lista(config?.repartidores).map(x => x.toUpperCase()),
     recorrido: lista(config?.repartidoresRecorrido).map(x => x.toUpperCase()),
-    noElegibles: lista(config?.cuentasNoElegibles)
+    noElegibles: lista(config?.cuentasNoElegibles),
+    diasDosViajes: lista(config?.diasDosViajes).map(x => x.toLowerCase())
   };
 }
 
 /** Se pide "despues de quien": cliente nuevo y entrega quien hace el recorrido */
 export const pideDespues = (e, ctx) => !!ctx?.esAlta && !!e?.quien && (ctx.recorrido || []).includes(e.quien);
+
+/**
+ * Se pide el viaje (1 o 2): el dia de la semana DE LA FECHA (no el boton: una
+ * "otra fecha" que cae en lunes tambien) es de dos viajes y entrega quien hace
+ * el recorrido. Sea el cliente nuevo o no: la zona hace falta en los dos casos
+ */
+export const pideViaje = (e, ctx) => !!e?.quien && /^\d{4}-\d{2}-\d{2}$/.test(e?.fecha || '') &&
+  (ctx?.diasDosViajes || []).includes(DIAS[deIso(e.fecha).getDay()]) && (ctx.recorrido || []).includes(e.quien);
 
 /**
  * Clientes para "despues de quien", de clientes_nombres.json: [{ cuenta, nombre }],
@@ -187,11 +202,12 @@ export function buscarClientes(lista, texto, max = MAX_CLIENTES) {
 
 /**
  * Lo que le falta a la entrega para poder confirmar, o '' (hoy: para las
- * pruebas; ctx: contextoEntrega, sin el no se pide "despues de quien")
+ * pruebas; ctx: contextoEntrega, sin el no se pide el viaje ni "despues de quien")
  */
 export function faltaEntrega(e, hoy = hoyIso(), ctx = null) {
   if (!e?.fecha || !/^\d{4}-\d{2}-\d{2}$/.test(e.fecha)) return 'falta el día';
   if (!e.quien) return 'falta quién entrega';
+  if (pideViaje(e, ctx) && !e.viaje) return 'falta el viaje (1 o 2)';
   if (pideDespues(e, ctx) && !e.despuesDe?.cuenta) return 'falta después de quién';
   if (e.fecha < hoy) return 'la fecha de entrega ya pasó: elegí otro día';
   if (deIso(e.fecha).getDay() === 0) return 'los domingos no hay entrega';
@@ -216,7 +232,7 @@ export function registrarUsos(observaciones) {
 
 /**
  * Lo que le falta a una observacion para poder confirmar el pedido, o ''.
- * ctx (contextoEntrega, opcional): solo lo usa la entrega, para "despues de quien"
+ * ctx (contextoEntrega, opcional): solo lo usa la entrega, para el viaje y "despues de quien"
  */
 export function falta(def, o, ctx = null) {
   if (!def) return 'ya no está en la lista';
@@ -782,7 +798,14 @@ function siglaSesion() {
  *   (pideDespues). Un buscador de clientes de clientes_nombres.json (cuenta y
  *   nombre, nada financiero, sin consultar al servidor); al elegir queda a la
  *   vista con "Cambiar". Si se cambia a quien no hace el recorrido, se borra.
- * - Abajo, todo junto: la fecha completa (con el año), quien y "despues de";
+ * - Viaje (1 o 2): en un dia de dos viajes con quien hace el recorrido
+ *   (pideViaje), para cualquier cliente; va antes de "despues de quien". Nunca
+ *   viene uno marcado. Se borra CADA VEZ que cambia la fecha, aunque el dia
+ *   nuevo tambien sea de dos viajes (cada dia se divide distinto: el viaje 1
+ *   del lunes no es la misma zona que el del jueves), y si deja de
+ *   corresponder (otra sigla). La medianoche con la hoja abierta no lo borra:
+ *   el dia de la semana es el mismo.
+ * - Abajo, todo junto: la fecha completa (con el año), quien, el viaje y "despues de";
  *   y si el reloj del dispositivo difiere del servidor mas de 12 h, un aviso.
  * Se edita una copia. Guardar: si paso la medianoche desde que se pintaron
  * los botones, recalcula la fecha del dia elegido y, si cambio, avisa y no
@@ -879,6 +902,24 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
       </button>`).join('')}</div>` : '');
   }
 
+  /** Viaje 1 o 2, solo si se pide; la nota dice el dia, por si salio del calendario */
+  function htmlViaje() {
+    if (!pideViaje(e, ctx)) return '';
+    const d = deIso(e.fecha);
+    const botones = [1, 2].map(n => `
+      <button type="button" class="ob-ent-viaje${e.viaje === n ? ' ob-ent-sel' : ''}" data-viaje="${n}"
+        aria-pressed="${e.viaje === n}">Viaje ${n}</button>`).join('');
+    return `<p class="ob-lado-tit">Viaje</p>
+      <p class="ob-nota">El ${NOMBRES_DIA[d.getDay()]} ${dos(d.getDate())}/${dos(d.getMonth() + 1)} el reparto sale en dos viajes: elegí en cuál va.</p>
+      <div class="ob-ent-viajes">${botones}</div>`;
+  }
+
+  /** Cambia la fecha: el viaje elegido era de la otra (cada dia se divide distinto) */
+  function ponerFecha(fecha) {
+    if (fecha !== e.fecha) delete e.viaje;
+    e.fecha = fecha;
+  }
+
   /** Resultados del buscador de clientes: cuenta y nombre, nada mas */
   function htmlResultados() {
     if (!busqueda.trim()) return '';
@@ -924,6 +965,7 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
     const v = lista.find(x => x.codigo === e.quien);
     const resumen = e.fecha
       ? `Entrega el <b>${esc(fmtEntregaLarga(e.fecha))}</b>${e.quien ? ` · ${esc(e.quien)}${v?.nombre ? ` (${esc(nombrePropio(v.nombre))})` : ''}` : ''}` +
+        (e.viaje && pideViaje(e, ctx) ? ` · <b>viaje ${e.viaje}</b>` : '') +
         (e.despuesDe?.cuenta ? ` · después de <b>${esc(e.despuesDe.cuenta)} ${esc(e.despuesDe.nombre)}</b>` : '')
       : 'Elegí el día y quién entrega.';
     const relojMal = desfase !== null && Math.abs(desfase) > RELOJ_MAL_MS;
@@ -941,6 +983,7 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
         value="${esc(e.fecha)}" aria-label="Fecha de entrega">` : ''}
       <p class="ob-lado-tit">Quién entrega</p>
       ${htmlQuien()}
+      ${htmlViaje()}
       ${htmlDespues()}
       <p class="ob-ent-resumen">${resumen}</p>
       ${aviso ? `<p class="ob-ent-aviso" role="alert">${esc(aviso)}</p>` : ''}
@@ -976,22 +1019,27 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
     const dia = ev.target.closest('.ob-ent-dia');
     const vend = ev.target.closest('.ob-ent-vend');
     const cli = ev.target.closest('.ob-ent-cli');
+    const viaje = ev.target.closest('.ob-ent-viaje');
     error = '';
     aviso = '';
     if (dia) {
       otra = false;
       e.dia = dia.dataset.dia;
-      e.fecha = proximoDia(e.dia, hoyIso());
+      ponerFecha(proximoDia(e.dia, hoyIso()));
       pintar();
     } else if (ev.target.closest('.ob-ent-otra')) {
       // Del boton de un dia al calendario: la fecha se elige de nuevo
-      if (!otra) { e.dia = ''; e.fecha = ''; }
+      if (!otra) { e.dia = ''; ponerFecha(''); }
       otra = true;
       pintar('.ob-ent-fecha');
     } else if (vend) {
       e.quien = vend.dataset.quien;
-      // Quien no hace el recorrido no necesita "despues de quien"
+      // Quien no hace el recorrido no necesita el viaje ni "despues de quien"
+      if (!pideViaje(e, ctx)) delete e.viaje;
       if (!pideDespues(e, ctx)) delete e.despuesDe;
+      pintar();
+    } else if (viaje) {
+      e.viaje = Number(viaje.dataset.viaje);
       pintar();
     } else if (ev.target.closest('.ob-ent-reintentar')) {
       cargar();
@@ -1026,7 +1074,7 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
 
   h.cuerpo.addEventListener('change', ev => {
     if (!ev.target.closest('.ob-ent-fecha')) return;
-    e.fecha = ev.target.value || '';
+    ponerFecha(ev.target.value || '');
     e.dia = '';
     error = '';
     aviso = '';
@@ -1038,7 +1086,8 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
     if (ev.target.closest('.ob-cancelar')) { h.cerrar(); return; }
     if (!ev.target.closest('.ob-guardar')) return;
     // Paso la medianoche con la hoja abierta: los botones tenian las fechas de
-    // ayer. El dia elegido se recalcula; si cambia la fecha, se avisa y no se guarda
+    // ayer. El dia elegido se recalcula; si cambia la fecha, se avisa y no se
+    // guarda. El viaje queda: es el mismo dia de la semana, una semana despues
     const hoy = hoyIso();
     if (hoy !== hoyPintado) {
       const antes = e.fecha;
@@ -1051,7 +1100,8 @@ function editarEntregaEn(h, def, o, { alGuardar, alQuitar, ctx = null }) {
         return;
       }
     }
-    // Un "despues de quien" que ya no hace falta no se guarda
+    // Un viaje o un "despues de quien" que ya no hacen falta no se guardan
+    if (!pideViaje(e, ctx)) delete e.viaje;
     if (!pideDespues(e, ctx)) delete e.despuesDe;
     error = falta(def, o, ctx);
     if (error) { aviso = ''; pintar(); return; }

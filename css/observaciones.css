@@ -96,11 +96,14 @@
 
 /* Entrega especial: dia (grande) con su fecha (chica) y quien entrega */
 .ob-ent-dias { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
-.ob-ent-dia, .ob-ent-vend {
+.ob-ent-dia, .ob-ent-vend, .ob-ent-viaje {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   min-height: 52px; padding: 6px 2px; border: 1px solid #d1d5db; border-radius: 8px;
   background: #fff; color: #111827; cursor: pointer; font: inherit;
 }
+/* Viaje 1 o 2 (dias de dos viajes): dos botones grandes, ninguno marcado de entrada */
+.ob-ent-viajes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.ob-ent-viaje { font-size: 17px; font-weight: 800; }
 .ob-ent-nom, .ob-ent-sigla { font-size: 18px; font-weight: 800; line-height: 1.1; }
 .ob-ent-chico { font-size: 11px; color: #6b7280; line-height: 1.1; }
 .ob-ent-sel { border: 2px solid #e60023; background: #fff1f2; }
