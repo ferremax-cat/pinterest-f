@@ -201,7 +201,12 @@ function archivosDeLaPagina() {
 
 /**
  * cache 'reload' va a la red y reemplaza la copia guardada: la carga
- * siguiente toma lo nuevo aunque la copia no haya vencido (max-age=600)
+ * siguiente toma lo nuevo aunque la copia no haya vencido (max-age=600).
+ * 'no-cache' (revalidar, 304 si no cambio) no ahorraria nada en GitHub Pages:
+ * el ETag y el Last-Modified de TODOS los archivos salen de la hora de cada
+ * publicacion, asi que despues de publicar (siempre, si hay una version
+ * nueva) cada archivo vuelve completo aunque su contenido sea el mismo.
+ * Verificado con los encabezados del sitio el 26/11/2026
  */
 async function refrescarCache() {
   const pedidos = archivosDeLaPagina().map(u => fetch(u, { cache: 'reload' }).catch(() => null));

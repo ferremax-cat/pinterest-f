@@ -57,6 +57,10 @@ async function cargarMapaImagenes() {
 }
 
 cargarMapaImagenes();
+// Fotos nuevas con la pagina abierta (frescura-imagenes.js): el mapa nuevo
+document.addEventListener('imagenes:actualizadas', e => {
+  if (e.detail?.images) mapaImagenes = e.detail.images;
+});
 
 // ---------- identidad ----------
 

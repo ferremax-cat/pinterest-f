@@ -13,7 +13,9 @@
  *
  * Frescura: con la pagina abierta, frescura-precios.js lee json/version.json
  * cada 15 minutos y avisa con 'version:leida'; si cambio la huella de
- * promociones.json, se baja de nuevo y se repinta lo visible (revisarPromos).
+ * promociones.json o la de grupos_clientes.json (un cliente cambiado de
+ * grupo), se baja de nuevo lo que cambio y se repinta lo visible una sola vez
+ * (revisarPromos).
  */
 
 import { preciosDelPedido, avisarCambiosDelPedido } from './aviso-pedido.js';
@@ -201,46 +203,68 @@ export function promosActivas() {
 const MARGEN_MS = 15 * 60 * 1000;
 const cargadasEn = Date.now();
 let huellaPromos = null;
+let huellaGrupos = null;
 
 const enTiempoMuerto = () => new Promise(r =>
   window.requestIdleCallback ? requestIdleCallback(() => r(), { timeout: 30000 }) : setTimeout(r, 0));
 
-/**
- * v: version.promociones ({ huella, generado }). Si cambio, baja el archivo,
- * reemplaza las promociones en memoria y repinta lo visible. Los tramos
- * otorgados que ya no existen vuelven al precio por cantidad. Avisa solo si
- * cambio el precio de alguna linea del pedido. No lanza.
- */
-async function revisarPromos(v) {
+/** Cargado despues de generarse ese archivo: ya esta al dia (la primera vez) */
+const alDia = (v, vista) => !vista && !!v?.huella && Date.parse(v.generado) < cargadasEn - MARGEN_MS;
+
+/** La clave del JSON de esa URL, o null si no llego bien (se reintenta en la proxima revision) */
+async function bajar(url, clave) {
   try {
-    if (!v?.huella || v.huella === huellaPromos) return;
-    // Cargadas despues de generarse: ya estan al dia
-    if (!huellaPromos && Date.parse(v.generado) < cargadasEn - MARGEN_MS) {
-      huellaPromos = v.huella;
-      return;
-    }
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const d = (await r.json())?.[clave];
+    return d && typeof d === 'object' ? d : null;
+  } catch (e) {
+    console.warn('[Promos] No se pudo bajar ' + url + ':', e);
+    return null;
+  }
+}
+
+/**
+ * version: lo que leyo frescura-precios.js ({ promociones, grupos_clientes,
+ * ... }, cada uno { huella, generado }). Si cambio alguno, baja lo que cambio,
+ * lo reemplaza en memoria y repinta lo visible una sola vez. Los tramos
+ * otorgados que ya no existen (o que el cliente ya no tiene, por estar en otro
+ * grupo) vuelven al precio por cantidad. Avisa solo si cambio el precio de
+ * alguna linea del pedido. No lanza.
+ */
+async function revisarPromos(version) {
+  try {
+    const p = version?.promociones, g = version?.grupos_clientes;
+    if (alDia(p, huellaPromos)) huellaPromos = p.huella;
+    if (alDia(g, huellaGrupos)) huellaGrupos = g.huella;
+    const bajarPromos = !!p?.huella && p.huella !== huellaPromos;
+    const bajarGrupos = !!g?.huella && g.huella !== huellaGrupos;
+    if (!bajarPromos && !bajarGrupos) return;
+
     await enTiempoMuerto();
     // La huella en la URL evita la copia vieja de la cache HTTP
-    const r = await fetch(`./json/promociones.json?v=${encodeURIComponent(v.huella)}`);
-    if (!r.ok) return;   // se vuelve a probar en la proxima revision
-    const nuevas = (await r.json())?.promotions;
-    if (!nuevas || typeof nuevas !== 'object') return;
+    const [nuevas, grupos] = await Promise.all([
+      bajarPromos ? bajar(`./json/promociones.json?v=${encodeURIComponent(p.huella)}`, 'promotions') : null,
+      bajarGrupos ? bajar(`./json/grupos_clientes.json?v=${encodeURIComponent(g.huella)}`, 'groups') : null
+    ]);
+    if (!nuevas && !grupos) return;
 
     const antes = preciosDelPedido();
-    promosCache = nuevas;
-    huellaPromos = v.huella;
+    if (nuevas) { promosCache = nuevas; huellaPromos = p.huella; }
+    if (grupos) { gruposCache = grupos; huellaGrupos = g.huella; }
     const quitados = window.Carrito?.limpiarOtorgadosInvalidos?.() || 0;
 
     window.Precios?.repintarTodos?.();
     document.dispatchEvent(new CustomEvent('promos:actualizadas'));
-    console.info(`[Promos] promociones.json cambió: ${Object.keys(nuevas).length} promociones`);
+    console.info('[Promos] ' + [nuevas && `promociones.json cambió: ${Object.keys(nuevas).length} promociones`,
+      grupos && `grupos_clientes.json cambió: ${Object.keys(grupos).length} grupos`].filter(Boolean).join('; '));
     avisarCambiosDelPedido(antes, 'las promociones', quitados);
   } catch (e) {
     console.warn('[Promos] No se pudieron actualizar:', e);
   }
 }
 
-document.addEventListener('version:leida', e => revisarPromos(e.detail?.promociones));
+document.addEventListener('version:leida', e => revisarPromos(e.detail));
 
 await cargarDatos();
 

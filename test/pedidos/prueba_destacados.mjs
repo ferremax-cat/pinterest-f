@@ -16,6 +16,8 @@ const modulos = ['frescura-precios.js', 'datos-catalogo.js', 'aviso-pedido.js'];
 if (existsSync(join(RAIZ, 'js', 'destacados.js'))) modulos.push('destacados.js');
 // El ultimo toque lo lleva actividad.js (lo importa destacados.js)
 if (existsSync(join(RAIZ, 'js', 'actividad.js'))) modulos.push('actividad.js');
+// Las fotos nuevas (lo importa frescura-precios.js)
+if (existsSync(join(RAIZ, 'js', 'frescura-imagenes.js'))) modulos.push('frescura-imagenes.js');
 const importar = prepararModulos(modulos);
 
 let ok = 0, fallas = 0;
@@ -263,13 +265,25 @@ ver('10. foco en una tarjeta: sigue pendiente', codigos()[0] === 'B06');
 boton.blur(); boton.remove();
 w.Destacados.intentarPintar(); await tick();
 ver('10. quieto, arriba y sin foco: pinta', codigos()[0] === 'B07');
-// Carrito abierto: la revision entera se posterga, como hoy
+// Carrito abierto: version.json se lee igual, pero no se aplica nada debajo
+// del pedido (ni precios ni destacados): solo se avisa la version de la app.
+// Al cerrar el panel se aplica, sin leer version.json otra vez
 const panel = document.createElement('div'); panel.id = 'carrito-panel'; panel.style.display = 'flex';
 document.body.appendChild(panel);
-pedidos.length = 0;
+const productosAntes = version.productos, actualizadosAntes = actualizados;
+version = { ...version, productos: { huella: 'p2', generado: iso(Date.now() + 1000) } };
+pedidos.length = 0; leidas = [];
 await revisar();
-ver('10. con el carrito abierto no se lee version.json', pedidos.length === 0);
+ver('10. con el carrito abierto se lee version.json, y nada mas', pedidos.length === 1 && pedidos[0].includes('version.json'), JSON.stringify(pedidos));
+ver('10. con el carrito abierto el aviso lleva solo la version de la app', leidas.length === 1 && Object.keys(leidas[0]).join() === 'app',
+  JSON.stringify(leidas));
+ver('10. con el carrito abierto no se actualizan los precios', actualizados === actualizadosAntes);
 panel.remove();
+await w.FrescuraPrecios.aplicarPendiente(); await tick();
+ver('10. al cerrar: se aplican los precios, sin leer version.json otra vez',
+  actualizados === actualizadosAntes + 1 && bajadas('version.json') === 1 && bajadas('productos.json?v=p2') === 1, JSON.stringify(pedidos));
+version = { ...version, productos: productosAntes };
+actualizados = actualizadosAntes;   // el caso 15 cuenta desde aca
 
 // ---------- 11. Galeria vaciada con la X ----------
 const l8 = ['B08', ...l7.slice(1)];

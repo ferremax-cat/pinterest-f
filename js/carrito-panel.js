@@ -39,17 +39,31 @@ const configPorDefecto = () => ({ descuentosLinea: [5,7,10], descuentosTotal: [5
   descuentoRevendedor: 23, observaciones: [], umbralAviso: 0,
   umbralBloqueo: 0, modoObservacion: true, porDefecto: true });
 
+// La configuracion (y con ella el catalogo de observaciones) vale 30 minutos:
+// despues, al abrir el panel se usa la guardada y se pide la nueva en segundo
+// plano (revalidarConfig). La hora de lectura va en configCarritoEn
+const VIGENCIA_CONFIG_MS = 30 * 60 * 1000;
+const CLAVE_CONFIG_EN = 'configCarritoEn';
+
+function guardarConfig(d) {
+  sessionStorage.setItem('configCarrito', JSON.stringify(d));
+  sessionStorage.setItem(CLAVE_CONFIG_EN, String(Date.now()));
+}
+
 async function cargarConfigInterna() {
   if (config) return config;
 
-  // Guardada mientras dura la sesion: se pide una vez al entrar y cualquier
-  // cambio en la planilla llega la proxima vez que el vendedor inicia sesion.
-  // Se mira antes que el token: un intento sin token (al cargar la pagina,
-  // mientras se pide) no tiene que tapar la configuracion que ya estaba
+  // Guardada en la sesion: se pide al entrar y se revalida cada 30 minutos al
+  // abrir el panel (revalidarConfig). Se mira antes que el token: un intento
+  // sin token (al cargar la pagina, mientras se pide) no tiene que tapar la
+  // configuracion que ya estaba
   try {
     const guardada = sessionStorage.getItem('configCarrito');
     if (guardada) {
       config = JSON.parse(guardada);
+      // Sin hora (guardada antes de esta version): cuenta como leida ahora, asi
+      // no se piden todas de golpe al actualizar la app
+      if (!sessionStorage.getItem(CLAVE_CONFIG_EN)) sessionStorage.setItem(CLAVE_CONFIG_EN, String(Date.now()));
       return config;
     }
   } catch (e) {}
@@ -65,7 +79,7 @@ async function cargarConfigInterna() {
     const d = await window.Api.llamar({ accion: 'config', token });
     if (d.ok) {
       config = d;
-      sessionStorage.setItem('configCarrito', JSON.stringify(d));
+      guardarConfig(d);
     }
   } catch (e) {
     console.warn('[Carrito] No se pudo traer la configuracion:', e);
@@ -214,6 +228,9 @@ export function abrir(opc = {}) {
   document.body.style.overflow = 'hidden';
 
   if (!esVendedor()) { dibujar(); return; }
+
+  // Configuracion de mas de 30 minutos: la nueva se pide en segundo plano
+  revalidarConfig();
 
   // Sin token no hay cupo ni confirmacion posible
     if (sessionStorage.getItem('authDegradado') === '1') {
@@ -911,7 +928,7 @@ const ENTREGA_A_CORREGIR = ['entrega_vencida', 'entrega_quien_invalido',
   'entrega_falta_despues', 'entrega_despues_invalido'];
 
 // Rechazos que vienen de una configuracion vieja: la de la pestaña vive en
-// sessionStorage y no se vuelve a pedir, asi que la lista de quien entrega o
+// sessionStorage y se revalida recien a los 30 minutos, asi que la lista de quien entrega o
 // la de quien hace el recorrido pueden haber cambiado. Sin pedirla de nuevo,
 // la hoja ofreceria lo mismo que el servidor acaba de rechazar
 const PIDEN_CONFIG = ['entrega_quien_invalido', 'entrega_falta_despues'];
@@ -923,16 +940,56 @@ const PIDEN_CONFIG = ['entrega_quien_invalido', 'entrega_falta_despues'];
  */
 async function refrescarConfig() {
   const token = sessionStorage.getItem('authToken');
-  if (!token) return;
+  if (!token) return false;
   try {
     const d = await window.Api.llamar({ accion: 'config', token }, 0);
     if (d?.ok) {
       config = d;
-      sessionStorage.setItem('configCarrito', JSON.stringify(d));
+      guardarConfig(d);
+      return true;
     }
   } catch (e) {
     console.warn('[Carrito] No se pudo volver a traer la configuracion:', e);
   }
+  return false;
+}
+
+let revalidando = false;
+
+/**
+ * Al abrir el panel: si la configuracion tiene mas de 30 minutos, se pide la
+ * nueva en segundo plano (el panel ya se abrio con la guardada, sin esperar).
+ * Una sola consulta: si falla, sigue la que habia hasta la proxima apertura.
+ * La cache del servidor tambien dura hasta 1 hora: un cambio en la planilla
+ * llega antes si se corre limpiarCacheConfig.
+ */
+function revalidarConfig() {
+  if (revalidando || !config || config.porDefecto || !sessionStorage.getItem('authToken')) return;
+  const leida = Number(sessionStorage.getItem(CLAVE_CONFIG_EN)) || 0;
+  if (Date.now() - leida <= VIGENCIA_CONFIG_MS) return;
+  revalidando = true;
+  refrescarConfig()
+    .then(nueva => { if (nueva) redibujarConConfigNueva(); })
+    .finally(() => { revalidando = false; });
+}
+
+/**
+ * Llego la configuracion nueva con el panel abierto: se redibuja solo si se
+ * puede sin molestar. Si no, la usa el proximo dibujo.
+ */
+function redibujarConConfigNueva() {
+  const cont = document.getElementById('carrito-panel');
+  if (cont?.style.display !== 'flex' || moviendo) return;
+  // Solo la vista normal del carrito: no la pantalla de exito, la de espera
+  // del cupo ni la confirmacion pendiente
+  if (!cont.querySelector('.cp-cab') || cont.querySelector('.cp-exito, .cp-cargando')) return;
+  if (document.body.dataset.enviandoPedido) return;
+  // Una hoja abierta (observacion, alta) o el menu de una linea
+  if (document.querySelector('.hj-fondo, .cp-panel-menu')) return;
+  // Escribiendo en el panel (cantidad, descuento): no se le borra
+  const a = document.activeElement;
+  if (a && cont.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) return;
+  dibujar();
 }
 
 /** La entrega sin el dato que rechazo el servidor */

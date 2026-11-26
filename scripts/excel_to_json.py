@@ -862,10 +862,21 @@ def process_image_catalog_local():
             if codigo and image_id:
                 new_images[codigo] = image_id
                 
+        # Con las mismas imagenes queda el lastUpdate anterior: el archivo sale
+        # identico y el workflow de cada hora no lo commitea sin motivo
+        ultima = datetime.now().isoformat()
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                anterior = json.load(f)
+            if anterior.get('images') == new_images and anterior.get('lastUpdate'):
+                ultima = anterior['lastUpdate']
+        except (OSError, ValueError):
+            pass   # sin archivo anterior (o ilegible): fecha de ahora
+
         # Crear el objeto de salida directamente con las nuevas imágenes
         output = {
             "version": "1.0",
-            "lastUpdate": datetime.now().isoformat(),
+            "lastUpdate": ultima,
             "totalImages": len(new_images),
             "images": new_images
         }
@@ -921,16 +932,35 @@ HUELLAS_VERSION = (
     ('productos', 'json/productos.json'),               # precios (frescura-precios.js)
     ('catalogo_grupos', 'json/catalogo_grupos.json'),   # destacados (destacados.js)
     ('promociones', 'json/promociones.json'),           # promociones (promociones.js)
+    ('grupos_clientes', 'json/grupos_clientes.json'),   # grupo del cliente, para sus promociones (promociones.js)
+    ('imagenes', 'json/catalogo_imagenes.json'),        # fotos (frescura-imagenes.js)
 )
+
+
+def huella_de(clave, ruta):
+    """
+    Huella del contenido, la misma en Windows y en GitHub. La rutina en Windows
+    escribe los JSON con CRLF y git los guarda (y GitHub los calcula) con LF:
+    con la huella de los bytes tal cual, cada publicacion desde Windows la daba
+    vuelta y el bot la volvia a dar vuelta, sin que cambiara nada, y cada
+    pestaña abierta volvia a bajar productos.json. Por eso se cuenta en LF.
+    imagenes: solo el mapa codigo -> id, sin lastUpdate (la fecha no es una foto).
+    """
+    with open(ruta, 'rb') as f:
+        datos = f.read()
+    if clave == 'imagenes':
+        images = json.loads(datos.decode('utf-8')).get('images', {})
+        datos = json.dumps(images, sort_keys=True, ensure_ascii=False).encode('utf-8')
+    return hashlib.sha256(datos.replace(b'\r\n', b'\n')).hexdigest()[:16]
 
 
 def escribir_version():
     """
-    json/version.json: huella de productos.json y de catalogo_grupos.json, para
-    que el navegador detecte que cambiaron los precios o los destacados sin
-    descargar los archivos completos. El 'generado' de cada uno solo cambia si
-    cambia su contenido: el workflow corre cada hora y solo commitea si hay
-    cambios. Conserva las demas claves (indice, de generar_indice_busqueda.py).
+    json/version.json: huella de cada archivo de HUELLAS_VERSION (huella_de),
+    para que el navegador detecte que cambiaron sin descargarlos completos. El
+    'generado' de cada uno solo cambia si cambia su contenido: el workflow
+    corre cada hora y solo commitea si hay cambios. Conserva las demas claves
+    (indice, de generar_indice_busqueda.py; app, de version_app.py).
     """
     ruta_version = 'json/version.json'
     anterior = {}
@@ -945,8 +975,7 @@ def escribir_version():
     for clave, ruta in HUELLAS_VERSION:
         if not os.path.exists(ruta):
             continue
-        with open(ruta, 'rb') as f:
-            huella = hashlib.sha256(f.read()).hexdigest()[:16]
+        huella = huella_de(clave, ruta)
         if anterior.get(clave, {}).get('huella') == huella:
             continue   # sin cambios: queda su 'generado'
         anterior[clave] = {
@@ -975,7 +1004,7 @@ def main():
     update_margenes_from_sheets()
 
     # El navegador la usa para saber si tiene que actualizar los precios, los
-    # destacados y las promociones
+    # destacados, las promociones, los grupos de clientes y las fotos
     try:
         escribir_version()
     except Exception as e:
@@ -986,6 +1015,11 @@ if __name__ == "__main__":
     if '--solo-imagenes' in sys.argv:
         print('Modo: solo actualización de catálogo de imágenes')
         process_image_catalog_local()
+        # La huella de las fotos en version.json: las pestañas abiertas las ven
+        try:
+            escribir_version()
+        except Exception as e:
+            print(f'Error escribiendo version.json: {e}')
     elif '--validar-promociones' in sys.argv:
         # Solo lee y muestra: no escribe ningun archivo
         sys.exit(validar_promociones())
