@@ -412,6 +412,137 @@ const USU = { usuarios: {
   ver('3x htmlLista sin contexto: igual que antes', !/falta/.test(Obs.htmlLista(CONFIG,
     [{ id: 'z', clave: '170', items: [], entrega: { fecha: '2026-11-20', dia: 'vi', quien: 'IS' } }])));
 
+  // ----- Viaje 1 o 2 en los dias de dos viajes (v44) -----
+  // Hoy: miercoles 18/11/2026. lu = 23/11, ma = 24/11, ju = 19/11; 30/11 es lunes y 01/12 martes
+  const CFGV = { ...CFG, diasDosViajes: ['lu', 'ju', 'sa'] };
+  const ctxVCli = Obs.contextoEntrega(CFGV, false);
+  const ctxVAlta = Obs.contextoEntrega(CFGV, true);
+  const hayViaje = () => !!$('.ob-ent-viaje');
+  const viajeMarcado = () => $$('.ob-ent-viaje.ob-ent-sel').map(b => b.dataset.viaje).join();
+  const textoHoja = () => document.querySelector('.hj-cuerpo').textContent.replace(/\s+/g, ' ');
+
+  // Funciones puras
+  ver('4v contexto: los dias de dos viajes de la config', JSON.stringify(ctxVCli.diasDosViajes) === '["lu","ju","sa"]');
+  ver('4v contexto sin la clave: lista vacia', JSON.stringify(Obs.contextoEntrega(CFG, false).diasDosViajes) === '[]');
+  ver('4v pideViaje: lunes + IS, tambien a un cliente existente', Obs.pideViaje({ fecha: '2026-11-23', quien: 'IS' }, ctxVCli) &&
+    Obs.pideViaje({ fecha: '2026-11-23', quien: 'IS' }, ctxVAlta));
+  ver('4v pideViaje: por la fecha, aunque no haya boton (otra fecha 30/11, lunes)', Obs.pideViaje({ fecha: '2026-11-30', dia: '', quien: 'IS' }, ctxVCli));
+  ver('4v pideViaje: martes, RF, sin dias o sin contexto: no', !Obs.pideViaje({ fecha: '2026-11-24', quien: 'IS' }, ctxVCli) &&
+    !Obs.pideViaje({ fecha: '2026-11-23', quien: 'RF' }, ctxVCli) && !Obs.pideViaje({ fecha: '2026-11-23', quien: 'IS' }, ctxCliente) &&
+    !Obs.pideViaje({ fecha: '2026-11-23', quien: 'IS' }, null));
+  ver('4v falta: lunes + IS sin viaje', Obs.faltaEntrega({ fecha: '2026-11-23', dia: 'lu', quien: 'IS' }, '2026-11-18', ctxVCli) === 'falta el viaje (1 o 2)');
+  ver('4v falta: con viaje, nada', Obs.faltaEntrega({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 2 }, '2026-11-18', ctxVCli) === '');
+  ver('4v falta: alta lunes + IS con viaje y sin "despues de": falta despues de quien',
+    Obs.faltaEntrega({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 1 }, '2026-11-18', ctxVAlta) === 'falta después de quién');
+  ver('4v fmtEntregaCorta con viaje y "despues de"', Obs.fmtEntregaCorta({ fecha: '2026-11-23', quien: 'IS', viaje: 1,
+    despuesDe: { cuenta: '949', nombre: 'X' } }) === 'lu 23/11 · IS · V1 · después de 949');
+  ver('4v htmlLista: lunes + IS sin viaje queda marcada', /falta el viaje/.test(Obs.htmlLista(CONFIG,
+    [{ id: 'v', clave: '170', items: [], entrega: { fecha: '2026-11-23', dia: 'lu', quien: 'IS' } }], null, ctxVCli)));
+
+  // La hoja: cliente existente, lunes + IS
+  sessionStorage.setItem('authCodigo', 'RF');
+  let rv = await abrirCon(ctxVCli);
+  clic($('.ob-ent-dia[data-dia="lu"]'));
+  ver('4v lunes + RF: no aparece el viaje', !hayViaje());
+  clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  ver('4v lunes + IS: aparece el viaje, con el dia en la nota y ninguno marcado', hayViaje() &&
+    $$('.ob-ent-viaje').map(b => b.dataset.viaje).join() === '1,2' && viajeMarcado() === '' &&
+    /El lunes 23\/11 el reparto sale en dos viajes/.test(textoHoja()), textoHoja());
+  ver('4v cliente existente: sin "despues de quien"', !/Después de quién/.test(textoHoja()));
+  clic($('.ob-guardar'));
+  ver('4v sin viaje no guarda', !rv.o && /Falta el viaje/.test($('.ob-error')?.textContent || ''), $('.ob-error')?.textContent);
+  clic($('.ob-ent-viaje[data-viaje="1"]'));
+  ver('4v viaje 1 marcado y en el resumen', viajeMarcado() === '1' &&
+    $('.ob-ent-resumen').textContent.replace(/\s+/g, ' ').trim() === 'Entrega el lunes 23 de noviembre de 2026 · IS · viaje 1',
+    $('.ob-ent-resumen').textContent);
+  clic($('.ob-guardar'));
+  ver('4v guarda viaje: 1 (numero)', JSON.stringify(rv.o?.entrega) === JSON.stringify({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 1 }),
+    JSON.stringify(rv.o?.entrega));
+
+  // Cuando se borra: martes, otra sigla, y cada vez que cambia la fecha (cada dia se divide distinto)
+  let gv = null;
+  const reabrir = async ent => {
+    gv = null;
+    Obs.abrirEditor(CONFIG, { id: 'v', clave: '170', items: [], entrega: { ...ent } },
+      { alGuardar: o => { gv = o; }, alQuitar: () => {}, ctx: ctxVCli });
+    await tick();
+  };
+  await reabrir({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 1 });
+  ver('4v reabierta: el viaje marcado', viajeMarcado() === '1');
+  clic($('.ob-ent-dia[data-dia="ma"]'));
+  ver('4v lunes -> martes: desaparece el viaje', !hayViaje());
+  clic($('.ob-guardar'));
+  ver('4v martes: se guarda sin viaje', JSON.stringify(gv?.entrega) === JSON.stringify({ fecha: '2026-11-24', dia: 'ma', quien: 'IS' }),
+    JSON.stringify(gv?.entrega));
+  await reabrir({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 2 });
+  clic($('.ob-ent-dia[data-dia="ju"]'));
+  ver('4v lunes -> jueves: el viaje sigue pidiendose pero se borra (otra division)', hayViaje() && viajeMarcado() === '' &&
+    /El jueves 19\/11/.test(textoHoja()));
+  clic($('.ob-guardar'));
+  ver('4v lunes -> jueves: no guarda sin elegirlo de nuevo', !gv && /Falta el viaje/.test($('.ob-error')?.textContent || ''));
+  await reabrir({ fecha: '2026-11-23', dia: 'lu', quien: 'IS', viaje: 2 });
+  clic($('.ob-ent-dia[data-dia="lu"]'));
+  ver('4v tocar el mismo dia (misma fecha): el viaje se conserva', viajeMarcado() === '2');
+  clic($('.ob-ent-vend[data-quien="RF"]'));
+  ver('4v IS -> RF: desaparece el viaje', !hayViaje());
+  clic($('.ob-ent-vend[data-quien="IS"]'));
+  ver('4v RF -> IS: vuelve el viaje, sin marcar (se borro)', hayViaje() && viajeMarcado() === '');
+
+  // Otra fecha: se mira la fecha, no el boton
+  rv = await abrirCon(ctxVCli);
+  clic($('.ob-ent-vend[data-quien="IS"]'));
+  clic($('.ob-ent-otra'));
+  elegirFecha('2026-12-01');
+  ver('4v otra fecha martes 01/12: no aparece el viaje', !hayViaje());
+  elegirFecha('2026-11-30');
+  ver('4v otra fecha lunes 30/11: aparece el viaje, con el dia en la nota', hayViaje() && /El lunes 30\/11/.test(textoHoja()), textoHoja());
+  clic($('.ob-guardar'));
+  ver('4v otra fecha lunes sin viaje: no guarda', !rv.o && /Falta el viaje/.test($('.ob-error')?.textContent || ''));
+  clic($('.ob-ent-viaje[data-viaje="2"]'));
+  elegirFecha('2026-12-07');
+  ver('4v otra fecha: cambiar a otro lunes (07/12) tambien borra el viaje', hayViaje() && viajeMarcado() === '');
+  clic($('.ob-ent-viaje[data-viaje="2"]'));
+  clic($('.ob-guardar'));
+  ver('4v otra fecha lunes con viaje 2: guarda con dia vacio', JSON.stringify(rv.o?.entrega) ===
+    JSON.stringify({ fecha: '2026-12-07', dia: '', quien: 'IS', viaje: 2 }), JSON.stringify(rv.o?.entrega));
+
+  // Sin la fila de config: nunca aparece
+  rv = await abrirCon(ctxCliente);
+  clic($('.ob-ent-dia[data-dia="lu"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  ver('4v sin diasDosViajes: lunes + IS no pide viaje', !hayViaje());
+  clic($('.ob-guardar'));
+  ver('4v sin diasDosViajes: guarda como antes', JSON.stringify(rv.o?.entrega) === JSON.stringify({ fecha: '2026-11-23', dia: 'lu', quien: 'IS' }));
+
+  // Cliente nuevo, lunes + IS: los dos cuadros, viaje primero
+  rv = await abrirCon(ctxVAlta);
+  clic($('.ob-ent-dia[data-dia="lu"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  const t = textoHoja();
+  ver('4v alta lunes + IS: Viaje y despues "Despues de quien"', hayViaje() && t.indexOf('Viaje') >= 0 &&
+    t.indexOf('Viaje') < t.indexOf('Después de quién:'), t);
+  clic($('.ob-ent-viaje[data-viaje="2"]'));
+  await escribirEn('ferre');
+  clic($('.ob-ent-cli[data-cuenta="949"]'));
+  ver('4v alta: el resumen con las dos cosas', $('.ob-ent-resumen').textContent.replace(/\s+/g, ' ').trim() ===
+    'Entrega el lunes 23 de noviembre de 2026 · IS · viaje 2 · después de 949 FERRETERIA X', $('.ob-ent-resumen').textContent);
+  ver('4v alta: elegir el cliente no borra el viaje', viajeMarcado() === '2');
+  clic($('.ob-guardar'));
+  ver('4v alta: guarda viaje y despuesDe', JSON.stringify(rv.o?.entrega) === JSON.stringify({ fecha: '2026-11-23', dia: 'lu', quien: 'IS',
+    viaje: 2, despuesDe: { cuenta: '949', nombre: 'FERRETERIA X' } }), JSON.stringify(rv.o?.entrega));
+
+  // Medianoche con la hoja abierta: el dia recalculado sigue siendo lunes, el viaje se conserva
+  ahora = new DateReal(2026, 10, 23, 23, 58).getTime();   // lunes 23/11 23:58
+  rv = await abrirCon(ctxVCli);
+  clic($('.ob-ent-dia[data-dia="lu"]')); clic($('.ob-ent-vend[data-quien="IS"]')); await tick();
+  clic($('.ob-ent-viaje[data-viaje="1"]'));
+  ahora = new DateReal(2026, 10, 24, 0, 2).getTime();
+  clic($('.ob-guardar'));
+  ver('4v medianoche: avisa el lunes nuevo y el viaje sigue marcado', !rv.o && /lunes 30 de noviembre/.test($('.ob-ent-aviso')?.textContent || '') &&
+    viajeMarcado() === '1', $('.ob-ent-aviso')?.textContent);
+  clic($('.ob-guardar'));
+  ver('4v medianoche: el segundo Guardar guarda el lunes 30 con viaje 1', JSON.stringify(rv.o?.entrega) ===
+    JSON.stringify({ fecha: '2026-11-30', dia: 'lu', quien: 'IS', viaje: 1 }), JSON.stringify(rv.o?.entrega));
+  ahora = new DateReal(2026, 10, 18, 10, 0).getTime();
+
   // Celular: el buscador de clientes sube al enfocarlo, igual que el de articulos de la 117
   const subidas = [];
   const scrollReal = w.HTMLElement.prototype.scrollIntoView;
@@ -674,6 +805,72 @@ const USU = { usuarios: {
   ver('3x config con error: se envio, y la de la sesion queda igual', enviados.length === antesEnv + 1 &&
     sessionStorage.getItem('configCarrito') === cfgAntes);
   await cerrarHoja();
+
+  // ----- Viaje 1 o 2 (v44) -----
+  // Cliente existente: el viaje se pide igual (no depende del alta)
+  sessionStorage.setItem('clienteVista', JSON.stringify({ cuenta: '7', lista: 'D', nombre: 'Cliente 7' }));
+  sessionStorage.setItem('disponibleDeCuenta', '7');
+  const proximoDiaSem = n => { const d = new Date(); d.setDate(d.getDate() + 1); while (d.getDay() !== n) d.setDate(d.getDate() + 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+  const fLunes = proximoDiaSem(1), fMartes = proximoDiaSem(2);
+  const cfgViaje = { ...cfgNueva, diasDosViajes: ['lu', 'ju', 'sa'] };
+
+  // La pestaña tiene la config sin los dias (se agrego la fila despues): envia sin viaje;
+  // el servidor rechaza entrega_falta_viaje en un reintento: a corregir, pidiendo la config
+  C.vaciar(); C.agregar('NORMAL', 1);
+  ponerEnt({ fecha: fLunes, dia: '', quien: 'IS' });
+  respuesta = () => { throw new Error('sin conexion (simulada)'); };
+  await abrirPanel(); await confirmar();
+  const idV = C.getPendiente()?.id;
+  ver('4v sin los dias en la config: se envio sin viaje', !!idV && !('viaje' in enviados.at(-1).observaciones[0].entrega),
+    JSON.stringify(enviados.at(-1).observaciones[0].entrega));
+  respuesta = () => ({ ok: false, error: 'entrega_falta_viaje' });
+  configServidor = () => ({ ...cfgViaje });
+  antesCfg = pedidosConfig;
+  await reintentar();
+  ver('4v falta_viaje en un reintento: mismo id y sin pendiente', enviados.at(-1).id === idV && !C.getPendiente());
+  ver('4v falta_viaje: se volvio a pedir la config, una vez', pedidosConfig === antesCfg + 1);
+  ver('4v falta_viaje: la config nueva quedo guardada con los dias',
+    JSON.stringify(JSON.parse(sessionStorage.getItem('configCarrito')).diasDosViajes) === '["lu","ju","sa"]');
+  ver('4v falta_viaje: el carrito entero y la entrega sin tocar', C.leer().length === 1 &&
+    JSON.stringify(entregaDe()) === JSON.stringify({ fecha: fLunes, dia: '', quien: 'IS' }), JSON.stringify(entregaDe()));
+  ver('4v falta_viaje: aviso legible', /Falta el viaje \(1 o 2\)/.test($('.cp-aviso')?.textContent || ''), $('.cp-aviso')?.textContent);
+  ver('4v falta_viaje: la hoja abierta con los botones del viaje', document.querySelectorAll('.hj-fondo .ob-ent-viaje').length === 2);
+  ver('4v falta_viaje: la observacion del panel marcada con lo que falta', /falta el viaje/.test($('#carrito-panel .cp-obs-linea')?.textContent || ''));
+  await cerrarHoja();
+
+  // Con la config nueva, Confirmar no envia sin viaje (tambien un carrito armado antes de la actualizacion)
+  antesEnv = enviados.length;
+  await confirmar();
+  ver('4v lunes + IS sin viaje: Confirmar no envia y avisa', enviados.length === antesEnv &&
+    /falta el viaje/.test($('.cp-aviso')?.textContent || ''), $('.cp-aviso')?.textContent);
+
+  // Con viaje: viaja el numero y el exito lo muestra
+  ponerEnt({ fecha: fLunes, dia: '', quien: 'IS', viaje: 1 });
+  respuesta = () => ({ ok: true, numero: 'APP-5' });
+  await abrirPanel(); await confirmar();
+  ver('4v envio: la entrega con viaje 1', JSON.stringify(enviados.at(-1).observaciones[0].entrega) ===
+    JSON.stringify({ fecha: fLunes, dia: '', quien: 'IS', viaje: 1 }), JSON.stringify(enviados.at(-1).observaciones[0].entrega));
+  ver('4v exito: "· IS · viaje 1"', /· IS · viaje 1/.test($('#carrito-panel .cp-exito')?.textContent || ''),
+    $('#carrito-panel .cp-exito')?.textContent);
+  await cerrarExito();
+
+  // Un viaje que ya no corresponde (martes) no viaja
+  C.agregar('NORMAL', 1); ponerEnt({ fecha: fMartes, dia: '', quien: 'IS', viaje: 2 });
+  await abrirPanel(); await confirmar();
+  ver('4v martes con un viaje viejo en el carrito: se envia sin viaje', !('viaje' in enviados.at(-1).observaciones[0].entrega),
+    JSON.stringify(enviados.at(-1).observaciones[0].entrega));
+  ver('4v martes: el exito sin viaje', !/viaje/.test($('#carrito-panel .cp-exito')?.textContent || ''));
+  await cerrarExito();
+
+  // entrega_viaje_invalido en el primer envio: sin pendiente y texto legible (no es "a corregir")
+  C.agregar('NORMAL', 1); ponerEnt({ fecha: fLunes, dia: '', quien: 'IS', viaje: 2 });
+  respuesta = () => ({ ok: false, error: 'entrega_viaje_invalido' });
+  antesCfg = pedidosConfig;
+  await abrirPanel(); await confirmar();
+  ver('4v viaje_invalido: sin pendiente, texto legible, sin pedir la config', !C.getPendiente() &&
+    /viaje de la entrega especial no es válido/.test($('.cp-aviso')?.textContent || '') && pedidosConfig === antesCfg,
+    $('.cp-aviso')?.textContent);
 
   globalThis.fetch = fetchReal;
   escribir(`Casos del panel del carrito: ${ok + fallas - antes}`);
