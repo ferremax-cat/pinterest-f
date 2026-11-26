@@ -1768,7 +1768,7 @@ function displayNoResults(query) {
             <div class="container-img">
               <img alt="${escaparHTML(item.name || '')}"
               ${item.imageId ? window.Fotos.atributos(item.imageId, isInitialLoad ? posicion : undefined) : 'src="img/no-img.png"'}
-              onerror="this.onerror=null; this.removeAttribute('srcset'); this.src='img/no-img.png';">
+              onerror="window.Fotos.fallo(this)">
 
               <div class="top-row">
               <a href="#">${itemName}</a>

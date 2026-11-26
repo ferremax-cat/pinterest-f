@@ -134,7 +134,9 @@ async function preparar() {
     const p = cat[x.sku] || cat[x.sku.toUpperCase()];
     if (!p) return null;
     const id = fotos[x.sku] || fotos[x.sku.toUpperCase()] || fotos[x.sku.toLowerCase()];
-    return { ...x, nombre: p.name || x.sku, foto: id ? `https://lh3.googleusercontent.com/d/${id}=w120` : '' };
+    // Miniatura de 120 con WebP si se puede (js/fotos.js); sin Fotos, la de siempre
+    const foto = id ? (window.Fotos?.url(id, 120) ?? `https://lh3.googleusercontent.com/d/${id}=w120`) : '';
+    return { ...x, nombre: p.name || x.sku, foto };
   };
   // Una celda de la rutina anterior puede traer un habitual tambien en "dejo":
   // queda solo en habituales (con "Hace mucho que no lo pide")

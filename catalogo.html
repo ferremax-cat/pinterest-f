@@ -15,8 +15,6 @@
      <link rel="stylesheet" href="css/observaciones.css">
      <!-- Habituales del cliente: barra y carrito (js/habituales.js) -->
      <link rel="stylesheet" href="css/habituales.css">
-     <!-- Agregamos la librería XLSX -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
      <!-- Version de esta pagina (window.VERSION_APP), antes de cualquier modulo.
           GENERADO por scripts/version_app.py: ver js/actualizacion-app.js.
           defer: no frena el armado de la pagina y corre antes que los modulos
@@ -964,17 +962,19 @@
         }
 
         // 3. Actualizar las imágenes en la interfaz
-        document.querySelectorAll('.gallery-item').forEach(item => {
+        // ULTIMO RECURSO: la llama el catch de la inicialización (la otra
+        // cargarImagenes está dentro de un try y en un módulo no se ve desde
+        // ahí). No borrar. Con Fotos: ancho de la tarjeta y WebP
+        document.querySelectorAll('.gallery-item').forEach((item, posicion) => {
             const bottomRow = item.querySelector('.bottom-row a');
             if (bottomRow) {
                 const codigo = bottomRow.textContent.trim();
                 const codigoLimpio = codigo.replace(/\s+/g, '');
 
                 if (imageMap[codigoLimpio]) {
-                    const imgUrl = `https://lh3.googleusercontent.com/d/${imageMap[codigoLimpio]}`;
                     const img = item.querySelector('img');
                     if (img) {
-                        img.src = imgUrl;
+                        window.Fotos.poner(img, imageMap[codigoLimpio], posicion);
                         console.log(`Imagen actualizada: ${codigoLimpio}`);
                     }
                 } else {
