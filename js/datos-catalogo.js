@@ -10,7 +10,9 @@
  *
  * Cuando frescura-precios.js detecta un productos.json nuevo, lo descarga
  * una vez y lo deja aca con reemplazarProductos: lo que se cargue despues
- * (busqueda, carrito, promos) usa los precios nuevos.
+ * (busqueda, carrito, promos) usa los precios nuevos. Las fotos, igual:
+ * frescura-imagenes.js deja el catalogo_imagenes.json nuevo con
+ * reemplazarImagenes.
  *
  * funcionalidades_usuarios.json (la lista de vendedores de la observacion de
  * entrega, js/observaciones.js) se lee distinto: siempre revalidando con el
@@ -87,5 +89,10 @@ export function reemplazarProductos(datos) {
   promesas.productos = Promise.resolve(datos);
 }
 
+/** Lo mismo con catalogo_imagenes.json (lo usa frescura-imagenes.js) */
+export function reemplazarImagenes(datos) {
+  promesas.imagenes = Promise.resolve(datos);
+}
+
 // Para revisar desde la consola
-window.DatosCatalogo = { productos, imagenes, usuarios, clientes, reemplazarProductos };
+window.DatosCatalogo = { productos, imagenes, usuarios, clientes, reemplazarProductos, reemplazarImagenes };

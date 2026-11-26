@@ -50,6 +50,11 @@ let fotos = {};
 const fotosListas = (window.DatosCatalogo ? window.DatosCatalogo.imagenes() : Promise.resolve({}))
   .then(j => { fotos = j?.images || {}; })
   .catch(() => {});
+// Fotos nuevas con la pagina abierta (frescura-imagenes.js): las miniaturas
+// que se dibujen desde ahora usan el mapa nuevo
+document.addEventListener('imagenes:actualizadas', e => {
+  if (e.detail?.images) fotos = e.detail.images;
+});
 
 // Miniatura de 120 con WebP si se puede (js/fotos.js); sin Fotos, la de siempre
 const urlFoto = sku => (fotos[sku]
