@@ -685,9 +685,14 @@
     return fallas;
   }
 
-  // Casos de búsqueda (casos_busqueda.json) sobre unos datos ya preparados. Cada caso
-  // puede pedir: primero (código en el puesto 1), primerosEnGrupo {n, grupo},
-  // enLosPrimeros {n, codigos}, fueraDelGrupo {grupo, codigos}, minimoResultados.
+  // Casos de búsqueda (casos_busqueda.json) sobre unos datos ya preparados. En todos
+  // se controla el orden de los grupos: ninguno inferior antes que uno superior.
+  // Cada caso puede pedir además: primero (código en el puesto 1), grupoInicial
+  // (grupo del primer resultado: no hay ninguno superior y ese no está vacío),
+  // enElGrupo {grupo, codigos}, fueraDelGrupo {grupo, codigos}, enLosPrimeros
+  // {n, codigos} y minimoResultados. Ninguna cantidad puede depender de cuántos
+  // artículos tiene el catálogo: enLosPrimeros es para "tiene que verse arriba"
+  // dentro de un grupo grande, no para el tamaño del grupo (eso es enElGrupo).
   // Los grupos se nombran como en GRUPO (articuloCompleto, lineaCodigo, ...).
   // El detalle está escrito para quien no lee código. Sin fetch: la usan
   // probarBusquedas (navegador) y probar_busquedas.js (Node)
@@ -710,19 +715,41 @@
           (r[0] ? 'sale primero ' + describir(codigo(r[0])) : 'no hay resultados') +
           '; ' + c.primero + ' ' + dondeEsta(r, c.primero) + '.');
       }
+      // Orden de los grupos, en todos los casos: vale haya 8 resultados o 200
+      for (let i = 1; i < r.length; i++) {
+        if (r[i].grupo > r[i - 1].grupo) {
+          fallas.push('El puesto ' + (i + 1) + ' es ' + describir(codigo(r[i])) + ', en "' +
+            NOMBRE_GRUPO[r[i].grupo] + '", y está después del puesto ' + i + ', ' +
+            describir(codigo(r[i - 1])) + ', en "' + NOMBRE_GRUPO[r[i - 1].grupo] +
+            '": un grupo inferior quedó antes que uno superior.');
+          break;
+        }
+      }
       if (c.primerosEnGrupo) {
-        const g = GRUPO[c.primerosEnGrupo.grupo], n = c.primerosEnGrupo.n;
+        fallas.push('primerosEnGrupo ya no se usa (dependía de cuántos artículos hay en el catálogo): ' +
+          'usar grupoInicial y enElGrupo.');
+      }
+      if (c.grupoInicial) {
+        const g = GRUPO[c.grupoInicial];
         if (!g) {
-          fallas.push('El caso pide un grupo que no existe: "' + c.primerosEnGrupo.grupo + '".');
-        } else if (r.length < n) {
-          fallas.push('Se esperaban al menos ' + n + ' resultados en "' + NOMBRE_GRUPO[g] +
-            '", pero hay ' + r.length + ' resultados en total.');
+          fallas.push('El caso pide un grupo que no existe: "' + c.grupoInicial + '".');
+        } else if (!r[0]) {
+          fallas.push('Se esperaba que el primer resultado fuera de "' + NOMBRE_GRUPO[g] + '", pero no hay resultados.');
+        } else if (r[0].grupo !== g) {
+          fallas.push('Se esperaba que el primer resultado fuera de "' + NOMBRE_GRUPO[g] + '", pero es ' +
+            describir(codigo(r[0])) + ', en "' + NOMBRE_GRUPO[r[0].grupo] + '"' +
+            (r[0].grupo > g ? ' (un grupo superior).' : ': no hay ningún resultado en "' + NOMBRE_GRUPO[g] + '".'));
+        }
+      }
+      if (c.enElGrupo) {
+        const g = GRUPO[c.enElGrupo.grupo];
+        if (!g) {
+          fallas.push('El caso pide un grupo que no existe: "' + c.enElGrupo.grupo + '".');
         } else {
-          const i = r.slice(0, n).findIndex((x) => x.grupo !== g);
-          if (i >= 0) {
-            fallas.push('Se esperaba que los primeros ' + n + ' fueran "' + NOMBRE_GRUPO[g] +
-              '", pero el puesto ' + (i + 1) + ' es ' + describir(codigo(r[i])) +
-              ', en "' + NOMBRE_GRUPO[r[i].grupo] + '".');
+          for (const cod of c.enElGrupo.codigos) {
+            if (!r.some((x) => codigo(x) === cod && x.grupo === g)) {
+              fallas.push(describir(cod) + ' tendría que estar en "' + NOMBRE_GRUPO[g] + '" y ' + dondeEsta(r, cod) + '.');
+            }
           }
         }
       }
