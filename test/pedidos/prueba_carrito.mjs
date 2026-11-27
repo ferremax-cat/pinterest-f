@@ -647,6 +647,33 @@ cuentaVista = '7'; ponerCupo('7');
   console.log(`Casos de cliente nuevo en la app: ${ok + fallas - antesP}`);
 }
 
+// 9x. Pantalla de exito: el enlace chico "Cambiar el cliente" (js/cambio-cuenta.js)
+{
+  const apiAntes = w.Api.llamar;
+  const abiertos = [];
+  let idEnviado = null, numero = 'APP-77';
+  w.CambioCuenta = { abrirPedido: id => abiertos.push(id) };
+  w.Api.llamar = async b => (b.accion === 'guardar_pedido' ? (idEnviado = b.pedido.id, { ok: true, id: b.pedido.id, numero }) : apiAntes(b));
+  const confirmar = async () => { C.agregar('P001', 1); w.CarritoPanel.abrir(); await tick(10); $('#carrito-panel .cp-confirmar').click(); await tick(20); };
+  await confirmar();
+  const link = $('#carrito-panel .cp-cambiar-cliente');
+  ver('exito: enlace "Cambiar el cliente" debajo de Listo, sin cambiar el resto', !!link && link.textContent === 'Cambiar el cliente' &&
+    link.previousElementSibling?.classList.contains('cp-cerrar-exito') && !!$('#carrito-panel .cp-exito-tit'), link?.outerHTML);
+  link?.click();
+  ver('exito: el enlace cierra el panel y abre el cambio con ese pedido', abiertos.length === 1 && abiertos[0] === idEnviado &&
+    $('#carrito-panel').style.display === 'none', JSON.stringify(abiertos));
+  numero = 'PRU-9';
+  await confirmar();
+  ver('exito: un pedido de prueba no ofrece el enlace', !!$('#carrito-panel .cp-exito') && !$('#carrito-panel .cp-cambiar-cliente'));
+  $('#carrito-panel .cp-cerrar-exito')?.click();
+  numero = 'APP-78';
+  delete w.CambioCuenta;
+  await confirmar();
+  ver('exito: sin la pantalla del cambio cargada, sin enlace', !!$('#carrito-panel .cp-exito') && !$('#carrito-panel .cp-cambiar-cliente'));
+  $('#carrito-panel .cp-cerrar-exito')?.click();
+  w.Api.llamar = apiAntes;
+}
+
 // 10. Usuario cliente: nada, y la foto de respaldo (E7)
 sessionStorage.setItem('authRol', 'cliente_estandar');
 w.menuFuncionalidades.usuarioActual = { clave: '9', rol: 'cliente_estandar' };

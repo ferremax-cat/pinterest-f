@@ -1,0 +1,75 @@
+/* Cambio de cuenta de un pedido confirmado (js/cambio-cuenta.js): lista de
+   pedidos, elegir el cliente y vista previa, dentro de la hoja (css/hoja.css) */
+
+.cc-buscar {
+  width: 100%; height: 42px; padding: 0 12px; box-sizing: border-box;
+  border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px;   /* 16px: el celular no agranda la pagina */
+}
+.cc-nota { margin: 8px 0; color: #6b7280; font-size: 13px; }
+.cc-cargando { margin: 16px 0; color: #6b7280; font-size: 14px; }
+.cc-error { margin: 10px 0; padding: 8px 10px; border-radius: 8px; background: #fef2f2; color: #b91c1c; font-size: 14px; font-weight: 600; }
+.cc-etiqueta { display: block; margin: 14px 0 6px; font-size: 14px; font-weight: 700; }
+
+/* Lista de pedidos: una tarjeta de dos renglones por pedido */
+.cc-lista { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.cc-pedido {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; padding: 10px 12px;
+  border: 1px solid #e5e7eb; border-radius: 10px; background: #fff;
+  text-align: left; font: inherit; font-size: 14px; color: #111827; cursor: pointer;
+}
+.cc-pedido:hover, .cc-pedido:focus-visible { background: #f9fafb; }
+.cc-ped-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; }
+.cc-ped-cli { color: #374151; overflow-wrap: anywhere; }
+.cc-ped-total { margin-left: auto; white-space: nowrap; }
+.cc-chip { padding: 1px 7px; border-radius: 9px; background: #f3f4f6; color: #374151; font-size: 11px; font-weight: 700; }
+.cc-chip-imp { background: #dcfce7; color: #166534; }
+.cc-chip-int { background: #fef3c7; color: #92400e; }
+.cc-chip-pend { background: #e0e7ff; color: #3730a3; }
+
+/* Elegir el cliente */
+.cc-pedido-cab { padding: 10px 12px; border-radius: 8px; background: #f3f4f6; font-size: 14px; }
+.cc-pedido-cab .cc-ped-fila + .cc-ped-fila { margin-top: 4px; }
+.cc-clientes { margin-top: 6px; }
+.cc-cli {
+  display: block; width: 100%; min-height: 44px; padding: 8px 4px;
+  border: none; border-bottom: 1px solid #f0f0f0; background: #fff;
+  text-align: left; font-size: 14px; color: #1f2937; cursor: pointer; overflow-wrap: anywhere;
+}
+.cc-cli b { margin-right: 6px; }
+.cc-cli small { margin-left: 6px; color: #b45309; font-weight: 600; }
+.cc-ajeno { color: #6b7280; }
+
+/* Vista previa: arriba lo que decide */
+.cc-decide { padding: 12px 14px; border: 2px solid #111827; border-radius: 10px; }
+.cc-dec-tit { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #6b7280; }
+.cc-dec-tit + .cc-dec-val { margin-top: 2px; }
+.cc-dec-val { margin: 0 0 8px; font-size: 15px; overflow-wrap: anywhere; }
+.cc-dec-val s { color: #6b7280; }
+.cc-dec-nuevo { margin-top: -6px; font-size: 17px; font-weight: 800; }
+.cc-dec-total { font-size: 20px; }
+.cc-dec-val small { color: #6b7280; font-size: 13px; }
+.cc-sin-cambios { margin: 8px 0 0; padding: 10px 12px; border-radius: 8px; background: #ecfdf5; color: #065f46; font-size: 15px; }
+.cc-aviso {
+  margin: 10px 0; padding: 8px 10px; border-radius: 8px;
+  background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; font-size: 13px; font-weight: 600;
+}
+.cc-aviso-fuerte { border-width: 2px; font-size: 14px; }
+.cc-lineas { margin-top: 12px; border: 1px solid #e5e7eb; border-radius: 8px; }
+.cc-lineas summary { padding: 10px 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.cc-lineas ul { margin: 0; padding: 0 12px 6px; list-style: none; }
+.cc-linea { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-top: 1px solid #f0f0f0; font-size: 14px; }
+.cc-lin-nom { overflow-wrap: anywhere; }
+.cc-lin-nom small, .cc-motivo { color: #6b7280; font-size: 12px; }
+.cc-motivo { margin-left: 6px; }
+.cc-lin-nota { color: #92400e; font-size: 12px; }
+
+/* Listo */
+.cc-listo { padding: 16px 0; text-align: center; }
+.cc-check { width: 48px; height: 48px; margin: 0 auto 10px; border-radius: 50%; background: #16a34a; color: #fff; font-size: 28px; line-height: 48px; }
+.cc-listo .cc-dec-nuevo { margin-top: 0; }
+
+/* Pantalla de exito del carrito: el enlace chico debajo de Listo */
+.cp-cambiar-cliente {
+  display: block; margin: 10px auto 0; padding: 6px 8px;
+  border: none; background: none; color: #6b7280; font-size: 13px; text-decoration: underline; cursor: pointer;
+}

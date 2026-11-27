@@ -864,7 +864,7 @@ function calcularSemaforo(lineas, cupo, totalNeto) {
 
 // "El servicio Hojas de calculo fallo al acceder al documento" y parecidos:
 // se reintenta dentro del mismo bloqueo, con pausas cortas (3 intentos)
-const VERSION_API = 'v44-entrega-viaje';
+const VERSION_API = 'v45-cambio-cuenta';
 // Registro de cada guardado (solo se agregan filas). Si la hoja no existe se
 // omite: se crea una vez desde el editor con crearRegistroGuardados()
 const HOJA_REGISTRO = 'registro_guardados';
@@ -1752,6 +1752,458 @@ function accionGuardarPedido(body) {
 }
 
 
+// ---------- cambio de cuenta de un pedido confirmado ----------
+// Un pedido cargado con el cliente equivocado se pasa a la cuenta correcta. Lo
+// puede hacer el vendedor que lo cargo (columna vendedor = su codigo; a un
+// cliente suyo y dentro de DIAS_CAMBIO_VENDEDOR), un admin u oficina. Las
+// lineas que tomaban la lista del cliente (y las de promocion) las recalcula el
+// navegador, que tiene los precios; las de otra lista o precio especial no
+// cambian (se controla aca). Los totales y el semaforo los recalcula el
+// servidor. Si el pedido ya se imprimio (o tiene un intento sin confirmar),
+// vuelve a pendientes y la hoja nueva sale como reemplazo: la cabecera guarda
+// a que cuenta NO se le entrega (cuenta_anterior). Cada cambio queda en la
+// hoja cambios_cuenta (solo se agregan filas).
+const HOJA_CAMBIOS = 'cambios_cuenta';
+const COLS_CAMBIOS = ['fecha_hora', 'id_pedido', 'numero', 'cuenta_anterior', 'nombre_anterior', 'cuenta_nueva',
+  'nombre_nueva', 'lista_anterior', 'lista_nueva', 'quien', 'rol', 'estaba_impreso', 'fecha_impresion_anterior',
+  'impreso_por_anterior', 'total_anterior', 'total_nuevo', 'lineas_cambiadas', 'detalle_lineas', 'version'];
+// Columnas de pedidos_cabecera, por nombre (las agrega prepararCambioCuenta)
+const COLS_CAMBIO_CAB = ['cuenta_anterior', 'nombre_anterior', 'impresion_anterior', 'cambio_cuenta', 'cambio_cuenta_por'];
+const ROLES_CAMBIO = ['admin', 'vendedor_estandar', 'oficina'];
+const DIAS_CAMBIO_VENDEDOR = 14;
+const DIAS_MIS_PEDIDOS = 14;
+const MAX_MIS_PEDIDOS = 100;
+const MECANISMOS_FIJOS = ['otra_lista', 'precio_libre'];       // decision del vendedor: no se tocan
+const MECANISMOS_CLIENTE = ['lista_cliente', 'promocion'];     // dependen del cliente: se recalculan
+const N_COLS_LIN = 17;                                          // pedidos_lineas, A a Q
+
+/** Dias de calendario (Argentina) desde la fecha de un pedido hasta hoy; Infinity si no es una fecha */
+function diasDesde(fecha) {
+  const d = fecha instanceof Date ? fecha : new Date(fecha);
+  if (isNaN(d)) return Infinity;
+  const zona = 'America/Argentina/Buenos_Aires';
+  const a = Utilities.formatDate(d, zona, 'yyyy-MM-dd').split('-').map(Number);
+  const h = Utilities.formatDate(new Date(), zona, 'yyyy-MM-dd').split('-').map(Number);
+  return Math.round((Date.UTC(h[0], h[1] - 1, h[2]) - Date.UTC(a[0], a[1] - 1, a[2])) / 86400000);
+}
+
+/** La hoja cambios_cuenta, si tiene las columnas en orden; si no, null */
+function hojaCambios(ss) {
+  const h = ss.getSheetByName(HOJA_CAMBIOS);
+  if (!h) return null;
+  const enc = h.getRange(1, 1, 1, COLS_CAMBIOS.length).getValues()[0].map(x => String(x).trim());
+  return COLS_CAMBIOS.some((n, k) => enc[k] !== n) ? null : h;
+}
+
+/** Como estaba impreso un pedido (fila de la cabecera): 'si', 'intento' o 'no' */
+function estadoImpresion(f, I) {
+  if (String(f[I.impreso] || '').trim().toUpperCase() === 'SI') return 'si';
+  if (I.intento >= 0 && f[I.intento] !== '' && f[I.intento] !== null && f[I.intento] !== undefined) return 'intento';
+  return 'no';
+}
+
+/** Indices de las columnas de la cabecera que usa el cambio de cuenta (-1 si falta) */
+function indicesCambio(enc) {
+  const c = n => enc.indexOf(n);
+  return { impreso: c('impreso'), fechaImp: c('fecha_impresion'), impresoPor: c('impreso_por'),
+    intento: c('intento_impresion'), intentoPor: c('intento_por'), extra: c('desc_total_extra_pct'),
+    estado: c('estado') >= 0 ? c('estado') : 14, rolCreador: c('rol_creador') >= 0 ? c('rol_creador') : 28,
+    cuentaAnt: c('cuenta_anterior'), nombreAnt: c('nombre_anterior'), impAnt: c('impresion_anterior'),
+    cambio: c('cambio_cuenta'), cambioPor: c('cambio_cuenta_por') };
+}
+
+/**
+ * Si el pedido de la fila f se puede cambiar de cuenta (lo que no depende de la
+ * cuenta nueva). Devuelve '' o el error
+ */
+function problemaDeCambio(f, I, p, cp) {
+  const rol = String(p.rol || '').trim();
+  if (esAnulado(f[I.estado])) return 'anulado';
+  const rc = String(f[I.rolCreador] || '').trim();
+  if (!rc || rc === 'cliente_estandar') return 'pedido_de_cliente';
+  if (rol === 'vendedor_estandar') {
+    if (String(f[4] || '').trim() !== String(p.cod)) return 'pedido_de_otro_vendedor';
+    if (diasDesde(f[1]) > DIAS_CAMBIO_VENDEDOR) return 'fuera_de_plazo';
+  }
+  // Un alta sin cuenta tiene su propio camino (asignar_cuenta)
+  if (esFaltaCuenta(f[I.estado]) || esCuentaAlta(f[2])) return 'cuenta_puente';
+  if (esNumeroPrueba(f[COL_NUMERO - 1]) || (cp && String(f[2]).trim() === cp)) return 'cuenta_prueba';
+  return '';
+}
+
+/**
+ * Pedidos para cambiarles la cuenta: los que cargo el vendedor (o, para admin
+ * y oficina, todos; body.vendedor filtra), de los ultimos DIAS_MIS_PEDIDOS,
+ * los mas nuevos primero. Sin anulados, de clientes, altas sin cuenta ni
+ * pruebas (un admin si las ve, marcadas). Campos explicitos: ni semaforo ni cupo
+ */
+function accionMisPedidos(body) {
+  const p = verificarToken(body.token);
+  if (!p) return responder({ ok: false, error: 'token_invalido' });
+  const rol = String(p.rol || '').trim();
+  if (!ROLES_CAMBIO.includes(rol)) return responder({ ok: false, error: 'rol_sin_permiso' });
+  const esVendedor = rol === 'vendedor_estandar';
+  const filtroVen = esVendedor ? String(p.cod) : String(body.vendedor || '').trim();
+
+  const cab = SpreadsheetApp.openById(PLANILLA_ID).getSheetByName('pedidos_cabecera').getDataRange().getValues();
+  const I = indicesCambio(cab[0].map(x => String(x).trim()));
+  const cp = cuentaPrueba();
+  const esAdmin = rol === 'admin';
+  const pedidos = [];
+  for (let i = 1; i < cab.length; i++) {
+    const f = cab[i];
+    const id = String(f[0] || '').trim();
+    if (!id || esAnulado(f[I.estado]) || esFaltaCuenta(f[I.estado])) continue;
+    const rc = String(f[I.rolCreador] || '').trim();
+    if (!rc || rc === 'cliente_estandar') continue;
+    if (filtroVen && String(f[4] || '').trim() !== filtroVen) continue;
+    const dias = diasDesde(f[1]);
+    if (dias > DIAS_MIS_PEDIDOS) continue;
+    const prueba = esPedidoPrueba(f[COL_NUMERO - 1], f[2], cp);
+    if (prueba && !esAdmin) continue;
+    pedidos.push({
+      id,
+      numero: etiquetaGuardada(f[COL_NUMERO - 1], i),
+      cliente: String(f[2]).trim(),
+      nombre: String(f[3] || ''),
+      fecha: f[1] instanceof Date ? f[1].toISOString() : String(f[1]),
+      total: Number(f[10]) || 0,
+      lineas: Number(f[7]) || 0,
+      vendedor: String(f[4] || ''),
+      impreso: estadoImpresion(f, I),
+      cambiado: I.cambio >= 0 && f[I.cambio] !== '' && f[I.cambio] !== null && f[I.cambio] !== undefined,
+      prueba
+    });
+  }
+  pedidos.sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0));
+  return responder({ ok: true, pedidos: pedidos.slice(0, MAX_MIS_PEDIDOS), dias: DIAS_MIS_PEDIDOS });
+}
+
+/**
+ * Un pedido con todo lo que hace falta para recalcularlo con otro cliente:
+ * cabecera (cuenta, lista, descuentos sobre el total, total, como esta impreso,
+ * dias desde que se cargo) y lineas con su mecanismo y precios. Los mismos
+ * permisos que cambiar_cuenta
+ */
+function accionPedidoParaCambio(body) {
+  const p = verificarToken(body.token);
+  if (!p) return responder({ ok: false, error: 'token_invalido' });
+  if (!ROLES_CAMBIO.includes(String(p.rol || '').trim())) return responder({ ok: false, error: 'rol_sin_permiso' });
+  const id = String(body.id || '').trim();
+  if (!id) return responder({ ok: false, error: 'sin_ids' });
+
+  const ss = SpreadsheetApp.openById(PLANILLA_ID);
+  const cab = ss.getSheetByName('pedidos_cabecera').getDataRange().getValues();
+  const I = indicesCambio(cab[0].map(x => String(x).trim()));
+  let i = 1;
+  while (i < cab.length && String(cab[i][0]).trim() !== id) i++;
+  if (i >= cab.length) return responder({ ok: false, error: 'no_encontrado' });
+  const f = cab[i];
+  const problema = problemaDeCambio(f, I, p, cuentaPrueba());
+  if (problema) return responder({ ok: false, error: problema });
+
+  const lineas = filasConId(ss.getSheetByName('pedidos_lineas'), id, N_COLS_LIN)
+    .map(x => lineaGuardada(x[1])).sort((a, b) => a.orden - b.orden);
+  const fechaImp = estadoImpresion(f, I) === 'si' ? f[I.fechaImp] : estadoImpresion(f, I) === 'intento' ? f[I.intento] : '';
+  return responder({
+    ok: true,
+    id,
+    numero: etiquetaGuardada(f[COL_NUMERO - 1], i),
+    cliente: String(f[2]).trim(),
+    nombre: String(f[3] || ''),
+    fecha: f[1] instanceof Date ? f[1].toISOString() : String(f[1]),
+    dias: diasDesde(f[1]),
+    lista: String(f[17] || ''),
+    descTotalPct: Number(f[9]) || 0,
+    descExtraPct: I.extra >= 0 ? Number(f[I.extra]) || 0 : 0,
+    totalNeto: Number(f[10]) || 0,
+    impreso: estadoImpresion(f, I),
+    fechaImpresion: fechaImp instanceof Date ? fechaImp.toISOString() : '',
+    lineas
+  });
+}
+
+/** Una fila de pedidos_lineas (A a Q) como objeto */
+function lineaGuardada(v) {
+  const num = x => (x === '' || x === null || x === undefined ? null : Number(x));
+  return { orden: Number(v[1]) || 0, sku: String(v[2] || '').trim(), nombre: String(v[3] || ''),
+    cantidad: Number(v[4]) || 0, listaCliente: String(v[5] || ''), listaAplicada: String(v[6] || ''),
+    mecanismo: String(v[7] || '') || 'lista_cliente', precioBase: Number(v[8]) || 0, precio: Number(v[9]) || 0,
+    descEfectivo: Number(v[10]) || 0, subtotal: Number(v[11]) || 0, origenLinea: String(v[12] || ''),
+    descuentoLinea: num(v[14]), precioPromo: num(v[15]), promoDesde: num(v[16]) };
+}
+
+const r2c = x => Math.round(x * 100) / 100;   // el redondeo del carrito (carrito.js)
+
+/**
+ * Lineas nuevas de un cambio de cuenta: las que mando el navegador, controladas
+ * contra las guardadas (gs: lineaGuardada de cada fila). Mismas lineas (orden,
+ * sku, cantidad); las de otra lista o precio especial con el mismo mecanismo,
+ * lista y precio (su precio_base si puede cambiar: es la referencia de la lista
+ * del cliente); las demas, lista del cliente o promocion, con la lista nueva.
+ * Subtotal y descuento efectivo los calcula el servidor, como el carrito.
+ * Devuelve { lineas } o { error: 'lineas_distintas' }
+ */
+function validarLineasCambio(enviadas, gs, lista) {
+  if (!Array.isArray(enviadas) || enviadas.length !== gs.length) return { error: 'lineas_distintas' };
+  const porOrden = {};
+  enviadas.forEach(e => { if (e && typeof e === 'object') porOrden[Number(e.orden)] = e; });
+  const lineas = [];
+  for (let k = 0; k < gs.length; k++) {
+    const g = gs[k];
+    const e = porOrden[g.orden];
+    if (!e || String(e.sku || '').trim().toUpperCase() !== g.sku.toUpperCase() || Number(e.cantidad) !== g.cantidad) {
+      return { error: 'lineas_distintas' };
+    }
+    const mec = String(e.mecanismo || '');
+    const precio = Number(e.precio);
+    const base = Number(e.precioBase);
+    if (!isFinite(precio) || precio < 0) return { error: 'lineas_distintas' };
+    let n;
+    if (MECANISMOS_FIJOS.indexOf(g.mecanismo) >= 0) {
+      if (mec !== g.mecanismo || Math.abs(precio - g.precio) > 0.005 ||
+          String(e.listaAplicada || '').trim().toUpperCase() !== g.listaAplicada.toUpperCase()) {
+        return { error: 'lineas_distintas' };
+      }
+      n = { ...g, precioBase: base > 0 ? r2c(base) : g.precioBase };
+    } else {
+      if (MECANISMOS_CLIENTE.indexOf(mec) < 0 || !(base >= 0)) return { error: 'lineas_distintas' };
+      const enPromo = mec === 'promocion';
+      const dl = Number(e.descuentoLinea) || 0;
+      if (dl < 0 || dl >= 100) return { error: 'lineas_distintas' };
+      n = { ...g, mecanismo: mec, listaAplicada: lista, precioBase: r2c(base), precio: r2c(precio), descuentoLinea: dl,
+        precioPromo: enPromo && Number(e.precioPromo) > 0 ? r2c(Number(e.precioPromo)) : null,
+        promoDesde: enPromo && Number(e.promoDesde) > 0 ? Math.floor(Number(e.promoDesde)) : null };
+    }
+    n.subtotal = r2c(n.precio * n.cantidad);
+    n.descEfectivo = n.precioBase > 0 ? Math.round((1 - n.precio / n.precioBase) * 1000) / 10 : 0;
+    lineas.push(n);
+  }
+  return { lineas };
+}
+
+/**
+ * Totales del pedido con las lineas nuevas, con la misma cuenta que
+ * carrito.js totales(): el descuento sobre el total (y el segundo, en cascada)
+ * solo sobre las lineas que no estan en promocion
+ */
+function totalesCambio(lineas, d1, d2) {
+  const bruto = r2c(lineas.reduce((a, l) => a + l.subtotal, 0));
+  const enPromo = r2c(lineas.filter(l => l.mecanismo === 'promocion').reduce((a, l) => a + l.subtotal, 0));
+  const factor = (1 - d1 / 100) * (1 - d2 / 100);
+  const neto = r2c(enPromo + (bruto - enPromo) * factor);
+  const aLista = r2c(lineas.reduce((a, l) => a + (l.precioBase || 0) * l.cantidad, 0));
+  return { bruto, neto, descGlobal: aLista ? Math.round((1 - neto / aLista) * 1000) / 10 : 0 };
+}
+
+/**
+ * Cambia la cuenta de un pedido confirmado. body: { id, cuentaNueva, lista
+ * (la del cliente nuevo), lineas (recalculadas por el navegador: orden, sku,
+ * cantidad, mecanismo, listaAplicada, precioBase, precio, descuentoLinea,
+ * precioPromo, promoDesde), totalAnterior (el total que vio la persona: si no
+ * coincide, otro lo cambio en el medio) }.
+ * Escribe la cabecera (cuenta, nombre, lista, totales, semaforo; si estaba
+ * impreso o con intento, lo vacia y guarda el aviso de reemplazo), las lineas
+ * (F a Q, por orden), la cuenta de las observaciones y una fila en
+ * cambios_cuenta. Relee la cabecera para verificar. Repetir el mismo cambio
+ * (la respuesta se perdio) responde ok con yaCambiada, sin escribir
+ */
+function accionCambiarCuenta(body) {
+  const p = verificarToken(body.token);
+  if (!p) return responder({ ok: false, error: 'token_invalido' });
+  const rol = String(p.rol || '').trim();
+  if (!ROLES_CAMBIO.includes(rol)) return responder({ ok: false, error: 'rol_sin_permiso' });
+
+  const id = String(body.id || '').trim();
+  const cuenta = String(body.cuentaNueva || '').trim();
+  const lista = String(body.lista || '').trim().toUpperCase();
+  if (!id) return responder({ ok: false, error: 'sin_ids' });
+  if (!/^\d{1,7}$/.test(cuenta)) return responder({ ok: false, error: 'cuenta_invalida' });
+  if (esCuentaAlta(cuenta)) return responder({ ok: false, error: 'cuenta_puente' });
+  const cp = cuentaPrueba();
+  if (cp && cuenta === cp) return responder({ ok: false, error: 'cuenta_prueba' });
+  if (!/^[A-Z]{1,2}$/.test(lista)) return responder({ ok: false, error: 'lista_invalida' });
+  const cli = getFinanzasCliente(cuenta);
+  if (!cli) return responder({ ok: false, error: 'cliente_no_encontrado' });
+
+  const inicio = Date.now();
+  const ss = SpreadsheetApp.openById(PLANILLA_ID);
+  const hCab = ss.getSheetByName('pedidos_cabecera');
+  const hLin = ss.getSheetByName('pedidos_lineas');
+  const hObs = hojaObsPedidos(ss);
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+
+    const filasCab = hCab.getDataRange().getValues();
+    const enc = filasCab[0].map(x => String(x).trim());
+    const I = indicesCambio(enc);
+    let i = 1;
+    while (i < filasCab.length && String(filasCab[i][0]).trim() !== id) i++;
+    if (i >= filasCab.length) return responder({ ok: false, error: 'no_encontrado' });
+    const f = filasCab[i];
+    const fila = i + 1;
+    const problema = problemaDeCambio(f, I, p, cp);
+    if (problema) return responder({ ok: false, error: problema });
+    // Un vendedor pasa el pedido solo a un cliente suyo (lo mismo que pide
+    // guardar_pedido); si no, la app le dice que se lo pida a la oficina
+    if (rol === 'vendedor_estandar' && cli.vendedor !== p.cod) {
+      return responder({ ok: false, error: 'cuenta_de_otro_vendedor' });
+    }
+
+    const cuentaAnt = String(f[2]).trim();
+    const numero = etiquetaGuardada(f[COL_NUMERO - 1], i);
+    const gs = filasConId(hLin, id, N_COLS_LIN);
+    const guardadas = gs.map(x => lineaGuardada(x[1])).sort((a, b) => a.orden - b.orden);
+    const filaDeOrden = {};
+    gs.forEach(x => { filaDeOrden[Number(x[1][1]) || 0] = x[0]; });
+
+    // Misma cuenta: un reintento de un cambio ya hecho (mismos precios) o un error
+    if (cuentaAnt === cuenta) {
+      const enviadas = Array.isArray(body.lineas) ? body.lineas : [];
+      const mismas = I.cambio >= 0 && f[I.cambio] !== '' && enviadas.length === guardadas.length &&
+        guardadas.every(g => enviadas.some(e => e && Number(e.orden) === g.orden &&
+          String(e.mecanismo || '') === g.mecanismo && Math.abs(Number(e.precio) - g.precio) <= 0.005));
+      if (mismas) return responder({ ok: true, id, numero, cuenta, nombre: String(f[3] || ''), yaCambiada: true });
+      return responder({ ok: false, error: 'misma_cuenta' });
+    }
+    if (Math.abs(Number(f[10]) - Number(body.totalAnterior)) >= 0.01) {
+      return responder({ ok: false, error: 'pedido_cambiado' });
+    }
+    if (guardadas.length !== (Number(f[7]) || 0)) return responder({ ok: false, error: 'lineas_distintas' });
+    const vl = validarLineasCambio(body.lineas, guardadas, lista);
+    if (vl.error) return responder({ ok: false, error: vl.error });
+    const lineas = vl.lineas;
+
+    // Las hojas del registro tienen que estar bien armadas antes de escribir nada
+    const hCambios = hojaCambios(ss);
+    if (!hCambios || COLS_CAMBIO_CAB.some(n => enc.indexOf(n) < 0) || I.intento < 0 || I.intentoPor < 0) {
+      return responder({ ok: false, error: 'faltan_columnas_cambio' });
+    }
+
+    // Totales y semaforo con el cliente nuevo
+    const d1 = Number(f[9]) || 0;
+    const d2 = I.extra >= 0 ? Number(f[I.extra]) || 0 : 0;
+    const t = totalesCambio(lineas, d1, d2);
+    const sem = calcularSemaforo(lineas, Number(cli.cupoMes) || 0, t.neto);
+    const excedente = r2c(t.neto - sem.cupo);
+
+    // Impresion: la hoja que esta en el deposito dice la cuenta anterior
+    const imp = estadoImpresion(f, I);
+    const fechaImp = imp === 'si' ? f[I.fechaImp] : imp === 'intento' ? f[I.intento] : '';
+    const porImp = imp === 'si' ? f[I.impresoPor] : imp === 'intento' ? f[I.intentoPor] : '';
+    let aviso;   // [cuenta_anterior, nombre_anterior, impresion_anterior]
+    if (imp !== 'no') aviso = [cuentaAnt, String(f[3] || ''), fechaImp];
+    else if (String(f[I.cuentaAnt] || '').trim() === cuenta) aviso = ['', '', ''];   // vuelve a la de la hoja
+    else aviso = [f[I.cuentaAnt], f[I.nombreAnt], f[I.impAnt]];
+    const ahora = new Date();
+    const quien = String(p.usr || '');
+
+    // Lineas que cambiaron, para el registro: [orden, sku, mecanismo antes, precio antes, mecanismo despues, precio despues]
+    const detalle = [];
+    lineas.forEach((n, k) => {
+      const g = guardadas[k];
+      if (g.mecanismo !== n.mecanismo || Math.abs(g.precio - n.precio) > 0.005) {
+        detalle.push([n.orden, n.sku, g.mecanismo, g.precio, n.mecanismo, n.precio]);
+      }
+    });
+
+    const reg = { inicio, id, numero, cuenta, lineas: lineas.length, neto: t.neto, fila };
+    // Primero las lecturas (filas de las observaciones) y despues las
+    // escrituras, con un flush; repetir escribe los mismos valores
+    const escribir = () => conReintentos(() => {
+      const obsFilas = hObs ? filasDeId(hObs, id) : [];
+      hCab.getRange(fila, 3, 1, 2).setValues([[cuenta, comoTexto(cli.nombre)]]);
+      hCab.getRange(fila, 9).setValue(t.bruto);
+      hCab.getRange(fila, 11, 1, 2).setValues([[t.neto, t.descGlobal]]);
+      hCab.getRange(fila, 18, 1, 8).setValues([[lista, sem.cupo, excedente > 0 ? excedente : 0, sem.peor,
+        r2c(sem.verde), r2c(sem.amarillo), r2c(sem.rojo), Number(cli.pgProm3M) || 0]]);
+      if (imp !== 'no') {
+        hCab.getRange(fila, I.impreso + 1, 1, 3).setValues([['', '', '']]);
+        hCab.getRange(fila, I.intento + 1).setValue('');
+        hCab.getRange(fila, I.intentoPor + 1).setValue('');
+      }
+      escribirPorEncabezado(hCab, fila, { cuenta_anterior: aviso[0], nombre_anterior: aviso[1],
+        impresion_anterior: aviso[2], cambio_cuenta: ahora, cambio_cuenta_por: quien }, enc);
+      lineas.forEach((n, k) => {
+        hLin.getRange(filaDeOrden[n.orden], 6, 1, 12).setValues([[lista, n.listaAplicada, n.mecanismo, n.precioBase,
+          n.precio, n.descEfectivo, n.subtotal, n.origenLinea, sem.colores[k] || '',
+          n.descuentoLinea === null ? '' : n.descuentoLinea,
+          n.precioPromo === null ? '' : n.precioPromo, n.promoDesde === null ? '' : n.promoDesde]]);
+      });
+      obsFilas.forEach(fo => hObs.getRange(fo, 3).setValue(cuenta));
+      SpreadsheetApp.flush();
+    }, 'cambiar_cuenta');
+
+    let ok = false;
+    for (let pasada = 1; pasada <= 2 && !ok; pasada++) {
+      escribir();
+      const rr = hCab.getRange(fila, 1, 1, 11).getValues()[0];
+      ok = String(rr[0]).trim() === id && String(rr[2]).trim() === cuenta && Math.abs(Number(rr[10]) - t.neto) < 0.01;
+      if (!ok) console.warn('cambiar_cuenta: verificacion ' + pasada + ' ' + id);
+    }
+    if (!ok) {
+      registrarGuardado(ss, { ...reg, verificacion: 'error: cambiar cuenta ' + cuentaAnt + '→' + cuenta + ' no verificada' });
+      confirmarEscrituras();
+      return responder({ ok: false, error: 'verificacion_fallida' });
+    }
+
+    let sinRegistro = false;
+    try {
+      conReintentos(() => {
+        hCambios.appendRow([ahora, id, numero, cuentaAnt, comoTexto(String(f[3] || '')), cuenta, comoTexto(cli.nombre),
+          String(f[17] || ''), lista, quien, rol, imp === 'si' ? 'SI' : imp === 'intento' ? 'intento' : 'NO',
+          fechaImp, porImp, Number(f[10]) || 0, t.neto, detalle.length, JSON.stringify(detalle), VERSION_API]);
+        SpreadsheetApp.flush();
+      }, 'cambios_cuenta');
+    } catch (e) {
+      // El cambio ya esta hecho y verificado; la cabecera guarda quien y cuando.
+      // La falta queda a la vista en registro_guardados (abajo)
+      sinRegistro = true;
+      console.warn('cambiar_cuenta: no se escribio la fila de cambios_cuenta de ' + id + ': ' + e);
+    }
+    registrarGuardado(ss, { ...reg, verificacion: 'cuenta cambiada ' + cuentaAnt + '→' + cuenta +
+      (imp !== 'no' ? ' (estaba impreso: vuelve a pendientes)' : '') +
+      (sinRegistro ? ' · NO SE PUDO REGISTRAR EN cambios_cuenta' : '') });
+    confirmarEscrituras();
+    return responder({ ok: true, id, numero, cuenta, nombre: cli.nombre, totalNeto: t.neto,
+      totalAnterior: Number(f[10]) || 0, estabaImpreso: imp !== 'no', lineasCambiadas: detalle.length });
+
+  } catch (err) {
+    return responder({ ok: false, error: String(err) });
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+/**
+ * Para ejecutar una vez desde el editor, antes de publicar: crea la hoja
+ * cambios_cuenta con sus encabezados y agrega al final de pedidos_cabecera las
+ * columnas del cambio de cuenta que falten. No toca nada que ya exista
+ */
+function prepararCambioCuenta() {
+  const ss = SpreadsheetApp.openById(PLANILLA_ID);
+  if (!ss.getSheetByName(HOJA_CAMBIOS)) {
+    const h = ss.insertSheet(HOJA_CAMBIOS);
+    h.getRange(1, 1, 1, COLS_CAMBIOS.length).setValues([COLS_CAMBIOS]);
+    h.setFrozenRows(1);
+    Logger.log('Creada ' + HOJA_CAMBIOS);
+  } else {
+    Logger.log('Ya existe ' + HOJA_CAMBIOS + (hojaCambios(ss) ? '' : ' (OJO: sus encabezados no coinciden)'));
+  }
+  const hCab = ss.getSheetByName('pedidos_cabecera');
+  let ultCol = hCab.getLastColumn();
+  const enc = hCab.getRange(1, 1, 1, ultCol).getValues()[0].map(x => String(x).trim());
+  COLS_CAMBIO_CAB.forEach(n => {
+    if (enc.indexOf(n) >= 0) { Logger.log('pedidos_cabecera ya tiene ' + n); return; }
+    ultCol++;
+    hCab.getRange(1, ultCol).setValue(n);
+    Logger.log('Agregada la columna ' + n + ' a pedidos_cabecera');
+  });
+}
+
+
 // ---------- revision de pedidos ----------
 
 /**
@@ -2069,6 +2521,9 @@ function doPost(e) {
     if (accion === 'marcar_alta_impresa') return accionMarcarAltaImpresa(body);
     if (accion === 'asignar_cuenta') return accionAsignarCuenta(body);
     if (accion === 'historial_cliente') return accionHistorialCliente(body);
+    if (accion === 'mis_pedidos') return accionMisPedidos(body);
+    if (accion === 'pedido_para_cambio') return accionPedidoParaCambio(body);
+    if (accion === 'cambiar_cuenta') return accionCambiarCuenta(body);
 
     return responder({ ok: false, error: 'accion_desconocida' });
   } catch (err) {
@@ -2199,7 +2654,9 @@ function accionPedidosParaImprimir(body) {
     intento: c('intento_impresion'), intentoPor: c('intento_por'),
     // Sin el encabezado, la columna O, donde la escribe guardar_pedido
     estado: c('estado') >= 0 ? c('estado') : 14,
-    alta: c('alta')
+    alta: c('alta'),
+    // Cambio de cuenta: a quien NO se le entrega (la hoja impresa antes del cambio)
+    cuentaAnt: c('cuenta_anterior'), nombreAnt: c('nombre_anterior'), impAnt: c('impresion_anterior')
   };
   // Ids de todas las cabeceras (anulados, pruebas e impresos incluidos), para
   // el aviso de lineas sin cabecera (solo admin y oficina)
@@ -2286,6 +2743,11 @@ function accionPedidosParaImprimir(body) {
     // Sin cuenta, la columna numero guarda el ALTA-n; despues, la columna alta
     const numeroDe = etiquetaGuardada(I.numero >= 0 ? f[I.numero] : '', i);
     const altaDe = (I.alta >= 0 && String(f[I.alta] || '').trim()) || (faltaCuenta ? numeroDe : '');
+    // La hoja impresa antes de un cambio de cuenta (sigue en el deposito con la cuenta anterior)
+    const cuentaAntDe = I.cuentaAnt >= 0 ? String(f[I.cuentaAnt] || '').trim() : '';
+    const reemplaza = cuentaAntDe && cuentaAntDe !== cuenta ? { cuenta: cuentaAntDe,
+      nombre: I.nombreAnt >= 0 ? String(f[I.nombreAnt] || '') : '',
+      fechaImpresion: I.impAnt >= 0 && f[I.impAnt] instanceof Date ? f[I.impAnt].toISOString() : '' } : null;
     pedidos.push({
       id: String(f[I.id]).trim(),
       numero: numeroDe,
@@ -2310,7 +2772,8 @@ function accionPedidosParaImprimir(body) {
       fechaImpresion: f[I.fechaImp] instanceof Date ? f[I.fechaImp].toISOString() : '',
       impresoPor: nombreUsuario(f[I.impresoPor]),
       intentoImpresion: (I.intento >= 0 && f[I.intento] instanceof Date) ? f[I.intento].toISOString() : '',
-      intentoPor: I.intentoPor >= 0 ? nombreUsuario(f[I.intentoPor]) : ''
+      intentoPor: I.intentoPor >= 0 ? nombreUsuario(f[I.intentoPor]) : '',
+      reemplaza
     });
   }
 
@@ -2485,6 +2948,9 @@ function accionPedidosParaImprimir(body) {
 /**
  * Marca pedidos como impresos. Un pedido ya marcado conserva su primera
  * fecha: reimprimirlo no la cambia.
+ * cuentas (opcional): { id: cuenta } que tenia la bandeja al imprimir. Si la
+ * cuenta del pedido ya es otra (se cambio mientras se imprimia), esa hoja no
+ * vale: no se marca y vuelve en cambioCliente. Sin cuentas, como antes.
  */
 function accionMarcarImpresos(body) {
   const p = verificarToken(body.token);
@@ -2521,12 +2987,19 @@ function accionMarcarImpresos(body) {
     // Un cliente nuevo sin cuenta asignada no se imprime (resguardo: la bandeja no lo ofrece)
     const cEst = enc.indexOf('estado') >= 0 ? enc.indexOf('estado') : 14;
     let marcados = 0, yaMarcados = 0, yaPropios = 0, faltaCuenta = 0;
+    const cuentas = body.cuentas && typeof body.cuentas === 'object' ? body.cuentas : null;
+    const cambioCliente = [];
 
     for (let i = 1; i < v.length; i++) {
       const id = String(v[i][cId]).trim();
       if (!buscados.has(id)) continue;
       buscados.delete(id);
       if (esFaltaCuenta(v[i][cEst])) { faltaCuenta++; continue; }
+      if (cuentas && Object.prototype.hasOwnProperty.call(cuentas, id) &&
+          String(cuentas[id]).trim() !== String(v[i][cCli]).trim()) {
+        cambioCliente.push(id);
+        continue;
+      }
 
       if (!verTodos) {
         const d = getFinanzasCliente(String(v[i][cCli]).trim());
@@ -2543,7 +3016,7 @@ function accionMarcarImpresos(body) {
       marcados++;
     }
 
-    return responder({ ok: true, marcados, yaMarcados, yaPropios, faltaCuenta, noEncontrados: Array.from(buscados) });
+    return responder({ ok: true, marcados, yaMarcados, yaPropios, faltaCuenta, cambioCliente, noEncontrados: Array.from(buscados) });
 
   } catch (err) {
     return responder({ ok: false, error: String(err) });
