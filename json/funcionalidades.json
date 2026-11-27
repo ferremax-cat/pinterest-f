@@ -23,8 +23,8 @@
     },
     "ver_oferta_especial": {
       "id": "ver_oferta_especial",
-      "nombre": "Accede a descuentos exclusivos",
-      "descripcion": "Ofertas Especiales",
+      "nombre": "Ofertas Especiales",
+      "descripcion": "Accede a descuentos exclusivos",
       "icono": "🎁",
       "activa": true
     },
@@ -33,6 +33,13 @@
       "nombre": "Imprimir pedidos",
       "descripcion": "Bandeja de impresión de pedidos",
       "icono": "🖨️",
+      "activa": true
+    },
+    "mis_pedidos": {
+      "id": "mis_pedidos",
+      "nombre": "Mis Pedidos",
+      "descripcion": "Ver los pedidos enviados y corregir el cliente",
+      "icono": "📝",
       "activa": true
     }
   },
@@ -65,7 +72,8 @@
     "oficina": {
       "nombre": "Oficina",
       "funcionalidades": [
-        "imprimir_pedidos"
+        "imprimir_pedidos",
+        "mis_pedidos"
       ]
     }
   }
