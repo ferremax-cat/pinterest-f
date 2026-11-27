@@ -100,17 +100,19 @@ function datosDe(sku, promo) {
 
 /**
  * Promocion vigente de un producto para la cuenta activa, o null.
+ * cuenta (opcional): otra cuenta en vez de la activa (el cambio de cuenta de un
+ * pedido confirmado calcula con el cliente nuevo sin ponerlo en vista)
  * @returns {{sku:string, precio:number, cantidadMinima:number, vigencia:string,
  *   tramos:Array<{desde:number, desc:number}>}|null}
  */
-export function promoDe(sku) {
+export function promoDe(sku, cuenta) {
   if (!promosCache) return null;
 
   const codigo = String(sku).trim().toUpperCase();
   const promo = promosCache[codigo];
   if (!promo || !vigente(promo)) return null;
 
-  const grupo = grupoDe(cuentaActiva());
+  const grupo = grupoDe(cuenta === undefined ? cuentaActiva() : String(cuenta));
   if (!grupo || !(promo.grupos || []).includes(grupo)) return null;
 
   return datosDe(codigo, promo);
@@ -124,10 +126,10 @@ const r2 = x => Math.round(Number((x * 100).toFixed(6))) / 100;
  * especial, sin descuento) o el "desde" de un tramo (precio especial menos el
  * % del tramo, a dos decimales por unidad). null si la promocion no esta
  * vigente para la cuenta o ese escalon no existe.
- * Es la unica cuenta del precio de promocion.
+ * Es la unica cuenta del precio de promocion. cuenta: como en promoDe.
  */
-export function precioDeEscalon(sku, desde) {
-  const p = promoDe(sku);
+export function precioDeEscalon(sku, desde, cuenta) {
+  const p = promoDe(sku, cuenta);
   if (!p) return null;
   const d = Number(desde);
   const t = p.tramos.find(x => x.desde === d);
@@ -145,14 +147,15 @@ export function precioDeEscalon(sku, desde) {
 /**
  * Lo que corresponde por cantidad: el tramo de mayor "desde" que alcance la
  * cantidad, o el precio especial desde el minimo. null sin promocion o por
- * debajo de cantidadMinima (el llamador usa la lista del cliente).
+ * debajo de cantidadMinima (el llamador usa la lista del cliente). cuenta:
+ * como en promoDe.
  */
-export function precioSegunCantidad(sku, cantidad) {
-  const p = promoDe(sku);
+export function precioSegunCantidad(sku, cantidad, cuenta) {
+  const p = promoDe(sku, cuenta);
   const n = Number(cantidad) || 0;
   if (!p || n < p.cantidadMinima) return null;
   const t = p.tramos.filter(x => n >= x.desde).pop();
-  return precioDeEscalon(sku, t ? t.desde : p.cantidadMinima);
+  return precioDeEscalon(sku, t ? t.desde : p.cantidadMinima, cuenta);
 }
 
 /**

@@ -93,6 +93,9 @@ const MM = {
   hoja: 280, cabPrep: 34, obs: 14, cabCont: 9, franja: 7, fila: 19,
   firmas: 40, pie: 6, cabFact: 26, filaFact: 5.5, totales: 26,
   firmasFact: 14, separador: 8, reimp: 9,
+  // Recuadro "CAMBIO DE CLIENTE" (pedido que cambio de cuenta despues de
+  // imprimirse): solo en la primera hoja de preparacion y de facturacion
+  reemplazo: 30,
   // Recuadro de observaciones: titulo (con su margen y bordes) y cada renglon
   // en preparacion; en facturacion, el titulo de cada observacion
   obsCab: 8, obsFila: 5, obsFilaFoto: 12, obsTitFact: 4.5, totalesObs: 44,
@@ -542,11 +545,11 @@ const altoFilaObs = f => (f.tipo === 'obsItem' && f.foto ? MM.obsFilaFoto : MM.o
  * Reparte los pisos en hojas. Cada piso abre con su franja y sigue con
  * renglones de dos columnas; si no entra, continua en la hoja siguiente.
  */
-function paginarPrep(pisos, conObs, conReimp, filasObs = []) {
+function paginarPrep(pisos, conObs, conReimp, filasObs = [], conReemplazo = false) {
   const hojas = [];
   const nueva = primera => {
     const cab = primera
-      ? MM.cabPrep + (conObs ? MM.obs : 0) + (conReimp ? MM.reimp : 0)
+      ? MM.cabPrep + (conObs ? MM.obs : 0) + (conReimp ? MM.reimp : 0) + (conReemplazo ? MM.reemplazo : 0)
       : MM.cabCont;
     const h = { primera, bloques: [], firmas: false, usado: cab + MM.pie };
     hojas.push(h);
@@ -628,15 +631,16 @@ const esTituloFact = f => f.tipo !== 'linea' && f.tipo !== 'obsItem' && f.tipo !
  * igual que la preparacion. Un titulo nunca queda solo al pie de una hoja:
  * baja con su primera linea.
  */
-// cierre: alto de los totales y las firmas
-function paginarFact(filas, cierre = MM.totales + MM.firmasFact) {
+// cierre: alto de los totales y las firmas; extraPrimera: lo que va debajo del
+// encabezado de la primera hoja (el recuadro de cambio de cliente)
+function paginarFact(filas, cierre = MM.totales + MM.firmasFact, extraPrimera = 0) {
   const hojas = [];
   let i = 0;
   let primera = true;
 
   for (;;) {
     // El encabezado de la tabla ocupa un renglon
-    let libre = MM.hoja - (primera ? MM.cabFact : MM.cabCont) - MM.pie - MM.filaFact;
+    let libre = MM.hoja - (primera ? MM.cabFact + extraPrimera : MM.cabCont) - MM.pie - MM.filaFact;
 
     const continua = i < filas.length && filas[i].tipo === 'linea' ? filas[i].piso : null;
     if (continua) libre -= MM.pisoFact;
@@ -733,12 +737,13 @@ function htmlObsPrep(b) {
     <div class="ih-obs-caja-tit">OBSERVACIONES${b.continua ? ' <span>· continúa</span>' : ''}</div>${filas}</div>`;
 }
 
-function htmlCabPrep(c, lineas) {
+// tras: lo que va pegado debajo del encabezado (el recuadro de cambio de cliente)
+function htmlCabPrep(c, lineas, tras = '') {
   return `
     <header class="ih-cab-prep">
       <div class="ih-cab-fila">
         <span class="ih-titulo">Hoja de preparación</span>
-        <span class="ih-numero">N° ${esc(c.numero)}</span>
+        <span class="ih-numero">N° ${esc(c.numero)}${c.corregida ? ' · CORREGIDA' : ''}</span>
       </div>
       <div class="ih-cliente">${esc(c.cuenta)} · ${esc(c.nombre)}</div>
       <div class="ih-datos">
@@ -747,7 +752,7 @@ function htmlCabPrep(c, lineas) {
         ${c.soloObs ? '<span class="ih-solo-obs">SOLO OBSERVACIONES</span>' : `<span><b>Líneas:</b> ${lineas}</span>`}
       </div>
       <div class="ih-instr">OK: tildar si sale completa · REAL: cantidad entregada si falta · Reemp.: código entregado si se cambia de marca</div>
-    </header>
+    </header>${tras}
     ${c.obs ? `<div class="ih-obs"><b>OBSERVACIONES</b> ${esc(c.obs)}</div>` : ''}`;
 }
 
@@ -767,6 +772,29 @@ function htmlReimp(p) {
   const por = String(p.impresoPor ?? '').trim();
   if (por) texto += ` por ${por}`;
   return `<div class="ih-reimp"><b>REIMPRESIÓN</b> · ${esc(texto)}</div>`;
+}
+
+/**
+ * Recuadro de un pedido que cambio de cliente despues de imprimirse
+ * (p.reemplaza: { cuenta, nombre, fechaImpresion }): a quien NO se le entrega
+ * (la hoja vieja que sigue en el deposito) y a quien si. Alto fijo (MM.reemplazo):
+ * cada renglon en una sola linea
+ */
+function htmlReemplazo(p, c) {
+  const r = p.reemplaza;
+  const f = r.fechaImpresion ? new Date(r.fechaImpresion) : null;
+  const cuando = f && !isNaN(f)
+    ? ' impresa el ' + f.toLocaleDateString('es-AR', { timeZone: ZONA, day: '2-digit', month: '2-digit' }) + ' a las ' +
+      f.toLocaleTimeString('es-AR', { timeZone: ZONA, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+    : ' impresa antes del cambio';
+  return `
+    <div class="ih-reemplazo">
+      <div class="ih-reemplazo-tit">CAMBIO DE CLIENTE · ESTA HOJA REEMPLAZA A OTRA</div>
+      <div class="ih-reemplazo-fila">Reemplaza a la hoja del mismo N° ${esc(c.numero)}${esc(cuando)}</div>
+      <div class="ih-reemplazo-fila ih-reemplazo-no"><b>NO ENTREGAR A:</b> <s>${esc(r.cuenta)} · ${esc(r.nombre)}</s></div>
+      <div class="ih-reemplazo-fila ih-reemplazo-si"><b>ENTREGAR A:</b> ${esc(c.cuenta)} · ${esc(c.nombre)}</div>
+      <div class="ih-reemplazo-fila">Retirar y destruir la hoja anterior.</div>
+    </div>`;
 }
 
 function htmlCabCont(titulo, c) {
@@ -794,7 +822,7 @@ function htmlCabFact(c) {
     <header class="ih-cab-fact">
       <div class="ih-cab-fila">
         <span class="ih-titulo">Facturación <small>uso interno</small></span>
-        <span class="ih-numero">N° ${esc(c.numero)}</span>
+        <span class="ih-numero">N° ${esc(c.numero)}${c.corregida ? ' · CORREGIDA' : ''}</span>
       </div>
       <div class="ih-cliente">${esc(c.cuenta)} · ${esc(c.nombre)}${c.lista ? ` · <span class="ih-lista">LISTA ${esc(c.lista)}</span>` : ''}</div>
       <div class="ih-datos">
@@ -986,8 +1014,9 @@ function htmlCierreFact(t) {
     </div>`;
 }
 
-function htmlBloqueFact(h, c, filas, totales) {
-  return (h.primera ? htmlCabFact(c) : htmlCabCont('Facturación', c)) +
+// tras: lo que va pegado debajo del encabezado de la primera hoja (el recuadro de cambio de cliente)
+function htmlBloqueFact(h, c, filas, totales, tras = '') {
+  return (h.primera ? htmlCabFact(c) + tras : htmlCabCont('Facturación', c)) +
     (h.hasta > h.desde ? htmlTablaFact(filas.slice(h.desde, h.hasta), h.continua) : '') +
     (h.cierre ? htmlCierreFact(totales) : '');
 }
@@ -1012,9 +1041,12 @@ function armarPedido(p, reimpresion) {
     // renglon de siempre, con el motivo y la observacion libre
     obs: Array.isArray(p.observaciones) && p.observaciones.length ? ''
       : [p.motivo, p.obsLibre].map(s => String(s ?? '').trim()).filter(Boolean).join(' · '),
-    soloObs: !(p.lineas || []).length && Array.isArray(p.observaciones) && p.observaciones.length > 0
+    soloObs: !(p.lineas || []).length && Array.isArray(p.observaciones) && p.observaciones.length > 0,
+    // Cambio de cliente despues de imprimirse: el numero dice CORREGIDA
+    corregida: !!p.reemplaza?.cuenta
   };
   const obs = Array.isArray(p.observaciones) ? p.observaciones : [];
+  const reemplazo = c.corregida ? htmlReemplazo(p, c) : '';
 
   // Numero de orden: posicion en el pedido original, el mismo en las dos hojas
   const lineas = [...(p.lineas || [])]
@@ -1084,7 +1116,7 @@ function armarPedido(p, reimpresion) {
   } : null;
   const altoCierre = (totales.obs ? MM.totalesObs : MM.totales) + MM.firmasFact;
 
-  const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion, filasObs);
+  const hojasPrep = paginarPrep(pisos, !!c.obs, reimpresion, filasObs, c.corregida);
   const ultima = hojasPrep[hojasPrep.length - 1];
   // Con los titulos de piso: la hoja unica mide lo mismo que el paginado
   const altoFact = MM.cabFact + MM.filaFact +
@@ -1092,7 +1124,9 @@ function armarPedido(p, reimpresion) {
   const unica = hojasPrep.length === 1 &&
     ultima.usado + MM.separador + altoFact <= MM.hoja * MARGEN_HOJA_UNICA;
 
-  const hojasFact = unica ? [] : paginarFact(filasFact, altoCierre);
+  // Facturacion aparte: el recuadro de cambio de cliente tambien en su primera
+  // hoja. En la hoja unica ya esta arriba, una sola vez
+  const hojasFact = unica ? [] : paginarFact(filasFact, altoCierre, c.corregida ? MM.reemplazo : 0);
   const total = hojasPrep.length + hojasFact.length;
 
   const abrirHoja = p.prueba === true
@@ -1102,7 +1136,7 @@ function armarPedido(p, reimpresion) {
   let html = '';
   hojasPrep.forEach((h, i) => {
     let cuerpo = h.primera
-      ? htmlCabPrep(c, lineas.length) + (reimpresion ? htmlReimp(p) : '')
+      ? htmlCabPrep(c, lineas.length, reemplazo) + (reimpresion ? htmlReimp(p) : '')
       : htmlCabCont('Hoja de preparación', c);
     h.bloques.forEach(b => {
       cuerpo += b.tipo === 'franja' ? htmlFranja(b) : b.tipo === 'obs' ? htmlObsPrep(b) : htmlGrilla(b);
@@ -1116,7 +1150,7 @@ function armarPedido(p, reimpresion) {
   });
 
   hojasFact.forEach((h, i) => {
-    html += `${abrirHoja}${htmlBloqueFact(h, c, filasFact, totales)}` +
+    html += `${abrirHoja}${htmlBloqueFact(h, c, filasFact, totales, reemplazo)}` +
       `${htmlPie(c, hojasPrep.length + i + 1, total)}</section>`;
   });
 
@@ -1755,7 +1789,10 @@ async function marcarTanda(ctx) {
     d = await window.Api.llamar({
       accion: 'marcar_impresos',
       token: sessionStorage.getItem('authToken'),
-      ids
+      ids,
+      // La cuenta que tenian al imprimirse: si en el medio se cambio el
+      // cliente, esa hoja no vale y el servidor no la marca (cambioCliente)
+      cuentas: Object.fromEntries(peds.map(p => [String(p.id), String(p.cliente ?? '')]))
     }, 2, 20000);
   } catch (e) {
     console.error('[Hojas] Sin respuesta al marcar:', e);
@@ -1780,10 +1817,12 @@ async function marcarTanda(ctx) {
   const yaMarcados = Number(d.yaMarcados) || 0;
   const yaPropios = Number(d.yaPropios) || 0;
   const noEncontrados = Array.isArray(d.noEncontrados) ? d.noEncontrados : [];
+  const cambioCliente = Array.isArray(d.cambioCliente) ? d.cambioCliente.map(String) : [];
 
   // Marcados ahora, ya marcados por esta persona o por otra: todos quedan
-  // impresos en el servidor. Los no encontrados, no
-  const sinEncontrar = new Set(noEncontrados.map(String));
+  // impresos en el servidor. Los no encontrados y los que cambiaron de
+  // cliente mientras se imprimian, no
+  const sinEncontrar = new Set(noEncontrados.map(String).concat(cambioCliente));
   ids.filter(id => !sinEncontrar.has(id)).forEach(id => impresosConfirmados.add(id));
 
   console.log(`[Hojas] Marcado tanda ${n}/${total}: ${ids.length} pedidos en ` +
@@ -1799,6 +1838,16 @@ async function marcarTanda(ctx) {
     detalle += `<div class="ih-aviso-atencion"><b>ATENCIÓN</b>
       ${yaMarcados === 1 ? '1 pedido ya había sido marcado' : `${yaMarcados} pedidos ya habían sido marcados`}
       por otra persona. Revisá que no se preparen dos veces.</div>`;
+  }
+
+  if (cambioCliente.length) {
+    const numeros = cambioCliente.map(id => {
+      const p = peds.find(x => String(x.id) === id);
+      return p?.numero ? `N° ${p.numero}` : id;
+    });
+    detalle += `<div class="ih-aviso-atencion"><b>ATENCIÓN</b>
+      ${cambioCliente.length === 1 ? `El pedido ${esc(numeros[0])} cambió` : `Los pedidos ${esc(numeros.join(', '))} cambiaron`}
+      de cliente mientras se imprimía${cambioCliente.length === 1 ? '' : 'n'}: esa hoja no vale. Destruila y reimprimí el pedido desde Pendientes.</div>`;
   }
 
   if (noEncontrados.length) {

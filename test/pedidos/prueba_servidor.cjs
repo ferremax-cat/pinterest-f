@@ -1084,7 +1084,7 @@ if (!SOLO_CASO_REAL) {
   ver('P6 semaforo: la promocion queda fuera del descuento sobre el total (655 en verde)', fc[C('verde')] === 655 &&
     fc[C('total_neto')] === 655, `${fc[C('verde')]} ${fc[C('total_neto')]}`);
   const regPP = hojas.registro_guardados.slice(1).find(f => f[1] === pp.id);
-  ver('P7 version del servidor: v44-entrega-viaje', regPP?.[8] === 'v44-entrega-viaje', regPP?.[8]);
+  ver('P7 version del servidor: v45-cambio-cuenta', regPP?.[8] === 'v45-cambio-cuenta', regPP?.[8]);
 
   const bp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
   const lp = (bp.pedidos.find(x => x.id === pp.id) || {}).lineas || [];
@@ -1502,6 +1502,324 @@ if (!SOLO_CASO_REAL) {
   ctx.getConfig = configAntes;
   ctx.getObservaciones = obsAntesV;
   console.log(`Casos del viaje 1 o 2: ${ok + fallas - antesV}`);
+}
+
+// ---------- cambio de cuenta de un pedido confirmado (v45) ----------
+{
+  const antesC = ok + fallas;
+  const finAntes = ctx.getFinanzasCliente;
+  ctx.getFinanzasCliente = c => ({ 100: { vendedor: 'V1', nombre: 'Cliente 100', cupoMes: 1000, pgProm3M: 5 },
+    200: { vendedor: 'V1', nombre: 'Cliente 200', cupoMes: 0, pgProm3M: 0 },
+    300: { vendedor: 'V2', nombre: 'Cliente 300', cupoMes: 5000, pgProm3M: 2 },
+    400: { vendedor: 'V1', nombre: 'Cliente 400', cupoMes: 100000, pgProm3M: 9 },
+    999: { vendedor: 'V1', nombre: 'Prueba', cupoMes: 500, pgProm3M: 0 },
+    157: { vendedor: 'V1', nombre: 'NUEVO CLIENTE RF', cupoMes: 0, pgProm3M: 0 } }[c] || null);
+  const ENC_CAMBIOS = ['fecha_hora', 'id_pedido', 'numero', 'cuenta_anterior', 'nombre_anterior', 'cuenta_nueva',
+    'nombre_nueva', 'lista_anterior', 'lista_nueva', 'quien', 'rol', 'estaba_impreso', 'fecha_impresion_anterior',
+    'impreso_por_anterior', 'total_anterior', 'total_nuevo', 'lineas_cambiadas', 'detalle_lineas', 'version'];
+  const COLS_NUEVAS = ['cuenta_anterior', 'nombre_anterior', 'impresion_anterior', 'cambio_cuenta', 'cambio_cuenta_por'];
+  const ENC_CAB_C = ENC_CAB.concat(COLS_NUEVAS);
+  const CC = n => ENC_CAB_C.indexOf(n);
+  const preparar = () => {
+    reiniciar();
+    hojas.pedidos_cabecera[0] = ENC_CAB_C.slice();
+    hojas.cambios_cuenta = [ENC_CAMBIOS.slice()];
+  };
+  const cambios = () => (hojas.cambios_cuenta || [[]]).slice(1);
+  const CB = n => ENC_CAMBIOS.indexOf(n);
+  const fila = id => cabDe(id)[0] || [];
+  const L = (o, mec, lista, base, precio, cant, mas = {}) => ({ sku: 'SKU' + o, nombre: 'Art ' + o, cantidad: cant,
+    listaAplicada: lista, mecanismo: mec, precioBase: base, precio, descEfectivo: 0,
+    subtotal: Math.round(precio * cant * 100) / 100, origenLinea: '', descuentoLinea: 0, ...mas });
+  // Una linea de cada mecanismo: lista del cliente, otra lista, precio especial y promocion
+  const pedC = (extra = {}) => pedido(4, { lineas: [L(1, 'lista_cliente', 'D', 100, 100, 1), L(2, 'otra_lista', 'F', 100, 90, 2),
+    L(3, 'precio_libre', 'D', 100, 80, 3), L(4, 'promocion', 'D', 100, 70, 4, { precioPromo: 70, promoDesde: 4 })],
+    totalBruto: 800, totalNeto: 800, observaciones: [{ clave: 'PAGA', items: [] }], ...extra });
+  // Lo que manda el navegador: las lineas guardadas, recalculadas (mod)
+  const guardadas = id => lin(id).sort((a, b) => a[1] - b[1]).map(r => ({ orden: r[1], sku: r[2], cantidad: r[4],
+    mecanismo: r[7], listaAplicada: r[6], precioBase: r[8], precio: r[9], descuentoLinea: r[14] === '' ? 0 : r[14],
+    precioPromo: r[15] === '' ? null : r[15], promoDesde: r[16] === '' ? null : r[16] }));
+  const cambiar = (t, id, cuentaNueva, lista, mod = x => x, extra = {}) => ctx.accionCambiarCuenta({ token: t, id, cuentaNueva,
+    lista, lineas: mod(guardadas(id)), totalAnterior: fila(id)[C('total_neto')], ...extra });
+  // De la lista D a la E: la linea 1 sube a 110 y la 4 sale de la promocion (lista E, 120)
+  const aE = ls => ls.map(l => (l.orden === 1 ? { ...l, listaAplicada: 'E', precioBase: 110, precio: 110 }
+    : l.orden === 4 ? { ...l, mecanismo: 'lista_cliente', listaAplicada: 'E', precioBase: 120, precio: 120,
+      descuentoLinea: 0, precioPromo: null, promoDesde: null } : l));
+  const sinCambio = (nombre, id, res, error) => ver(nombre, !res.ok && res.error === error && fila(id)[C('cliente')] === '100' &&
+    cambios().length === 0, JSON.stringify(res));
+  // Fechas del contexto del servidor (las de aca no son instanceof Date alla)
+  const haceDias = n => vm.runInContext(`new Date(${Date.now() - n * 86400000})`, ctx);
+  const esFecha = x => Object.prototype.toString.call(x) === '[object Date]';
+
+  // C1. mis_pedidos
+  preparar();
+  const m1 = pedC(); guardar(m1);
+  const m2 = pedC(); guardar(m2);
+  const deV2 = pedC({ cliente: '300' }); guardar(deV2, 'vend2');
+  const viejo = pedC(); guardar(viejo); fila(viejo.id)[1] = haceDias(20);
+  const anulC = pedC(); guardar(anulC); fila(anulC.id)[C('estado')] = 'anulado';
+  const deCliC = pedido(1); guardar(deCliC, 'cli');
+  const prueC = pedC({ cliente: '999' }); guardar(prueC);
+  const datosAltaC = { comercio: 'Ferretería El Tornillo', apellido: 'Gómez', contacto: 'Juan', domicilio: 'San Martín 123',
+    localidad: 'Rafaela', telefono: '3492 555555', horario: '8 a 12', formula: 'E' };
+  const altaC = pedido(1, { cliente: '157', lista: 'E', alta: datosAltaC }); guardar(altaC);
+  fila(m1.id)[1] = haceDias(1);
+  let r = ctx.accionMisPedidos({ token: 'vend' });
+  let idsC = (r.pedidos || []).map(x => x.id);
+  ver('C1 vendedor: sus pedidos de los ultimos 14 dias, el mas nuevo primero',
+    r.ok && JSON.stringify(idsC) === JSON.stringify([m2.id, m1.id]), JSON.stringify(idsC));
+  const unoC = (r.pedidos || []).find(x => x.id === m2.id) || {};
+  ver('C1 campos: numero, cuenta, nombre, fecha, total, lineas, impreso, cambiado',
+    /^APP-\d+$/.test(unoC.numero) && unoC.cliente === '100' && unoC.nombre === 'Cliente 100' && !!unoC.fecha &&
+    unoC.total === 800 && unoC.lineas === 4 && unoC.impreso === 'no' && unoC.cambiado === false, JSON.stringify(unoC));
+  ver('C1 sin semaforo ni cupo en la respuesta', !('cupo' in unoC) && !('semaforo' in unoC), JSON.stringify(unoC));
+  r = ctx.accionMisPedidos({ token: 'cli' });
+  ver('C1 un cliente: rol_sin_permiso', !r.ok && r.error === 'rol_sin_permiso', JSON.stringify(r));
+  r = ctx.accionMisPedidos({ token: 'ofi' });
+  idsC = (r.pedidos || []).map(x => x.id);
+  ver('C1 oficina: todos los vendedores, sin anulados, de clientes, pruebas, altas sin cuenta ni viejos',
+    r.ok && idsC.includes(m1.id) && idsC.includes(deV2.id) && !idsC.includes(anulC.id) && !idsC.includes(deCliC.id) &&
+    !idsC.includes(prueC.id) && !idsC.includes(altaC.id) && !idsC.includes(viejo.id), JSON.stringify(idsC));
+  r = ctx.accionMisPedidos({ token: 'ofi', vendedor: 'V2' });
+  ver('C1 oficina con filtro de vendedor', r.ok && JSON.stringify(r.pedidos.map(x => x.id)) === JSON.stringify([deV2.id]),
+    JSON.stringify(r.pedidos && r.pedidos.map(x => x.id)));
+  r = ctx.accionMisPedidos({ token: 'admin' });
+  const pruV = (r.pedidos || []).find(x => x.id === prueC.id);
+  ver('C1 admin: ve las pruebas, marcadas', r.ok && pruV && pruV.prueba === true, JSON.stringify(pruV));
+  ctx.accionIntentoImpresion({ token: 'ofi', ids: [m1.id] });
+  ctx.accionMarcarImpresos({ token: 'ofi', ids: [m2.id] });
+  r = ctx.accionMisPedidos({ token: 'vend' });
+  const est = id => ((r.pedidos || []).find(x => x.id === id) || {}).impreso;
+  ver('C1 impreso: si / sin confirmar (intento)', est(m2.id) === 'si' && est(m1.id) === 'intento', est(m2.id) + ' ' + est(m1.id));
+
+  // C2. pedido_para_cambio
+  preparar();
+  const q = pedC(); guardar(q);
+  r = ctx.accionPedidoParaCambio({ token: 'vend', id: q.id });
+  const l4 = (r.lineas || [])[3] || {};
+  ver('C2 lineas con todo lo del precio, en orden', r.ok && r.lineas.length === 4 && r.lineas[1].mecanismo === 'otra_lista' &&
+    r.lineas[1].listaAplicada === 'F' && l4.mecanismo === 'promocion' && l4.precioPromo === 70 && l4.promoDesde === 4 &&
+    l4.precio === 70 && l4.precioBase === 100, JSON.stringify(r.lineas));
+  ver('C2 cabecera: lista, total, descuentos, impreso y dias', r.lista === 'D' && r.totalNeto === 800 && r.descTotalPct === 0 &&
+    r.descExtraPct === 0 && r.impreso === 'no' && r.cliente === '100' && r.dias === 0, JSON.stringify({ ...r, lineas: undefined }));
+  r = ctx.accionPedidoParaCambio({ token: 'vend2', id: q.id });
+  ver('C2 otro vendedor: pedido_de_otro_vendedor', !r.ok && r.error === 'pedido_de_otro_vendedor', JSON.stringify(r));
+  r = ctx.accionPedidoParaCambio({ token: 'ofi', id: q.id });
+  ver('C2 oficina: puede', r.ok, JSON.stringify(r.error));
+  r = ctx.accionPedidoParaCambio({ token: 'cli', id: q.id });
+  ver('C2 cliente: rol_sin_permiso', !r.ok && r.error === 'rol_sin_permiso', JSON.stringify(r));
+
+  // C3. Rechazos: no se escribe nada
+  preparar();
+  const p3 = pedC(); guardar(p3);
+  sinCambio('C3 cliente: rol_sin_permiso', p3.id, cambiar('cli', p3.id, '200', 'E', aE), 'rol_sin_permiso');
+  sinCambio('C3 otro vendedor: pedido_de_otro_vendedor', p3.id, cambiar('vend2', p3.id, '300', 'E', aE), 'pedido_de_otro_vendedor');
+  sinCambio('C3 cuenta nueva de otro vendedor: cuenta_de_otro_vendedor', p3.id, cambiar('vend', p3.id, '300', 'E', aE), 'cuenta_de_otro_vendedor');
+  sinCambio('C3 misma cuenta: misma_cuenta', p3.id, cambiar('vend', p3.id, '100', 'D'), 'misma_cuenta');
+  sinCambio('C3 cuenta que no existe: cliente_no_encontrado', p3.id, cambiar('vend', p3.id, '555', 'E', aE), 'cliente_no_encontrado');
+  sinCambio('C3 cuenta invalida', p3.id, cambiar('vend', p3.id, 'abc', 'E', aE), 'cuenta_invalida');
+  sinCambio('C3 a una cuenta puente: cuenta_puente', p3.id, cambiar('admin', p3.id, '157', 'E', aE), 'cuenta_puente');
+  sinCambio('C3 a la cuenta de prueba: cuenta_prueba', p3.id, cambiar('admin', p3.id, '999', 'E', aE), 'cuenta_prueba');
+  sinCambio('C3 lista invalida', p3.id, cambiar('vend', p3.id, '200', 'e1x', aE), 'lista_invalida');
+  sinCambio('C3 total que no coincide: pedido_cambiado', p3.id, cambiar('vend', p3.id, '200', 'E', aE, { totalAnterior: 799 }), 'pedido_cambiado');
+  sinCambio('C3 otro sku: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 1 ? { ...l, sku: 'OTRO' } : l))), 'lineas_distintas');
+  sinCambio('C3 otra cantidad: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 1 ? { ...l, cantidad: 9 } : l))), 'lineas_distintas');
+  sinCambio('C3 otra_lista con otro precio: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 2 ? { ...l, precio: 95 } : l))), 'lineas_distintas');
+  sinCambio('C3 otra_lista con otra lista: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 2 ? { ...l, listaAplicada: 'E' } : l))), 'lineas_distintas');
+  sinCambio('C3 precio_libre que pasa a lista: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 3 ? { ...l, mecanismo: 'lista_cliente' } : l))), 'lineas_distintas');
+  sinCambio('C3 lista del cliente que pasa a precio especial: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 1 ? { ...l, mecanismo: 'precio_libre' } : l))), 'lineas_distintas');
+  sinCambio('C3 falta una linea: lineas_distintas', p3.id, cambiar('vend', p3.id, '200', 'E', ls => aE(ls).slice(0, 3)), 'lineas_distintas');
+  sinCambio('C3 precio negativo: lineas_distintas', p3.id,
+    cambiar('vend', p3.id, '200', 'E', ls => aE(ls).map(l => (l.orden === 1 ? { ...l, precio: -5 } : l))), 'lineas_distintas');
+  sinCambio('C3 no encontrado', p3.id, ctx.accionCambiarCuenta({ token: 'admin', id: 'nada', cuentaNueva: '200', lista: 'E',
+    lineas: [], totalAnterior: 0 }), 'no_encontrado');
+  fila(p3.id)[1] = haceDias(20);
+  sinCambio('C3 vendedor, pedido de hace 20 dias: fuera_de_plazo', p3.id, cambiar('vend', p3.id, '200', 'E', aE), 'fuera_de_plazo');
+  fila(p3.id)[1] = haceDias(0);
+  const anul3 = pedC(); guardar(anul3); fila(anul3.id)[C('estado')] = 'anulado';
+  r = cambiar('admin', anul3.id, '200', 'E', aE);
+  ver('C3 anulado', !r.ok && r.error === 'anulado' && cambios().length === 0, JSON.stringify(r));
+  const cli3 = pedido(1); guardar(cli3, 'cli');
+  r = cambiar('admin', cli3.id, '200', 'D');
+  ver('C3 cargado por un cliente: pedido_de_cliente', !r.ok && r.error === 'pedido_de_cliente' && cambios().length === 0, JSON.stringify(r));
+  const pru3 = pedC({ cliente: '999' }); guardar(pru3);
+  r = cambiar('admin', pru3.id, '200', 'E', aE);
+  ver('C3 desde la cuenta de prueba: cuenta_prueba', !r.ok && r.error === 'cuenta_prueba' && fila(pru3.id)[C('cliente')] === '999',
+    JSON.stringify(r));
+  const alta3 = pedido(1, { cliente: '157', lista: 'E', alta: datosAltaC }); guardar(alta3);
+  r = cambiar('admin', alta3.id, '200', 'E');
+  ver('C3 alta sin cuenta: cuenta_puente', !r.ok && r.error === 'cuenta_puente' && fila(alta3.id)[C('cliente')] === '157',
+    JSON.stringify(r));
+  // Sin las columnas nuevas o sin la hoja cambios_cuenta: no se escribe nada
+  hojas.cambios_cuenta = null; delete hojas.cambios_cuenta;
+  sinCambio('C3 sin la hoja cambios_cuenta: faltan_columnas_cambio', p3.id, cambiar('vend', p3.id, '200', 'E', aE), 'faltan_columnas_cambio');
+  hojas.cambios_cuenta = [ENC_CAMBIOS.slice()];
+  hojas.pedidos_cabecera[0] = ENC_CAB.slice();
+  sinCambio('C3 sin las columnas nuevas en la cabecera: faltan_columnas_cambio', p3.id, cambiar('vend', p3.id, '200', 'E', aE),
+    'faltan_columnas_cambio');
+
+  // C4. Cambio sin imprimir: 100 -> 200, lista D -> E
+  preparar();
+  const p4 = pedC(); guardar(p4);
+  r = cambiar('vend', p4.id, '200', 'E', aE);
+  ver('C4 se cambia', r.ok && r.cuenta === '200' && r.totalNeto === 1010 && r.estabaImpreso === false && r.lineasCambiadas === 2 &&
+    /^APP-\d+$/.test(r.numero), JSON.stringify(r));
+  const f4 = fila(p4.id);
+  ver('C4 cabecera: cuenta, nombre y lista', f4[C('cliente')] === '200' && f4[C('nombre_cliente')] === 'Cliente 200' &&
+    f4[C('lista')] === 'E', JSON.stringify(f4.slice(2, 4)));
+  ver('C4 cabecera: totales recalculados en el servidor', f4[C('total_bruto')] === 1010 && f4[C('total_neto')] === 1010 &&
+    f4[C('desc_efectivo_global')] === 7.3 && f4[C('desc_total_pct')] === 0,
+    JSON.stringify([f4[C('total_bruto')], f4[C('total_neto')], f4[C('desc_efectivo_global')]]));
+  ver('C4 cabecera: semaforo con el cupo del cliente nuevo', f4[C('cupo')] === 0 && f4[C('excedente')] === 1010 &&
+    f4[C('semaforo')] === 'rojo' && f4[C('rojo')] === 1010 && f4[C('verde')] === 0 && f4[C('pg_prom_3m')] === 0,
+    JSON.stringify(f4.slice(18, 25)));
+  ver('C4 cabecera: sin aviso de reemplazo (no estaba impreso); quien y cuando',
+    f4[CC('cuenta_anterior')] === '' && esFecha(f4[CC('cambio_cuenta')]) && f4[CC('cambio_cuenta_por')] === 'V1',
+    JSON.stringify(f4.slice(35)));
+  ver('C4 no cambian numero, vendedor ni estado', f4[C('vendedor')] === 'V1' && f4[C('estado')] === 'recibido' &&
+    f4[C('cant_lineas')] === 4);
+  const l = lin(p4.id).sort((a, b) => a[1] - b[1]);
+  const LC = n => ENC_LIN.indexOf(n);
+  ver('C4 lineas: la lista del cliente en todas', l.every(x => x[LC('lista_cliente')] === 'E'), JSON.stringify(l.map(x => x[5])));
+  ver('C4 linea 1 (lista del cliente): lista E, 110', l[0][LC('lista_aplicada')] === 'E' && l[0][LC('precio_unitario')] === 110 &&
+    l[0][LC('subtotal')] === 110 && l[0][LC('mecanismo')] === 'lista_cliente', JSON.stringify(l[0]));
+  ver('C4 linea 2 (otra lista): intacta', l[1][LC('lista_aplicada')] === 'F' && l[1][LC('precio_unitario')] === 90 &&
+    l[1][LC('mecanismo')] === 'otra_lista' && l[1][LC('subtotal')] === 180, JSON.stringify(l[1]));
+  ver('C4 linea 3 (precio especial): intacta', l[2][LC('precio_unitario')] === 80 && l[2][LC('mecanismo')] === 'precio_libre' &&
+    l[2][LC('subtotal')] === 240, JSON.stringify(l[2]));
+  ver('C4 linea 4 (sale de la promocion): lista E, sin precio_promo ni promo_desde', l[3][LC('mecanismo')] === 'lista_cliente' &&
+    l[3][LC('precio_unitario')] === 120 && l[3][LC('subtotal')] === 480 && l[3][LC('precio_promo')] === '' &&
+    l[3][LC('promo_desde')] === '', JSON.stringify(l[3]));
+  ver('C4 lineas: colores con el cupo nuevo (todo rojo)', l.every(x => x[LC('color')] === 'rojo'), JSON.stringify(l.map(x => x[13])));
+  ver('C4 lineas: desc_efectivo recalculado', l[1][LC('desc_efectivo_linea')] === 10 && l[0][LC('desc_efectivo_linea')] === 0,
+    JSON.stringify(l.map(x => x[10])));
+  ver('C4 observaciones: la cuenta nueva', obsDe(p4.id).length === 1 && obsDe(p4.id)[0][2] === '200', JSON.stringify(obsDe(p4.id)));
+  const cb = cambios()[0] || [];
+  ver('C4 cambios_cuenta: una fila con quien, cuentas, listas, totales', cambios().length === 1 && cb[CB('id_pedido')] === p4.id &&
+    cb[CB('cuenta_anterior')] === '100' && cb[CB('nombre_anterior')] === 'Cliente 100' && cb[CB('cuenta_nueva')] === '200' &&
+    cb[CB('nombre_nueva')] === 'Cliente 200' && cb[CB('lista_anterior')] === 'D' && cb[CB('lista_nueva')] === 'E' &&
+    cb[CB('quien')] === 'V1' && cb[CB('rol')] === 'vendedor_estandar' && cb[CB('estaba_impreso')] === 'NO' &&
+    cb[CB('total_anterior')] === 800 && cb[CB('total_nuevo')] === 1010 && cb[CB('lineas_cambiadas')] === 2 &&
+    cb[CB('version')] === 'v45-cambio-cuenta' && esFecha(cb[CB('fecha_hora')]), JSON.stringify(cb));
+  let det = [];
+  try { det = JSON.parse(cb[CB('detalle_lineas')]); } catch (e) {}
+  ver('C4 cambios_cuenta: detalle de las lineas que cambiaron (antes -> despues)', det.length === 2 &&
+    JSON.stringify(det[0]) === JSON.stringify([1, 'SKU1', 'lista_cliente', 100, 'lista_cliente', 110]) &&
+    JSON.stringify(det[1]) === JSON.stringify([4, 'SKU4', 'promocion', 70, 'lista_cliente', 120]), cb[CB('detalle_lineas')]);
+  ver('C4 registro_guardados: cuenta cambiada', regDe(p4.id).some(x => String(x[7]).indexOf('cuenta cambiada 100→200') === 0),
+    JSON.stringify(regDe(p4.id).map(x => x[7])));
+  // Reintento (la respuesta se perdio): mismo pedido, misma cuenta y mismos precios
+  r = ctx.accionCambiarCuenta({ token: 'vend', id: p4.id, cuentaNueva: '200', lista: 'E', lineas: guardadas(p4.id), totalAnterior: 800 });
+  ver('C4 reintento: ok yaCambiada, sin otra fila en cambios_cuenta', r.ok && r.yaCambiada === true && cambios().length === 1,
+    JSON.stringify(r));
+  // Cambio sin diferencias de precio: igual se registra, con 0 lineas cambiadas
+  const p4b = pedC(); guardar(p4b);
+  r = cambiar('vend', p4b.id, '400', 'D');
+  ver('C4 sin diferencias de precio: se cambia, 0 lineas', r.ok && r.lineasCambiadas === 0 && fila(p4b.id)[C('total_neto')] === 800 &&
+    fila(p4b.id)[C('semaforo')] === 'verde', JSON.stringify(r));
+
+  // C5. Impreso: vuelve a pendientes con el aviso de reemplazo
+  preparar();
+  const p5 = pedC(); guardar(p5);
+  ctx.accionMarcarImpresos({ token: 'ofi', ids: [p5.id] });
+  const fechaImp = fila(p5.id)[C('fecha_impresion')];
+  r = cambiar('vend', p5.id, '200', 'E', aE);
+  const f5 = fila(p5.id);
+  ver('C5 impreso: vuelve a pendientes', r.ok && r.estabaImpreso === true && f5[C('impreso')] === '' &&
+    f5[C('fecha_impresion')] === '' && f5[C('impreso_por')] === '', JSON.stringify(f5.slice(25, 28)));
+  ver('C5 cabecera: la cuenta de la hoja del deposito', f5[CC('cuenta_anterior')] === '100' &&
+    f5[CC('nombre_anterior')] === 'Cliente 100' && f5[CC('impresion_anterior')] === fechaImp, JSON.stringify(f5.slice(35)));
+  const cb5 = cambios()[0] || [];
+  ver('C5 cambios_cuenta: estaba impreso, cuando y por quien', cb5[CB('estaba_impreso')] === 'SI' &&
+    cb5[CB('fecha_impresion_anterior')] === fechaImp && cb5[CB('impreso_por_anterior')] === 'OF', JSON.stringify(cb5));
+  let imp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
+  let ped5 = (imp.pedidos || []).find(x => x.id === p5.id) || {};
+  ver('C5 bandeja: en pendientes, con reemplaza', ped5.cliente === '200' && ped5.reemplaza && ped5.reemplaza.cuenta === '100' &&
+    ped5.reemplaza.nombre === 'Cliente 100' && ped5.reemplaza.fechaImpresion === fechaImp.toISOString(), JSON.stringify(ped5.reemplaza));
+  const otro5 = (imp.pedidos || []).find(x => x.id !== p5.id);
+  ver('C5 bandeja: un pedido sin cambio no trae reemplaza', !otro5 || !otro5.reemplaza);
+  // A (impreso) -> B -> C sin reimprimir: la hoja del deposito sigue siendo la de A
+  r = cambiar('vend', p5.id, '400', 'E');
+  ver('C5 A -> B -> C: cuenta_anterior sigue en A', r.ok && r.estabaImpreso === false && fila(p5.id)[CC('cuenta_anterior')] === '100' &&
+    fila(p5.id)[CC('impresion_anterior')] === fechaImp, JSON.stringify(fila(p5.id).slice(35)));
+  // Vuelve a A antes de reimprimir: la hoja del deposito es la correcta, sin aviso
+  r = cambiar('vend', p5.id, '100', 'E');
+  ver('C5 vuelve a A: sin aviso de reemplazo', r.ok && fila(p5.id)[CC('cuenta_anterior')] === '' &&
+    fila(p5.id)[CC('impresion_anterior')] === '', JSON.stringify(fila(p5.id).slice(35)));
+  imp = ctx.accionPedidosParaImprimir({ token: 'ofi', modo: 'pendientes' });
+  ped5 = (imp.pedidos || []).find(x => x.id === p5.id) || {};
+  ver('C5 bandeja: sin reemplaza, sigue en pendientes', ped5.id === p5.id && !ped5.reemplaza, JSON.stringify(ped5.reemplaza));
+  ver('C5 tres filas en cambios_cuenta', cambios().length === 3);
+
+  // C6. Intento sin confirmar: se trata como impreso
+  preparar();
+  const p6 = pedC(); guardar(p6);
+  ctx.accionIntentoImpresion({ token: 'ofi', ids: [p6.id] });
+  const fechaInt = fila(p6.id)[C('intento_impresion')];
+  r = cambiar('vend', p6.id, '200', 'E', aE);
+  const f6 = fila(p6.id);
+  ver('C6 intento: se vacia y queda el aviso con la fecha del intento', r.ok && r.estabaImpreso === true &&
+    f6[C('intento_impresion')] === '' && f6[C('intento_por')] === '' && f6[CC('cuenta_anterior')] === '100' &&
+    f6[CC('impresion_anterior')] === fechaInt, JSON.stringify(f6.slice(32, 40)));
+  ver('C6 cambios_cuenta: estaba_impreso intento', (cambios()[0] || [])[CB('estaba_impreso')] === 'intento' &&
+    (cambios()[0] || [])[CB('impreso_por_anterior')] === 'OF', JSON.stringify(cambios()[0]));
+
+  // C7. marcar_impresos con la cuenta que tenia la bandeja al imprimir
+  r = ctx.accionMarcarImpresos({ token: 'ofi', ids: [p6.id], cuentas: { [p6.id]: '100' } });
+  ver('C7 la cuenta cambio mientras se imprimia: no marca, cambioCliente', r.ok && r.marcados === 0 &&
+    JSON.stringify(r.cambioCliente) === JSON.stringify([p6.id]) && fila(p6.id)[C('impreso')] === '', JSON.stringify(r));
+  r = ctx.accionMarcarImpresos({ token: 'ofi', ids: [p6.id], cuentas: { [p6.id]: '200' } });
+  ver('C7 con la cuenta actual: marca', r.ok && r.marcados === 1 && r.cambioCliente.length === 0 && fila(p6.id)[C('impreso')] === 'SI',
+    JSON.stringify(r));
+  const p7 = pedC(); guardar(p7);
+  r = ctx.accionMarcarImpresos({ token: 'ofi', ids: [p7.id] });
+  ver('C7 sin cuentas (navegador anterior): marca como antes', r.ok && r.marcados === 1, JSON.stringify(r));
+
+  // C8. Admin y oficina: sin plazo y a clientes de cualquier vendedor
+  preparar();
+  const p8 = pedC(); guardar(p8);
+  fila(p8.id)[1] = haceDias(40);
+  r = cambiar('admin', p8.id, '200', 'E', aE);
+  ver('C8 admin, pedido de hace 40 dias: puede', r.ok, JSON.stringify(r));
+  const p8b = pedC(); guardar(p8b);
+  r = cambiar('ofi', p8b.id, '300', 'E', aE);
+  ver('C8 oficina, a un cliente de otro vendedor: puede', r.ok && fila(p8b.id)[C('cliente')] === '300' &&
+    fila(p8b.id)[C('vendedor')] === 'V1' && (cambios()[1] || [])[CB('rol')] === 'oficina', JSON.stringify(r));
+
+  // C9. Descuento sobre el total: en cascada, sin las lineas en promocion
+  preparar();
+  const p9 = pedido(2, { lineas: [L(1, 'lista_cliente', 'D', 100, 100, 1), L(2, 'promocion', 'D', 100, 50, 2, { precioPromo: 50, promoDesde: 2 })],
+    totalBruto: 200, descuentoTotal: 7, descuentoExtra: 5, totalNeto: Math.round((100 + 100 * 0.93 * 0.95) * 100) / 100 });
+  guardar(p9);
+  // La linea 1 pasa a 110; la 2 sigue en promocion (el grupo nuevo la tiene)
+  r = cambiar('vend', p9.id, '200', 'E', ls => ls.map(x => (x.orden === 1 ? { ...x, listaAplicada: 'E', precioBase: 110, precio: 110 } : x)));
+  const neto9 = Math.round((100 + 110 * ((1 - 7 / 100) * (1 - 5 / 100))) * 100) / 100;   // la cuenta del carrito
+  ver('C9 cascada 7 y 5 solo sobre lo que no esta en promocion', r.ok && fila(p9.id)[C('total_neto')] === neto9 &&
+    fila(p9.id)[C('total_bruto')] === 210, JSON.stringify([fila(p9.id)[C('total_bruto')], fila(p9.id)[C('total_neto')], neto9]));
+  const l9 = lin(p9.id).sort((a, b) => a[1] - b[1]);
+  ver('C9 la promocion que sigue: precio_promo y promo_desde', l9[1][LC('mecanismo')] === 'promocion' && l9[1][LC('precio_promo')] === 50 &&
+    l9[1][LC('promo_desde')] === 2 && l9[1][LC('lista_aplicada')] === 'E', JSON.stringify(l9[1]));
+
+  // C10. Falla la fila de cambios_cuenta (despues de verificar): el cambio queda
+  // hecho y la falta, a la vista en registro_guardados
+  preparar();
+  const p10 = pedC(); guardar(p10);
+  falla('cambios_cuenta', 'appendRow', { veces: 5 });
+  r = cambiar('vend', p10.id, '200', 'E', aE);
+  ver('C10 sin la fila de cambios_cuenta: el cambio queda hecho', r.ok && fila(p10.id)[C('cliente')] === '200' &&
+    cambios().length === 0, JSON.stringify(r));
+  ver('C10 registro_guardados lo dice', regDe(p10.id).some(x =>
+    x[7] === 'cuenta cambiada 100→200 · NO SE PUDO REGISTRAR EN cambios_cuenta'), JSON.stringify(regDe(p10.id).map(x => x[7])));
+  inyectar = [];
+
+  ctx.getFinanzasCliente = finAntes;
+  console.log(`Casos del cambio de cuenta: ${ok + fallas - antesC}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);

@@ -312,6 +312,11 @@ class FuncionalidadesMenu {
                 // sessionStorage, que no se comparte con una pestaña nueva
                 window.location.href = 'imprimir.html';
                 break;
+            case 'mis_pedidos':
+                // Lista de pedidos para cambiarles el cliente (js/cambio-cuenta.js)
+                if (window.CambioCuenta) window.CambioCuenta.abrirLista();
+                else alert('La lista de pedidos todavía no cargó. Probá de nuevo en unos segundos.');
+                break;
             default:
                 console.log(`ℹ️ Funcionalidad ${funcionalidad.id} aún no implementada`);
         }

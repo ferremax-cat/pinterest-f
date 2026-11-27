@@ -1,7 +1,8 @@
 // PRUEBA DE LA BANDEJA DE IMPRESION (js/imprimir.js, js/imprimir-hojas.js) con
 // jsdom: pedidos incompletos, impresion sin confirmar, lineas sin cabecera, altas
 // el origen del precio anterior y los totales de observaciones con articulos a
-// verificar en la hoja de facturacion.
+// verificar en la hoja de facturacion, y el cambio de cliente (recuadro de
+// reemplazo, barrido del paginado con el recuadro, distintivo y marcado).
 // Servidor simulado. Uso, desde la raiz del proyecto:
 //   node test/pedidos/prueba_bandeja.mjs
 import { readFileSync } from 'fs';
@@ -805,6 +806,189 @@ ver('V9 total 0: bloque oculto', $('#im-huerfanas').hidden && !$('#im-huerfanas'
   ver('E8 el barrido llega al corte: la entrega abre una hoja en prep y en fact', corte2Prep > 0 && corte2Fact > 0, `${corte2Prep} ${corte2Fact}`);
   ver('E8 todos los recuadros miden lo que suman sus renglones', malMedidos2 === 0, malMedidos2);
   console.log(`Casos de la entrega especial: ${ok + fallas - antesE}`);
+}
+
+// =====================================================================
+// CAMBIO DE CLIENTE (v45): el pedido cambio de cuenta despues de imprimirse.
+// La hoja nueva lleva el recuadro "CAMBIO DE CLIENTE" (a quien NO y a quien
+// si se le entrega) solo en la primera hoja de preparacion y en la primera de
+// facturacion, pegado al encabezado, y el N° dice CORREGIDA. Barrido del
+// paginado: ninguna hoja se pasa del alto (medida con los altos de cada
+// elemento impreso, no con la cuenta del paginador). La bandeja: distintivo,
+// "antes ...", el enlace "Cambiar cliente" y el marcado con la cuenta
+{
+  const antesR = ok + fallas;
+  const espera = ms => new Promise(r => setTimeout(r, ms));
+  const cerrarAvisos = async () => {
+    for (let k = 0; k < 60 && !$('#ih-aviso')?.hidden; k++) {
+      const bs = $$('#ih-aviso button');
+      if (bs.length) bs[bs.length - 1].click();
+      await espera(50); await tick(10);
+    }
+  };
+  const cont = () => document.getElementById('ih-hojas');
+  const hojas = numero => [...cont().querySelectorAll('section.ih-hoja')].filter(s => s.textContent.includes('N° ' + numero));
+  const REEMP = { cuenta: '40147', nombre: 'FERRETERIA VIEJA', fechaImpresion: '2026-11-25T13:42:00Z' };
+  const conCambio = (id, numero, n, extra = {}) => ped(id, numero, n, n,
+    { cliente: '20271', nombreCliente: 'FERRETERIA NUEVA', reemplaza: REEMP, ...extra });
+  const esFact = s => !!s.querySelector('header.ih-cab-fact, .ih-cab-cont') && s.textContent.includes('Facturación') && !s.querySelector('.ih-franja, .ih-firmas');
+
+  // Alto de una hoja, sumando lo que tiene impreso con los altos del CSS
+  // (--ih-*: los mismos MM). Independiente de la cuenta del paginador
+  const mm = k => parseFloat(cont().style.getPropertyValue('--ih-' + k));
+  const ALTO_TR = { 'ih-piso-fact': 'piso-fact', 'ih-obs-lado-fact': 'piso-fact', 'ih-obs-nota-fact': 'piso-fact', 'ih-promo-enc-fact': 'piso-fact',
+    'ih-obs-tit-fact': 'obs-tit-fact', 'ih-obs-det-fact': 'obs-tit-fact', 'ih-obs-cab-fact': 'obs-tit-fact', 'ih-promo-cab-fact': 'obs-tit-fact' };
+  const altoHoja = s => {
+    let h = 0;
+    const n = sel => s.querySelectorAll(sel).length;
+    h += n('footer.ih-pie') * mm('pie');
+    h += n('header.ih-cab-prep') * mm('cab-prep') + n('header.ih-cab-cont') * mm('cab-cont') + n('header.ih-cab-fact') * mm('cab-fact');
+    h += n('div[class="ih-obs"]') * mm('obs') + n('.ih-reimp') * mm('reimp') + n('.ih-reemplazo') * mm('reemplazo');
+    s.querySelectorAll('.ih-obs-caja').forEach(c => { h += mm('obs-cab') + Number(/\+ ([\d.]+)mm\)/.exec(c.getAttribute('style') || '')?.[1] || 0); });
+    h += n('.ih-franja') * mm('franja');
+    s.querySelectorAll('.ih-grilla').forEach(g => { h += Number(/repeat\((\d+),/.exec(g.getAttribute('style') || '')?.[1] || 0) * mm('fila'); });
+    h += n('.ih-firmas') * mm('firmas') + n('.ih-separador') * mm('separador');
+    s.querySelectorAll('table.ih-tabla').forEach(t => {
+      h += mm('fila-fact');   // encabezado de la tabla
+      t.querySelectorAll('tbody tr').forEach(tr => {
+        const clase = ALTO_TR[tr.className];
+        const veces = Number(/\* (\d+)\)/.exec(tr.getAttribute('style') || '')?.[1] || 1);
+        h += clase ? mm(clase) : veces * mm('fila-fact');
+      });
+    });
+    h += n('.ih-firmas-fact') * (mm('totales') + mm('firmas-fact'));
+    return h;
+  };
+
+  // R1: pedido de una linea (hoja unica, con facturacion abajo): un solo recuadro, pegado al encabezado.
+  // Con el recuadro y la REIMPRESION, desde 3 lineas la facturacion ya va aparte
+  await cerrarAvisos();
+  Hojas.imprimir([conCambio('R1', 'APP-91', 1)], { reimpresion: true });
+  await tick(60);
+  const s1 = hojas('APP-91');
+  const rec1 = s1.flatMap(s => [...s.querySelectorAll('.ih-reemplazo')]);
+  ver('R1 hoja unica: un solo recuadro', s1.length === 1 && rec1.length === 1 && !!s1[0].querySelector('.ih-separador'), `${s1.length} hojas, ${rec1.length}`);
+  ver('R1 pegado al encabezado de preparacion', rec1[0]?.previousElementSibling?.matches('header.ih-cab-prep'));
+  const txt1 = rec1[0]?.textContent.replace(/\s+/g, ' ').trim() || '';
+  ver('R1 titulo, a que hoja reemplaza y cuando', txt1.startsWith('CAMBIO DE CLIENTE · ESTA HOJA REEMPLAZA A OTRA') &&
+    txt1.includes('Reemplaza a la hoja del mismo N° APP-91 impresa el 25/11 a las 10:42'), txt1);
+  ver('R1 NO ENTREGAR A: la cuenta vieja, tachada', rec1[0]?.querySelector('.ih-reemplazo-no')?.textContent.replace(/\s+/g, ' ').trim() ===
+    'NO ENTREGAR A: 40147 · FERRETERIA VIEJA' && rec1[0].querySelector('.ih-reemplazo-no s')?.textContent === '40147 · FERRETERIA VIEJA');
+  ver('R1 ENTREGAR A: la cuenta nueva', rec1[0]?.querySelector('.ih-reemplazo-si')?.textContent.replace(/\s+/g, ' ').trim() ===
+    'ENTREGAR A: 20271 · FERRETERIA NUEVA');
+  ver('R1 retirar la hoja anterior', txt1.endsWith('Retirar y destruir la hoja anterior.'));
+  ver('R1 N° CORREGIDA en preparacion y en facturacion', s1[0].querySelector('.ih-cab-prep .ih-numero')?.textContent === 'N° APP-91 · CORREGIDA' &&
+    s1[0].querySelector('.ih-cab-fact .ih-numero')?.textContent === 'N° APP-91 · CORREGIDA');
+  ver('R1 con la REIMPRESION tambien: los dos', !!s1[0].querySelector('.ih-reimp'));
+
+  // R2: pedido largo: el recuadro solo en la primera hoja de preparacion y en la primera de facturacion
+  await cerrarAvisos();
+  Hojas.imprimir([conCambio('R2', 'APP-92', 120)], { reimpresion: true });
+  await tick(80);
+  const s2 = hojas('APP-92');
+  const prep2 = s2.filter(s => !esFact(s)), fact2 = s2.filter(esFact);
+  ver('R2 varias hojas de cada una', prep2.length >= 2 && fact2.length >= 2, `${prep2.length} prep, ${fact2.length} fact`);
+  ver('R2 recuadro solo en la primera de preparacion', prep2.map(s => s.querySelectorAll('.ih-reemplazo').length).join() ===
+    ['1'].concat(Array(prep2.length - 1).fill('0')).join(), prep2.map(s => s.querySelectorAll('.ih-reemplazo').length).join());
+  ver('R2 recuadro solo en la primera de facturacion', fact2.map(s => s.querySelectorAll('.ih-reemplazo').length).join() ===
+    ['1'].concat(Array(fact2.length - 1).fill('0')).join(), fact2.map(s => s.querySelectorAll('.ih-reemplazo').length).join());
+  ver('R2 en facturacion, pegado a su encabezado', fact2[0]?.querySelector('.ih-reemplazo')?.previousElementSibling?.matches('header.ih-cab-fact'));
+  ver('R2 las hojas que siguen, sin CORREGIDA ni recuadro (encabezado de continuacion)',
+    s2.slice(1).filter(s => s !== fact2[0]).every(s => !!s.querySelector('header.ih-cab-cont') && !s.querySelector('.ih-reemplazo')));
+
+  // R3: sin cambio de cliente: nada
+  await cerrarAvisos();
+  Hojas.imprimir([ped('R3', 'APP-93', 3, 3)], { reimpresion: true });
+  await tick(60);
+  ver('R3 sin reemplaza: ni recuadro ni CORREGIDA', !hojas('APP-93').some(s => s.querySelector('.ih-reemplazo')) &&
+    !hojas('APP-93').some(s => s.textContent.includes('CORREGIDA')));
+  // R3b: sin fecha de la impresion anterior
+  await cerrarAvisos();
+  Hojas.imprimir([conCambio('R3b', 'APP-94', 2, { reemplaza: { ...REEMP, fechaImpresion: '' } })], { reimpresion: true });
+  await tick(60);
+  ver('R3b sin fecha: "impresa antes del cambio"', (hojas('APP-94')[0]?.querySelector('.ih-reemplazo')?.textContent || '')
+    .includes('Reemplaza a la hoja del mismo N° APP-94 impresa antes del cambio'));
+
+  // R4: barrido del paginado con el recuadro: pedidos de 1 a 110 lineas, con y
+  // sin el renglon viejo de observaciones (motivo). Ninguna hoja se pasa del
+  // alto, el recuadro va solo en las primeras y siempre pegado al encabezado
+  const casos = [];
+  for (let n = 1; n <= 110; n++) casos.push(conCambio('RB' + n, 'APP-' + (1000 + n), n, n % 3 === 0 ? { motivo: 'PAGA TOTAL DE BOLETA' } : {}));
+  let desbordes = [], malUbicados = 0, sueltos = 0, vistos = 0, primeraLlena = 0, factAparte = 0, maxAlto = 0;
+  for (let desde = 1; desde <= 110; desde += 10) {
+    await cerrarAvisos();
+    Hojas.imprimir(casos.slice(desde - 1, desde + 9), { reimpresion: true });
+    await tick(120);
+    for (let n = desde; n < Math.min(desde + 10, 111); n++) {
+      const num = 'APP-' + (1000 + n);
+      const ss = hojas(num);
+      if (ss.length) vistos++;
+      const prep = ss.filter(s => !esFact(s)), fact = ss.filter(esFact);
+      ss.forEach((s, k) => {
+        const a = altoHoja(s);
+        maxAlto = Math.max(maxAlto, a);
+        if (a > mm('hoja') + 0.001) desbordes.push(`${num} hoja ${k + 1}: ${a.toFixed(1)} mm`);
+      });
+      // El recuadro: uno en la primera de preparacion y uno en la primera de facturacion (si va aparte)
+      const esperado = s => s === prep[0] || s === fact[0] ? 1 : 0;
+      ss.forEach(s => { if (s.querySelectorAll('.ih-reemplazo').length !== esperado(s)) malUbicados++; });
+      ss.flatMap(s => [...s.querySelectorAll('.ih-reemplazo')]).forEach(r => {
+        if (!r.previousElementSibling?.matches('header.ih-cab-prep, header.ih-cab-fact')) sueltos++;
+      });
+      if (fact.length) factAparte++;
+      // La primera hoja de preparacion quedo llena (el siguiente renglon no entraba): el caso que exige la reserva
+      if (prep.length > 1 && mm('hoja') - altoHoja(prep[0]) < mm('fila') + mm('firmas')) primeraLlena++;
+    }
+  }
+  ver('R4 el barrido imprimio los 110 pedidos', vistos === 110, vistos);
+  ver('R4 ninguna hoja se pasa del alto (280 mm)', desbordes.length === 0, desbordes.slice(0, 5).join(' | '));
+  ver('R4 el recuadro solo en la primera de preparacion y en la primera de facturacion', malUbicados === 0, malUbicados);
+  ver('R4 el recuadro nunca queda separado del encabezado', sueltos === 0, sueltos);
+  ver('R4 el barrido llega a los casos exigentes: primera hoja llena y facturacion aparte', primeraLlena > 0 && factAparte > 0,
+    `${primeraLlena} llenas, ${factAparte} con facturacion aparte, alto maximo ${maxAlto.toFixed(1)} mm`);
+
+  console.log(`Barrido del recuadro: 110 pedidos, ${primeraLlena} con la primera hoja de preparacion llena, ` +
+    `${factAparte} con facturacion aparte, hoja mas alta ${maxAlto.toFixed(1)} de ${mm('hoja')} mm`);
+
+  // R5: la bandeja: distintivo, de que cuenta venia y el enlace para cambiar el cliente
+  respuesta = { pendientes: [conCambio('R5', 'APP-95', 2), ped('R6', 'APP-96', 1, 1), ped('R7', 'APP-97', 1, 1, { prueba: true })], impresos: [] };
+  $('#im-actualizar').click(); await tick(30);
+  const tr5 = $('#im-tbody tr[data-id="R5"]'), tr6 = $('#im-tbody tr[data-id="R6"]');
+  ver('R5 distintivo CAMBIO DE CLIENTE y "antes 40147, impreso el 25/11/2026"', tr5?.querySelector('.im-marca-cambio')?.textContent === 'CAMBIO DE CLIENTE' &&
+    tr5.querySelector('.im-antes')?.textContent.startsWith('antes 40147, impreso el 25/11'), tr5?.innerHTML);
+  ver('R5 un pedido sin cambio: sin distintivo', !!tr6 && !tr6.querySelector('.im-marca-cambio, .im-antes'));
+  ver('R5 oficina: el enlace al catalogo con el pedido', tr6?.querySelector('a.im-cambiar')?.getAttribute('href') === 'catalogo.html?cambiar=R6' &&
+    tr5?.querySelector('a.im-cambiar')?.getAttribute('href') === 'catalogo.html?cambiar=R5');
+  ver('R5 un pedido de prueba: sin enlace', !$('#im-tbody tr[data-id="R7"] a.im-cambiar'));
+  const selAntes = $('#im-contador')?.textContent;
+  const clic = new w.MouseEvent('click', { bubbles: true, cancelable: true });
+  tr6.querySelector('a.im-cambiar').addEventListener('click', e => e.preventDefault(), { once: true });   // jsdom no navega
+  tr6.querySelector('a.im-cambiar').dispatchEvent(clic);
+  ver('R5 tocar el enlace no selecciona la fila', $('#im-contador')?.textContent === selAntes && !tr6.querySelector('.im-check').checked);
+  sessionStorage.setItem('authRol', 'vendedor_estandar'); sessionStorage.setItem('authCodigo', 'V1');
+  respuesta = { pendientes: [ped('R8', 'APP-98', 1, 1), ped('R9', 'APP-99', 1, 1, { vendedor: 'V2' })], impresos: [] };
+  $('#im-actualizar').click(); await tick(30);
+  ver('R5 vendedor: el enlace solo en los pedidos que cargo', !!$('#im-tbody tr[data-id="R8"] a.im-cambiar') &&
+    !$('#im-tbody tr[data-id="R9"] a.im-cambiar'));
+  sessionStorage.setItem('authRol', 'oficina');
+
+  // R6: al marcar se manda la cuenta con que se imprimio; si cambio en el medio, no se cuenta y se avisa
+  const apiAntes = w.Api.llamar;
+  let marcado = null, respMarcar = null;
+  w.Api.llamar = async b => (b.accion === 'marcar_impresos' ? (marcado = b, respMarcar) : apiAntes(b));
+  const p10 = ped('R10', 'APP-100', 1, 1, { cliente: '300' });
+  respMarcar = { ok: true, marcados: 0, yaMarcados: 0, yaPropios: 0, cambioCliente: ['R10'], noEncontrados: [] };
+  await cerrarAvisos();
+  Hojas.confirmarExistentes(p10); await tick(10);
+  $$('#ih-aviso button').find(b => b.textContent === 'Sí, las hojas existen')?.click(); await tick(30);
+  ver('R6 marcar manda la cuenta de cada pedido', JSON.stringify(marcado?.cuentas) === JSON.stringify({ R10: '300' }) &&
+    JSON.stringify(marcado?.ids) === '["R10"]', JSON.stringify(marcado));
+  const av = $('#ih-aviso')?.textContent.replace(/\s+/g, ' ') || '';
+  ver('R6 cambio de cliente mientras se imprimia: ATENCIÓN, la hoja no vale', av.includes('ATENCIÓN') &&
+    av.includes('El pedido N° APP-100 cambió de cliente mientras se imprimía: esa hoja no vale') && av.includes('0 pedidos marcados'), av);
+  w.Api.llamar = apiAntes;
+  await cerrarAvisos();
+  console.log(`Casos del cambio de cliente: ${ok + fallas - antesR}`);
 }
 
 console.log(`\n${ok}/${ok + fallas} pruebas bien`);

@@ -1490,6 +1490,9 @@ async function confirmarPedido() {
         `${entGuardada.fecha < Obs.hoyIso() ? ' <b>(esa fecha ya pasó: así quedó guardado)</b>' : ''}</p>`
       : '';
     const cont = document.getElementById('carrito-panel');
+    // "Cambiar el cliente": solo un vendedor o admin, en un pedido real (ni
+    // alta ni prueba) y con la pantalla del cambio cargada
+    const puedeCambiar = esVend && !esAltaResp && !resp.prueba && !/^PRU-/.test(String(resp.numero || '')) && !!window.CambioCuenta;
     cont.innerHTML = `
       <div class="cp-caja">
         <div class="cp-exito">
@@ -1501,12 +1504,19 @@ async function confirmarPedido() {
           <p class="cp-exito-total">${pedido.lineas.length ? fmt(totalConfirmado) : 'Solo observaciones'}</p>
           ${esAltaResp ? '<p class="cp-exito-det">Oficina carga el número de cuenta del cliente nuevo; recién entonces el pedido se imprime.</p>' : ''}
           <button class="cp-cerrar-exito">Listo</button>
+          ${puedeCambiar ? '<button type="button" class="cp-cambiar-cliente">Cambiar el cliente</button>' : ''}
         </div>
       </div>`;
     // Vendedor: al cerrar esta pantalla, sin cliente y al buscador de
     // clientes. Un cliente confirma su propio pedido: no tiene a quien elegir
     elegirClienteAlCerrar = esVend;
     cont.querySelector('.cp-cerrar-exito').addEventListener('click', cerrar);
+    // Cliente equivocado: un enlace chico, no una pregunta; abre la hoja del
+    // cambio con este pedido (js/cambio-cuenta.js)
+    cont.querySelector('.cp-cambiar-cliente')?.addEventListener('click', () => {
+      cerrar();
+      window.CambioCuenta.abrirPedido(resp.id || pedido.id);
+    });
 
   } catch (err) {
     console.error('[Carrito] Error al confirmar:', err);

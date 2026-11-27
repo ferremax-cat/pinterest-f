@@ -102,6 +102,11 @@ let estadoConsulta = '';
 
 const sinAcentos = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 const veTodos = () => ROLES_VER_TODOS.includes(sessionStorage.getItem('authRol') || '');
+/**
+ * El catalogo con el pedido abierto en "Cambiar el cliente" (js/cambio-cuenta.js).
+ * Un enlace comun: se abre en la misma pestaña, donde vive la sesion
+ */
+const urlCambiarCliente = id => 'catalogo.html?cambiar=' + encodeURIComponent(id);
 const estaActivo = f => !!(f.texto.trim() || f.vendedor);
 const filtroActivo = () => estaActivo(filtro);
 
@@ -204,9 +209,21 @@ function aFila(p) {
     nObs: Array.isArray(p.observaciones) ? p.observaciones.length : 0,
     totalNeto: fmtPesos(p.totalNeto),
     fechaImpresion: fmtFechaHora(p.fechaImpresion),
-    impresoPor: p.impresoPor || '—'
+    impresoPor: p.impresoPor || '—',
+    // Cambio de cliente despues de imprimirse: la hoja vieja (en el deposito)
+    // dice esta cuenta; hay que reimprimir
+    reemplaza: p.reemplaza?.cuenta ? { cuenta: String(p.reemplaza.cuenta),
+      fecha: p.reemplaza.fechaImpresion ? fechaYHora(p.reemplaza.fechaImpresion).fecha : '' } : null
   };
 }
+
+/**
+ * "Cambiar cliente" en la fila: admin y oficina en cualquier pedido; el
+ * vendedor, en los que cargo el (el servidor lo controla igual)
+ */
+const puedeCambiarCliente = p => !p.prueba && !p.faltaCuenta &&
+  (veTodos() || (sessionStorage.getItem('authRol') === 'vendedor_estandar' &&
+    String(p.vendedor) === String(sessionStorage.getItem('authCodigo') || '')));
 
 /** Celda de lineas: cantidad, o "Solo obs." en un pedido solo de observaciones */
 function htmlLineas(p) {
@@ -485,10 +502,13 @@ function dibujar() {
   $('im-tbody').innerHTML = lista.map(p => `
     <tr data-id="${esc(p.id)}"${p.prueba ? ' class="im-prueba"' : ''}>
       <td class="im-col-check"><input type="checkbox" class="im-check"></td>
-      <td class="im-num c-numero">${esc(p.numero)}${p.prueba ? ' <span class="im-marca-prueba">PRUEBA</span>' : ''}</td>
+      <td class="im-num c-numero">${esc(p.numero)}${p.prueba ? ' <span class="im-marca-prueba">PRUEBA</span>' : ''}${
+        p.reemplaza ? ' <span class="im-marca-cambio">CAMBIO DE CLIENTE</span>' : ''}</td>
       <td class="c-fecha">${esc(p.fecha)}</td>
       <td class="im-num c-cuenta">${esc(p.cuenta)}</td>
-      <td class="c-cliente">${esc(nombreDe(p))}</td>
+      <td class="c-cliente">${esc(nombreDe(p))}${p.reemplaza ? `<small class="im-antes">antes ${esc(p.reemplaza.cuenta)}${
+        p.reemplaza.fecha ? `, impreso el ${esc(p.reemplaza.fecha)}` : ''}</small>` : ''}${
+        puedeCambiarCliente(p) ? `<a class="im-cambiar" href="${esc(urlCambiarCliente(p.id))}">Cambiar cliente</a>` : ''}</td>
       <td class="c-vendedor">${esc(p.vendedor)}</td>
       <td class="im-num c-lineas">${htmlLineas(p)}</td>
       <td class="im-num c-total">${esc(p.totalNeto)}</td>
@@ -872,7 +892,10 @@ function configurarEventos() {
   // Toda la fila marca la casilla, no solo el cuadradito
   $('im-tbody').addEventListener('click', e => {
     const tr = e.target.closest('tr[data-id]');
-    if (tr) alternar(tr.dataset.id);
+    if (!tr) return;
+    // "Cambiar cliente" (un enlace al catalogo con ese pedido): no toca la seleccion
+    if (e.target.closest('.im-cambiar')) return;
+    alternar(tr.dataset.id);
   });
 
   // Clientes nuevos: hoja de alta y carga del numero de cuenta
