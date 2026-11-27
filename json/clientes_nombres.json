@@ -12,53 +12,61 @@
       "nombre": "M y R SANITARIOS",
       "vendedor": "JG"
     },
-    "70114": {
-      "nombre": "FERRETERIA FERRECAS",
-      "vendedor": "JG"
-    },
     "965": {
       "nombre": "CASA CAEIRO MATERIAL",
       "vendedor": "RF"
     },
+    "70114": {
+      "nombre": "FERRETERIA FERRECAS",
+      "vendedor": "JG"
+    },
     "20241": {
       "nombre": "LOS CHAQUEÑOS FERRET",
-      "vendedor": "JG"
-    },
-    "20164": {
-      "nombre": "A Y B FERRETERIA",
-      "vendedor": "RF"
-    },
-    "20163": {
-      "nombre": "EBEN EZER SANITARIOS",
-      "vendedor": "RF"
-    },
-    "10165": {
-      "nombre": "FRETES FERRETERIA",
-      "vendedor": "JG"
-    },
-    "90660": {
-      "nombre": "VILLEGAS FERRETERIA",
-      "vendedor": "RF"
-    },
-    "20234": {
-      "nombre": "NOELIA FERRETERIA",
-      "vendedor": "RF"
-    },
-    "60281": {
-      "nombre": "CASA MAXIMO",
-      "vendedor": "CS"
-    },
-    "20380": {
-      "nombre": "FERRETERIA PITU",
       "vendedor": "JG"
     },
     "950": {
       "nombre": "MARIANO FERRETERIA",
       "vendedor": "IC"
     },
-    "1021": {
-      "nombre": "FERRETERIA GERMAN",
+    "20163": {
+      "nombre": "EBEN EZER SANITARIOS",
+      "vendedor": "RF"
+    },
+    "20164": {
+      "nombre": "A Y B FERRETERIA",
+      "vendedor": "RF"
+    },
+    "90660": {
+      "nombre": "VILLEGAS FERRETERIA",
+      "vendedor": "RF"
+    },
+    "60281": {
+      "nombre": "CASA MAXIMO",
       "vendedor": "CS"
+    },
+    "10165": {
+      "nombre": "FRETES FERRETERIA",
+      "vendedor": "JG"
+    },
+    "958": {
+      "nombre": "FORRAJERIA MARTIN",
+      "vendedor": "RF"
+    },
+    "20234": {
+      "nombre": "NOELIA FERRETERIA",
+      "vendedor": "RF"
+    },
+    "20238": {
+      "nombre": "LOS PEQUES FERRETERI",
+      "vendedor": "RF"
+    },
+    "20380": {
+      "nombre": "FERRETERIA PITU",
+      "vendedor": "JG"
+    },
+    "237": {
+      "nombre": "PAROISSIEN FERRETERI",
+      "vendedor": "JG"
     },
     "40139": {
       "nombre": "ENCINA FERRETERIA",
@@ -68,9 +76,13 @@
       "nombre": "FERRETERIA EMILIANO",
       "vendedor": "CS"
     },
-    "20238": {
-      "nombre": "LOS PEQUES FERRETERI",
-      "vendedor": "RF"
+    "20397": {
+      "nombre": "CORRALON SAN JORGE",
+      "vendedor": "CS"
+    },
+    "1021": {
+      "nombre": "FERRETERIA GERMAN",
+      "vendedor": "CS"
     },
     "962": {
       "nombre": "AZ FERRTERIA",
@@ -80,12 +92,12 @@
       "nombre": "EL CORDOBES FERRETER",
       "vendedor": "RF"
     },
-    "20397": {
-      "nombre": "CORRALON SAN JORGE",
-      "vendedor": "CS"
+    "20228": {
+      "nombre": "PABLO GISELA CORRALO",
+      "vendedor": "JG"
     },
-    "237": {
-      "nombre": "PAROISSIEN FERRETERI",
+    "20290": {
+      "nombre": "CONSTRUCTORA SYS SA",
       "vendedor": "JG"
     },
     "20309": {
@@ -96,10 +108,6 @@
       "nombre": "FERRIYAN 2 FERRETERI",
       "vendedor": "RF"
     },
-    "20290": {
-      "nombre": "CONSTRUCTORA SYS SA",
-      "vendedor": "JG"
-    },
     "70113": {
       "nombre": "ILUMINARTE",
       "vendedor": "RF"
@@ -108,45 +116,65 @@
       "nombre": "FERRETERIA GALLELLI",
       "vendedor": "JG"
     },
-    "61012": {
-      "nombre": "EL TREBOL FERRETERIA",
-      "vendedor": "JG"
+    "70118": {
+      "nombre": "FERRETERIA VALVERDE",
+      "vendedor": "RF"
     },
-    "233": {
-      "nombre": "FERRETERIA IMPERIO",
-      "vendedor": "JG"
+    "50623": {
+      "nombre": "FERRETERIA LAPLACE",
+      "vendedor": "RF"
+    },
+    "946": {
+      "nombre": "FABIAN FERRETERIA",
+      "vendedor": "IC"
     },
     "20159": {
       "nombre": "LOS NOGALES CORRALON",
-      "vendedor": "RF"
-    },
-    "20228": {
-      "nombre": "PABLO GISELA CORRALO",
-      "vendedor": "JG"
-    },
-    "20296": {
-      "nombre": "IVAN \"2\" FERRETERIA",
       "vendedor": "RF"
     },
     "20101": {
       "nombre": "J.R. FERRETERIA",
       "vendedor": "JG"
     },
-    "946": {
-      "nombre": "FABIAN FERRETERIA",
-      "vendedor": "IC"
+    "233": {
+      "nombre": "FERRETERIA IMPERIO",
+      "vendedor": "JG"
+    },
+    "20260": {
+      "nombre": "CORRALON 1001",
+      "vendedor": "RF"
     },
     "969": {
       "nombre": "CORRALON LINCH",
+      "vendedor": "RF"
+    },
+    "971": {
+      "nombre": "CORRALON MIMAR",
       "vendedor": "RF"
     },
     "70103": {
       "nombre": "CERAMICA SAN EDUARDO",
       "vendedor": "RF"
     },
-    "50623": {
-      "nombre": "FERRETERIA LAPLACE",
+    "20303": {
+      "nombre": "CORRALON NICOL",
+      "vendedor": "JG"
+    },
+    "1002": {
+      "nombre": "CORRALON HS",
       "vendedor": "RF"
+    },
+    "20296": {
+      "nombre": "IVAN \"2\" FERRETERIA",
+      "vendedor": "RF"
+    },
+    "1016": {
+      "nombre": "FERRETERIA FERREMAX",
+      "vendedor": "JG"
+    },
+    "60205": {
+      "nombre": "GABRIELA FERRETERIA",
+      "vendedor": "JG"
     },
     "20096": {
       "nombre": "LA QUINTA MATERIALES",
@@ -156,56 +184,32 @@
       "nombre": "JAVI FERRETERIA",
       "vendedor": "JG"
     },
-    "1002": {
-      "nombre": "CORRALON HS",
-      "vendedor": "RF"
-    },
     "50808": {
       "nombre": "CORRALON LA CURVA",
       "vendedor": "RF"
     },
-    "20260": {
-      "nombre": "CORRALON 1001",
+    "61004": {
+      "nombre": "CASA MIGUEL FERRETER",
       "vendedor": "RF"
     },
-    "1016": {
-      "nombre": "FERRETERIA FERREMAX",
+    "61012": {
+      "nombre": "EL TREBOL FERRETERIA",
       "vendedor": "JG"
     },
     "20357": {
       "nombre": "PAEZ FERRETERIA",
       "vendedor": "JG"
     },
-    "70118": {
-      "nombre": "FERRETERIA VALVERDE",
-      "vendedor": "RF"
-    },
-    "70640": {
-      "nombre": "LOS 4 HERMANOS FERRE",
-      "vendedor": "JG"
-    },
-    "61004": {
-      "nombre": "CASA MIGUEL FERRETER",
-      "vendedor": "RF"
-    },
     "40151": {
       "nombre": "FERRETERIA LUJAN",
-      "vendedor": "RF"
-    },
-    "20379": {
-      "nombre": "NUNE FERRETERIA",
       "vendedor": "RF"
     },
     "20116": {
       "nombre": "DE LA FUENTE FERRETE",
       "vendedor": "JG"
     },
-    "40124": {
-      "nombre": "EL TATA FERRETERIA",
-      "vendedor": "RF"
-    },
-    "60205": {
-      "nombre": "GABRIELA FERRETERIA",
+    "20137": {
+      "nombre": "COR.DE MATE.CABOT SR",
       "vendedor": "JG"
     },
     "60270": {
@@ -228,33 +232,21 @@
       "nombre": "MARY FERRETERIA",
       "vendedor": "RF"
     },
-    "20137": {
-      "nombre": "COR.DE MATE.CABOT SR",
-      "vendedor": "JG"
-    },
     "60286": {
       "nombre": "FERRETERIA CASERES A",
       "vendedor": "CS"
-    },
-    "20284": {
-      "nombre": "LA PATORA FERRETERIA",
-      "vendedor": "RF"
     },
     "20319": {
       "nombre": "LU-MI FERRETERIA",
       "vendedor": "JG"
     },
-    "20303": {
-      "nombre": "CORRALON NICOL",
+    "70640": {
+      "nombre": "LOS 4 HERMANOS FERRE",
       "vendedor": "JG"
     },
     "60191": {
       "nombre": "CORRALON LA VICTORIA",
       "vendedor": "JG"
-    },
-    "958": {
-      "nombre": "FORRAJERIA MARTIN",
-      "vendedor": "RF"
     },
     "20110": {
       "nombre": "MATEO (2) FERRETERIA",
@@ -264,9 +256,13 @@
       "nombre": "P y P FERRETERIA",
       "vendedor": "RF"
     },
-    "20292": {
-      "nombre": "CIRO FERRETERIA",
+    "963": {
+      "nombre": "CORDERO J.CARLOS FER",
       "vendedor": "RF"
+    },
+    "20374": {
+      "nombre": "NAVARRO FERRETERIA",
+      "vendedor": "JG"
     },
     "20258": {
       "nombre": "EMPRENDIMIENTOS DAMA",
@@ -275,6 +271,14 @@
     "20113": {
       "nombre": "EL VIRREY CORRALON d",
       "vendedor": "JG"
+    },
+    "20298": {
+      "nombre": "LA FAMILIA FERRETERI",
+      "vendedor": "RF"
+    },
+    "20256": {
+      "nombre": "LAYMAR FERRETERIA",
+      "vendedor": "RF"
     },
     "1027": {
       "nombre": "FERRETERIA GARAY",
@@ -312,12 +316,12 @@
       "nombre": "TAHIEL FERRETERIA",
       "vendedor": "JG"
     },
-    "50820": {
-      "nombre": "FERRETERIA LA PETY",
+    "50622": {
+      "nombre": "LAFE-RRETERIA PONTEV",
       "vendedor": "RF"
     },
-    "20298": {
-      "nombre": "LA FAMILIA FERRETERI",
+    "50820": {
+      "nombre": "FERRETERIA LA PETY",
       "vendedor": "RF"
     },
     "992": {
@@ -328,28 +332,20 @@
       "nombre": "CORRALON TRANSOL",
       "vendedor": "JG"
     },
-    "90658": {
-      "nombre": "FERRETERIA DEL OESTE",
+    "20379": {
+      "nombre": "NUNE FERRETERIA",
       "vendedor": "RF"
     },
     "60124": {
       "nombre": "FERRENOVA FERRETERIA",
       "vendedor": "CS"
     },
-    "20374": {
-      "nombre": "NAVARRO FERRETERIA",
-      "vendedor": "JG"
-    },
     "1012": {
       "nombre": "CORRALON CURTO MARTI",
       "vendedor": "RF"
     },
-    "60169": {
-      "nombre": "ALPA FERRETERIA",
-      "vendedor": "JG"
-    },
-    "20293": {
-      "nombre": "ARMONIA FERRETERIA",
+    "40124": {
+      "nombre": "EL TATA FERRETERIA",
       "vendedor": "RF"
     },
     "10167": {
@@ -364,10 +360,6 @@
       "nombre": "DON COTY FERRETERIA",
       "vendedor": "CS"
     },
-    "20310": {
-      "nombre": "AMANDA FERRETERIA",
-      "vendedor": "JG"
-    },
     "20180": {
       "nombre": "R.R FERRETERIA",
       "vendedor": "JG"
@@ -376,9 +368,9 @@
       "nombre": "CORRALON IBERA",
       "vendedor": "JG"
     },
-    "1010": {
-      "nombre": "FERRETERIA CHIOZZA",
-      "vendedor": "RF"
+    "60169": {
+      "nombre": "ALPA FERRETERIA",
+      "vendedor": "JG"
     },
     "1038": {
       "nombre": "FERRETERIA LOCK",
@@ -386,6 +378,10 @@
     },
     "60195": {
       "nombre": "MIK-MA FERRETERIA",
+      "vendedor": "JG"
+    },
+    "20100": {
+      "nombre": "EL RELINCHO FERRETER",
       "vendedor": "JG"
     },
     "50224": {
@@ -400,16 +396,12 @@
       "nombre": "NA-FA FERRETERIA",
       "vendedor": "CS"
     },
-    "20100": {
-      "nombre": "EL RELINCHO FERRETER",
-      "vendedor": "JG"
+    "60133": {
+      "nombre": "MARITO OBARRIO FERRE",
+      "vendedor": "RF"
     },
     "50815": {
       "nombre": "EL PELA FERRETERIA",
-      "vendedor": "RF"
-    },
-    "50622": {
-      "nombre": "LAFE-RRETERIA PONTEV",
       "vendedor": "RF"
     },
     "60305": {
@@ -428,6 +420,14 @@
       "nombre": "FERRETERIA VIGO",
       "vendedor": "RF"
     },
+    "987": {
+      "nombre": "LA HERRADURA FERRETE",
+      "vendedor": "RF"
+    },
+    "20292": {
+      "nombre": "CIRO FERRETERIA",
+      "vendedor": "RF"
+    },
     "1030": {
       "nombre": "FERRETERIA CONTRERAS",
       "vendedor": "CS"
@@ -440,6 +440,10 @@
       "nombre": "VALDEZ DANIEL FERRET",
       "vendedor": "IC"
     },
+    "20284": {
+      "nombre": "LA PATORA FERRETERIA",
+      "vendedor": "RF"
+    },
     "60248": {
       "nombre": "FERRETERIA BECO",
       "vendedor": "CS"
@@ -447,10 +451,6 @@
     "308": {
       "nombre": "ADRIAN BULON CAMERO",
       "vendedor": "IC"
-    },
-    "20388": {
-      "nombre": "FERRETERIA SAN CAYET",
-      "vendedor": "RF"
     },
     "20166": {
       "nombre": "CASA LEO FERRETERIA",
@@ -464,10 +464,6 @@
       "nombre": "MATERIALES EL 35",
       "vendedor": "JG"
     },
-    "60133": {
-      "nombre": "MARITO OBARRIO FERRE",
-      "vendedor": "RF"
-    },
     "60222": {
       "nombre": "FERRETERIA AFFRE",
       "vendedor": "JG"
@@ -476,9 +472,9 @@
       "nombre": "WORO 2 FERRETERIA",
       "vendedor": "JG"
     },
-    "20277": {
-      "nombre": "ORTIZ FERRETERIA",
-      "vendedor": "RF"
+    "60244": {
+      "nombre": "FERRETERIA MARTINEZ",
+      "vendedor": "CS"
     },
     "10163": {
       "nombre": "CORRALON ESCALISE",
@@ -488,6 +484,10 @@
       "nombre": "FERRETERIA D3",
       "vendedor": "JG"
     },
+    "90658": {
+      "nombre": "FERRETERIA DEL OESTE",
+      "vendedor": "RF"
+    },
     "993": {
       "nombre": "LOS 22 FERRETERIA",
       "vendedor": "RF"
@@ -495,6 +495,10 @@
     "40141": {
       "nombre": "JORGE LA NUEVA 2 FER",
       "vendedor": "RF"
+    },
+    "20310": {
+      "nombre": "AMANDA FERRETERIA",
+      "vendedor": "JG"
     },
     "60284": {
       "nombre": "LA FLECHA",
@@ -512,25 +516,29 @@
       "nombre": "FERRETERIA ALFA",
       "vendedor": "CS"
     },
+    "20275": {
+      "nombre": "LA CHAVETA FERRETERI",
+      "vendedor": "RF"
+    },
+    "20262": {
+      "nombre": "LA BANDA FERRETERIA",
+      "vendedor": "RF"
+    },
+    "20388": {
+      "nombre": "FERRETERIA SAN CAYET",
+      "vendedor": "RF"
+    },
     "20114": {
       "nombre": "CASA GABY CERAMICA",
       "vendedor": "JG"
     },
-    "987": {
-      "nombre": "LA HERRADURA FERRETE",
-      "vendedor": "RF"
+    "20179": {
+      "nombre": "DOBALE CORRALON",
+      "vendedor": "IC"
     },
-    "50608": {
-      "nombre": "MATERIALES ROMA",
-      "vendedor": "RF"
-    },
-    "20301": {
-      "nombre": "LARRAYA FERRETERIA",
-      "vendedor": "RF"
-    },
-    "961": {
-      "nombre": "CHICHO FERRETERIA",
-      "vendedor": "RF"
+    "939": {
+      "nombre": "AGUSTINA FERRETERIA",
+      "vendedor": "JG"
     },
     "60288": {
       "nombre": "FERRETERIA ARGENTINA",
@@ -544,16 +552,20 @@
       "nombre": "FERRETERIA MAGNUM",
       "vendedor": "RF"
     },
-    "20174": {
-      "nombre": "EL REY ZINGUERIA",
-      "vendedor": "JG"
+    "20277": {
+      "nombre": "ORTIZ FERRETERIA",
+      "vendedor": "RF"
     },
-    "20262": {
-      "nombre": "LA BANDA FERRETERIA",
+    "70109": {
+      "nombre": "FATIMA GUALY FERRETE",
       "vendedor": "RF"
     },
     "50816": {
       "nombre": "EL NUEVO VASQUITO FE",
+      "vendedor": "CS"
+    },
+    "1035": {
+      "nombre": "FERRETERIA TORRENT",
       "vendedor": "CS"
     },
     "20364": {
@@ -564,10 +576,6 @@
       "nombre": "EL 44 FERRETERIA",
       "vendedor": "JG"
     },
-    "61018": {
-      "nombre": "FERREIRA FERRETERIA",
-      "vendedor": "JG"
-    },
     "951": {
       "nombre": "GOMEZ OSCAR FERRETER",
       "vendedor": "CS"
@@ -576,9 +584,9 @@
       "nombre": "SUPERMERCADO LAS HER",
       "vendedor": "RF"
     },
-    "20179": {
-      "nombre": "DOBALE CORRALON",
-      "vendedor": "IC"
+    "20307": {
+      "nombre": "FERRETERIA SENGUEL",
+      "vendedor": "CS"
     },
     "40145": {
       "nombre": "SANITARIO ANTONIO",
@@ -600,17 +608,13 @@
       "nombre": "MOTOS COCO XL",
       "vendedor": "RF"
     },
-    "963": {
-      "nombre": "CORDERO J.CARLOS FER",
-      "vendedor": "RF"
+    "10158": {
+      "nombre": "EL SUEÑO CORRALON",
+      "vendedor": "JG"
     },
     "20178": {
       "nombre": "DON PANCHO FERRETERI",
       "vendedor": "JG"
-    },
-    "70109": {
-      "nombre": "FATIMA GUALY FERRETE",
-      "vendedor": "RF"
     },
     "20224": {
       "nombre": "ACOSTA WALTER FERRET",
@@ -624,13 +628,25 @@
       "nombre": "MATERIALES AGUILAR",
       "vendedor": "JG"
     },
+    "961": {
+      "nombre": "CHICHO FERRETERIA",
+      "vendedor": "RF"
+    },
     "60172": {
       "nombre": "PIEDRA BLANCA FERRET",
       "vendedor": "CS"
     },
+    "20281": {
+      "nombre": "PEDRO IVAN FERRETERI",
+      "vendedor": "RF"
+    },
     "991": {
       "nombre": "BENJA LOS 22 FERRETE",
       "vendedor": "RF"
+    },
+    "20174": {
+      "nombre": "EL REY ZINGUERIA",
+      "vendedor": "JG"
     },
     "60254": {
       "nombre": "ROBERTO FERRETERIA",
@@ -644,12 +660,12 @@
       "nombre": "FERRETERIA HUMBERTO",
       "vendedor": "CS"
     },
-    "20291": {
-      "nombre": "EL PROGRESO FERRETER",
-      "vendedor": "JG"
-    },
     "60285": {
       "nombre": "FERRETERIA MUJICA",
+      "vendedor": "CS"
+    },
+    "921": {
+      "nombre": "FERRETERIA DIONICIO",
       "vendedor": "CS"
     },
     "1001": {
@@ -668,13 +684,9 @@
       "nombre": "FERRETERIA GENERAL",
       "vendedor": "CS"
     },
-    "20146": {
-      "nombre": "EL CABURE-I CORRALON",
-      "vendedor": "JG"
-    },
-    "70119": {
-      "nombre": "CORRALON NANO",
-      "vendedor": "JG"
+    "1010": {
+      "nombre": "FERRETERIA CHIOZZA",
+      "vendedor": "RF"
     },
     "1026": {
       "nombre": "FERRETERIA BRADAMEL",
@@ -692,9 +704,17 @@
       "nombre": "LAS ACACIAS CORRALON",
       "vendedor": "JG"
     },
+    "60148": {
+      "nombre": "FERRETERIA ROMY",
+      "vendedor": "RF"
+    },
     "50803": {
       "nombre": "FERRETERIA KyM",
       "vendedor": "RF"
+    },
+    "10162": {
+      "nombre": "ENRIQUE FERRETERIA",
+      "vendedor": "JG"
     },
     "90602": {
       "nombre": "EL DORADO FERRETERIA",
@@ -704,21 +724,17 @@
       "nombre": "CORRALON EL GAUCHITO",
       "vendedor": "CS"
     },
+    "20293": {
+      "nombre": "ARMONIA FERRETERIA",
+      "vendedor": "RF"
+    },
     "20204": {
       "nombre": "FERREPITER FERRETERI",
       "vendedor": "JG"
     },
-    "10162": {
-      "nombre": "ENRIQUE FERRETERIA",
-      "vendedor": "JG"
-    },
-    "20236": {
-      "nombre": "FERRETERIA S Y D",
+    "990": {
+      "nombre": "FERRETERIA BEDINI",
       "vendedor": "RF"
-    },
-    "50607": {
-      "nombre": "LA BOTICA FERRETERIA",
-      "vendedor": "CS"
     },
     "60287": {
       "nombre": "FERRETERIA PATRICIA",
@@ -736,25 +752,25 @@
       "nombre": "FERRETERIA VILLARRUB",
       "vendedor": "RF"
     },
-    "20256": {
-      "nombre": "LAYMAR FERRETERIA",
-      "vendedor": "RF"
-    },
     "20272": {
       "nombre": "EL COLIBRI CORRALON",
-      "vendedor": "JG"
-    },
-    "10158": {
-      "nombre": "EL SUEÑO CORRALON",
       "vendedor": "JG"
     },
     "20381": {
       "nombre": "CASA LAUTARO",
       "vendedor": "JG"
     },
+    "50608": {
+      "nombre": "MATERIALES ROMA",
+      "vendedor": "RF"
+    },
     "50826": {
       "nombre": "RODOLFO FERRETERIA",
       "vendedor": "RF"
+    },
+    "60216": {
+      "nombre": "UNIMOK (MANOLO)",
+      "vendedor": "CS"
     },
     "50818": {
       "nombre": "EL URU FERRETERIA",
@@ -763,14 +779,6 @@
     "60299": {
       "nombre": "QUIMICA",
       "vendedor": "CS"
-    },
-    "1050": {
-      "nombre": "FERRETERIA SENILLOSA",
-      "vendedor": "CS"
-    },
-    "20275": {
-      "nombre": "LA CHAVETA FERRETERI",
-      "vendedor": "RF"
     },
     "20399": {
       "nombre": "POLIRUBRO ROCIO",
@@ -784,13 +792,13 @@
       "nombre": "FERRETERIA RAUCH ADR",
       "vendedor": "RF"
     },
+    "920": {
+      "nombre": "ESTERCITA FERRETERIA",
+      "vendedor": "RF"
+    },
     "60149": {
       "nombre": "MATERIALES MARIO",
       "vendedor": "RF"
-    },
-    "921": {
-      "nombre": "FERRETERIA DIONICIO",
-      "vendedor": "CS"
     },
     "90668": {
       "nombre": "PABLO ARAUJO",
@@ -804,12 +812,8 @@
       "nombre": "MATERIALES EL CHILEN",
       "vendedor": "CS"
     },
-    "971": {
-      "nombre": "CORRALON MIMAR",
-      "vendedor": "RF"
-    },
-    "20371": {
-      "nombre": "DE TODO UN POCO FERR",
+    "61018": {
+      "nombre": "FERREIRA FERRETERIA",
       "vendedor": "JG"
     },
     "60308": {
@@ -820,13 +824,9 @@
       "nombre": "FERRETERIA PERICO",
       "vendedor": "CS"
     },
-    "10168": {
-      "nombre": "FERRETERIA UNIVERSO",
+    "50607": {
+      "nombre": "LA BOTICA FERRETERIA",
       "vendedor": "CS"
-    },
-    "60148": {
-      "nombre": "FERRETERIA ROMY",
-      "vendedor": "RF"
     },
     "50836": {
       "nombre": "FERRETERIA MAESTRO",
@@ -836,9 +836,13 @@
       "nombre": "FERRETERIA EL TALA",
       "vendedor": "JG"
     },
-    "20227": {
-      "nombre": "CORRALON NORMA SUARE",
-      "vendedor": "JG"
+    "20301": {
+      "nombre": "LARRAYA FERRETERIA",
+      "vendedor": "RF"
+    },
+    "20236": {
+      "nombre": "FERRETERIA S Y D",
+      "vendedor": "RF"
     },
     "20148": {
       "nombre": "FLORES FERRETERIA",
@@ -855,10 +859,6 @@
     "60296": {
       "nombre": "CORRALON LAS MORADAS",
       "vendedor": "CS"
-    },
-    "60128": {
-      "nombre": "EL CORTIJO FERRETERI",
-      "vendedor": "RF"
     },
     "10160": {
       "nombre": "BUTTNER FERRETERIA",
@@ -900,9 +900,9 @@
       "nombre": "FERRETERIA ROSITA (L",
       "vendedor": "RF"
     },
-    "20281": {
-      "nombre": "PEDRO IVAN FERRETERI",
-      "vendedor": "RF"
+    "20291": {
+      "nombre": "EL PROGRESO FERRETER",
+      "vendedor": "JG"
     },
     "60295": {
       "nombre": "FERRETERIA FERREMAR",
@@ -911,10 +911,6 @@
     "60278": {
       "nombre": "J.A FERRETERIA",
       "vendedor": "JG"
-    },
-    "60216": {
-      "nombre": "UNIMOK (MANOLO)",
-      "vendedor": "CS"
     },
     "954": {
       "nombre": "VILLALBA FERRETERIA",
@@ -926,10 +922,6 @@
     },
     "90621": {
       "nombre": "MORINICO FERRETERIA",
-      "vendedor": "CS"
-    },
-    "1035": {
-      "nombre": "FERRETERIA TORRENT",
       "vendedor": "CS"
     },
     "60258": {
@@ -948,25 +940,25 @@
       "nombre": "FERRETERIA CLAY",
       "vendedor": "CS"
     },
-    "1033": {
-      "nombre": "FERRETERIA FERREMIX",
-      "vendedor": "CS"
-    },
     "20211": {
       "nombre": "EL CHISPAZO CORRALON",
-      "vendedor": "JG"
-    },
-    "50611": {
-      "nombre": "FERRETERIA HORACIO",
-      "vendedor": "CS"
-    },
-    "30101": {
-      "nombre": "CORRALON JESUS",
       "vendedor": "JG"
     },
     "1043": {
       "nombre": "FERRETERIA ARI",
       "vendedor": "CS"
+    },
+    "20227": {
+      "nombre": "CORRALON NORMA SUARE",
+      "vendedor": "JG"
+    },
+    "20242": {
+      "nombre": "COSENTINO JORGE FERR",
+      "vendedor": "RF"
+    },
+    "30101": {
+      "nombre": "CORRALON JESUS",
+      "vendedor": "JG"
     },
     "1051": {
       "nombre": "FERRETERIA OROÑO",
@@ -974,6 +966,10 @@
     },
     "20333": {
       "nombre": "LINA FERRETERIA",
+      "vendedor": "JG"
+    },
+    "20146": {
+      "nombre": "EL CABURE-I CORRALON",
       "vendedor": "JG"
     },
     "20169": {
@@ -987,6 +983,10 @@
     "1036": {
       "nombre": "FERRETERIA ALBERTO",
       "vendedor": "CS"
+    },
+    "980": {
+      "nombre": "CORRALON CABEZON PER",
+      "vendedor": "JG"
     },
     "60243": {
       "nombre": "FERRETERIA GRACIELA",
@@ -1060,20 +1060,12 @@
       "nombre": "FERRETERIA EL ÑANDU",
       "vendedor": "CS"
     },
-    "980": {
-      "nombre": "CORRALON CABEZON PER",
-      "vendedor": "JG"
-    },
     "20343": {
       "nombre": "SALTA FERRETERIA",
       "vendedor": "JG"
     },
     "20244": {
       "nombre": "ROLON FERRETERIA",
-      "vendedor": "JG"
-    },
-    "20351": {
-      "nombre": "GARDUÑO FERRETERIA",
       "vendedor": "JG"
     },
     "982": {
@@ -1092,12 +1084,24 @@
       "nombre": "CORRALON BETO",
       "vendedor": "JG"
     },
-    "990": {
-      "nombre": "FERRETERIA BEDINI",
-      "vendedor": "RF"
+    "1033": {
+      "nombre": "FERRETERIA FERREMIX",
+      "vendedor": "CS"
+    },
+    "1005": {
+      "nombre": "COR.CORRADO AGUSTINA",
+      "vendedor": "JG"
     },
     "60163": {
       "nombre": "NAHUEL FERRETERIA",
+      "vendedor": "CS"
+    },
+    "60128": {
+      "nombre": "EL CORTIJO FERRETERI",
+      "vendedor": "RF"
+    },
+    "1050": {
+      "nombre": "FERRETERIA SENILLOSA",
       "vendedor": "CS"
     },
     "10137": {
@@ -1108,9 +1112,9 @@
       "nombre": "FERRETERIA ALAN",
       "vendedor": "CS"
     },
-    "1041": {
-      "nombre": "CORRALON 1003",
-      "vendedor": "CS"
+    "20371": {
+      "nombre": "DE TODO UN POCO FERR",
+      "vendedor": "JG"
     },
     "60219": {
       "nombre": "EL PELADO CORRALON",
@@ -1127,6 +1131,10 @@
     "60162": {
       "nombre": "JON-LUC FERRETERIA",
       "vendedor": "CS"
+    },
+    "61102": {
+      "nombre": "HERMANOS DE LA PUNA",
+      "vendedor": "RF"
     },
     "90509": {
       "nombre": "JUAN DIAZ",
@@ -1164,6 +1172,14 @@
       "nombre": "FERRETERIA COLON",
       "vendedor": "JG"
     },
+    "50611": {
+      "nombre": "FERRETERIA HORACIO",
+      "vendedor": "CS"
+    },
+    "1020": {
+      "nombre": "FERRETERIA LAS CHICA",
+      "vendedor": "CS"
+    },
     "40127": {
       "nombre": "SAN JOSE FERRETERIA",
       "vendedor": "RF"
@@ -1175,6 +1191,10 @@
     "20160": {
       "nombre": "RAUL FERRETERIA",
       "vendedor": "RF"
+    },
+    "10168": {
+      "nombre": "FERRETERIA UNIVERSO",
+      "vendedor": "CS"
     },
     "50810": {
       "nombre": "LAS NENAS FERRETERIA",
@@ -1194,6 +1214,10 @@
     },
     "20129": {
       "nombre": "LUCIA FERRETERIA",
+      "vendedor": "RF"
+    },
+    "1416": {
+      "nombre": "CORRALON COELHO",
       "vendedor": "RF"
     },
     "60217": {
@@ -1244,9 +1268,9 @@
       "nombre": "FERRETERIA RAMASOLI",
       "vendedor": "CS"
     },
-    "1005": {
-      "nombre": "COR.CORRADO AGUSTINA",
-      "vendedor": "JG"
+    "1041": {
+      "nombre": "CORRALON 1003",
+      "vendedor": "CS"
     },
     "20337": {
       "nombre": "FERRETERIA LAS MELLI",
@@ -1255,10 +1279,6 @@
     "973": {
       "nombre": "JOSE LA TORRE FERRET",
       "vendedor": "RF"
-    },
-    "20109": {
-      "nombre": "VITO FERRETERIA",
-      "vendedor": "JG"
     },
     "20395": {
       "nombre": "FERRETERIA RITA",
@@ -1304,21 +1324,17 @@
       "nombre": "FERRETERIA BAUPI",
       "vendedor": "CS"
     },
+    "1029": {
+      "nombre": "FERRETERIA LA BROCA",
+      "vendedor": "CS"
+    },
     "60211": {
       "nombre": "GUTIERREZ FERRETERIA",
       "vendedor": "RF"
     },
-    "939": {
-      "nombre": "AGUSTINA FERRETERIA",
-      "vendedor": "JG"
-    },
     "20140": {
       "nombre": "FERRETERIA HUGUITO",
       "vendedor": "JG"
-    },
-    "20242": {
-      "nombre": "COSENTINO JORGE FERR",
-      "vendedor": "RF"
     },
     "20120": {
       "nombre": "EL NONO FERRETERIA",
@@ -1331,6 +1347,10 @@
     "60269": {
       "nombre": "FERRETERIA MAKANA",
       "vendedor": "CS"
+    },
+    "20109": {
+      "nombre": "VITO FERRETERIA",
+      "vendedor": "JG"
     },
     "20208": {
       "nombre": "ELIAS FERRETERIA",
@@ -1352,17 +1372,13 @@
       "nombre": "ALBERTO CARDOSO",
       "vendedor": "IC"
     },
-    "20307": {
-      "nombre": "FERRETERIA SENGUEL",
-      "vendedor": "CS"
-    },
     "1047": {
       "nombre": "EL POCHOLO FERRETERI",
       "vendedor": "RF"
     },
-    "1416": {
-      "nombre": "CORRALON COELHO",
-      "vendedor": "RF"
+    "20351": {
+      "nombre": "GARDUÑO FERRETERIA",
+      "vendedor": "JG"
     },
     "60144": {
       "nombre": "NARDONI FERRETERIA",
@@ -1444,9 +1460,9 @@
       "nombre": "QUIROGA FERRETERIA",
       "vendedor": "JG"
     },
-    "920": {
-      "nombre": "ESTERCITA FERRETERIA",
-      "vendedor": "RF"
+    "70119": {
+      "nombre": "CORRALON NANO",
+      "vendedor": "JG"
     },
     "90683": {
       "nombre": "CRISTIAN DISTRIBUIDO",
@@ -1480,162 +1496,6 @@
       "nombre": "ACUARIO 1º AÑO 2020",
       "vendedor": "5"
     },
-    "50618": {
-      "nombre": "GUSTAVO",
-      "vendedor": "RF"
-    },
-    "20250": {
-      "nombre": "S Y S FERRETERIA",
-      "vendedor": "RF"
-    },
-    "60266": {
-      "nombre": "FERRETERIA EL PUENTE",
-      "vendedor": "CS"
-    },
-    "60255": {
-      "nombre": "GUSTAVO DOMINICO FER",
-      "vendedor": "JG"
-    },
-    "20099": {
-      "nombre": "O.S. FERRETERIA",
-      "vendedor": "JG"
-    },
-    "50822": {
-      "nombre": "FERRETERIA VIKINGO M",
-      "vendedor": "RF"
-    },
-    "40138": {
-      "nombre": "ESCUDERO FERRETERIA",
-      "vendedor": "JG"
-    },
-    "20171": {
-      "nombre": "MYL FERRETERIA",
-      "vendedor": "JG"
-    },
-    "90698": {
-      "nombre": "ELI STRAK DISTRIBUCI",
-      "vendedor": "RF"
-    },
-    "90663": {
-      "nombre": "LA SALVADORA FERRETE",
-      "vendedor": "RF"
-    },
-    "1008": {
-      "nombre": "CLEYPOLEY FERRETERIA",
-      "vendedor": "RF"
-    },
-    "50630": {
-      "nombre": "FERRETERIA BENJAMIN",
-      "vendedor": "CS"
-    },
-    "935": {
-      "nombre": "FERRETERIA MARIO",
-      "vendedor": "JG"
-    },
-    "90680": {
-      "nombre": "DELGADO SEBASTIAN",
-      "vendedor": "IC"
-    },
-    "20321": {
-      "nombre": "EL ARABE FERRETERIA",
-      "vendedor": "JG"
-    },
-    "301": {
-      "nombre": "MEDINA DISTRIBUIDORA",
-      "vendedor": "TT"
-    },
-    "61005": {
-      "nombre": "ALVEAR FERRETERIA",
-      "vendedor": "RM"
-    },
-    "50811": {
-      "nombre": "EL COSITO DEL COSO F",
-      "vendedor": "RF"
-    },
-    "60263": {
-      "nombre": "FERRETERIA D-TUTO",
-      "vendedor": "SD"
-    },
-    "60277": {
-      "nombre": "FERRETERIA A y J",
-      "vendedor": "SD"
-    },
-    "90669": {
-      "nombre": "CONDICION: CONTADO",
-      "vendedor": "IC"
-    },
-    "60131": {
-      "nombre": "ELELOS FERRETERIA",
-      "vendedor": "RF"
-    },
-    "20161": {
-      "nombre": "TONY FERRETERIA",
-      "vendedor": "RF"
-    },
-    "62010": {
-      "nombre": "DRIUSSI",
-      "vendedor": "RM"
-    },
-    "302": {
-      "nombre": "PIVAS MIRIAM",
-      "vendedor": "TT"
-    },
-    "303": {
-      "nombre": "PRODICOM JORMAR",
-      "vendedor": "TT"
-    },
-    "90714": {
-      "nombre": "GRAMA COMERCIAL",
-      "vendedor": "IC"
-    },
-    "90713": {
-      "nombre": "SANTO DOMINGO",
-      "vendedor": "IC"
-    },
-    "60256": {
-      "nombre": "FERRE-LIBERTAD",
-      "vendedor": "JG"
-    },
-    "20300": {
-      "nombre": "SANCHEZ SERGIO OMAR",
-      "vendedor": "IS"
-    },
-    "60274": {
-      "nombre": "ELECTRICA LOLY",
-      "vendedor": "RF"
-    },
-    "984": {
-      "nombre": "SUCURSAL LINCH",
-      "vendedor": "RF"
-    },
-    "20150": {
-      "nombre": "MEDINA ADRIAN FERRET",
-      "vendedor": "IC"
-    },
-    "90665": {
-      "nombre": "EL FONDO FERRETERIA",
-      "vendedor": "IC"
-    },
-    "50619": {
-      "nombre": "LO DE FACU FERRETERI",
-      "vendedor": "RF"
-    },
-    "20278": {
-      "nombre": "COOP.DE TBJ.EL OESTE",
-      "vendedor": "IS"
-    },
-    "956": {
-      "nombre": "LOS POZOS FERRETERIA",
-      "vendedor": "RF"
-    },
-    "90601": {
-      "nombre": "MONTANIA FERRETERIA",
-      "vendedor": "DC"
-    },
-    "1025": {
-      "nombre": "MADERERA SERGIO",
-      "vendedor": "CS"
-    },
     "20108": {
       "nombre": "EL TANO FERRETERIA",
       "vendedor": "JG"
@@ -1644,97 +1504,253 @@
       "nombre": "EL POLACO FERRETERIA",
       "vendedor": "JG"
     },
-    "90682": {
-      "nombre": "MR CONSTRUCCIONES",
+    "20366": {
+      "nombre": "MADERERA COBO",
+      "vendedor": "JG"
+    },
+    "60263": {
+      "nombre": "FERRETERIA D-TUTO",
+      "vendedor": "SD"
+    },
+    "1025": {
+      "nombre": "MADERERA SERGIO",
+      "vendedor": "CS"
+    },
+    "60176": {
+      "nombre": "SAN JAVIER FERRETERI",
+      "vendedor": "JG"
+    },
+    "90669": {
+      "nombre": "CONDICION: CONTADO",
       "vendedor": "IC"
-    },
-    "60185": {
-      "nombre": "CORRALON P.H.B",
-      "vendedor": "JG"
-    },
-    "988": {
-      "nombre": "LUCKY FERRETERIA",
-      "vendedor": "RF"
-    },
-    "20253": {
-      "nombre": "FERRETERIA 17 SEPTIE",
-      "vendedor": "JG"
-    },
-    "157": {
-      "nombre": "NUEVO CLIENTE RF",
-      "vendedor": "RF"
     },
     "60309": {
       "nombre": "FERRETERIA VIZCA",
       "vendedor": "CS"
     },
-    "90701": {
-      "nombre": "JUAN DISTRIBUIDORA J",
+    "90665": {
+      "nombre": "EL FONDO FERRETERIA",
+      "vendedor": "IC"
+    },
+    "20161": {
+      "nombre": "TONY FERRETERIA",
       "vendedor": "RF"
     },
-    "60147": {
-      "nombre": "FERRETERIA ZENGARO(E",
-      "vendedor": "RF"
+    "301": {
+      "nombre": "MEDINA DISTRIBUIDORA",
+      "vendedor": "TT"
+    },
+    "60214": {
+      "nombre": "FERRETERIA ARGAÑARAZ",
+      "vendedor": "SD"
+    },
+    "10161": {
+      "nombre": "COOP.de TRABAJO MI P",
+      "vendedor": "IC"
     },
     "61204": {
       "nombre": "CORRALON EL 10",
       "vendedor": "RF"
     },
-    "20286": {
-      "nombre": "COOPERATIVA IDECAN L",
+    "7": {
+      "nombre": "CLIENTE PRUEBA-NO FA",
+      "vendedor": "IC"
+    },
+    "20300": {
+      "nombre": "SANCHEZ SERGIO OMAR",
+      "vendedor": "IS"
+    },
+    "956": {
+      "nombre": "LOS POZOS FERRETERIA",
+      "vendedor": "RF"
+    },
+    "20150": {
+      "nombre": "MEDINA ADRIAN FERRET",
+      "vendedor": "IC"
+    },
+    "90713": {
+      "nombre": "SANTO DOMINGO",
+      "vendedor": "IC"
+    },
+    "20171": {
+      "nombre": "MYL FERRETERIA",
+      "vendedor": "JG"
+    },
+    "60147": {
+      "nombre": "FERRETERIA ZENGARO(E",
+      "vendedor": "RF"
+    },
+    "50822": {
+      "nombre": "FERRETERIA VIKINGO M",
+      "vendedor": "RF"
+    },
+    "988": {
+      "nombre": "LUCKY FERRETERIA",
+      "vendedor": "RF"
+    },
+    "302": {
+      "nombre": "PIVAS MIRIAM",
+      "vendedor": "TT"
+    },
+    "60274": {
+      "nombre": "ELECTRICA LOLY",
+      "vendedor": "RF"
+    },
+    "60185": {
+      "nombre": "CORRALON P.H.B",
+      "vendedor": "JG"
+    },
+    "90680": {
+      "nombre": "DELGADO SEBASTIAN",
+      "vendedor": "IC"
+    },
+    "20283": {
+      "nombre": "COOPERATIVA DE MARKE",
       "vendedor": "IS"
     },
     "1004": {
       "nombre": "FERRETERIA SAN JUAN",
       "vendedor": "RF"
     },
-    "90712": {
-      "nombre": "FERRETERIA",
+    "50618": {
+      "nombre": "GUSTAVO",
       "vendedor": "RF"
     },
-    "20283": {
-      "nombre": "COOPERATIVA DE MARKE",
-      "vendedor": "IS"
-    },
-    "159": {
-      "nombre": "NUEVO CLIENTE CS",
-      "vendedor": "CS"
-    },
-    "20158": {
-      "nombre": "CORRALON EVITA 2",
+    "20099": {
+      "nombre": "O.S. FERRETERIA",
       "vendedor": "JG"
     },
-    "10161": {
-      "nombre": "COOP.de TRABAJO MI P",
-      "vendedor": "IC"
+    "90663": {
+      "nombre": "LA SALVADORA FERRETE",
+      "vendedor": "RF"
     },
-    "60214": {
-      "nombre": "FERRETERIA ARGAÑARAZ",
-      "vendedor": "SD"
-    },
-    "7": {
-      "nombre": "CLIENTE PRUEBA-NO FA",
-      "vendedor": "IC"
-    },
-    "20366": {
-      "nombre": "MADERERA COBO",
+    "935": {
+      "nombre": "FERRETERIA MARIO",
       "vendedor": "JG"
+    },
+    "50811": {
+      "nombre": "EL COSITO DEL COSO F",
+      "vendedor": "RF"
+    },
+    "60255": {
+      "nombre": "GUSTAVO DOMINICO FER",
+      "vendedor": "JG"
+    },
+    "20250": {
+      "nombre": "S Y S FERRETERIA",
+      "vendedor": "RF"
+    },
+    "61005": {
+      "nombre": "ALVEAR FERRETERIA",
+      "vendedor": "RM"
     },
     "158": {
       "nombre": "NUEVO CLIENTE JG",
       "vendedor": "JG"
     },
+    "20253": {
+      "nombre": "FERRETERIA 17 SEPTIE",
+      "vendedor": "JG"
+    },
+    "20278": {
+      "nombre": "COOP.DE TBJ.EL OESTE",
+      "vendedor": "IS"
+    },
+    "60266": {
+      "nombre": "FERRETERIA EL PUENTE",
+      "vendedor": "CS"
+    },
+    "20286": {
+      "nombre": "COOPERATIVA IDECAN L",
+      "vendedor": "IS"
+    },
+    "1008": {
+      "nombre": "CLEYPOLEY FERRETERIA",
+      "vendedor": "RF"
+    },
+    "20321": {
+      "nombre": "EL ARABE FERRETERIA",
+      "vendedor": "JG"
+    },
+    "20158": {
+      "nombre": "CORRALON EVITA 2",
+      "vendedor": "JG"
+    },
+    "90601": {
+      "nombre": "MONTANIA FERRETERIA",
+      "vendedor": "DC"
+    },
+    "90698": {
+      "nombre": "ELI STRAK DISTRIBUCI",
+      "vendedor": "RF"
+    },
+    "60277": {
+      "nombre": "FERRETERIA A y J",
+      "vendedor": "SD"
+    },
     "90672": {
       "nombre": "BULONERA LAS HERAS",
+      "vendedor": "IC"
+    },
+    "303": {
+      "nombre": "PRODICOM JORMAR",
+      "vendedor": "TT"
+    },
+    "50619": {
+      "nombre": "LO DE FACU FERRETERI",
+      "vendedor": "RF"
+    },
+    "60256": {
+      "nombre": "FERRE-LIBERTAD",
+      "vendedor": "JG"
+    },
+    "157": {
+      "nombre": "NUEVO CLIENTE RF",
+      "vendedor": "RF"
+    },
+    "50630": {
+      "nombre": "FERRETERIA BENJAMIN",
+      "vendedor": "CS"
+    },
+    "159": {
+      "nombre": "NUEVO CLIENTE CS",
+      "vendedor": "CS"
+    },
+    "60131": {
+      "nombre": "ELELOS FERRETERIA",
+      "vendedor": "RF"
+    },
+    "62010": {
+      "nombre": "DRIUSSI",
+      "vendedor": "RM"
+    },
+    "90712": {
+      "nombre": "FERRETERIA",
+      "vendedor": "RF"
+    },
+    "40138": {
+      "nombre": "ESCUDERO FERRETERIA",
+      "vendedor": "JG"
+    },
+    "984": {
+      "nombre": "SUCURSAL LINCH",
+      "vendedor": "RF"
+    },
+    "90682": {
+      "nombre": "MR CONSTRUCCIONES",
       "vendedor": "IC"
     },
     "947": {
       "nombre": "EL 47 CORRALON DE MA",
       "vendedor": "RF"
     },
-    "60176": {
-      "nombre": "SAN JAVIER FERRETERI",
-      "vendedor": "JG"
+    "90701": {
+      "nombre": "JUAN DISTRIBUIDORA J",
+      "vendedor": "RF"
+    },
+    "90714": {
+      "nombre": "GRAMA COMERCIAL",
+      "vendedor": "IC"
     },
     "10166": {
       "nombre": "FERRETERIA LA HORMIG",
@@ -1763,14 +1779,6 @@
     "20344": {
       "nombre": "FERRETERIA MAGNASCO",
       "vendedor": "JG"
-    },
-    "1020": {
-      "nombre": "FERRETERIA LAS CHICA",
-      "vendedor": "CS"
-    },
-    "1029": {
-      "nombre": "FERRETERIA LA BROCA",
-      "vendedor": "CS"
     },
     "60304": {
       "nombre": "EL RESERO CORRALON",
@@ -1828,10 +1836,6 @@
       "nombre": "FERRETERIA A y J",
       "vendedor": "CS"
     },
-    "61102": {
-      "nombre": "HERMANOS DE LA PUNA",
-      "vendedor": "RF"
-    },
     "60303": {
       "nombre": "FERRETERIA EBER",
       "vendedor": "CS"
@@ -1866,10 +1870,6 @@
     },
     "60204": {
       "nombre": "EL PANI CORRALON",
-      "vendedor": "CS"
-    },
-    "60244": {
-      "nombre": "FERRETERIA MARTINEZ",
       "vendedor": "CS"
     },
     "1015": {
@@ -1912,13 +1912,13 @@
       "nombre": "POLLEDO FERRETERIA",
       "vendedor": "JG"
     },
-    "60260": {
-      "nombre": "FERRETERIA JUAN",
-      "vendedor": "CS"
-    },
     "70110": {
       "nombre": "DG FERRETERIA",
       "vendedor": "RF"
+    },
+    "60260": {
+      "nombre": "FERRETERIA JUAN",
+      "vendedor": "CS"
     }
   }
 }
